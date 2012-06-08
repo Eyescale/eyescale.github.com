@@ -19,9 +19,9 @@ file(WRITE index.html
 
 file(GLOB ENTRIES RELATIVE ${CMAKE_SOURCE_DIR} *-*)
 foreach(ENTRY ${ENTRIES})
-  add_custom_target(gitadd${ENTRY} ALL
-    "${git_EXECUTABLE}" add ${ENTRY} COMMENT "Adding new files in ${ENTRY}"
-    VERBATIM)
+  add_custom_target(${ENTRY} ALL "${GIT_EXECUTABLE}" add ${ENTRY}
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    COMMENT "Adding new files in ${ENTRY}" VERBATIM)
   file(APPEND index.html
     "    <li><a href=\"${ENTRY}/index.html\">${ENTRY}</a></li>\n"
     )
