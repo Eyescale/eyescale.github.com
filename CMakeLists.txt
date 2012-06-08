@@ -28,6 +28,7 @@ foreach(ENTRY ${ENTRIES})
     "    <li><a href=\"${ENTRY}/index.html\">${ENTRY}</a></li>\n"
     )
   set(PREVIOUS ${ENTRY})
+  install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
 endforeach()
 
 file(APPEND index.html
@@ -35,3 +36,5 @@ file(APPEND index.html
 "  </body>\n"
 "</html>\n"
 )
+
+install(FILES index.html DESTINATION share/eyescale)
