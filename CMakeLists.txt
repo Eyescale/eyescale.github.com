@@ -18,13 +18,16 @@ file(WRITE index.html
 )
 
 file(GLOB ENTRIES RELATIVE ${CMAKE_SOURCE_DIR} *-*)
+set(PREVIOUS)
 foreach(ENTRY ${ENTRIES})
   add_custom_target(${ENTRY} ALL "${GIT_EXECUTABLE}" add ${ENTRY}
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    DEPENDS ${PREVIOUS} # serialize git invocations
     COMMENT "Adding new files in ${ENTRY}" VERBATIM)
   file(APPEND index.html
     "    <li><a href=\"${ENTRY}/index.html\">${ENTRY}</a></li>\n"
     )
+  set(PREVIOUS ${ENTRY})
 endforeach()
 
 file(APPEND index.html
