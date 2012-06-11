@@ -16,7 +16,7 @@ file(WRITE index.html
 "  </head>\n"
 "  <body>\n"
 "  <table>\n"
-"    <tr><th>Project</th><th>Versions</th>"
+"    <tr><th>Project</th><th colspan=\"2\">Versions</th>"
 )
 
 file(GLOB ENTRIES RELATIVE ${CMAKE_SOURCE_DIR} *-*)
