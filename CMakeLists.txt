@@ -21,6 +21,7 @@ file(WRITE index.html
 
 file(GLOB ENTRIES RELATIVE ${CMAKE_SOURCE_DIR} *-*)
 list(SORT ENTRIES)
+list(REVERSE ENTRIES)
 set(PREVIOUS)
 set(PREVIOUS_PROJECT)
 foreach(ENTRY ${ENTRIES})
@@ -32,14 +33,15 @@ foreach(ENTRY ${ENTRIES})
   string(REGEX REPLACE "^(.+)-.+$" "\\1" PROJECT ${ENTRY})
   string(REGEX REPLACE "^.+-(.+)$" "\\1" VERSION ${ENTRY})
   if(NOT PROJECT STREQUAL PREVIOUS_PROJECT)
-  file(APPEND index.html
-    "</tr>\n"
-    "    <tr><th>${PROJECT}</th>")
+    file(APPEND index.html
+      "</tr>\n"
+      "    <tr><th>${PROJECT}</th>")
   endif()
 
   file(APPEND index.html
     "<td><a href=\"${ENTRY}/index.html\">${VERSION}</a></td>")
   set(PREVIOUS ${ENTRY})
+  set(PREVIOUS_PROJECT ${PROJECT})
   install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
 endforeach()
 
