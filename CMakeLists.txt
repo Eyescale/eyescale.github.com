@@ -22,14 +22,8 @@ file(WRITE index.html
 file(GLOB ENTRIES RELATIVE ${CMAKE_SOURCE_DIR} *-*)
 list(SORT ENTRIES)
 list(REVERSE ENTRIES)
-set(PREVIOUS)
 set(PREVIOUS_PROJECT)
 foreach(ENTRY ${ENTRIES})
-  add_custom_target(${ENTRY} ALL "${GIT_EXECUTABLE}" add ${ENTRY}
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    DEPENDS ${PREVIOUS} # serialize git invocations
-    COMMENT "Adding new files in ${ENTRY}" VERBATIM)
-
   string(REGEX REPLACE "^(.+)-.+$" "\\1" PROJECT ${ENTRY})
   string(REGEX REPLACE "^.+-(.+)$" "\\1" VERSION ${ENTRY})
   if(NOT PROJECT STREQUAL PREVIOUS_PROJECT)
@@ -40,10 +34,13 @@ foreach(ENTRY ${ENTRIES})
 
   file(APPEND index.html
     "<td><a href=\"${ENTRY}/index.html\">${VERSION}</a></td>")
-  set(PREVIOUS ${ENTRY})
   set(PREVIOUS_PROJECT ${PROJECT})
   install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
 endforeach()
+
+add_custom_target(gitadd ALL "${GIT_EXECUTABLE}" add ${ENTRIES}
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    COMMENT "Adding new files in ${ENTRIES}" VERBATIM)
 
 file(APPEND index.html
 "</tr>\n"
