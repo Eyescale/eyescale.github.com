@@ -15,6 +15,7 @@ file(WRITE index.html
 "    <link rel=\"stylesheet\" href=\"stylesheet.css\" type=\"text/css\">"
 "  </head>\n"
 "  <body>\n"
+"  <h1>API Documentation</h1>"
 "  <table>\n"
 "    <tr><th>Project</th><th colspan=\"2\">Versions</th>"
 )
@@ -38,13 +39,15 @@ foreach(ENTRY ${ENTRIES})
   install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
 endforeach()
 
-add_custom_target(gitadd ALL "${GIT_EXECUTABLE}" add ${ENTRIES}
+add_custom_target(gitadd ALL "${GIT_EXECUTABLE}" add images ${ENTRIES}
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
     COMMENT "Adding new files in ${ENTRIES}" VERBATIM)
 
 file(APPEND index.html
 "</tr>\n"
 "  </table>\n"
+"  <h1>Project Dependencies</h1>"
+"  <img src=\"images/all.png\">"
 "  </body>\n"
 "</html>\n"
 )
