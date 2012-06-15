@@ -68,7 +68,7 @@
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
-<a name="l00002"></a>00002 <span class="comment">/* Copyright (c) 2005-2011, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span>
+<a name="l00002"></a>00002 <span class="comment">/* Copyright (c) 2005-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span>
 <a name="l00003"></a>00003 <span class="comment"> *                    2010, Cedric Stalder &lt;cedric Stalder@gmail.com&gt; </span>
 <a name="l00004"></a>00004 <span class="comment"> *</span>
 <a name="l00005"></a>00005 <span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span>
@@ -242,83 +242,82 @@
 <a name="l00244"></a>00244                                                CO_COMMIT_NEXT );
 <a name="l00246"></a>00246 
 <a name="l00247"></a>00247     <span class="keyword">private</span>:
-<a name="l00248"></a>00248 
-<a name="l00250"></a>00250         lunchbox::RefPtr&lt; S &gt; _server;
-<a name="l00251"></a>00251         
-<a name="l00253"></a>00253         <span class="keywordtype">float</span> _fAttributes[FATTR_ALL];
-<a name="l00254"></a>00254 
-<a name="l00256"></a>00256         int32_t _iAttributes[IATTR_ALL];
-<a name="l00257"></a>00257 
-<a name="l00259"></a>00259         <a class="code" href="classeq_1_1fabric_1_1Config.html#a850edb71abce1711d6216424b7a1c02d" title="A vector of observers.">Observers</a> _observers;
-<a name="l00260"></a>00260 
-<a name="l00262"></a>00262         <a class="code" href="classeq_1_1fabric_1_1Config.html#a0f16d3e676d5c5292ea75b912e067f57" title="A vector of layouts.">Layouts</a> _layouts;
-<a name="l00263"></a>00263 
-<a name="l00265"></a>00265         <a class="code" href="classeq_1_1fabric_1_1Config.html#a7d274a34b4ea7b874af6c16b2a4054af" title="A vector of canvases.">Canvases</a> _canvases;
-<a name="l00266"></a>00266 
-<a name="l00268"></a>00268         <a class="code" href="classeq_1_1fabric_1_1Config.html#ae3262044735bd0177588b1d2d224a4d8" title="A vector of nodes.">Nodes</a> _nodes;
-<a name="l00269"></a>00269 
-<a name="l00271"></a>00271         <a class="code" href="namespaceco.html#ab4452293e17c53ce2ef182f1f2084134" title="A unique identifier for nodes.">co::NodeID</a> _appNodeID;
-<a name="l00272"></a>00272 
-<a name="l00273"></a>00273         <span class="keyword">struct </span>BackupData
-<a name="l00274"></a>00274         {
-<a name="l00275"></a>00275             BackupData() : latency( 1 ) {}
-<a name="l00276"></a>00276 
-<a name="l00278"></a>00278             uint32_t latency;
-<a name="l00279"></a>00279         }
-<a name="l00280"></a>00280             _data, _backup;
-<a name="l00281"></a>00281 
-<a name="l00282"></a>00282         <span class="keyword">struct </span>Private;
-<a name="l00283"></a>00283         Private* _private; <span class="comment">// placeholder for binary-compatible changes</span>
-<a name="l00284"></a>00284 
-<a name="l00285"></a>00285         <span class="keyword">enum</span> DirtyBits
-<a name="l00286"></a>00286         {
-<a name="l00287"></a>00287             DIRTY_MEMBER     = Object::DIRTY_CUSTOM &lt;&lt; 0,
-<a name="l00288"></a>00288             DIRTY_LATENCY    = Object::DIRTY_CUSTOM &lt;&lt; 1,
-<a name="l00289"></a>00289             DIRTY_ATTRIBUTES = Object::DIRTY_CUSTOM &lt;&lt; 2,
-<a name="l00290"></a>00290             DIRTY_NODES      = Object::DIRTY_CUSTOM &lt;&lt; 3,
-<a name="l00291"></a>00291             DIRTY_OBSERVERS  = Object::DIRTY_CUSTOM &lt;&lt; 4,
-<a name="l00292"></a>00292             DIRTY_LAYOUTS    = Object::DIRTY_CUSTOM &lt;&lt; 5,
-<a name="l00293"></a>00293             DIRTY_CANVASES   = Object::DIRTY_CUSTOM &lt;&lt; 6,
-<a name="l00294"></a>00294             DIRTY_CONFIG_BITS =
-<a name="l00295"></a>00295                 DIRTY_MEMBER | DIRTY_ATTRIBUTES | DIRTY_OBSERVERS |
-<a name="l00296"></a>00296                 DIRTY_LAYOUTS | DIRTY_CANVASES | DIRTY_NODES | DIRTY_LATENCY
-<a name="l00297"></a>00297         };
-<a name="l00298"></a>00298 
-<a name="l00300"></a>00300         <span class="keyword">virtual</span> uint64_t getRedistributableBits()<span class="keyword"> const</span>
-<a name="l00301"></a>00301 <span class="keyword">            </span>{ <span class="keywordflow">return</span> DIRTY_CONFIG_BITS; }
-<a name="l00302"></a>00302 
-<a name="l00303"></a>00303         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Observer;
-<a name="l00304"></a>00304         <span class="keywordtype">void</span> _addObserver( O* observer );
-<a name="l00305"></a>00305         <span class="keywordtype">bool</span> _removeObserver( O* observer );
-<a name="l00306"></a>00306         
-<a name="l00307"></a>00307         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Layout;
-<a name="l00308"></a>00308         <span class="keywordtype">void</span> _addLayout( L* layout );
-<a name="l00309"></a>00309         <span class="keywordtype">bool</span> _removeLayout( L* layout );
-<a name="l00310"></a>00310         
-<a name="l00311"></a>00311         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Canvas;
-<a name="l00312"></a>00312         <span class="keywordtype">void</span> _addCanvas( CV* canvas );
-<a name="l00313"></a>00313         <span class="keywordtype">bool</span> _removeCanvas( CV* canvas );
-<a name="l00314"></a>00314 
-<a name="l00315"></a>00315         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Node;
-<a name="l00316"></a>00316         <span class="keywordtype">void</span> _addNode( N* node );
-<a name="l00317"></a>00317         EQFABRIC_INL <span class="keywordtype">bool</span> _removeNode( N* node );
-<a name="l00318"></a>00318 
-<a name="l00319"></a>00319         <span class="keyword">typedef</span> <a class="code" href="classco_1_1CommandFunc.html" title="A wrapper to register a function callback on an object instance.">co::CommandFunc&lt; Config&lt; S, C, O, L, CV, N, V &gt;</a> &gt; CmdFunc;
-<a name="l00320"></a>00320         <span class="keywordtype">bool</span> _cmdNewLayout( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
-<a name="l00321"></a>00321         <span class="keywordtype">bool</span> _cmdNewCanvas( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
-<a name="l00322"></a>00322         <span class="keywordtype">bool</span> _cmdNewObserver( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
-<a name="l00323"></a>00323         <span class="keywordtype">bool</span> _cmdNewEntityReply( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
-<a name="l00324"></a>00324     };
-<a name="l00325"></a>00325 
-<a name="l00326"></a>00326     <span class="keyword">template</span>&lt; <span class="keyword">class</span> S, <span class="keyword">class</span> C, <span class="keyword">class</span> O, <span class="keyword">class</span> L, <span class="keyword">class</span> CV, <span class="keyword">class</span> N, <span class="keyword">class</span> V &gt;
-<a name="l00327"></a>00327     EQFABRIC_INL std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os,
-<a name="l00328"></a>00328                                  <span class="keyword">const</span> Config&lt; S, C, O, L, CV, N, V &gt;&amp; config );
+<a name="l00249"></a>00249         lunchbox::RefPtr&lt; S &gt; _server;
+<a name="l00250"></a>00250         
+<a name="l00252"></a>00252         <span class="keywordtype">float</span> _fAttributes[FATTR_ALL];
+<a name="l00253"></a>00253 
+<a name="l00255"></a>00255         int32_t _iAttributes[IATTR_ALL];
+<a name="l00256"></a>00256 
+<a name="l00258"></a>00258         <a class="code" href="classeq_1_1fabric_1_1Config.html#a850edb71abce1711d6216424b7a1c02d" title="A vector of observers.">Observers</a> _observers;
+<a name="l00259"></a>00259 
+<a name="l00261"></a>00261         <a class="code" href="classeq_1_1fabric_1_1Config.html#a0f16d3e676d5c5292ea75b912e067f57" title="A vector of layouts.">Layouts</a> _layouts;
+<a name="l00262"></a>00262 
+<a name="l00264"></a>00264         <a class="code" href="classeq_1_1fabric_1_1Config.html#a7d274a34b4ea7b874af6c16b2a4054af" title="A vector of canvases.">Canvases</a> _canvases;
+<a name="l00265"></a>00265 
+<a name="l00267"></a>00267         <a class="code" href="classeq_1_1fabric_1_1Config.html#ae3262044735bd0177588b1d2d224a4d8" title="A vector of nodes.">Nodes</a> _nodes;
+<a name="l00268"></a>00268 
+<a name="l00270"></a>00270         <a class="code" href="namespaceco.html#ab4452293e17c53ce2ef182f1f2084134" title="A unique identifier for nodes.">co::NodeID</a> _appNodeID;
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272         <span class="keyword">struct </span>BackupData
+<a name="l00273"></a>00273         {
+<a name="l00274"></a>00274             BackupData() : latency( 1 ) {}
+<a name="l00275"></a>00275 
+<a name="l00277"></a>00277             uint32_t latency;
+<a name="l00278"></a>00278         }
+<a name="l00279"></a>00279             _data, _backup;
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281         <span class="keyword">struct </span>Private;
+<a name="l00282"></a>00282         Private* _private; <span class="comment">// placeholder for binary-compatible changes</span>
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284         <span class="keyword">enum</span> DirtyBits
+<a name="l00285"></a>00285         {
+<a name="l00286"></a>00286             DIRTY_MEMBER     = Object::DIRTY_CUSTOM &lt;&lt; 0,
+<a name="l00287"></a>00287             DIRTY_LATENCY    = Object::DIRTY_CUSTOM &lt;&lt; 1,
+<a name="l00288"></a>00288             DIRTY_ATTRIBUTES = Object::DIRTY_CUSTOM &lt;&lt; 2,
+<a name="l00289"></a>00289             DIRTY_NODES      = Object::DIRTY_CUSTOM &lt;&lt; 3,
+<a name="l00290"></a>00290             DIRTY_OBSERVERS  = Object::DIRTY_CUSTOM &lt;&lt; 4,
+<a name="l00291"></a>00291             DIRTY_LAYOUTS    = Object::DIRTY_CUSTOM &lt;&lt; 5,
+<a name="l00292"></a>00292             DIRTY_CANVASES   = Object::DIRTY_CUSTOM &lt;&lt; 6,
+<a name="l00293"></a>00293             DIRTY_CONFIG_BITS =
+<a name="l00294"></a>00294                 DIRTY_MEMBER | DIRTY_ATTRIBUTES | DIRTY_OBSERVERS |
+<a name="l00295"></a>00295                 DIRTY_LAYOUTS | DIRTY_CANVASES | DIRTY_NODES | DIRTY_LATENCY
+<a name="l00296"></a>00296         };
+<a name="l00297"></a>00297 
+<a name="l00299"></a>00299         <span class="keyword">virtual</span> uint64_t getRedistributableBits()<span class="keyword"> const</span>
+<a name="l00300"></a>00300 <span class="keyword">            </span>{ <span class="keywordflow">return</span> DIRTY_CONFIG_BITS; }
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Observer;
+<a name="l00303"></a>00303         <span class="keywordtype">void</span> _addObserver( O* observer );
+<a name="l00304"></a>00304         <span class="keywordtype">bool</span> _removeObserver( O* observer );
+<a name="l00305"></a>00305         
+<a name="l00306"></a>00306         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Layout;
+<a name="l00307"></a>00307         <span class="keywordtype">void</span> _addLayout( L* layout );
+<a name="l00308"></a>00308         <span class="keywordtype">bool</span> _removeLayout( L* layout );
+<a name="l00309"></a>00309         
+<a name="l00310"></a>00310         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Canvas;
+<a name="l00311"></a>00311         <span class="keywordtype">void</span> _addCanvas( CV* canvas );
+<a name="l00312"></a>00312         <span class="keywordtype">bool</span> _removeCanvas( CV* canvas );
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314         <span class="keyword">template</span>&lt; <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span>, <span class="keyword">class</span> &gt; <span class="keyword">friend</span> <span class="keyword">class </span>Node;
+<a name="l00315"></a>00315         <span class="keywordtype">void</span> _addNode( N* node );
+<a name="l00316"></a>00316         EQFABRIC_INL <span class="keywordtype">bool</span> _removeNode( N* node );
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318         <span class="keyword">typedef</span> <a class="code" href="classco_1_1CommandFunc.html" title="A wrapper to register a function callback on an object instance.">co::CommandFunc&lt; Config&lt; S, C, O, L, CV, N, V &gt;</a> &gt; CmdFunc;
+<a name="l00319"></a>00319         <span class="keywordtype">bool</span> _cmdNewLayout( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
+<a name="l00320"></a>00320         <span class="keywordtype">bool</span> _cmdNewCanvas( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
+<a name="l00321"></a>00321         <span class="keywordtype">bool</span> _cmdNewObserver( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
+<a name="l00322"></a>00322         <span class="keywordtype">bool</span> _cmdNewEntityReply( <a class="code" href="classco_1_1Command.html">co::Command</a>&amp; command );
+<a name="l00323"></a>00323     };
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325     <span class="keyword">template</span>&lt; <span class="keyword">class</span> S, <span class="keyword">class</span> C, <span class="keyword">class</span> O, <span class="keyword">class</span> L, <span class="keyword">class</span> CV, <span class="keyword">class</span> N, <span class="keyword">class</span> V &gt;
+<a name="l00326"></a>00326     EQFABRIC_INL std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os,
+<a name="l00327"></a>00327                                  <span class="keyword">const</span> Config&lt; S, C, O, L, CV, N, V &gt;&amp; config );
+<a name="l00328"></a>00328 }
 <a name="l00329"></a>00329 }
-<a name="l00330"></a>00330 }
-<a name="l00331"></a>00331 <span class="preprocessor">#endif // EQFABRIC_CONFIG_H</span>
+<a name="l00330"></a>00330 <span class="preprocessor">#endif // EQFABRIC_CONFIG_H</span>
 </pre></div></div><!-- contents -->
 <address style="text-align: right;">
-  <small>Generated on Mon Jun 11 2012 09:45:43 for 
+  <small>Generated on Fri Jun 15 2012 09:29:43 for 
     <a href="/index.html"><img src="/images/Equalizer-doxygen.png" 
                                alt="Equalizer" align="middle" 
                                border="0"></a> 1.3.2-git by&nbsp;
