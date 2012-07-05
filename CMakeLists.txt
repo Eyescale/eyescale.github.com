@@ -36,7 +36,9 @@ foreach(ENTRY ${ENTRIES})
   file(APPEND index.html
     "<td><a href=\"${ENTRY}/index.html\">${VERSION}</a></td>")
   set(PREVIOUS_PROJECT ${PROJECT})
-  install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
+  if(NOT BUILDYARD)
+    install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
+  endif()
 endforeach()
 
 add_custom_target(gitadd ALL "${GIT_EXECUTABLE}" add images ${ENTRIES}
