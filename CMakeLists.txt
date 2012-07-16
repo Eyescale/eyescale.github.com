@@ -17,28 +17,53 @@ file(WRITE index.html
 "  <body>\n"
 "  <h1>API Documentation</h1>"
 "  <table>\n"
-"    <tr><th>Project</th><th colspan=\"2\">Versions</th>"
 )
 
 file(GLOB ENTRIES RELATIVE ${CMAKE_SOURCE_DIR} *-*)
-list(SORT ENTRIES)
-list(REVERSE ENTRIES)
-set(PREVIOUS_PROJECT)
+set(VERSIONS)
+set(PROJECTS)
+
+# Create project and version lists
 foreach(ENTRY ${ENTRIES})
   string(REGEX REPLACE "^(.+)-.+$" "\\1" PROJECT ${ENTRY})
   string(REGEX REPLACE "^.+-(.+)$" "\\1" VERSION ${ENTRY})
-  if(NOT PROJECT STREQUAL PREVIOUS_PROJECT)
-    file(APPEND index.html
-      "</tr>\n"
-      "    <tr><th>${PROJECT}</th>")
+
+  list(FIND VERSIONS "${VERSION}" VERSION_FOUND)
+  if(VERSION_FOUND EQUAL -1)
+    list(APPEND VERSIONS "${VERSION}")
   endif()
 
-  file(APPEND index.html
-    "<td><a href=\"${ENTRY}/index.html\">${VERSION}</a></td>")
-  set(PREVIOUS_PROJECT ${PROJECT})
-  if(NOT BUILDYARD)
-    install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
+  list(FIND PROJECTS "${PROJECT}" PROJECT_FOUND)
+  if(PROJECT_FOUND EQUAL -1)
+    list(APPEND PROJECTS "${PROJECT}")
   endif()
+endforeach()
+list(SORT VERSIONS)
+list(REVERSE VERSIONS)
+list(SORT PROJECTS)
+
+# generate version table
+list(LENGTH VERSIONS NUM_VERSIONS)
+file(APPEND index.html
+  "    <tr><th>Project</th><th colspan=\"${NUM_VERSIONS}\">Versions</th>")
+
+foreach(PROJECT ${PROJECTS})
+  file(APPEND index.html
+    "</tr>\n"
+    "    <tr><th>${PROJECT}</th>")
+  foreach(VERSION ${VERSIONS})
+    set(ENTRY "${PROJECT}-${VERSION}")
+    list(FIND ENTRIES "${ENTRY}" HAS_ENTRY)
+    if(HAS_ENTRY EQUAL -1)
+      file(APPEND index.html "<td></td>")
+    else()
+      file(APPEND index.html
+        "<td><a href=\"${ENTRY}/index.html\">${VERSION}</a></td>")
+      if(NOT BUILDYARD)
+        install(DIRECTORY ${ENTRY} DESTINATION share/eyescale)
+      endif()
+    endif()
+  endforeach()
 endforeach()
 
 add_custom_target(gitadd ALL "${GIT_EXECUTABLE}" add images ${ENTRIES}
