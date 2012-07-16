@@ -55,7 +55,7 @@ foreach(PROJECT ${PROJECTS})
     set(ENTRY "${PROJECT}-${VERSION}")
     list(FIND ENTRIES "${ENTRY}" HAS_ENTRY)
     if(HAS_ENTRY EQUAL -1)
-      file(APPEND index.html "<td></td>")
+      file(APPEND index.html "<th></th>")
     else()
       file(APPEND index.html
         "<td><a href=\"${ENTRY}/index.html\">${VERSION}</a></td>")
