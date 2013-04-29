@@ -4,6 +4,6 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(Eyescale)
 
-set(GITHUB_PROJECT_EXTRA
+set(DOXYGIT_PROJECT_EXTRA
  "<a href=\"https://travis-ci.org/Eyescale/[PROJECT]\"><img src=\"https://travis-ci.org/Eyescale/[PROJECT].png\"></a>")
 include(CMake/github.cmake)
