@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov2.info - lunchbox/debug.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">lunchbox</a> - debug.cpp<span style="font-size: 80%;"> (source / <a href="debug.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">54</td>
+            <td class="headerCovTableEntryLo">22.2 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2013-11-19</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryLo">57.1 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *               2009-2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       4 </span>            :  *
+<span class="lineNum">       5 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       6 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       7 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       8 </span>            :  *
+<span class="lineNum">       9 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">      10 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      11 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      12 </span>            :  * details.
+<span class="lineNum">      13 </span>            :  *
+<span class="lineNum">      14 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      15 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      16 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      17 </span>            :  */
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : #include &quot;debug.h&quot;
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &quot;os.h&quot; // must come before atomic.h, ordering issue
+<span class="lineNum">      22 </span>            : #include &quot;atomic.h&quot;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &lt;errno.h&gt;
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : #define LB_BACKTRACE_DEPTH 256
+<span class="lineNum">      27 </span>            : #ifdef _WIN32
+<span class="lineNum">      28 </span>            : #  include &quot;scopedMutex.h&quot;
+<span class="lineNum">      29 </span>            : #  define LB_SYMBOL_LENGTH 256
+<span class="lineNum">      30 </span>            : #  include &lt;DbgHelp.h&gt;
+<span class="lineNum">      31 </span>            : #  pragma comment(lib, &quot;DbgHelp.lib&quot;)
+<span class="lineNum">      32 </span>            : #else
+<span class="lineNum">      33 </span>            : #  include &lt;cxxabi.h&gt;
+<span class="lineNum">      34 </span>            : #  include &lt;execinfo.h&gt;
+<span class="lineNum">      35 </span>            : #  include &lt;stdlib.h&gt;
+<span class="lineNum">      36 </span>            : #  include &lt;string.h&gt;
+<span class="lineNum">      37 </span>            : #endif
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : namespace lunchbox
+<a name="40"><span class="lineNum">      40 </span>            : {</a>
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : void abort()
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     LBERROR &lt;&lt; &quot;  in: &quot; &lt;&lt; backtrace &lt;&lt; std::endl;</span>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :     // if LB_ABORT_WAIT is set, spin forever to allow identifying and debugging
+<span class="lineNum">      47 </span>            :     // crashed nodes.
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     if( getenv( &quot;LB_ABORT_WAIT&quot; ))</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :         while( true ) ;</span>
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     ::abort();</span>
+<a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : void checkHeap()
+<span class="lineNum">      55 </span>            : {
+<span class="lineNum">      56 </span>            : #ifdef _MSC_VER
+<span class="lineNum">      57 </span>            :     static a_int32_t count( 0 );
+<span class="lineNum">      58 </span>            :     if( ( ++count % 10000 ) == 0 &amp;&amp; _heapchk() != _HEAPOK )
+<span class="lineNum">      59 </span>            :     {
+<span class="lineNum">      60 </span>            :         LBERROR &lt;&lt; disableFlush &lt;&lt; &quot;Abort: heap corruption detected&quot;&lt;&lt; std::endl
+<span class="lineNum">      61 </span>            :                 &lt;&lt; &quot;    Set breakpoint in &quot; &lt;&lt; __FILE__ &lt;&lt; ':' &lt;&lt; __LINE__ + 1
+<span class="lineNum">      62 </span>            :                 &lt;&lt; &quot; to debug&quot; &lt;&lt; std::endl &lt;&lt; enableFlush;
+<span class="lineNum">      63 </span>            :     }
+<span class="lineNum">      64 </span>            : #else
+<span class="lineNum">      65 </span>            : #endif
+<span class="lineNum">      66 </span><span class="lineCov">  399162631 : }</span>
+<span class="lineNum">      67 </span>            : 
+<a name="68"><span class="lineNum">      68 </span>            : namespace</a>
+<span class="lineNum">      69 </span>            : {
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 : static void backtrace_( std::ostream&amp; os, const size_t skipFrames )</span>
+<span class="lineNum">      71 </span>            : {
+<span class="lineNum">      72 </span>            : #ifdef _WIN32
+<span class="lineNum">      73 </span>            :     // Sym* functions from DbgHelp are not thread-safe...
+<span class="lineNum">      74 </span>            :     static Lock lock;
+<span class="lineNum">      75 </span>            :     ScopedMutex&lt;&gt; mutex( lock );
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :     typedef USHORT (WINAPI *CaptureStackBackTraceType)( __in ULONG, __in ULONG,
+<span class="lineNum">      78 </span>            :                                                         __out PVOID*,
+<span class="lineNum">      79 </span>            :                                                         __out_opt PULONG );
+<span class="lineNum">      80 </span>            :     CaptureStackBackTraceType backtraceFunc = (CaptureStackBackTraceType)
+<span class="lineNum">      81 </span>            :        GetProcAddress(LoadLibrary(&quot;kernel32.dll&quot;), &quot;RtlCaptureStackBackTrace&quot;);
+<span class="lineNum">      82 </span>            :     if( !backtraceFunc )
+<span class="lineNum">      83 </span>            :         return;
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            :     SymSetOptions( SYMOPT_UNDNAME | SYMOPT_LOAD_LINES );
+<span class="lineNum">      86 </span>            :     HANDLE hProcess = GetCurrentProcess();
+<span class="lineNum">      87 </span>            :     if( !SymInitialize( hProcess, 0, TRUE ))
+<span class="lineNum">      88 </span>            :         return;
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            :     void* stack[ LB_BACKTRACE_DEPTH ];
+<span class="lineNum">      91 </span>            :     unsigned short frames = (backtraceFunc)( 0, LB_BACKTRACE_DEPTH, stack, 0 );
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            :     SYMBOL_INFO* symbol = (SYMBOL_INFO*)calloc( sizeof(SYMBOL_INFO) +
+<span class="lineNum">      94 </span>            :                                         (LB_SYMBOL_LENGTH+-1)*sizeof(char), 1 );
+<span class="lineNum">      95 </span>            :     symbol-&gt;MaxNameLen   = LB_SYMBOL_LENGTH;
+<span class="lineNum">      96 </span>            :     symbol-&gt;SizeOfStruct = sizeof( SYMBOL_INFO );
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            :     for( unsigned short i = skipFrames; i &lt; frames; ++i )
+<span class="lineNum">      99 </span>            :     {
+<span class="lineNum">     100 </span>            :         os &lt;&lt; &quot;\n  &quot; &lt;&lt; frames-i-1 &lt;&lt; &quot;: &quot;;
+<span class="lineNum">     101 </span>            :         if ( !SymFromAddr( hProcess, (DWORD64)stack[i], 0, symbol ))
+<span class="lineNum">     102 </span>            :             os &lt;&lt; &quot;Unknown symbol&quot;;
+<span class="lineNum">     103 </span>            :         else
+<span class="lineNum">     104 </span>            :         {
+<span class="lineNum">     105 </span>            :             os &lt;&lt; symbol-&gt;Name &lt;&lt; &quot; - &quot;;
+<span class="lineNum">     106 </span>            :             IMAGEHLP_LINE64 line = { sizeof(IMAGEHLP_LINE64) };
+<span class="lineNum">     107 </span>            :             if( !SymGetLineFromAddr64( hProcess, (DWORD64)stack[i], 0, &amp;line ))
+<span class="lineNum">     108 </span>            :                 os &lt;&lt; std::hex &lt;&lt; &quot;0x&quot; &lt;&lt; symbol-&gt;Address &lt;&lt; std::dec;
+<span class="lineNum">     109 </span>            :             else
+<span class="lineNum">     110 </span>            :                 os &lt;&lt; line.FileName &lt;&lt; &quot;:&quot; &lt;&lt; line.LineNumber;
+<span class="lineNum">     111 </span>            :         }
+<span class="lineNum">     112 </span>            :     }
+<span class="lineNum">     113 </span>            :     os &lt;&lt; std::endl;
+<span class="lineNum">     114 </span>            :     free( symbol );
+<span class="lineNum">     115 </span>            :     SymCleanup( hProcess );
+<span class="lineNum">     116 </span>            : #else
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :     void* callstack[ LB_BACKTRACE_DEPTH ];</span>
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     const int frames = ::backtrace( callstack, LB_BACKTRACE_DEPTH );</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     char** names = ::backtrace_symbols( callstack, frames );</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     for( int i = skipFrames + 1; i &lt; frames; ++i )</span>
+<span class="lineNum">     121 </span>            :     {
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         std::string name = names[ i ];</span>
+<span class="lineNum">     123 </span>            : #  ifdef __linux__
+<span class="lineNum">     124 </span>            :         const size_t symbolPos = name.find( &quot;(_&quot; );
+<span class="lineNum">     125 </span>            : #  else
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :         const size_t symbolPos = name.find( &quot; _&quot; );</span>
+<span class="lineNum">     127 </span>            : #  endif
+<span class="lineNum">     128 </span><span class="lineNoCov">          0 :         if( symbolPos != std::string::npos )</span>
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :             name = name.substr( symbolPos+1, name.length( ));</span>
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : #  ifdef __linux__
+<span class="lineNum">     132 </span>            :         const size_t spacePos = name.find( '+' );
+<span class="lineNum">     133 </span>            : #  else
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :         const size_t spacePos = name.find( ' ' );</span>
+<span class="lineNum">     135 </span>            : #  endif
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :         if( spacePos != std::string::npos )</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :             name = name.substr( 0, spacePos );</span>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :         int status;</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :         char* demangled = abi::__cxa_demangle( name.c_str(), 0, 0, &amp;status);</span>
+<span class="lineNum">     141 </span>            : 
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;\n  &quot; &lt;&lt; frames-i-1 &lt;&lt; &quot;: &quot;;</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         if( symbolPos == std::string::npos || spacePos == std::string::npos )</span>
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :             os &lt;&lt; names[ i ];</span>
+<span class="lineNum">     145 </span>            :         else
+<span class="lineNum">     146 </span>            :         {
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :             if( demangled )</span>
+<span class="lineNum">     148 </span>            :             {
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :                 os &lt;&lt; demangled;</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :                 free( demangled );</span>
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :             }</span>
+<span class="lineNum">     152 </span>            :             else
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :                 os &lt;&lt; name;</span>
+<span class="lineNum">     154 </span>            :         }
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :     os &lt;&lt; std::endl;</span>
+<a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :     ::free( names );</span></a>
+<span class="lineNum">     158 </span>            : #endif
+<span class="lineNum">     159 </span><span class="lineCov">         23 : }</span>
+<a name="160"><span class="lineNum">     160 </span>            : }</a>
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 : std::string backtrace( const size_t skipFrames )</span>
+<span class="lineNum">     163 </span>            : {
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :     std::ostringstream os;</span>
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :     backtrace_( os, skipFrames + 1/*cut self*/ );</span>
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :     return os.str();</span>
+<span class="lineNum">     167 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 : std::ostream&amp; backtrace( std::ostream&amp; os )</span>
+<span class="lineNum">     170 </span>            : {
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :     backtrace_( os, 1 /*cut self*/ );</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :     return os;</span>
+<a name="173"><span class="lineNum">     173 </span>            : }</a>
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">       2476 : std::string demangleTypeID( const char* mangled )</span>
+<span class="lineNum">     176 </span>            : {
+<span class="lineNum">     177 </span>            : #ifdef _WIN32
+<span class="lineNum">     178 </span>            :     return std::string( mangled );
+<span class="lineNum">     179 </span>            : #else
+<span class="lineNum">     180 </span><span class="lineCov">       2476 :     int status;</span>
+<span class="lineNum">     181 </span><span class="lineCov">       2476 :     char* name = abi::__cxa_demangle( mangled, 0, 0, &amp;status );</span>
+<span class="lineNum">     182 </span><span class="lineCov">       4952 :     const std::string result = name;</span>
+<span class="lineNum">     183 </span><span class="lineCov">       2476 :     if( name )</span>
+<span class="lineNum">     184 </span><span class="lineCov">       4952 :         free( name );</span>
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span><span class="lineCov">       9904 :     return (status==0) ? result : mangled;</span>
+<span class="lineNum">     187 </span>            : #endif
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">       2476 : }</span></a>
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span><span class="lineCov">          1 : std::ostream&amp; sysError( std::ostream&amp; os )</span>
+<span class="lineNum">     191 </span>            : {
+<span class="lineNum">     192 </span>            : #ifdef _WIN32
+<span class="lineNum">     193 </span>            :     const DWORD error = GetLastError();
+<span class="lineNum">     194 </span>            :     char text[512] = &quot;&quot;;
+<span class="lineNum">     195 </span>            :     FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM, 0, error, 0, text, 511, 0 );
+<span class="lineNum">     196 </span>            :     const size_t length = strlen( text );
+<span class="lineNum">     197 </span>            :     if( length&gt;2 &amp;&amp; text[length-2] == '\r' )
+<span class="lineNum">     198 </span>            :         text[length-2] = '\0';
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            :     return os &lt;&lt; text &lt;&lt; &quot; (&quot; &lt;&lt; error &lt;&lt; &quot;)&quot;;
+<span class="lineNum">     201 </span>            : #else
+<span class="lineNum">     202 </span><span class="lineCov">          1 :     return os &lt;&lt; strerror( errno ) &lt;&lt; &quot; (&quot; &lt;&lt; errno &lt;&lt; &quot;)&quot;;</span>
+<span class="lineNum">     203 </span>            : #endif
+<span class="lineNum">     204 </span>            : }
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            : std::string sysError()
+<span class="lineNum">     207 </span>            : {
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     std::ostringstream os;</span>
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :     os &lt;&lt; sysError;</span>
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :     return os.str();</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
