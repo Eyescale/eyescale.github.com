@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-11-19</td>
+            <td class="headerValue">2013-12-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -115,30 +115,30 @@
 <span class="lineNum">      53 </span>            : #endif
 <a name="54"><span class="lineNum">      54 </span>            : </a>
 <span class="lineNum">      55 </span>            : unsigned int 
-<span class="lineNum">      56 </span><span class="lineCov">         46 : lzf_decompress (const void *const in_data,  unsigned int in_len,</span>
-<span class="lineNum">      57 </span><span class="lineCov">         46 :                 void             *out_data, unsigned int out_len)</span>
+<span class="lineNum">      56 </span><span class="lineCov">         50 : lzf_decompress (const void *const in_data,  unsigned int in_len,</span>
+<span class="lineNum">      57 </span><span class="lineCov">         50 :                 void             *out_data, unsigned int out_len)</span>
 <span class="lineNum">      58 </span>            : {
-<span class="lineNum">      59 </span><span class="lineCov">         46 :   u8 const *ip = (const u8 *)in_data;</span>
-<span class="lineNum">      60 </span><span class="lineCov">         46 :   u8       *op = (u8 *)out_data;</span>
-<span class="lineNum">      61 </span><span class="lineCov">         46 :   u8 const *const in_end  = ip + in_len;</span>
-<span class="lineNum">      62 </span><span class="lineCov">         46 :   u8       *const out_end = op + out_len;</span>
+<span class="lineNum">      59 </span><span class="lineCov">         50 :   u8 const *ip = (const u8 *)in_data;</span>
+<span class="lineNum">      60 </span><span class="lineCov">         50 :   u8       *op = (u8 *)out_data;</span>
+<span class="lineNum">      61 </span><span class="lineCov">         50 :   u8 const *const in_end  = ip + in_len;</span>
+<span class="lineNum">      62 </span><span class="lineCov">         50 :   u8       *const out_end = op + out_len;</span>
 <span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">         46 :   do</span>
+<span class="lineNum">      64 </span><span class="lineCov">         50 :   do</span>
 <span class="lineNum">      65 </span>            :     {
-<span class="lineNum">      66 </span><span class="lineCov">  230856122 :       unsigned int ctrl = *ip++;</span>
+<span class="lineNum">      66 </span><span class="lineCov">  231543874 :       unsigned int ctrl = *ip++;</span>
 <span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span><span class="lineCov">  230856122 :       if (ctrl &lt; (1 &lt;&lt; 5)) /* literal run */</span>
+<span class="lineNum">      68 </span><span class="lineCov">  231543874 :       if (ctrl &lt; (1 &lt;&lt; 5)) /* literal run */</span>
 <span class="lineNum">      69 </span>            :         {
-<span class="lineNum">      70 </span><span class="lineCov">   35150254 :           ctrl++;</span>
+<span class="lineNum">      70 </span><span class="lineCov">   35365930 :           ctrl++;</span>
 <span class="lineNum">      71 </span>            : 
-<span class="lineNum">      72 </span><span class="lineCov">   35150254 :           if (op + ctrl &gt; out_end)</span>
+<span class="lineNum">      72 </span><span class="lineCov">   35365930 :           if (op + ctrl &gt; out_end)</span>
 <span class="lineNum">      73 </span>            :             {
 <span class="lineNum">      74 </span><span class="lineNoCov">          0 :               SET_ERRNO (E2BIG);</span>
 <span class="lineNum">      75 </span><span class="lineNoCov">          0 :               return 0;</span>
 <span class="lineNum">      76 </span>            :             }
 <span class="lineNum">      77 </span>            : 
 <span class="lineNum">      78 </span>            : #if CHECK_INPUT
-<span class="lineNum">      79 </span><span class="lineCov">   35150254 :           if (ip + ctrl &gt; in_end)</span>
+<span class="lineNum">      79 </span><span class="lineCov">   35365930 :           if (ip + ctrl &gt; in_end)</span>
 <span class="lineNum">      80 </span>            :             {
 <span class="lineNum">      81 </span><span class="lineNoCov">          0 :               SET_ERRNO (EINVAL);</span>
 <span class="lineNum">      82 </span><span class="lineNoCov">          0 :               return 0;</span>
@@ -148,53 +148,53 @@
 <span class="lineNum">      86 </span>            : #ifdef lzf_movsb
 <span class="lineNum">      87 </span>            :           lzf_movsb (op, ip, ctrl);
 <span class="lineNum">      88 </span>            : #else
-<span class="lineNum">      89 </span><span class="lineCov">  326000210 :           switch (ctrl)</span>
+<span class="lineNum">      89 </span><span class="lineCov">  326702770 :           switch (ctrl)</span>
 <span class="lineNum">      90 </span>            :             {
-<span class="lineNum">      91 </span><span class="lineCov">   26030206 :               case 32: *op++ = *ip++; case 31: *op++ = *ip++; case 30: *op++ = *ip++; case 29: *op++ = *ip++;</span>
-<span class="lineNum">      92 </span><span class="lineCov">   26535112 :               case 28: *op++ = *ip++; case 27: *op++ = *ip++; case 26: *op++ = *ip++; case 25: *op++ = *ip++;</span>
-<span class="lineNum">      93 </span><span class="lineCov">   27226878 :               case 24: *op++ = *ip++; case 23: *op++ = *ip++; case 22: *op++ = *ip++; case 21: *op++ = *ip++;</span>
-<span class="lineNum">      94 </span><span class="lineCov">   28413232 :               case 20: *op++ = *ip++; case 19: *op++ = *ip++; case 18: *op++ = *ip++; case 17: *op++ = *ip++;</span>
-<span class="lineNum">      95 </span><span class="lineCov">   29693280 :               case 16: *op++ = *ip++; case 15: *op++ = *ip++; case 14: *op++ = *ip++; case 13: *op++ = *ip++;</span>
-<span class="lineNum">      96 </span><span class="lineCov">   32457360 :               case 12: *op++ = *ip++; case 11: *op++ = *ip++; case 10: *op++ = *ip++; case  9: *op++ = *ip++;</span>
-<span class="lineNum">      97 </span><span class="lineCov">   40112108 :               case  8: *op++ = *ip++; case  7: *op++ = *ip++; case  6: *op++ = *ip++; case  5: *op++ = *ip++;</span>
-<span class="lineNum">      98 </span><span class="lineCov">   80381780 :               case  4: *op++ = *ip++; case  3: *op++ = *ip++; case  2: *op++ = *ip++; case  1: *op++ = *ip++;</span>
-<span class="lineNum">      99 </span><span class="lineCov">   35150254 :             }</span>
+<span class="lineNum">      91 </span><span class="lineCov">   26032208 :               case 32: *op++ = *ip++; case 31: *op++ = *ip++; case 30: *op++ = *ip++; case 29: *op++ = *ip++;</span>
+<span class="lineNum">      92 </span><span class="lineCov">   26538080 :               case 28: *op++ = *ip++; case 27: *op++ = *ip++; case 26: *op++ = *ip++; case 25: *op++ = *ip++;</span>
+<span class="lineNum">      93 </span><span class="lineCov">   27231098 :               case 24: *op++ = *ip++; case 23: *op++ = *ip++; case 22: *op++ = *ip++; case 21: *op++ = *ip++;</span>
+<span class="lineNum">      94 </span><span class="lineCov">   28418352 :               case 20: *op++ = *ip++; case 19: *op++ = *ip++; case 18: *op++ = *ip++; case 17: *op++ = *ip++;</span>
+<span class="lineNum">      95 </span><span class="lineCov">   29700118 :               case 16: *op++ = *ip++; case 15: *op++ = *ip++; case 14: *op++ = *ip++; case 13: *op++ = *ip++;</span>
+<span class="lineNum">      96 </span><span class="lineCov">   32472308 :               case 12: *op++ = *ip++; case 11: *op++ = *ip++; case 10: *op++ = *ip++; case  9: *op++ = *ip++;</span>
+<span class="lineNum">      97 </span><span class="lineCov">   40165836 :               case  8: *op++ = *ip++; case  7: *op++ = *ip++; case  6: *op++ = *ip++; case  5: *op++ = *ip++;</span>
+<span class="lineNum">      98 </span><span class="lineCov">   80778840 :               case  4: *op++ = *ip++; case  3: *op++ = *ip++; case  2: *op++ = *ip++; case  1: *op++ = *ip++;</span>
+<span class="lineNum">      99 </span><span class="lineCov">   35365930 :             }</span>
 <span class="lineNum">     100 </span>            : #endif
-<span class="lineNum">     101 </span><span class="lineCov">   35150254 :         }</span>
+<span class="lineNum">     101 </span><span class="lineCov">   35365930 :         }</span>
 <span class="lineNum">     102 </span>            :       else /* back reference */
 <span class="lineNum">     103 </span>            :         {
-<span class="lineNum">     104 </span><span class="lineCov">  195705868 :           unsigned int len = ctrl &gt;&gt; 5;</span>
+<span class="lineNum">     104 </span><span class="lineCov">  196177944 :           unsigned int len = ctrl &gt;&gt; 5;</span>
 <span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span><span class="lineCov">  195705868 :           u8 *ref = op - ((ctrl &amp; 0x1f) &lt;&lt; 8) - 1;</span>
+<span class="lineNum">     106 </span><span class="lineCov">  196177944 :           u8 *ref = op - ((ctrl &amp; 0x1f) &lt;&lt; 8) - 1;</span>
 <span class="lineNum">     107 </span>            : 
 <span class="lineNum">     108 </span>            : #if CHECK_INPUT
-<span class="lineNum">     109 </span><span class="lineCov">  195705868 :           if (ip &gt;= in_end)</span>
+<span class="lineNum">     109 </span><span class="lineCov">  196177944 :           if (ip &gt;= in_end)</span>
 <span class="lineNum">     110 </span>            :             {
 <span class="lineNum">     111 </span><span class="lineNoCov">          0 :               SET_ERRNO (EINVAL);</span>
 <span class="lineNum">     112 </span><span class="lineNoCov">          0 :               return 0;</span>
 <span class="lineNum">     113 </span>            :             }
 <span class="lineNum">     114 </span>            : #endif
-<span class="lineNum">     115 </span><span class="lineCov">  195705868 :           if (len == 7)</span>
+<span class="lineNum">     115 </span><span class="lineCov">  196177944 :           if (len == 7)</span>
 <span class="lineNum">     116 </span>            :             {
-<span class="lineNum">     117 </span><span class="lineCov">   15475464 :               len += *ip++;</span>
+<span class="lineNum">     117 </span><span class="lineCov">   15578956 :               len += *ip++;</span>
 <span class="lineNum">     118 </span>            : #if CHECK_INPUT
-<span class="lineNum">     119 </span><span class="lineCov">   15475464 :               if (ip &gt;= in_end)</span>
+<span class="lineNum">     119 </span><span class="lineCov">   15578956 :               if (ip &gt;= in_end)</span>
 <span class="lineNum">     120 </span>            :                 {
 <span class="lineNum">     121 </span><span class="lineNoCov">          0 :                   SET_ERRNO (EINVAL);</span>
 <span class="lineNum">     122 </span><span class="lineNoCov">          0 :                   return 0;</span>
 <span class="lineNum">     123 </span>            :                 }
 <span class="lineNum">     124 </span>            : #endif
-<span class="lineNum">     125 </span><span class="lineCov">   15475464 :             }</span>
+<span class="lineNum">     125 </span><span class="lineCov">   15578956 :             }</span>
 <span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span><span class="lineCov">  195705868 :           ref -= *ip++;</span>
+<span class="lineNum">     127 </span><span class="lineCov">  196177944 :           ref -= *ip++;</span>
 <span class="lineNum">     128 </span>            : 
-<span class="lineNum">     129 </span><span class="lineCov">  195705868 :           if (op + len + 2 &gt; out_end)</span>
+<span class="lineNum">     129 </span><span class="lineCov">  196177944 :           if (op + len + 2 &gt; out_end)</span>
 <span class="lineNum">     130 </span>            :             {
 <span class="lineNum">     131 </span><span class="lineNoCov">          0 :               SET_ERRNO (E2BIG);</span>
 <span class="lineNum">     132 </span><span class="lineNoCov">          0 :               return 0;</span>
 <span class="lineNum">     133 </span>            :             }
 <span class="lineNum">     134 </span>            : 
-<span class="lineNum">     135 </span><span class="lineCov">  195705868 :           if (ref &lt; (u8 *)out_data)</span>
+<span class="lineNum">     135 </span><span class="lineCov">  196177944 :           if (ref &lt; (u8 *)out_data)</span>
 <span class="lineNum">     136 </span>            :             {
 <span class="lineNum">     137 </span><span class="lineNoCov">          0 :               SET_ERRNO (EINVAL);</span>
 <span class="lineNum">     138 </span><span class="lineNoCov">          0 :               return 0;</span>
@@ -204,46 +204,46 @@
 <span class="lineNum">     142 </span>            :           len += 2;
 <span class="lineNum">     143 </span>            :           lzf_movsb (op, ref, len);
 <span class="lineNum">     144 </span>            : #else
-<span class="lineNum">     145 </span><span class="lineCov">  647696646 :           switch (len)</span>
+<span class="lineNum">     145 </span><span class="lineCov">  649184568 :           switch (len)</span>
 <span class="lineNum">     146 </span>            :             {
 <span class="lineNum">     147 </span>            :               default:
-<span class="lineNum">     148 </span><span class="lineCov">    5540584 :                 len += 2;</span>
+<span class="lineNum">     148 </span><span class="lineCov">    5618210 :                 len += 2;</span>
 <span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span><span class="lineCov">    5540584 :                 if (op &gt;= ref + len)</span>
+<span class="lineNum">     150 </span><span class="lineCov">    5618210 :                 if (op &gt;= ref + len)</span>
 <span class="lineNum">     151 </span>            :                   {
 <span class="lineNum">     152 </span>            :                     /* disjunct areas */
-<span class="lineNum">     153 </span><span class="lineCov">   16570668 :                     memcpy (op, ref, len);</span>
-<span class="lineNum">     154 </span><span class="lineCov">    5523556 :                     op += len;</span>
-<span class="lineNum">     155 </span><span class="lineCov">    5523556 :                   }</span>
+<span class="lineNum">     153 </span><span class="lineCov">   16802430 :                     memcpy (op, ref, len);</span>
+<span class="lineNum">     154 </span><span class="lineCov">    5600810 :                     op += len;</span>
+<span class="lineNum">     155 </span><span class="lineCov">    5600810 :                   }</span>
 <span class="lineNum">     156 </span>            :                 else
 <span class="lineNum">     157 </span>            :                   {
 <span class="lineNum">     158 </span>            :                     /* overlapping, use octte by octte copying */
-<span class="lineNum">     159 </span><span class="lineCov">      17028 :                     do</span>
-<span class="lineNum">     160 </span><span class="lineCov">    1101188 :                       *op++ = *ref++;</span>
+<span class="lineNum">     159 </span><span class="lineCov">      17400 :                     do</span>
+<span class="lineNum">     160 </span><span class="lineCov">    1179268 :                       *op++ = *ref++;</span>
 <span class="lineNum">     161 </span>            :                     while (--len);
 <span class="lineNum">     162 </span>            :                   }
 <span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span><span class="lineCov">    5540584 :                 break;</span>
+<span class="lineNum">     164 </span><span class="lineCov">    5618210 :                 break;</span>
 <span class="lineNum">     165 </span>            : 
-<span class="lineNum">     166 </span><span class="lineCov">    1965534 :               case 9: *op++ = *ref++;</span>
-<span class="lineNum">     167 </span><span class="lineCov">    5437592 :               case 8: *op++ = *ref++;</span>
-<span class="lineNum">     168 </span><span class="lineCov">    9934880 :               case 7: *op++ = *ref++;</span>
-<span class="lineNum">     169 </span><span class="lineCov">   16580160 :               case 6: *op++ = *ref++;</span>
-<span class="lineNum">     170 </span><span class="lineCov">   27528506 :               case 5: *op++ = *ref++;</span>
-<span class="lineNum">     171 </span><span class="lineCov">   38773572 :               case 4: *op++ = *ref++;</span>
-<span class="lineNum">     172 </span><span class="lineCov">   61204498 :               case 3: *op++ = *ref++;</span>
-<span class="lineNum">     173 </span><span class="lineCov">  100400752 :               case 2: *op++ = *ref++;</span>
-<span class="lineNum">     174 </span><span class="lineCov">  190165284 :               case 1: *op++ = *ref++;</span>
-<span class="lineNum">     175 </span><span class="lineCov">  190165284 :               case 0: *op++ = *ref++; /* two octets more */</span>
-<span class="lineNum">     176 </span><span class="lineCov">  190165284 :                       *op++ = *ref++;</span>
-<span class="lineNum">     177 </span><span class="lineCov">  190165284 :             }</span>
+<span class="lineNum">     166 </span><span class="lineCov">    1973936 :               case 9: *op++ = *ref++;</span>
+<span class="lineNum">     167 </span><span class="lineCov">    5454408 :               case 8: *op++ = *ref++;</span>
+<span class="lineNum">     168 </span><span class="lineCov">    9960746 :               case 7: *op++ = *ref++;</span>
+<span class="lineNum">     169 </span><span class="lineCov">   16627694 :               case 6: *op++ = *ref++;</span>
+<span class="lineNum">     170 </span><span class="lineCov">   27604210 :               case 5: *op++ = *ref++;</span>
+<span class="lineNum">     171 </span><span class="lineCov">   38867596 :               case 4: *op++ = *ref++;</span>
+<span class="lineNum">     172 </span><span class="lineCov">   61339718 :               case 3: *op++ = *ref++;</span>
+<span class="lineNum">     173 </span><span class="lineCov">  100618582 :               case 2: *op++ = *ref++;</span>
+<span class="lineNum">     174 </span><span class="lineCov">  190559734 :               case 1: *op++ = *ref++;</span>
+<span class="lineNum">     175 </span><span class="lineCov">  190559734 :               case 0: *op++ = *ref++; /* two octets more */</span>
+<span class="lineNum">     176 </span><span class="lineCov">  190559734 :                       *op++ = *ref++;</span>
+<span class="lineNum">     177 </span><span class="lineCov">  190559734 :             }</span>
 <span class="lineNum">     178 </span>            : #endif
 <span class="lineNum">     179 </span>            :         }
-<span class="lineNum">     180 </span><span class="lineCov">  461712244 :     }</span>
+<span class="lineNum">     180 </span><span class="lineCov">  463087748 :     }</span>
 <span class="lineNum">     181 </span>            :   while (ip &lt; in_end);
 <span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span><span class="lineCov">         46 :   return op - (u8 *)out_data;</span>
-<span class="lineNum">     184 </span><span class="lineCov">         46 : }</span>
+<span class="lineNum">     183 </span><span class="lineCov">         50 :   return op - (u8 *)out_data;</span>
+<span class="lineNum">     184 </span><span class="lineCov">         50 : }</span>
 <span class="lineNum">     185 </span>            : 
 </pre>
       </td>

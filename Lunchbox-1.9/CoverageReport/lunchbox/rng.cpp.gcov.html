@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-11-19</td>
+            <td class="headerValue">2013-12-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">5</td>
@@ -112,19 +112,19 @@
 <span class="lineNum">      50 </span>            : #endif
 <a name="51"><span class="lineNum">      51 </span>            : }</a>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">     202066 : RNG::RNG()</span>
+<span class="lineNum">      53 </span><span class="lineCov">     201974 : RNG::RNG()</span>
 <span class="lineNum">      54 </span>            :         : _impl( 0 )
-<span class="lineNum">      55 </span><span class="lineCov">     101031 : {</span>
-<span class="lineNum">      56 </span><span class="lineCov">     101031 :     _init();</span>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     202066 : }</span></a>
+<span class="lineNum">      55 </span><span class="lineCov">     100979 : {</span>
+<span class="lineNum">      56 </span><span class="lineCov">     100979 :     _init();</span>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     201974 : }</span></a>
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">     202070 : RNG::~RNG()</span>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">     202070 : {}</span></a>
+<span class="lineNum">      59 </span><span class="lineCov">     202010 : RNG::~RNG()</span>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">     202010 : {}</span></a>
 <span class="lineNum">      61 </span>            : 
 <span class="lineNum">      62 </span>            : bool RNG::_init()
 <span class="lineNum">      63 </span>            : {
 <span class="lineNum">      64 </span>            : #ifdef __APPLE__
-<span class="lineNum">      65 </span><span class="lineCov">     101036 :     srandomdev();</span>
+<span class="lineNum">      65 </span><span class="lineCov">     100950 :     srandomdev();</span>
 <span class="lineNum">      66 </span>            : #elif defined (__linux__)
 <span class="lineNum">      67 </span>            :     static int fd = -1; // prevent static initializer fiasco
 <span class="lineNum">      68 </span>            :     if( fd &gt;= 0 )
@@ -159,7 +159,7 @@
 <span class="lineNum">      97 </span>            : 
 <span class="lineNum">      98 </span>            :     _provider = provider;
 <span class="lineNum">      99 </span>            : #endif
-<span class="lineNum">     100 </span><span class="lineCov">     101036 :     return true;</span>
+<span class="lineNum">     100 </span><span class="lineCov">     100950 :     return true;</span>
 <a name="101"><span class="lineNum">     101 </span>            : }</a>
 <span class="lineNum">     102 </span>            : 
 <span class="lineNum">     103 </span>            : void RNG::_exit()
@@ -185,7 +185,7 @@
 <span class="lineNum">     123 </span>            : #endif
 <a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span><span class="lineCov">   11199853 : bool RNG::_get( void* data, const size_t size )</span>
+<span class="lineNum">     126 </span><span class="lineCov">   11191299 : bool RNG::_get( void* data, const size_t size )</span>
 <span class="lineNum">     127 </span>            : {
 <span class="lineNum">     128 </span>            : #ifdef __linux__
 <span class="lineNum">     129 </span>            :     LBASSERTINFO( _fd &gt;= 0, &quot;init() not called?&quot; );
@@ -206,11 +206,11 @@
 <span class="lineNum">     144 </span>            :         return false;
 <span class="lineNum">     145 </span>            :     }
 <span class="lineNum">     146 </span>            : #else // __APPLE__
-<span class="lineNum">     147 </span><span class="lineCov">   11199853 :     uint8_t* ptr = reinterpret_cast&lt; uint8_t* &gt;( data );</span>
-<span class="lineNum">     148 </span><span class="lineCov">   52938582 :     for( size_t i=0; i &lt; size; ++i )</span>
-<span class="lineNum">     149 </span><span class="lineCov">   15269449 :         ptr[i] = ( random() &amp; 0xff );</span>
+<span class="lineNum">     147 </span><span class="lineCov">   11191299 :     uint8_t* ptr = reinterpret_cast&lt; uint8_t* &gt;( data );</span>
+<span class="lineNum">     148 </span><span class="lineCov">   52804914 :     for( size_t i=0; i &lt; size; ++i )</span>
+<span class="lineNum">     149 </span><span class="lineCov">   15211136 :         ptr[i] = ( random() &amp; 0xff );</span>
 <span class="lineNum">     150 </span>            : #endif
-<span class="lineNum">     151 </span><span class="lineCov">   11199843 :     return true;</span>
+<span class="lineNum">     151 </span><span class="lineCov">   11191288 :     return true;</span>
 <span class="lineNum">     152 </span>            : }
 <span class="lineNum">     153 </span>            : 
 <span class="lineNum">     154 </span>            : }

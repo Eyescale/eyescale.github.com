@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-11-19</td>
+            <td class="headerValue">2013-12-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">12</td>
@@ -96,70 +96,70 @@
 <span class="lineNum">      34 </span><span class="lineCov">        434 :     SpinLock() : _state( _unlocked ) {}</span>
 <a name="35"><span class="lineNum">      35 </span><span class="lineCov">        651 :     ~SpinLock() { _state = _unlocked; }</span></a>
 <span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span><span class="lineCov">   29572509 :     inline void set()</span>
+<span class="lineNum">      37 </span><span class="lineCov">   25996885 :     inline void set()</span>
 <span class="lineNum">      38 </span>            :         {
-<span class="lineNum">      39 </span><span class="lineCov">   29572509 :             while( true )</span>
+<span class="lineNum">      39 </span><span class="lineCov">   25996885 :             while( true )</span>
 <span class="lineNum">      40 </span>            :             {
-<span class="lineNum">      41 </span><span class="lineCov">  130248798 :                 if( trySet( ))</span>
+<span class="lineNum">      41 </span><span class="lineCov">  113217208 :                 if( trySet( ))</span>
 <span class="lineNum">      42 </span>            :                     return;
-<span class="lineNum">      43 </span><span class="lineCov">  100245701 :                 lunchbox::Thread::yield();</span>
-<span class="lineNum">      44 </span><span class="lineCov">  100245701 :             }</span>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">   29572595 :         }</span></a>
+<span class="lineNum">      43 </span><span class="lineCov">   85078874 :                 lunchbox::Thread::yield();</span>
+<span class="lineNum">      44 </span><span class="lineCov">   85078874 :             }</span>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">   25997852 :         }</span></a>
 <span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span><span class="lineCov">   29572598 :     inline void unset()</span>
+<span class="lineNum">      47 </span><span class="lineCov">   25997853 :     inline void unset()</span>
 <span class="lineNum">      48 </span>            :         {
-<span class="lineNum">      49 </span><span class="lineCov">   59145151 :             LBASSERT( _state == _writelocked );</span>
-<span class="lineNum">      50 </span><span class="lineCov">   29572553 :             _state = _unlocked;</span>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">   29572553 :         }</span></a>
+<span class="lineNum">      49 </span><span class="lineCov">   51995614 :             LBASSERT( _state == _writelocked );</span>
+<span class="lineNum">      50 </span><span class="lineCov">   25997761 :             _state = _unlocked;</span>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">   25997761 :         }</span></a>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">  134878803 :     inline bool trySet()</span>
+<span class="lineNum">      53 </span><span class="lineCov">  117498002 :     inline bool trySet()</span>
 <span class="lineNum">      54 </span>            :         {
-<span class="lineNum">      55 </span><span class="lineCov">  134878803 :             if( !_state.compareAndSwap( _unlocked, _writelocked ))</span>
-<span class="lineNum">      56 </span><span class="lineCov">  106170978 :                 return false;</span>
-<span class="lineNum">      57 </span><span class="lineCov">   59145187 :             LBASSERTINFO( isSetWrite(), _state );</span>
-<span class="lineNum">      58 </span><span class="lineCov">   29572592 :             return true;</span>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">  124415844 :         }</span></a>
+<span class="lineNum">      55 </span><span class="lineCov">  117498002 :             if( !_state.compareAndSwap( _unlocked, _writelocked ))</span>
+<span class="lineNum">      56 </span><span class="lineCov">   89032539 :                 return false;</span>
+<span class="lineNum">      57 </span><span class="lineCov">   51995709 :             LBASSERTINFO( isSetWrite(), _state );</span>
+<span class="lineNum">      58 </span><span class="lineCov">   25997854 :             return true;</span>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">  106132439 :         }</span></a>
 <span class="lineNum">      60 </span>            : 
-<span class="lineNum">      61 </span><span class="lineCov">   14481496 :     inline void setRead()</span>
+<span class="lineNum">      61 </span><span class="lineCov">   11579017 :     inline void setRead()</span>
 <span class="lineNum">      62 </span>            :         {
-<span class="lineNum">      63 </span><span class="lineCov">   14481496 :             while( true )</span>
+<span class="lineNum">      63 </span><span class="lineCov">   11579017 :             while( true )</span>
 <span class="lineNum">      64 </span>            :             {
-<span class="lineNum">      65 </span><span class="lineCov">   27996292 :                 if( trySetRead( ))</span>
+<span class="lineNum">      65 </span><span class="lineCov">   20806500 :                 if( trySetRead( ))</span>
 <span class="lineNum">      66 </span>            :                     return;
-<span class="lineNum">      67 </span><span class="lineCov">   13673187 :                 lunchbox::Thread::yield();</span>
-<span class="lineNum">      68 </span><span class="lineCov">   13673187 :             }</span>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">   14410906 :         }</span></a>
+<span class="lineNum">      67 </span><span class="lineCov">    9298285 :                 lunchbox::Thread::yield();</span>
+<span class="lineNum">      68 </span><span class="lineCov">    9298285 :             }</span>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">   11460241 :         }</span></a>
 <span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span><span class="lineCov">   14354671 :     inline void unsetRead()</span>
+<span class="lineNum">      71 </span><span class="lineCov">   11438199 :     inline void unsetRead()</span>
 <span class="lineNum">      72 </span>            :         {
-<span class="lineNum">      73 </span><span class="lineCov">   14354671 :             while( true )</span>
+<span class="lineNum">      73 </span><span class="lineCov">   11438199 :             while( true )</span>
 <span class="lineNum">      74 </span>            :             {
-<span class="lineNum">      75 </span><span class="lineCov">   38660818 :                 LBASSERT( _state &gt; _unlocked );</span>
-<span class="lineNum">      76 </span><span class="lineCov">   19859962 :                 memoryBarrier();</span>
-<span class="lineNum">      77 </span><span class="lineCov">   19859962 :                 const int32_t expected = _state;</span>
-<span class="lineNum">      78 </span><span class="lineCov">   19859962 :                 if( _state.compareAndSwap( expected, expected-1 ))</span>
+<span class="lineNum">      75 </span><span class="lineCov">   29791540 :                 LBASSERT( _state &gt; _unlocked );</span>
+<span class="lineNum">      76 </span><span class="lineCov">   15276370 :                 memoryBarrier();</span>
+<span class="lineNum">      77 </span><span class="lineCov">   15276370 :                 const int32_t expected = _state;</span>
+<span class="lineNum">      78 </span><span class="lineCov">   15276370 :                 if( _state.compareAndSwap( expected, expected-1 ))</span>
 <span class="lineNum">      79 </span>            :                     return;
-<span class="lineNum">      80 </span><span class="lineCov">    5269018 :             }</span>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">   14587756 :         }</span></a>
+<span class="lineNum">      80 </span><span class="lineCov">    3661437 :             }</span>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">   11626876 :         }</span></a>
 <span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span><span class="lineCov">   26479080 :     inline bool trySetRead()</span>
+<span class="lineNum">      83 </span><span class="lineCov">   19965613 :     inline bool trySetRead()</span>
 <span class="lineNum">      84 </span>            :         {
-<span class="lineNum">      85 </span><span class="lineCov">   26479080 :             memoryBarrier();</span>
-<span class="lineNum">      86 </span><span class="lineCov">   26479080 :             const int32_t state = _state;</span>
+<span class="lineNum">      85 </span><span class="lineCov">   19965613 :             memoryBarrier();</span>
+<span class="lineNum">      86 </span><span class="lineCov">   19965613 :             const int32_t state = _state;</span>
 <span class="lineNum">      87 </span>            :             // Note: 0 used here since using _unlocked unexplicably gives
 <span class="lineNum">      88 </span>            :             //       'undefined reference to lunchbox::SpinLock::_unlocked'
-<span class="lineNum">      89 </span><span class="lineCov">   81393776 :             const int32_t expected = (state==_writelocked) ? 0 : state;</span>
+<span class="lineNum">      89 </span><span class="lineCov">   61070260 :             const int32_t expected = (state==_writelocked) ? 0 : state;</span>
 <span class="lineNum">      90 </span>            : 
-<span class="lineNum">      91 </span><span class="lineCov">   28321365 :             if( !_state.compareAndSwap( expected, expected+1 ))</span>
-<span class="lineNum">      92 </span><span class="lineCov">   13753608 :                 return false;</span>
+<span class="lineNum">      91 </span><span class="lineCov">   20999340 :             if( !_state.compareAndSwap( expected, expected+1 ))</span>
+<span class="lineNum">      92 </span><span class="lineCov">    9384415 :                 return false;</span>
 <span class="lineNum">      93 </span>            : 
-<span class="lineNum">      94 </span><span class="lineCov">   28877294 :             LBASSERTINFO( isSetRead(), _state &lt;&lt; &quot;, &quot; &lt;&lt; expected );</span>
-<span class="lineNum">      95 </span><span class="lineCov">   14404668 :             return true;</span>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">   26340010 :         }</span></a>
+<span class="lineNum">      94 </span><span class="lineCov">   23009403 :             LBASSERTINFO( isSetRead(), _state &lt;&lt; &quot;, &quot; &lt;&lt; expected );</span>
+<span class="lineNum">      95 </span><span class="lineCov">   11482941 :             return true;</span>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">   19683456 :         }</span></a>
 <a name="97"><span class="lineNum">      97 </span>            : </a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">    6688312 :     inline bool isSet() { return ( _state != _unlocked ); }</span></a>
-<span class="lineNum">      99 </span><span class="lineCov">   38453324 :     inline bool isSetWrite() { return ( _state == _writelocked ); }</span>
-<span class="lineNum">     100 </span><span class="lineCov">   27660776 :     inline bool isSetRead() { return ( _state &gt; _unlocked ); }</span>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">    4942917 :     inline bool isSet() { return ( _state != _unlocked ); }</span></a>
+<span class="lineNum">      99 </span><span class="lineCov">   33049230 :     inline bool isSetWrite() { return ( _state == _writelocked ); }</span>
+<span class="lineNum">     100 </span><span class="lineCov">   22183213 :     inline bool isSetRead() { return ( _state &gt; _unlocked ); }</span>
 <span class="lineNum">     101 </span>            : 
 <span class="lineNum">     102 </span>            : private:
 <span class="lineNum">     103 </span>            :     a_int32_t _state;
@@ -174,49 +174,49 @@
 <span class="lineNum">     112 </span><span class="lineCov">        434 :     delete _impl;</span>
 <span class="lineNum">     113 </span><span class="lineCov">        434 : }</span>
 <span class="lineNum">     114 </span>            : 
-<span class="lineNum">     115 </span><span class="lineCov">   29572595 : void SpinLock::set()</span>
+<span class="lineNum">     115 </span><span class="lineCov">   25997852 : void SpinLock::set()</span>
 <span class="lineNum">     116 </span>            : {
-<span class="lineNum">     117 </span><span class="lineCov">   29572595 :     _impl-&gt;set();</span>
-<span class="lineNum">     118 </span><span class="lineCov">   29572595 : }</span>
+<span class="lineNum">     117 </span><span class="lineCov">   25997852 :     _impl-&gt;set();</span>
+<span class="lineNum">     118 </span><span class="lineCov">   25997852 : }</span>
 <span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineCov">   29572533 : void SpinLock::unset()</span>
+<span class="lineNum">     120 </span><span class="lineCov">   25997803 : void SpinLock::unset()</span>
 <span class="lineNum">     121 </span>            : {
-<span class="lineNum">     122 </span><span class="lineCov">   29572533 :     _impl-&gt;unset();</span>
-<span class="lineNum">     123 </span><span class="lineCov">   29572533 : }</span>
+<span class="lineNum">     122 </span><span class="lineCov">   25997803 :     _impl-&gt;unset();</span>
+<span class="lineNum">     123 </span><span class="lineCov">   25997803 : }</span>
 <span class="lineNum">     124 </span>            : 
 <span class="lineNum">     125 </span><span class="lineNoCov">          0 : bool SpinLock::trySet()</span>
 <span class="lineNum">     126 </span>            : {
 <span class="lineNum">     127 </span><span class="lineNoCov">          0 :     return _impl-&gt;trySet();</span>
 <span class="lineNum">     128 </span>            : }
 <span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span><span class="lineCov">   14409166 : void SpinLock::setRead()</span>
+<span class="lineNum">     130 </span><span class="lineCov">   11470372 : void SpinLock::setRead()</span>
 <span class="lineNum">     131 </span>            : {
-<span class="lineNum">     132 </span><span class="lineCov">   14409166 :     _impl-&gt;setRead();</span>
-<span class="lineNum">     133 </span><span class="lineCov">   14409166 : }</span>
+<span class="lineNum">     132 </span><span class="lineCov">   11470372 :     _impl-&gt;setRead();</span>
+<span class="lineNum">     133 </span><span class="lineCov">   11470372 : }</span>
 <span class="lineNum">     134 </span>            : 
-<span class="lineNum">     135 </span><span class="lineCov">   14580443 : void SpinLock::unsetRead()</span>
+<span class="lineNum">     135 </span><span class="lineCov">   11626748 : void SpinLock::unsetRead()</span>
 <span class="lineNum">     136 </span>            : {
-<span class="lineNum">     137 </span><span class="lineCov">   14580443 :     _impl-&gt;unsetRead();</span>
-<span class="lineNum">     138 </span><span class="lineCov">   14580443 : }</span>
+<span class="lineNum">     137 </span><span class="lineCov">   11626748 :     _impl-&gt;unsetRead();</span>
+<span class="lineNum">     138 </span><span class="lineCov">   11626748 : }</span>
 <span class="lineNum">     139 </span>            : 
 <span class="lineNum">     140 </span><span class="lineNoCov">          0 : bool SpinLock::trySetRead()</span>
 <span class="lineNum">     141 </span>            : {
 <span class="lineNum">     142 </span><span class="lineNoCov">          0 :     return _impl-&gt;trySetRead();</span>
 <span class="lineNum">     143 </span>            : }
 <span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span><span class="lineCov">    6688312 : bool SpinLock::isSet()</span>
+<span class="lineNum">     145 </span><span class="lineCov">    4942917 : bool SpinLock::isSet()</span>
 <span class="lineNum">     146 </span>            : {
-<span class="lineNum">     147 </span><span class="lineCov">    6688312 :     return _impl-&gt;isSet();</span>
+<span class="lineNum">     147 </span><span class="lineCov">    4942917 :     return _impl-&gt;isSet();</span>
 <span class="lineNum">     148 </span>            : }
 <span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span><span class="lineCov">    8880727 : bool SpinLock::isSetWrite()</span>
+<span class="lineNum">     150 </span><span class="lineCov">    7051376 : bool SpinLock::isSetWrite()</span>
 <span class="lineNum">     151 </span>            : {
-<span class="lineNum">     152 </span><span class="lineCov">    8880727 :     return _impl-&gt;isSetWrite();</span>
+<span class="lineNum">     152 </span><span class="lineCov">    7051376 :     return _impl-&gt;isSetWrite();</span>
 <span class="lineNum">     153 </span>            : }
 <span class="lineNum">     154 </span>            : 
-<span class="lineNum">     155 </span><span class="lineCov">   14445895 : bool SpinLock::isSetRead()</span>
+<span class="lineNum">     155 </span><span class="lineCov">   11545799 : bool SpinLock::isSetRead()</span>
 <span class="lineNum">     156 </span>            : {
-<span class="lineNum">     157 </span><span class="lineCov">   14445895 :     return _impl-&gt;isSetRead();</span>
+<span class="lineNum">     157 </span><span class="lineCov">   11545799 :     return _impl-&gt;isSetRead();</span>
 <span class="lineNum">     158 </span>            : }
 <span class="lineNum">     159 </span>            : 
 <span class="lineNum">     160 </span>            : }

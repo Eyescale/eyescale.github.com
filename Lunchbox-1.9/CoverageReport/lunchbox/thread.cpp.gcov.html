@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-11-19</td>
+            <td class="headerValue">2013-12-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">16</td>
@@ -197,8 +197,8 @@
 <span class="lineNum">     135 </span><span class="lineCov">       2439 :     LBVERB &lt;&lt; &quot;Thread &quot; &lt;&lt; className( this ) &lt;&lt; &quot; successfully initialized&quot;</span>
 <span class="lineNum">     136 </span>            :            &lt;&lt; std::endl;
 <span class="lineNum">     137 </span>            : 
-<span class="lineNum">     138 </span><span class="lineCov">       2415 :     run();</span>
-<span class="lineNum">     139 </span><span class="lineCov">       2415 :     LBVERB &lt;&lt; &quot;Thread &quot; &lt;&lt; className( this ) &lt;&lt; &quot; finished&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     138 </span><span class="lineCov">       2414 :     run();</span>
+<span class="lineNum">     139 </span><span class="lineCov">       2414 :     LBVERB &lt;&lt; &quot;Thread &quot; &lt;&lt; className( this ) &lt;&lt; &quot; finished&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     140 </span><span class="lineNoCov">          0 :     this-&gt;exit();</span>
 <span class="lineNum">     141 </span>            : 
 <span class="lineNum">     142 </span><span class="lineNoCov">          0 :     LBUNREACHABLE;</span>
@@ -240,10 +240,10 @@
 <span class="lineNum">     178 </span><span class="lineCov">       2440 :     return (_impl-&gt;state != STATE_STOPPED);</span>
 <a name="179"><span class="lineNum">     179 </span><span class="lineCov">       2440 : }</span></a>
 <span class="lineNum">     180 </span>            : 
-<span class="lineNum">     181 </span><span class="lineCov">       2402 : void Thread::exit()</span>
+<span class="lineNum">     181 </span><span class="lineCov">       2403 : void Thread::exit()</span>
 <span class="lineNum">     182 </span>            : {
-<span class="lineNum">     183 </span><span class="lineCov">       4802 :     LBASSERTINFO( isCurrent(), &quot;Thread::exit not called from child thread&quot; );</span>
-<span class="lineNum">     184 </span><span class="lineCov">       2400 :     LBVERB &lt;&lt; &quot;Exiting thread &quot; &lt;&lt; className( this ) &lt;&lt; std::endl;</span>
+<span class="lineNum">     183 </span><span class="lineCov">       4806 :     LBASSERTINFO( isCurrent(), &quot;Thread::exit not called from child thread&quot; );</span>
+<span class="lineNum">     184 </span><span class="lineCov">       2403 :     LBVERB &lt;&lt; &quot;Exiting thread &quot; &lt;&lt; className( this ) &lt;&lt; std::endl;</span>
 <span class="lineNum">     185 </span><span class="lineNoCov">          0 :     Log::instance().forceFlush();</span>
 <span class="lineNum">     186 </span><span class="lineNoCov">          0 :     Log::instance().exit();</span>
 <span class="lineNum">     187 </span>            : 
@@ -278,17 +278,17 @@
 <span class="lineNum">     216 </span><span class="lineCov">       2416 :     return true;</span>
 <a name="217"><span class="lineNum">     217 </span><span class="lineCov">       2416 : }</span></a>
 <span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineCov">       4839 : bool Thread::isCurrent() const</span>
+<span class="lineNum">     219 </span><span class="lineCov">       4837 : bool Thread::isCurrent() const</span>
 <span class="lineNum">     220 </span>            : {
-<span class="lineNum">     221 </span><span class="lineCov">       4839 :     return pthread_equal( pthread_self(), _impl-&gt;id._impl-&gt;pthread );</span>
+<span class="lineNum">     221 </span><span class="lineCov">       4837 :     return pthread_equal( pthread_self(), _impl-&gt;id._impl-&gt;pthread );</span>
 <a name="222"><span class="lineNum">     222 </span>            : }</a>
 <span class="lineNum">     223 </span>            : 
 <span class="lineNum">     224 </span>            : ThreadID Thread::getSelfThreadID()
 <span class="lineNum">     225 </span>            : {
-<span class="lineNum">     226 </span><span class="lineCov">    2634611 :     ThreadID threadID;</span>
-<span class="lineNum">     227 </span><span class="lineCov">    5269940 :     threadID._impl-&gt;pthread = pthread_self();</span>
-<span class="lineNum">     228 </span><span class="lineCov">    2635329 :     return threadID;</span>
-<a name="229"><span class="lineNum">     229 </span><span class="lineCov">    5268199 : }</span></a>
+<span class="lineNum">     226 </span><span class="lineCov">    2411139 :     ThreadID threadID;</span>
+<span class="lineNum">     227 </span><span class="lineCov">    4822380 :     threadID._impl-&gt;pthread = pthread_self();</span>
+<span class="lineNum">     228 </span><span class="lineCov">    2411241 :     return threadID;</span>
+<a name="229"><span class="lineNum">     229 </span><span class="lineCov">    4822518 : }</span></a>
 <span class="lineNum">     230 </span>            : 
 <span class="lineNum">     231 </span>            : void Thread::yield()
 <span class="lineNum">     232 </span>            : {
@@ -296,11 +296,11 @@
 <span class="lineNum">     234 </span>            :     ::Sleep( 0 ); // sleeps thread
 <span class="lineNum">     235 </span>            :     // or ::SwitchToThread() ? // switches to another waiting thread, if exists
 <span class="lineNum">     236 </span>            : #elif defined (__APPLE__)
-<span class="lineNum">     237 </span><span class="lineCov">  115209182 :     ::pthread_yield_np();</span>
+<span class="lineNum">     237 </span><span class="lineCov">   95118530 :     ::pthread_yield_np();</span>
 <span class="lineNum">     238 </span>            : #else
 <span class="lineNum">     239 </span>            :     ::sched_yield();
 <span class="lineNum">     240 </span>            : #endif
-<a name="241"><span class="lineNum">     241 </span><span class="lineCov">  115209182 : }</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">   95118530 : }</span></a>
 <span class="lineNum">     242 </span>            : 
 <span class="lineNum">     243 </span>            : void Thread::pinCurrentThread()
 <span class="lineNum">     244 </span>            : {

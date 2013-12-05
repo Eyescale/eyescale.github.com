@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-11-19</td>
+            <td class="headerValue">2013-12-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">12</td>
@@ -139,10 +139,10 @@
 <span class="lineNum">      77 </span>            :         }
 <a name="78"><span class="lineNum">      78 </span>            : </a>
 <span class="lineNum">      79 </span>            :     /** Assign a new value. @version 1.0 */
-<span class="lineNum">      80 </span><span class="lineCov">     809761 :     Monitor&amp; operator = ( const T&amp; value )</span>
+<span class="lineNum">      80 </span><span class="lineCov">     809763 :     Monitor&amp; operator = ( const T&amp; value )</span>
 <span class="lineNum">      81 </span>            :         {
-<span class="lineNum">      82 </span><span class="lineCov">     809761 :             set( value );</span>
-<span class="lineNum">      83 </span><span class="lineCov">     809761 :             return *this;</span>
+<span class="lineNum">      82 </span><span class="lineCov">     809763 :             set( value );</span>
+<span class="lineNum">      83 </span><span class="lineCov">     809763 :             return *this;</span>
 <span class="lineNum">      84 </span>            :         }
 <span class="lineNum">      85 </span>            : 
 <span class="lineNum">      86 </span>            :     /** Assign a new value. @version 1.1.5 */
@@ -171,12 +171,12 @@
 <span class="lineNum">     109 </span>            :         }
 <a name="110"><span class="lineNum">     110 </span>            : </a>
 <span class="lineNum">     111 </span>            :     /** Set a new value. @version 1.0 */
-<span class="lineNum">     112 </span><span class="lineCov">     809756 :     void set( const T&amp; value )</span>
+<span class="lineNum">     112 </span><span class="lineCov">     809759 :     void set( const T&amp; value )</span>
 <span class="lineNum">     113 </span>            :         {
-<span class="lineNum">     114 </span><span class="lineCov">     809756 :             ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     115 </span><span class="lineCov">     809756 :             _value = value;</span>
-<span class="lineNum">     116 </span><span class="lineCov">     809756 :             _cond.broadcast();</span>
-<span class="lineNum">     117 </span><span class="lineCov">     809761 :         }</span>
+<span class="lineNum">     114 </span><span class="lineCov">     809759 :             ScopedCondition mutex( _cond );</span>
+<span class="lineNum">     115 </span><span class="lineCov">     809759 :             _value = value;</span>
+<span class="lineNum">     116 </span><span class="lineCov">     809759 :             _cond.broadcast();</span>
+<span class="lineNum">     117 </span><span class="lineCov">     809762 :         }</span>
 <span class="lineNum">     118 </span>            :     //@}
 <span class="lineNum">     119 </span>            : 
 <span class="lineNum">     120 </span>            :     /** @name Monitor the value. */
@@ -189,12 +189,12 @@
 <span class="lineNum">     127 </span><span class="lineCov">     400025 :     const T&amp; waitEQ( const T&amp; value ) const</span>
 <span class="lineNum">     128 </span>            :         {
 <span class="lineNum">     129 </span><span class="lineCov">     400025 :             if( sizeof( T ) &lt;= 8 &amp;&amp; _value == value )</span>
-<span class="lineNum">     130 </span><span class="lineCov">          4 :                 return value;</span>
-<span class="lineNum">     131 </span><span class="lineCov">     400021 :             ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     132 </span><span class="lineCov">    1200274 :             while( _value != value )</span>
-<span class="lineNum">     133 </span><span class="lineCov">     800464 :                 _cond.wait();</span>
-<span class="lineNum">     134 </span><span class="lineCov">     400021 :             return value;</span>
-<span class="lineNum">     135 </span><span class="lineCov">     800046 :         }</span>
+<span class="lineNum">     130 </span><span class="lineCov">          7 :                 return value;</span>
+<span class="lineNum">     131 </span><span class="lineCov">     400018 :             ScopedCondition mutex( _cond );</span>
+<span class="lineNum">     132 </span><span class="lineCov">    1200267 :             while( _value != value )</span>
+<span class="lineNum">     133 </span><span class="lineCov">     800462 :                 _cond.wait();</span>
+<span class="lineNum">     134 </span><span class="lineCov">     400018 :             return value;</span>
+<span class="lineNum">     135 </span><span class="lineCov">     800043 :         }</span>
 <span class="lineNum">     136 </span>            : 
 <span class="lineNum">     137 </span>            :     /**
 <span class="lineNum">     138 </span>            :      * Block until the monitor has not the given value.
@@ -207,13 +207,13 @@
 <span class="lineNum">     145 </span>            :             {
 <span class="lineNum">     146 </span><span class="lineCov">       4856 :                 const T current = _value;</span>
 <span class="lineNum">     147 </span><span class="lineCov">       4856 :                 if( current != value )</span>
-<span class="lineNum">     148 </span><span class="lineCov">       2379 :                     return current;</span>
+<span class="lineNum">     148 </span><span class="lineCov">       2402 :                     return current;</span>
 <span class="lineNum">     149 </span>            :             }
-<span class="lineNum">     150 </span><span class="lineCov">       2477 :             ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     151 </span><span class="lineCov">       7431 :             while( _value == value )</span>
-<span class="lineNum">     152 </span><span class="lineCov">       4954 :                 _cond.wait();</span>
-<span class="lineNum">     153 </span><span class="lineCov">       2477 :             return _value;</span>
-<span class="lineNum">     154 </span><span class="lineCov">       7333 :         }</span>
+<span class="lineNum">     150 </span><span class="lineCov">       2454 :             ScopedCondition mutex( _cond );</span>
+<span class="lineNum">     151 </span><span class="lineCov">       7360 :             while( _value == value )</span>
+<span class="lineNum">     152 </span><span class="lineCov">       4904 :                 _cond.wait();</span>
+<span class="lineNum">     153 </span><span class="lineCov">       2454 :             return _value;</span>
+<span class="lineNum">     154 </span><span class="lineCov">       7310 :         }</span>
 <span class="lineNum">     155 </span>            : 
 <span class="lineNum">     156 </span>            :     /**
 <span class="lineNum">     157 </span>            :      * Block until the monitor has none of the given values.
@@ -248,8 +248,8 @@
 <span class="lineNum">     186 </span><span class="lineNoCov">          0 :                     return current;</span>
 <span class="lineNum">     187 </span>            :             }
 <span class="lineNum">     188 </span><span class="lineCov">       1248 :             ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     189 </span><span class="lineCov">      11805 :             while( _value &lt; value )</span>
-<span class="lineNum">     190 </span><span class="lineCov">      18618 :                 _cond.wait();</span>
+<span class="lineNum">     189 </span><span class="lineCov">      11595 :             while( _value &lt; value )</span>
+<span class="lineNum">     190 </span><span class="lineCov">      18198 :                 _cond.wait();</span>
 <span class="lineNum">     191 </span><span class="lineCov">       1248 :             return _value;</span>
 <span class="lineNum">     192 </span><span class="lineCov">       2496 :         }</span>
 <span class="lineNum">     193 </span>            :     /**
@@ -257,7 +257,7 @@
 <span class="lineNum">     195 </span>            :      * @return the value when reaching the condition.
 <a name="196"><span class="lineNum">     196 </span>            :      * @version 1.0</a>
 <span class="lineNum">     197 </span>            :      */
-<span class="lineNum">     198 </span><span class="lineCov">     100063 :     const T waitLE( const T&amp; value ) const</span>
+<span class="lineNum">     198 </span><span class="lineCov">     100003 :     const T waitLE( const T&amp; value ) const</span>
 <span class="lineNum">     199 </span>            :         {
 <span class="lineNum">     200 </span>            :             if( sizeof( T ) &lt;= 8 ) // issue #1
 <span class="lineNum">     201 </span>            :             {
@@ -265,11 +265,11 @@
 <span class="lineNum">     203 </span>            :                 if( current &lt;= value )
 <span class="lineNum">     204 </span>            :                     return current;
 <span class="lineNum">     205 </span>            :             }
-<span class="lineNum">     206 </span><span class="lineCov">     100063 :             ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     207 </span><span class="lineCov">     300189 :             while( _value &gt; value )</span>
+<span class="lineNum">     206 </span><span class="lineCov">     100003 :             ScopedCondition mutex( _cond );</span>
+<span class="lineNum">     207 </span><span class="lineCov">     300009 :             while( _value &gt; value )</span>
 <span class="lineNum">     208 </span><span class="lineNoCov">          0 :                 _cond.wait();</span>
-<span class="lineNum">     209 </span><span class="lineCov">     100063 :             return _value;</span>
-<span class="lineNum">     210 </span><span class="lineCov">     100063 :         }</span>
+<span class="lineNum">     209 </span><span class="lineCov">     100003 :             return _value;</span>
+<span class="lineNum">     210 </span><span class="lineCov">     100003 :         }</span>
 <span class="lineNum">     211 </span>            : 
 <span class="lineNum">     212 </span>            :     /** @name Monitor the value with a timeout. */
 <span class="lineNum">     213 </span>            :     //@{
@@ -350,11 +350,11 @@
 <span class="lineNum">     288 </span><span class="lineCov">       3922 :             ScopedCondition mutex( sizeof(T)&gt;8 ? &amp;_cond : 0 ); // issue #1</span>
 <a name="289"><span class="lineNum">     289 </span><span class="lineCov">       3922 :             return _value == value;</span></a>
 <span class="lineNum">     290 </span><span class="lineCov">       3922 :         }</span>
-<span class="lineNum">     291 </span><span class="lineCov">     305070 :     bool operator != ( const T&amp; value ) const</span>
+<span class="lineNum">     291 </span><span class="lineCov">     304890 :     bool operator != ( const T&amp; value ) const</span>
 <span class="lineNum">     292 </span>            :         {
-<span class="lineNum">     293 </span><span class="lineCov">     305070 :             ScopedCondition mutex( sizeof(T)&gt;8 ? &amp;_cond : 0 ); // issue #1</span>
-<span class="lineNum">     294 </span><span class="lineCov">     305070 :             return _value != value;</span>
-<span class="lineNum">     295 </span><span class="lineCov">     305070 :         }</span>
+<span class="lineNum">     293 </span><span class="lineCov">     304890 :             ScopedCondition mutex( sizeof(T)&gt;8 ? &amp;_cond : 0 ); // issue #1</span>
+<span class="lineNum">     294 </span><span class="lineCov">     304890 :             return _value != value;</span>
+<span class="lineNum">     295 </span><span class="lineCov">     304890 :         }</span>
 <span class="lineNum">     296 </span>            :     bool operator &lt; ( const T&amp; value ) const
 <span class="lineNum">     297 </span>            :         {
 <span class="lineNum">     298 </span>            :             ScopedCondition mutex( sizeof(T)&gt;8 ? &amp;_cond : 0 ); // issue #1

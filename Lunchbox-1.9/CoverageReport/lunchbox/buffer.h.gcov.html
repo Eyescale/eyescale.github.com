@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-11-19</td>
+            <td class="headerValue">2013-12-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -106,7 +106,7 @@
 <span class="lineNum">      44 </span>            : {
 <a name="45"><span class="lineNum">      45 </span>            : public:</a>
 <span class="lineNum">      46 </span>            :     /** Construct a new, empty buffer. @version 1.0 */
-<span class="lineNum">      47 </span><span class="lineCov">        368 :     Buffer() : _data(0), _size(0), _maxSize(0) {}</span>
+<span class="lineNum">      47 </span><span class="lineCov">        400 :     Buffer() : _data(0), _size(0), _maxSize(0) {}</span>
 <span class="lineNum">      48 </span>            : 
 <span class="lineNum">      49 </span>            :     /** Construct a new buffer of the given size. @version 1.0 */
 <span class="lineNum">      50 </span>            :     explicit Buffer( const uint64_t size ) : _data(0), _size(0), _maxSize(0)
@@ -120,25 +120,25 @@
 <span class="lineNum">      58 </span>            :     }
 <a name="59"><span class="lineNum">      59 </span>            : </a>
 <span class="lineNum">      60 </span>            :     /** Destruct the buffer. @version 1.0 */
-<span class="lineNum">      61 </span><span class="lineCov">        552 :     ~Buffer() { clear(); }</span>
+<span class="lineNum">      61 </span><span class="lineCov">        600 :     ~Buffer() { clear(); }</span>
 <a name="62"><span class="lineNum">      62 </span>            : </a>
 <span class="lineNum">      63 </span>            :     /** Flush the buffer, deleting all data. @version 1.0 */
-<span class="lineNum">      64 </span><span class="lineCov">        184 :     void clear()</span>
-<span class="lineNum">      65 </span><span class="lineCov">        552 :         { if( _data ) free( _data ); _data=0; _size=0; _maxSize=0; }</span>
+<span class="lineNum">      64 </span><span class="lineCov">        200 :     void clear()</span>
+<span class="lineNum">      65 </span><span class="lineCov">        600 :         { if( _data ) free( _data ); _data=0; _size=0; _maxSize=0; }</span>
 <span class="lineNum">      66 </span>            : 
 <span class="lineNum">      67 </span>            :     /**
 <span class="lineNum">      68 </span>            :      * Tighten the allocated memory to the size of the buffer.
 <span class="lineNum">      69 </span>            :      * @return the new pointer to the first element.
 <a name="70"><span class="lineNum">      70 </span>            :      * @version 1.0</a>
 <span class="lineNum">      71 </span>            :      */
-<span class="lineNum">      72 </span><span class="lineCov">         46 :     T* pack()</span>
+<span class="lineNum">      72 </span><span class="lineCov">         50 :     T* pack()</span>
 <span class="lineNum">      73 </span>            :     {
-<span class="lineNum">      74 </span><span class="lineCov">         46 :         if( _maxSize != _size )</span>
+<span class="lineNum">      74 </span><span class="lineCov">         50 :         if( _maxSize != _size )</span>
 <span class="lineNum">      75 </span>            :         {
-<span class="lineNum">      76 </span><span class="lineCov">         46 :             _data = static_cast&lt; T* &gt;( realloc( _data, _size * sizeof( T )));</span>
-<span class="lineNum">      77 </span><span class="lineCov">         46 :             _maxSize = _size;</span>
-<span class="lineNum">      78 </span><span class="lineCov">         46 :         }</span>
-<span class="lineNum">      79 </span><span class="lineCov">         46 :         return _data;</span>
+<span class="lineNum">      76 </span><span class="lineCov">         50 :             _data = static_cast&lt; T* &gt;( realloc( _data, _size * sizeof( T )));</span>
+<span class="lineNum">      77 </span><span class="lineCov">         50 :             _maxSize = _size;</span>
+<span class="lineNum">      78 </span><span class="lineCov">         50 :         }</span>
+<span class="lineNum">      79 </span><span class="lineCov">         50 :         return _data;</span>
 <span class="lineNum">      80 </span>            :     }
 <span class="lineNum">      81 </span>            : 
 <span class="lineNum">      82 </span>            :     /** Assignment operator, copies data from Buffer. @version 1.0 */
@@ -163,19 +163,19 @@
 <span class="lineNum">     101 </span>            :      * @return the new pointer to the first element.
 <a name="102"><span class="lineNum">     102 </span>            :      * @version 1.0</a>
 <span class="lineNum">     103 </span>            :      */
-<span class="lineNum">     104 </span><span class="lineCov">        184 :     T* resize( const uint64_t newSize )</span>
+<span class="lineNum">     104 </span><span class="lineCov">        200 :     T* resize( const uint64_t newSize )</span>
 <span class="lineNum">     105 </span>            :         {
-<span class="lineNum">     106 </span><span class="lineCov">        184 :             _size = newSize;</span>
-<span class="lineNum">     107 </span><span class="lineCov">        184 :             if( newSize &lt;= _maxSize )</span>
-<span class="lineNum">     108 </span><span class="lineCov">         92 :                 return _data;</span>
+<span class="lineNum">     106 </span><span class="lineCov">        200 :             _size = newSize;</span>
+<span class="lineNum">     107 </span><span class="lineCov">        200 :             if( newSize &lt;= _maxSize )</span>
+<span class="lineNum">     108 </span><span class="lineCov">        100 :                 return _data;</span>
 <span class="lineNum">     109 </span>            : 
 <span class="lineNum">     110 </span>            :             // avoid excessive reallocs
-<span class="lineNum">     111 </span><span class="lineCov">         92 :             const uint64_t nElems = newSize + (newSize &gt;&gt; 3);</span>
-<span class="lineNum">     112 </span><span class="lineCov">         92 :             const uint64_t nBytes = nElems * sizeof( T );</span>
-<span class="lineNum">     113 </span><span class="lineCov">         92 :             _data = static_cast&lt; T* &gt;( realloc( _data, nBytes ));</span>
-<span class="lineNum">     114 </span><span class="lineCov">         92 :             _maxSize = nElems;</span>
-<span class="lineNum">     115 </span><span class="lineCov">         92 :             return _data;</span>
-<span class="lineNum">     116 </span><span class="lineCov">        184 :         }</span>
+<span class="lineNum">     111 </span><span class="lineCov">        100 :             const uint64_t nElems = newSize + (newSize &gt;&gt; 3);</span>
+<span class="lineNum">     112 </span><span class="lineCov">        100 :             const uint64_t nBytes = nElems * sizeof( T );</span>
+<span class="lineNum">     113 </span><span class="lineCov">        100 :             _data = static_cast&lt; T* &gt;( realloc( _data, nBytes ));</span>
+<span class="lineNum">     114 </span><span class="lineCov">        100 :             _maxSize = nElems;</span>
+<span class="lineNum">     115 </span><span class="lineCov">        100 :             return _data;</span>
+<span class="lineNum">     116 </span><span class="lineCov">        200 :         }</span>
 <span class="lineNum">     117 </span>            : 
 <span class="lineNum">     118 </span>            :     /**
 <span class="lineNum">     119 </span>            :      * Ensure that the buffer contains at least newSize elements.
@@ -196,15 +196,15 @@
 <span class="lineNum">     134 </span>            :      * @return the new pointer to the first element.
 <a name="135"><span class="lineNum">     135 </span>            :      * @version 1.0</a>
 <span class="lineNum">     136 </span>            :      */
-<span class="lineNum">     137 </span><span class="lineCov">        184 :     T* reserve( const uint64_t newSize )</span>
+<span class="lineNum">     137 </span><span class="lineCov">        200 :     T* reserve( const uint64_t newSize )</span>
 <span class="lineNum">     138 </span>            :     {
-<span class="lineNum">     139 </span><span class="lineCov">        184 :         if( newSize &lt;= _maxSize )</span>
-<span class="lineNum">     140 </span><span class="lineCov">         69 :             return _data;</span>
+<span class="lineNum">     139 </span><span class="lineCov">        200 :         if( newSize &lt;= _maxSize )</span>
+<span class="lineNum">     140 </span><span class="lineCov">         75 :             return _data;</span>
 <span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span><span class="lineCov">        115 :         _data = static_cast&lt; T* &gt;( realloc( _data, newSize * sizeof( T )));</span>
-<span class="lineNum">     143 </span><span class="lineCov">        115 :         _maxSize = newSize;</span>
-<span class="lineNum">     144 </span><span class="lineCov">        115 :         return _data;</span>
-<span class="lineNum">     145 </span><span class="lineCov">        184 :     }</span>
+<span class="lineNum">     142 </span><span class="lineCov">        125 :         _data = static_cast&lt; T* &gt;( realloc( _data, newSize * sizeof( T )));</span>
+<span class="lineNum">     143 </span><span class="lineCov">        125 :         _maxSize = newSize;</span>
+<span class="lineNum">     144 </span><span class="lineCov">        125 :         return _data;</span>
+<span class="lineNum">     145 </span><span class="lineCov">        200 :     }</span>
 <span class="lineNum">     146 </span>            : 
 <span class="lineNum">     147 </span>            :     /**
 <span class="lineNum">     148 </span>            :      * Set the buffer size and malloc enough memory.
@@ -273,7 +273,7 @@
 <span class="lineNum">     211 </span>            :         }
 <a name="212"><span class="lineNum">     212 </span>            : </a>
 <span class="lineNum">     213 </span>            :     /** @return a pointer to the data. @version 1.0 */
-<span class="lineNum">     214 </span><span class="lineCov">        414 :     T* getData() { return _data; }</span>
+<span class="lineNum">     214 </span><span class="lineCov">        450 :     T* getData() { return _data; }</span>
 <span class="lineNum">     215 </span>            : 
 <span class="lineNum">     216 </span>            :     /** @return a const pointer to the data. @version 1.0 */
 <span class="lineNum">     217 </span>            :     const T* getData() const { return _data; }
@@ -286,18 +286,18 @@
 <span class="lineNum">     224 </span>            :      * does not change the size.
 <a name="225"><span class="lineNum">     225 </span>            :      * @version 1.0</a>
 <span class="lineNum">     226 </span>            :      */
-<span class="lineNum">     227 </span><span class="lineCov">         92 :     bool setSize( const uint64_t size )</span>
+<span class="lineNum">     227 </span><span class="lineCov">        100 :     bool setSize( const uint64_t size )</span>
 <span class="lineNum">     228 </span>            :         {
-<span class="lineNum">     229 </span><span class="lineCov">        184 :             LBASSERT( size &lt;= _maxSize );</span>
-<span class="lineNum">     230 </span><span class="lineCov">         92 :             if( size &gt; _maxSize )</span>
+<span class="lineNum">     229 </span><span class="lineCov">        200 :             LBASSERT( size &lt;= _maxSize );</span>
+<span class="lineNum">     230 </span><span class="lineCov">        100 :             if( size &gt; _maxSize )</span>
 <span class="lineNum">     231 </span><span class="lineNoCov">          0 :                 return false;</span>
 <span class="lineNum">     232 </span>            : 
-<span class="lineNum">     233 </span><span class="lineCov">         92 :             _size = size;</span>
-<span class="lineNum">     234 </span><span class="lineCov">         92 :             return true;</span>
-<span class="lineNum">     235 </span><span class="lineCov">         92 :         }</span>
+<span class="lineNum">     233 </span><span class="lineCov">        100 :             _size = size;</span>
+<span class="lineNum">     234 </span><span class="lineCov">        100 :             return true;</span>
+<span class="lineNum">     235 </span><span class="lineCov">        100 :         }</span>
 <a name="236"><span class="lineNum">     236 </span>            : </a>
 <span class="lineNum">     237 </span>            :     /** @return the current number of elements. @version 1.0 */
-<span class="lineNum">     238 </span><span class="lineCov">        184 :     uint64_t getSize() const { return _size; }</span>
+<span class="lineNum">     238 </span><span class="lineCov">        200 :     uint64_t getSize() const { return _size; }</span>
 <span class="lineNum">     239 </span>            : 
 <span class="lineNum">     240 </span>            :     /** @return the current storage size. @version 1.5.1 */
 <span class="lineNum">     241 </span>            :     uint64_t getNumBytes() const { return _size * sizeof( T ); }
@@ -306,7 +306,7 @@
 <span class="lineNum">     244 </span>            :     bool isEmpty() const { return (_size==0); }
 <a name="245"><span class="lineNum">     245 </span>            : </a>
 <span class="lineNum">     246 </span>            :     /** @return the maximum size of the buffer. @version 1.0 */
-<span class="lineNum">     247 </span><span class="lineCov">         92 :     uint64_t getMaxSize() const { return _maxSize; }</span>
+<span class="lineNum">     247 </span><span class="lineCov">        100 :     uint64_t getMaxSize() const { return _maxSize; }</span>
 <span class="lineNum">     248 </span>            : 
 <span class="lineNum">     249 </span>            : private:
 <span class="lineNum">     250 </span>            :     /** A pointer to the data. */

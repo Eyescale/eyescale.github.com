@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-11-19</td>
+            <td class="headerValue">2013-12-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">19</td>
@@ -549,39 +549,39 @@
 <span class="lineNum">     487 </span><span class="lineCov">          2 :         }</span>
 <a name="488"><span class="lineNum">     488 </span><span class="lineCov">          2 :     }</span></a>
 <span class="lineNum">     489 </span>            : 
-<span class="lineNum">     490 </span><span class="lineCov">          3 :     static void resolveCBS_( DNSServiceRef, DNSServiceFlags,</span>
-<span class="lineNum">     491 </span><span class="lineCov">          3 :                              uint32_t /*interfaceIdx*/,</span>
-<span class="lineNum">     492 </span><span class="lineCov">          3 :                              DNSServiceErrorType error,</span>
-<span class="lineNum">     493 </span><span class="lineCov">          3 :                              const char* /*name*/, const char* host,</span>
-<span class="lineNum">     494 </span><span class="lineCov">          3 :                              uint16_t /*port*/,</span>
-<span class="lineNum">     495 </span><span class="lineCov">          3 :                              uint16_t txtLen, const unsigned char* txt,</span>
-<span class="lineNum">     496 </span><span class="lineCov">          3 :                              Servus* servus )</span>
+<span class="lineNum">     490 </span><span class="lineCov">          7 :     static void resolveCBS_( DNSServiceRef, DNSServiceFlags,</span>
+<span class="lineNum">     491 </span><span class="lineCov">          7 :                              uint32_t /*interfaceIdx*/,</span>
+<span class="lineNum">     492 </span><span class="lineCov">          7 :                              DNSServiceErrorType error,</span>
+<span class="lineNum">     493 </span><span class="lineCov">          7 :                              const char* /*name*/, const char* host,</span>
+<span class="lineNum">     494 </span><span class="lineCov">          7 :                              uint16_t /*port*/,</span>
+<span class="lineNum">     495 </span><span class="lineCov">          7 :                              uint16_t txtLen, const unsigned char* txt,</span>
+<span class="lineNum">     496 </span><span class="lineCov">          7 :                              Servus* servus )</span>
 <span class="lineNum">     497 </span>            :     {
-<span class="lineNum">     498 </span><span class="lineCov">          3 :         if( error == kDNSServiceErr_NoError)</span>
-<span class="lineNum">     499 </span><span class="lineCov">          3 :             servus-&gt;resolveCB_( host, txtLen, txt );</span>
-<span class="lineNum">     500 </span><span class="lineCov">          3 :         servus-&gt;result_ = error;</span>
-<a name="501"><span class="lineNum">     501 </span><span class="lineCov">          3 :     }</span></a>
+<span class="lineNum">     498 </span><span class="lineCov">          7 :         if( error == kDNSServiceErr_NoError)</span>
+<span class="lineNum">     499 </span><span class="lineCov">          7 :             servus-&gt;resolveCB_( host, txtLen, txt );</span>
+<span class="lineNum">     500 </span><span class="lineCov">          7 :         servus-&gt;result_ = error;</span>
+<a name="501"><span class="lineNum">     501 </span><span class="lineCov">          7 :     }</span></a>
 <span class="lineNum">     502 </span>            : 
-<span class="lineNum">     503 </span><span class="lineCov">          3 :     void resolveCB_( const char* host, uint16_t txtLen,</span>
-<span class="lineNum">     504 </span><span class="lineCov">          3 :                      const unsigned char* txt )</span>
+<span class="lineNum">     503 </span><span class="lineCov">          7 :     void resolveCB_( const char* host, uint16_t txtLen,</span>
+<span class="lineNum">     504 </span><span class="lineCov">          7 :                      const unsigned char* txt )</span>
 <span class="lineNum">     505 </span>            :     {
-<span class="lineNum">     506 </span><span class="lineCov">          3 :         ValueMap&amp; values = instanceMap_[ browsedName_ ];</span>
-<span class="lineNum">     507 </span><span class="lineCov">         12 :         values[ &quot;servus_host&quot; ] = host;</span>
+<span class="lineNum">     506 </span><span class="lineCov">          7 :         ValueMap&amp; values = instanceMap_[ browsedName_ ];</span>
+<span class="lineNum">     507 </span><span class="lineCov">         28 :         values[ &quot;servus_host&quot; ] = host;</span>
 <span class="lineNum">     508 </span>            : 
-<span class="lineNum">     509 </span><span class="lineCov">          3 :         char key[256] = {0};</span>
-<span class="lineNum">     510 </span><span class="lineCov">          3 :         const char* value = 0;</span>
-<span class="lineNum">     511 </span><span class="lineCov">          3 :         uint8_t valueLen = 0;</span>
+<span class="lineNum">     509 </span><span class="lineCov">          7 :         char key[256] = {0};</span>
+<span class="lineNum">     510 </span><span class="lineCov">          7 :         const char* value = 0;</span>
+<span class="lineNum">     511 </span><span class="lineCov">          7 :         uint8_t valueLen = 0;</span>
 <span class="lineNum">     512 </span>            : 
-<span class="lineNum">     513 </span><span class="lineCov">          3 :         uint16_t i = 0;</span>
-<span class="lineNum">     514 </span><span class="lineCov">         10 :         while( TXTRecordGetItemAtIndex( txtLen, txt, i, sizeof( key ), key,</span>
+<span class="lineNum">     513 </span><span class="lineCov">          7 :         uint16_t i = 0;</span>
+<span class="lineNum">     514 </span><span class="lineCov">         23 :         while( TXTRecordGetItemAtIndex( txtLen, txt, i, sizeof( key ), key,</span>
 <span class="lineNum">     515 </span>            :                                         &amp;valueLen, (const void**)( &amp;value )) ==
 <span class="lineNum">     516 </span>            :                kDNSServiceErr_NoError )
 <span class="lineNum">     517 </span>            :         {
 <span class="lineNum">     518 </span>            : 
-<span class="lineNum">     519 </span><span class="lineCov">         20 :             values[ key ] = std::string( value, valueLen );</span>
-<span class="lineNum">     520 </span><span class="lineCov">          4 :             ++i;</span>
-<span class="lineNum">     521 </span><span class="lineCov">          4 :         }</span>
-<span class="lineNum">     522 </span><span class="lineCov">         10 :     }</span>
+<span class="lineNum">     519 </span><span class="lineCov">         45 :             values[ key ] = std::string( value, valueLen );</span>
+<span class="lineNum">     520 </span><span class="lineCov">          9 :             ++i;</span>
+<span class="lineNum">     521 </span><span class="lineCov">          9 :         }</span>
+<span class="lineNum">     522 </span><span class="lineCov">         23 :     }</span>
 <span class="lineNum">     523 </span>            : #endif
 <span class="lineNum">     524 </span>            : };
 <span class="lineNum">     525 </span>            : }
