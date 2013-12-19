@@ -121,16 +121,97 @@ class lunchbox::LFQueue&lt; T &gt;</h3>
 <li>One reader thread</li>
 <li>One writer thread</li>
 <li>Fixed maximum size (writes may fail)</li>
-<li>Not copyable </li>
+<li>Not copyable</li>
 </ul>
-
-<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00041">41</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
+<p>Example: </p>
+<div class="fragment"><div class="line"></div>
+<div class="line"><span class="comment">/* Copyright (c) 2010-2011, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
+<div class="line"><span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><span class="comment"> * details.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;test.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/lfQueue.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#define RUNTIME 1000 </span><span class="comment">/*ms*/</span><span class="preprocessor"></span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line"><a class="code" href="classlunchbox_1_1LFQueue.html">lunchbox::LFQueue&lt; uint64_t &gt;</a> queue(1024);</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">class </span>ReadThread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1Thread.html">lunchbox::Thread</a></div>
+<div class="line">{</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="keyword">virtual</span> ~ReadThread() {}</div>
+<div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div>
+<div class="line">        {</div>
+<div class="line">            uint64_t nOps = 0;</div>
+<div class="line">            uint64_t nEmpty = 0;</div>
+<div class="line">            uint64_t item = 0xffffffffffffffffull;</div>
+<div class="line"></div>
+<div class="line">            <a class="code" href="classlunchbox_1_1Clock.html">lunchbox::Clock</a> clock;</div>
+<div class="line">            <span class="keywordflow">while</span>( clock.<a class="code" href="classlunchbox_1_1Clock.html#a04ba4dc653c1789edaccb86fb6e1b0ef">getTime64</a>() &lt; RUNTIME )</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keywordflow">if</span>( queue.getFront( item ))</div>
+<div class="line">                {</div>
+<div class="line">                    TEST( item == nOps );</div>
+<div class="line">                    uint64_t item2 = 0xffffffffffffffffull;</div>
+<div class="line">                    TEST( queue.pop( item2 ));</div>
+<div class="line">                    TEST( item2 == item );</div>
+<div class="line">                    ++nOps;</div>
+<div class="line">                }</div>
+<div class="line">                TEST( item + 1 == nOps );</div>
+<div class="line">                ++nEmpty;</div>
+<div class="line">            }</div>
+<div class="line">            <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1Clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div>
+<div class="line">            std::cout &lt;&lt; 2*nOps/time &lt;&lt; <span class="stringliteral">&quot; reads/ms, &quot;</span> &lt;&lt; nEmpty/time</div>
+<div class="line">                      &lt;&lt; <span class="stringliteral">&quot; empty/ms&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">        }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div>
+<div class="line">{</div>
+<div class="line">    ReadThread reader;</div>
+<div class="line">    uint64_t nOps = 0;</div>
+<div class="line">    uint64_t nEmpty = 0;</div>
+<div class="line"></div>
+<div class="line">    TEST( reader.start( ));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1Clock.html">lunchbox::Clock</a> clock;</div>
+<div class="line">    <span class="keywordflow">while</span>( clock.getTime64() &lt; RUNTIME )</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">while</span>( queue.push( nOps ))</div>
+<div class="line">            ++nOps;</div>
+<div class="line">        ++nEmpty;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1Clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div>
+<div class="line"></div>
+<div class="line">    TEST( reader.join( ));</div>
+<div class="line">    std::cout &lt;&lt; nOps/time &lt;&lt; <span class="stringliteral">&quot; writes/ms, &quot;</span> &lt;&lt; nEmpty/time &lt;&lt; <span class="stringliteral">&quot; full/ms&quot;</span></div>
+<div class="line">              &lt;&lt; std::endl;</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00043">43</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab81f6db5cfd932741a4db1307038429e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -153,7 +234,7 @@ template&lt;typename T &gt; </div>
 <p>Construct a new queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00045">45</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00047">47</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
 
 </div>
 </div>
@@ -161,7 +242,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -183,7 +264,7 @@ template&lt;typename T &gt; </div>
 <p>Destruct this queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00049">49</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00051">51</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
 
 </div>
 </div>
@@ -214,7 +295,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -235,7 +316,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the maximum number of elements held by the queue. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00098">98</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00100">100</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
 
 </div>
 </div>
@@ -273,7 +354,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -294,7 +375,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the queue is empty, false otherwise. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00052">52</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lfQueue_8h_source.html#l00054">54</a> of file <a class="el" href="lfQueue_8h_source.html">lfQueue.h</a>.</p>
 
 </div>
 </div>
@@ -389,7 +470,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 16:43:20 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 19 2013 17:31:22 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

@@ -95,9 +95,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afbe9f0675a5cfe5ad8d22d5821681206"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlunchbox_1_1RequestFuture.html">RequestFuture</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1RequestHandler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a> (void *data=0)</td></tr>
 <tr class="memdesc:afbe9f0675a5cfe5ad8d22d5821681206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a request.  <a href="#afbe9f0675a5cfe5ad8d22d5821681206">More...</a><br/></td></tr>
 <tr class="separator:afbe9f0675a5cfe5ad8d22d5821681206"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e2248bad96618d539e7d3a7ba42273d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1RequestHandler.html#a3e2248bad96618d539e7d3a7ba42273d">registerRequest</a> (void *data=0)</td></tr>
-<tr class="memdesc:a3e2248bad96618d539e7d3a7ba42273d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a request.  <a href="#a3e2248bad96618d539e7d3a7ba42273d">More...</a><br/></td></tr>
-<tr class="separator:a3e2248bad96618d539e7d3a7ba42273d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a049fc77faeb008500c8638f2d228f7f5"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1RequestHandler.html#a049fc77faeb008500c8638f2d228f7f5">registerRequest</a> (void *data=0) LB_DEPRECATED</td></tr>
+<tr class="memdesc:a049fc77faeb008500c8638f2d228f7f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a request.  <a href="#a049fc77faeb008500c8638f2d228f7f5">More...</a><br/></td></tr>
+<tr class="separator:a049fc77faeb008500c8638f2d228f7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b626d6be7aebd0722e00b50830e860d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1RequestHandler.html#a5b626d6be7aebd0722e00b50830e860d">unregisterRequest</a> (const uint32_t requestID)</td></tr>
 <tr class="memdesc:a5b626d6be7aebd0722e00b50830e860d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister a request.  <a href="#a5b626d6be7aebd0722e00b50830e860d">More...</a><br/></td></tr>
 <tr class="separator:a5b626d6be7aebd0722e00b50830e860d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,9 +146,95 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A thread-safe request handler. </p>
 <p>Different execution threads can synchronize using a request handler. One thread registers a request, and later waits for the request to be served. Another thread can serve the request, providing a result value.</p>
-<p>Thread-safety: The methods <a class="el" href="classlunchbox_1_1RequestHandler.html#afbe9f0675a5cfe5ad8d22d5821681206" title="Register a request. ">registerRequest()</a>, <a class="el" href="classlunchbox_1_1RequestHandler.html#a5b626d6be7aebd0722e00b50830e860d" title="Unregister a request. ">unregisterRequest()</a> and <a class="el" href="classlunchbox_1_1RequestHandler.html#a950bbf4f3e210fc43a43054cdf1126ae" title="Wait a given time for the completion of a request. ">waitRequest()</a> are supposed to be called from one 'waiting' thread, and the functions <a class="el" href="classlunchbox_1_1RequestHandler.html#af69f9931c6108d13becbf0c8acc2a3be" title="Serve a request with a void* result. ">serveRequest()</a> and deleteRequest() are supposed to be called only from one 'serving' thread. </p>
-
-<p>Definition at line <a class="el" href="requestHandler_8h_source.html#l00041">41</a> of file <a class="el" href="requestHandler_8h_source.html">requestHandler.h</a>.</p>
+<p>Thread-safety: The methods <a class="el" href="classlunchbox_1_1RequestHandler.html#afbe9f0675a5cfe5ad8d22d5821681206" title="Register a request. ">registerRequest()</a>, <a class="el" href="classlunchbox_1_1RequestHandler.html#a5b626d6be7aebd0722e00b50830e860d" title="Unregister a request. ">unregisterRequest()</a> and <a class="el" href="classlunchbox_1_1RequestHandler.html#a950bbf4f3e210fc43a43054cdf1126ae" title="Wait a given time for the completion of a request. ">waitRequest()</a> are supposed to be called from one 'waiting' thread, and the functions <a class="el" href="classlunchbox_1_1RequestHandler.html#af69f9931c6108d13becbf0c8acc2a3be" title="Serve a request with a void* result. ">serveRequest()</a> and deleteRequest() are supposed to be called only from one 'serving' thread.</p>
+<p>Example: </p>
+<div class="fragment"><div class="line"></div>
+<div class="line"><span class="comment">/* Copyright (c) 2013, Stefan.Eilemann@epfl.ch</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
+<div class="line"><span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><span class="comment"> * details.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &quot;test.h&quot;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/mtQueue.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/requestHandler.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/sleep.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="classlunchbox_1_1RequestHandler.html">lunchbox::RequestHandler</a> handler_;</div>
+<div class="line"><a class="code" href="classlunchbox_1_1MTQueue.html">lunchbox::MTQueue&lt; uint32_t &gt;</a> requestQ_;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">class </span>Thread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1Thread.html">lunchbox::Thread</a></div>
+<div class="line">{</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run() final</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">bool</span> boolIn = <span class="keyword">true</span>;</div>
+<div class="line">        uint8_t* payload = (uint8_t*)42;</div>
+<div class="line"></div>
+<div class="line">        uint32_t request = requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a91510c2c9390818ff86806e5242b8401">pop</a>();</div>
+<div class="line">        TEST( handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#ab81d57dc1b38d2c226406172ea2007af">getRequestData</a>( request ) == ++payload );</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#af69f9931c6108d13becbf0c8acc2a3be">serveRequest</a>( request, boolIn );</div>
+<div class="line"></div>
+<div class="line">        <span class="keyword">const</span> uint32_t uint32In = 0xC0FFEE;</div>
+<div class="line">        request = requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a91510c2c9390818ff86806e5242b8401">pop</a>();</div>
+<div class="line">        TEST( handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#ab81d57dc1b38d2c226406172ea2007af">getRequestData</a>( request ) == ++payload );</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#af69f9931c6108d13becbf0c8acc2a3be">serveRequest</a>( request, uint32In );</div>
+<div class="line"></div>
+<div class="line">        request = requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a91510c2c9390818ff86806e5242b8401">pop</a>();</div>
+<div class="line">        TEST( handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#ab81d57dc1b38d2c226406172ea2007af">getRequestData</a>( request ) == ++payload );</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#af69f9931c6108d13becbf0c8acc2a3be">serveRequest</a>( request );</div>
+<div class="line"></div>
+<div class="line">        request = requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a91510c2c9390818ff86806e5242b8401">pop</a>();</div>
+<div class="line">        TESTINFO( handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#ab81d57dc1b38d2c226406172ea2007af">getRequestData</a>( request ) == ++payload,</div>
+<div class="line">                  (size_t)handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#ab81d57dc1b38d2c226406172ea2007af">getRequestData</a>( request ) &lt;&lt; <span class="stringliteral">&quot; for &quot;</span> &lt;&lt;</div>
+<div class="line">                  request );</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#af69f9931c6108d13becbf0c8acc2a3be">serveRequest</a>( request );</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div>
+<div class="line">{</div>
+<div class="line">    uint8_t* payload = (uint8_t*)42;</div>
+<div class="line">    Thread thread;</div>
+<div class="line">    thread.start();</div>
+<div class="line"></div>
+<div class="line">    uint32_t request = handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>( ++payload );</div>
+<div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( request );</div>
+<div class="line">    <span class="keywordtype">bool</span> boolOut = <span class="keyword">false</span>;</div>
+<div class="line">    TEST( handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#a950bbf4f3e210fc43a43054cdf1126ae">waitRequest</a>( request, boolOut ));</div>
+<div class="line">    TEST( boolOut == <span class="keyword">true</span> );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1RequestFuture.html">lunchbox::RequestFuture&lt; uint32_t &gt;</a> future =</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>&lt; uint32_t &gt;( ++payload );</div>
+<div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( future.getID( ));</div>
+<div class="line">    TEST( future.get() == 0xC0FFEE );</div>
+<div class="line"></div>
+<div class="line">    request = handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>( ++payload );</div>
+<div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( request );</div>
+<div class="line">    TEST( handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#a950bbf4f3e210fc43a43054cdf1126ae">waitRequest</a>( request ));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1RequestFuture.html">lunchbox::RequestFuture&lt; void &gt;</a> voidFuture =</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1RequestHandler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>&lt; <span class="keywordtype">void</span> &gt;( ++payload );</div>
+<div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1MTQueue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( voidFuture.getID( ));</div>
+<div class="line">    TEST( future.<a class="code" href="classlunchbox_1_1Future.html#a79b2ef0c379f1cb79f24a5bcc519d2ed">wait</a>( ));</div>
+<div class="line"></div>
+<div class="line">    TEST( thread.join( ));</div>
+<div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="requestHandler_8h_source.html#l00043">43</a> of file <a class="el" href="requestHandler_8h_source.html">requestHandler.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a74fde02591482ec369dcf58a8a964c3e"></a>
 <div class="memitem">
@@ -290,11 +376,11 @@ template&lt;class T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classlunchbox_1_1Future.html" title="A future represents a asynchronous operation. ">Future</a> which will be fulfilled on <a class="el" href="classlunchbox_1_1RequestHandler.html#af69f9931c6108d13becbf0c8acc2a3be" title="Serve a request with a void* result. ">serveRequest()</a>. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.9.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="requestHandler_8h_source.html#l00169">169</a> of file <a class="el" href="requestHandler_8h_source.html">requestHandler.h</a>.</p>
+<p>Definition at line <a class="el" href="requestHandler_8h_source.html#l00172">172</a> of file <a class="el" href="requestHandler_8h_source.html">requestHandler.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3e2248bad96618d539e7d3a7ba42273d"></a>
+<a class="anchor" id="a049fc77faeb008500c8638f2d228f7f5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -316,7 +402,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the request identifier. </dd></dl>
-<dl class="section version"><dt>Version</dt><dd>1.0</dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000013">Deprecated:</a></b></dt><dd></dd></dl>
 
 </div>
@@ -645,7 +731,7 @@ template&lt;class T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 16:43:20 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 19 2013 17:31:23 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

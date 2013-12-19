@@ -142,9 +142,84 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getData</b> (Data &am
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Simple wrapper for ZeroConf key/value pairs. </p>
-<p>The servus class allows simple announcement and discovery of key/value pairs using ZeroConf networking. The same instance can be used to announce and/or to browse a ZeroConf service. If the Lunchbox library is compiled without zeroconf support (LUNCHBOX_USE_DNSSD is not set), this class does not do anything useful. </p>
-
-<p>Definition at line <a class="el" href="servus_8h_source.html#l00042">42</a> of file <a class="el" href="servus_8h_source.html">servus.h</a>.</p>
+<p>The servus class allows simple announcement and discovery of key/value pairs using ZeroConf networking. The same instance can be used to announce and/or to browse a ZeroConf service. If the Lunchbox library is compiled without zeroconf support (LUNCHBOX_USE_DNSSD is not set), this class does not do anything useful.</p>
+<p>Example: </p>
+<div class="fragment"><div class="line"></div>
+<div class="line"><span class="comment">/* Copyright (c) 2012-2013, Stefan.Eilemann@epfl.ch</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This file is part of Lunchbox &lt;https://github.com/Eyescale/Lunchbox&gt;</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
+<div class="line"><span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><span class="comment"> * details.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &quot;test.h&quot;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/servus.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/rng.h&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#ifdef LUNCHBOX_USE_DNSSD</span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#  include &lt;dns_sd.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="classlunchbox_1_1RNG.html">lunchbox::RNG</a> rng;</div>
+<div class="line">    <span class="keyword">const</span> uint16_t port = rng.<a class="code" href="classlunchbox_1_1RNG.html#a174b9f672e791c868a4eb508f26cf034">get</a>&lt; uint16_t &gt;();</div>
+<div class="line">    <a class="code" href="classlunchbox_1_1Servus.html">lunchbox::Servus</a> service( <span class="stringliteral">&quot;_servustest._tcp&quot;</span> );</div>
+<div class="line">    std::ostringstream os;</div>
+<div class="line">    os &lt;&lt; port;</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="classlunchbox_1_1Servus_1_1Result.html">lunchbox::Servus::Result</a>&amp; result = service.announce( port, os.str( ));</div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#ifdef LUNCHBOX_USE_DNSSD</span></div>
+<div class="line"><span class="preprocessor"></span>    TEST( lunchbox::Result::SUCCESS == kDNSServiceErr_NoError );</div>
+<div class="line">    <span class="keywordflow">if</span>( result == kDNSServiceErr_Unknown ) <span class="comment">// happens on CI VMs</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;Bailing, got &quot;</span> &lt;&lt; result</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;: looks like a broken zeroconf setup&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">    }</div>
+<div class="line">    TESTINFO( result, result );</div>
+<div class="line"></div>
+<div class="line">    service.withdraw();</div>
+<div class="line">    service.set( <span class="stringliteral">&quot;foo&quot;</span>, <span class="stringliteral">&quot;bar&quot;</span> );</div>
+<div class="line">    TEST( service.announce( port, os.str( )));</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="namespacelunchbox.html#aea35aa9bfc7484de290c0ed0dbcfeceb">lunchbox::Strings</a>&amp; hosts =</div>
+<div class="line">        service.discover( <a class="code" href="classlunchbox_1_1Servus.html#a1f660c4794e454ac627b5e7080dfeb7da5fca551f6e2d6e5b20c73bbd59c5367f">lunchbox::Servus::IF_LOCAL</a>, 500 );</div>
+<div class="line">    <span class="keywordflow">if</span>( hosts.empty() &amp;&amp; getenv( <span class="stringliteral">&quot;TRAVIS&quot;</span> ))</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;Bailing, got no hosts on a Travis CI setup&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    TESTINFO( hosts.size() == 1, hosts.size( ));</div>
+<div class="line">    TESTINFO( hosts.front() == os.str(), hosts.front( ));</div>
+<div class="line">    TEST( service.get( hosts.front(), <span class="stringliteral">&quot;foo&quot;</span> ) == <span class="stringliteral">&quot;bar&quot;</span> );</div>
+<div class="line">    <a class="code" href="namespacelunchbox.html#a1f918928bb23523d4ca3b3697d7002c3">lunchbox::sleep</a>( 500 );</div>
+<div class="line"></div>
+<div class="line">    service.set( <span class="stringliteral">&quot;foobar&quot;</span>, <span class="stringliteral">&quot;42&quot;</span> );</div>
+<div class="line">    <a class="code" href="namespacelunchbox.html#a1f918928bb23523d4ca3b3697d7002c3">lunchbox::sleep</a>( 500 );</div>
+<div class="line">    service.discover( <a class="code" href="classlunchbox_1_1Servus.html#a1f660c4794e454ac627b5e7080dfeb7da5fca551f6e2d6e5b20c73bbd59c5367f">lunchbox::Servus::IF_LOCAL</a>, 500 );</div>
+<div class="line">    TEST( service.get( hosts.front(), <span class="stringliteral">&quot;foobar&quot;</span> ) == <span class="stringliteral">&quot;42&quot;</span> );</div>
+<div class="line"><span class="preprocessor">#else</span></div>
+<div class="line"><span class="preprocessor"></span>    TESTINFO( result == <a class="code" href="classlunchbox_1_1Servus_1_1Result.html#aea0f5b15943c3d7c675cd5b8b59ee80f">lunchbox::Servus::Result::NOT_SUPPORTED</a>, result );</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor"></span>    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="servus_8h_source.html#l00044">44</a> of file <a class="el" href="servus_8h_source.html">servus.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a1f660c4794e454ac627b5e7080dfeb7d"></a>
 <div class="memitem">
@@ -164,7 +239,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getData</b> (Data &am
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="servus_8h_source.html#l00045">45</a> of file <a class="el" href="servus_8h_source.html">servus.h</a>.</p>
+<p>Definition at line <a class="el" href="servus_8h_source.html#l00047">47</a> of file <a class="el" href="servus_8h_source.html">servus.h</a>.</p>
 
 </div>
 </div>
@@ -499,7 +574,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getData</b> (Data &am
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 16:43:20 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 19 2013 17:31:23 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

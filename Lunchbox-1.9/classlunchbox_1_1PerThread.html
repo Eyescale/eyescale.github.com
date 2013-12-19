@@ -134,9 +134,92 @@ class lunchbox::PerThread&lt; T, D &gt;</h3>
   </table>
   </dd>
 </dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd>Use boost::thread_specific_ptr </dd></dl>
-
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00043">43</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd>Use boost::thread_specific_ptr</dd></dl>
+<p>Example: </p>
+<div class="fragment"><div class="line"></div>
+<div class="line"><span class="comment">/* Copyright (c) 2011-2012, Stefan Eilemann &lt;eile@eyescale.ch&gt;</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
+<div class="line"><span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><span class="comment"> * details.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;pthread.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;test.h&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/atomic.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/perThread.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/sleep.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/rng.h&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#define NTHREADS 1024</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line"><a class="code" href="classlunchbox_1_1Atomic.html">lunchbox::a_int32_t</a> _threads;</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> destructor( <span class="keywordtype">size_t</span>* ) { --_threads; }</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="classlunchbox_1_1PerThread.html">lunchbox::PerThread&lt; size_t, &amp;destructor &gt;</a> _tls1;</div>
+<div class="line"><a class="code" href="classlunchbox_1_1PerThread.html">lunchbox::PerThread&lt; size_t &gt;</a> _tls2;</div>
+<div class="line"><a class="code" href="classlunchbox_1_1PerThread.html">lunchbox::PerThread&lt; size_t, &amp;destructor &gt;</a> _tls3;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">class </span>Thread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1Thread.html">lunchbox::Thread</a></div>
+<div class="line">{</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="keyword">virtual</span> ~Thread() {}</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div>
+<div class="line">        {</div>
+<div class="line">            ++_threads;</div>
+<div class="line">            <a class="code" href="classlunchbox_1_1RNG.html">lunchbox::RNG</a> rng;</div>
+<div class="line"></div>
+<div class="line">            <span class="keywordtype">size_t</span> i = rng.<a class="code" href="classlunchbox_1_1RNG.html#a174b9f672e791c868a4eb508f26cf034">get</a>&lt; <span class="keywordtype">size_t</span> &gt;();</div>
+<div class="line">            <span class="keywordtype">size_t</span>* data = <span class="keyword">new</span> size_t( i );</div>
+<div class="line">            _tls1 = data;</div>
+<div class="line">            _tls2 = data;</div>
+<div class="line">            _tls3 = _tls1;</div>
+<div class="line"></div>
+<div class="line">            TEST( _tls1.<a class="code" href="classlunchbox_1_1PerThread.html#ab7784a548c383b2ad24be8f475ffb7fc">get</a>() == data );</div>
+<div class="line">            TEST( *_tls1 == i );</div>
+<div class="line">            TEST( _tls2.<a class="code" href="classlunchbox_1_1PerThread.html#ab7784a548c383b2ad24be8f475ffb7fc">get</a>() == data );</div>
+<div class="line">            TEST( *_tls2 == i );</div>
+<div class="line">            TEST( *_tls1 == *_tls2 );</div>
+<div class="line">            TEST( *_tls1 == *_tls3 );</div>
+<div class="line"></div>
+<div class="line">            _tls3 = 0;</div>
+<div class="line">            TEST( _tls3 == 0 );</div>
+<div class="line">        }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv )</div>
+<div class="line">{</div>
+<div class="line">    TEST( <a class="code" href="namespacelunchbox.html#a3f932e11108c071cc47b2ab9398db1f9">lunchbox::init</a>( argc, argv ));</div>
+<div class="line"></div>
+<div class="line">    Thread threads[NTHREADS];</div>
+<div class="line">    TESTINFO( _threads == 0, _threads );</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i=0; i&lt;NTHREADS; ++i )</div>
+<div class="line">        TEST( threads[i].start( ));</div>
+<div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i=0; i&lt;NTHREADS; ++i )</div>
+<div class="line">        TEST( threads[i].join( ));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="namespacelunchbox.html#a1f918928bb23523d4ca3b3697d7002c3">lunchbox::sleep</a>( 10 ); <span class="comment">// ms, needed for tls exit handlers to run</span></div>
+<div class="line">    TESTINFO( _threads == 0, _threads );</div>
+<div class="line">    TEST( <a class="code" href="namespacelunchbox.html#ab94eeb235decc139db89525c80004a63">lunchbox::exit</a>( ));</div>
+<div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="perThread_8h_source.html#l00045">45</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af5131cf1beb2287fef594b52023f3a83"></a>
 <div class="memitem">
@@ -156,7 +239,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <p>Construct a new per-thread variable. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00107">107</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00020">20</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -178,7 +261,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <p>Destruct the per-thread variable. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00111">111</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00024">24</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -200,7 +283,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the held object pointer. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00128">128</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00041">41</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1PerThread.html#a2e438e6c9c391f20c053ae7325c73f63">lunchbox::PerThread&lt; T, D &gt;::operator==()</a>.</p>
 
@@ -234,7 +317,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the held object pointer. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00133">133</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00046">46</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -255,7 +338,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the thread-local storage holds a non-0 pointer. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00154">154</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00067">67</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -276,7 +359,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the thread-local storage holds a 0 pointer. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00149">149</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00062">62</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -306,7 +389,7 @@ template&lt;class T, void(*)(T *) D = &amp;perThreadDelete&lt; T &gt;&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the thread-local variable holds another object. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00089">89</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8h_source.html#l00091">91</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
 
 </div>
 </div>
@@ -335,7 +418,7 @@ template&lt;class T, void(*)(T *) D = &amp;perThreadDelete&lt; T &gt;&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the held object reference. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00066">66</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8h_source.html#l00068">68</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
 
 <p>References <a class="el" href="namespacelunchbox.html#ac28d8481881bf01ae4a9d61de07f968d">lunchbox::className()</a>.</p>
 
@@ -377,7 +460,7 @@ template&lt;class T, void(*)(T *) D = &amp;perThreadDelete&lt; T &gt;&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the held object reference. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00069">69</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8h_source.html#l00071">71</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
 
 <p>References <a class="el" href="namespacelunchbox.html#ac28d8481881bf01ae4a9d61de07f968d">lunchbox::className()</a>.</p>
 
@@ -412,7 +495,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <p>Access the thread-local object. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00138">138</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00051">51</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -434,7 +517,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <p>Access the thread-local object. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00144">144</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00057">57</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -457,7 +540,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <p>Assign an object to the thread-local storage. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00115">115</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00028">28</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +563,7 @@ template&lt;class T , void(*)(T *) D&gt; </div>
 <p>Assign an object from another thread-local storage. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00122">122</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8ipp_source.html#l00035">35</a> of file <a class="el" href="perThread_8ipp_source.html">perThread.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1TLS.html#a0ff0c29ff6f0c0989701e34ac1874326">lunchbox::TLS::get()</a>.</p>
 
@@ -523,7 +606,7 @@ template&lt;class T, void(*)(T *) D = &amp;perThreadDelete&lt; T &gt;&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the thread-local variables hold the same object. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00076">76</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8h_source.html#l00078">78</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1PerThread.html#ab7784a548c383b2ad24be8f475ffb7fc">lunchbox::PerThread&lt; T, D &gt;::get()</a>.</p>
 
@@ -566,17 +649,18 @@ template&lt;class T, void(*)(T *) D = &amp;perThreadDelete&lt; T &gt;&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the thread-local variable holds the same object. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="perThread_8h_source.html#l00083">83</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
+<p>Definition at line <a class="el" href="perThread_8h_source.html#l00085">85</a> of file <a class="el" href="perThread_8h_source.html">perThread.h</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="perThread_8h_source.html">perThread.h</a></li>
+<li><a class="el" href="perThread_8ipp_source.html">perThread.ipp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 16:43:20 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 19 2013 17:31:23 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

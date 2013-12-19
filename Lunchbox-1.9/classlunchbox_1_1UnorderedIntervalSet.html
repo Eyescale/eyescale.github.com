@@ -116,9 +116,92 @@ Public Member Functions</h2></td></tr>
 class lunchbox::UnorderedIntervalSet&lt; T &gt;</h3>
 
 <p>A container to store intervals of elements efficently. </p>
-<p>The type can be any class or typename which has the semantics of natural numbers for addition and comparison operations. The intervals are stored in an unordered fashion. Not thread-safe. </p>
-
-<p>Definition at line <a class="el" href="unorderedIntervalSet_8h_source.html#l00035">35</a> of file <a class="el" href="unorderedIntervalSet_8h_source.html">unorderedIntervalSet.h</a>.</p>
+<p>The type can be any class or typename which has the semantics of natural numbers for addition and comparison operations. The intervals are stored in an unordered fashion. Not thread-safe.</p>
+<p>Example: </p>
+<div class="fragment"><div class="line"></div>
+<div class="line"><span class="comment">/* Copyright (c) 2013, Daniel Nachbaur &lt;daniel.nachbaur@epfl.ch&gt;</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
+<div class="line"><span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><span class="comment"> * details.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;test.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/unorderedIntervalSet.h&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">typedef</span> <a class="code" href="classlunchbox_1_1UnorderedIntervalSet.html">lunchbox::UnorderedIntervalSet&lt; size_t &gt;</a> SetType;</div>
+<div class="line">    SetType set;</div>
+<div class="line">    TEST( set.empty( ));</div>
+<div class="line"></div>
+<div class="line">    set.<a class="code" href="classlunchbox_1_1UnorderedIntervalSet.html#ad5a7f406d7ffcc10c776639818e1b172">insert</a>( 2 );</div>
+<div class="line">    TEST( set.size() == 1 );</div>
+<div class="line"></div>
+<div class="line">    set.insert( 1, 5 );</div>
+<div class="line">    TEST( set.exists( 3 ));</div>
+<div class="line">    TEST( set.size() == 5 );</div>
+<div class="line"></div>
+<div class="line">    set.insert( 1, 5 );</div>
+<div class="line">    TEST( set.size() == 5 );</div>
+<div class="line"></div>
+<div class="line">    set.insert( 2, 4 );</div>
+<div class="line">    TEST( set.size() == 5 );</div>
+<div class="line"></div>
+<div class="line">    TEST( set.find( 0 ) == set.end( ));</div>
+<div class="line">    TEST( *set.find( 3 ) == 3 );</div>
+<div class="line">    TEST( set.find( 6 ) == set.end( ));</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordtype">size_t</span> i = 1;</div>
+<div class="line">    <span class="keywordflow">for</span>( SetType::const_iterator it = set.begin(); it != set.end(); ++it, ++i )</div>
+<div class="line">        TEST( *it == i );</div>
+<div class="line"></div>
+<div class="line">    set.erase( 3, 4 );</div>
+<div class="line">    TEST( set.size() == 3 );</div>
+<div class="line"></div>
+<div class="line">    set.erase( 2 );</div>
+<div class="line">    TEST( set.size() == 2 );</div>
+<div class="line"></div>
+<div class="line">    TEST( set.exists( 1 ));</div>
+<div class="line">    TEST( set.exists( 5 ));</div>
+<div class="line"></div>
+<div class="line">    set.clear();</div>
+<div class="line">    TEST( set.empty( ));</div>
+<div class="line"></div>
+<div class="line">    set.insert( 0, 1 );</div>
+<div class="line">    TEST( set.size() == 2 );</div>
+<div class="line">    set.insert( 3, 5 );</div>
+<div class="line">    TEST( set.size() == 5 );</div>
+<div class="line">    SetType::const_iterator it = set.begin();</div>
+<div class="line">    TEST( *it == 0 );</div>
+<div class="line">    ++it;</div>
+<div class="line">    TEST( *it == 1 );</div>
+<div class="line">    ++it;</div>
+<div class="line">    TEST( *it == 3 );</div>
+<div class="line">    ++it;</div>
+<div class="line">    TEST( *it == 4 );</div>
+<div class="line">    ++it;</div>
+<div class="line">    TEST( *it == 5 );</div>
+<div class="line"></div>
+<div class="line">    set.erase( 4, 7 );</div>
+<div class="line">    TEST( set.size() == 3 );</div>
+<div class="line"></div>
+<div class="line">    set.erase( 40, 70 );</div>
+<div class="line">    TEST( set.size() == 3 );</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="unorderedIntervalSet_8h_source.html#l00037">37</a> of file <a class="el" href="unorderedIntervalSet_8h_source.html">unorderedIntervalSet.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a01c729a43f08dd7bdad5fb3b594b7e65"></a>
 <div class="memitem">
@@ -429,7 +512,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 5 2013 16:43:20 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 19 2013 17:31:23 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
