@@ -153,20 +153,26 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>boost::serialization
 <div class="line">    <a class="code" href="classlunchbox_1_1Any.html">lunchbox::Any</a> otherAny;</div>
 <div class="line">    TEST( any.<a class="code" href="classlunchbox_1_1Any.html#a7aa2e85fd5a95b04151f025192bfda13">empty</a>( ));</div>
 <div class="line">    TEST( any.<a class="code" href="classlunchbox_1_1Any.html#a139e75df5c42657164584a26c9931bae">type</a>() == <span class="keyword">typeid</span>(void));</div>
-<div class="line">    TEST( any == any );</div>
 <div class="line">    TEST( any == otherAny );</div>
 <div class="line"></div>
 <div class="line">    any = 5;</div>
-<div class="line">    otherAny = 5;</div>
+<div class="line">    otherAny = any;</div>
 <div class="line">    TEST( lunchbox::any_cast&lt; int &gt;( any ) == 5 );</div>
 <div class="line">    TEST( any.<a class="code" href="classlunchbox_1_1Any.html#a139e75df5c42657164584a26c9931bae">type</a>() == <span class="keyword">typeid</span>(int));</div>
-<div class="line">    TEST( any == any );</div>
+<div class="line">    TEST( any == otherAny );</div>
+<div class="line"></div>
+<div class="line">    any = 42;</div>
+<div class="line">    otherAny = 42;</div>
+<div class="line">    TEST( lunchbox::any_cast&lt; int &gt;( any ) == 42 );</div>
 <div class="line">    TEST( any == otherAny );</div>
 <div class="line"></div>
 <div class="line">    any = std::string( <span class="stringliteral">&quot;blablub&quot;</span> );</div>
 <div class="line">    TEST( lunchbox::any_cast&lt; std::string &gt;( any ) == <span class="stringliteral">&quot;blablub&quot;</span> );</div>
 <div class="line">    TEST( any.<a class="code" href="classlunchbox_1_1Any.html#a139e75df5c42657164584a26c9931bae">type</a>() == <span class="keyword">typeid</span>(std::string));</div>
 <div class="line">    TEST( any != otherAny );</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordflow">try</span> { TEST( lunchbox::any_cast&lt; int &gt;( any ) != 42 ); }</div>
+<div class="line">    <span class="keywordflow">catch</span>( <a class="code" href="classlunchbox_1_1bad__any__cast.html">lunchbox::bad_any_cast</a>&amp; e ) {}</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
 <div class="line">}</div>
@@ -519,7 +525,7 @@ template&lt;typename ValueType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 19 2013 17:31:22 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 18 2014 07:56:46 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
