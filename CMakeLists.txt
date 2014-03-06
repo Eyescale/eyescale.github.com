@@ -7,9 +7,6 @@ project(Eyescale)
 set(VERSION_MAJOR "2013")
 set(VERSION_MINOR "6")
 set(VERSION_PATCH "0")
-
-set(DOXYGIT_PROJECT_EXTRA
- "<a href=\"https://travis-ci.org/Eyescale/[PROJECT]\"><img src=\"https://travis-ci.org/Eyescale/[PROJECT].png\"></a>")
 set(GITTARGETS_RELEASE_BRANCH current)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake

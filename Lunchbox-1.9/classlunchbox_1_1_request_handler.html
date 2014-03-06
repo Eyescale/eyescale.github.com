@@ -187,7 +187,7 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <p>Thread-safety: The methods <a class="el" href="classlunchbox_1_1_request_handler.html#afbe9f0675a5cfe5ad8d22d5821681206" title="Register a request. ">registerRequest()</a>, <a class="el" href="classlunchbox_1_1_request_handler.html#ae8d9102224cd8b0d3fb7edb1b4c49396" title="Unregister a request. ">unregisterRequest()</a> and <a class="el" href="classlunchbox_1_1_request_handler.html#ab16656da32e56aa1b798cb89a5d0e943" title="Wait a given time for the completion of a request. ">waitRequest()</a> are supposed to be called from one 'waiting' thread, and the functions <a class="el" href="classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c" title="Serve a request with a void* result. ">serveRequest()</a> and deleteRequest() are supposed to be called only from one 'serving' thread.</p>
 <p>Example: </p>
 <div class="fragment"><div class="line"></div>
-<div class="line"><span class="comment">/* Copyright (c) 2013, Stefan.Eilemann@epfl.ch</span></div>
+<div class="line"><span class="comment">/* Copyright (c) 2013-2014, Stefan.Eilemann@epfl.ch</span></div>
 <div class="line"><span class="comment"> *</span></div>
 <div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
 <div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
@@ -209,9 +209,13 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <div class="line"><span class="preprocessor">#include &lt;lunchbox/requestHandler.h&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;lunchbox/sleep.h&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/uint128_t.h&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">using</span> <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>;</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="classlunchbox_1_1_request_handler.html">lunchbox::RequestHandler</a> handler_;</div>
 <div class="line"><a class="code" href="classlunchbox_1_1_m_t_queue.html">lunchbox::MTQueue&lt; uint32_t &gt;</a> requestQ_;</div>
+<div class="line"><span class="keyword">const</span> uint128_t uuid( <span class="keyword">true</span> );</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">class </span>Thread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div>
 <div class="line">{</div>
@@ -239,6 +243,10 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <div class="line">                  (size_t)handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#ad57d2e04e8d46526dfed2ae270466596">getRequestData</a>( request ) &lt;&lt; <span class="stringliteral">&quot; for &quot;</span> &lt;&lt;</div>
 <div class="line">                  request );</div>
 <div class="line">        handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c">serveRequest</a>( request );</div>
+<div class="line"></div>
+<div class="line">        request = requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a91510c2c9390818ff86806e5242b8401">pop</a>();</div>
+<div class="line">        TEST( handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#ad57d2e04e8d46526dfed2ae270466596">getRequestData</a>( request ) == ++payload );</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c">serveRequest</a>( request, uuid );</div>
 <div class="line">    }</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -257,7 +265,6 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <div class="line">    <a class="code" href="classlunchbox_1_1_request_future.html">lunchbox::RequestFuture&lt; uint32_t &gt;</a> future =</div>
 <div class="line">        handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>&lt; uint32_t &gt;( ++payload );</div>
 <div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( future.getID( ));</div>
-<div class="line">    TEST( future.get() == 0xC0FFEE );</div>
 <div class="line"></div>
 <div class="line">    request = handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>( ++payload );</div>
 <div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( request );</div>
@@ -265,8 +272,16 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <div class="line"></div>
 <div class="line">    <a class="code" href="classlunchbox_1_1_request_future.html">lunchbox::RequestFuture&lt; void &gt;</a> voidFuture =</div>
 <div class="line">        handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>&lt; <span class="keywordtype">void</span> &gt;( ++payload );</div>
+<div class="line">    <a class="code" href="classlunchbox_1_1_request_future.html">lunchbox::RequestFuture&lt; uint128_t &gt;</a> uint128Future =</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#afbe9f0675a5cfe5ad8d22d5821681206">registerRequest</a>&lt; uint128_t &gt;( ++payload );</div>
+<div class="line"></div>
 <div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( voidFuture.getID( ));</div>
+<div class="line">    requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( uint128Future.getID( ));</div>
+<div class="line"></div>
+<div class="line">    TEST( future.get() == 0xC0FFEE );</div>
 <div class="line">    TEST( future.<a class="code" href="classlunchbox_1_1_future.html#a79b2ef0c379f1cb79f24a5bcc519d2ed">wait</a>( ));</div>
+<div class="line">    TEST( uint128Future.get() == uuid );</div>
+<div class="line">    TEST( handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#a66935efbfb60d5885ad525370dacd689">isRequestServed</a>( voidFuture.getID( )));</div>
 <div class="line"></div>
 <div class="line">    TEST( thread.join( ));</div>
 <div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
@@ -769,7 +784,7 @@ template&lt;class T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 18 2014 13:49:07 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 6 2014 18:31:57 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
