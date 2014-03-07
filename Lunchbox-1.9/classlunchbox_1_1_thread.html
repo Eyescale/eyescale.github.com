@@ -181,7 +181,7 @@ static LUNCHBOX_API void&#160;</td><td class="memItemRight" valign="bottom"><b>s
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000019">Deprecated:</a></b></dt><dd>Use Boost.Thread</dd></dl>
 <p>Example: </p>
 <div class="fragment"><div class="line"></div>
-<div class="line"><span class="comment">/* Copyright (c) 2006-2011, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div>
+<div class="line"><span class="comment">/* Copyright (c) 2006-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div>
 <div class="line"><span class="comment"> *</span></div>
 <div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
 <div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
@@ -219,11 +219,17 @@ static LUNCHBOX_API void&#160;</td><td class="memItemRight" valign="bottom"><b>s
 <div class="line">    <span class="keyword">virtual</span> ~InitThread() {}</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classlunchbox_1_1_thread.html#a16b60b105263868de86fe3979bd9a104">init</a>()</div>
-<div class="line">        {</div>
-<div class="line">            <a class="code" href="namespacelunchbox.html#a12172a8b66232f77c0c373ba70666bd2">lunchbox::sleep</a>( 10 );</div>
-<div class="line">            initLeft = <span class="keyword">true</span>;</div>
-<div class="line">            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line">        }</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="namespacelunchbox.html#a12172a8b66232f77c0c373ba70666bd2">lunchbox::sleep</a>( 10 );</div>
+<div class="line">        initLeft = <span class="keyword">true</span>;</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classlunchbox_1_1_thread.html#a83d5f979e5054e3900c360416652bca6">run</a>()</div>
+<div class="line">    {</div>
+<div class="line">        TEST( !<a class="code" href="classlunchbox_1_1_thread.html#a237b26381c30e393d697dda3d9c7a24e">join</a>( ));</div>
+<div class="line">        <a class="code" href="classlunchbox_1_1_thread.html#aa8baa2379d96434079305ddb028ff71d">exit</a>();</div>
+<div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordtype">bool</span> initLeft;</div>
 <div class="line">};</div>
@@ -234,9 +240,9 @@ static LUNCHBOX_API void&#160;</td><td class="memItemRight" valign="bottom"><b>s
 <div class="line">    <span class="keyword">virtual</span> ~FailThread() {}</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classlunchbox_1_1_thread.html#a16b60b105263868de86fe3979bd9a104">init</a>()</div>
-<div class="line">        {</div>
-<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line">        }</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">    }</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div>
@@ -274,6 +280,7 @@ static LUNCHBOX_API void&#160;</td><td class="memItemRight" valign="bottom"><b>s
 <div class="line">    TEST( !failThread.start( ));</div>
 <div class="line">    TEST( !failThread.isRunning( ));</div>
 <div class="line">    TEST( failThread.isStopped( ));</div>
+<div class="line">    TEST( !failThread.join( ));</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
 <div class="line">}</div>
@@ -613,7 +620,7 @@ static LUNCHBOX_API void&#160;</td><td class="memItemRight" valign="bottom"><b>s
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 18 2014 13:49:07 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 6 2014 18:31:57 for Lunchbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
