@@ -1,5 +1,5 @@
 set(HWSD_MATURITY "EP")
-set(HWSD_DESCRIPTION "Library and daemon for the discovery and announcement of hardware resources using ZeroConf")
+set(HWSD_DESCRIPTION "Local and remote ZeroConf service discovery for hardware resources.")
 set(HWSD_GIT_ROOT_URL "https://github.com/Eyescale/hwsd.git")
 set(HWSD_PACKAGE_URL "https://launchpad.net/~eilemann/+archive/equalizer-dev")
 set(HWSD_CI_URL "https://travis-ci.org/Eyescale/hwsd")
