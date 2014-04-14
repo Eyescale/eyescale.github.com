@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - lcov2.info - co/exception.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+        <tr>
+          <td width="5%"></td>
+          <td width="10%" class="headerItem">Current view:</td>
+          <td width="35%" class="headerValue"><a href="../index.html">directory</a> - <a href="index.html">co</a> - exception.h (source / <a href="exception.h.func.html">functions</a>)</td>
+          <td width="10%"></td>
+          <td width="10%" class="headerCovTableHead">Found</td>
+          <td width="10%" class="headerCovTableHead">Hit</td>
+          <td width="15%" class="headerCovTableHead">Coverage</td>
+          <td width="5%"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="headerItem">Test:</td>
+          <td class="headerValue">lcov2.info</td>
+          <td class="headerItem">Lines:</td>
+          <td class="headerCovTableEntry">10</td>
+          <td class="headerCovTableEntry">3</td>
+          <td class="headerCovTableEntryMed">30.0 %</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="headerItem">Date:</td>
+          <td class="headerValue">2014-04-14</td>
+          <td class="headerItem">Functions:</td>
+          <td class="headerCovTableEntry">5</td>
+          <td class="headerCovTableEntry">3</td>
+          <td class="headerCovTableEntryLo">60.0 %</td>
+        </tr>
+                <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td><pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                : </a>
+<span class="lineNum">       2 </span>                : /* Copyright (c) 2011, Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
+<span class="lineNum">       3 </span>                :  *               2012-2013, Stefan.Eilemann@epfl.ch
+<span class="lineNum">       4 </span>                :  *
+<span class="lineNum">       5 </span>                :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
+<span class="lineNum">       6 </span>                :  *
+<span class="lineNum">       7 </span>                :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       8 </span>                :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       9 </span>                :  * by the Free Software Foundation.
+<span class="lineNum">      10 </span>                :  *
+<span class="lineNum">      11 </span>                :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">      12 </span>                :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      13 </span>                :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      14 </span>                :  * details.
+<span class="lineNum">      15 </span>                :  *
+<span class="lineNum">      16 </span>                :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      17 </span>                :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      18 </span>                :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      19 </span>                :  */
+<span class="lineNum">      20 </span>                : 
+<span class="lineNum">      21 </span>                : #ifndef CO_EXCEPTION_H
+<span class="lineNum">      22 </span>                : #define CO_EXCEPTION_H
+<span class="lineNum">      23 </span>                : 
+<span class="lineNum">      24 </span>                : #include &lt;exception&gt; // base class
+<span class="lineNum">      25 </span>                : #include &lt;iostream&gt;
+<span class="lineNum">      26 </span>                : #include &lt;lunchbox/compiler.h&gt;
+<span class="lineNum">      27 </span>                : #include &lt;lunchbox/types.h&gt;
+<span class="lineNum">      28 </span>                : 
+<span class="lineNum">      29 </span>                : namespace co
+<span class="lineNum">      30 </span>                : {
+<span class="lineNum">      31 </span>                :     class Exception;
+<span class="lineNum">      32 </span>                :     std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Exception&amp; e );
+<span class="lineNum">      33 </span>                : 
+<span class="lineNum">      34 </span>                :     /** A base Exception class for Collage operations. */
+<span class="lineNum">      35 </span>                :     class Exception : public std::exception
+<span class="lineNum">      36 </span>                :     {
+<span class="lineNum">      37 </span>                :     public:
+<span class="lineNum">      38 </span>                :         /** The exception type. @version 1.0 */
+<span class="lineNum">      39 </span>                :         enum Type
+<span class="lineNum">      40 </span>                :         {
+<span class="lineNum">      41 </span>                :             TIMEOUT_WRITE,   //!&lt; A write timeout operation
+<span class="lineNum">      42 </span>                :             TIMEOUT_READ,    //!&lt; A read timeout operation
+<span class="lineNum">      43 </span>                :             TIMEOUT_BARRIER, //!&lt; A barrier timeout operation
+<span class="lineNum">      44 </span>                :             TIMEOUT_COMMANDQUEUE, //!&lt; A timeout on a cmd queue operation
+<span class="lineNum">      45 </span>                :             CUSTOM      = 20 //!&lt; Application-specific exceptions
+<span class="lineNum">      46 </span>                :         };
+<a name="47"><span class="lineNum">      47 </span>                : </a>
+<span class="lineNum">      48 </span>                :         /** Construct a new Exception. @version 1.0 */
+<span class="lineNum">      49 </span><span class="lineCov">             23 :         Exception( const uint32_t type ) : _type( type ) {}</span>
+<a name="50"><span class="lineNum">      50 </span>                : </a>
+<span class="lineNum">      51 </span>                :         /** Destruct this exception. @version 1.0 */
+<span class="lineNum">      52 </span><span class="lineCov">             23 :         virtual ~Exception() throw() {}</span>
+<a name="53"><span class="lineNum">      53 </span>                : </a>
+<span class="lineNum">      54 </span>                :         /** @return the type of this exception @version 1.0 */
+<span class="lineNum">      55 </span><span class="lineCov">             23 :         virtual uint32_t getType() const { return _type; }</span>
+<a name="56"><span class="lineNum">      56 </span>                : </a>
+<span class="lineNum">      57 </span>                :         /** Output the exception in human-readable form. @version 1.0 */
+<span class="lineNum">      58 </span><span class="lineNoCov">              0 :         const char* what() const throw() override</span>
+<span class="lineNum">      59 </span>                :         {
+<span class="lineNum">      60 </span><span class="lineNoCov">              0 :             switch( _type )</span>
+<span class="lineNum">      61 </span>                :             {
+<span class="lineNum">      62 </span>                :               case Exception::TIMEOUT_WRITE:
+<span class="lineNum">      63 </span><span class="lineNoCov">              0 :                   return &quot; Timeout on write operation&quot;;</span>
+<span class="lineNum">      64 </span>                :               case Exception::TIMEOUT_READ:
+<span class="lineNum">      65 </span><span class="lineNoCov">              0 :                   return &quot; Timeout on read operation&quot;;</span>
+<span class="lineNum">      66 </span>                :               case Exception::TIMEOUT_BARRIER:
+<span class="lineNum">      67 </span><span class="lineNoCov">              0 :                   return &quot; Timeout on barrier&quot;;</span>
+<span class="lineNum">      68 </span>                :               case Exception::TIMEOUT_COMMANDQUEUE:
+<span class="lineNum">      69 </span><span class="lineNoCov">              0 :                   return &quot; Timeout on command queue&quot;;</span>
+<span class="lineNum">      70 </span>                :               default:
+<span class="lineNum">      71 </span><span class="lineNoCov">              0 :                   return  &quot; Unknown Exception&quot;;</span>
+<span class="lineNum">      72 </span>                :             }
+<span class="lineNum">      73 </span>                :         }
+<span class="lineNum">      74 </span>                : 
+<span class="lineNum">      75 </span>                :     private:
+<span class="lineNum">      76 </span>                :         /** The type of this eception instance **/
+<span class="lineNum">      77 </span>                :         const uint32_t _type;
+<span class="lineNum">      78 </span>                :     };
+<span class="lineNum">      79 </span>                : 
+<span class="lineNum">      80 </span>                :     /** Output the exception in human-readable form. @version 1.0 */
+<span class="lineNum">      81 </span>                :     inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Exception&amp; e )
+<span class="lineNum">      82 </span>                :         { return os &lt;&lt; e.what(); }
+<span class="lineNum">      83 </span>                : }
+<span class="lineNum">      84 </span>                : 
+<span class="lineNum">      85 </span>                : #endif // CO_EXCEPTION_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+  <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.7</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
