@@ -13,12 +13,13 @@ var searchData=
   ['format',['format',['../namespacelunchbox.html#ab4e8f1a56151c5147ae7752c313ec1c6',1,'lunchbox']]],
   ['front',['front',['../classlunchbox_1_1_l_f_vector.html#a4b4bbfacfd32e828fefa9d5d4c14353a',1,'lunchbox::LFVector']]],
   ['func',['Func',['../classlunchbox_1_1_future_function.html#a61be37f0d0ed7e79f252d4e07973bec9',1,'lunchbox::FutureFunction']]],
+  ['future',['Future',['../classlunchbox_1_1_future.html#a76ed077d7196cbaa39b4ebce424ae760',1,'lunchbox::Future::Future()'],['../classlunchbox_1_1_future_3_01void_01_4.html#aac134c7b493e0c6ecaadab8e437b3995',1,'lunchbox::Future&lt; void &gt;::Future()']]],
   ['future',['Future',['../classlunchbox_1_1_future.html',1,'lunchbox']]],
-  ['future',['Future',['../classlunchbox_1_1_future.html#a76ed077d7196cbaa39b4ebce424ae760',1,'lunchbox::Future']]],
-  ['future_3c_20bool_20_3e',['Future&lt; bool &gt;',['../classlunchbox_1_1_future.html',1,'lunchbox']]],
+  ['future_3c_20void_20_3e',['Future&lt; void &gt;',['../classlunchbox_1_1_future_3_01void_01_4.html',1,'lunchbox']]],
   ['futurefunction',['FutureFunction',['../classlunchbox_1_1_future_function.html',1,'lunchbox']]],
-  ['futurefunction_3c_20bool_20_3e',['FutureFunction&lt; bool &gt;',['../classlunchbox_1_1_future_function.html',1,'lunchbox']]],
   ['futureimpl',['FutureImpl',['../classlunchbox_1_1_future_impl.html',1,'lunchbox']]],
   ['futureimpl_3c_20bool_20_3e',['FutureImpl&lt; bool &gt;',['../classlunchbox_1_1_future_impl.html',1,'lunchbox']]],
+  ['futureimpl_3c_20void_20_3e',['FutureImpl&lt; void &gt;',['../classlunchbox_1_1_future_impl.html',1,'lunchbox']]],
+  ['futuretimeout',['FutureTimeout',['../classlunchbox_1_1_future_timeout.html',1,'lunchbox']]],
   ['futuretrue',['FutureTrue',['../classlunchbox_1_1_future_true.html',1,'lunchbox']]]
 ];
