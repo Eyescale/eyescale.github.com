@@ -2,7 +2,7 @@ var searchData=
 [
   ['saveany',['saveAny',['../namespacelunchbox.html#a231d1c2eee1f3eb73aaabb9950e39410',1,'lunchbox']]],
   ['scopedmutex',['ScopedMutex',['../classlunchbox_1_1_scoped_mutex.html#a387c45fec05d06e00fdf5de2e66b938d',1,'lunchbox::ScopedMutex::ScopedMutex(L *lock)'],['../classlunchbox_1_1_scoped_mutex.html#a7a8abf98652899fb039fa18583e19787',1,'lunchbox::ScopedMutex::ScopedMutex(L &amp;lock)'],['../classlunchbox_1_1_scoped_mutex.html#ad4cebdbe9f9d3afab356d301a0296a38',1,'lunchbox::ScopedMutex::ScopedMutex(const ScopedMutex &amp;rhs)'],['../classlunchbox_1_1_scoped_mutex.html#a24619816c730a96138fa4a7e98703bb4',1,'lunchbox::ScopedMutex::ScopedMutex(const LB &amp;lockable)']]],
-  ['searchdirectory',['searchDirectory',['../namespacelunchbox.html#a6ac7e85fb2b640d5d73c1bd28b93a883',1,'lunchbox']]],
+  ['searchdirectory',['searchDirectory',['../namespacelunchbox.html#a0f07e7106408adbb1e192614f5985fd9',1,'lunchbox']]],
   ['serialize',['serialize',['../classlunchbox_1_1uint128__t.html#aa7dded089858b8a5e6bba21a3eba22a5',1,'lunchbox::uint128_t']]],
   ['serializeany',['serializeAny',['../namespacelunchbox.html#a4c1d7012d8d1926e531d2342276ae0c4',1,'lunchbox']]],
   ['serverequest',['serveRequest',['../classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c',1,'lunchbox::RequestHandler::serveRequest(const uint32_t requestID, void *result=0)'],['../classlunchbox_1_1_request_handler.html#aa40df728988e3f9d74d0af4c8f20efdf',1,'lunchbox::RequestHandler::serveRequest(const uint32_t requestID, uint32_t result)'],['../classlunchbox_1_1_request_handler.html#aad14c4592bd65259cf2d13f5144262ae',1,'lunchbox::RequestHandler::serveRequest(const uint32_t requestID, bool result)'],['../classlunchbox_1_1_request_handler.html#a625ac5a13e1a41b47a85963fbada8b39',1,'lunchbox::RequestHandler::serveRequest(const uint32_t requestID, const uint128_t &amp;result)']]],
@@ -18,7 +18,7 @@ var searchData=
   ['setzero',['setZero',['../classlunchbox_1_1_buffer.html#a94ef962575db703402f17c3f95528af3',1,'lunchbox::Buffer']]],
   ['signal',['signal',['../classlunchbox_1_1_condition.html#a820f9ff52f074356971504853c106bee',1,'lunchbox::Condition']]],
   ['size',['size',['../classlunchbox_1_1_l_f_vector.html#a4d77897f414a129531a925bfd3a5f4e7',1,'lunchbox::LFVector::size()'],['../classlunchbox_1_1_unordered_interval_set.html#a9c3779cc34b1cfeb3843050e1dcec483',1,'lunchbox::UnorderedIntervalSet::size()']]],
-  ['sleep',['sleep',['../namespacelunchbox.html#a12172a8b66232f77c0c373ba70666bd2',1,'lunchbox']]],
+  ['sleep',['sleep',['../namespacelunchbox.html#a5b2ba34155d849296d6d74f173736765',1,'lunchbox']]],
   ['spinlock',['SpinLock',['../classlunchbox_1_1_spin_lock.html#a213115e88c1f4c1d0ac822e0545ff745',1,'lunchbox::SpinLock']]],
   ['start',['start',['../classlunchbox_1_1_downloader.html#af184750deaad21e115e1dd44410c10ff',1,'lunchbox::Downloader::start()'],['../classlunchbox_1_1_thread.html#a2d831e31239ad0645147dfa2ce85df90',1,'lunchbox::Thread::start()']]],
   ['startblock',['startBlock',['../namespacelunchbox.html#a42683bd6e840eaf1d77531a31e786f73',1,'lunchbox']]],

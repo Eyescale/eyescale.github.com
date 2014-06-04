@@ -7,5 +7,5 @@ var searchData=
   ['forceflush',['forceFlush',['../classlunchbox_1_1_log.html#a78f6a8a1475d1e1d72ca6cda0ced076b',1,'lunchbox::Log::forceFlush()'],['../namespacelunchbox.html#ad555e60064d1e85a1fca5088c430843a',1,'lunchbox::forceFlush()']]],
   ['format',['format',['../namespacelunchbox.html#ab4e8f1a56151c5147ae7752c313ec1c6',1,'lunchbox']]],
   ['front',['front',['../classlunchbox_1_1_l_f_vector.html#a4b4bbfacfd32e828fefa9d5d4c14353a',1,'lunchbox::LFVector']]],
-  ['future',['Future',['../classlunchbox_1_1_future.html#a76ed077d7196cbaa39b4ebce424ae760',1,'lunchbox::Future']]]
+  ['future',['Future',['../classlunchbox_1_1_future.html#a76ed077d7196cbaa39b4ebce424ae760',1,'lunchbox::Future::Future()'],['../classlunchbox_1_1_future_3_01void_01_4.html#aac134c7b493e0c6ecaadab8e437b3995',1,'lunchbox::Future&lt; void &gt;::Future()']]]
 ];
