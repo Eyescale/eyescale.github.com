@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov2.info - lunchbox/anySerialization.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">lunchbox</a> - anySerialization.h<span style="font-size: 80%;"> (source / <a href="anySerialization.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2014-06-04</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">64</td>
+            <td class="headerCovTableEntry">64</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2012, Daniel Nachbaur &lt;daniel.nachbaur@gmail.com&gt;
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 3.0 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #ifndef LUNCHBOX_ANYSERIALIZATION_H
+<span class="lineNum">      19 </span>            : #define LUNCHBOX_ANYSERIALIZATION_H
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;lunchbox/any.h&gt;
+<span class="lineNum">      22 </span>            : #include &lt;lunchbox/types.h&gt;
+<span class="lineNum">      23 </span>            : #include &lt;lunchbox/uint128_t.h&gt;
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : #include &lt;boost/mpl/list.hpp&gt;
+<span class="lineNum">      26 </span>            : #include &lt;boost/mpl/for_each.hpp&gt;
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : #include &lt;boost/serialization/export.hpp&gt;
+<span class="lineNum">      29 </span>            : #include &lt;boost/serialization/extended_type_info.hpp&gt;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            : /**
+<span class="lineNum">      33 </span>            :  * Declares the given class to be serializable within a lunchbox::Any.
+<span class="lineNum">      34 </span>            :  * User is supposed to use this macro on global scope and in the compilation
+<span class="lineNum">      35 </span>            :  * unit where this class is to be serialized.
+<span class="lineNum">      36 </span>            :  */
+<span class="lineNum">      37 </span>            : #define SERIALIZABLEANY( CLASS ) \
+<span class="lineNum">      38 </span>            :     BOOST_CLASS_EXPORT( lunchbox::Any::holder&lt; CLASS &gt; )
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : namespace lunchbox
+<span class="lineNum">      41 </span>            : {
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : /** List of supported POD types for lunchbox::Any serialization. */
+<span class="lineNum">      44 </span>            : typedef boost::mpl::list&lt; int8_t, uint8_t,
+<span class="lineNum">      45 </span>            :                           int16_t, uint16_t,
+<span class="lineNum">      46 </span>            :                           int32_t, uint32_t,
+<span class="lineNum">      47 </span>            :                           int64_t, uint64_t,
+<span class="lineNum">      48 </span>            :                           float, double,
+<span class="lineNum">      49 </span>            :                           bool, std::string, uint128_t &gt; podTypes;
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            : /** @cond IGNORE */
+<span class="lineNum">      52 </span>            : /**
+<span class="lineNum">      53 </span>            :  * @internal
+<span class="lineNum">      54 </span>            :  * Utility struct for registering types for lunchbox::Any from a type list.
+<span class="lineNum">      55 </span>            :  */
+<span class="lineNum">      56 </span>            : template&lt; class Archive &gt;
+<a name="57"><span class="lineNum">      57 </span>            : struct registerWrapper</a>
+<span class="lineNum">      58 </span>            : {
+<span class="lineNum">      59 </span><span class="lineCov">         56 :     explicit registerWrapper( Archive&amp; ar ) : ar_( ar ) {}</span>
+<span class="lineNum">      60 </span>            :     Archive&amp; ar_;
+<a name="61"><span class="lineNum">      61 </span>            : </a>
+<span class="lineNum">      62 </span>            :     template&lt; typename T &gt;
+<span class="lineNum">      63 </span><span class="lineCov">        728 :     void operator()( T )</span>
+<span class="lineNum">      64 </span>            :     {
+<span class="lineNum">      65 </span><span class="lineCov">        728 :         ar_.template register_type&lt; Any::holder&lt; T &gt; &gt;();</span>
+<span class="lineNum">      66 </span><span class="lineCov">        728 :     }</span>
+<span class="lineNum">      67 </span>            : };
+<span class="lineNum">      68 </span>            : /** @endcond */
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : /**
+<span class="lineNum">      71 </span>            :  * Registers the types from the given type list for serializing it inside a
+<span class="lineNum">      72 </span>            :  * lunchbox::Any through the given archive.
+<a name="73"><span class="lineNum">      73 </span>            :  */</a>
+<span class="lineNum">      74 </span>            : template&lt; class TypeList, class Archive &gt;
+<span class="lineNum">      75 </span><span class="lineCov">         56 : void registerTypelist( Archive&amp; ar )</span>
+<span class="lineNum">      76 </span>            : {
+<span class="lineNum">      77 </span><span class="lineCov">         56 :     boost::mpl::for_each&lt; TypeList &gt;( registerWrapper&lt; Archive &gt;( ar ) );</span>
+<span class="lineNum">      78 </span><span class="lineCov">         56 : }</span>
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : /**
+<span class="lineNum">      81 </span>            :  * Serializes the given object which can be a lunchbox::Any through the given
+<span class="lineNum">      82 </span>            :  * archive type to/from the given stream.
+<span class="lineNum">      83 </span>            :  */
+<span class="lineNum">      84 </span>            : template&lt; class Archive, class Object, class Stream &gt;
+<span class="lineNum">      85 </span>            : void serializeAny( Object&amp; object, Stream&amp; stream )
+<span class="lineNum">      86 </span>            : {
+<span class="lineNum">      87 </span>            :     Archive ar( stream );
+<span class="lineNum">      88 </span>            :     registerTypelist&lt; podTypes &gt;( ar );
+<span class="lineNum">      89 </span>            :     ar &amp; object;
+<span class="lineNum">      90 </span>            : }
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            : /**
+<span class="lineNum">      93 </span>            :  * Saves the given object which can be a lunchbox::Any through the given archive
+<span class="lineNum">      94 </span>            :  * type to/from the given stream.
+<a name="95"><span class="lineNum">      95 </span>            :  */</a>
+<span class="lineNum">      96 </span>            : template&lt; class Archive, class Object, class Stream &gt;
+<span class="lineNum">      97 </span><span class="lineCov">         28 : void saveAny( Object&amp; object, Stream&amp; stream )</span>
+<span class="lineNum">      98 </span>            : {
+<span class="lineNum">      99 </span><span class="lineCov">         28 :     Archive ar( stream );</span>
+<span class="lineNum">     100 </span><span class="lineCov">         28 :     registerTypelist&lt; podTypes &gt;( ar );</span>
+<span class="lineNum">     101 </span><span class="lineCov">         28 :     ar &lt;&lt; object;</span>
+<span class="lineNum">     102 </span><span class="lineCov">         28 : }</span>
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            : /**
+<span class="lineNum">     105 </span>            :  * Loads the given object which can be a lunchbox::Any through the given archive
+<span class="lineNum">     106 </span>            :  * type to/from the given stream.
+<a name="107"><span class="lineNum">     107 </span>            :  */</a>
+<span class="lineNum">     108 </span>            : template&lt; class Archive, class Object, class Stream &gt;
+<span class="lineNum">     109 </span><span class="lineCov">         28 : void loadAny( Object&amp; object, Stream&amp; stream )</span>
+<span class="lineNum">     110 </span>            : {
+<span class="lineNum">     111 </span><span class="lineCov">         28 :     Archive ar( stream );</span>
+<span class="lineNum">     112 </span><span class="lineCov">         28 :     registerTypelist&lt; podTypes &gt;( ar );</span>
+<span class="lineNum">     113 </span><span class="lineCov">         28 :     ar &gt;&gt; object;</span>
+<span class="lineNum">     114 </span><span class="lineCov">         28 : }</span>
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span>            : }
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            : #endif
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
