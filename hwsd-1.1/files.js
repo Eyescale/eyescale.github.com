@@ -4,6 +4,7 @@ var files =
     [ "defines.h", "defines_8h_source.html", null ],
     [ "definesLinux.h", "defines_linux_8h_source.html", null ],
     [ "filter.h", "filter_8h_source.html", null ],
+    [ "functions.h", "functions_8h_source.html", null ],
     [ "gpuInfo.h", "gpu_info_8h_source.html", null ],
     [ "hwsd.h", "hwsd_8h_source.html", null ],
     [ "gpu/dns_sd/module.h", "gpu_2dns__sd_2module_8h_source.html", null ],
