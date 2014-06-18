@@ -37,21 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-04-15</td>
+            <td class="headerValue">2014-06-18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
             <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntryHi">85.7 %</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntryHi">-</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -67,73 +58,71 @@
     </tr>
     <tr>
       <td>
-<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>                :            : </a>
-<span class="lineNum">       2 </span>                :            : /* Copyright (c) 2008-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
-<span class="lineNum">       3 </span>                :            :  *
-<span class="lineNum">       4 </span>                :            :  * This library is free software; you can redistribute it and/or modify it under
-<span class="lineNum">       5 </span>                :            :  * the terms of the GNU Lesser General Public License version 2.1 as published
-<span class="lineNum">       6 </span>                :            :  * by the Free Software Foundation.
-<span class="lineNum">       7 </span>                :            :  *
-<span class="lineNum">       8 </span>                :            :  * This library is distributed in the hope that it will be useful, but WITHOUT
-<span class="lineNum">       9 </span>                :            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-<span class="lineNum">      10 </span>                :            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
-<span class="lineNum">      11 </span>                :            :  * details.
-<span class="lineNum">      12 </span>                :            :  *
-<span class="lineNum">      13 </span>                :            :  * You should have received a copy of the GNU Lesser General Public License
-<span class="lineNum">      14 </span>                :            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
-<span class="lineNum">      15 </span>                :            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-<span class="lineNum">      16 </span>                :            :  */
-<span class="lineNum">      17 </span>                :            : 
-<span class="lineNum">      18 </span>                :            : #ifndef EQSERVER_CONFIGVISITOR_H
-<span class="lineNum">      19 </span>                :            : #define EQSERVER_CONFIGVISITOR_H
-<span class="lineNum">      20 </span>                :            : 
-<span class="lineNum">      21 </span>                :            : #include &quot;compoundVisitor.h&quot;           // base class
-<span class="lineNum">      22 </span>                :            : #include &quot;types.h&quot;
-<span class="lineNum">      23 </span>                :            : 
-<span class="lineNum">      24 </span>                :            : #include &lt;eq/fabric/elementVisitor.h&gt;  // base classes
-<span class="lineNum">      25 </span>                :            : #include &lt;eq/fabric/leafVisitor.h&gt;     // base class
-<span class="lineNum">      26 </span>                :            : 
-<span class="lineNum">      27 </span>                :            : namespace eq
-<span class="lineNum">      28 </span>                :            : {
-<span class="lineNum">      29 </span>                :            : namespace server
-<span class="lineNum">      30 </span>                :            : {
-<span class="lineNum">      31 </span>                :            :     class Config;
-<span class="lineNum">      32 </span>                :            : 
-<span class="lineNum">      33 </span>                :            :     /** A visitor to traverse configs and children. */
-<span class="lineNum">      34 </span>                :            :     class ConfigVisitor : public NodeVisitor,
-<span class="lineNum">      35 </span>                :            :                           public CompoundVisitor,
-<span class="lineNum">      36 </span>                :            :                           public ObserverVisitor,
-<span class="lineNum">      37 </span>                :            :                           public LayoutVisitor,
-<span class="lineNum">      38 </span>                :            :                           public CanvasVisitor
-<span class="lineNum">      39 </span>                :            :     {
-<a name="40"><span class="lineNum">      40 </span>                :            :     public:</a>
-<span class="lineNum">      41 </span>                :            :         /** Constructs a new ConfigVisitor. */
-<span class="lineNum">      42 </span>                :<span class="lineCov">       5506 :         ConfigVisitor(){}</span>
-<a name="43"><span class="lineNum">      43 </span>                :            : </a>
-<span class="lineNum">      44 </span>                :            :         /** Destruct the ConfigVisitor */
-<span class="lineNum">      45 </span>                :<span class="lineCov">       5506 :         virtual ~ConfigVisitor(){}</span>
-<a name="46"><span class="lineNum">      46 </span>                :            : </a>
-<span class="lineNum">      47 </span>                :            :         /** Visit a config on the down traversal. */
-<span class="lineNum">      48 </span>                :<span class="lineCov">       3841 :         virtual VisitorResult visitPre( Config* config )</span>
-<span class="lineNum">      49 </span>                :<span class="lineCov">       3841 :             { return visitPre( static_cast&lt; const Config* &gt;( config )); }</span>
-<a name="50"><span class="lineNum">      50 </span>                :            : </a>
-<span class="lineNum">      51 </span>                :            :         /** Visit a config on the up traversal. */
-<span class="lineNum">      52 </span>                :<span class="lineCov">       1359 :         virtual VisitorResult visitPost( Config* config )</span>
-<span class="lineNum">      53 </span>                :<span class="lineCov">       1359 :             { return visitPost( static_cast&lt; const Config* &gt;( config )); }</span>
-<a name="54"><span class="lineNum">      54 </span>                :            : </a>
-<span class="lineNum">      55 </span>                :            :         /** Visit a config on the down traversal. */
-<span class="lineNum">      56 </span>                :<span class="lineCov">       5302 :         virtual VisitorResult visitPre( const Config* )</span>
-<span class="lineNum">      57 </span>                :<span class="lineCov">       5302 :             { return TRAVERSE_CONTINUE; }</span>
-<a name="58"><span class="lineNum">      58 </span>                :            : </a>
-<span class="lineNum">      59 </span>                :            :         /** Visit a config on the up traversal. */
-<span class="lineNum">      60 </span>                :<span class="lineCov">       1359 :         virtual VisitorResult visitPost( const Config* )</span>
-<span class="lineNum">      61 </span>                :<span class="lineCov">       1359 :             { return TRAVERSE_CONTINUE; }</span>
-<span class="lineNum">      62 </span>                :            :     };
-<span class="lineNum">      63 </span>                :            : }
-<span class="lineNum">      64 </span>                :            : }
-<span class="lineNum">      65 </span>                :            : #endif // EQSERVER_CONFIGVISITOR_H
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2008-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #ifndef EQSERVER_CONFIGVISITOR_H
+<span class="lineNum">      19 </span>            : #define EQSERVER_CONFIGVISITOR_H
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &quot;compoundVisitor.h&quot;           // base class
+<span class="lineNum">      22 </span>            : #include &quot;types.h&quot;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/elementVisitor.h&gt;  // base classes
+<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/leafVisitor.h&gt;     // base class
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : namespace eq
+<span class="lineNum">      28 </span>            : {
+<span class="lineNum">      29 </span>            : namespace server
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span>            :     /** A visitor to traverse configs and children. */
+<span class="lineNum">      32 </span>            :     class ConfigVisitor : public NodeVisitor,
+<span class="lineNum">      33 </span>            :                           public CompoundVisitor,
+<span class="lineNum">      34 </span>            :                           public ObserverVisitor,
+<span class="lineNum">      35 </span>            :                           public LayoutVisitor,
+<span class="lineNum">      36 </span>            :                           public CanvasVisitor
+<span class="lineNum">      37 </span>            :     {
+<a name="38"><span class="lineNum">      38 </span>            :     public:</a>
+<span class="lineNum">      39 </span>            :         /** Constructs a new ConfigVisitor. */
+<span class="lineNum">      40 </span><span class="lineCov">       6486 :         ConfigVisitor(){}</span>
+<a name="41"><span class="lineNum">      41 </span>            : </a>
+<span class="lineNum">      42 </span>            :         /** Destruct the ConfigVisitor */
+<span class="lineNum">      43 </span><span class="lineCov">       6486 :         virtual ~ConfigVisitor(){}</span>
+<a name="44"><span class="lineNum">      44 </span>            : </a>
+<span class="lineNum">      45 </span>            :         /** Visit a config on the down traversal. */
+<span class="lineNum">      46 </span><span class="lineCov">       4288 :         virtual VisitorResult visitPre( Config* config )</span>
+<span class="lineNum">      47 </span><span class="lineCov">       4288 :             { return visitPre( static_cast&lt; const Config* &gt;( config )); }</span>
+<a name="48"><span class="lineNum">      48 </span>            : </a>
+<span class="lineNum">      49 </span>            :         /** Visit a config on the up traversal. */
+<span class="lineNum">      50 </span><span class="lineCov">       1806 :         virtual VisitorResult visitPost( Config* config )</span>
+<span class="lineNum">      51 </span><span class="lineCov">       1806 :             { return visitPost( static_cast&lt; const Config* &gt;( config )); }</span>
+<a name="52"><span class="lineNum">      52 </span>            : </a>
+<span class="lineNum">      53 </span>            :         /** Visit a config on the down traversal. */
+<span class="lineNum">      54 </span><span class="lineCov">       6335 :         virtual VisitorResult visitPre( const Config* )</span>
+<span class="lineNum">      55 </span><span class="lineCov">       6335 :             { return TRAVERSE_CONTINUE; }</span>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<span class="lineNum">      57 </span>            :         /** Visit a config on the up traversal. */
+<span class="lineNum">      58 </span><span class="lineCov">       1806 :         virtual VisitorResult visitPost( const Config* )</span>
+<span class="lineNum">      59 </span><span class="lineCov">       1806 :             { return TRAVERSE_CONTINUE; }</span>
+<span class="lineNum">      60 </span>            :     };
+<span class="lineNum">      61 </span>            : }
+<span class="lineNum">      62 </span>            : }
+<span class="lineNum">      63 </span>            : #endif // EQSERVER_CONFIGVISITOR_H
 </pre>
       </td>
     </tr>

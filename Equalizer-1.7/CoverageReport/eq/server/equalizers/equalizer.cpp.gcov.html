@@ -31,27 +31,18 @@
             <td class="headerValue">lcov2.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">19</td>
             <td class="headerCovTableEntry">28</td>
-            <td class="headerCovTableEntryMed">57.1 %</td>
+            <td class="headerCovTableEntryMed">67.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-04-15</td>
+            <td class="headerValue">2014-06-18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">6</td>
             <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryMed">50.0 %</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntryMed">60.0 %</td>
           </tr>
           <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -67,96 +58,96 @@
     </tr>
     <tr>
       <td>
-<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>                :            : </a>
-<span class="lineNum">       2 </span>                :            : /* Copyright (c) 2008-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
-<span class="lineNum">       3 </span>                :            :  *                    2011, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
-<span class="lineNum">       4 </span>                :            :  *
-<span class="lineNum">       5 </span>                :            :  * This library is free software; you can redistribute it and/or modify it under
-<span class="lineNum">       6 </span>                :            :  * the terms of the GNU Lesser General Public License version 2.1 as published
-<span class="lineNum">       7 </span>                :            :  * by the Free Software Foundation.
-<span class="lineNum">       8 </span>                :            :  *
-<span class="lineNum">       9 </span>                :            :  * This library is distributed in the hope that it will be useful, but WITHOUT
-<span class="lineNum">      10 </span>                :            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-<span class="lineNum">      11 </span>                :            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
-<span class="lineNum">      12 </span>                :            :  * details.
-<span class="lineNum">      13 </span>                :            :  *
-<span class="lineNum">      14 </span>                :            :  * You should have received a copy of the GNU Lesser General Public License
-<span class="lineNum">      15 </span>                :            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
-<span class="lineNum">      16 </span>                :            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-<span class="lineNum">      17 </span>                :            :  */
-<span class="lineNum">      18 </span>                :            : 
-<span class="lineNum">      19 </span>                :            : #include &quot;equalizer.h&quot;
-<span class="lineNum">      20 </span>                :            : 
-<span class="lineNum">      21 </span>                :            : #include &quot;../compound.h&quot;
-<span class="lineNum">      22 </span>                :            : #include &quot;../config.h&quot;
-<span class="lineNum">      23 </span>                :            : #include &quot;../log.h&quot;
-<span class="lineNum">      24 </span>                :            : 
-<span class="lineNum">      25 </span>                :            : #include &lt;eq/client/client.h&gt;
-<span class="lineNum">      26 </span>                :            : #include &lt;eq/client/server.h&gt;
-<span class="lineNum">      27 </span>                :            : #include &lt;lunchbox/debug.h&gt;
-<span class="lineNum">      28 </span>                :            : 
-<span class="lineNum">      29 </span>                :            : namespace eq
-<span class="lineNum">      30 </span>                :            : {
-<span class="lineNum">      31 </span>                :            : namespace server
-<a name="32"><span class="lineNum">      32 </span>                :            : {</a>
-<span class="lineNum">      33 </span>                :            : 
-<span class="lineNum">      34 </span>                :<span class="lineCov">        136 : Equalizer::Equalizer()</span>
-<span class="lineNum">      35 </span>                :            :     : _compound( 0 )
-<span class="lineNum">      36 </span>                :<span class="lineCov">        136 :     , _active( true )</span>
-<span class="lineNum">      37 </span>                :            : {
-<span class="lineNum">      38 </span>                :<span class="lineCov">        136 :     LBVERB &lt;&lt; &quot;New Equalizer @&quot; &lt;&lt; (void*)this &lt;&lt; std::endl;</span>
-<a name="39"><span class="lineNum">      39 </span>                :<span class="lineCov">        136 : }</span></a>
-<span class="lineNum">      40 </span>                :            : 
-<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 : Equalizer::Equalizer( const fabric::Equalizer&amp; from )</span>
-<span class="lineNum">      42 </span>                :            :     : fabric::Equalizer( from )
-<span class="lineNum">      43 </span>                :            :     , _compound( 0 )
-<span class="lineNum">      44 </span>                :<span class="lineNoCov">          0 :     , _active( true )</span>
-<a name="45"><span class="lineNum">      45 </span>                :<span class="lineNoCov">          0 : {}</span></a>
-<span class="lineNum">      46 </span>                :            : 
-<span class="lineNum">      47 </span>                :<span class="lineNoCov">          0 : Equalizer::Equalizer( const Equalizer&amp; from )</span>
-<span class="lineNum">      48 </span>                :            :     : fabric::Equalizer( from )
-<span class="lineNum">      49 </span>                :            :     , CompoundListener( from )
-<span class="lineNum">      50 </span>                :            :     , _compound( 0 )
-<span class="lineNum">      51 </span>                :<span class="lineNoCov">          0 :     , _active( from._active )</span>
-<span class="lineNum">      52 </span>                :<span class="lineNoCov">          0 : {}</span>
-<a name="53"><span class="lineNum">      53 </span>                :            : </a>
-<span class="lineNum">      54 </span>                :            : // cppcheck-suppress operatorEqVarError
-<span class="lineNum">      55 </span>                :<span class="lineNoCov">          0 : Equalizer&amp; Equalizer::operator = ( const fabric::Equalizer&amp; from )</span>
-<span class="lineNum">      56 </span>                :            : {
-<span class="lineNum">      57 </span>                :<span class="lineNoCov">          0 :     fabric::Equalizer::operator = ( from );</span>
-<span class="lineNum">      58 </span>                :<span class="lineNoCov">          0 :     return *this;</span>
-<a name="59"><span class="lineNum">      59 </span>                :            : }</a>
-<span class="lineNum">      60 </span>                :            : 
-<span class="lineNum">      61 </span>                :<span class="lineCov">        272 : Equalizer::~Equalizer()</span>
-<span class="lineNum">      62 </span>                :            : {
-<span class="lineNum">      63 </span>                :<span class="lineCov">        136 :     attach( 0 );</span>
-<a name="64"><span class="lineNum">      64 </span>                :<span class="lineCov">        136 : }</span></a>
-<span class="lineNum">      65 </span>                :            : 
-<span class="lineNum">      66 </span>                :<span class="lineCov">        448 : void Equalizer::attach( Compound* compound )</span>
-<span class="lineNum">      67 </span>                :            : {
-<span class="lineNum">      68 </span>                :<span class="lineCov">        448 :     if( _compound )</span>
-<span class="lineNum">      69 </span>                :            :     {
-<span class="lineNum">      70 </span>                :<span class="lineCov">        136 :         _compound-&gt;removeListener( this );</span>
-<span class="lineNum">      71 </span>                :<span class="lineCov">        136 :         _compound = 0;</span>
-<span class="lineNum">      72 </span>                :            :     }
-<span class="lineNum">      73 </span>                :            : 
-<span class="lineNum">      74 </span>                :<span class="lineCov">        448 :     if( compound )</span>
-<span class="lineNum">      75 </span>                :            :     {
-<span class="lineNum">      76 </span>                :<span class="lineCov">        136 :         _compound = compound;</span>
-<span class="lineNum">      77 </span>                :<span class="lineCov">        136 :         compound-&gt;addListener( this );</span>
-<span class="lineNum">      78 </span>                :            :     }
-<a name="79"><span class="lineNum">      79 </span>                :<span class="lineCov">        448 : }</span></a>
-<span class="lineNum">      80 </span>                :            : 
-<span class="lineNum">      81 </span>                :<span class="lineNoCov">          0 : const Config* Equalizer::getConfig() const</span>
-<span class="lineNum">      82 </span>                :            : {
-<span class="lineNum">      83 </span>                :<span class="lineNoCov">          0 :     LBASSERT( _compound );</span>
-<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :     return _compound-&gt;getConfig();</span>
-<span class="lineNum">      85 </span>                :            : }
-<a name="86"><span class="lineNum">      86 </span>                :            : </a>
-<span class="lineNum">      87 </span>                :            : }
-<span class="lineNum">      88 </span>                :<span class="lineCov">         27 : }</span>
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2008-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *                    2011, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       4 </span>            :  *
+<span class="lineNum">       5 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       6 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       7 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       8 </span>            :  *
+<span class="lineNum">       9 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">      10 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      11 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      12 </span>            :  * details.
+<span class="lineNum">      13 </span>            :  *
+<span class="lineNum">      14 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      15 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      16 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      17 </span>            :  */
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : #include &quot;equalizer.h&quot;
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &quot;../compound.h&quot;
+<span class="lineNum">      22 </span>            : #include &quot;../config.h&quot;
+<span class="lineNum">      23 </span>            : #include &quot;../log.h&quot;
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : #include &lt;eq/client/client.h&gt;
+<span class="lineNum">      26 </span>            : #include &lt;eq/client/server.h&gt;
+<span class="lineNum">      27 </span>            : #include &lt;lunchbox/debug.h&gt;
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : namespace eq
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span>            : namespace server
+<a name="32"><span class="lineNum">      32 </span>            : {</a>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineCov">        136 : Equalizer::Equalizer()</span>
+<span class="lineNum">      35 </span>            :     : _compound( 0 )
+<span class="lineNum">      36 </span><span class="lineCov">        136 :     , _active( true )</span>
+<span class="lineNum">      37 </span>            : {
+<span class="lineNum">      38 </span><span class="lineCov">        136 :     LBVERB &lt;&lt; &quot;New Equalizer @&quot; &lt;&lt; (void*)this &lt;&lt; std::endl;</span>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">        136 : }</span></a>
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span><span class="lineCov">         48 : Equalizer::Equalizer( const fabric::Equalizer&amp; from )</span>
+<span class="lineNum">      42 </span>            :     : fabric::Equalizer( from )
+<span class="lineNum">      43 </span>            :     , _compound( 0 )
+<span class="lineNum">      44 </span><span class="lineCov">         48 :     , _active( true )</span>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">         48 : {}</span></a>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 : Equalizer::Equalizer( const Equalizer&amp; from )</span>
+<span class="lineNum">      48 </span>            :     : fabric::Equalizer( from )
+<span class="lineNum">      49 </span>            :     , CompoundListener( from )
+<span class="lineNum">      50 </span>            :     , _compound( 0 )
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     , _active( from._active )</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 : {}</span>
+<a name="53"><span class="lineNum">      53 </span>            : </a>
+<span class="lineNum">      54 </span>            : // cppcheck-suppress operatorEqVarError
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 : Equalizer&amp; Equalizer::operator = ( const fabric::Equalizer&amp; from )</span>
+<span class="lineNum">      56 </span>            : {
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     fabric::Equalizer::operator = ( from );</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     return *this;</span>
+<a name="59"><span class="lineNum">      59 </span>            : }</a>
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span><span class="lineCov">        368 : Equalizer::~Equalizer()</span>
+<span class="lineNum">      62 </span>            : {
+<span class="lineNum">      63 </span><span class="lineCov">        184 :     attach( 0 );</span>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">        184 : }</span></a>
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineCov">        592 : void Equalizer::attach( Compound* compound )</span>
+<span class="lineNum">      67 </span>            : {
+<span class="lineNum">      68 </span><span class="lineCov">        592 :     if( _compound )</span>
+<span class="lineNum">      69 </span>            :     {
+<span class="lineNum">      70 </span><span class="lineCov">        184 :         _compound-&gt;removeListener( this );</span>
+<span class="lineNum">      71 </span><span class="lineCov">        184 :         _compound = 0;</span>
+<span class="lineNum">      72 </span>            :     }
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span><span class="lineCov">        592 :     if( compound )</span>
+<span class="lineNum">      75 </span>            :     {
+<span class="lineNum">      76 </span><span class="lineCov">        184 :         _compound = compound;</span>
+<span class="lineNum">      77 </span><span class="lineCov">        184 :         compound-&gt;addListener( this );</span>
+<span class="lineNum">      78 </span>            :     }
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">        592 : }</span></a>
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 : const Config* Equalizer::getConfig() const</span>
+<span class="lineNum">      82 </span>            : {
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :     LBASSERT( _compound );</span>
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     return _compound-&gt;getConfig();</span>
+<span class="lineNum">      85 </span>            : }
+<a name="86"><span class="lineNum">      86 </span>            : </a>
+<span class="lineNum">      87 </span>            : }
+<span class="lineNum">      88 </span><span class="lineCov">         27 : }</span>
 </pre>
       </td>
     </tr>

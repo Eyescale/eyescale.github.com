@@ -37,21 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-04-15</td>
+            <td class="headerValue">2014-06-18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntryHi">-</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -67,177 +58,177 @@
     </tr>
     <tr>
       <td>
-<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>                :            : </a>
-<span class="lineNum">       2 </span>                :            : /* Copyright (c) 2010-2013, Stefan Eilemann &lt;eile@eyescale.ch&gt;
-<span class="lineNum">       3 </span>                :            :  *
-<span class="lineNum">       4 </span>                :            :  * This library is free software; you can redistribute it and/or modify it under
-<span class="lineNum">       5 </span>                :            :  * the terms of the GNU Lesser General Public License version 2.1 as published
-<span class="lineNum">       6 </span>                :            :  * by the Free Software Foundation.
-<span class="lineNum">       7 </span>                :            :  *
-<span class="lineNum">       8 </span>                :            :  * This library is distributed in the hope that it will be useful, but WITHOUT
-<span class="lineNum">       9 </span>                :            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-<span class="lineNum">      10 </span>                :            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
-<span class="lineNum">      11 </span>                :            :  * details.
-<span class="lineNum">      12 </span>                :            :  *
-<span class="lineNum">      13 </span>                :            :  * You should have received a copy of the GNU Lesser General Public License
-<span class="lineNum">      14 </span>                :            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
-<span class="lineNum">      15 </span>                :            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-<span class="lineNum">      16 </span>                :            :  */
-<span class="lineNum">      17 </span>                :            : 
-<span class="lineNum">      18 </span>                :            : #include &quot;error.h&quot;
-<span class="lineNum">      19 </span>                :            : 
-<span class="lineNum">      20 </span>                :            : #include &quot;errorRegistry.h&quot;
-<span class="lineNum">      21 </span>                :            : #include &quot;global.h&quot;
-<span class="lineNum">      22 </span>                :            : 
-<span class="lineNum">      23 </span>                :            : namespace eq
-<span class="lineNum">      24 </span>                :            : {
-<span class="lineNum">      25 </span>                :            : namespace fabric
-<span class="lineNum">      26 </span>                :            : {
-<span class="lineNum">      27 </span>                :            : 
-<a name="28"><span class="lineNum">      28 </span>                :            : namespace</a>
-<span class="lineNum">      29 </span>                :            : {
-<span class="lineNum">      30 </span>                :<span class="lineCov">       1035 : struct ErrorData</span>
-<span class="lineNum">      31 </span>                :            : {
-<span class="lineNum">      32 </span>                :            :     const uint32_t code;
-<span class="lineNum">      33 </span>                :            :     const std::string text;
-<a name="34"><span class="lineNum">      34 </span>                :            : };</a>
-<span class="lineNum">      35 </span>                :            : 
-<span class="lineNum">      36 </span>                :<span class="lineCov">         30 : ErrorData _errors[] = {</span>
-<span class="lineNum">      37 </span>                :            :     { ERROR_FBO_UNSUPPORTED, &quot;Framebuffer objects not supported&quot; },
-<span class="lineNum">      38 </span>                :            :     { ERROR_FRAMEBUFFER_STATUS, &quot;Error querying framebuffer status&quot; },
-<span class="lineNum">      39 </span>                :            :     { ERROR_FRAMEBUFFER_UNSUPPORTED, &quot;Unsupported framebuffer format&quot; },
-<span class="lineNum">      40 </span>                :            :     { ERROR_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT,
-<span class="lineNum">      41 </span>                :            :       &quot;Framebuffer incomplete, missing attachment&quot; },
-<span class="lineNum">      42 </span>                :            :     { ERROR_FRAMEBUFFER_INCOMPLETE_ATTACHMENT,
-<span class="lineNum">      43 </span>                :            :       &quot;Framebuffer incomplete, incomplete attachment&quot; },
-<span class="lineNum">      44 </span>                :            :     { ERROR_FRAMEBUFFER_INCOMPLETE_DIMENSIONS,
-<span class="lineNum">      45 </span>                :            :       &quot;Framebuffer incomplete, attached images must have same dimensions&quot; },
-<span class="lineNum">      46 </span>                :            :     { ERROR_FRAMEBUFFER_INCOMPLETE_FORMATS,
-<span class="lineNum">      47 </span>                :            :       &quot;Framebuffer incomplete, attached images must have same format&quot; },
-<span class="lineNum">      48 </span>                :            :     { ERROR_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER,
-<span class="lineNum">      49 </span>                :            :       &quot;Framebuffer incomplete, missing draw buffer&quot; },
-<span class="lineNum">      50 </span>                :            :     { ERROR_FRAMEBUFFER_INCOMPLETE_READ_BUFFER,
-<span class="lineNum">      51 </span>                :            :       &quot;Framebuffer incomplete, missing read buffer&quot; },
-<span class="lineNum">      52 </span>                :            :     { ERROR_FRAMEBUFFER_INITIALIZED, &quot;FBO already initialized&quot; },
-<span class="lineNum">      53 </span>                :            : 
-<span class="lineNum">      54 </span>                :            :     { ERROR_CUDACONTEXT_DEVICE_NOTFOUND,
-<span class="lineNum">      55 </span>                :            :       &quot;Device not found, not enough CUDA devices&quot; },
-<span class="lineNum">      56 </span>                :            :     { ERROR_CUDACONTEXT_INIT_FAILED,
-<span class="lineNum">      57 </span>                :            :       &quot;CUDA initialization failed (see client log for more information)&quot; },
-<span class="lineNum">      58 </span>                :            :     { ERROR_CUDACONTEXT_MISSING_SUPPORT,
-<span class="lineNum">      59 </span>                :            :       &quot;Client library compiled without CUDA support&quot; },
-<span class="lineNum">      60 </span>                :            : 
-<span class="lineNum">      61 </span>                :            :     { ERROR_WINDOWSYSTEM_UNKNOWN, &quot;Unknown windowing system&quot; },
-<span class="lineNum">      62 </span>                :            : 
-<span class="lineNum">      63 </span>                :            :     { ERROR_NODE_LAUNCH, &quot;Execution of node launch command failed&quot; },
-<span class="lineNum">      64 </span>                :            :     { ERROR_NODE_CONNECT, &quot;Node process did not start&quot; },
-<span class="lineNum">      65 </span>                :            : 
-<span class="lineNum">      66 </span>                :            :     { ERROR_PIPE_NODE_NOTRUNNING, &quot;Node not running&quot; },
-<span class="lineNum">      67 </span>                :            : 
-<span class="lineNum">      68 </span>                :            :     { ERROR_SYSTEMPIPE_PIXELFORMAT_NOTFOUND,
-<span class="lineNum">      69 </span>                :            :       &quot;Can't find temporary pixel format&quot; },
-<span class="lineNum">      70 </span>                :            :     { ERROR_SYSTEMPIPE_CREATECONTEXT_FAILED,
-<span class="lineNum">      71 </span>                :            :       &quot;Can't create temporary OpenGL context&quot; },
-<span class="lineNum">      72 </span>                :            :     { ERROR_SYSTEMPIPE_CREATEWINDOW_FAILED, &quot;Can't create temporary window&quot; },
-<span class="lineNum">      73 </span>                :            : 
-<span class="lineNum">      74 </span>                :            :     { ERROR_AGLPIPE_DISPLAYS_NOTFOUND, &quot;Can't get display identifier list&quot; },
-<span class="lineNum">      75 </span>                :            :     { ERROR_AGLPIPE_DEVICE_NOTFOUND, &quot;Can't get display identifier for device&quot;},
-<span class="lineNum">      76 </span>                :            : 
-<span class="lineNum">      77 </span>                :            :     { ERROR_GLXPIPE_DEVICE_NOTFOUND, &quot;Can't open display&quot; },
-<span class="lineNum">      78 </span>                :            :     { ERROR_GLXPIPE_GLX_NOTFOUND, &quot;Display does not support GLX&quot; },
-<span class="lineNum">      79 </span>                :            :     { ERROR_GLXPIPE_GLXEWINIT_FAILED, &quot;Pipe GLXEW initialization failed&quot; },
-<span class="lineNum">      80 </span>                :            : 
-<span class="lineNum">      81 </span>                :            :     { ERROR_WGL_CREATEAFFINITYDC_FAILED, &quot;Can't create affinity DC&quot; },
-<span class="lineNum">      82 </span>                :            :     { ERROR_WGLPIPE_ENUMDISPLAYS_FAILED, &quot;Can't enumerate display devices&quot; },
-<span class="lineNum">      83 </span>                :            :     { ERROR_WGLPIPE_CREATEDC_FAILED, &quot;Can't create device context&quot; },
-<span class="lineNum">      84 </span>                :            :     { ERROR_WGLPIPE_ENUMGPUS_FAILED, &quot;Can't enumerate GPU&quot; },
-<span class="lineNum">      85 </span>                :            :     { ERROR_WGLPIPE_REGISTERCLASS_FAILED,
-<span class="lineNum">      86 </span>                :            :       &quot;Can't register temporary window class&quot; },
-<span class="lineNum">      87 </span>                :            :     { ERROR_WGLPIPE_SETPF_FAILED, &quot;Can't set temporary pixel format&quot; },
-<span class="lineNum">      88 </span>                :            :     { ERROR_WGLPIPE_WGLEWINIT_FAILED, &quot;Pipe WGLEW initialization failed&quot; },
-<span class="lineNum">      89 </span>                :            : 
-<span class="lineNum">      90 </span>                :            :     { ERROR_WINDOW_PIPE_NOTRUNNING, &quot;Pipe not running&quot; },
-<span class="lineNum">      91 </span>                :            :     { ERROR_WINDOW_PVP_INVALID, &quot;Invalid window pixel viewport&quot; },
-<span class="lineNum">      92 </span>                :            : 
-<span class="lineNum">      93 </span>                :            :     { ERROR_SYSTEMWINDOW_PIXELFORMAT_NOTFOUND,
-<span class="lineNum">      94 </span>                :            :       &quot;Can't find matching pixel format&quot; },
-<span class="lineNum">      95 </span>                :            :     { ERROR_SYSTEMWINDOW_NO_PIXELFORMAT, &quot;Missing pixel format&quot; },
-<span class="lineNum">      96 </span>                :            :     { ERROR_SYSTEMWINDOW_ARB_FLOAT_FB_REQUIRED,
-<span class="lineNum">      97 </span>                :            :       &quot;Floating-point framebuffer not supported&quot; },
-<span class="lineNum">      98 </span>                :            : 
-<span class="lineNum">      99 </span>                :            :     { ERROR_AGLWINDOW_NO_CONTEXT, &quot;Missing AGL context&quot; },
-<span class="lineNum">     100 </span>                :            :     { ERROR_AGLWINDOW_CREATECONTEXT_FAILED, &quot;Can't create AGL context&quot; },
-<span class="lineNum">     101 </span>                :            :     { ERROR_AGLWINDOW_CREATEPBUFFER_FAILED, &quot;Can't create AGL PBuffer&quot; },
-<span class="lineNum">     102 </span>                :            :     { ERROR_AGLWINDOW_SETPBUFFER_FAILED, &quot;Can't set AGL PBuffer&quot; },
-<span class="lineNum">     103 </span>                :            :     { ERROR_AGLWINDOW_CREATEWINDOW_FAILED, &quot;Can't create Carbon window&quot; },
-<span class="lineNum">     104 </span>                :            :     { ERROR_AGLWINDOW_SETWINDOW_FAILED, &quot;Can't set Carbon window&quot; },
-<span class="lineNum">     105 </span>                :            : 
-<span class="lineNum">     106 </span>                :            :     { ERROR_GLXWINDOW_NO_DRAWABLE, &quot;Missing GLX drawable&quot; },
-<span class="lineNum">     107 </span>                :            :     { ERROR_GLXWINDOW_NO_DISPLAY, &quot;Missing X11 display connection&quot; },
-<span class="lineNum">     108 </span>                :            :     { ERROR_GLXWINDOW_CREATECONTEXT_FAILED, &quot;Can't create glX context&quot; },
-<span class="lineNum">     109 </span>                :            :     { ERROR_GLXWINDOW_CREATEWINDOW_FAILED, &quot;Can't create X11 window&quot; },
-<span class="lineNum">     110 </span>                :            :     { ERROR_GLXWINDOW_GLXQUERYVERSION_FAILED, &quot;Can't get GLX version&quot; },
-<span class="lineNum">     111 </span>                :            :     { ERROR_GLXWINDOW_GLX_1_3_REQUIRED, &quot;Need at least GLX 1.3&quot; },
-<span class="lineNum">     112 </span>                :            :     { ERROR_GLXWINDOW_NO_FBCONFIG, &quot;Can't find FBConfig for visual&quot; },
-<span class="lineNum">     113 </span>                :            :     { ERROR_GLXWINDOW_NO_VISUAL, &quot;FBConfig has no associated visual&quot; },
-<span class="lineNum">     114 </span>                :            :     { ERROR_GLXWINDOW_CREATEPBUFFER_FAILED, &quot;Can't create glX PBuffer&quot; },
-<span class="lineNum">     115 </span>                :            :     { ERROR_GLXWINDOW_FBCONFIG_REQUIRED,
-<span class="lineNum">     116 </span>                :            :       &quot;Can't find FBConfig functions (GLX 1.3 or GLX_SGIX_fbconfig&quot; },
-<span class="lineNum">     117 </span>                :            : 
-<span class="lineNum">     118 </span>                :            :     { ERROR_WGLWINDOW_NO_DRAWABLE, &quot;Missing WGL drawable&quot; },
-<span class="lineNum">     119 </span>                :            :     { ERROR_WGLWINDOW_SETPIXELFORMAT_FAILED, &quot;Can't set window pixel format&quot; },
-<span class="lineNum">     120 </span>                :            :     { ERROR_WGLWINDOW_REGISTERCLASS_FAILED, &quot;Can't register window class&quot; },
-<span class="lineNum">     121 </span>                :            :     { ERROR_WGLWINDOW_FULLSCREEN_FAILED, &quot;Can't switch to fullscreen mode&quot; },
-<span class="lineNum">     122 </span>                :            :     { ERROR_WGLWINDOW_CREATEWINDOW_FAILED, &quot;Can't create window&quot; },
-<span class="lineNum">     123 </span>                :            :     { ERROR_WGLWINDOW_ARB_PBUFFER_REQUIRED, &quot;WGL_ARB_pbuffer not supported&quot; },
-<span class="lineNum">     124 </span>                :            :     { ERROR_WGLWINDOW_CREATEPBUFFER_FAILED, &quot;Can't create PBuffer&quot; },
-<span class="lineNum">     125 </span>                :            :     { ERROR_WGLWINDOW_SETAFFINITY_PF_FAILED, &quot;Can't set affinity pixel format&quot;},
-<span class="lineNum">     126 </span>                :            :     { ERROR_WGLWINDOW_CHOOSE_PF_ARB_FAILED,
-<span class="lineNum">     127 </span>                :            :       &quot;Can't choose pixel format using ARB extension&quot;},
-<span class="lineNum">     128 </span>                :            :     { ERROR_WGLWINDOW_CREATECONTEXT_FAILED, &quot;Can't create WGL context&quot; },
-<span class="lineNum">     129 </span>                :            : 
-<span class="lineNum">     130 </span>                :            :     { ERROR_CHANNEL_WINDOW_NOTRUNNING, &quot;Window not running&quot; },
-<span class="lineNum">     131 </span>                :            : 
-<span class="lineNum">     132 </span>                :            :     { ERROR_PBO_UNSUPPORTED, &quot;Pixel Buffer Objects not supported&quot; },
-<span class="lineNum">     133 </span>                :            :     { ERROR_PBO_NOT_INITIALIZED, &quot;PBO is not initialized&quot; },
-<span class="lineNum">     134 </span>                :            :     { ERROR_PBO_SIZE_TOO_SMALL, &quot;PBO size is too small, it has to be &gt; 0&quot; },
-<span class="lineNum">     135 </span>                :            :     { ERROR_PBO_TYPE_UNSUPPORTED, &quot;Unsupported PBO type&quot; },
-<span class="lineNum">     136 </span>                :            : 
-<span class="lineNum">     137 </span>                :            :     { 0, &quot;&quot; } // last!
-<span class="lineNum">     138 </span>                :<span class="lineCov">         15 : };</span>
-<a name="139"><span class="lineNum">     139 </span>                :            : }</a>
-<span class="lineNum">     140 </span>                :            : 
-<span class="lineNum">     141 </span>                :<span class="lineCov">         10 : void _initErrors()</span>
-<span class="lineNum">     142 </span>                :            : {
-<span class="lineNum">     143 </span>                :<span class="lineCov">         10 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
-<span class="lineNum">     144 </span>                :<span class="lineCov">        690 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
-<span class="lineNum">     145 </span>                :<span class="lineCov">        680 :         registry.setString( _errors[i].code, _errors[i].text );</span>
-<a name="146"><span class="lineNum">     146 </span>                :<span class="lineCov">         10 : }</span></a>
-<span class="lineNum">     147 </span>                :            : 
-<span class="lineNum">     148 </span>                :<span class="lineCov">         10 : void _exitErrors()</span>
-<span class="lineNum">     149 </span>                :            : {
-<span class="lineNum">     150 </span>                :<span class="lineCov">         10 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
-<span class="lineNum">     151 </span>                :<span class="lineCov">        690 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
-<span class="lineNum">     152 </span>                :<span class="lineCov">        680 :         registry.eraseString( _errors[i].code );</span>
-<a name="153"><span class="lineNum">     153 </span>                :<span class="lineCov">         10 : }</span></a>
-<span class="lineNum">     154 </span>                :            : 
-<span class="lineNum">     155 </span>                :<span class="lineCov">         12 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Error&amp; error )</span>
-<span class="lineNum">     156 </span>                :            : {
-<span class="lineNum">     157 </span>                :<span class="lineCov">         12 :     const ErrorRegistry&amp; registry = Global::getErrorRegistry();</span>
-<span class="lineNum">     158 </span>                :<span class="lineCov">         12 :     const std::string&amp; text = registry.getString( error.getCode( ));</span>
-<span class="lineNum">     159 </span>                :            : 
-<span class="lineNum">     160 </span>                :<span class="lineCov">         12 :     if( text.empty( ))</span>
-<span class="lineNum">     161 </span>                :<span class="lineNoCov">          0 :         return os &lt;&lt; &quot;error 0x&quot; &lt;&lt; std::hex &lt;&lt; uint32_t( error.getCode( ))</span>
-<span class="lineNum">     162 </span>                :<span class="lineNoCov">          0 :                   &lt;&lt; std::dec;</span>
-<span class="lineNum">     163 </span>                :            : 
-<span class="lineNum">     164 </span>                :<span class="lineCov">         12 :     return os &lt;&lt; text &lt;&lt; &quot; (0x&quot; &lt;&lt; std::hex &lt;&lt; uint32_t( error.getCode( ))</span>
-<span class="lineNum">     165 </span>                :<span class="lineCov">         12 :               &lt;&lt; std::dec &lt;&lt; &quot;)&quot;;</span>
-<span class="lineNum">     166 </span>                :            : }
-<a name="167"><span class="lineNum">     167 </span>                :            : </a>
-<span class="lineNum">     168 </span>                :            : }
-<span class="lineNum">     169 </span>                :<span class="lineCov">         45 : }</span>
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2010-2013, Stefan Eilemann &lt;eile@eyescale.ch&gt;
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #include &quot;error.h&quot;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &quot;errorRegistry.h&quot;
+<span class="lineNum">      21 </span>            : #include &quot;global.h&quot;
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : namespace eq
+<span class="lineNum">      24 </span>            : {
+<span class="lineNum">      25 </span>            : namespace fabric
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span>            : 
+<a name="28"><span class="lineNum">      28 </span>            : namespace</a>
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span><span class="lineCov">       1035 : struct ErrorData</span>
+<span class="lineNum">      31 </span>            : {
+<span class="lineNum">      32 </span>            :     const uint32_t code;
+<span class="lineNum">      33 </span>            :     const std::string text;
+<a name="34"><span class="lineNum">      34 </span>            : };</a>
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span><span class="lineCov">         30 : ErrorData _errors[] = {</span>
+<span class="lineNum">      37 </span>            :     { ERROR_FBO_UNSUPPORTED, &quot;Framebuffer objects not supported&quot; },
+<span class="lineNum">      38 </span>            :     { ERROR_FRAMEBUFFER_STATUS, &quot;Error querying framebuffer status&quot; },
+<span class="lineNum">      39 </span>            :     { ERROR_FRAMEBUFFER_UNSUPPORTED, &quot;Unsupported framebuffer format&quot; },
+<span class="lineNum">      40 </span>            :     { ERROR_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT,
+<span class="lineNum">      41 </span>            :       &quot;Framebuffer incomplete, missing attachment&quot; },
+<span class="lineNum">      42 </span>            :     { ERROR_FRAMEBUFFER_INCOMPLETE_ATTACHMENT,
+<span class="lineNum">      43 </span>            :       &quot;Framebuffer incomplete, incomplete attachment&quot; },
+<span class="lineNum">      44 </span>            :     { ERROR_FRAMEBUFFER_INCOMPLETE_DIMENSIONS,
+<span class="lineNum">      45 </span>            :       &quot;Framebuffer incomplete, attached images must have same dimensions&quot; },
+<span class="lineNum">      46 </span>            :     { ERROR_FRAMEBUFFER_INCOMPLETE_FORMATS,
+<span class="lineNum">      47 </span>            :       &quot;Framebuffer incomplete, attached images must have same format&quot; },
+<span class="lineNum">      48 </span>            :     { ERROR_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER,
+<span class="lineNum">      49 </span>            :       &quot;Framebuffer incomplete, missing draw buffer&quot; },
+<span class="lineNum">      50 </span>            :     { ERROR_FRAMEBUFFER_INCOMPLETE_READ_BUFFER,
+<span class="lineNum">      51 </span>            :       &quot;Framebuffer incomplete, missing read buffer&quot; },
+<span class="lineNum">      52 </span>            :     { ERROR_FRAMEBUFFER_INITIALIZED, &quot;FBO already initialized&quot; },
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            :     { ERROR_CUDACONTEXT_DEVICE_NOTFOUND,
+<span class="lineNum">      55 </span>            :       &quot;Device not found, not enough CUDA devices&quot; },
+<span class="lineNum">      56 </span>            :     { ERROR_CUDACONTEXT_INIT_FAILED,
+<span class="lineNum">      57 </span>            :       &quot;CUDA initialization failed (see client log for more information)&quot; },
+<span class="lineNum">      58 </span>            :     { ERROR_CUDACONTEXT_MISSING_SUPPORT,
+<span class="lineNum">      59 </span>            :       &quot;Client library compiled without CUDA support&quot; },
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :     { ERROR_WINDOWSYSTEM_UNKNOWN, &quot;Unknown windowing system&quot; },
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            :     { ERROR_NODE_LAUNCH, &quot;Execution of node launch command failed&quot; },
+<span class="lineNum">      64 </span>            :     { ERROR_NODE_CONNECT, &quot;Node process did not start&quot; },
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            :     { ERROR_PIPE_NODE_NOTRUNNING, &quot;Node not running&quot; },
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :     { ERROR_SYSTEMPIPE_PIXELFORMAT_NOTFOUND,
+<span class="lineNum">      69 </span>            :       &quot;Can't find temporary pixel format&quot; },
+<span class="lineNum">      70 </span>            :     { ERROR_SYSTEMPIPE_CREATECONTEXT_FAILED,
+<span class="lineNum">      71 </span>            :       &quot;Can't create temporary OpenGL context&quot; },
+<span class="lineNum">      72 </span>            :     { ERROR_SYSTEMPIPE_CREATEWINDOW_FAILED, &quot;Can't create temporary window&quot; },
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :     { ERROR_AGLPIPE_DISPLAYS_NOTFOUND, &quot;Can't get display identifier list&quot; },
+<span class="lineNum">      75 </span>            :     { ERROR_AGLPIPE_DEVICE_NOTFOUND, &quot;Can't get display identifier for device&quot;},
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :     { ERROR_GLXPIPE_DEVICE_NOTFOUND, &quot;Can't open display&quot; },
+<span class="lineNum">      78 </span>            :     { ERROR_GLXPIPE_GLX_NOTFOUND, &quot;Display does not support GLX&quot; },
+<span class="lineNum">      79 </span>            :     { ERROR_GLXPIPE_GLXEWINIT_FAILED, &quot;Pipe GLXEW initialization failed&quot; },
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :     { ERROR_WGL_CREATEAFFINITYDC_FAILED, &quot;Can't create affinity DC&quot; },
+<span class="lineNum">      82 </span>            :     { ERROR_WGLPIPE_ENUMDISPLAYS_FAILED, &quot;Can't enumerate display devices&quot; },
+<span class="lineNum">      83 </span>            :     { ERROR_WGLPIPE_CREATEDC_FAILED, &quot;Can't create device context&quot; },
+<span class="lineNum">      84 </span>            :     { ERROR_WGLPIPE_ENUMGPUS_FAILED, &quot;Can't enumerate GPU&quot; },
+<span class="lineNum">      85 </span>            :     { ERROR_WGLPIPE_REGISTERCLASS_FAILED,
+<span class="lineNum">      86 </span>            :       &quot;Can't register temporary window class&quot; },
+<span class="lineNum">      87 </span>            :     { ERROR_WGLPIPE_SETPF_FAILED, &quot;Can't set temporary pixel format&quot; },
+<span class="lineNum">      88 </span>            :     { ERROR_WGLPIPE_WGLEWINIT_FAILED, &quot;Pipe WGLEW initialization failed&quot; },
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            :     { ERROR_WINDOW_PIPE_NOTRUNNING, &quot;Pipe not running&quot; },
+<span class="lineNum">      91 </span>            :     { ERROR_WINDOW_PVP_INVALID, &quot;Invalid window pixel viewport&quot; },
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            :     { ERROR_SYSTEMWINDOW_PIXELFORMAT_NOTFOUND,
+<span class="lineNum">      94 </span>            :       &quot;Can't find matching pixel format&quot; },
+<span class="lineNum">      95 </span>            :     { ERROR_SYSTEMWINDOW_NO_PIXELFORMAT, &quot;Missing pixel format&quot; },
+<span class="lineNum">      96 </span>            :     { ERROR_SYSTEMWINDOW_ARB_FLOAT_FB_REQUIRED,
+<span class="lineNum">      97 </span>            :       &quot;Floating-point framebuffer not supported&quot; },
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :     { ERROR_AGLWINDOW_NO_CONTEXT, &quot;Missing AGL context&quot; },
+<span class="lineNum">     100 </span>            :     { ERROR_AGLWINDOW_CREATECONTEXT_FAILED, &quot;Can't create AGL context&quot; },
+<span class="lineNum">     101 </span>            :     { ERROR_AGLWINDOW_CREATEPBUFFER_FAILED, &quot;Can't create AGL PBuffer&quot; },
+<span class="lineNum">     102 </span>            :     { ERROR_AGLWINDOW_SETPBUFFER_FAILED, &quot;Can't set AGL PBuffer&quot; },
+<span class="lineNum">     103 </span>            :     { ERROR_AGLWINDOW_CREATEWINDOW_FAILED, &quot;Can't create Carbon window&quot; },
+<span class="lineNum">     104 </span>            :     { ERROR_AGLWINDOW_SETWINDOW_FAILED, &quot;Can't set Carbon window&quot; },
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :     { ERROR_GLXWINDOW_NO_DRAWABLE, &quot;Missing GLX drawable&quot; },
+<span class="lineNum">     107 </span>            :     { ERROR_GLXWINDOW_NO_DISPLAY, &quot;Missing X11 display connection&quot; },
+<span class="lineNum">     108 </span>            :     { ERROR_GLXWINDOW_CREATECONTEXT_FAILED, &quot;Can't create glX context&quot; },
+<span class="lineNum">     109 </span>            :     { ERROR_GLXWINDOW_CREATEWINDOW_FAILED, &quot;Can't create X11 window&quot; },
+<span class="lineNum">     110 </span>            :     { ERROR_GLXWINDOW_GLXQUERYVERSION_FAILED, &quot;Can't get GLX version&quot; },
+<span class="lineNum">     111 </span>            :     { ERROR_GLXWINDOW_GLX_1_3_REQUIRED, &quot;Need at least GLX 1.3&quot; },
+<span class="lineNum">     112 </span>            :     { ERROR_GLXWINDOW_NO_FBCONFIG, &quot;Can't find FBConfig for visual&quot; },
+<span class="lineNum">     113 </span>            :     { ERROR_GLXWINDOW_NO_VISUAL, &quot;FBConfig has no associated visual&quot; },
+<span class="lineNum">     114 </span>            :     { ERROR_GLXWINDOW_CREATEPBUFFER_FAILED, &quot;Can't create glX PBuffer&quot; },
+<span class="lineNum">     115 </span>            :     { ERROR_GLXWINDOW_FBCONFIG_REQUIRED,
+<span class="lineNum">     116 </span>            :       &quot;Can't find FBConfig functions (GLX 1.3 or GLX_SGIX_fbconfig&quot; },
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :     { ERROR_WGLWINDOW_NO_DRAWABLE, &quot;Missing WGL drawable&quot; },
+<span class="lineNum">     119 </span>            :     { ERROR_WGLWINDOW_SETPIXELFORMAT_FAILED, &quot;Can't set window pixel format&quot; },
+<span class="lineNum">     120 </span>            :     { ERROR_WGLWINDOW_REGISTERCLASS_FAILED, &quot;Can't register window class&quot; },
+<span class="lineNum">     121 </span>            :     { ERROR_WGLWINDOW_FULLSCREEN_FAILED, &quot;Can't switch to fullscreen mode&quot; },
+<span class="lineNum">     122 </span>            :     { ERROR_WGLWINDOW_CREATEWINDOW_FAILED, &quot;Can't create window&quot; },
+<span class="lineNum">     123 </span>            :     { ERROR_WGLWINDOW_ARB_PBUFFER_REQUIRED, &quot;WGL_ARB_pbuffer not supported&quot; },
+<span class="lineNum">     124 </span>            :     { ERROR_WGLWINDOW_CREATEPBUFFER_FAILED, &quot;Can't create PBuffer&quot; },
+<span class="lineNum">     125 </span>            :     { ERROR_WGLWINDOW_SETAFFINITY_PF_FAILED, &quot;Can't set affinity pixel format&quot;},
+<span class="lineNum">     126 </span>            :     { ERROR_WGLWINDOW_CHOOSE_PF_ARB_FAILED,
+<span class="lineNum">     127 </span>            :       &quot;Can't choose pixel format using ARB extension&quot;},
+<span class="lineNum">     128 </span>            :     { ERROR_WGLWINDOW_CREATECONTEXT_FAILED, &quot;Can't create WGL context&quot; },
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            :     { ERROR_CHANNEL_WINDOW_NOTRUNNING, &quot;Window not running&quot; },
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span>            :     { ERROR_PBO_UNSUPPORTED, &quot;Pixel Buffer Objects not supported&quot; },
+<span class="lineNum">     133 </span>            :     { ERROR_PBO_NOT_INITIALIZED, &quot;PBO is not initialized&quot; },
+<span class="lineNum">     134 </span>            :     { ERROR_PBO_SIZE_TOO_SMALL, &quot;PBO size is too small, it has to be &gt; 0&quot; },
+<span class="lineNum">     135 </span>            :     { ERROR_PBO_TYPE_UNSUPPORTED, &quot;Unsupported PBO type&quot; },
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            :     { 0, &quot;&quot; } // last!
+<span class="lineNum">     138 </span><span class="lineCov">         15 : };</span>
+<a name="139"><span class="lineNum">     139 </span>            : }</a>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineCov">         10 : void _initErrors()</span>
+<span class="lineNum">     142 </span>            : {
+<span class="lineNum">     143 </span><span class="lineCov">         10 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
+<span class="lineNum">     144 </span><span class="lineCov">        690 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
+<span class="lineNum">     145 </span><span class="lineCov">        680 :         registry.setString( _errors[i].code, _errors[i].text );</span>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">         10 : }</span></a>
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span><span class="lineCov">         10 : void _exitErrors()</span>
+<span class="lineNum">     149 </span>            : {
+<span class="lineNum">     150 </span><span class="lineCov">         10 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
+<span class="lineNum">     151 </span><span class="lineCov">        690 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
+<span class="lineNum">     152 </span><span class="lineCov">        680 :         registry.eraseString( _errors[i].code );</span>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">         10 : }</span></a>
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span><span class="lineCov">         15 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Error&amp; error )</span>
+<span class="lineNum">     156 </span>            : {
+<span class="lineNum">     157 </span><span class="lineCov">         15 :     const ErrorRegistry&amp; registry = Global::getErrorRegistry();</span>
+<span class="lineNum">     158 </span><span class="lineCov">         15 :     const std::string&amp; text = registry.getString( error.getCode( ));</span>
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span><span class="lineCov">         15 :     if( text.empty( ))</span>
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :         return os &lt;&lt; &quot;error 0x&quot; &lt;&lt; std::hex &lt;&lt; uint32_t( error.getCode( ))</span>
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :                   &lt;&lt; std::dec;</span>
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span><span class="lineCov">         15 :     return os &lt;&lt; text &lt;&lt; &quot; (0x&quot; &lt;&lt; std::hex &lt;&lt; uint32_t( error.getCode( ))</span>
+<span class="lineNum">     165 </span><span class="lineCov">         15 :               &lt;&lt; std::dec &lt;&lt; &quot;)&quot;;</span>
+<span class="lineNum">     166 </span>            : }
+<a name="167"><span class="lineNum">     167 </span>            : </a>
+<span class="lineNum">     168 </span>            : }
+<span class="lineNum">     169 </span><span class="lineCov">         45 : }</span>
 </pre>
       </td>
     </tr>
