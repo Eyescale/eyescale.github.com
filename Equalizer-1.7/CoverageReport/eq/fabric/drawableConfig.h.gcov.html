@@ -37,21 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-04-15</td>
+            <td class="headerValue">2014-06-18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
             <td class="headerCovTableEntry">3</td>
             <td class="headerCovTableEntryMed">66.7 %</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntryHi">-</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -67,83 +58,83 @@
     </tr>
     <tr>
       <td>
-<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>                :            : </a>
-<span class="lineNum">       2 </span>                :            : /* Copyright (c) 2005-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt; 
-<span class="lineNum">       3 </span>                :            :  *
-<span class="lineNum">       4 </span>                :            :  * This library is free software; you can redistribute it and/or modify it under
-<span class="lineNum">       5 </span>                :            :  * the terms of the GNU Lesser General Public License version 2.1 as published
-<span class="lineNum">       6 </span>                :            :  * by the Free Software Foundation.
-<span class="lineNum">       7 </span>                :            :  *  
-<span class="lineNum">       8 </span>                :            :  * This library is distributed in the hope that it will be useful, but WITHOUT
-<span class="lineNum">       9 </span>                :            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-<span class="lineNum">      10 </span>                :            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
-<span class="lineNum">      11 </span>                :            :  * details.
-<span class="lineNum">      12 </span>                :            :  * 
-<span class="lineNum">      13 </span>                :            :  * You should have received a copy of the GNU Lesser General Public License
-<span class="lineNum">      14 </span>                :            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
-<span class="lineNum">      15 </span>                :            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-<span class="lineNum">      16 </span>                :            :  */
-<span class="lineNum">      17 </span>                :            : 
-<span class="lineNum">      18 </span>                :            : #ifndef EQ_DRAWABLECONFIG_H
-<span class="lineNum">      19 </span>                :            : #define EQ_DRAWABLECONFIG_H
-<span class="lineNum">      20 </span>                :            : 
-<span class="lineNum">      21 </span>                :            : #include &lt;iostream&gt;
-<span class="lineNum">      22 </span>                :            : 
-<span class="lineNum">      23 </span>                :            : namespace eq
-<span class="lineNum">      24 </span>                :            : {
-<span class="lineNum">      25 </span>                :            : namespace fabric
-<span class="lineNum">      26 </span>                :            : {
-<span class="lineNum">      27 </span>                :            :     /** Stores the characteristics of a window's frame buffer configuration. */
-<a name="28"><span class="lineNum">      28 </span>                :            :     struct DrawableConfig</a>
-<span class="lineNum">      29 </span>                :            :     {
-<span class="lineNum">      30 </span>                :<span class="lineCov">       2872 :         DrawableConfig()</span>
-<span class="lineNum">      31 </span>                :            :                 : stencilBits(0), colorBits(0), alphaBits(0), accumBits(0)
-<span class="lineNum">      32 </span>                :<span class="lineCov">       2872 :                 , glVersion( 0.f ), stereo( false ), doublebuffered( false ) {}</span>
-<span class="lineNum">      33 </span>                :            : 
-<span class="lineNum">      34 </span>                :            :         int32_t stencilBits;    //!&lt; Number of stencil bits
-<span class="lineNum">      35 </span>                :            :         int32_t colorBits;      //!&lt; Number of bits per color component
-<span class="lineNum">      36 </span>                :            :         int32_t alphaBits;      //!&lt; Number of alpha bits
-<span class="lineNum">      37 </span>                :            :         int32_t accumBits;      //!&lt; Number of accumulation bits
-<span class="lineNum">      38 </span>                :            :         float   glVersion;      //!&lt; OpenGL version
-<span class="lineNum">      39 </span>                :            :         bool    stereo;         //!&lt; Active stereo supported
-<span class="lineNum">      40 </span>                :            :         bool    doublebuffered; //!&lt; Doublebuffering supported
-<a name="41"><span class="lineNum">      41 </span>                :            :     };</a>
-<span class="lineNum">      42 </span>                :            : 
-<span class="lineNum">      43 </span>                :<span class="lineCov">          8 :     inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os,</span>
-<span class="lineNum">      44 </span>                :            :                                        const DrawableConfig&amp; config )
-<span class="lineNum">      45 </span>                :            :     {
-<span class="lineNum">      46 </span>                :<span class="lineCov">          8 :         os &lt;&lt; &quot;GL&quot; &lt;&lt; config.glVersion;</span>
-<span class="lineNum">      47 </span>                :<span class="lineCov">          8 :         os &lt;&lt; &quot;|rgb&quot; &lt;&lt; config.colorBits;</span>
-<span class="lineNum">      48 </span>                :<span class="lineCov">          8 :         if( config.alphaBits )</span>
-<span class="lineNum">      49 </span>                :<span class="lineCov">          8 :             os &lt;&lt; &quot;a&quot; &lt;&lt; config.alphaBits;</span>
-<span class="lineNum">      50 </span>                :<span class="lineCov">          8 :         if( config.stencilBits )</span>
-<span class="lineNum">      51 </span>                :<span class="lineCov">          7 :             os &lt;&lt; &quot;|st&quot; &lt;&lt; config.stencilBits;</span>
-<span class="lineNum">      52 </span>                :<span class="lineCov">          8 :         if( config.accumBits )</span>
-<span class="lineNum">      53 </span>                :<span class="lineCov">          8 :             os &lt;&lt; &quot;|acc&quot; &lt;&lt; config.accumBits;</span>
-<span class="lineNum">      54 </span>                :<span class="lineCov">          8 :         if( config.doublebuffered )</span>
-<span class="lineNum">      55 </span>                :<span class="lineCov">          2 :             os &lt;&lt; &quot;|DB&quot;;</span>
-<span class="lineNum">      56 </span>                :<span class="lineCov">          8 :         if( config.stereo )</span>
-<span class="lineNum">      57 </span>                :<span class="lineNoCov">          0 :             os &lt;&lt; &quot;|ST&quot;;</span>
-<span class="lineNum">      58 </span>                :<span class="lineCov">          8 :         return os;</span>
-<span class="lineNum">      59 </span>                :            :     }
-<span class="lineNum">      60 </span>                :            : }
-<span class="lineNum">      61 </span>                :            : }
-<span class="lineNum">      62 </span>                :            : 
-<a name="63"><span class="lineNum">      63 </span>                :            : namespace lunchbox</a>
-<span class="lineNum">      64 </span>                :            : {
-<span class="lineNum">      65 </span>                :<span class="lineNoCov">          0 : template&lt;&gt; inline void byteswap( eq::fabric::DrawableConfig&amp; value )</span>
-<span class="lineNum">      66 </span>                :            : {
-<span class="lineNum">      67 </span>                :<span class="lineNoCov">          0 :     byteswap( value.stencilBits );</span>
-<span class="lineNum">      68 </span>                :<span class="lineNoCov">          0 :     byteswap( value.colorBits );</span>
-<span class="lineNum">      69 </span>                :<span class="lineNoCov">          0 :     byteswap( value.alphaBits );</span>
-<span class="lineNum">      70 </span>                :<span class="lineNoCov">          0 :     byteswap( value.accumBits );</span>
-<span class="lineNum">      71 </span>                :<span class="lineNoCov">          0 :     byteswap( value.glVersion );</span>
-<span class="lineNum">      72 </span>                :<span class="lineNoCov">          0 : }</span>
-<span class="lineNum">      73 </span>                :            : }
-<span class="lineNum">      74 </span>                :            : #endif // EQ_DRAWABLECONFIG_H
-<span class="lineNum">      75 </span>                :            : 
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt; 
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *  
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  * 
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #ifndef EQ_DRAWABLECONFIG_H
+<span class="lineNum">      19 </span>            : #define EQ_DRAWABLECONFIG_H
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : namespace eq
+<span class="lineNum">      24 </span>            : {
+<span class="lineNum">      25 </span>            : namespace fabric
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span>            :     /** Stores the characteristics of a window's frame buffer configuration. */
+<a name="28"><span class="lineNum">      28 </span>            :     struct DrawableConfig</a>
+<span class="lineNum">      29 </span>            :     {
+<span class="lineNum">      30 </span><span class="lineCov">       2926 :         DrawableConfig()</span>
+<span class="lineNum">      31 </span>            :                 : stencilBits(0), colorBits(0), alphaBits(0), accumBits(0)
+<span class="lineNum">      32 </span><span class="lineCov">       2926 :                 , glVersion( 0.f ), stereo( false ), doublebuffered( false ) {}</span>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            :         int32_t stencilBits;    //!&lt; Number of stencil bits
+<span class="lineNum">      35 </span>            :         int32_t colorBits;      //!&lt; Number of bits per color component
+<span class="lineNum">      36 </span>            :         int32_t alphaBits;      //!&lt; Number of alpha bits
+<span class="lineNum">      37 </span>            :         int32_t accumBits;      //!&lt; Number of accumulation bits
+<span class="lineNum">      38 </span>            :         float   glVersion;      //!&lt; OpenGL version
+<span class="lineNum">      39 </span>            :         bool    stereo;         //!&lt; Active stereo supported
+<span class="lineNum">      40 </span>            :         bool    doublebuffered; //!&lt; Doublebuffering supported
+<a name="41"><span class="lineNum">      41 </span>            :     };</a>
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span><span class="lineCov">         15 :     inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os,</span>
+<span class="lineNum">      44 </span>            :                                        const DrawableConfig&amp; config )
+<span class="lineNum">      45 </span>            :     {
+<span class="lineNum">      46 </span><span class="lineCov">         15 :         os &lt;&lt; &quot;GL&quot; &lt;&lt; config.glVersion;</span>
+<span class="lineNum">      47 </span><span class="lineCov">         15 :         os &lt;&lt; &quot;|rgb&quot; &lt;&lt; config.colorBits;</span>
+<span class="lineNum">      48 </span><span class="lineCov">         15 :         if( config.alphaBits )</span>
+<span class="lineNum">      49 </span><span class="lineCov">         15 :             os &lt;&lt; &quot;a&quot; &lt;&lt; config.alphaBits;</span>
+<span class="lineNum">      50 </span><span class="lineCov">         15 :         if( config.stencilBits )</span>
+<span class="lineNum">      51 </span><span class="lineCov">         14 :             os &lt;&lt; &quot;|st&quot; &lt;&lt; config.stencilBits;</span>
+<span class="lineNum">      52 </span><span class="lineCov">         15 :         if( config.accumBits )</span>
+<span class="lineNum">      53 </span><span class="lineCov">          8 :             os &lt;&lt; &quot;|acc&quot; &lt;&lt; config.accumBits;</span>
+<span class="lineNum">      54 </span><span class="lineCov">         15 :         if( config.doublebuffered )</span>
+<span class="lineNum">      55 </span><span class="lineCov">          2 :             os &lt;&lt; &quot;|DB&quot;;</span>
+<span class="lineNum">      56 </span><span class="lineCov">         15 :         if( config.stereo )</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :             os &lt;&lt; &quot;|ST&quot;;</span>
+<span class="lineNum">      58 </span><span class="lineCov">         15 :         return os;</span>
+<span class="lineNum">      59 </span>            :     }
+<span class="lineNum">      60 </span>            : }
+<span class="lineNum">      61 </span>            : }
+<span class="lineNum">      62 </span>            : 
+<a name="63"><span class="lineNum">      63 </span>            : namespace lunchbox</a>
+<span class="lineNum">      64 </span>            : {
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 : template&lt;&gt; inline void byteswap( eq::fabric::DrawableConfig&amp; value )</span>
+<span class="lineNum">      66 </span>            : {
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     byteswap( value.stencilBits );</span>
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :     byteswap( value.colorBits );</span>
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :     byteswap( value.alphaBits );</span>
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :     byteswap( value.accumBits );</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     byteswap( value.glVersion );</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      73 </span>            : }
+<span class="lineNum">      74 </span>            : #endif // EQ_DRAWABLECONFIG_H
+<span class="lineNum">      75 </span>            : 
 </pre>
       </td>
     </tr>

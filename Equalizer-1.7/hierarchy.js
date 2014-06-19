@@ -1,6 +1,9 @@
 var hierarchy =
 [
+    [ "__GLXEvent", "union_____g_l_x_event.html", null ],
+    [ "_GPU_DEVICE", "struct___g_p_u___d_e_v_i_c_e.html", null ],
     [ "noncopyable", null, [
+      [ "eq::fabric::ErrorRegistry", "classeq_1_1fabric_1_1_error_registry.html", null ],
       [ "eq::GLWindow", "classeq_1_1_g_l_window.html", [
         [ "eq::glx::WindowIF", "classeq_1_1glx_1_1_window_i_f.html", [
           [ "eq::glx::Window", "classeq_1_1glx_1_1_window.html", null ]
@@ -10,9 +13,11 @@ var hierarchy =
         ] ]
       ] ],
       [ "eq::Image", "classeq_1_1_image.html", null ],
+      [ "eq::PixelData", "structeq_1_1_pixel_data.html", null ],
       [ "eq::util::Accum", "classeq_1_1util_1_1_accum.html", null ],
       [ "eq::util::BitmapFont", "classeq_1_1util_1_1_bitmap_font.html", null ],
-      [ "eq::util::PixelBufferObject", "classeq_1_1util_1_1_pixel_buffer_object.html", null ]
+      [ "eq::util::PixelBufferObject", "classeq_1_1util_1_1_pixel_buffer_object.html", null ],
+      [ "eq::util::Texture", "classeq_1_1util_1_1_texture.html", null ]
     ] ],
     [ "C", null, [
       [ "eq::fabric::ElementVisitor< T, C >", "classeq_1_1fabric_1_1_element_visitor.html", null ]
@@ -185,11 +190,12 @@ var hierarchy =
     [ "eq::Version", "classeq_1_1_version.html", null ],
     [ "eq::WindowSystem", "classeq_1_1_window_system.html", null ],
     [ "eq::WindowSystemIF", "classeq_1_1_window_system_i_f.html", null ],
-    [ "NonCopyable", null, [
-      [ "eq::fabric::ErrorRegistry", "classeq_1_1fabric_1_1_error_registry.html", null ],
-      [ "eq::PixelData", "structeq_1_1_pixel_data.html", null ],
-      [ "eq::util::Texture", "classeq_1_1util_1_1_texture.html", null ]
-    ] ],
+    [ "GLXBufferClobberEventSGIX", "struct_g_l_x_buffer_clobber_event_s_g_i_x.html", null ],
+    [ "GLXHyperpipeConfigSGIX", "struct_g_l_x_hyperpipe_config_s_g_i_x.html", null ],
+    [ "GLXHyperpipeNetworkSGIX", "struct_g_l_x_hyperpipe_network_s_g_i_x.html", null ],
+    [ "GLXPbufferClobberEvent", "struct_g_l_x_pbuffer_clobber_event.html", null ],
+    [ "GLXPipeRect", "struct_g_l_x_pipe_rect.html", null ],
+    [ "GLXPipeRectLimits", "struct_g_l_x_pipe_rect_limits.html", null ],
     [ "Referenced", null, [
       [ "eq::fabric::SwapBarrier", "classeq_1_1fabric_1_1_swap_barrier.html", null ],
       [ "eq::FrameData", "classeq_1_1_frame_data.html", null ]
