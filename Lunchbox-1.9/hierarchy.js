@@ -14,7 +14,8 @@ var hierarchy =
         [ "lunchbox::Plugin", "classlunchbox_1_1_plugin.html", null ]
       ] ],
       [ "lunchbox::FutureImpl< T >", "classlunchbox_1_1_future_impl.html", [
-        [ "lunchbox::FutureFunction< T >", "classlunchbox_1_1_future_function.html", null ]
+        [ "lunchbox::FutureFunction< T >", "classlunchbox_1_1_future_function.html", null ],
+        [ "lunchbox::Request< T >::Impl", "classlunchbox_1_1_request_1_1_impl.html", null ]
       ] ],
       [ "lunchbox::LFQueue< T >", "classlunchbox_1_1_l_f_queue.html", null ],
       [ "lunchbox::Lock", "classlunchbox_1_1_lock.html", null ],
@@ -68,6 +69,7 @@ var hierarchy =
     [ "lunchbox::ThreadID", "classlunchbox_1_1_thread_i_d.html", null ],
     [ "lunchbox::uint128_t", "classlunchbox_1_1uint128__t.html", null ],
     [ "lunchbox::UnorderedIntervalSet< T >", "classlunchbox_1_1_unordered_interval_set.html", null ],
+    [ "lunchbox::URI", "classlunchbox_1_1_u_r_i.html", null ],
     [ "lunchbox::Version", "classlunchbox_1_1_version.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< T > >", "classlunchbox_1_1_ref_ptr.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< void > >", "classlunchbox_1_1_ref_ptr.html", null ],

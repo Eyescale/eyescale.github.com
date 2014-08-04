@@ -7,7 +7,7 @@ var classlunchbox_1_1_request_handler =
     [ "isRequestReady", "classlunchbox_1_1_request_handler.html#a325e59110e0b2a621b038a8e2f0961fc", null ],
     [ "isRequestServed", "classlunchbox_1_1_request_handler.html#af4130e9600c8006d43744a68deda00c8", null ],
     [ "registerRequest", "classlunchbox_1_1_request_handler.html#afdcd80fd7e29528c5105b68b093ef3e1", null ],
-    [ "registerRequest", "classlunchbox_1_1_request_handler.html#a0151004b5328cabd24c7abf079129798", null ],
+    [ "registerRequest", "classlunchbox_1_1_request_handler.html#a049fc77faeb008500c8638f2d228f7f5", null ],
     [ "serveRequest", "classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c", null ],
     [ "serveRequest", "classlunchbox_1_1_request_handler.html#aa40df728988e3f9d74d0af4c8f20efdf", null ],
     [ "serveRequest", "classlunchbox_1_1_request_handler.html#aad14c4592bd65259cf2d13f5144262ae", null ],

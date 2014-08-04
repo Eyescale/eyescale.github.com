@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-06-04</td>
+            <td class="headerValue">2014-08-04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">17</td>
@@ -106,13 +106,13 @@
 <span class="lineNum">      44 </span>            : 
 <span class="lineNum">      45 </span><span class="lineCov">        304 : Compressor::~Compressor()</span>
 <span class="lineNum">      46 </span>            : {
-<span class="lineNum">      47 </span><span class="lineCov">        570 :     for ( size_t i = 0; i &lt; _results.size(); i++ )</span>
-<span class="lineNum">      48 </span><span class="lineCov">        418 :         delete ( _results[i] );</span>
+<span class="lineNum">      47 </span><span class="lineCov">        718 :     for ( size_t i = 0; i &lt; _results.size(); i++ )</span>
+<span class="lineNum">      48 </span><span class="lineCov">        566 :         delete ( _results[i] );</span>
 <span class="lineNum">      49 </span>            : 
 <span class="lineNum">      50 </span><span class="lineCov">        152 :     _results.clear();</span>
 <a name="51"><span class="lineNum">      51 </span><span class="lineCov">        152 : }</span></a>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">       1053 : Compressor::Functions::Functions( const unsigned name_,</span>
+<span class="lineNum">      53 </span><span class="lineCov">       1092 : Compressor::Functions::Functions( const unsigned name_,</span>
 <span class="lineNum">      54 </span>            :                                   GetInfo_t getInfo_,
 <span class="lineNum">      55 </span>            :                                   NewCompressor_t newCompressor_,
 <span class="lineNum">      56 </span>            :                                   NewCompressor_t newDecompressor_,
@@ -123,15 +123,15 @@
 <span class="lineNum">      61 </span>            :         , newCompressor( newCompressor_ )
 <span class="lineNum">      62 </span>            :         , newDecompressor( newDecompressor_ )
 <span class="lineNum">      63 </span>            :         , decompress( decompress_ )
-<span class="lineNum">      64 </span><span class="lineCov">       1053 :         , isCompatible( isCompatible_ )</span>
-<a name="65"><span class="lineNum">      65 </span><span class="lineCov">       1053 : {}</span></a>
+<span class="lineNum">      64 </span><span class="lineCov">       1092 :         , isCompatible( isCompatible_ )</span>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">       1092 : {}</span></a>
 <span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineCov">       1053 : void Compressor::registerEngine( const Compressor::Functions&amp; functions )</span>
+<span class="lineNum">      67 </span><span class="lineCov">       1092 : void Compressor::registerEngine( const Compressor::Functions&amp; functions )</span>
 <span class="lineNum">      68 </span>            : {
-<span class="lineNum">      69 </span><span class="lineCov">       1053 :     if( !_functions ) // resolve 'static initialization order fiasco'</span>
-<span class="lineNum">      70 </span><span class="lineCov">         27 :         _functions = new Compressors;</span>
-<span class="lineNum">      71 </span><span class="lineCov">       1053 :     _functions-&gt;push_back( functions );</span>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">       1053 : }</span></a>
+<span class="lineNum">      69 </span><span class="lineCov">       1092 :     if( !_functions ) // resolve 'static initialization order fiasco'</span>
+<span class="lineNum">      70 </span><span class="lineCov">         28 :         _functions = new Compressors;</span>
+<span class="lineNum">      71 </span><span class="lineCov">       1092 :     _functions-&gt;push_back( functions );</span>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">       1092 : }</span></a>
 <span class="lineNum">      73 </span>            : 
 <span class="lineNum">      74 </span><span class="lineCov">        304 : void Compressor::compress( const void* const inData, const eq_uint64_t* inDims,</span>
 <span class="lineNum">      75 </span>            :                            const eq_uint64_t flags )
@@ -201,19 +201,19 @@
 <span class="lineNum">     139 </span><span class="lineCov">        152 :     return compressor-&gt;getNResults();</span>
 <a name="140"><span class="lineNum">     140 </span>            : }</a>
 <span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span><span class="lineCov">        418 : void EqCompressorGetResult( void* const ptr, const unsigned, const unsigned i,</span>
+<span class="lineNum">     142 </span><span class="lineCov">        566 : void EqCompressorGetResult( void* const ptr, const unsigned, const unsigned i,</span>
 <span class="lineNum">     143 </span>            :                             void** const out, eq_uint64_t* const outSize )
 <span class="lineNum">     144 </span>            : {
-<span class="lineNum">     145 </span><span class="lineCov">        418 :     assert( ptr );</span>
+<span class="lineNum">     145 </span><span class="lineCov">        566 :     assert( ptr );</span>
 <span class="lineNum">     146 </span>            :     lunchbox::plugin::Compressor* compressor =
-<span class="lineNum">     147 </span><span class="lineCov">        418 :         reinterpret_cast&lt; lunchbox::plugin::Compressor* &gt;( ptr );</span>
-<span class="lineNum">     148 </span><span class="lineCov">        418 :     lunchbox::plugin::Compressor::Result* result = compressor-&gt;getResults()[ i ];</span>
+<span class="lineNum">     147 </span><span class="lineCov">        566 :         reinterpret_cast&lt; lunchbox::plugin::Compressor* &gt;( ptr );</span>
+<span class="lineNum">     148 </span><span class="lineCov">        566 :     lunchbox::plugin::Compressor::Result* result = compressor-&gt;getResults()[ i ];</span>
 <span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span><span class="lineCov">        418 :     *out = result-&gt;getData();</span>
-<span class="lineNum">     151 </span><span class="lineCov">        418 :     *outSize = result-&gt;getSize();</span>
-<span class="lineNum">     152 </span><span class="lineCov">        418 :     assert( result-&gt;getMaxSize() &gt;= result-&gt;getSize( ));</span>
-<span class="lineNum">     153 </span><span class="lineCov">        418 :     assert( *outSize != 0 );</span>
-<span class="lineNum">     154 </span><span class="lineCov">        418 : }</span>
+<span class="lineNum">     150 </span><span class="lineCov">        566 :     *out = result-&gt;getData();</span>
+<span class="lineNum">     151 </span><span class="lineCov">        566 :     *outSize = result-&gt;getSize();</span>
+<span class="lineNum">     152 </span><span class="lineCov">        566 :     assert( result-&gt;getMaxSize() &gt;= result-&gt;getSize( ));</span>
+<span class="lineNum">     153 </span><span class="lineCov">        566 :     assert( *outSize != 0 );</span>
+<span class="lineNum">     154 </span><span class="lineCov">        566 : }</span>
 <a name="155"><span class="lineNum">     155 </span>            : </a>
 <span class="lineNum">     156 </span>            : 
 <span class="lineNum">     157 </span><span class="lineCov">        304 : void EqCompressorDecompress( void* const decompressor, const unsigned name,</span>
@@ -293,7 +293,7 @@
 <span class="lineNum">     231 </span><span class="lineNoCov">          0 :         reinterpret_cast&lt; lunchbox::plugin::Compressor* &gt;( ptr );</span>
 <a name="232"><span class="lineNum">     232 </span>            :     compressor-&gt;finishDownload( glewContext, inDims, source, flags, outDims,</a>
 <span class="lineNum">     233 </span><span class="lineNoCov">          0 :                                out );</span>
-<span class="lineNum">     234 </span><span class="lineCov">         81 : }</span>
+<span class="lineNum">     234 </span><span class="lineCov">         84 : }</span>
 </pre>
       </td>
     </tr>

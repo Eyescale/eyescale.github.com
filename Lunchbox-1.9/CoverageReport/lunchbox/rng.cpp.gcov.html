@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-06-04</td>
+            <td class="headerValue">2014-08-04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -112,23 +112,23 @@
 <span class="lineNum">      50 </span>            : #endif
 <a name="51"><span class="lineNum">      51 </span>            : }</a>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">      98443 : RNG::RNG()</span>
-<span class="lineNum">      54 </span><span class="lineCov">      98443 :         : _impl( 0 )</span>
+<span class="lineNum">      53 </span><span class="lineCov">     100910 : RNG::RNG()</span>
+<span class="lineNum">      54 </span><span class="lineCov">     100910 :         : _impl( 0 )</span>
 <span class="lineNum">      55 </span>            : {
-<span class="lineNum">      56 </span><span class="lineCov">      98348 :     _init();</span>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">      98303 : }</span></a>
+<span class="lineNum">      56 </span><span class="lineCov">     100923 :     _init();</span>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     100915 : }</span></a>
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">     100898 : RNG::~RNG()</span>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">     100898 : {}</span></a>
+<span class="lineNum">      59 </span><span class="lineCov">     101038 : RNG::~RNG()</span>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">     101038 : {}</span></a>
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span><span class="lineCov">      98324 : bool RNG::_init()</span>
+<span class="lineNum">      62 </span><span class="lineCov">     100916 : bool RNG::_init()</span>
 <span class="lineNum">      63 </span>            : {
 <span class="lineNum">      64 </span>            : #ifdef __APPLE__
 <span class="lineNum">      65 </span>            :     srandomdev();
 <span class="lineNum">      66 </span>            : #elif defined (__linux__)
 <span class="lineNum">      67 </span>            :     static int fd = -1; // prevent static initializer fiasco
-<span class="lineNum">      68 </span><span class="lineCov">      98324 :     if( fd &gt;= 0 )</span>
-<span class="lineNum">      69 </span><span class="lineCov">      98315 :         return true;</span>
+<span class="lineNum">      68 </span><span class="lineCov">     100916 :     if( fd &gt;= 0 )</span>
+<span class="lineNum">      69 </span><span class="lineCov">     100907 :         return true;</span>
 <span class="lineNum">      70 </span>            : 
 <span class="lineNum">      71 </span><span class="lineCov">          9 :     fd = ::open( &quot;/dev/urandom&quot;, O_RDONLY );</span>
 <span class="lineNum">      72 </span><span class="lineCov">          9 :     if( fd &gt;= 0 )</span>
@@ -185,14 +185,14 @@
 <span class="lineNum">     123 </span>            : #endif
 <a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span><span class="lineCov">   11142040 : bool RNG::_get( void* data, const size_t size )</span>
+<span class="lineNum">     126 </span><span class="lineCov">   11195823 : bool RNG::_get( void* data, const size_t size )</span>
 <span class="lineNum">     127 </span>            : {
 <span class="lineNum">     128 </span>            : #ifdef __linux__
-<span class="lineNum">     129 </span><span class="lineCov">   11142040 :     LBASSERTINFO( _fd &gt;= 0, &quot;init() not called?&quot; );</span>
-<span class="lineNum">     130 </span><span class="lineCov">   11140551 :     int read = ::read( _fd, data, size );</span>
-<span class="lineNum">     131 </span><span class="lineCov">   11146020 :     LBASSERTINFO( read == ssize_t( size ),</span>
+<span class="lineNum">     129 </span><span class="lineCov">   11195823 :     LBASSERTINFO( _fd &gt;= 0, &quot;init() not called?&quot; );</span>
+<span class="lineNum">     130 </span><span class="lineCov">   11196149 :     int read = ::read( _fd, data, size );</span>
+<span class="lineNum">     131 </span><span class="lineCov">   11196733 :     LBASSERTINFO( read == ssize_t( size ),</span>
 <span class="lineNum">     132 </span>            :                   read &lt;&lt; &quot; != &quot; &lt;&lt; size &lt;&lt; &quot;: &quot; &lt;&lt; sysError );
-<span class="lineNum">     133 </span><span class="lineCov">   11144400 :     if( read != ssize_t( size ))</span>
+<span class="lineNum">     133 </span><span class="lineCov">   11196810 :     if( read != ssize_t( size ))</span>
 <span class="lineNum">     134 </span>            :     {
 <span class="lineNum">     135 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;random number generator not working&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     136 </span><span class="lineNoCov">          0 :         return false;</span>
@@ -210,10 +210,10 @@
 <span class="lineNum">     148 </span>            :     for( size_t i=0; i &lt; size; ++i )
 <span class="lineNum">     149 </span>            :         ptr[i] = ( random() &amp; 0xff );
 <span class="lineNum">     150 </span>            : #endif
-<span class="lineNum">     151 </span><span class="lineCov">   11144400 :     return true;</span>
+<span class="lineNum">     151 </span><span class="lineCov">   11196810 :     return true;</span>
 <a name="152"><span class="lineNum">     152 </span>            : }</a>
 <span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span><span class="lineCov">         81 : }</span>
+<span class="lineNum">     154 </span><span class="lineCov">         84 : }</span>
 </pre>
       </td>
     </tr>

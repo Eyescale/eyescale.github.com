@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov2.info - lunchbox/uri.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">lunchbox</a> - uri.cpp<span style="font-size: 80%;"> (source / <a href="uri.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">74</td>
+            <td class="headerCovTableEntry">89</td>
+            <td class="headerCovTableEntryHi">83.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2014-08-04</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntryMed">69.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2013-2014, ahmet.bilgili@epfl.ch
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This file is part of Lunchbox &lt;https://github.com/Eyescale/Lunchbox&gt;
+<span class="lineNum">       5 </span>            :  *
+<span class="lineNum">       6 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       7 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       8 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       9 </span>            :  *
+<span class="lineNum">      10 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">      11 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      12 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      13 </span>            :  * details.
+<span class="lineNum">      14 </span>            :  *
+<span class="lineNum">      15 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      16 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      17 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      18 </span>            :  */
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &lt;lunchbox/uri.h&gt;
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : #include &lt;boost/regex.hpp&gt;
+<span class="lineNum">      23 </span>            : #include &lt;boost/algorithm/string_regex.hpp&gt;
+<span class="lineNum">      24 </span>            : #include &lt;boost/lexical_cast.hpp&gt;
+<span class="lineNum">      25 </span>            : #include &lt;sstream&gt;
+<span class="lineNum">      26 </span>            : #include &lt;exception&gt;
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : namespace lunchbox
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span>            : namespace detail
+<a name="31"><span class="lineNum">      31 </span>            : {</a>
+<span class="lineNum">      32 </span>            : 
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">          2 : struct URIData</span></a>
+<span class="lineNum">      34 </span>            : {
+<span class="lineNum">      35 </span><span class="lineCov">          2 :     URIData() : port( 0 ) {}</span>
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            :     std::string scheme;
+<span class="lineNum">      38 </span>            :     std::string userinfo;
+<span class="lineNum">      39 </span>            :     std::string host;
+<span class="lineNum">      40 </span>            :     uint16_t port;
+<span class="lineNum">      41 </span>            :     std::string path;
+<span class="lineNum">      42 </span>            :     std::string query;
+<span class="lineNum">      43 </span>            :     std::string fragment;
+<span class="lineNum">      44 </span>            :     lunchbox::URI::KVMap queryMap;
+<span class="lineNum">      45 </span>            : };
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            : class uri_parse : public std::exception
+<a name="48"><span class="lineNum">      48 </span>            : {</a>
+<span class="lineNum">      49 </span>            : public:
+<span class="lineNum">      50 </span><span class="lineCov">          1 :     uri_parse( const std::string&amp; uri )</span>
+<span class="lineNum">      51 </span><span class="lineCov">          1 :     {</span>
+<span class="lineNum">      52 </span><span class="lineCov">          1 :         _error &lt;&lt; &quot;Error parsing URI string: &quot; &lt;&lt; uri &lt;&lt; std::endl;</span>
+<span class="lineNum">      53 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            :     uri_parse( const uri_parse&amp; excep )
+<span class="lineNum">      56 </span>            :     {
+<span class="lineNum">      57 </span>            :         _error &lt;&lt; excep._error;
+<a name="58"><span class="lineNum">      58 </span>            :     }</a>
+<span class="lineNum">      59 </span>            : 
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">          1 :     virtual ~uri_parse() throw() {}</span></a>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :     virtual const char* what() const throw() { return _error.str().c_str(); }</span>
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            : private:
+<span class="lineNum">      65 </span>            :     std::stringstream _error;
+<a name="66"><span class="lineNum">      66 </span>            : };</a>
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span><span class="lineCov">          1 : class URI</span>
+<a name="69"><span class="lineNum">      69 </span>            : {</a>
+<span class="lineNum">      70 </span>            : public:
+<span class="lineNum">      71 </span><span class="lineCov">          2 :     URI( const std::string &amp;uri )</span>
+<span class="lineNum">      72 </span><span class="lineCov">          3 :        : _uri( uri )</span>
+<span class="lineNum">      73 </span>            :     {
+<span class="lineNum">      74 </span><span class="lineCov">          2 :         boost::match_results&lt; std::string::const_iterator &gt; results;</span>
+<span class="lineNum">      75 </span>            :         boost::regex expr(
+<span class="lineNum">      76 </span>            :             &quot;^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?&quot;,
+<span class="lineNum">      77 </span><span class="lineCov">          4 :             boost::regex::perl | boost::regex::icase );</span>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineCov">          2 :         if( !boost::regex_search( uri, results, expr ) )</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :             throw uri_parse( _uri );</span>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineCov">          2 :         const std::string&amp; schema = std::string( results[2].first,</span>
+<span class="lineNum">      83 </span><span class="lineCov">          6 :                                                  results[2].second );</span>
+<span class="lineNum">      84 </span><span class="lineCov">          2 :         if( schema.empty() )</span>
+<span class="lineNum">      85 </span><span class="lineCov">          1 :             throw uri_parse( _uri );</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span><span class="lineCov">          1 :         _uriData.scheme = schema;</span>
+<span class="lineNum">      88 </span><span class="lineCov">          1 :         const std::string&amp; userHost = std::string( results[4].first,</span>
+<span class="lineNum">      89 </span><span class="lineCov">          3 :                                                    results[4].second );</span>
+<span class="lineNum">      90 </span><span class="lineCov">          1 :         if( !userHost.empty() )</span>
+<span class="lineNum">      91 </span>            :         {
+<span class="lineNum">      92 </span><span class="lineCov">          1 :             std::vector&lt; std::string &gt; splitUserHost;</span>
+<span class="lineNum">      93 </span><span class="lineCov">          2 :             std::string hostPort;</span>
+<span class="lineNum">      94 </span>            :             boost::algorithm::split( splitUserHost, userHost,
+<span class="lineNum">      95 </span><span class="lineCov">          1 :                                      boost::is_any_of( &quot;@&quot;));</span>
+<span class="lineNum">      96 </span><span class="lineCov">          1 :             if( splitUserHost.size() == 2 ) // for ex: user:pass@hello.com:port</span>
+<span class="lineNum">      97 </span>            :             {
+<span class="lineNum">      98 </span><span class="lineCov">          1 :                 _uriData.userinfo = splitUserHost[ 0 ];</span>
+<span class="lineNum">      99 </span><span class="lineCov">          1 :                 hostPort = splitUserHost[ 1 ];</span>
+<span class="lineNum">     100 </span>            :             }
+<span class="lineNum">     101 </span>            :             else
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :                 hostPort = splitUserHost[ 0 ];</span>
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span><span class="lineCov">          2 :             std::vector&lt; std::string &gt; splitHostPort;</span>
+<span class="lineNum">     105 </span>            :             boost::algorithm::split( splitHostPort, hostPort,
+<span class="lineNum">     106 </span><span class="lineCov">          1 :                                      boost::is_any_of( &quot;:&quot; ));</span>
+<span class="lineNum">     107 </span><span class="lineCov">          1 :             _uriData.host = splitHostPort[ 0 ];</span>
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span><span class="lineCov">          1 :             if( splitUserHost.size() == 2 ) // for ex: user:pass@hello.com:port</span>
+<span class="lineNum">     110 </span>            :                 _uriData.port = boost::lexical_cast&lt; uint16_t &gt;(
+<span class="lineNum">     111 </span><span class="lineCov">          2 :                     splitHostPort[ 1 ] );</span>
+<span class="lineNum">     112 </span>            :         }
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span><span class="lineCov">          1 :         _uriData.path = std::string( results[5].first, results[5].second );</span>
+<span class="lineNum">     115 </span><span class="lineCov">          1 :         _uriData.query = std::string( results[7].first, results[7].second );</span>
+<span class="lineNum">     116 </span><span class="lineCov">          1 :         _uriData.fragment = std::string( results[9].first, results[9].second );</span>
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :         // parse query data into key-value pairs
+<span class="lineNum">     119 </span><span class="lineCov">          2 :         std::string query = _uriData.query;</span>
+<span class="lineNum">     120 </span><span class="lineCov">          4 :         while( !query.empty( ))</span>
+<span class="lineNum">     121 </span>            :         {
+<span class="lineNum">     122 </span><span class="lineCov">          2 :             const size_t nextPair = query.find( ',' );</span>
+<span class="lineNum">     123 </span><span class="lineCov">          2 :             if( nextPair == 0 )</span>
+<span class="lineNum">     124 </span>            :             {
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 :                 query = query.substr( 1 );</span>
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :                 continue;</span>
+<span class="lineNum">     127 </span>            :             }
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span><span class="lineCov">          2 :             const std::string pair = query.substr( 0, nextPair );</span>
+<span class="lineNum">     130 </span><span class="lineCov">          2 :             if( nextPair == std::string::npos )</span>
+<span class="lineNum">     131 </span><span class="lineCov">          1 :                 query.clear();</span>
+<span class="lineNum">     132 </span>            :             else
+<span class="lineNum">     133 </span><span class="lineCov">          1 :                 query = query.substr( nextPair + 1 );</span>
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span><span class="lineCov">          2 :             const size_t eq = pair.find( '=' );</span>
+<span class="lineNum">     136 </span><span class="lineCov">          2 :             if( eq == std::string::npos || eq == 0 )</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :                 continue;</span>
+<span class="lineNum">     138 </span><span class="lineCov">          2 :             _uriData.queryMap[ pair.substr( 0, eq ) ] = pair.substr( eq + 1 );</span>
+<span class="lineNum">     139 </span><span class="lineCov">          4 :         }</span>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">          1 :     }</span></a>
+<span class="lineNum">     141 </span>            : 
+<span class="lineNum">     142 </span><span class="lineCov">         25 :     const URIData&amp; getData() const { return _uriData; }</span>
+<span class="lineNum">     143 </span>            :     const std::string&amp; getURI() const { return _uri; }
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span>            : private:
+<span class="lineNum">     146 </span>            :      std::string _uri;
+<span class="lineNum">     147 </span>            :      URIData _uriData;
+<span class="lineNum">     148 </span>            : };
+<span class="lineNum">     149 </span>            : 
+<a name="150"><span class="lineNum">     150 </span>            : }</a>
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span><span class="lineCov">          2 : URI::URI( const std::string &amp;uri )</span>
+<span class="lineNum">     153 </span><span class="lineCov">          3 :    : _impl( new detail::URI( uri ) )</span>
+<span class="lineNum">     154 </span>            : {
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 : URI::URI( const URI&amp; from )</span>
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :     : _impl( new detail::URI( *from._impl ))</span>
+<a name="159"><span class="lineNum">     159 </span>            : {</a>
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     161 </span><span class="lineCov">          1 : lunchbox::URI::~URI()</span>
+<span class="lineNum">     162 </span>            : {
+<span class="lineNum">     163 </span><span class="lineCov">          1 :     delete _impl;</span>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 : URI&amp; URI::operator = ( const URI&amp; rhs )</span>
+<span class="lineNum">     167 </span>            : {
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :     if( this != &amp;rhs )</span>
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :         *_impl = *rhs._impl;</span>
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :     return *this;</span>
+<a name="171"><span class="lineNum">     171 </span>            : }</a>
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span><span class="lineCov">          2 : const std::string &amp;URI::getScheme() const</span>
+<span class="lineNum">     174 </span>            : {
+<span class="lineNum">     175 </span><span class="lineCov">          2 :     return _impl-&gt;getData().scheme;</span>
+<a name="176"><span class="lineNum">     176 </span>            : }</a>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span><span class="lineCov">          2 : const std::string &amp;URI::getHost() const</span>
+<span class="lineNum">     179 </span>            : {
+<span class="lineNum">     180 </span><span class="lineCov">          2 :     return _impl-&gt;getData().host;</span>
+<a name="181"><span class="lineNum">     181 </span>            : }</a>
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span><span class="lineCov">          3 : uint16_t URI::getPort() const</span>
+<span class="lineNum">     184 </span>            : {
+<span class="lineNum">     185 </span><span class="lineCov">          3 :     return _impl-&gt;getData().port;</span>
+<a name="186"><span class="lineNum">     186 </span>            : }</a>
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineCov">          3 : const std::string &amp;URI::getUserinfo() const</span>
+<span class="lineNum">     189 </span>            : {
+<span class="lineNum">     190 </span><span class="lineCov">          3 :     return _impl-&gt;getData().userinfo;</span>
+<a name="191"><span class="lineNum">     191 </span>            : }</a>
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span><span class="lineCov">          2 : const std::string&amp; URI::getPath() const</span>
+<span class="lineNum">     194 </span>            : {
+<span class="lineNum">     195 </span><span class="lineCov">          2 :     return _impl-&gt;getData().path;</span>
+<a name="196"><span class="lineNum">     196 </span>            : }</a>
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span><span class="lineCov">          2 : const std::string&amp; URI::getQuery() const</span>
+<span class="lineNum">     199 </span>            : {
+<span class="lineNum">     200 </span><span class="lineCov">          2 :     return _impl-&gt;getData().query;</span>
+<a name="201"><span class="lineNum">     201 </span>            : }</a>
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineCov">          3 : const std::string &amp;URI::getFragment() const</span>
+<span class="lineNum">     204 </span>            : {
+<span class="lineNum">     205 </span><span class="lineCov">          3 :     return _impl-&gt;getData().fragment;</span>
+<a name="206"><span class="lineNum">     206 </span>            : }</a>
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 : URI::ConstKVIter URI::queryBegin() const</span>
+<span class="lineNum">     209 </span>            : {
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :     return _impl-&gt;getData().queryMap.begin();</span>
+<a name="211"><span class="lineNum">     211 </span>            : }</a>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span><span class="lineCov">          3 : URI::ConstKVIter URI::queryEnd() const</span>
+<span class="lineNum">     214 </span>            : {
+<span class="lineNum">     215 </span><span class="lineCov">          3 :     return _impl-&gt;getData().queryMap.end();</span>
+<a name="216"><span class="lineNum">     216 </span>            : }</a>
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span><span class="lineCov">          5 : URI::ConstKVIter URI::findQuery( const std::string&amp; key ) const</span>
+<span class="lineNum">     219 </span>            : {
+<span class="lineNum">     220 </span><span class="lineCov">          5 :     return _impl-&gt;getData().queryMap.find( key );</span>
+<a name="221"><span class="lineNum">     221 </span>            : }</a>
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span><span class="lineCov">         84 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

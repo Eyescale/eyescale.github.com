@@ -57,5 +57,6 @@ var namespacelunchbox =
     [ "uint128_t", "classlunchbox_1_1uint128__t.html", "classlunchbox_1_1uint128__t" ],
     [ "UnorderedIntervalSet", "classlunchbox_1_1_unordered_interval_set.html", "classlunchbox_1_1_unordered_interval_set" ],
     [ "Uploader", "classlunchbox_1_1_uploader.html", "classlunchbox_1_1_uploader" ],
+    [ "URI", "classlunchbox_1_1_u_r_i.html", "classlunchbox_1_1_u_r_i" ],
     [ "Version", "classlunchbox_1_1_version.html", null ]
 ];

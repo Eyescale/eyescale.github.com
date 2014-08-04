@@ -31,13 +31,13 @@
             <td class="headerValue">lcov2.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">106</td>
+            <td class="headerCovTableEntry">104</td>
             <td class="headerCovTableEntry">200</td>
-            <td class="headerCovTableEntryMed">53.0 %</td>
+            <td class="headerCovTableEntryMed">52.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-06-04</td>
+            <td class="headerValue">2014-08-04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">28</td>
@@ -105,9 +105,9 @@
 <span class="lineNum">      43 </span>            : static const size_t threadNameLength = 8;
 <a name="44"><span class="lineNum">      44 </span>            : </a>
 <span class="lineNum">      45 </span>            : static unsigned getLogTopics();
-<span class="lineNum">      46 </span><span class="lineCov">         27 : static Clock    _defaultClock;</span>
+<span class="lineNum">      46 </span><span class="lineCov">         28 : static Clock    _defaultClock;</span>
 <span class="lineNum">      47 </span>            : static Clock*   _clock = &amp;_defaultClock;
-<span class="lineNum">      48 </span><span class="lineCov">         27 : static Lock     _lock; // The write lock</span>
+<span class="lineNum">      48 </span><span class="lineCov">         28 : static Lock     _lock; // The write lock</span>
 <span class="lineNum">      49 </span>            : 
 <span class="lineNum">      50 </span>            : namespace detail
 <span class="lineNum">      51 </span>            : {
@@ -115,12 +115,12 @@
 <span class="lineNum">      53 </span>            : class Log : public std::streambuf
 <a name="54"><span class="lineNum">      54 </span>            : {</a>
 <span class="lineNum">      55 </span>            : public:
-<span class="lineNum">      56 </span><span class="lineCov">       2477 :     explicit Log( std::ostream&amp; stream )</span>
+<span class="lineNum">      56 </span><span class="lineCov">       3503 :     explicit Log( std::ostream&amp; stream )</span>
 <span class="lineNum">      57 </span>            :         : _indent(0), _blocked(0), _noHeader(0),
-<span class="lineNum">      58 </span><span class="lineCov">       2477 :           _newLine(true), _stream(stream)</span>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">       2477 :     { _file[0] = 0; }</span></a>
+<span class="lineNum">      58 </span><span class="lineCov">       3503 :           _newLine(true), _stream(stream)</span>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">       3503 :     { _file[0] = 0; }</span></a>
 <span class="lineNum">      60 </span>            : 
-<a name="61"><span class="lineNum">      61 </span><span class="lineCov">       4953 :     virtual ~Log() {}</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">       7006 :     virtual ~Log() {}</span></a>
 <a name="62"><span class="lineNum">      62 </span>            : </a>
 <span class="lineNum">      63 </span><span class="lineNoCov">          0 :     void indent() { ++_indent; }</span>
 <a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 :     void exdent() { --_indent; }</span></a>
@@ -135,65 +135,65 @@
 <span class="lineNum">      73 </span><span class="lineNoCov">          0 :     void disableHeader() { ++_noHeader; } // use counted variable to allow</span>
 <a name="74"><span class="lineNum">      74 </span><span class="lineNoCov">          0 :     void enableHeader()  { --_noHeader; } //   nested enable/disable calls</span></a>
 <span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">       2498 :     void setThreadName( const std::string&amp; name )</span>
+<span class="lineNum">      76 </span><span class="lineCov">       3525 :     void setThreadName( const std::string&amp; name )</span>
 <span class="lineNum">      77 </span>            :     {
-<span class="lineNum">      78 </span><span class="lineCov">       2498 :         LBASSERT( !name.empty( ));</span>
-<span class="lineNum">      79 </span><span class="lineCov">       2498 :         _thread = name.substr( 0, threadNameLength );</span>
-<span class="lineNum">      80 </span><span class="lineCov">      18000 :         while( _thread.size() &lt; threadNameLength )</span>
-<span class="lineNum">      81 </span><span class="lineCov">      13004 :             _thread += std::string( &quot; &quot; );</span>
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">       2498 :     }</span></a>
+<span class="lineNum">      78 </span><span class="lineCov">       3525 :         LBASSERT( !name.empty( ));</span>
+<span class="lineNum">      79 </span><span class="lineCov">       3525 :         _thread = name.substr( 0, threadNameLength );</span>
+<span class="lineNum">      80 </span><span class="lineCov">      25076 :         while( _thread.size() &lt; threadNameLength )</span>
+<span class="lineNum">      81 </span><span class="lineCov">      18026 :             _thread += std::string( &quot; &quot; );</span>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">       3525 :     }</span></a>
 <span class="lineNum">      83 </span>            : 
 <a name="84"><span class="lineNum">      84 </span><span class="lineCov">        306 :     const std::string&amp; getThreadName() const { return _thread; }</span></a>
 <span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span><span class="lineCov">       2479 :     void setLogInfo( const char* f, const int line )</span>
+<span class="lineNum">      86 </span><span class="lineCov">       3505 :     void setLogInfo( const char* f, const int line )</span>
 <span class="lineNum">      87 </span>            :     {
-<span class="lineNum">      88 </span><span class="lineCov">       2479 :         LBASSERT( f );</span>
-<span class="lineNum">      89 </span><span class="lineCov">       2479 :         std::string file( f );</span>
-<span class="lineNum">      90 </span><span class="lineCov">       2479 :         const size_t length = file.length();</span>
+<span class="lineNum">      88 </span><span class="lineCov">       3505 :         LBASSERT( f );</span>
+<span class="lineNum">      89 </span><span class="lineCov">       3505 :         std::string file( f );</span>
+<span class="lineNum">      90 </span><span class="lineCov">       3505 :         const size_t length = file.length();</span>
 <span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span><span class="lineCov">       2479 :         if( length &gt; 29 )</span>
-<span class="lineNum">      93 </span><span class="lineCov">       2479 :             file = file.substr( length - 29, length );</span>
+<span class="lineNum">      92 </span><span class="lineCov">       3505 :         if( length &gt; 29 )</span>
+<span class="lineNum">      93 </span><span class="lineCov">       3505 :             file = file.substr( length - 29, length );</span>
 <span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span><span class="lineCov">       2479 :         snprintf( _file, 35, &quot;%29s:%-4d&quot;, file.c_str(), line );</span>
-<span class="lineNum">      96 </span><span class="lineCov">       2479 :     }</span>
+<span class="lineNum">      95 </span><span class="lineCov">       3505 :         snprintf( _file, 35, &quot;%29s:%-4d&quot;, file.c_str(), line );</span>
+<span class="lineNum">      96 </span><span class="lineCov">       3505 :     }</span>
 <a name="97"><span class="lineNum">      97 </span>            : </a>
 <span class="lineNum">      98 </span>            : protected:
-<span class="lineNum">      99 </span><span class="lineCov">     133756 :     virtual int_type overflow( Log::int_type c ) override</span>
+<span class="lineNum">      99 </span><span class="lineCov">     194430 :     virtual int_type overflow( Log::int_type c ) override</span>
 <span class="lineNum">     100 </span>            :     {
-<span class="lineNum">     101 </span><span class="lineCov">     133756 :         if( c == EOF )</span>
+<span class="lineNum">     101 </span><span class="lineCov">     194430 :         if( c == EOF )</span>
 <span class="lineNum">     102 </span><span class="lineNoCov">          0 :             return EOF;</span>
 <span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span><span class="lineCov">     133756 :         if( _newLine )</span>
+<span class="lineNum">     104 </span><span class="lineCov">     194430 :         if( _newLine )</span>
 <span class="lineNum">     105 </span>            :         {
-<span class="lineNum">     106 </span><span class="lineCov">       2479 :             if( !_noHeader )</span>
+<span class="lineNum">     106 </span><span class="lineCov">       3505 :             if( !_noHeader )</span>
 <span class="lineNum">     107 </span>            :             {
-<span class="lineNum">     108 </span><span class="lineCov">       2479 :                 _stringStream &lt;&lt; getpid()  &lt;&lt; &quot;.&quot; &lt;&lt; _thread &lt;&lt; &quot; &quot; &lt;&lt; _file</span>
-<span class="lineNum">     109 </span><span class="lineCov">       4958 :                               &lt;&lt; &quot; &quot; &lt;&lt; _clock-&gt;getTime64() &lt;&lt; &quot; &quot;;</span>
+<span class="lineNum">     108 </span><span class="lineCov">       3505 :                 _stringStream &lt;&lt; getpid()  &lt;&lt; &quot;.&quot; &lt;&lt; _thread &lt;&lt; &quot; &quot; &lt;&lt; _file</span>
+<span class="lineNum">     109 </span><span class="lineCov">       7010 :                               &lt;&lt; &quot; &quot; &lt;&lt; _clock-&gt;getTime64() &lt;&lt; &quot; &quot;;</span>
 <span class="lineNum">     110 </span>            :             }
 <span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span><span class="lineCov">       2479 :             for( int i=0; i&lt;_indent; ++i )</span>
+<span class="lineNum">     112 </span><span class="lineCov">       3505 :             for( int i=0; i&lt;_indent; ++i )</span>
 <span class="lineNum">     113 </span><span class="lineNoCov">          0 :                 _stringStream &lt;&lt; &quot;    &quot;;</span>
-<span class="lineNum">     114 </span><span class="lineCov">       2479 :             _newLine = false;</span>
+<span class="lineNum">     114 </span><span class="lineCov">       3505 :             _newLine = false;</span>
 <span class="lineNum">     115 </span>            :         }
 <span class="lineNum">     116 </span>            : 
-<span class="lineNum">     117 </span><span class="lineCov">     133756 :         _stringStream &lt;&lt; (char)c;</span>
-<span class="lineNum">     118 </span><span class="lineCov">     133756 :         return c;</span>
+<span class="lineNum">     117 </span><span class="lineCov">     194430 :         _stringStream &lt;&lt; (char)c;</span>
+<span class="lineNum">     118 </span><span class="lineCov">     194430 :         return c;</span>
 <a name="119"><span class="lineNum">     119 </span>            :     }</a>
 <span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span><span class="lineCov">       7331 :     virtual int sync() override</span>
+<span class="lineNum">     121 </span><span class="lineCov">      10435 :     virtual int sync() override</span>
 <span class="lineNum">     122 </span>            :     {
-<span class="lineNum">     123 </span><span class="lineCov">       7331 :         if( !_blocked )</span>
+<span class="lineNum">     123 </span><span class="lineCov">      10435 :         if( !_blocked )</span>
 <span class="lineNum">     124 </span>            :         {
-<span class="lineNum">     125 </span><span class="lineCov">       7353 :             const std::string&amp; string = _stringStream.str();</span>
+<span class="lineNum">     125 </span><span class="lineCov">      10453 :             const std::string&amp; string = _stringStream.str();</span>
 <span class="lineNum">     126 </span>            :             {
-<span class="lineNum">     127 </span><span class="lineCov">       7327 :                 ScopedMutex&lt; lunchbox::Lock &gt; mutex( _lock );</span>
-<span class="lineNum">     128 </span><span class="lineCov">       7396 :                 _stream.write( string.c_str(), string.length( ));</span>
-<span class="lineNum">     129 </span><span class="lineCov">       7396 :                 _stream.rdbuf()-&gt;pubsync();</span>
+<span class="lineNum">     127 </span><span class="lineCov">      10437 :                 ScopedMutex&lt; lunchbox::Lock &gt; mutex( _lock );</span>
+<span class="lineNum">     128 </span><span class="lineCov">      10473 :                 _stream.write( string.c_str(), string.length( ));</span>
+<span class="lineNum">     129 </span><span class="lineCov">      10473 :                 _stream.rdbuf()-&gt;pubsync();</span>
 <span class="lineNum">     130 </span>            :             }
-<span class="lineNum">     131 </span><span class="lineCov">       7379 :             _stringStream.str( &quot;&quot; );</span>
+<span class="lineNum">     131 </span><span class="lineCov">      10467 :             _stringStream.str( &quot;&quot; );</span>
 <span class="lineNum">     132 </span>            :         }
-<span class="lineNum">     133 </span><span class="lineCov">       7389 :         _newLine = true;</span>
-<span class="lineNum">     134 </span><span class="lineCov">       7389 :         return 0;</span>
+<span class="lineNum">     133 </span><span class="lineCov">      10468 :         _newLine = true;</span>
+<span class="lineNum">     134 </span><span class="lineCov">      10468 :         return 0;</span>
 <span class="lineNum">     135 </span>            :     }
 <span class="lineNum">     136 </span>            : 
 <span class="lineNum">     137 </span>            : private:
@@ -228,11 +228,11 @@
 <span class="lineNum">     166 </span>            : 
 <a name="167"><span class="lineNum">     167 </span>            : namespace</a>
 <span class="lineNum">     168 </span>            : {
-<span class="lineNum">     169 </span><span class="lineCov">        135 : class LogTable</span>
+<span class="lineNum">     169 </span><span class="lineCov">        140 : class LogTable</span>
 <a name="170"><span class="lineNum">     170 </span>            : {</a>
 <span class="lineNum">     171 </span>            : public:
-<span class="lineNum">     172 </span><span class="lineCov">        135 :     LogTable( const LogLevel _level, const std::string&amp; _name )</span>
-<span class="lineNum">     173 </span><span class="lineCov">        135 :             : level( _level ), name( _name ) {}</span>
+<span class="lineNum">     172 </span><span class="lineCov">        140 :     LogTable( const LogLevel _level, const std::string&amp; _name )</span>
+<span class="lineNum">     173 </span><span class="lineCov">        140 :             : level( _level ), name( _name ) {}</span>
 <span class="lineNum">     174 </span>            : 
 <span class="lineNum">     175 </span>            :     LogLevel level;
 <span class="lineNum">     176 </span>            :     std::string name;
@@ -241,20 +241,20 @@
 <span class="lineNum">     179 </span>            : #define LOG_TABLE_ENTRY( name ) LogTable( LOG_ ## name, std::string( #name ))
 <a name="180"><span class="lineNum">     180 </span>            : #define LOG_TABLE_SIZE (5)</a>
 <span class="lineNum">     181 </span>            : 
-<span class="lineNum">     182 </span><span class="lineCov">         54 : static LogTable _logTable[ LOG_TABLE_SIZE ] =</span>
+<span class="lineNum">     182 </span><span class="lineCov">         56 : static LogTable _logTable[ LOG_TABLE_SIZE ] =</span>
 <span class="lineNum">     183 </span>            : {
 <span class="lineNum">     184 </span>            :     LOG_TABLE_ENTRY( ERROR ),
 <span class="lineNum">     185 </span>            :     LOG_TABLE_ENTRY( WARN ),
 <span class="lineNum">     186 </span>            :     LOG_TABLE_ENTRY( INFO ),
 <span class="lineNum">     187 </span>            :     LOG_TABLE_ENTRY( VERB ),
 <span class="lineNum">     188 </span>            :     LOG_TABLE_ENTRY( ALL )
-<span class="lineNum">     189 </span><span class="lineCov">         27 : };</span>
+<span class="lineNum">     189 </span><span class="lineCov">         28 : };</span>
 <span class="lineNum">     190 </span>            : }
 <span class="lineNum">     191 </span>            : 
-<span class="lineNum">     192 </span><span class="lineCov">         27 : int      Log::level  = Log::getLogLevel( getenv( &quot;LB_LOG_LEVEL&quot; ));</span>
-<span class="lineNum">     193 </span><span class="lineCov">         27 : unsigned Log::topics = getLogTopics();</span>
+<span class="lineNum">     192 </span><span class="lineCov">         28 : int      Log::level  = Log::getLogLevel( getenv( &quot;LB_LOG_LEVEL&quot; ));</span>
+<span class="lineNum">     193 </span><span class="lineCov">         28 : unsigned Log::topics = getLogTopics();</span>
 <span class="lineNum">     194 </span>            : 
-<span class="lineNum">     195 </span><span class="lineCov">         27 : static PerThread&lt; Log &gt; _logInstance;</span>
+<span class="lineNum">     195 </span><span class="lineCov">         28 : static PerThread&lt; Log &gt; _logInstance;</span>
 <span class="lineNum">     196 </span>            : 
 <span class="lineNum">     197 </span>            : #ifdef NDEBUG
 <span class="lineNum">     198 </span>            : static std::ostream* _logStream = &amp;std::cout;
@@ -263,16 +263,16 @@
 <span class="lineNum">     201 </span>            : #endif
 <a name="202"><span class="lineNum">     202 </span>            : static std::ostream* _logFile = 0;</a>
 <span class="lineNum">     203 </span>            : 
-<span class="lineNum">     204 </span><span class="lineCov">       2477 : Log::Log()</span>
-<span class="lineNum">     205 </span><span class="lineCov">       2477 :     : std::ostream( new detail::Log( getOutput( )))</span>
-<span class="lineNum">     206 </span><span class="lineCov">       4954 :     , impl_( dynamic_cast&lt; detail::Log* &gt;( rdbuf( )))</span>
-<a name="207"><span class="lineNum">     207 </span><span class="lineCov">       2477 : {}</span></a>
+<span class="lineNum">     204 </span><span class="lineCov">       3503 : Log::Log()</span>
+<span class="lineNum">     205 </span><span class="lineCov">       3503 :     : std::ostream( new detail::Log( getOutput( )))</span>
+<span class="lineNum">     206 </span><span class="lineCov">       7006 :     , impl_( dynamic_cast&lt; detail::Log* &gt;( rdbuf( )))</span>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">       3503 : {}</span></a>
 <span class="lineNum">     208 </span>            : 
-<span class="lineNum">     209 </span><span class="lineCov">       9876 : Log::~Log()</span>
+<span class="lineNum">     209 </span><span class="lineCov">      13981 : Log::~Log()</span>
 <span class="lineNum">     210 </span>            : {
-<span class="lineNum">     211 </span><span class="lineCov">       2465 :     impl_-&gt;pubsync();</span>
-<span class="lineNum">     212 </span><span class="lineCov">       2476 :     delete impl_;</span>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">       7415 : }</span></a>
+<span class="lineNum">     211 </span><span class="lineCov">       3491 :     impl_-&gt;pubsync();</span>
+<span class="lineNum">     212 </span><span class="lineCov">       3503 :     delete impl_;</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">      10490 : }</span></a>
 <span class="lineNum">     214 </span>            : 
 <span class="lineNum">     215 </span><span class="lineNoCov">          0 : void Log::indent()</span>
 <span class="lineNum">     216 </span>            : {
@@ -294,10 +294,10 @@
 <span class="lineNum">     232 </span><span class="lineNoCov">          0 :     impl_-&gt;enableFlush();</span>
 <a name="233"><span class="lineNum">     233 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     234 </span>            : 
-<span class="lineNum">     235 </span><span class="lineCov">       2418 : void Log::forceFlush()</span>
+<span class="lineNum">     235 </span><span class="lineCov">       3435 : void Log::forceFlush()</span>
 <span class="lineNum">     236 </span>            : {
-<span class="lineNum">     237 </span><span class="lineCov">       2418 :     impl_-&gt;pubsync();</span>
-<a name="238"><span class="lineNum">     238 </span><span class="lineCov">       2433 : }</span></a>
+<span class="lineNum">     237 </span><span class="lineCov">       3435 :     impl_-&gt;pubsync();</span>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">       3459 : }</span></a>
 <span class="lineNum">     239 </span>            : 
 <span class="lineNum">     240 </span><span class="lineNoCov">          0 : void Log::disableHeader()</span>
 <span class="lineNum">     241 </span>            : {
@@ -309,28 +309,28 @@
 <span class="lineNum">     247 </span><span class="lineNoCov">          0 :     impl_-&gt;enableHeader();</span>
 <a name="248"><span class="lineNum">     248 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     249 </span>            : 
-<span class="lineNum">     250 </span><span class="lineCov">       2479 : void Log::setLogInfo( const char* file, const int line )</span>
+<span class="lineNum">     250 </span><span class="lineCov">       3505 : void Log::setLogInfo( const char* file, const int line )</span>
 <span class="lineNum">     251 </span>            : {
-<span class="lineNum">     252 </span><span class="lineCov">       2479 :     impl_-&gt;setLogInfo( file, line );</span>
-<a name="253"><span class="lineNum">     253 </span><span class="lineCov">       2479 : }</span></a>
+<span class="lineNum">     252 </span><span class="lineCov">       3505 :     impl_-&gt;setLogInfo( file, line );</span>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">       3505 : }</span></a>
 <span class="lineNum">     254 </span>            : 
-<span class="lineNum">     255 </span><span class="lineCov">       2498 : void Log::setThreadName( const std::string&amp; name )</span>
+<span class="lineNum">     255 </span><span class="lineCov">       3525 : void Log::setThreadName( const std::string&amp; name )</span>
 <span class="lineNum">     256 </span>            : {
-<span class="lineNum">     257 </span><span class="lineCov">       2498 :     impl_-&gt;setThreadName( name );</span>
-<a name="258"><span class="lineNum">     258 </span><span class="lineCov">       2498 : }</span></a>
+<span class="lineNum">     257 </span><span class="lineCov">       3525 :     impl_-&gt;setThreadName( name );</span>
+<a name="258"><span class="lineNum">     258 </span><span class="lineCov">       3525 : }</span></a>
 <span class="lineNum">     259 </span>            : 
 <span class="lineNum">     260 </span><span class="lineCov">        306 : const std::string&amp; Log::getThreadName() const</span>
 <span class="lineNum">     261 </span>            : {
 <span class="lineNum">     262 </span><span class="lineCov">        306 :     return impl_-&gt;getThreadName();</span>
 <a name="263"><span class="lineNum">     263 </span>            : }</a>
 <span class="lineNum">     264 </span>            : 
-<span class="lineNum">     265 </span><span class="lineCov">         54 : int Log::getLogLevel( const char* text )</span>
+<span class="lineNum">     265 </span><span class="lineCov">         56 : int Log::getLogLevel( const char* text )</span>
 <span class="lineNum">     266 </span>            : {
-<span class="lineNum">     267 </span><span class="lineCov">         54 :     if( text )</span>
+<span class="lineNum">     267 </span><span class="lineCov">         56 :     if( text )</span>
 <span class="lineNum">     268 </span>            :     {
-<span class="lineNum">     269 </span><span class="lineCov">         54 :         const int num = atoi( text );</span>
-<span class="lineNum">     270 </span><span class="lineCov">         54 :         if( num &gt; 0 &amp;&amp; num &lt;= LOG_ALL )</span>
-<span class="lineNum">     271 </span><span class="lineCov">         54 :             return num;</span>
+<span class="lineNum">     269 </span><span class="lineNoCov">          0 :         const int num = atoi( text );</span>
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :         if( num &gt; 0 &amp;&amp; num &lt;= LOG_ALL )</span>
+<span class="lineNum">     271 </span><span class="lineNoCov">          0 :             return num;</span>
 <span class="lineNum">     272 </span>            : 
 <span class="lineNum">     273 </span><span class="lineNoCov">          0 :         for( uint32_t i = 0; i &lt; LOG_TABLE_SIZE; ++i )</span>
 <span class="lineNum">     274 </span><span class="lineNoCov">          0 :             if( _logTable[i].name == text )</span>
@@ -340,7 +340,7 @@
 <span class="lineNum">     278 </span>            : #ifdef NDEBUG
 <span class="lineNum">     279 </span>            :     return LOG_WARN;
 <span class="lineNum">     280 </span>            : #else
-<span class="lineNum">     281 </span><span class="lineNoCov">          0 :     return LOG_INFO;</span>
+<span class="lineNum">     281 </span><span class="lineCov">         56 :     return LOG_INFO;</span>
 <span class="lineNum">     282 </span>            : #endif
 <a name="283"><span class="lineNum">     283 </span>            : }</a>
 <span class="lineNum">     284 </span>            : 
@@ -353,45 +353,45 @@
 <span class="lineNum">     291 </span><span class="lineNoCov">          0 :     return _logTable[0].name;</span>
 <a name="292"><span class="lineNum">     292 </span>            : }</a>
 <span class="lineNum">     293 </span>            : 
-<span class="lineNum">     294 </span><span class="lineCov">         27 : unsigned getLogTopics()</span>
+<span class="lineNum">     294 </span><span class="lineCov">         28 : unsigned getLogTopics()</span>
 <span class="lineNum">     295 </span>            : {
-<span class="lineNum">     296 </span><span class="lineCov">         27 :     Log::level = Log::getLogLevel( getenv( &quot;LB_LOG_LEVEL&quot; ));</span>
-<span class="lineNum">     297 </span><span class="lineCov">         27 :     const char *env = getenv( &quot;LB_LOG_TOPICS&quot; );</span>
+<span class="lineNum">     296 </span><span class="lineCov">         28 :     Log::level = Log::getLogLevel( getenv( &quot;LB_LOG_LEVEL&quot; ));</span>
+<span class="lineNum">     297 </span><span class="lineCov">         28 :     const char *env = getenv( &quot;LB_LOG_TOPICS&quot; );</span>
 <span class="lineNum">     298 </span>            : 
-<span class="lineNum">     299 </span><span class="lineCov">         27 :     if( env )</span>
+<span class="lineNum">     299 </span><span class="lineCov">         28 :     if( env )</span>
 <span class="lineNum">     300 </span><span class="lineNoCov">          0 :         return atoll(env);</span>
 <span class="lineNum">     301 </span>            : 
-<span class="lineNum">     302 </span><span class="lineCov">         27 :     if( Log::level == LOG_ALL )</span>
+<span class="lineNum">     302 </span><span class="lineCov">         28 :     if( Log::level == LOG_ALL )</span>
 <span class="lineNum">     303 </span><span class="lineNoCov">          0 :         return 0xffffffffu;</span>
 <span class="lineNum">     304 </span>            : 
-<span class="lineNum">     305 </span><span class="lineCov">         27 :     return 0;</span>
+<span class="lineNum">     305 </span><span class="lineCov">         28 :     return 0;</span>
 <a name="306"><span class="lineNum">     306 </span>            : }</a>
 <span class="lineNum">     307 </span>            : 
-<span class="lineNum">     308 </span><span class="lineCov">      10149 : Log&amp; Log::instance()</span>
+<span class="lineNum">     308 </span><span class="lineCov">      14245 : Log&amp; Log::instance()</span>
 <span class="lineNum">     309 </span>            : {
-<span class="lineNum">     310 </span><span class="lineCov">      10149 :     Log* log = _logInstance.get();</span>
-<span class="lineNum">     311 </span><span class="lineCov">      10134 :     if( !log )</span>
+<span class="lineNum">     310 </span><span class="lineCov">      14245 :     Log* log = _logInstance.get();</span>
+<span class="lineNum">     311 </span><span class="lineCov">      14238 :     if( !log )</span>
 <span class="lineNum">     312 </span>            :     {
-<span class="lineNum">     313 </span><span class="lineCov">       2477 :         log = new Log();</span>
-<span class="lineNum">     314 </span><span class="lineCov">       2477 :         _logInstance = log;</span>
+<span class="lineNum">     313 </span><span class="lineCov">       3503 :         log = new Log();</span>
+<span class="lineNum">     314 </span><span class="lineCov">       3503 :         _logInstance = log;</span>
 <span class="lineNum">     315 </span>            :     }
 <span class="lineNum">     316 </span>            : 
-<span class="lineNum">     317 </span><span class="lineCov">      10133 :     return *log;</span>
+<span class="lineNum">     317 </span><span class="lineCov">      14235 :     return *log;</span>
 <a name="318"><span class="lineNum">     318 </span>            : }</a>
 <span class="lineNum">     319 </span>            : 
-<span class="lineNum">     320 </span><span class="lineCov">       2479 : Log&amp; Log::instance( const char* file, const int line )</span>
+<span class="lineNum">     320 </span><span class="lineCov">       3505 : Log&amp; Log::instance( const char* file, const int line )</span>
 <span class="lineNum">     321 </span>            : {
-<span class="lineNum">     322 </span><span class="lineCov">       2479 :     Log&amp; log = instance();</span>
-<span class="lineNum">     323 </span><span class="lineCov">       2479 :     log.setLogInfo( file, line );</span>
-<span class="lineNum">     324 </span><span class="lineCov">       2479 :     return log;</span>
+<span class="lineNum">     322 </span><span class="lineCov">       3505 :     Log&amp; log = instance();</span>
+<span class="lineNum">     323 </span><span class="lineCov">       3505 :     log.setLogInfo( file, line );</span>
+<span class="lineNum">     324 </span><span class="lineCov">       3505 :     return log;</span>
 <a name="325"><span class="lineNum">     325 </span>            : }</a>
 <span class="lineNum">     326 </span>            : 
-<span class="lineNum">     327 </span><span class="lineCov">       2437 : void Log::exit()</span>
+<span class="lineNum">     327 </span><span class="lineCov">       3461 : void Log::exit()</span>
 <span class="lineNum">     328 </span>            : {
-<span class="lineNum">     329 </span><span class="lineCov">       2437 :     Log* log = _logInstance.get();</span>
-<span class="lineNum">     330 </span><span class="lineCov">       2434 :     _logInstance = 0;</span>
-<span class="lineNum">     331 </span><span class="lineCov">       2435 :     delete log;</span>
-<a name="332"><span class="lineNum">     332 </span><span class="lineCov">       2443 : }</span></a>
+<span class="lineNum">     329 </span><span class="lineCov">       3461 :     Log* log = _logInstance.get();</span>
+<span class="lineNum">     330 </span><span class="lineCov">       3466 :     _logInstance = 0;</span>
+<span class="lineNum">     331 </span><span class="lineCov">       3462 :     delete log;</span>
+<a name="332"><span class="lineNum">     332 </span><span class="lineCov">       3458 : }</span></a>
 <span class="lineNum">     333 </span>            : 
 <span class="lineNum">     334 </span><span class="lineCov">          5 : void Log::reset()</span>
 <span class="lineNum">     335 </span>            : {
@@ -446,9 +446,9 @@
 <span class="lineNum">     384 </span><span class="lineNoCov">          0 :     return *_clock;</span>
 <a name="385"><span class="lineNum">     385 </span>            : }</a>
 <span class="lineNum">     386 </span>            : 
-<span class="lineNum">     387 </span><span class="lineCov">       2477 : std::ostream&amp; Log::getOutput()</span>
+<span class="lineNum">     387 </span><span class="lineCov">       3503 : std::ostream&amp; Log::getOutput()</span>
 <span class="lineNum">     388 </span>            : {
-<span class="lineNum">     389 </span><span class="lineCov">       2477 :     return *_logStream;</span>
+<span class="lineNum">     389 </span><span class="lineCov">       3503 :     return *_logStream;</span>
 <a name="390"><span class="lineNum">     390 </span>            : }</a>
 <span class="lineNum">     391 </span>            : 
 <span class="lineNum">     392 </span><span class="lineNoCov">          0 : std::ostream&amp; indent( std::ostream&amp; os )</span>
@@ -503,7 +503,7 @@
 <span class="lineNum">     441 </span><span class="lineNoCov">          0 :     return os;</span>
 <a name="442"><span class="lineNum">     442 </span>            : }</a>
 <span class="lineNum">     443 </span>            : 
-<span class="lineNum">     444 </span><span class="lineCov">         81 : }</span>
+<span class="lineNum">     444 </span><span class="lineCov">         84 : }</span>
 </pre>
       </td>
     </tr>

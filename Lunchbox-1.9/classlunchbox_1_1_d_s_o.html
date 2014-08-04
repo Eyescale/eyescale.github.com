@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('classlunchbox_1_1_d_s_o.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_d_s_o__inherit__graph.png" border="0" usemap="#lunchbox_1_1_d_s_o_inherit__map" alt="Inheritance graph"/></div>
 <map name="lunchbox_1_1_d_s_o_inherit__map" id="lunchbox_1_1_d_s_o_inherit__map">
-</map>
+<area shape="rect" id="node3" href="classlunchbox_1_1_plugin.html" title="Holder for all functions and information of one compression plugin DSO. " alt="" coords="5,389,189,1259"/></map>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for lunchbox::DSO:</div>
@@ -133,8 +133,6 @@ $(document).ready(function(){initNavTree('classlunchbox_1_1_d_s_o.html','');});
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_d_s_o__coll__graph.png" border="0" usemap="#lunchbox_1_1_d_s_o_coll__map" alt="Collaboration graph"/></div>
-<map name="lunchbox_1_1_d_s_o_coll__map" id="lunchbox_1_1_d_s_o_coll__map">
-</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -168,8 +166,88 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper to access dynamic shared objects (<a class="el" href="classlunchbox_1_1_d_s_o.html" title="Helper to access dynamic shared objects (DSO) ">DSO</a>) </p>
-
-<p>Definition at line <a class="el" href="dso_8h_source.html#l00031">31</a> of file <a class="el" href="dso_8h_source.html">dso.h</a>.</p>
+<p>Example: </p>
+<div class="fragment"><div class="line"></div>
+<div class="line"><span class="comment">/* Copyright (c) 2014, Stefan.Eilemann@epfl.ch</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
+<div class="line"><span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><span class="comment"> * details.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &quot;test.h&quot;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/dso.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/filesystem.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#ifdef __linux__</span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#  include &lt;gnu/lib-names.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line"><span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#  include &lt;lunchbox/os.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#  define fork CreateThread</span></div>
+<div class="line"><span class="preprocessor"></span>   <span class="keyword">const</span> std::string forkFun( <span class="stringliteral">&quot;CreateThread&quot;</span> );</div>
+<div class="line"><span class="preprocessor">#else</span></div>
+<div class="line"><span class="preprocessor"></span>   <span class="keyword">const</span> std::string forkFun( <span class="stringliteral">&quot;fork&quot;</span> );</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line"><span class="keyword">namespace </span>fs = boost::filesystem;</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="namespacelunchbox.html#aea35aa9bfc7484de290c0ed0dbcfeceb">lunchbox::Strings</a> libraries;</div>
+<div class="line"><span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><span class="preprocessor"></span>    libraries.push_back( <span class="stringliteral">&quot;Kernel32.dll&quot;</span> );</div>
+<div class="line">    libraries.push_back( <span class="stringliteral">&quot;Ws2_32.dll&quot;</span> );</div>
+<div class="line"><span class="preprocessor">#elif defined (Darwin)</span></div>
+<div class="line"><span class="preprocessor"></span>    libraries.push_back( <span class="stringliteral">&quot;/usr/lib/libc.dylib&quot;</span> );</div>
+<div class="line">    libraries.push_back( <span class="stringliteral">&quot;/usr/lib/libtermcap.dylib&quot;</span> );</div>
+<div class="line"><span class="preprocessor">#else</span></div>
+<div class="line"><span class="preprocessor"></span>    libraries.push_back( LIBPTHREAD_SO );</div>
+<div class="line">    libraries.push_back( LIBM_SO );</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1_d_s_o.html">lunchbox::DSO</a> one( libraries[0] );</div>
+<div class="line">    <a class="code" href="classlunchbox_1_1_d_s_o.html">lunchbox::DSO</a> two( libraries[1] );</div>
+<div class="line">    <a class="code" href="classlunchbox_1_1_d_s_o.html">lunchbox::DSO</a> three;</div>
+<div class="line"></div>
+<div class="line">    TEST( one.isOpen( ));</div>
+<div class="line">    TEST( two.isOpen( ));</div>
+<div class="line">    TEST( !three.<a class="code" href="classlunchbox_1_1_d_s_o.html#af64721db57ae431940d0e1bbf4057d21">isOpen</a>( ));</div>
+<div class="line"></div>
+<div class="line">    TEST( one != two );</div>
+<div class="line">    TEST( one != three );</div>
+<div class="line">    TEST( three.<a class="code" href="classlunchbox_1_1_d_s_o.html#a88e31a7f487d3ab3a32c2f19dc176187">open</a>( libraries[0] ));</div>
+<div class="line">    TEST( one == three );</div>
+<div class="line">    TEST( !three.<a class="code" href="classlunchbox_1_1_d_s_o.html#a88e31a7f487d3ab3a32c2f19dc176187">open</a>( libraries[0] ));</div>
+<div class="line">    TEST( one == three );</div>
+<div class="line"></div>
+<div class="line">    TEST( one.getFunctionPointer( forkFun ));</div>
+<div class="line">    TEST( one.getFunctionPointer( forkFun ) == &amp;fork );</div>
+<div class="line">    TEST( !one.getFunctionPointer( <span class="stringliteral">&quot;fooBar&quot;</span> ));</div>
+<div class="line"></div>
+<div class="line">    one.close();</div>
+<div class="line">    TEST( one != two );</div>
+<div class="line">    TEST( one != three );</div>
+<div class="line">    TEST( !one.getFunctionPointer( forkFun ));</div>
+<div class="line"></div>
+<div class="line">    two.close();</div>
+<div class="line">    TEST( one == two );</div>
+<div class="line">    TEST( one != three );</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+<p>Definition at line <a class="el" href="dso_8h_source.html#l00035">35</a> of file <a class="el" href="dso_8h_source.html">dso.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6fb22d27230da53e2a3b95a506086b96"></a>
 <div class="memitem">
@@ -278,7 +356,7 @@ Public Member Functions</h2></td></tr>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_d_s_o_ac4599d3f1dd61b3a51435534b5ee1703_icgraph.png" border="0" usemap="#classlunchbox_1_1_d_s_o_ac4599d3f1dd61b3a51435534b5ee1703_icgraph" alt=""/></div>
 <map name="classlunchbox_1_1_d_s_o_ac4599d3f1dd61b3a51435534b5ee1703_icgraph" id="classlunchbox_1_1_d_s_o_ac4599d3f1dd61b3a51435534b5ee1703_icgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1_d_s_o.html#a2c6c1f5d87269ceef348bbafb12cb638" title="lunchbox::DSO::getFunction\lPointer" alt="" coords="254,5,453,46"/></map>
 </div>
 </p>
 
@@ -310,7 +388,7 @@ template&lt;class F &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>a typed function pointer in the <a class="el" href="classlunchbox_1_1_d_s_o.html" title="Helper to access dynamic shared objects (DSO) ">DSO</a>, or 0 if the function is not exported by the <a class="el" href="classlunchbox_1_1_d_s_o.html" title="Helper to access dynamic shared objects (DSO) ">DSO</a>. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.7.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="dso_8h_source.html#l00071">71</a> of file <a class="el" href="dso_8h_source.html">dso.h</a>.</p>
+<p>Definition at line <a class="el" href="dso_8h_source.html#l00075">75</a> of file <a class="el" href="dso_8h_source.html">dso.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_d_s_o.html#ac4599d3f1dd61b3a51435534b5ee1703">getFunctionPointer()</a>.</p>
 
@@ -321,7 +399,7 @@ template&lt;class F &gt; </div>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_d_s_o_a2c6c1f5d87269ceef348bbafb12cb638_cgraph.png" border="0" usemap="#classlunchbox_1_1_d_s_o_a2c6c1f5d87269ceef348bbafb12cb638_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_d_s_o_a2c6c1f5d87269ceef348bbafb12cb638_cgraph" id="classlunchbox_1_1_d_s_o_a2c6c1f5d87269ceef348bbafb12cb638_cgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1_d_s_o.html#ac4599d3f1dd61b3a51435534b5ee1703" title="lunchbox::DSO::getFunction\lPointer" alt="" coords="254,5,453,46"/></map>
 </div>
 </p>
 
@@ -394,7 +472,7 @@ template&lt;class F &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if both instances manage different shared objects. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.9.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="dso_8h_source.html#l00087">87</a> of file <a class="el" href="dso_8h_source.html">dso.h</a>.</p>
+<p>Definition at line <a class="el" href="dso_8h_source.html#l00091">91</a> of file <a class="el" href="dso_8h_source.html">dso.h</a>.</p>
 
 </div>
 </div>
@@ -425,7 +503,7 @@ template&lt;class F &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelunchbox.html">lunchbox</a></li><li class="navelem"><a class="el" href="classlunchbox_1_1_d_s_o.html">DSO</a></li>
-    <li class="footer">Generated on Wed Jun 4 2014 18:32:15 for Lunchbox by
+    <li class="footer">Generated on Mon Aug 4 2014 15:24:24 for Lunchbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

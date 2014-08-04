@@ -124,8 +124,6 @@ $(document).ready(function(){initNavTree('classlunchbox_1_1uint128__t.html','');
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t__coll__graph.png" border="0" usemap="#lunchbox_1_1uint128__t_coll__map" alt="Collaboration graph"/></div>
-<map name="lunchbox_1_1uint128__t_coll__map" id="lunchbox_1_1uint128__t_coll__map">
-</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -204,7 +202,238 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A base type for 128 bit unsigned integer values. </p>
 <p>Example: </p>
-<div class="fragment"></div><!-- fragment --> 
+<div class="fragment"><div class="line"></div>
+<div class="line"><span class="comment">/* Copyright (c) 2010-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div>
+<div class="line"><span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><span class="comment"> * details.</span></div>
+<div class="line"><span class="comment"> *</span></div>
+<div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Tests the functionality of universally unique identifiers and 128 bit ints</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;test.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/init.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/rng.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="std_ext_8h.html">lunchbox/stdExt.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;lunchbox/uint128_t.h&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#define N_UUIDS 10000</span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define N_THREADS 10</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line"><span class="keyword">typedef</span> stde::hash_map&lt; lunchbox::uint128_t, bool &gt; TestHash;</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> testConvertUint128ToUUID();</div>
+<div class="line"><span class="keywordtype">void</span> testIncrement();</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">class </span>Thread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div>
+<div class="line">{</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordtype">size_t</span> i = N_UUIDS;</div>
+<div class="line"></div>
+<div class="line">            <span class="keywordflow">while</span>( i-- )</div>
+<div class="line">            {</div>
+<div class="line">                <span class="keyword">const</span> <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> uuid = <a class="code" href="namespacelunchbox.html#a94de31efc9fed4a5ab6c77d027e28836">lunchbox::make_UUID</a>();</div>
+<div class="line">                TEST( uuid.<a class="code" href="classlunchbox_1_1uint128__t.html#a9418b91988450196bb70fcf4fa71dac8">isUUID</a>( ));</div>
+<div class="line"></div>
+<div class="line">                TESTINFO( hash.find( uuid ) == hash.end(),</div>
+<div class="line">                          <span class="stringliteral">&quot;Iteration &quot;</span> &lt;&lt; N_UUIDS - i );</div>
+<div class="line">                hash[ uuid ] = <span class="keyword">true</span>;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line"></div>
+<div class="line">    TestHash hash;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv )</div>
+<div class="line">{</div>
+<div class="line">    TEST( <a class="code" href="namespacelunchbox.html#addfb414d13184d23aa1e7da80ca87b80">lunchbox::init</a>( argc, argv ));</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// basic tests</span></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> id1 = <a class="code" href="namespacelunchbox.html#a94de31efc9fed4a5ab6c77d027e28836">lunchbox::make_UUID</a>();</div>
+<div class="line">    <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> id2;</div>
+<div class="line"></div>
+<div class="line">    TEST( id1 != <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( ));</div>
+<div class="line">    TEST( id1 != id2 );</div>
+<div class="line">    TEST( id1.<a class="code" href="classlunchbox_1_1uint128__t.html#a9418b91988450196bb70fcf4fa71dac8">isUUID</a>( ));</div>
+<div class="line">    TEST( !id2.<a class="code" href="classlunchbox_1_1uint128__t.html#a9418b91988450196bb70fcf4fa71dac8">isUUID</a>( ));</div>
+<div class="line"></div>
+<div class="line">    id2 = <a class="code" href="namespacelunchbox.html#a94de31efc9fed4a5ab6c77d027e28836">lunchbox::make_UUID</a>();</div>
+<div class="line">    TEST( id1 != id2 );</div>
+<div class="line">    TEST( id2.isUUID( ));</div>
+<div class="line"></div>
+<div class="line">    id1 = id2;</div>
+<div class="line">    TEST( id1 == id2 );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>* id3 = <span class="keyword">new</span> <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( id1 );</div>
+<div class="line">    <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>* id4 = <span class="keyword">new</span> <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( <a class="code" href="namespacelunchbox.html#a94de31efc9fed4a5ab6c77d027e28836">lunchbox::make_UUID</a>( ));</div>
+<div class="line"></div>
+<div class="line">    TEST( id1 == *id3 );</div>
+<div class="line">    TEST( *id4 != *id3 );</div>
+<div class="line"></div>
+<div class="line">    *id4 = *id3;</div>
+<div class="line">    TEST( *id4 == *id3 );</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">delete</span> id3;</div>
+<div class="line">    <span class="keyword">delete</span> id4;</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> id5, id6;</div>
+<div class="line">    TEST( id5 == <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( ));</div>
+<div class="line">    TEST( id5 == id6 );</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>&amp; empty = <a class="code" href="namespacelunchbox.html#a2bf60b0eb4737576505a404b129cba47">lunchbox::make_uint128</a>( <span class="stringliteral">&quot;&quot;</span> );</div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>&amp; fox = <a class="code" href="namespacelunchbox.html#a2bf60b0eb4737576505a404b129cba47">lunchbox::make_uint128</a>(</div>
+<div class="line">                               <span class="stringliteral">&quot;The quick brown fox jumps over the lazy dog.&quot;</span> );</div>
+<div class="line">    <span class="comment">// Values from http://en.wikipedia.org/wiki/MD5#MD5_hashes</span></div>
+<div class="line">    TEST( empty != fox );</div>
+<div class="line">    TESTINFO( empty == <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( 0xD41D8CD98F00B204ull,</div>
+<div class="line">                                            0xE9800998ECF8427Eull ),</div>
+<div class="line">              empty );</div>
+<div class="line">    TESTINFO( fox == <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( 0xE4D909C290D0FB1Cull,</div>
+<div class="line">                                          0xA068FFADDF22CBD0ull ),</div>
+<div class="line">              fox );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1_r_n_g.html">lunchbox::RNG</a> rng;</div>
+<div class="line">    <span class="keyword">const</span> uint16_t <a class="code" href="classlunchbox_1_1uint128__t.html#a713b4cdae102f0a855da82a52ec34c99">high</a> = rng.<a class="code" href="classlunchbox_1_1_r_n_g.html#a174b9f672e791c868a4eb508f26cf034">get</a>&lt; uint16_t &gt;();</div>
+<div class="line">    <span class="keyword">const</span> int32_t <a class="code" href="classlunchbox_1_1uint128__t.html#ad523173c8e420c6f56e00cf957526479">low</a> = rng.<a class="code" href="classlunchbox_1_1_r_n_g.html#a174b9f672e791c868a4eb508f26cf034">get</a>&lt; int32_t &gt;();</div>
+<div class="line">    id6 = <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( high, low );</div>
+<div class="line">    TEST( id6.high() == <a class="code" href="classlunchbox_1_1uint128__t.html#a713b4cdae102f0a855da82a52ec34c99">high</a> );</div>
+<div class="line">    TEST( id6.low() == uint64_t( low ));</div>
+<div class="line"></div>
+<div class="line">    id6 = <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a>( low );</div>
+<div class="line">    TEST( id6.high() == 0 );</div>
+<div class="line">    TEST( id6.low() == uint64_t( low ));</div>
+<div class="line"></div>
+<div class="line">    id6 = std::string( <span class="stringliteral">&quot;0xD41D8CD98F00B204&quot;</span> );</div>
+<div class="line">    TEST( id6.high() == 0 );</div>
+<div class="line">    TEST( id6.low() == 0xD41D8CD98F00B204ull );</div>
+<div class="line"></div>
+<div class="line">    id6 = std::string( <span class="stringliteral">&quot;0xD41D8CD98F00B204:0xE9800998ECF8427E&quot;</span> );</div>
+<div class="line">    TESTINFO( id6.high() == 0xD41D8CD98F00B204ull, id6 );</div>
+<div class="line">    TEST( id6.low() == 0xE9800998ECF8427Eull );</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// Load tests</span></div>
+<div class="line">    Thread threads[ N_THREADS ];</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div>
+<div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i &lt; N_THREADS; ++i )</div>
+<div class="line">        threads[ i ].start();</div>
+<div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i &lt; N_THREADS; ++i )</div>
+<div class="line">        threads[ i ].join();</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="log_8h.html#a4aa7eab491821715f6b2913196d60e92">LBINFO</a> &lt;&lt; N_UUIDS * N_THREADS /clock.<a class="code" href="classlunchbox_1_1_clock.html#a32ece0ba32e7d74845df2cefe903cdaf">getTimef</a>()</div>
+<div class="line">           &lt;&lt; <span class="stringliteral">&quot; UUID generations and hash ops / ms&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"></div>
+<div class="line">    TestHash&amp; first = threads[0].hash;</div>
+<div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 1; i &lt; N_THREADS; ++i )</div>
+<div class="line">    {</div>
+<div class="line">        TestHash&amp; current = threads[i].hash;</div>
+<div class="line"></div>
+<div class="line">        <span class="keywordflow">for</span>( TestHash::const_iterator j = current.begin();</div>
+<div class="line">             j != current.end(); ++j )</div>
+<div class="line">        {</div>
+<div class="line">            <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> uuid( j-&gt;first );</div>
+<div class="line">            TESTINFO( uuid == j-&gt;first, j-&gt;first &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; uuid );</div>
+<div class="line"></div>
+<div class="line">            std::ostringstream stream;</div>
+<div class="line">            stream &lt;&lt; uuid;</div>
+<div class="line">            uuid = stream.str();</div>
+<div class="line">            TESTINFO( uuid == j-&gt;first,</div>
+<div class="line">                      j-&gt;first &lt;&lt; <span class="stringliteral">&quot; -&gt; &quot;</span> &lt;&lt; stream.str() &lt;&lt; <span class="stringliteral">&quot; -&gt; &quot;</span> &lt;&lt; uuid );</div>
+<div class="line"></div>
+<div class="line">            TEST( first.find( uuid ) == first.end( ));</div>
+<div class="line">            first[ uuid ] = <span class="keyword">true</span>;</div>
+<div class="line">        }</div>
+<div class="line"></div>
+<div class="line">    }</div>
+<div class="line">    testConvertUint128ToUUID();</div>
+<div class="line">    testIncrement();</div>
+<div class="line">    TEST( <a class="code" href="namespacelunchbox.html#aeeabf5966e81d8453f3d49a1df3f7c2e">lunchbox::exit</a>( ));</div>
+<div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> testConvertUint128ToUUID()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">const</span> uint64_t low = 1212;</div>
+<div class="line">    <span class="keyword">const</span> uint64_t high = 2314;</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> test128( high, low );</div>
+<div class="line">    TEST( test128.low() == low &amp;&amp; test128.high() == <a class="code" href="classlunchbox_1_1uint128__t.html#a713b4cdae102f0a855da82a52ec34c99">high</a> );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> testUUID;</div>
+<div class="line">    testUUID = test128;</div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> compare128 = testUUID;</div>
+<div class="line">    TEST( compare128 == test128 );</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> testIncrement()</div>
+<div class="line">{</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> test128( 0, 0 );</div>
+<div class="line">        ++test128;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 1 );</div>
+<div class="line">        --test128;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">        test128 = test128 + 1;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 1 );</div>
+<div class="line">        test128 = test128 - 1;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> test128( 0, std::numeric_limits&lt;uint64_t&gt;::max() );</div>
+<div class="line">        ++test128;</div>
+<div class="line">        TEST( test128.high() == 1 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">        --test128;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp;</div>
+<div class="line">              test128.low() == std::numeric_limits&lt; uint64_t &gt;::max() );</div>
+<div class="line">        test128 = test128 + 1;</div>
+<div class="line">        TEST( test128.high() == 1 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">        test128 = test128 - 1;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp;</div>
+<div class="line">              test128.low() == std::numeric_limits&lt; uint64_t &gt;::max() );</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> test128( 0, 0 );</div>
+<div class="line">        ++test128;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 1 );</div>
+<div class="line">        --test128;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">        test128 = test128 + 1;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 1 );</div>
+<div class="line">        test128 = test128 - 1;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="classlunchbox_1_1uint128__t.html">lunchbox::uint128_t</a> test128( 0, std::numeric_limits&lt; uint64_t &gt;::max() );</div>
+<div class="line">        ++test128;</div>
+<div class="line">        TEST( test128.high() == 1 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">        --test128;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp;</div>
+<div class="line">              test128.low() == std::numeric_limits&lt; uint64_t &gt;::max() );</div>
+<div class="line">        test128 = test128 + 1;</div>
+<div class="line">        TEST( test128.high() == 1 &amp;&amp; test128.low() == 0 );</div>
+<div class="line">        test128 = test128 - 1;</div>
+<div class="line">        TEST( test128.high() == 0 &amp;&amp;</div>
+<div class="line">              test128.low() == std::numeric_limits&lt; uint64_t &gt;::max() );</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 <p>Definition at line <a class="el" href="uint128__t_8h_source.html#l00046">46</a> of file <a class="el" href="uint128__t_8h_source.html">uint128_t.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a3621be3a67a067b67db428eec33d71f0"></a>
@@ -243,7 +472,7 @@ Public Member Functions</h2></td></tr>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t_a3621be3a67a067b67db428eec33d71f0_icgraph.png" border="0" usemap="#classlunchbox_1_1uint128__t_a3621be3a67a067b67db428eec33d71f0_icgraph" alt=""/></div>
 <map name="classlunchbox_1_1uint128__t_a3621be3a67a067b67db428eec33d71f0_icgraph" id="classlunchbox_1_1uint128__t_a3621be3a67a067b67db428eec33d71f0_icgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1uint128__t.html#aa5df1de13e261a1f675bf9037d08d7fd" title="lunchbox::uint128_t\l::operator!=" alt="" coords="200,5,347,46"/><area shape="rect" id="node3" href="classlunchbox_1_1uint128__t.html#a6131d98fd3c6eb84366e13cca3980730" title="lunchbox::uint128_t\l::operator==" alt="" coords="200,70,347,111"/></map>
 </div>
 </p>
 
@@ -461,7 +690,7 @@ Public Member Functions</h2></td></tr>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t_a713b4cdae102f0a855da82a52ec34c99_icgraph.png" border="0" usemap="#classlunchbox_1_1uint128__t_a713b4cdae102f0a855da82a52ec34c99_icgraph" alt=""/></div>
 <map name="classlunchbox_1_1uint128__t_a713b4cdae102f0a855da82a52ec34c99_icgraph" id="classlunchbox_1_1uint128__t_a713b4cdae102f0a855da82a52ec34c99_icgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1uint128__t.html#a9418b91988450196bb70fcf4fa71dac8" title="lunchbox::uint128_t\l::isUUID" alt="" coords="204,5,351,46"/><area shape="rect" id="node3" href="namespacelunchbox.html#a8c2a22fc652cb93f0ad32850e69670f9" title="Bitwise and operation on two 128 bit values. " alt="" coords="201,71,354,97"/><area shape="rect" id="node4" href="namespacelunchbox.html#a2266ac6b50bb56760ec7ea69d08ab76f" title="Add a 64 bit value to a 128 bit value. " alt="" coords="201,121,354,148"/><area shape="rect" id="node5" href="namespacelunchbox.html#a0dba53ad3b35f9dab5ada75f0b84a2da" title="Subtract a 64 bit value from a 128 bit value. " alt="" coords="204,172,351,199"/><area shape="rect" id="node6" href="namespacelunchbox.html#a4647348f5e2c23d06a060f8e5d570029" title="Bitwise or operation on two 128 bit values. " alt="" coords="204,223,351,249"/><area shape="rect" id="node7" href="classlunchbox_1_1uint128__t.html#aa7dded089858b8a5e6bba21a3eba22a5" title="Serialize this object to a boost archive. " alt="" coords="204,274,351,315"/></map>
 </div>
 </p>
 
@@ -527,7 +756,7 @@ Public Member Functions</h2></td></tr>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t_a9418b91988450196bb70fcf4fa71dac8_cgraph.png" border="0" usemap="#classlunchbox_1_1uint128__t_a9418b91988450196bb70fcf4fa71dac8_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1uint128__t_a9418b91988450196bb70fcf4fa71dac8_cgraph" id="classlunchbox_1_1uint128__t_a9418b91988450196bb70fcf4fa71dac8_cgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1uint128__t.html#a713b4cdae102f0a855da82a52ec34c99" title="lunchbox::uint128_t\l::high" alt="" coords="200,5,347,46"/></map>
 </div>
 </p>
 
@@ -566,7 +795,7 @@ Public Member Functions</h2></td></tr>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t_ad523173c8e420c6f56e00cf957526479_icgraph.png" border="0" usemap="#classlunchbox_1_1uint128__t_ad523173c8e420c6f56e00cf957526479_icgraph" alt=""/></div>
 <map name="classlunchbox_1_1uint128__t_ad523173c8e420c6f56e00cf957526479_icgraph" id="classlunchbox_1_1uint128__t_ad523173c8e420c6f56e00cf957526479_icgraph">
-</map>
+<area shape="rect" id="node2" href="namespacelunchbox.html#a8c2a22fc652cb93f0ad32850e69670f9" title="Bitwise and operation on two 128 bit values. " alt="" coords="230,5,383,32"/><area shape="rect" id="node3" href="namespacelunchbox.html#a2266ac6b50bb56760ec7ea69d08ab76f" title="Add a 64 bit value to a 128 bit value. " alt="" coords="230,56,383,83"/><area shape="rect" id="node4" href="namespacelunchbox.html#a0dba53ad3b35f9dab5ada75f0b84a2da" title="Subtract a 64 bit value from a 128 bit value. " alt="" coords="233,107,380,133"/><area shape="rect" id="node5" href="namespacelunchbox.html#a4647348f5e2c23d06a060f8e5d570029" title="Bitwise or operation on two 128 bit values. " alt="" coords="233,157,380,184"/><area shape="rect" id="node6" href="classlunchbox_1_1uint128__t.html#aa7dded089858b8a5e6bba21a3eba22a5" title="Serialize this object to a boost archive. " alt="" coords="233,209,380,250"/></map>
 </div>
 </p>
 
@@ -661,7 +890,7 @@ Public Member Functions</h2></td></tr>
 <div id="dynsection-5-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t_aa5df1de13e261a1f675bf9037d08d7fd_cgraph.png" border="0" usemap="#classlunchbox_1_1uint128__t_aa5df1de13e261a1f675bf9037d08d7fd_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1uint128__t_aa5df1de13e261a1f675bf9037d08d7fd_cgraph" id="classlunchbox_1_1uint128__t_aa5df1de13e261a1f675bf9037d08d7fd_cgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1uint128__t.html#a3621be3a67a067b67db428eec33d71f0" title="Construct a new 128 bit integer with a default value. " alt="" coords="200,5,347,46"/></map>
 </div>
 </p>
 
@@ -979,7 +1208,7 @@ Public Member Functions</h2></td></tr>
 <div id="dynsection-6-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t_a6131d98fd3c6eb84366e13cca3980730_cgraph.png" border="0" usemap="#classlunchbox_1_1uint128__t_a6131d98fd3c6eb84366e13cca3980730_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1uint128__t_a6131d98fd3c6eb84366e13cca3980730_cgraph" id="classlunchbox_1_1uint128__t_a6131d98fd3c6eb84366e13cca3980730_cgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1uint128__t.html#a3621be3a67a067b67db428eec33d71f0" title="Construct a new 128 bit integer with a default value. " alt="" coords="200,5,347,46"/></map>
 </div>
 </p>
 
@@ -1089,7 +1318,7 @@ template&lt;class Archive &gt; </div>
 <div id="dynsection-7-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1uint128__t_aa7dded089858b8a5e6bba21a3eba22a5_cgraph.png" border="0" usemap="#classlunchbox_1_1uint128__t_aa7dded089858b8a5e6bba21a3eba22a5_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1uint128__t_aa7dded089858b8a5e6bba21a3eba22a5_cgraph" id="classlunchbox_1_1uint128__t_aa7dded089858b8a5e6bba21a3eba22a5_cgraph">
-</map>
+<area shape="rect" id="node2" href="classlunchbox_1_1uint128__t.html#a713b4cdae102f0a855da82a52ec34c99" title="lunchbox::uint128_t\l::high" alt="" coords="215,5,361,46"/><area shape="rect" id="node3" href="classlunchbox_1_1uint128__t.html#ad523173c8e420c6f56e00cf957526479" title="lunchbox::uint128_t::low" alt="" coords="201,71,375,97"/></map>
 </div>
 </p>
 
@@ -1104,7 +1333,7 @@ template&lt;class Archive &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelunchbox.html">lunchbox</a></li><li class="navelem"><a class="el" href="classlunchbox_1_1uint128__t.html">uint128_t</a></li>
-    <li class="footer">Generated on Wed Jun 4 2014 18:32:17 for Lunchbox by
+    <li class="footer">Generated on Mon Aug 4 2014 15:24:24 for Lunchbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

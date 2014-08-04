@@ -76,6 +76,7 @@ var files =
     [ "unorderedIntervalSet.h", "unordered_interval_set_8h_source.html", null ],
     [ "unorderedIntervalSet.ipp", "unordered_interval_set_8ipp_source.html", null ],
     [ "uploader.h", "uploader_8h_source.html", null ],
+    [ "uri.h", "uri_8h_source.html", null ],
     [ "version.h", "version_8h_source.html", null ],
     [ "visitorResult.h", "visitor_result_8h_source.html", null ]
 ];
