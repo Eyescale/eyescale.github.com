@@ -21,6 +21,7 @@ var hierarchy =
       [ "lunchbox::Lock", "classlunchbox_1_1_lock.html", null ],
       [ "lunchbox::Lockable< D, L >", "classlunchbox_1_1_lockable.html", null ],
       [ "lunchbox::MemoryMap", "classlunchbox_1_1_memory_map.html", null ],
+      [ "lunchbox::PersistentMap", "classlunchbox_1_1_persistent_map.html", null ],
       [ "lunchbox::PerThread< T, D >", "classlunchbox_1_1_per_thread.html", null ],
       [ "lunchbox::PerThreadRef< T >", "classlunchbox_1_1_per_thread_ref.html", null ],
       [ "lunchbox::PluginRegistry", "classlunchbox_1_1_plugin_registry.html", null ],

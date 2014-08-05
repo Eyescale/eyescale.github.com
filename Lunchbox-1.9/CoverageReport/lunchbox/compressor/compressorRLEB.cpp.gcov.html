@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-08-04</td>
+            <td class="headerValue">2014-08-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">30</td>
@@ -94,35 +94,35 @@
 <span class="lineNum">      32 </span>            : {
 <a name="33"><span class="lineNum">      33 </span>            : namespace</a>
 <span class="lineNum">      34 </span>            : {
-<span class="lineNum">      35 </span><span class="lineCov">         57 : REGISTER_ENGINE( CompressorRLEB, BYTE, BYTE, 1., 0.93, 1., false );</span>
+<span class="lineNum">      35 </span><span class="lineCov">         59 : REGISTER_ENGINE( CompressorRLEB, BYTE, BYTE, 1., 0.93, 1., false );</span>
 <span class="lineNum">      36 </span>            : }
 <a name="37"><span class="lineNum">      37 </span>            : </a>
 <span class="lineNum">      38 </span>            : template&lt; typename T &gt;
-<span class="lineNum">      39 </span><span class="lineCov">        752 : inline void _compressChunk( const T* const in, const eq_uint64_t nPixels,</span>
+<span class="lineNum">      39 </span><span class="lineCov">        814 : inline void _compressChunk( const T* const in, const eq_uint64_t nPixels,</span>
 <span class="lineNum">      40 </span>            :                             Compressor::Result* result )
 <span class="lineNum">      41 </span>            : {
-<span class="lineNum">      42 </span><span class="lineCov">        752 :     if( nPixels == 0 )</span>
+<span class="lineNum">      42 </span><span class="lineCov">        814 :     if( nPixels == 0 )</span>
 <span class="lineNum">      43 </span>            :     {
 <span class="lineNum">      44 </span><span class="lineNoCov">          0 :         result-&gt;setSize( 0 );</span>
 <span class="lineNum">      45 </span><span class="lineCov">        904 :         return;</span>
 <span class="lineNum">      46 </span>            :     }
 <span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span><span class="lineCov">        752 :     T* tokenOut = reinterpret_cast&lt; T* &gt;( result-&gt;getData( ));</span>
-<span class="lineNum">      49 </span><span class="lineCov">  141295434 :     T tokenLast( in[0] );</span>
-<span class="lineNum">      50 </span><span class="lineCov">  141295434 :     T tokenSame( 1 );</span>
-<span class="lineNum">      51 </span><span class="lineCov">  141295434 :     T token(0);</span>
+<span class="lineNum">      48 </span><span class="lineCov">        814 :     T* tokenOut = reinterpret_cast&lt; T* &gt;( result-&gt;getData( ));</span>
+<span class="lineNum">      49 </span><span class="lineCov">  179643985 :     T tokenLast( in[0] );</span>
+<span class="lineNum">      50 </span><span class="lineCov">  179643985 :     T tokenSame( 1 );</span>
+<span class="lineNum">      51 </span><span class="lineCov">  179643985 :     T token(0);</span>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">  338423514 :     for( eq_uint64_t i = 1; i &lt; nPixels; ++i )</span>
+<span class="lineNum">      53 </span><span class="lineCov">  371188989 :     for( eq_uint64_t i = 1; i &lt; nPixels; ++i )</span>
 <span class="lineNum">      54 </span>            :     {
-<span class="lineNum">      55 </span><span class="lineCov">  338422612 :         token = in[i];</span>
-<span class="lineNum">      56 </span><span class="lineCov">  338422612 :         COMPRESS( token );</span>
+<span class="lineNum">      55 </span><span class="lineCov">  371188085 :         token = in[i];</span>
+<span class="lineNum">      56 </span><span class="lineCov">  371188085 :         COMPRESS( token );</span>
 <span class="lineNum">      57 </span>            :     }
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">        902 :     WRITE_OUTPUT( token );</span>
-<span class="lineNum">      60 </span><span class="lineCov">        901 :     result-&gt;setSize( (tokenOut - reinterpret_cast&lt; T* &gt;( result-&gt;getData( ))) *</span>
+<span class="lineNum">      59 </span><span class="lineCov">        904 :     WRITE_OUTPUT( token );</span>
+<span class="lineNum">      60 </span><span class="lineCov">        904 :     result-&gt;setSize( (tokenOut - reinterpret_cast&lt; T* &gt;( result-&gt;getData( ))) *</span>
 <span class="lineNum">      61 </span>            :                      sizeof( T ));
 <span class="lineNum">      62 </span>            : #ifndef LUNCHBOX_AGGRESSIVE_CACHING
-<span class="lineNum">      63 </span><span class="lineCov">        900 :     result-&gt;pack();</span>
+<span class="lineNum">      63 </span><span class="lineCov">        902 :     result-&gt;pack();</span>
 <span class="lineNum">      64 </span>            : #endif
 <span class="lineNum">      65 </span>            : }
 <a name="66"><span class="lineNum">      66 </span>            : </a>
@@ -137,19 +137,19 @@
 <span class="lineNum">      75 </span>            : 
 <a name="76"><span class="lineNum">      76 </span><span class="lineCov">         76 :     const T* const data = reinterpret_cast&lt; const T* &gt;( inData );</span></a>
 <span class="lineNum">      77 </span>            : 
-<span class="lineNum">      78 </span><span class="lineCov">        846 : #pragma omp parallel for</span>
-<span class="lineNum">      79 </span><span class="lineCov">        770 :     for( ssize_t i = 0; i &lt; static_cast&lt; ssize_t &gt;( nChunks ) ; ++i )</span>
+<span class="lineNum">      78 </span><span class="lineCov">        923 : #pragma omp parallel for</span>
+<span class="lineNum">      79 </span><span class="lineCov">        847 :     for( ssize_t i = 0; i &lt; static_cast&lt; ssize_t &gt;( nChunks ) ; ++i )</span>
 <span class="lineNum">      80 </span>            :     {
-<span class="lineNum">      81 </span><span class="lineCov">        842 :         const eq_uint64_t startIndex = static_cast&lt; eq_uint64_t &gt;( i * width );</span>
+<span class="lineNum">      81 </span><span class="lineCov">        877 :         const eq_uint64_t startIndex = static_cast&lt; eq_uint64_t &gt;( i * width );</span>
 <span class="lineNum">      82 </span>            : 
 <span class="lineNum">      83 </span>            :         eq_uint64_t nextIndex;
-<span class="lineNum">      84 </span><span class="lineCov">        842 :         if ( i == nChunks - 1 )</span>
+<span class="lineNum">      84 </span><span class="lineCov">        877 :         if ( i == nChunks - 1 )</span>
 <span class="lineNum">      85 </span><span class="lineCov">         76 :             nextIndex = nPixels;</span>
 <span class="lineNum">      86 </span>            :         else
-<span class="lineNum">      87 </span><span class="lineCov">        766 :             nextIndex = static_cast&lt; eq_uint64_t &gt;(( i + 1 ) * width );</span>
-<span class="lineNum">      88 </span><span class="lineCov">        842 :         const eq_uint64_t chunkSize = ( nextIndex - startIndex );</span>
+<span class="lineNum">      87 </span><span class="lineCov">        801 :             nextIndex = static_cast&lt; eq_uint64_t &gt;(( i + 1 ) * width );</span>
+<span class="lineNum">      88 </span><span class="lineCov">        877 :         const eq_uint64_t chunkSize = ( nextIndex - startIndex );</span>
 <span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span><span class="lineCov">        842 :         _compressChunk&lt; T &gt;( &amp;data[ startIndex ], chunkSize, results[i] );</span>
+<span class="lineNum">      90 </span><span class="lineCov">        877 :         _compressChunk&lt; T &gt;( &amp;data[ startIndex ], chunkSize, results[i] );</span>
 <span class="lineNum">      91 </span>            :     }
 <span class="lineNum">      92 </span><span class="lineCov">         76 :     return nChunks;</span>
 <span class="lineNum">      93 </span>            : }
@@ -175,22 +175,22 @@
 <span class="lineNum">     113 </span><span class="lineCov">        904 :     T token(0);</span>
 <span class="lineNum">     114 </span><span class="lineCov">        904 :     T tokenLeft(0);</span>
 <span class="lineNum">     115 </span>            : 
-<span class="lineNum">     116 </span><span class="lineCov">  183418450 :     for( eq_uint64_t i = 0; i &lt; nPixels ; ++i )</span>
+<span class="lineNum">     116 </span><span class="lineCov">  186260678 :     for( eq_uint64_t i = 0; i &lt; nPixels ; ++i )</span>
 <span class="lineNum">     117 </span>            :     {
-<span class="lineNum">     118 </span><span class="lineCov">  183417546 :         if( tokenLeft == 0 )</span>
+<span class="lineNum">     118 </span><span class="lineCov">  186259774 :         if( tokenLeft == 0 )</span>
 <span class="lineNum">     119 </span>            :         {
-<span class="lineNum">     120 </span><span class="lineCov">  252494370 :             token = *in; ++in;</span>
-<span class="lineNum">     121 </span><span class="lineCov">  252494370 :             if( token == _rleMarker )</span>
+<span class="lineNum">     120 </span><span class="lineCov">  238097173 :             token = *in; ++in;</span>
+<span class="lineNum">     121 </span><span class="lineCov">  238097173 :             if( token == _rleMarker )</span>
 <span class="lineNum">     122 </span>            :             {
-<span class="lineNum">     123 </span><span class="lineCov">   54839761 :                 token     = *in; ++in;</span>
-<span class="lineNum">     124 </span><span class="lineCov">   54839761 :                 tokenLeft = *in; ++in;</span>
+<span class="lineNum">     123 </span><span class="lineCov">   40760806 :                 token     = *in; ++in;</span>
+<span class="lineNum">     124 </span><span class="lineCov">   40760806 :                 tokenLeft = *in; ++in;</span>
 <span class="lineNum">     125 </span>            :             }
 <span class="lineNum">     126 </span>            :             else // single symbol
-<span class="lineNum">     127 </span><span class="lineCov">  197654609 :                 tokenLeft = 1;</span>
+<span class="lineNum">     127 </span><span class="lineCov">  197336367 :                 tokenLeft = 1;</span>
 <span class="lineNum">     128 </span>            :         }
 <span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span><span class="lineCov">  183417546 :         --tokenLeft;</span>
-<span class="lineNum">     131 </span><span class="lineCov">  183417546 :         out[i] = token;</span>
+<span class="lineNum">     130 </span><span class="lineCov">  186259774 :         --tokenLeft;</span>
+<span class="lineNum">     131 </span><span class="lineCov">  186259774 :         out[i] = token;</span>
 <span class="lineNum">     132 </span>            :     }
 <span class="lineNum">     133 </span><span class="lineCov">        904 : }</span>
 <span class="lineNum">     134 </span>            : 
@@ -204,21 +204,21 @@
 <span class="lineNum">     142 </span>            : 
 <a name="143"><span class="lineNum">     143 </span><span class="lineCov">         76 :     const T* const* in = reinterpret_cast&lt; const T* const* &gt;( inData );</span></a>
 <span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span><span class="lineCov">        843 : #pragma omp parallel for</span>
-<span class="lineNum">     146 </span><span class="lineCov">        767 :     for( ssize_t i = 0; i &lt; static_cast&lt; ssize_t &gt;( nInputs ) ; ++i )</span>
+<span class="lineNum">     145 </span><span class="lineCov">        886 : #pragma omp parallel for</span>
+<span class="lineNum">     146 </span><span class="lineCov">        810 :     for( ssize_t i = 0; i &lt; static_cast&lt; ssize_t &gt;( nInputs ) ; ++i )</span>
 <span class="lineNum">     147 </span>            :     {
-<span class="lineNum">     148 </span><span class="lineCov">        845 :         const eq_uint64_t startIndex = static_cast&lt;uint64_t&gt;( i * width );</span>
+<span class="lineNum">     148 </span><span class="lineCov">        875 :         const eq_uint64_t startIndex = static_cast&lt;uint64_t&gt;( i * width );</span>
 <span class="lineNum">     149 </span>            : 
 <span class="lineNum">     150 </span>            :         eq_uint64_t nextIndex;
-<span class="lineNum">     151 </span><span class="lineCov">        845 :         if ( i == static_cast&lt;ssize_t&gt;( nInputs -1 ) )</span>
+<span class="lineNum">     151 </span><span class="lineCov">        875 :         if ( i == static_cast&lt;ssize_t&gt;( nInputs -1 ) )</span>
 <span class="lineNum">     152 </span><span class="lineCov">         76 :             nextIndex = nPixels;</span>
 <span class="lineNum">     153 </span>            :         else
-<span class="lineNum">     154 </span><span class="lineCov">        769 :             nextIndex = static_cast&lt; eq_uint64_t &gt;(( i + 1 ) * width );</span>
+<span class="lineNum">     154 </span><span class="lineCov">        799 :             nextIndex = static_cast&lt; eq_uint64_t &gt;(( i + 1 ) * width );</span>
 <span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span><span class="lineCov">        845 :         const eq_uint64_t chunkSize = ( nextIndex - startIndex );</span>
-<span class="lineNum">     157 </span><span class="lineCov">        845 :         T* out = reinterpret_cast&lt; T* &gt;( outData ) + startIndex;</span>
+<span class="lineNum">     156 </span><span class="lineCov">        875 :         const eq_uint64_t chunkSize = ( nextIndex - startIndex );</span>
+<span class="lineNum">     157 </span><span class="lineCov">        875 :         T* out = reinterpret_cast&lt; T* &gt;( outData ) + startIndex;</span>
 <span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span><span class="lineCov">        845 :         _decompressChunk&lt; T &gt;( in[i], out, chunkSize );</span>
+<span class="lineNum">     159 </span><span class="lineCov">        875 :         _decompressChunk&lt; T &gt;( in[i], out, chunkSize );</span>
 <span class="lineNum">     160 </span>            :     }
 <a name="161"><span class="lineNum">     161 </span><span class="lineCov">         76 : }</span></a>
 <span class="lineNum">     162 </span>            : 
@@ -241,7 +241,7 @@
 <span class="lineNum">     179 </span><span class="lineCov">         76 : }</span>
 <a name="180"><span class="lineNum">     180 </span>            : </a>
 <span class="lineNum">     181 </span>            : }
-<span class="lineNum">     182 </span><span class="lineCov">         84 : }</span>
+<span class="lineNum">     182 </span><span class="lineCov">         87 : }</span>
 </pre>
       </td>
     </tr>

@@ -35,6 +35,7 @@ var namespacelunchbox =
     [ "MTQueue", "classlunchbox_1_1_m_t_queue.html", "classlunchbox_1_1_m_t_queue" ],
     [ "NonCopyable", "classlunchbox_1_1_non_copyable.html", "classlunchbox_1_1_non_copyable" ],
     [ "OMP", "classlunchbox_1_1_o_m_p.html", null ],
+    [ "PersistentMap", "classlunchbox_1_1_persistent_map.html", "classlunchbox_1_1_persistent_map" ],
     [ "PerThread", "classlunchbox_1_1_per_thread.html", "classlunchbox_1_1_per_thread" ],
     [ "PerThreadRef", "classlunchbox_1_1_per_thread_ref.html", "classlunchbox_1_1_per_thread_ref" ],
     [ "Plugin", "classlunchbox_1_1_plugin.html", "classlunchbox_1_1_plugin" ],

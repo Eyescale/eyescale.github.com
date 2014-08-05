@@ -48,6 +48,7 @@ var files =
     [ "nonCopyable.h", "non_copyable_8h_source.html", null ],
     [ "omp.h", "omp_8h_source.html", null ],
     [ "os.h", "os_8h_source.html", null ],
+    [ "persistentMap.h", "persistent_map_8h_source.html", null ],
     [ "perThread.h", "per_thread_8h_source.html", null ],
     [ "perThread.ipp", "per_thread_8ipp_source.html", null ],
     [ "perThreadRef.h", "per_thread_ref_8h_source.html", null ],

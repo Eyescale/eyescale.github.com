@@ -15,7 +15,7 @@ var searchData=
   ['uploader',['Uploader',['../classlunchbox_1_1_uploader.html',1,'lunchbox']]],
   ['uploader',['Uploader',['../classlunchbox_1_1_uploader.html#a5f87baafa24cbc4809038b1061b56f8f',1,'lunchbox::Uploader::Uploader()'],['../classlunchbox_1_1_uploader.html#a9c452ee847766de052b95098004a359e',1,'lunchbox::Uploader::Uploader(PluginRegistry &amp;from, const uint32_t name)']]],
   ['uri',['URI',['../classlunchbox_1_1_u_r_i.html',1,'lunchbox']]],
-  ['uri',['URI',['../classlunchbox_1_1_u_r_i.html#a7b2aae8c0364b640c99074e062e0d20d',1,'lunchbox::URI::URI(const std::string &amp;uri)'],['../classlunchbox_1_1_u_r_i.html#aa3fce6b3097fe2af04b2bfc09983f56b',1,'lunchbox::URI::URI(const URI &amp;from)']]],
+  ['uri',['URI',['../classlunchbox_1_1_u_r_i.html#a8ec86a7f560c70f2fa8e9c1babcc6ad9',1,'lunchbox::URI::URI(const std::string &amp;uri)'],['../classlunchbox_1_1_u_r_i.html#ad757122d6eee3a569ab8905a0f5c5258',1,'lunchbox::URI::URI(const URI &amp;from)']]],
   ['uses',['uses',['../classlunchbox_1_1_compressor.html#a6cc1a3def7e34c658f4b30a280a6216c',1,'lunchbox::Compressor::uses()'],['../classlunchbox_1_1_decompressor.html#aa91e66f3416e85c0f3ccf490263b64a5',1,'lunchbox::Decompressor::uses()'],['../classlunchbox_1_1_downloader.html#ab2fba53c38dc12e6438acbb1987fd342',1,'lunchbox::Downloader::uses()'],['../classlunchbox_1_1_uploader.html#aa89a6ea98224efb8c0b4955c34e48855',1,'lunchbox::Uploader::uses()']]],
   ['usort',['usort',['../namespacelunchbox.html#a6b3e87e61194bd33e19790d79e581b73',1,'lunchbox::usort()'],['../std_ext_8h.html#a51d68f640f3cf2ae35561e3d71e37708',1,'usort():&#160;stdExt.h']]]
 ];

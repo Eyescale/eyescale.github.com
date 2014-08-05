@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-08-04</td>
+            <td class="headerValue">2014-08-05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">28</td>
@@ -118,10 +118,10 @@
 <span class="lineNum">      56 </span>            : typedef std::map&lt; std::string, ValueMap &gt; InstanceMap;
 <a name="57"><span class="lineNum">      57 </span>            : typedef ValueMap::const_iterator ValueMapCIter;</a>
 <span class="lineNum">      58 </span>            : typedef InstanceMap::const_iterator InstanceMapCIter;
-<span class="lineNum">      59 </span><span class="lineCov">         28 : static const std::string empty_;</span>
+<span class="lineNum">      59 </span><span class="lineCov">         29 : static const std::string empty_;</span>
 <span class="lineNum">      60 </span>            : 
 <span class="lineNum">      61 </span>            : #ifdef SERVUS_AVAHI
-<span class="lineNum">      62 </span><span class="lineCov">         28 : static Lock lock_;</span>
+<span class="lineNum">      62 </span><span class="lineCov">         29 : static Lock lock_;</span>
 <span class="lineNum">      63 </span>            : #endif
 <span class="lineNum">      64 </span>            : 
 <span class="lineNum">      65 </span>            : #define ANNOUNCE_TIMEOUT 1000 /*ms*/
@@ -440,19 +440,19 @@
 <span class="lineNum">     378 </span><span class="lineCov">          8 :         const int fd = DNSServiceRefSockFD( service );</span>
 <span class="lineNum">     379 </span><span class="lineCov">          8 :         const int nfds = fd + 1;</span>
 <span class="lineNum">     380 </span>            : 
-<span class="lineNum">     381 </span><span class="lineCov">         50 :         while( result_ == lunchbox::Servus::Result::PENDING )</span>
+<span class="lineNum">     381 </span><span class="lineCov">         55 :         while( result_ == lunchbox::Servus::Result::PENDING )</span>
 <span class="lineNum">     382 </span>            :         {
 <span class="lineNum">     383 </span>            :             fd_set fdSet;
-<span class="lineNum">     384 </span><span class="lineCov">         36 :             FD_ZERO( &amp;fdSet );</span>
-<span class="lineNum">     385 </span><span class="lineCov">         36 :             FD_SET( fd, &amp;fdSet );</span>
+<span class="lineNum">     384 </span><span class="lineCov">         41 :             FD_ZERO( &amp;fdSet );</span>
+<span class="lineNum">     385 </span><span class="lineCov">         41 :             FD_SET( fd, &amp;fdSet );</span>
 <span class="lineNum">     386 </span>            : 
 <span class="lineNum">     387 </span>            :             struct timeval tv;
-<span class="lineNum">     388 </span><span class="lineCov">         36 :             tv.tv_sec = timeout / 1000;</span>
-<span class="lineNum">     389 </span><span class="lineCov">         36 :             tv.tv_usec = (timeout % 1000) * 1000;</span>
+<span class="lineNum">     388 </span><span class="lineCov">         41 :             tv.tv_sec = timeout / 1000;</span>
+<span class="lineNum">     389 </span><span class="lineCov">         41 :             tv.tv_usec = (timeout % 1000) * 1000;</span>
 <span class="lineNum">     390 </span>            : 
 <span class="lineNum">     391 </span>            :             const int result = ::select( nfds, &amp;fdSet, 0, 0,
-<span class="lineNum">     392 </span><span class="lineCov">         36 :                                          timeout &lt; 0 ? 0 : &amp;tv );</span>
-<span class="lineNum">     393 </span><span class="lineCov">         36 :             switch( result )</span>
+<span class="lineNum">     392 </span><span class="lineCov">         41 :                                          timeout &lt; 0 ? 0 : &amp;tv );</span>
+<span class="lineNum">     393 </span><span class="lineCov">         41 :             switch( result )</span>
 <span class="lineNum">     394 </span>            :             {
 <span class="lineNum">     395 </span>            :               case 0: // timeout
 <span class="lineNum">     396 </span><span class="lineCov">          4 :                 return lunchbox::Servus::Result( result_ );</span>
@@ -468,12 +468,12 @@
 <span class="lineNum">     406 </span><span class="lineNoCov">          0 :                 break;</span>
 <span class="lineNum">     407 </span>            : 
 <span class="lineNum">     408 </span>            :               default:
-<span class="lineNum">     409 </span><span class="lineCov">         34 :                 if( FD_ISSET( fd, &amp;fdSet ))</span>
+<span class="lineNum">     409 </span><span class="lineCov">         39 :                 if( FD_ISSET( fd, &amp;fdSet ))</span>
 <span class="lineNum">     410 </span>            :                 {
 <span class="lineNum">     411 </span>            :                     const DNSServiceErrorType error =
-<span class="lineNum">     412 </span><span class="lineCov">         34 :                         DNSServiceProcessResult( service );</span>
+<span class="lineNum">     412 </span><span class="lineCov">         39 :                         DNSServiceProcessResult( service );</span>
 <span class="lineNum">     413 </span>            : 
-<span class="lineNum">     414 </span><span class="lineCov">         34 :                     if( error != kDNSServiceErr_NoError )</span>
+<span class="lineNum">     414 </span><span class="lineCov">         39 :                     if( error != kDNSServiceErr_NoError )</span>
 <span class="lineNum">     415 </span>            :                     {
 <span class="lineNum">     416 </span><span class="lineNoCov">          0 :                         LBWARN &lt;&lt; &quot;DNSServiceProcessResult error: &quot; &lt;&lt; error</span>
 <span class="lineNum">     417 </span><span class="lineNoCov">          0 :                                &lt;&lt; std::endl;</span>
@@ -481,7 +481,7 @@
 <span class="lineNum">     419 </span><span class="lineNoCov">          0 :                         result_ = error;</span>
 <span class="lineNum">     420 </span>            :                     }
 <span class="lineNum">     421 </span>            :                 }
-<span class="lineNum">     422 </span><span class="lineCov">         34 :                 break;</span>
+<span class="lineNum">     422 </span><span class="lineCov">         39 :                 break;</span>
 <span class="lineNum">     423 </span>            :             }
 <span class="lineNum">     424 </span>            :         }
 <span class="lineNum">     425 </span>            : 
@@ -727,7 +727,7 @@
 <span class="lineNum">     665 </span>            : }
 <a name="666"><span class="lineNum">     666 </span>            : #endif</a>
 <span class="lineNum">     667 </span>            : 
-<span class="lineNum">     668 </span><span class="lineCov">         84 : }</span>
+<span class="lineNum">     668 </span><span class="lineCov">         87 : }</span>
 </pre>
       </td>
     </tr>

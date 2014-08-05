@@ -17,6 +17,7 @@ var searchData=
   ['_7emonitor',['~Monitor',['../classlunchbox_1_1_monitor.html#ad5de0e0cafc67308ffb77db7630df952',1,'lunchbox::Monitor']]],
   ['_7empi',['~MPI',['../classlunchbox_1_1_m_p_i.html#acf8bc2c741be6ab56b2163c749ea3a30',1,'lunchbox::MPI']]],
   ['_7emtqueue',['~MTQueue',['../classlunchbox_1_1_m_t_queue.html#a31c9359912b04c714d11737e9762563a',1,'lunchbox::MTQueue']]],
+  ['_7epersistentmap',['~PersistentMap',['../classlunchbox_1_1_persistent_map.html#ad50fecf38db04edafd72d4df07f353ab',1,'lunchbox::PersistentMap']]],
   ['_7eperthread',['~PerThread',['../classlunchbox_1_1_per_thread.html#adbccd7b94bfb6aa6c51b79feb1ded1bb',1,'lunchbox::PerThread']]],
   ['_7eperthreadref',['~PerThreadRef',['../classlunchbox_1_1_per_thread_ref.html#aaf49e13efd98c4cc3b5c231c796a3b94',1,'lunchbox::PerThreadRef']]],
   ['_7eplugin',['~Plugin',['../classlunchbox_1_1_plugin.html#a00413101b30f2a6468781fa62736cd65',1,'lunchbox::Plugin']]],
