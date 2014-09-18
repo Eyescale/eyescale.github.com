@@ -14,4 +14,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake
 
 include(GitExternal)
 include(Common)
-include(Doxygit)
+
+set(DOXYGIT_TOC_POST "<p>See also <a href=\"http://www.equalizergraphics.com\">www.equalizergraphics.com</a></p>")
+common_documentation()
