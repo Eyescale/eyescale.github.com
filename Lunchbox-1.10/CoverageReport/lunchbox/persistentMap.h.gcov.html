@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov2.info - lunchbox/persistentMap.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">lunchbox</a> - persistentMap.h<span style="font-size: 80%;"> (source / <a href="persistentMap.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2014-10-01</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2014, Stefan.Eilemann@epfl.ch
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #ifndef LUNCHBOX_PERSISTENTMAP_H
+<span class="lineNum">      19 </span>            : #define LUNCHBOX_PERSISTENTMAP_H
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;lunchbox/api.h&gt;
+<span class="lineNum">      22 </span>            : #include &lt;lunchbox/debug.h&gt; // className
+<span class="lineNum">      23 </span>            : #include &lt;lunchbox/log.h&gt; // LBTHROW
+<span class="lineNum">      24 </span>            : #include &lt;lunchbox/types.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;boost/noncopyable.hpp&gt;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : #include &lt;boost/type_traits.hpp&gt;
+<span class="lineNum">      28 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      29 </span>            : #include &lt;set&gt;
+<span class="lineNum">      30 </span>            : #include &lt;stdexcept&gt;
+<span class="lineNum">      31 </span>            : #include &lt;string&gt;
+<span class="lineNum">      32 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : namespace lunchbox
+<span class="lineNum">      35 </span>            : {
+<span class="lineNum">      36 </span>            : namespace detail { class PersistentMap; }
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : /**
+<span class="lineNum">      39 </span>            :  * Unified interface to save key-value pairs in a persistent store.
+<span class="lineNum">      40 </span>            :  *
+<span class="lineNum">      41 </span>            :  * Example: @include tests/persistentMap.cpp
+<span class="lineNum">      42 </span>            :  */
+<span class="lineNum">      43 </span>            : class PersistentMap : public boost::noncopyable
+<span class="lineNum">      44 </span>            : {
+<span class="lineNum">      45 </span>            : public:
+<span class="lineNum">      46 </span>            :     /**
+<span class="lineNum">      47 </span>            :      * Construct a new persistent map.
+<span class="lineNum">      48 </span>            :      *
+<span class="lineNum">      49 </span>            :      * Depending on the URI scheme an implementation backend is chosen. If no
+<span class="lineNum">      50 </span>            :      * URI is given, a default one is selected. Available implementations are:
+<span class="lineNum">      51 </span>            :      * * leveldb://path (if LUNCHBOX_USE_LEVELDB is defined)
+<span class="lineNum">      52 </span>            :      * * skv://path_to_config#pdsname (if LUNCHBOX_USE_SKV is defined)
+<span class="lineNum">      53 </span>            :      *
+<span class="lineNum">      54 </span>            :      * @param uri the storage backend and destination.
+<span class="lineNum">      55 </span>            :      * @throw std::runtime_error if no suitable implementation is found.
+<span class="lineNum">      56 </span>            :      * @throw std::runtime_error if opening the leveldb failed.
+<span class="lineNum">      57 </span>            :      * @version 1.9.2
+<span class="lineNum">      58 </span>            :      */
+<span class="lineNum">      59 </span>            :     LUNCHBOX_API PersistentMap( const std::string&amp; uri = std::string( ));
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :     /**
+<span class="lineNum">      62 </span>            :      * Construct a persistent map using an URI. See other ctor for details.
+<span class="lineNum">      63 </span>            :      * @version 1.9.2
+<span class="lineNum">      64 </span>            :      */
+<span class="lineNum">      65 </span>            :     LUNCHBOX_API explicit PersistentMap( const URI&amp; uri );
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :     /** Destruct the persistent map. @version 1.9.2 */
+<span class="lineNum">      68 </span>            :     LUNCHBOX_API ~PersistentMap();
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :     /**
+<span class="lineNum">      71 </span>            :      * @return true if an implementation for the given URI is available.
+<span class="lineNum">      72 </span>            :      * @version 1.9.2
+<span class="lineNum">      73 </span>            :      */
+<span class="lineNum">      74 </span>            :     LUNCHBOX_API static bool handles( const URI&amp; uri );
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            :     /**
+<span class="lineNum">      77 </span>            :      * Insert or update a value in the database.
+<span class="lineNum">      78 </span>            :      *
+<span class="lineNum">      79 </span>            :      * @param key the key to store the value.
+<span class="lineNum">      80 </span>            :      * @param value the value stored at the key.
+<span class="lineNum">      81 </span>            :      * @return true on success, false otherwise
+<span class="lineNum">      82 </span>            :      * @throw std::runtime_error if the value is not copyable
+<a name="83"><span class="lineNum">      83 </span>            :      * @version 1.9.2</a>
+<span class="lineNum">      84 </span>            :      */
+<span class="lineNum">      85 </span><span class="lineCov">          9 :     template&lt; class V &gt; bool insert( const std::string&amp; key, const V&amp; value )</span>
+<span class="lineNum">      86 </span><span class="lineCov">          9 :         { return _insert( key, value, boost::has_trivial_assign&lt; V &gt;( )); }</span>
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     /**
+<span class="lineNum">      89 </span>            :      * Insert or update a vector of values in the database.
+<span class="lineNum">      90 </span>            :      *
+<span class="lineNum">      91 </span>            :      * @param key the key to store the value.
+<span class="lineNum">      92 </span>            :      * @param value the values stored at the key.
+<span class="lineNum">      93 </span>            :      * @return true on success, false otherwise
+<span class="lineNum">      94 </span>            :      * @throw std::runtime_error if the vector values are not copyable
+<span class="lineNum">      95 </span>            :      * @version 1.9.2
+<a name="96"><span class="lineNum">      96 </span>            :      */</a>
+<span class="lineNum">      97 </span>            :     template&lt; class V &gt;
+<span class="lineNum">      98 </span><span class="lineCov">          9 :     bool insert( const std::string&amp; key, const std::vector&lt; V &gt;&amp; values )</span>
+<span class="lineNum">      99 </span><span class="lineCov">          9 :         { return _insert( key, values, boost::has_trivial_assign&lt; V &gt;( )); }</span>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span>            :     /**
+<span class="lineNum">     102 </span>            :      * Insert or update a set of values in the database.
+<span class="lineNum">     103 </span>            :      *
+<span class="lineNum">     104 </span>            :      * @param key the key to store the value.
+<span class="lineNum">     105 </span>            :      * @param value the values stored at the key.
+<span class="lineNum">     106 </span>            :      * @return true on success, false otherwise
+<span class="lineNum">     107 </span>            :      * @throw std::runtime_error if the set values are not copyable
+<span class="lineNum">     108 </span>            :      * @version 1.9.2
+<a name="109"><span class="lineNum">     109 </span>            :      */</a>
+<span class="lineNum">     110 </span>            :     template&lt; class V &gt;
+<span class="lineNum">     111 </span><span class="lineCov">          3 :     bool insert( const std::string&amp; key, const std::set&lt; V &gt;&amp; values )</span>
+<span class="lineNum">     112 </span><span class="lineCov">          3 :         { return insert( key, std::vector&lt;V&gt;( values.begin(), values.end( ))); }</span>
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :     /**
+<span class="lineNum">     115 </span>            :      * Retrieve a value for a key.
+<span class="lineNum">     116 </span>            :      *
+<span class="lineNum">     117 </span>            :      * @param key the key to retreive.
+<span class="lineNum">     118 </span>            :      * @return the value, or an empty string if the key is not available.
+<span class="lineNum">     119 </span>            :      * @version 1.9.2
+<span class="lineNum">     120 </span>            :      */
+<span class="lineNum">     121 </span>            :     LUNCHBOX_API std::string operator [] ( const std::string&amp; key ) const;
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            :     /**
+<span class="lineNum">     124 </span>            :      * Retrieve a value as a vector for a key.
+<span class="lineNum">     125 </span>            :      *
+<span class="lineNum">     126 </span>            :      * @param key the key to retreive.
+<span class="lineNum">     127 </span>            :      * @return the values, or an empty vector if the key is not available.
+<span class="lineNum">     128 </span>            :      * @version 1.9.2
+<span class="lineNum">     129 </span>            :      */
+<span class="lineNum">     130 </span>            :     template&lt; class V &gt; std::vector&lt; V &gt; getVector( const std::string&amp; key );
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span>            :     /**
+<span class="lineNum">     133 </span>            :      * Retrieve a value as a set for a key.
+<span class="lineNum">     134 </span>            :      *
+<span class="lineNum">     135 </span>            :      * @param key the key to retreive.
+<span class="lineNum">     136 </span>            :      * @return the values, or an empty set if the key is not available.
+<span class="lineNum">     137 </span>            :      * @version 1.9.2
+<span class="lineNum">     138 </span>            :      */
+<span class="lineNum">     139 </span>            :     template&lt; class V &gt; std::set&lt; V &gt; getSet( const std::string&amp; key );
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span>            :     /** @return true if the key exists. @version 1.9.2 */
+<span class="lineNum">     142 </span>            :     LUNCHBOX_API bool contains( const std::string&amp; key ) const;
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            : private:
+<span class="lineNum">     145 </span>            :     detail::PersistentMap* const _impl;
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            :     LUNCHBOX_API bool _insert( const std::string&amp; key, const void* data,
+<span class="lineNum">     148 </span>            :                                const size_t size );
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            :     // Enables map.insert( &quot;foo&quot;, &quot;bar&quot; ); bar is a char[4]. The funny braces
+<span class="lineNum">     152 </span>            :     // declare v as a &quot;const ref to array of four chars&quot;, not as a &quot;const array
+<a name="153"><span class="lineNum">     153 </span>            :     // to four char refs&quot;. Long live Bjarne!</a>
+<span class="lineNum">     154 </span>            :     template&lt; size_t N &gt; bool
+<span class="lineNum">     155 </span><span class="lineCov">          6 :     _insert( const std::string&amp; k, char const (&amp; v)[N], const boost::true_type&amp;)</span>
+<span class="lineNum">     156 </span>            :     {
+<span class="lineNum">     157 </span><span class="lineCov">          6 :         return _insert( k, (void*)v, N - 1 ); // strip '0'</span>
+<span class="lineNum">     158 </span>            :     }
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span>            :     template&lt; class V &gt;
+<span class="lineNum">     161 </span>            :     bool _insert( const std::string&amp; k, const V&amp; v, const boost::true_type&amp; )
+<span class="lineNum">     162 </span>            :     {
+<span class="lineNum">     163 </span>            :         if( boost::is_pointer&lt; V &gt;::value )
+<span class="lineNum">     164 </span>            :             LBTHROW( std::runtime_error( &quot;Can't insert pointers&quot; ));
+<span class="lineNum">     165 </span>            :         return _insert( k, &amp;v, sizeof( V ));
+<span class="lineNum">     166 </span>            :     }
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            :     template&lt; class V &gt;
+<span class="lineNum">     169 </span>            :     bool _insert( const std::string&amp;, const V&amp; v, const boost::false_type&amp; )
+<span class="lineNum">     170 </span>            :     { LBTHROW( std::runtime_error( &quot;Can't insert non-POD &quot; + className( v ))); }
+<a name="171"><span class="lineNum">     171 </span>            : </a>
+<span class="lineNum">     172 </span>            :     template&lt; class V &gt;
+<span class="lineNum">     173 </span><span class="lineCov">          9 :     bool _insert( const std::string&amp; key, const std::vector&lt; V &gt;&amp; values,</span>
+<span class="lineNum">     174 </span>            :                   const boost::true_type&amp; )
+<span class="lineNum">     175 </span><span class="lineCov">          9 :         { return _insert( key, values.data(), values.size() * sizeof( V )); }</span>
+<span class="lineNum">     176 </span>            : };
+<a name="177"><span class="lineNum">     177 </span>            : </a>
+<span class="lineNum">     178 </span>            : template&lt;&gt; inline
+<span class="lineNum">     179 </span><span class="lineCov">          3 : bool PersistentMap::_insert( const std::string&amp; k, const std::string&amp; v,</span>
+<span class="lineNum">     180 </span>            :                              const boost::false_type&amp; )
+<span class="lineNum">     181 </span>            : {
+<span class="lineNum">     182 </span><span class="lineCov">          3 :     return _insert( k, v.data(), v.length( ));</span>
+<span class="lineNum">     183 </span>            : }
+<a name="184"><span class="lineNum">     184 </span>            : </a>
+<span class="lineNum">     185 </span>            : template&lt; class V &gt; inline
+<span class="lineNum">     186 </span><span class="lineCov">         12 : std::vector&lt; V &gt; PersistentMap::getVector( const std::string&amp; key )</span>
+<span class="lineNum">     187 </span>            : {
+<span class="lineNum">     188 </span><span class="lineCov">         12 :     const std::string&amp; value = (*this)[ key ];</span>
+<span class="lineNum">     189 </span><span class="lineCov">         12 :     return std::vector&lt; V &gt;( reinterpret_cast&lt; const V* &gt;( value.data( )),</span>
+<span class="lineNum">     190 </span><span class="lineCov">         24 :                    reinterpret_cast&lt; const V* &gt;( value.data() + value.size( )));</span>
+<span class="lineNum">     191 </span>            : }
+<a name="192"><span class="lineNum">     192 </span>            : </a>
+<span class="lineNum">     193 </span>            : template&lt; class V &gt; inline
+<span class="lineNum">     194 </span><span class="lineCov">          3 : std::set&lt; V &gt; PersistentMap::getSet( const std::string&amp; key )</span>
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span><span class="lineCov">          3 :     const std::string&amp; value = (*this)[ key ];</span>
+<span class="lineNum">     197 </span><span class="lineCov">          3 :     return std::set&lt; V &gt;( reinterpret_cast&lt; const V* &gt;( value.data( )),</span>
+<span class="lineNum">     198 </span><span class="lineCov">          3 :                           reinterpret_cast&lt; const V* &gt;( value.data() +</span>
+<span class="lineNum">     199 </span><span class="lineCov">          6 :                                                         value.size( )));</span>
+<span class="lineNum">     200 </span>            : }
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            : // inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const PersistentMap&amp; m )
+<span class="lineNum">     204 </span>            : }
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            : #endif //LUNCHBOX_PERSISTENTMAP_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
