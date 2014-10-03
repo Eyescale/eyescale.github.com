@@ -1,0 +1,500 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov2.info - vmmlib/frustum.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">vmmlib</a> - frustum.hpp<span style="font-size: 80%;"> (source / <a href="frustum.hpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">59</td>
+            <td class="headerCovTableEntry">59</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2014-10-03</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * Copyright (c) 2006-2014, Visualization and Multimedia Lab,
+<span class="lineNum">       3 </span>            :  *                          University of Zurich &lt;http://vmml.ifi.uzh.ch&gt;,
+<span class="lineNum">       4 </span>            :  *                          Eyescale Software GmbH,
+<span class="lineNum">       5 </span>            :  *                          Blue Brain Project, EPFL
+<span class="lineNum">       6 </span>            :  *
+<span class="lineNum">       7 </span>            :  * This file is part of VMMLib &lt;https://github.com/VMML/vmmlib/&gt;
+<span class="lineNum">       8 </span>            :  *
+<span class="lineNum">       9 </span>            :  * Redistribution and use in source and binary forms, with or without
+<span class="lineNum">      10 </span>            :  * modification, are permitted provided that the following conditions are met:
+<span class="lineNum">      11 </span>            :  *
+<span class="lineNum">      12 </span>            :  * Redistributions of source code must retain the above copyright notice, this
+<span class="lineNum">      13 </span>            :  * list of conditions and the following disclaimer.  Redistributions in binary
+<span class="lineNum">      14 </span>            :  * form must reproduce the above copyright notice, this list of conditions and
+<span class="lineNum">      15 </span>            :  * the following disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      16 </span>            :  * with the distribution.  Neither the name of the Visualization and Multimedia
+<span class="lineNum">      17 </span>            :  * Lab, University of Zurich nor the names of its contributors may be used to
+<span class="lineNum">      18 </span>            :  * endorse or promote products derived from this software without specific prior
+<span class="lineNum">      19 </span>            :  * written permission.
+<span class="lineNum">      20 </span>            :  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+<span class="lineNum">      21 </span>            :  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+<span class="lineNum">      22 </span>            :  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+<span class="lineNum">      23 </span>            :  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+<span class="lineNum">      24 </span>            :  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+<span class="lineNum">      25 </span>            :  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+<span class="lineNum">      26 </span>            :  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+<span class="lineNum">      27 </span>            :  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+<span class="lineNum">      28 </span>            :  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+<span class="lineNum">      29 </span>            :  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+<span class="lineNum">      30 </span>            :  * POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>            :  */
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : #ifndef __VMML__FRUSTUM__HPP__
+<span class="lineNum">      34 </span>            : #define __VMML__FRUSTUM__HPP__
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : #include &lt;vmmlib/vmmlib_config.hpp&gt;
+<span class="lineNum">      37 </span>            : #include &lt;vmmlib/matrix.hpp&gt;
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : #include &lt;cmath&gt;
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            : // - declaration -
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : namespace vmml
+<span class="lineNum">      44 </span>            : {
+<span class="lineNum">      45 </span>            : template&lt; typename T &gt; class frustum
+<span class="lineNum">      46 </span>            : {
+<span class="lineNum">      47 </span>            : public:
+<span class="lineNum">      48 </span>            :     VMMLIB_ALIGN( T array[6] );
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            :     // contructors
+<span class="lineNum">      51 </span>            :     frustum() : array() {} // http://stackoverflow.com/questions/5602030
+<span class="lineNum">      52 </span>            :     frustum( const T left, const T right, const T bottom, const T top,
+<span class="lineNum">      53 </span>            :              const T near_plane, const T far_plane );
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            :     template&lt; typename U &gt; frustum( const frustum&lt; U &gt;&amp; source_ );
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :     //the pointer 'values' must be a valid 6 component c array of the resp. type
+<span class="lineNum">      58 </span>            :     template&lt; typename U &gt; frustum( const U* values );
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     ~frustum();
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :     frustum&amp; operator=( const frustum&amp; source_ );
+<span class="lineNum">      63 </span>            :     template&lt; typename U &gt;
+<span class="lineNum">      64 </span>            :     void operator=( const frustum&lt; U &gt;&amp; source_ );
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            :     void set( const T _left, const T _right, const T _bottom,
+<span class="lineNum">      67 </span>            :         const T _top, const T _near, const T _far );
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :     // set the frustum using the same parameters as gluPerspective.
+<span class="lineNum">      70 </span>            :     void set_perspective( T field_of_view_y, T aspect_ratio, T near_plane_,
+<span class="lineNum">      71 </span>            :         T far_plane );
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            :     matrix&lt; 4, 4, T &gt; compute_matrix() const;
+<span class="lineNum">      74 </span>            :     matrix&lt; 4, 4, T &gt; compute_ortho_matrix() const;
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            :     void compute_matrix( matrix&lt; 4, 4, T &gt;&amp; matrix_ ) const;
+<span class="lineNum">      77 </span>            :     void compute_ortho_matrix( matrix&lt; 4, 4, T &gt;&amp; matrix_ ) const;
+<span class="lineNum">      78 </span>            :     void apply_jitter( const vector&lt; 2, T &gt;&amp; jitter_ );
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            :     // 'move' the frustum. this function changes the near_plane, and adjusts the
+<span class="lineNum">      81 </span>            :     // other parameters in a way that the 'perspective pyramid' stays the same.
+<span class="lineNum">      82 </span>            :     void adjust_near( const T near_plane );
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :     inline T&amp; left();
+<span class="lineNum">      85 </span>            :     inline const T&amp; left() const;
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            :     inline T&amp; right();
+<span class="lineNum">      88 </span>            :     inline const T&amp; right() const;
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            :     inline T&amp; bottom();
+<span class="lineNum">      91 </span>            :     inline const T&amp; bottom() const;
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            :     inline T&amp; top();
+<span class="lineNum">      94 </span>            :     inline const T&amp; top() const;
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            :     inline T&amp; near_plane();
+<span class="lineNum">      97 </span>            :     inline const T&amp; near_plane() const;
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :     inline T&amp; far_plane();
+<span class="lineNum">     100 </span>            :     inline const T&amp; far_plane() const;
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            :     inline T get_width() const;
+<span class="lineNum">     103 </span>            :     inline T get_height() const;
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            :     friend std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const frustum&amp; f )
+<span class="lineNum">     106 </span>            :     {
+<span class="lineNum">     107 </span>            :         const std::ios::fmtflags flags = os.flags();
+<span class="lineNum">     108 </span>            :         const int                prec  = os.precision();
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span>            :         os.setf( std::ios::right, std::ios::adjustfield );
+<span class="lineNum">     111 </span>            :         os.precision( 5 );
+<span class="lineNum">     112 </span>            :         os &lt;&lt; &quot;[&quot; &lt;&lt; std::setw(10) &lt;&lt; f.left() &lt;&lt; &quot; &quot;
+<span class="lineNum">     113 </span>            :            &lt;&lt; std::setw(10) &lt;&lt; f.right()  &lt;&lt; &quot; &quot;
+<span class="lineNum">     114 </span>            :            &lt;&lt; std::setw(10) &lt;&lt; f.bottom() &lt;&lt; &quot; &quot;
+<span class="lineNum">     115 </span>            :            &lt;&lt; std::setw(10) &lt;&lt; f.top()    &lt;&lt; &quot; &quot;
+<span class="lineNum">     116 </span>            :            &lt;&lt; std::setw(10) &lt;&lt; f.near_plane()   &lt;&lt; &quot; &quot;
+<span class="lineNum">     117 </span>            :            &lt;&lt; std::setw(10) &lt;&lt; f.far_plane()    &lt;&lt; &quot;]&quot;;
+<span class="lineNum">     118 </span>            :         os.precision( prec );
+<span class="lineNum">     119 </span>            :         os.setf( flags );
+<span class="lineNum">     120 </span>            :         return os;
+<span class="lineNum">     121 </span>            :     };
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            :     static const frustum DEFAULT;
+<span class="lineNum">     124 </span>            : };
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            : #ifndef VMMLIB_NO_TYPEDEFS
+<span class="lineNum">     127 </span>            : typedef frustum&lt; float &gt;  frustumf;
+<span class="lineNum">     128 </span>            : typedef frustum&lt; double &gt; frustumd;
+<span class="lineNum">     129 </span>            : #endif
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : } // namespace vmml
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            : // - implementation - //
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            : namespace vmml
+<span class="lineNum">     136 </span>            : {
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     139 </span>            : const frustum&lt; T &gt; frustum&lt; T &gt;::DEFAULT( static_cast&lt; T &gt;( -1.0 ),
+<span class="lineNum">     140 </span>            :                                           static_cast&lt; T &gt;( 1.0 ),
+<span class="lineNum">     141 </span>            :                                           static_cast&lt; T &gt;( -1.0 ),
+<span class="lineNum">     142 </span>            :                                           static_cast&lt; T &gt;( 1.0 ),
+<span class="lineNum">     143 </span>            :                                           static_cast&lt; T &gt;( 0.1 ),
+<span class="lineNum">     144 </span>            :                                           static_cast&lt; T &gt;( 100.0 ) );
+<span class="lineNum">     145 </span>            : 
+<a name="146"><span class="lineNum">     146 </span>            : </a>
+<span class="lineNum">     147 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     148 </span><span class="lineCov">          1 : frustum&lt;T&gt;::frustum( const T _left, const T _right, const T _bottom,</span>
+<span class="lineNum">     149 </span>            :                      const T _top, const T _near, const T _far )
+<span class="lineNum">     150 </span>            : {
+<span class="lineNum">     151 </span><span class="lineCov">          1 :     set( _left, _right, _bottom, _top, _near, _far );</span>
+<span class="lineNum">     152 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     156 </span>            : template&lt; typename U &gt;
+<span class="lineNum">     157 </span>            : frustum&lt; T &gt;::frustum( const frustum&lt; U &gt;&amp; source_ )
+<span class="lineNum">     158 </span>            : {
+<span class="lineNum">     159 </span>            :     (*this) = source_;
+<span class="lineNum">     160 </span>            : }
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     165 </span>            : template&lt; typename U &gt;
+<span class="lineNum">     166 </span>            : frustum&lt; T &gt;::frustum( const U* values )
+<span class="lineNum">     167 </span>            : {
+<span class="lineNum">     168 </span>            :     assert( values &amp;&amp;
+<span class="lineNum">     169 </span>            :             &quot;frustum: Nullpointer argument as source for initialisation!&quot; );
+<span class="lineNum">     170 </span>            :     left()      = static_cast&lt; T &gt; ( values[0] );
+<span class="lineNum">     171 </span>            :     right()     = static_cast&lt; T &gt; ( values[1] );
+<span class="lineNum">     172 </span>            :     bottom()    = static_cast&lt; T &gt; ( values[2] );
+<span class="lineNum">     173 </span>            :     top()       = static_cast&lt; T &gt; ( values[3] );
+<span class="lineNum">     174 </span>            :     near_plane() = static_cast&lt; T &gt; ( values[4] );
+<span class="lineNum">     175 </span>            :     far_plane()  = static_cast&lt; T &gt; ( values[5] );
+<span class="lineNum">     176 </span>            : }
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span>            : 
+<a name="179"><span class="lineNum">     179 </span>            : </a>
+<span class="lineNum">     180 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     181 </span><span class="lineCov">          1 : frustum&lt; T &gt;::~frustum()</span>
+<span class="lineNum">     182 </span><span class="lineCov">          1 : {}</span>
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            : 
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     187 </span>            : frustum&lt; T &gt;&amp; frustum&lt; T &gt;::operator=( const frustum&amp; source_ )
+<span class="lineNum">     188 </span>            : {
+<span class="lineNum">     189 </span>            :     memcpy( array, source_.array, 6 * sizeof( T ) );
+<span class="lineNum">     190 </span>            :     return *this;
+<span class="lineNum">     191 </span>            : }
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span>            : template&lt; typename T &gt; template&lt; typename U &gt;
+<span class="lineNum">     194 </span>            : void frustum&lt; T &gt;::operator = ( const frustum&lt; U &gt;&amp; source_ )
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span>            :     for( size_t index = 0; index &lt; 6; ++index )
+<span class="lineNum">     197 </span>            :     {
+<span class="lineNum">     198 </span>            :         array[ index ] = static_cast&lt; T &gt;( source_.array[ index ] );
+<span class="lineNum">     199 </span>            :     }
+<span class="lineNum">     200 </span>            : }
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            : 
+<a name="204"><span class="lineNum">     204 </span>            : template &lt; typename T &gt;</a>
+<span class="lineNum">     205 </span>            : void
+<span class="lineNum">     206 </span><span class="lineCov">          1 : frustum&lt; T &gt;::set( const T _left, const T _right, const T _bottom,</span>
+<span class="lineNum">     207 </span>            :     const T _top, const T _near, const T _far )
+<span class="lineNum">     208 </span>            : {
+<span class="lineNum">     209 </span><span class="lineCov">          1 :     left()      = _left;</span>
+<span class="lineNum">     210 </span><span class="lineCov">          1 :     right()     = _right;</span>
+<span class="lineNum">     211 </span><span class="lineCov">          1 :     bottom()    = _bottom;</span>
+<span class="lineNum">     212 </span><span class="lineCov">          1 :     top()       = _top;</span>
+<span class="lineNum">     213 </span><span class="lineCov">          1 :     near_plane() = _near;</span>
+<span class="lineNum">     214 </span><span class="lineCov">          1 :     far_plane()  = _far;</span>
+<span class="lineNum">     215 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            : // 'move' the frustum. this function changes the near_plane, and adjusts the
+<span class="lineNum">     219 </span>            : // other parameters in a way that the 'perspective pyramid' stays the same.
+<span class="lineNum">     220 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     221 </span>            : void
+<span class="lineNum">     222 </span>            : frustum&lt;T&gt;::adjust_near( const T new_near )
+<span class="lineNum">     223 </span>            : {
+<span class="lineNum">     224 </span>            :         if( new_near == near_plane() )
+<span class="lineNum">     225 </span>            :                 return;
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            :         const T ratio = new_near / near_plane();
+<span class="lineNum">     228 </span>            :         right()     *= ratio;
+<span class="lineNum">     229 </span>            :         left()      *= ratio;
+<span class="lineNum">     230 </span>            :         top()       *= ratio;
+<span class="lineNum">     231 </span>            :         bottom()    *= ratio;
+<span class="lineNum">     232 </span>            :         near_plane()  = new_near;
+<span class="lineNum">     233 </span>            : }
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span>            : // set the frustum using the same parameters as gluPerspective.
+<span class="lineNum">     238 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     239 </span>            : void
+<span class="lineNum">     240 </span>            : frustum&lt;T&gt;::set_perspective( T fov_y, T aspect_ratio, T near_plane_,
+<span class="lineNum">     241 </span>            :     T far_plane_ )
+<span class="lineNum">     242 </span>            : {
+<span class="lineNum">     243 </span>            :     near_plane() = near_plane_;
+<span class="lineNum">     244 </span>            :     far_plane()   = far_plane_;
+<span class="lineNum">     245 </span>            : 
+<span class="lineNum">     246 </span>            :     top()       = tan( 0.5 * fov_y * M_PI / 180.0 ) * 0.5;
+<span class="lineNum">     247 </span>            :     bottom()    = - top();
+<span class="lineNum">     248 </span>            : 
+<span class="lineNum">     249 </span>            :     left()      = bottom() * aspect_ratio;
+<span class="lineNum">     250 </span>            :     right()     = top() * aspect_ratio;
+<span class="lineNum">     251 </span>            : }
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span>            : 
+<a name="255"><span class="lineNum">     255 </span>            : template &lt; typename T &gt;</a>
+<span class="lineNum">     256 </span>            : matrix&lt; 4, 4, T &gt;
+<span class="lineNum">     257 </span><span class="lineCov">          1 : frustum&lt;T&gt;::compute_matrix() const</span>
+<span class="lineNum">     258 </span>            : {
+<span class="lineNum">     259 </span><span class="lineCov">          1 :     matrix&lt; 4, 4, T &gt; matrix_;</span>
+<span class="lineNum">     260 </span><span class="lineCov">          1 :     compute_matrix( matrix_ );</span>
+<span class="lineNum">     261 </span><span class="lineCov">          1 :     return matrix_;</span>
+<span class="lineNum">     262 </span>            : }
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : 
+<a name="266"><span class="lineNum">     266 </span>            : template &lt; typename T &gt;</a>
+<span class="lineNum">     267 </span>            : void
+<span class="lineNum">     268 </span><span class="lineCov">          1 : frustum&lt;T&gt;::compute_matrix( matrix&lt; 4, 4, T &gt;&amp; M ) const</span>
+<span class="lineNum">     269 </span>            : {
+<span class="lineNum">     270 </span><span class="lineCov">          1 :     M( 0,0 ) = 2.0 * near_plane() / ( right() - left() );</span>
+<span class="lineNum">     271 </span><span class="lineCov">          1 :     M( 0,1 ) = 0.0;</span>
+<span class="lineNum">     272 </span><span class="lineCov">          1 :     M( 0,2 ) = ( right() + left() ) / ( right() - left() );</span>
+<span class="lineNum">     273 </span><span class="lineCov">          1 :     M( 0,3 ) = 0.0;</span>
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span><span class="lineCov">          1 :     M( 1,0 ) = 0.0;</span>
+<span class="lineNum">     276 </span><span class="lineCov">          1 :     M( 1,1 ) = 2.0 * near_plane() / ( top() - bottom() );</span>
+<span class="lineNum">     277 </span><span class="lineCov">          1 :     M( 1,2 ) = ( top() + bottom() ) / ( top() - bottom() );</span>
+<span class="lineNum">     278 </span><span class="lineCov">          1 :     M( 1,3 ) = 0.0;</span>
+<span class="lineNum">     279 </span>            : 
+<span class="lineNum">     280 </span><span class="lineCov">          1 :     M( 2,0 ) = 0.0;</span>
+<span class="lineNum">     281 </span><span class="lineCov">          1 :     M( 2,1 ) = 0.0;</span>
+<span class="lineNum">     282 </span>            :     // NOTE: Some glfrustum man pages say wrongly '(far + near) / (far - near)'
+<span class="lineNum">     283 </span><span class="lineCov">          1 :     M( 2,2 ) = -( far_plane() + near_plane() ) / ( far_plane() - near_plane() );</span>
+<span class="lineNum">     284 </span><span class="lineCov">          1 :     M( 2,3 ) = -2.0 * far_plane() * near_plane() / ( far_plane() - near_plane() );</span>
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span><span class="lineCov">          1 :     M( 3,0 ) = 0.0;</span>
+<span class="lineNum">     287 </span><span class="lineCov">          1 :     M( 3,1 ) = 0.0;</span>
+<span class="lineNum">     288 </span><span class="lineCov">          1 :     M( 3,2 ) = -1.0;</span>
+<span class="lineNum">     289 </span><span class="lineCov">          1 :     M( 3,3 ) =  0.0;</span>
+<span class="lineNum">     290 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            : 
+<span class="lineNum">     293 </span>            : 
+<span class="lineNum">     294 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     295 </span>            : matrix&lt; 4, 4, T &gt;
+<span class="lineNum">     296 </span>            : frustum&lt; T &gt;::compute_ortho_matrix() const
+<span class="lineNum">     297 </span>            : {
+<span class="lineNum">     298 </span>            :     matrix&lt; 4, 4, T &gt; matrix_;
+<span class="lineNum">     299 </span>            :     compute_ortho_matrix( matrix_ );
+<span class="lineNum">     300 </span>            :     return matrix_;
+<span class="lineNum">     301 </span>            : }
+<span class="lineNum">     302 </span>            : 
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span>            : 
+<span class="lineNum">     305 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     306 </span>            : void
+<span class="lineNum">     307 </span>            : frustum&lt; T &gt;::compute_ortho_matrix( matrix&lt; 4, 4, T &gt;&amp; M ) const
+<span class="lineNum">     308 </span>            : {
+<span class="lineNum">     309 </span>            :     M( 0,0 ) = 2.0 / ( right() - left() );
+<span class="lineNum">     310 </span>            :     M( 0,1 ) = 0.0;
+<span class="lineNum">     311 </span>            :     M( 0,2 ) = 0.0;
+<span class="lineNum">     312 </span>            :     M( 0,3 ) = -( right() + left() ) / ( right() - left() );
+<span class="lineNum">     313 </span>            : 
+<span class="lineNum">     314 </span>            :     M( 1,0 ) = 0.0;
+<span class="lineNum">     315 </span>            :     M( 1,1 ) = 2.0 / ( top() - bottom() );
+<span class="lineNum">     316 </span>            :     M( 1,2 ) = 0.0f;
+<span class="lineNum">     317 </span>            :     M( 1,3 ) = -( top() + bottom() ) / ( top() - bottom() );
+<span class="lineNum">     318 </span>            : 
+<span class="lineNum">     319 </span>            :     M( 2,0 ) = 0.0;
+<span class="lineNum">     320 </span>            :     M( 2,1 ) = 0.0;
+<span class="lineNum">     321 </span>            :     M( 2,2 ) = -2.0 / ( far_plane() - near_plane() );
+<span class="lineNum">     322 </span>            :     M( 2,3 ) = -( far_plane() + near_plane() ) / ( far_plane() - near_plane() );
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span>            :     M( 3,0 ) = 0.0;
+<span class="lineNum">     325 </span>            :     M( 3,1 ) = 0.0;
+<span class="lineNum">     326 </span>            :     M( 3,2 ) = 0.0;
+<span class="lineNum">     327 </span>            :     M( 3,3 ) = 1.0f;
+<span class="lineNum">     328 </span>            : }
+<span class="lineNum">     329 </span>            : 
+<span class="lineNum">     330 </span>            : template &lt; typename T &gt;
+<span class="lineNum">     331 </span>            : void frustum&lt; T &gt;::apply_jitter( const vector&lt; 2, T &gt;&amp; jitter_ )
+<span class="lineNum">     332 </span>            : {
+<span class="lineNum">     333 </span>            :     left()   = left() + jitter_.x();
+<span class="lineNum">     334 </span>            :     right()  = right() + jitter_.x();
+<span class="lineNum">     335 </span>            :     bottom() = bottom() + jitter_.y();
+<span class="lineNum">     336 </span>            :     top()    = top() + jitter_.y();
+<span class="lineNum">     337 </span>            : }
+<a name="338"><span class="lineNum">     338 </span>            : </a>
+<span class="lineNum">     339 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     340 </span><span class="lineCov">          1 : inline T&amp; frustum&lt; T &gt;::left()</span>
+<span class="lineNum">     341 </span>            : {
+<span class="lineNum">     342 </span><span class="lineCov">          1 :     return array[ 0 ];</span>
+<span class="lineNum">     343 </span>            : }
+<a name="344"><span class="lineNum">     344 </span>            : </a>
+<span class="lineNum">     345 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     346 </span><span class="lineCov">          3 : inline const T&amp; frustum&lt; T &gt;::left() const</span>
+<span class="lineNum">     347 </span>            : {
+<span class="lineNum">     348 </span><span class="lineCov">          3 :     return array[ 0 ];</span>
+<span class="lineNum">     349 </span>            : }
+<a name="350"><span class="lineNum">     350 </span>            : </a>
+<span class="lineNum">     351 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     352 </span><span class="lineCov">          1 : inline T&amp; frustum&lt; T &gt;::right()</span>
+<span class="lineNum">     353 </span>            : {
+<span class="lineNum">     354 </span><span class="lineCov">          1 :     return array[ 1 ];</span>
+<span class="lineNum">     355 </span>            : }
+<a name="356"><span class="lineNum">     356 </span>            : </a>
+<span class="lineNum">     357 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     358 </span><span class="lineCov">          3 : inline const T&amp; frustum&lt; T &gt;::right() const</span>
+<span class="lineNum">     359 </span>            : {
+<span class="lineNum">     360 </span><span class="lineCov">          3 :     return array[ 1 ];</span>
+<span class="lineNum">     361 </span>            : }
+<a name="362"><span class="lineNum">     362 </span>            : </a>
+<span class="lineNum">     363 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     364 </span><span class="lineCov">          1 : inline T&amp; frustum&lt; T &gt;::bottom()</span>
+<span class="lineNum">     365 </span>            : {
+<span class="lineNum">     366 </span><span class="lineCov">          1 :     return array[ 2 ];</span>
+<span class="lineNum">     367 </span>            : }
+<a name="368"><span class="lineNum">     368 </span>            : </a>
+<span class="lineNum">     369 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     370 </span><span class="lineCov">          3 : inline const T&amp; frustum&lt; T &gt;::bottom() const</span>
+<span class="lineNum">     371 </span>            : {
+<span class="lineNum">     372 </span><span class="lineCov">          3 :     return array[ 2 ];</span>
+<span class="lineNum">     373 </span>            : }
+<a name="374"><span class="lineNum">     374 </span>            : </a>
+<span class="lineNum">     375 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     376 </span><span class="lineCov">          1 : inline T&amp; frustum&lt; T &gt;::top()</span>
+<span class="lineNum">     377 </span>            : {
+<span class="lineNum">     378 </span><span class="lineCov">          1 :     return array[ 3 ];</span>
+<span class="lineNum">     379 </span>            : }
+<a name="380"><span class="lineNum">     380 </span>            : </a>
+<span class="lineNum">     381 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     382 </span><span class="lineCov">          3 : inline const T&amp; frustum&lt; T &gt;::top() const</span>
+<span class="lineNum">     383 </span>            : {
+<span class="lineNum">     384 </span><span class="lineCov">          3 :     return array[ 3 ];</span>
+<span class="lineNum">     385 </span>            : }
+<a name="386"><span class="lineNum">     386 </span>            : </a>
+<span class="lineNum">     387 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     388 </span><span class="lineCov">          1 : inline T&amp; frustum&lt; T &gt;::near_plane()</span>
+<span class="lineNum">     389 </span>            : {
+<span class="lineNum">     390 </span><span class="lineCov">          1 :     return array[ 4 ];</span>
+<span class="lineNum">     391 </span>            : }
+<a name="392"><span class="lineNum">     392 </span>            : </a>
+<span class="lineNum">     393 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     394 </span><span class="lineCov">          6 : inline const T&amp; frustum&lt; T &gt;::near_plane() const</span>
+<span class="lineNum">     395 </span>            : {
+<span class="lineNum">     396 </span><span class="lineCov">          6 :     return array[ 4 ];</span>
+<span class="lineNum">     397 </span>            : }
+<a name="398"><span class="lineNum">     398 </span>            : </a>
+<span class="lineNum">     399 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     400 </span><span class="lineCov">          1 : inline T&amp; frustum&lt; T &gt;::far_plane()</span>
+<span class="lineNum">     401 </span>            : {
+<span class="lineNum">     402 </span><span class="lineCov">          1 :     return array[ 5 ];</span>
+<span class="lineNum">     403 </span>            : }
+<a name="404"><span class="lineNum">     404 </span>            : </a>
+<span class="lineNum">     405 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     406 </span><span class="lineCov">          4 : inline const T&amp; frustum&lt; T &gt;::far_plane() const</span>
+<span class="lineNum">     407 </span>            : {
+<span class="lineNum">     408 </span><span class="lineCov">          4 :     return array[ 5 ];</span>
+<span class="lineNum">     409 </span>            : }
+<span class="lineNum">     410 </span>            : 
+<span class="lineNum">     411 </span>            : template&lt; typename T &gt; inline T frustum&lt; T &gt;::get_width() const
+<span class="lineNum">     412 </span>            : {
+<span class="lineNum">     413 </span>            :     return fabs( right() - left( ));
+<span class="lineNum">     414 </span>            : }
+<span class="lineNum">     415 </span>            : 
+<span class="lineNum">     416 </span>            : template&lt; typename T &gt; inline T frustum&lt; T &gt;::get_height() const
+<span class="lineNum">     417 </span>            : {
+<span class="lineNum">     418 </span>            :     return fabs( top() - bottom( ));
+<span class="lineNum">     419 </span>            : }
+<span class="lineNum">     420 </span>            : 
+<span class="lineNum">     421 </span>            : 
+<span class="lineNum">     422 </span>            : } //namespace vmml
+<span class="lineNum">     423 </span>            : 
+<span class="lineNum">     424 </span>            : #endif
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

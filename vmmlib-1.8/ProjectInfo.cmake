@@ -1,0 +1,7 @@
+set(VMMLIB_MATURITY "EP")
+set(VMMLIB_DESCRIPTION "")
+set(VMMLIB_GIT_ROOT_URL "https://github.com/Eyescale/vmmlib.git")
+set(VMMLIB_PACKAGE_URL "")
+set(VMMLIB_CI_URL "https://travis-ci.org/Eyescale/vmmlib")
+set(VMMLIB_CI_PNG "https://travis-ci.org/Eyescale/vmmlib.png")
+set(VMMLIB_ISSUES_URL "https://github.com/Eyescale/vmmlib/issues")
