@@ -33,11 +33,11 @@
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">133</td>
             <td class="headerCovTableEntry">207</td>
-            <td class="headerCovTableEntryLo">64.3 %</td>
+            <td class="headerCovTableEntryMed">64.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-05-27</td>
+            <td class="headerValue">2014-10-06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">18</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2009-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2009-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *               2010-2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
@@ -107,33 +107,33 @@
 <span class="lineNum">      45 </span>            : }
 <a name="46"><span class="lineNum">      46 </span>            : #endif</a>
 <span class="lineNum">      47 </span>            : 
-<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         21 : const InstanceCache::Data InstanceCache::Data::NONE;</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         20 : const InstanceCache::Data InstanceCache::Data::NONE;</span></a>
 <span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span><span class="lineCov">         54 : InstanceCache::InstanceCache( const uint64_t maxSize )</span>
+<span class="lineNum">      50 </span><span class="lineCov">         52 : InstanceCache::InstanceCache( const uint64_t maxSize )</span>
 <span class="lineNum">      51 </span>            :         : _maxSize( maxSize )
-<span class="lineNum">      52 </span><span class="lineCov">         54 :         , _size( 0 )</span>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">         54 : {}</span></a>
+<span class="lineNum">      52 </span><span class="lineCov">         52 :         , _size( 0 )</span>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">         52 : {}</span></a>
 <span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span><span class="lineCov">        104 : InstanceCache::~InstanceCache()</span>
+<span class="lineNum">      55 </span><span class="lineCov">        100 : InstanceCache::~InstanceCache()</span>
 <span class="lineNum">      56 </span>            : {
-<span class="lineNum">      57 </span><span class="lineCov">         52 :     for( ItemHash::iterator i = _items-&gt;begin(); i != _items-&gt;end(); ++i )</span>
+<span class="lineNum">      57 </span><span class="lineCov">         50 :     for( ItemHash::iterator i = _items-&gt;begin(); i != _items-&gt;end(); ++i )</span>
 <span class="lineNum">      58 </span>            :     {
 <span class="lineNum">      59 </span><span class="lineNoCov">          0 :         Item&amp; item = i-&gt;second;</span>
 <span class="lineNum">      60 </span><span class="lineNoCov">          0 :         _releaseStreams( item );</span>
 <span class="lineNum">      61 </span>            :     }
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">         52 :     _items-&gt;clear();</span>
-<span class="lineNum">      64 </span><span class="lineCov">         52 :     _size = 0;</span>
-<a name="65"><span class="lineNum">      65 </span><span class="lineCov">         52 : }</span></a>
+<span class="lineNum">      63 </span><span class="lineCov">         50 :     _items-&gt;clear();</span>
+<span class="lineNum">      64 </span><span class="lineCov">         50 :     _size = 0;</span>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">         50 : }</span></a>
 <span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineCov">     184184 : InstanceCache::Data::Data()</span>
-<span class="lineNum">      68 </span><span class="lineCov">     184184 :         : masterInstanceID( CO_INSTANCE_INVALID )</span>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">     184184 : {}</span></a>
+<span class="lineNum">      67 </span><span class="lineCov">     167363 : InstanceCache::Data::Data()</span>
+<span class="lineNum">      68 </span><span class="lineCov">     167363 :         : masterInstanceID( CO_INSTANCE_INVALID )</span>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">     167363 : {}</span></a>
 <span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span><span class="lineCov">     394072 : bool InstanceCache::Data::operator != ( const InstanceCache::Data&amp; rhs ) const</span>
+<span class="lineNum">      71 </span><span class="lineCov">     378706 : bool InstanceCache::Data::operator != ( const InstanceCache::Data&amp; rhs ) const</span>
 <span class="lineNum">      72 </span>            : {
-<span class="lineNum">      73 </span><span class="lineCov">     604024 :     return ( masterInstanceID != rhs.masterInstanceID ||</span>
-<span class="lineNum">      74 </span><span class="lineCov">     604024 :              versions != rhs.versions );</span>
+<span class="lineNum">      73 </span><span class="lineCov">     590105 :     return ( masterInstanceID != rhs.masterInstanceID ||</span>
+<span class="lineNum">      74 </span><span class="lineCov">     590105 :              versions != rhs.versions );</span>
 <a name="75"><span class="lineNum">      75 </span>            : }</a>
 <span class="lineNum">      76 </span>            : 
 <span class="lineNum">      77 </span><span class="lineCov">      65581 : bool InstanceCache::Data::operator == ( const InstanceCache::Data&amp; rhs ) const</span>
@@ -142,33 +142,33 @@
 <span class="lineNum">      80 </span><span class="lineCov">     131162 :              versions == rhs.versions );</span>
 <a name="81"><span class="lineNum">      81 </span>            : }</a>
 <span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span><span class="lineCov">     184163 : InstanceCache::Item::Item()</span>
+<span class="lineNum">      83 </span><span class="lineCov">     167343 : InstanceCache::Item::Item()</span>
 <span class="lineNum">      84 </span>            :         : used( 0 )
-<span class="lineNum">      85 </span><span class="lineCov">     184163 :         , access( 0 )</span>
-<a name="86"><span class="lineNum">      86 </span><span class="lineCov">     184163 : {}</span></a>
+<span class="lineNum">      85 </span><span class="lineCov">     167343 :         , access( 0 )</span>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">     167343 : {}</span></a>
 <span class="lineNum">      87 </span>            : 
-<span class="lineNum">      88 </span><span class="lineCov">     184170 : bool InstanceCache::add( const ObjectVersion&amp; rev, const uint32_t instanceID,</span>
+<span class="lineNum">      88 </span><span class="lineCov">     167350 : bool InstanceCache::add( const ObjectVersion&amp; rev, const uint32_t instanceID,</span>
 <span class="lineNum">      89 </span>            :                          ICommand&amp; command, const uint32_t usage )
 <span class="lineNum">      90 </span>            : {
-<span class="lineNum">      91 </span><span class="lineCov">     184170 :     LBASSERTINFO( command.isValid(), command );</span>
+<span class="lineNum">      91 </span><span class="lineCov">     167350 :     LBASSERTINFO( command.isValid(), command );</span>
 <span class="lineNum">      92 </span>            : 
 <span class="lineNum">      93 </span>            : #ifdef CO_INSTRUMENT_CACHE
 <span class="lineNum">      94 </span>            :     ++nWrite;
 <span class="lineNum">      95 </span>            : #endif
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineCov">     184170 :     const NodeID nodeID = command.getNode()-&gt;getNodeID();</span>
+<span class="lineNum">      97 </span><span class="lineCov">     167350 :     const NodeID nodeID = command.getNode()-&gt;getNodeID();</span>
 <span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span><span class="lineCov">     184170 :     lunchbox::ScopedMutex&lt;&gt; mutex( _items );</span>
-<span class="lineNum">     100 </span><span class="lineCov">     184170 :     ItemHash::const_iterator i = _items-&gt;find( rev.identifier );</span>
-<span class="lineNum">     101 </span><span class="lineCov">     184170 :     if( i == _items-&gt;end( ))</span>
+<span class="lineNum">      99 </span><span class="lineCov">     167350 :     lunchbox::ScopedMutex&lt;&gt; mutex( _items );</span>
+<span class="lineNum">     100 </span><span class="lineCov">     167350 :     ItemHash::const_iterator i = _items-&gt;find( rev.identifier );</span>
+<span class="lineNum">     101 </span><span class="lineCov">     167350 :     if( i == _items-&gt;end( ))</span>
 <span class="lineNum">     102 </span>            :     {
-<span class="lineNum">     103 </span><span class="lineCov">     184163 :         Item&amp; item = _items.data[ rev.identifier ];</span>
-<span class="lineNum">     104 </span><span class="lineCov">     184163 :         item.data.masterInstanceID = instanceID;</span>
-<span class="lineNum">     105 </span><span class="lineCov">     184163 :         item.from = nodeID;</span>
+<span class="lineNum">     103 </span><span class="lineCov">     167343 :         Item&amp; item = _items.data[ rev.identifier ];</span>
+<span class="lineNum">     104 </span><span class="lineCov">     167343 :         item.data.masterInstanceID = instanceID;</span>
+<span class="lineNum">     105 </span><span class="lineCov">     167343 :         item.from = nodeID;</span>
 <span class="lineNum">     106 </span>            :     }
 <span class="lineNum">     107 </span>            : 
-<span class="lineNum">     108 </span><span class="lineCov">     184170 :     Item&amp; item = _items.data[ rev.identifier ] ;</span>
-<span class="lineNum">     109 </span><span class="lineCov">     184170 :     if( item.data.masterInstanceID != instanceID || item.from != nodeID )</span>
+<span class="lineNum">     108 </span><span class="lineCov">     167350 :     Item&amp; item = _items.data[ rev.identifier ] ;</span>
+<span class="lineNum">     109 </span><span class="lineCov">     167350 :     if( item.data.masterInstanceID != instanceID || item.from != nodeID )</span>
 <span class="lineNum">     110 </span>            :     {
 <span class="lineNum">     111 </span><span class="lineNoCov">          0 :         LBASSERT( !item.access ); // same master with different instance ID?!</span>
 <span class="lineNum">     112 </span><span class="lineNoCov">          0 :         if( item.access != 0 ) // are accessed - don't add</span>
@@ -180,12 +180,12 @@
 <span class="lineNum">     118 </span><span class="lineNoCov">          0 :         item.used = usage;</span>
 <span class="lineNum">     119 </span>            :     }
 <span class="lineNum">     120 </span>            :     else
-<span class="lineNum">     121 </span><span class="lineCov">     184170 :         item.used = LB_MAX( item.used, usage );</span>
+<span class="lineNum">     121 </span><span class="lineCov">     167350 :         item.used = LB_MAX( item.used, usage );</span>
 <span class="lineNum">     122 </span>            : 
-<span class="lineNum">     123 </span><span class="lineCov">     184170 :     if( item.data.versions.empty( ))</span>
+<span class="lineNum">     123 </span><span class="lineCov">     167350 :     if( item.data.versions.empty( ))</span>
 <span class="lineNum">     124 </span>            :     {
-<span class="lineNum">     125 </span><span class="lineCov">     184163 :         item.data.versions.push_back( new ObjectDataIStream );</span>
-<span class="lineNum">     126 </span><span class="lineCov">     184163 :         item.times.push_back( _clock.getTime64( ));</span>
+<span class="lineNum">     125 </span><span class="lineCov">     167343 :         item.data.versions.push_back( new ObjectDataIStream );</span>
+<span class="lineNum">     126 </span><span class="lineCov">     167343 :         item.times.push_back( _clock.getTime64( ));</span>
 <span class="lineNum">     127 </span>            :     }
 <span class="lineNum">     128 </span><span class="lineCov">          7 :     else if( item.data.versions.back()-&gt;getPendingVersion() == rev.version )</span>
 <span class="lineNum">     129 </span>            :     {
@@ -228,16 +228,16 @@
 <span class="lineNum">     166 </span><span class="lineCov">          3 :         item.times.push_back( _clock.getTime64( ));</span>
 <span class="lineNum">     167 </span>            :     }
 <span class="lineNum">     168 </span>            : 
-<span class="lineNum">     169 </span><span class="lineCov">     184170 :     LBASSERT( !item.data.versions.empty( ));</span>
-<span class="lineNum">     170 </span><span class="lineCov">     184170 :     ObjectDataIStream* stream = item.data.versions.back();</span>
+<span class="lineNum">     169 </span><span class="lineCov">     167350 :     LBASSERT( !item.data.versions.empty( ));</span>
+<span class="lineNum">     170 </span><span class="lineCov">     167350 :     ObjectDataIStream* stream = item.data.versions.back();</span>
 <span class="lineNum">     171 </span>            : 
-<span class="lineNum">     172 </span><span class="lineCov">     184170 :     stream-&gt;addDataCommand( command );</span>
+<span class="lineNum">     172 </span><span class="lineCov">     167350 :     stream-&gt;addDataCommand( command );</span>
 <span class="lineNum">     173 </span>            : 
-<span class="lineNum">     174 </span><span class="lineCov">     184170 :     if( stream-&gt;isReady( ))</span>
-<span class="lineNum">     175 </span><span class="lineCov">     184166 :         _size += stream-&gt;getDataSize();</span>
+<span class="lineNum">     174 </span><span class="lineCov">     167350 :     if( stream-&gt;isReady( ))</span>
+<span class="lineNum">     175 </span><span class="lineCov">     167346 :         _size += stream-&gt;getDataSize();</span>
 <span class="lineNum">     176 </span>            : 
-<span class="lineNum">     177 </span><span class="lineCov">     184170 :     _releaseItems( 1 );</span>
-<span class="lineNum">     178 </span><span class="lineCov">     184170 :     _releaseItems( 0 );</span>
+<span class="lineNum">     177 </span><span class="lineCov">     167350 :     _releaseItems( 1 );</span>
+<span class="lineNum">     178 </span><span class="lineCov">     167350 :     _releaseItems( 0 );</span>
 <span class="lineNum">     179 </span>            : 
 <span class="lineNum">     180 </span>            : #ifdef CO_INSTRUMENT_CACHE
 <span class="lineNum">     181 </span>            :     if( _items-&gt;find( rev.identifier ) != _items-&gt;end( ))
@@ -245,99 +245,99 @@
 <span class="lineNum">     183 </span>            :     else
 <span class="lineNum">     184 </span>            :         ++nWriteMiss;
 <span class="lineNum">     185 </span>            : #endif
-<span class="lineNum">     186 </span><span class="lineCov">     184170 :     return true;</span>
+<span class="lineNum">     186 </span><span class="lineCov">     167350 :     return true;</span>
 <a name="187"><span class="lineNum">     187 </span>            : }</a>
 <span class="lineNum">     188 </span>            : 
-<span class="lineNum">     189 </span><span class="lineCov">        113 : void InstanceCache::remove( const NodeID&amp; nodeID )</span>
+<span class="lineNum">     189 </span><span class="lineCov">        110 : void InstanceCache::remove( const NodeID&amp; nodeID )</span>
 <span class="lineNum">     190 </span>            : {
-<span class="lineNum">     191 </span><span class="lineCov">        113 :     std::vector&lt; lunchbox::uint128_t &gt; keys;</span>
+<span class="lineNum">     191 </span><span class="lineCov">        110 :     std::vector&lt; lunchbox::uint128_t &gt; keys;</span>
 <span class="lineNum">     192 </span>            : 
-<span class="lineNum">     193 </span><span class="lineCov">        226 :     lunchbox::ScopedWrite mutex( _items );</span>
-<span class="lineNum">     194 </span><span class="lineCov">        146 :     for( ItemHash::iterator i = _items-&gt;begin(); i != _items-&gt;end(); ++i )</span>
+<span class="lineNum">     193 </span><span class="lineCov">        220 :     lunchbox::ScopedWrite mutex( _items );</span>
+<span class="lineNum">     194 </span><span class="lineCov">        144 :     for( ItemHash::iterator i = _items-&gt;begin(); i != _items-&gt;end(); ++i )</span>
 <span class="lineNum">     195 </span>            :     {
-<span class="lineNum">     196 </span><span class="lineCov">         33 :         Item&amp; item = i-&gt;second;</span>
-<span class="lineNum">     197 </span><span class="lineCov">         33 :         if( item.from != nodeID )</span>
+<span class="lineNum">     196 </span><span class="lineCov">         34 :         Item&amp; item = i-&gt;second;</span>
+<span class="lineNum">     197 </span><span class="lineCov">         34 :         if( item.from != nodeID )</span>
 <span class="lineNum">     198 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineCov">         33 :         LBASSERT( !item.access );</span>
-<span class="lineNum">     201 </span><span class="lineCov">         33 :         if( item.access != 0 )</span>
+<span class="lineNum">     200 </span><span class="lineCov">         34 :         LBASSERT( !item.access );</span>
+<span class="lineNum">     201 </span><span class="lineCov">         34 :         if( item.access != 0 )</span>
 <span class="lineNum">     202 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">     203 </span>            : 
-<span class="lineNum">     204 </span><span class="lineCov">         33 :         _releaseStreams( item );</span>
-<span class="lineNum">     205 </span><span class="lineCov">         33 :         keys.push_back( i-&gt;first );</span>
+<span class="lineNum">     204 </span><span class="lineCov">         34 :         _releaseStreams( item );</span>
+<span class="lineNum">     205 </span><span class="lineCov">         34 :         keys.push_back( i-&gt;first );</span>
 <span class="lineNum">     206 </span>            :     }
 <span class="lineNum">     207 </span>            : 
-<span class="lineNum">     208 </span><span class="lineCov">        438 :     for( std::vector&lt; lunchbox::uint128_t &gt;::const_iterator i = keys.begin();</span>
-<span class="lineNum">     209 </span><span class="lineCov">        292 :          i != keys.end(); ++i )</span>
+<span class="lineNum">     208 </span><span class="lineCov">        432 :     for( std::vector&lt; lunchbox::uint128_t &gt;::const_iterator i = keys.begin();</span>
+<span class="lineNum">     209 </span><span class="lineCov">        288 :          i != keys.end(); ++i )</span>
 <span class="lineNum">     210 </span>            :     {
-<span class="lineNum">     211 </span><span class="lineCov">         33 :         _items-&gt;erase( *i );</span>
-<span class="lineNum">     212 </span><span class="lineCov">        113 :     }</span>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">        113 : }</span></a>
+<span class="lineNum">     211 </span><span class="lineCov">         34 :         _items-&gt;erase( *i );</span>
+<span class="lineNum">     212 </span><span class="lineCov">        110 :     }</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">        110 : }</span></a>
 <span class="lineNum">     214 </span>            : 
-<span class="lineNum">     215 </span><span class="lineCov">     459655 : const InstanceCache::Data&amp; InstanceCache::operator[]( const UUID&amp; id )</span>
+<span class="lineNum">     215 </span><span class="lineCov">     444288 : const InstanceCache::Data&amp; InstanceCache::operator[]( const uint128_t&amp; id )</span>
 <span class="lineNum">     216 </span>            : {
 <span class="lineNum">     217 </span>            : #ifdef CO_INSTRUMENT_CACHE
 <span class="lineNum">     218 </span>            :     ++nRead;
 <span class="lineNum">     219 </span>            : #endif
 <span class="lineNum">     220 </span>            : 
-<span class="lineNum">     221 </span><span class="lineCov">     459655 :     lunchbox::ScopedWrite mutex( _items );</span>
-<span class="lineNum">     222 </span><span class="lineCov">     459655 :     ItemHash::iterator i = _items-&gt;find( id );</span>
-<span class="lineNum">     223 </span><span class="lineCov">     459655 :     if( i == _items-&gt;end( ))</span>
-<span class="lineNum">     224 </span><span class="lineCov">     275533 :         return Data::NONE;</span>
+<span class="lineNum">     221 </span><span class="lineCov">     444288 :     lunchbox::ScopedWrite mutex( _items );</span>
+<span class="lineNum">     222 </span><span class="lineCov">     444288 :     ItemHash::iterator i = _items-&gt;find( id );</span>
+<span class="lineNum">     223 </span><span class="lineCov">     444288 :     if( i == _items-&gt;end( ))</span>
+<span class="lineNum">     224 </span><span class="lineCov">     276980 :         return Data::NONE;</span>
 <span class="lineNum">     225 </span>            : 
-<span class="lineNum">     226 </span><span class="lineCov">     184122 :     Item&amp; item = i-&gt;second;</span>
-<span class="lineNum">     227 </span><span class="lineCov">     184122 :     LBASSERT( !item.data.versions.empty( ));</span>
-<span class="lineNum">     228 </span><span class="lineCov">     184122 :     ++item.access;</span>
-<span class="lineNum">     229 </span><span class="lineCov">     184122 :     ++item.used;</span>
+<span class="lineNum">     226 </span><span class="lineCov">     167308 :     Item&amp; item = i-&gt;second;</span>
+<span class="lineNum">     227 </span><span class="lineCov">     167308 :     LBASSERT( !item.data.versions.empty( ));</span>
+<span class="lineNum">     228 </span><span class="lineCov">     167308 :     ++item.access;</span>
+<span class="lineNum">     229 </span><span class="lineCov">     167308 :     ++item.used;</span>
 <span class="lineNum">     230 </span>            : 
 <span class="lineNum">     231 </span>            : #ifdef CO_INSTRUMENT_CACHE
 <span class="lineNum">     232 </span>            :     ++nReadHit;
 <span class="lineNum">     233 </span>            : #endif
-<span class="lineNum">     234 </span><span class="lineCov">     184122 :     return item.data;</span>
+<span class="lineNum">     234 </span><span class="lineCov">     167308 :     return item.data;</span>
 <a name="235"><span class="lineNum">     235 </span>            : }</a>
 <span class="lineNum">     236 </span>            : 
-<span class="lineNum">     237 </span><span class="lineCov">     184122 : bool InstanceCache::release( const UUID&amp; id, const uint32_t count )</span>
+<span class="lineNum">     237 </span><span class="lineCov">     167308 : bool InstanceCache::release( const uint128_t&amp; id, const uint32_t count )</span>
 <span class="lineNum">     238 </span>            : {
-<span class="lineNum">     239 </span><span class="lineCov">     184122 :     lunchbox::ScopedWrite mutex( _items );</span>
-<span class="lineNum">     240 </span><span class="lineCov">     184122 :     ItemHash::iterator i = _items-&gt;find( id );</span>
-<span class="lineNum">     241 </span><span class="lineCov">     184122 :     if( i == _items-&gt;end( ))</span>
+<span class="lineNum">     239 </span><span class="lineCov">     167308 :     lunchbox::ScopedWrite mutex( _items );</span>
+<span class="lineNum">     240 </span><span class="lineCov">     167308 :     ItemHash::iterator i = _items-&gt;find( id );</span>
+<span class="lineNum">     241 </span><span class="lineCov">     167308 :     if( i == _items-&gt;end( ))</span>
 <span class="lineNum">     242 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     243 </span>            : 
-<span class="lineNum">     244 </span><span class="lineCov">     184122 :     Item&amp; item = i-&gt;second;</span>
-<span class="lineNum">     245 </span><span class="lineCov">     184122 :     LBASSERT( !item.data.versions.empty( ));</span>
-<span class="lineNum">     246 </span><span class="lineCov">     184122 :     LBASSERT( item.access &gt;= count );</span>
+<span class="lineNum">     244 </span><span class="lineCov">     167308 :     Item&amp; item = i-&gt;second;</span>
+<span class="lineNum">     245 </span><span class="lineCov">     167308 :     LBASSERT( !item.data.versions.empty( ));</span>
+<span class="lineNum">     246 </span><span class="lineCov">     167308 :     LBASSERT( item.access &gt;= count );</span>
 <span class="lineNum">     247 </span>            : 
-<span class="lineNum">     248 </span><span class="lineCov">     184122 :     item.access -= count;</span>
-<span class="lineNum">     249 </span><span class="lineCov">     184122 :     _releaseItems( 1 );</span>
-<span class="lineNum">     250 </span><span class="lineCov">     184122 :     return true;</span>
+<span class="lineNum">     248 </span><span class="lineCov">     167308 :     item.access -= count;</span>
+<span class="lineNum">     249 </span><span class="lineCov">     167308 :     _releaseItems( 1 );</span>
+<span class="lineNum">     250 </span><span class="lineCov">     167308 :     return true;</span>
 <a name="251"><span class="lineNum">     251 </span>            : }</a>
 <span class="lineNum">     252 </span>            : 
-<span class="lineNum">     253 </span><span class="lineCov">     184145 : bool InstanceCache::erase( const UUID&amp; id )</span>
+<span class="lineNum">     253 </span><span class="lineCov">     167324 : bool InstanceCache::erase( const uint128_t&amp; id )</span>
 <span class="lineNum">     254 </span>            : {
-<span class="lineNum">     255 </span><span class="lineCov">     184145 :     lunchbox::ScopedWrite mutex( _items );</span>
-<span class="lineNum">     256 </span><span class="lineCov">     184145 :     ItemHash::iterator i = _items-&gt;find( id );</span>
-<span class="lineNum">     257 </span><span class="lineCov">     184145 :     if( i == _items-&gt;end( ))</span>
+<span class="lineNum">     255 </span><span class="lineCov">     167324 :     lunchbox::ScopedWrite mutex( _items );</span>
+<span class="lineNum">     256 </span><span class="lineCov">     167324 :     ItemHash::iterator i = _items-&gt;find( id );</span>
+<span class="lineNum">     257 </span><span class="lineCov">     167324 :     if( i == _items-&gt;end( ))</span>
 <span class="lineNum">     258 </span><span class="lineCov">         15 :         return false;</span>
 <span class="lineNum">     259 </span>            : 
-<span class="lineNum">     260 </span><span class="lineCov">     184130 :     Item&amp; item = i-&gt;second;</span>
-<span class="lineNum">     261 </span><span class="lineCov">     184130 :     if( item.access != 0 )</span>
+<span class="lineNum">     260 </span><span class="lineCov">     167309 :     Item&amp; item = i-&gt;second;</span>
+<span class="lineNum">     261 </span><span class="lineCov">     167309 :     if( item.access != 0 )</span>
 <span class="lineNum">     262 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     263 </span>            : 
-<span class="lineNum">     264 </span><span class="lineCov">     184130 :     _releaseStreams( item );</span>
-<span class="lineNum">     265 </span><span class="lineCov">     184130 :     _items-&gt;erase( i );</span>
-<span class="lineNum">     266 </span><span class="lineCov">     184130 :     return true;</span>
+<span class="lineNum">     264 </span><span class="lineCov">     167309 :     _releaseStreams( item );</span>
+<span class="lineNum">     265 </span><span class="lineCov">     167309 :     _items-&gt;erase( i );</span>
+<span class="lineNum">     266 </span><span class="lineCov">     167309 :     return true;</span>
 <a name="267"><span class="lineNum">     267 </span>            : }</a>
 <span class="lineNum">     268 </span>            : 
-<span class="lineNum">     269 </span><span class="lineCov">         98 : void InstanceCache::expire( const int64_t timeout )</span>
+<span class="lineNum">     269 </span><span class="lineCov">         94 : void InstanceCache::expire( const int64_t timeout )</span>
 <span class="lineNum">     270 </span>            : {
-<span class="lineNum">     271 </span><span class="lineCov">         98 :     const int64_t time = _clock.getTime64() - timeout;</span>
-<span class="lineNum">     272 </span><span class="lineCov">         98 :     if( time &lt;= 0 )</span>
-<span class="lineNum">     273 </span><span class="lineCov">         99 :         return;</span>
+<span class="lineNum">     271 </span><span class="lineCov">         94 :     const int64_t time = _clock.getTime64() - timeout;</span>
+<span class="lineNum">     272 </span><span class="lineCov">         94 :     if( time &lt;= 0 )</span>
+<span class="lineNum">     273 </span><span class="lineCov">         95 :         return;</span>
 <span class="lineNum">     274 </span>            : 
-<span class="lineNum">     275 </span><span class="lineCov">         97 :     std::vector&lt; lunchbox::uint128_t &gt; keys;</span>
+<span class="lineNum">     275 </span><span class="lineCov">         93 :     std::vector&lt; lunchbox::uint128_t &gt; keys;</span>
 <span class="lineNum">     276 </span>            : 
-<span class="lineNum">     277 </span><span class="lineCov">        194 :     lunchbox::ScopedWrite mutex( _items );</span>
-<span class="lineNum">     278 </span><span class="lineCov">         97 :     for( ItemHash::iterator i = _items-&gt;begin(); i != _items-&gt;end(); ++i )</span>
+<span class="lineNum">     277 </span><span class="lineCov">        186 :     lunchbox::ScopedWrite mutex( _items );</span>
+<span class="lineNum">     278 </span><span class="lineCov">         93 :     for( ItemHash::iterator i = _items-&gt;begin(); i != _items-&gt;end(); ++i )</span>
 <span class="lineNum">     279 </span>            :     {
 <span class="lineNum">     280 </span><span class="lineNoCov">          0 :         Item&amp; item = i-&gt;second;</span>
 <span class="lineNum">     281 </span><span class="lineNoCov">          0 :         if( item.access != 0 )</span>
@@ -348,11 +348,11 @@
 <span class="lineNum">     286 </span><span class="lineNoCov">          0 :             keys.push_back( i-&gt;first );</span>
 <span class="lineNum">     287 </span>            :     }
 <span class="lineNum">     288 </span>            : 
-<span class="lineNum">     289 </span><span class="lineCov">        291 :     for( std::vector&lt; lunchbox::uint128_t &gt;::const_iterator i = keys.begin();</span>
-<span class="lineNum">     290 </span><span class="lineCov">        194 :          i != keys.end(); ++i )</span>
+<span class="lineNum">     289 </span><span class="lineCov">        279 :     for( std::vector&lt; lunchbox::uint128_t &gt;::const_iterator i = keys.begin();</span>
+<span class="lineNum">     290 </span><span class="lineCov">        186 :          i != keys.end(); ++i )</span>
 <span class="lineNum">     291 </span>            :     {
 <span class="lineNum">     292 </span><span class="lineNoCov">          0 :         _items-&gt;erase( *i );</span>
-<span class="lineNum">     293 </span><span class="lineCov">         97 :     }</span>
+<span class="lineNum">     293 </span><span class="lineCov">         93 :     }</span>
 <a name="294"><span class="lineNum">     294 </span>            : }</a>
 <span class="lineNum">     295 </span>            : 
 <span class="lineNum">     296 </span><span class="lineNoCov">          0 : void InstanceCache::_releaseStreams( InstanceCache::Item&amp; item,</span>
@@ -366,19 +366,19 @@
 <span class="lineNum">     304 </span>            :     }
 <a name="305"><span class="lineNum">     305 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     306 </span>            : 
-<span class="lineNum">     307 </span><span class="lineCov">     184163 : void InstanceCache::_releaseStreams( InstanceCache::Item&amp; item )</span>
+<span class="lineNum">     307 </span><span class="lineCov">     167343 : void InstanceCache::_releaseStreams( InstanceCache::Item&amp; item )</span>
 <span class="lineNum">     308 </span>            : {
-<span class="lineNum">     309 </span><span class="lineCov">     184163 :     LBASSERT( item.access == 0 );</span>
-<span class="lineNum">     310 </span><span class="lineCov">     184163 :     LBASSERT( !item.data.versions.empty( ));</span>
+<span class="lineNum">     309 </span><span class="lineCov">     167343 :     LBASSERT( item.access == 0 );</span>
+<span class="lineNum">     310 </span><span class="lineCov">     167343 :     LBASSERT( !item.data.versions.empty( ));</span>
 <span class="lineNum">     311 </span>            : 
-<span class="lineNum">     312 </span><span class="lineCov">     552492 :     while( !item.data.versions.empty( ))</span>
+<span class="lineNum">     312 </span><span class="lineCov">     502032 :     while( !item.data.versions.empty( ))</span>
 <span class="lineNum">     313 </span>            :     {
-<span class="lineNum">     314 </span><span class="lineCov">     184166 :         ObjectDataIStream* stream = item.data.versions.back();</span>
-<span class="lineNum">     315 </span><span class="lineCov">     184166 :         item.data.versions.pop_back();</span>
-<span class="lineNum">     316 </span><span class="lineCov">     184166 :         _deleteStream( stream );</span>
+<span class="lineNum">     314 </span><span class="lineCov">     167346 :         ObjectDataIStream* stream = item.data.versions.back();</span>
+<span class="lineNum">     315 </span><span class="lineCov">     167346 :         item.data.versions.pop_back();</span>
+<span class="lineNum">     316 </span><span class="lineCov">     167346 :         _deleteStream( stream );</span>
 <span class="lineNum">     317 </span>            :     }
-<span class="lineNum">     318 </span><span class="lineCov">     184163 :     item.times.clear();</span>
-<a name="319"><span class="lineNum">     319 </span><span class="lineCov">     184163 : }</span></a>
+<span class="lineNum">     318 </span><span class="lineCov">     167343 :     item.times.clear();</span>
+<a name="319"><span class="lineNum">     319 </span><span class="lineCov">     167343 : }</span></a>
 <span class="lineNum">     320 </span>            : 
 <span class="lineNum">     321 </span><span class="lineNoCov">          0 : void InstanceCache::_releaseFirstStream( InstanceCache::Item&amp; item )</span>
 <span class="lineNum">     322 </span>            : {
@@ -393,19 +393,19 @@
 <span class="lineNum">     331 </span><span class="lineNoCov">          0 :     _deleteStream( stream );</span>
 <a name="332"><span class="lineNum">     332 </span>            : }</a>
 <span class="lineNum">     333 </span>            : 
-<span class="lineNum">     334 </span><span class="lineCov">     184166 : void InstanceCache::_deleteStream( ObjectDataIStream* stream )</span>
+<span class="lineNum">     334 </span><span class="lineCov">     167346 : void InstanceCache::_deleteStream( ObjectDataIStream* stream )</span>
 <span class="lineNum">     335 </span>            : {
-<span class="lineNum">     336 </span><span class="lineCov">     184166 :     LBASSERT( stream-&gt;isReady( ));</span>
-<span class="lineNum">     337 </span><span class="lineCov">     184166 :     LBASSERT( _size &gt;= stream-&gt;getDataSize( ));</span>
+<span class="lineNum">     336 </span><span class="lineCov">     167346 :     LBASSERT( stream-&gt;isReady( ));</span>
+<span class="lineNum">     337 </span><span class="lineCov">     167346 :     LBASSERT( _size &gt;= stream-&gt;getDataSize( ));</span>
 <span class="lineNum">     338 </span>            : 
-<span class="lineNum">     339 </span><span class="lineCov">     184166 :     _size -= stream-&gt;getDataSize();</span>
-<span class="lineNum">     340 </span><span class="lineCov">     184166 :     delete stream;</span>
-<a name="341"><span class="lineNum">     341 </span><span class="lineCov">     184166 : }</span></a>
+<span class="lineNum">     339 </span><span class="lineCov">     167346 :     _size -= stream-&gt;getDataSize();</span>
+<span class="lineNum">     340 </span><span class="lineCov">     167346 :     delete stream;</span>
+<a name="341"><span class="lineNum">     341 </span><span class="lineCov">     167346 : }</span></a>
 <span class="lineNum">     342 </span>            : 
-<span class="lineNum">     343 </span><span class="lineCov">     552462 : void InstanceCache::_releaseItems( const uint32_t minUsage )</span>
+<span class="lineNum">     343 </span><span class="lineCov">     502008 : void InstanceCache::_releaseItems( const uint32_t minUsage )</span>
 <span class="lineNum">     344 </span>            : {
-<span class="lineNum">     345 </span><span class="lineCov">     552462 :     if( _size &lt;= _maxSize )</span>
-<span class="lineNum">     346 </span><span class="lineCov">    1104924 :         return;</span>
+<span class="lineNum">     345 </span><span class="lineCov">     502008 :     if( _size &lt;= _maxSize )</span>
+<span class="lineNum">     346 </span><span class="lineCov">    1004016 :         return;</span>
 <span class="lineNum">     347 </span>            : 
 <span class="lineNum">     348 </span><span class="lineNoCov">          0 :     LB_TS_SCOPED( _thread );</span>
 <span class="lineNum">     349 </span>            : 
@@ -489,7 +489,7 @@
 <span class="lineNum">     427 </span><span class="lineCov">          2 :     return os;</span>
 <a name="428"><span class="lineNum">     428 </span>            : }</a>
 <span class="lineNum">     429 </span>            : 
-<span class="lineNum">     430 </span><span class="lineCov">         63 : }</span>
+<span class="lineNum">     430 </span><span class="lineCov">         60 : }</span>
 </pre>
       </td>
     </tr>

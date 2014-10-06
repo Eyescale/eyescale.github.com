@@ -14,7 +14,7 @@ var classco_1_1_object_map =
     [ "deserialize", "classco_1_1_object_map.html#ab27c2285e19cfb5899c6c790a9e67f7d", null ],
     [ "getChangeType", "classco_1_1_object_map.html#ab5b4b2a572cfed489546028703816226", null ],
     [ "isDirty", "classco_1_1_object_map.html#af1c0165cd487172621f7c60548581421", null ],
-    [ "map", "classco_1_1_object_map.html#a0f8a5e65e5acfa0d59d1a9caaca9f800", null ],
+    [ "map", "classco_1_1_object_map.html#ad7360d6fed38456d931076cc6a3c1cc8", null ],
     [ "notifyAttached", "classco_1_1_object_map.html#a80f168d866afb5221c9301c6f67e6f15", null ],
     [ "register_", "classco_1_1_object_map.html#ad9e1435a452b905b85ac9793b54e1ed0", null ],
     [ "serialize", "classco_1_1_object_map.html#af04ce0f364039c27fe0c6819de544a36", null ],

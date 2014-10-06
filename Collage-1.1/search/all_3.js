@@ -44,7 +44,7 @@ var searchData=
   ['connectiontype_5fsdp',['CONNECTIONTYPE_SDP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdbaaf478ea8d405467dd3b4937c75ac1c04',1,'co']]],
   ['connectiontype_5ftcpip',['CONNECTIONTYPE_TCPIP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba3679bc9affad045bbb6b126d0cea4248',1,'co']]],
   ['connectiontype_5fudt',['CONNECTIONTYPE_UDT',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba27061e42355c2e23cdad501df680130e',1,'co']]],
-  ['connectobjectmaster',['connectObjectMaster',['../classco_1_1_local_node.html#a8855c90347e38a6b0d71212fdcde5983',1,'co::LocalNode']]],
+  ['connectobjectmaster',['connectObjectMaster',['../classco_1_1_local_node.html#a7f54acb337f9f0aeac6b32bcb9615338',1,'co::LocalNode']]],
   ['constconnectiondescriptionptr',['ConstConnectionDescriptionPtr',['../namespaceco.html#a87117a1040493c3785a025abe9ef0ad6',1,'co']]],
   ['constlocalnodeptr',['ConstLocalNodePtr',['../namespaceco.html#a726fc6c344b4ec2669ec0058720f5d97',1,'co']]],
   ['constnodeptr',['ConstNodePtr',['../namespaceco.html#a584499ed2997b6f9a3c8c717e8cc3f81',1,'co']]],

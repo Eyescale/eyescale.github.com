@@ -11,7 +11,7 @@ var searchData=
   ['connection',['Connection',['../classco_1_1_connection.html#afa1c2f6a4e6780f8766095b5cc0599b3',1,'co::Connection']]],
   ['connectiondescription',['ConnectionDescription',['../classco_1_1_connection_description.html#afc12ab2988bb47a694e6375ed4aa180e',1,'co::ConnectionDescription::ConnectionDescription()'],['../classco_1_1_connection_description.html#a265d116984e9f51b262ecc3598f019d7',1,'co::ConnectionDescription::ConnectionDescription(std::string &amp;data)']]],
   ['connectionset',['ConnectionSet',['../classco_1_1_connection_set.html#a078d43bac48907a1a783dc61dd69e6a7',1,'co::ConnectionSet']]],
-  ['connectobjectmaster',['connectObjectMaster',['../classco_1_1_local_node.html#a8855c90347e38a6b0d71212fdcde5983',1,'co::LocalNode']]],
+  ['connectobjectmaster',['connectObjectMaster',['../classco_1_1_local_node.html#a7f54acb337f9f0aeac6b32bcb9615338',1,'co::LocalNode']]],
   ['containskey',['containsKey',['../classco_1_1_zeroconf.html#a135c60e6c85281ac2baa79dc5fa2b60e',1,'co::Zeroconf']]],
   ['create',['create',['../classco_1_1_connection.html#a079921c90daaadb631f0a3d1f79c4b25',1,'co::Connection']]],
   ['createnode',['createNode',['../classco_1_1_local_node.html#a554958e39f8ef8f5f2218fc1b2643ee3',1,'co::LocalNode']]],

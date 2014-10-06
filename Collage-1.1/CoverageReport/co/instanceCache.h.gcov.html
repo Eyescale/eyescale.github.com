@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-05-27</td>
+            <td class="headerValue">2014-10-06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2009-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2009-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                    2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
@@ -123,7 +123,7 @@
 <span class="lineNum">      61 </span>            :         void remove( const NodeID&amp; node );
 <a name="62"><span class="lineNum">      62 </span>            : </a>
 <span class="lineNum">      63 </span>            :         /** One cache entry */
-<span class="lineNum">      64 </span><span class="lineCov">     184184 :         struct Data</span>
+<span class="lineNum">      64 </span><span class="lineCov">     167363 :         struct Data</span>
 <span class="lineNum">      65 </span>            :         {
 <span class="lineNum">      66 </span>            :             Data();
 <span class="lineNum">      67 </span>            :             CO_API bool operator != ( const Data&amp; rhs ) const;
@@ -146,7 +146,7 @@
 <span class="lineNum">      84 </span>            :          *         is cached for this object.
 <span class="lineNum">      85 </span>            :          */
 <span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span>            :         CO_API const Data&amp; operator[]( const UUID&amp; id );
+<span class="lineNum">      87 </span>            :         CO_API const Data&amp; operator[]( const uint128_t&amp; id );
 <span class="lineNum">      88 </span>            : 
 <span class="lineNum">      89 </span>            :         /**
 <span class="lineNum">      90 </span>            :          * Release the retrieved instance data of the given object.
@@ -156,7 +156,7 @@
 <span class="lineNum">      94 </span>            :          * @return true if the element was unpinned, false if it is not in the
 <span class="lineNum">      95 </span>            :          *         instance cache.
 <span class="lineNum">      96 </span>            :          */
-<span class="lineNum">      97 </span>            :         CO_API bool release( const UUID&amp; id, const uint32_t count );
+<span class="lineNum">      97 </span>            :         CO_API bool release( const uint128_t&amp; id, const uint32_t count );
 <span class="lineNum">      98 </span>            : 
 <span class="lineNum">      99 </span>            :         /**
 <span class="lineNum">     100 </span>            :          * Erase all the data for the given object.
@@ -166,7 +166,7 @@
 <span class="lineNum">     104 </span>            :          *
 <span class="lineNum">     105 </span>            :          * @return true if the element was erased, false otherwise.
 <span class="lineNum">     106 </span>            :          */
-<span class="lineNum">     107 </span>            :         CO_API bool erase( const UUID&amp; id );
+<span class="lineNum">     107 </span>            :         CO_API bool erase( const uint128_t&amp; id );
 <a name="108"><span class="lineNum">     108 </span>            : </a>
 <span class="lineNum">     109 </span>            :         /** @return the number of bytes used by the instance cache. */
 <span class="lineNum">     110 </span><span class="lineCov">          3 :         uint64_t getSize() const { return _size; }</span>
@@ -177,10 +177,10 @@
 <span class="lineNum">     115 </span>            :         /** Remove all items which are older than the given time. */
 <a name="116"><span class="lineNum">     116 </span>            :         void expire( const int64_t age );</a>
 <span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span><span class="lineCov">         98 :         bool isEmpty() { return _items-&gt;empty(); }</span>
+<span class="lineNum">     118 </span><span class="lineCov">         94 :         bool isEmpty() { return _items-&gt;empty(); }</span>
 <a name="119"><span class="lineNum">     119 </span>            : </a>
 <span class="lineNum">     120 </span>            :     private:
-<span class="lineNum">     121 </span><span class="lineCov">     184163 :         struct Item</span>
+<span class="lineNum">     121 </span><span class="lineCov">     167343 :         struct Item</span>
 <span class="lineNum">     122 </span>            :         {
 <span class="lineNum">     123 </span>            :             Item();
 <span class="lineNum">     124 </span>            :             Data data;
@@ -208,7 +208,7 @@
 <span class="lineNum">     146 </span>            :         void _releaseFirstStream( InstanceCache::Item&amp; item );
 <a name="147"><span class="lineNum">     147 </span>            :         void _deleteStream( ObjectDataIStream* iStream );</a>
 <span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span><span class="lineCov">        106 :         LB_TS_VAR( _thread );</span>
+<span class="lineNum">     149 </span><span class="lineCov">        102 :         LB_TS_VAR( _thread );</span>
 <span class="lineNum">     150 </span>            :     };
 <span class="lineNum">     151 </span>            : 
 <span class="lineNum">     152 </span>            :     CO_API std::ostream&amp; operator &lt;&lt; ( std::ostream&amp;, const InstanceCache&amp; );

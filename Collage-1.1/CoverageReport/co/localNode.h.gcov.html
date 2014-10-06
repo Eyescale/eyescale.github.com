@@ -33,16 +33,16 @@
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">14</td>
             <td class="headerCovTableEntry">16</td>
-            <td class="headerCovTableEntryMed">87.5 %</td>
+            <td class="headerCovTableEntryHi">87.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-05-27</td>
+            <td class="headerValue">2014-10-06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
             <td class="headerCovTableEntry">12</td>
-            <td class="headerCovTableEntryMed">83.3 %</td>
+            <td class="headerCovTableEntryHi">83.3 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -225,7 +225,7 @@
 <span class="lineNum">     163 </span>            :      * @sa registerObject(), connect()
 <span class="lineNum">     164 </span>            :      * @version 1.1.1
 <span class="lineNum">     165 </span>            :      */
-<span class="lineNum">     166 </span>            :     CO_API NodePtr connectObjectMaster( const UUID&amp; id );
+<span class="lineNum">     166 </span>            :     CO_API NodePtr connectObjectMaster( const uint128_t&amp; id );
 <span class="lineNum">     167 </span>            : 
 <span class="lineNum">     168 </span>            :     /**
 <span class="lineNum">     169 </span>            :      * Disconnect a connected node.
@@ -310,7 +310,7 @@
 <span class="lineNum">     248 </span>            :      * @sa registerObject
 <span class="lineNum">     249 </span>            :      * @version 1.0
 <span class="lineNum">     250 </span>            :      */
-<span class="lineNum">     251 </span>            :     CO_API f_bool_t mapObject( Object* object, const UUID&amp; id,
+<span class="lineNum">     251 </span>            :     CO_API f_bool_t mapObject( Object* object, const uint128_t&amp; id,
 <span class="lineNum">     252 </span>            :                                NodePtr master,
 <span class="lineNum">     253 </span>            :                                const uint128_t&amp; version = VERSION_OLDEST );
 <a name="254"><span class="lineNum">     254 </span>            : </a>
@@ -319,16 +319,16 @@
 <span class="lineNum">     257 </span><span class="lineCov">         27 :         { return mapObject( object, v.identifier, 0, v.version ); }</span>
 <a name="258"><span class="lineNum">     258 </span>            : </a>
 <span class="lineNum">     259 </span>            :     /** @deprecated */
-<span class="lineNum">     260 </span><span class="lineCov">         12 :     f_bool_t mapObject( Object* object, const UUID&amp; id,</span>
+<span class="lineNum">     260 </span><span class="lineCov">         12 :     f_bool_t mapObject( Object* object, const uint128_t&amp; id,</span>
 <span class="lineNum">     261 </span>            :                         const uint128_t&amp; version = VERSION_OLDEST )
 <span class="lineNum">     262 </span><span class="lineCov">         12 :         { return mapObject( object, id, 0, version ); }</span>
 <span class="lineNum">     263 </span>            : 
 <span class="lineNum">     264 </span>            :     /** @deprecated use mapObject() */
-<span class="lineNum">     265 </span>            :     CO_API uint32_t mapObjectNB( Object* object, const UUID&amp; id,
+<span class="lineNum">     265 </span>            :     CO_API uint32_t mapObjectNB( Object* object, const uint128_t&amp; id,
 <span class="lineNum">     266 </span>            :                                  const uint128_t&amp; version = VERSION_OLDEST );
 <span class="lineNum">     267 </span>            : 
 <span class="lineNum">     268 </span>            :     /** @deprecated use mapObject() */
-<span class="lineNum">     269 </span>            :     CO_API uint32_t mapObjectNB( Object* object, const UUID&amp; id,
+<span class="lineNum">     269 </span>            :     CO_API uint32_t mapObjectNB( Object* object, const uint128_t&amp; id,
 <span class="lineNum">     270 </span>            :                                  const uint128_t&amp; version,
 <span class="lineNum">     271 </span>            :                                  NodePtr master ) override;
 <span class="lineNum">     272 </span>            : 
@@ -356,8 +356,8 @@
 <span class="lineNum">     294 </span>            :      * @version 1.1.1
 <span class="lineNum">     295 </span>            :      */
 <span class="lineNum">     296 </span>            :     CO_API f_bool_t syncObject( Object* object, NodePtr master,
-<span class="lineNum">     297 </span>            :                                 const UUID&amp; id,
-<span class="lineNum">     298 </span>            :                                 const uint32_t instanceID = CO_INSTANCE_ALL );
+<span class="lineNum">     297 </span>            :                                 const uint128_t&amp; id,
+<span class="lineNum">     298 </span>            :                          const uint32_t instanceID = CO_INSTANCE_ALL ) override;
 <span class="lineNum">     299 </span>            :     /**
 <span class="lineNum">     300 </span>            :      * Unmap a mapped object.
 <span class="lineNum">     301 </span>            :      *
@@ -416,13 +416,13 @@
 <span class="lineNum">     354 </span>            :      */
 <span class="lineNum">     355 </span>            :     CO_API virtual void objectPush( const uint128_t&amp; groupID,
 <span class="lineNum">     356 </span>            :                                     const uint128_t&amp; objectType,
-<span class="lineNum">     357 </span>            :                                     const UUID&amp; objectID,
+<span class="lineNum">     357 </span>            :                                     const uint128_t&amp; objectID,
 <span class="lineNum">     358 </span>            :                                     DataIStream&amp; istream );
 <span class="lineNum">     359 </span>            : 
 <span class="lineNum">     360 </span>            :     /** Function signature for push handlers. @version 1.0 */
 <span class="lineNum">     361 </span>            :     typedef boost::function&lt; void( const uint128_t&amp;, //!&lt; groupID
 <span class="lineNum">     362 </span>            :                                    const uint128_t&amp;, //!&lt; objectType
-<span class="lineNum">     363 </span>            :                                    const UUID&amp;, //!&lt; objectID
+<span class="lineNum">     363 </span>            :                                    const uint128_t&amp;, //!&lt; objectID
 <span class="lineNum">     364 </span>            :                                    DataIStream&amp; ) &gt; PushHandler;
 <span class="lineNum">     365 </span>            :     /**
 <span class="lineNum">     366 </span>            :      * Register a custom handler for Object::push operations
@@ -591,10 +591,10 @@
 <span class="lineNum">     529 </span>            :     CO_API bool connect( NodePtr node, ConnectionPtr connection );
 <a name="530"><span class="lineNum">     530 </span>            : </a>
 <span class="lineNum">     531 </span>            :     /** @internal Notify remote node connection. */
-<span class="lineNum">     532 </span><span class="lineCov">         68 :     virtual void notifyConnect( NodePtr ) {}</span>
+<span class="lineNum">     532 </span><span class="lineCov">         66 :     virtual void notifyConnect( NodePtr ) {}</span>
 <a name="533"><span class="lineNum">     533 </span>            : </a>
 <span class="lineNum">     534 </span>            :     /** @internal Notify remote node disconnection. */
-<span class="lineNum">     535 </span><span class="lineCov">        113 :     virtual void notifyDisconnect( NodePtr ) {}</span>
+<span class="lineNum">     535 </span><span class="lineCov">        110 :     virtual void notifyDisconnect( NodePtr ) {}</span>
 <span class="lineNum">     536 </span>            : 
 <span class="lineNum">     537 </span>            :     /**
 <span class="lineNum">     538 </span>            :      * Factory method to create a new node.
@@ -641,11 +641,11 @@
 <span class="lineNum">     579 </span>            : 
 <a name="580"><span class="lineNum">     580 </span>            :     friend class ObjectStore;</a>
 <span class="lineNum">     581 </span>            :     template&lt; typename T &gt;
-<span class="lineNum">     582 </span><span class="lineCov">       1103 :     void _registerCommand( const uint32_t command, const CommandFunc&lt; T &gt;&amp; func,</span>
+<span class="lineNum">     582 </span><span class="lineCov">       1071 :     void _registerCommand( const uint32_t command, const CommandFunc&lt; T &gt;&amp; func,</span>
 <span class="lineNum">     583 </span>            :                            CommandQueue* destinationQueue )
 <span class="lineNum">     584 </span>            :     {
-<span class="lineNum">     585 </span><span class="lineCov">       1103 :         registerCommand( command, func, destinationQueue );</span>
-<span class="lineNum">     586 </span><span class="lineCov">       1102 :     }</span>
+<span class="lineNum">     585 </span><span class="lineCov">       1071 :         registerCommand( command, func, destinationQueue );</span>
+<span class="lineNum">     586 </span><span class="lineCov">       1071 :     }</span>
 <span class="lineNum">     587 </span>            : 
 <span class="lineNum">     588 </span>            :     void _dispatchCommand( ICommand&amp; command );
 <span class="lineNum">     589 </span>            :     void _redispatchCommands();
@@ -674,14 +674,14 @@
 <span class="lineNum">     612 </span><span class="lineNoCov">          0 :     bool _cmdDiscard( ICommand&amp; ) { return true; }</span>
 <a name="613"><span class="lineNum">     613 </span>            :     //@}</a>
 <a name="614"><span class="lineNum">     614 </span>            : </a>
-<span class="lineNum">     615 </span><span class="lineCov">        104 :     LB_TS_VAR( _cmdThread )</span>
-<span class="lineNum">     616 </span><span class="lineCov">        104 :     LB_TS_VAR( _rcvThread )</span>
+<span class="lineNum">     615 </span><span class="lineCov">        100 :     LB_TS_VAR( _cmdThread )</span>
+<span class="lineNum">     616 </span><span class="lineCov">        100 :     LB_TS_VAR( _rcvThread )</span>
 <a name="617"><span class="lineNum">     617 </span>            : };</a>
 <span class="lineNum">     618 </span>            : 
-<span class="lineNum">     619 </span><span class="lineCov">        161 : inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const LocalNode&amp; node )</span>
+<span class="lineNum">     619 </span><span class="lineCov">        156 : inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const LocalNode&amp; node )</span>
 <span class="lineNum">     620 </span>            : {
-<span class="lineNum">     621 </span><span class="lineCov">        161 :     os &lt;&lt; static_cast&lt; const Node&amp; &gt;( node );</span>
-<span class="lineNum">     622 </span><span class="lineCov">        161 :     return os;</span>
+<span class="lineNum">     621 </span><span class="lineCov">        156 :     os &lt;&lt; static_cast&lt; const Node&amp; &gt;( node );</span>
+<span class="lineNum">     622 </span><span class="lineCov">        156 :     return os;</span>
 <span class="lineNum">     623 </span>            : }
 <span class="lineNum">     624 </span>            : }
 <span class="lineNum">     625 </span>            : #endif // CO_LOCALNODE_H
