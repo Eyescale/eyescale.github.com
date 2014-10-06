@@ -1,10 +1,7 @@
 var hierarchy =
 [
     [ "hwsd::Module< T >", "classhwsd_1_1_module.html", [
-      [ "hwsd::gpu::dns_sd::Module", "classhwsd_1_1gpu_1_1dns__sd_1_1_module.html", null ],
-      [ "hwsd::gpu::glx::Module", "classhwsd_1_1gpu_1_1glx_1_1_module.html", null ],
-      [ "hwsd::net::dns_sd::Module", "classhwsd_1_1net_1_1dns__sd_1_1_module.html", null ],
-      [ "hwsd::net::sys::Module", "classhwsd_1_1net_1_1sys_1_1_module.html", null ]
+      [ "hwsd::gpu::glx::Module", "classhwsd_1_1gpu_1_1glx_1_1_module.html", null ]
     ] ],
     [ "hwsd::NodeInfo", "structhwsd_1_1_node_info.html", [
       [ "hwsd::GPUInfo", "structhwsd_1_1_g_p_u_info.html", null ],
@@ -19,5 +16,8 @@ var hierarchy =
         [ "hwsd::NetFilter", "classhwsd_1_1_net_filter.html", null ],
         [ "hwsd::SessionFilter", "classhwsd_1_1_session_filter.html", null ]
       ] ]
+    ] ],
+    [ "hwsd::Module< NetInfos >", "classhwsd_1_1_module.html", [
+      [ "hwsd::net::sys::Module", "classhwsd_1_1net_1_1sys_1_1_module.html", null ]
     ] ]
 ];

@@ -2,17 +2,11 @@ var annotated =
 [
     [ "hwsd", null, [
       [ "gpu", null, [
-        [ "dns_sd", null, [
-          [ "Module", "classhwsd_1_1gpu_1_1dns__sd_1_1_module.html", "classhwsd_1_1gpu_1_1dns__sd_1_1_module" ]
-        ] ],
         [ "glx", null, [
           [ "Module", "classhwsd_1_1gpu_1_1glx_1_1_module.html", "classhwsd_1_1gpu_1_1glx_1_1_module" ]
         ] ]
       ] ],
       [ "net", null, [
-        [ "dns_sd", null, [
-          [ "Module", "classhwsd_1_1net_1_1dns__sd_1_1_module.html", "classhwsd_1_1net_1_1dns__sd_1_1_module" ]
-        ] ],
         [ "sys", null, [
           [ "Module", "classhwsd_1_1net_1_1sys_1_1_module.html", "classhwsd_1_1net_1_1sys_1_1_module" ]
         ] ]
