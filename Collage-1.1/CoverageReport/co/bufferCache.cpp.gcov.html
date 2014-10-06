@@ -33,11 +33,11 @@
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">77</td>
             <td class="headerCovTableEntry">104</td>
-            <td class="headerCovTableEntryLo">74.0 %</td>
+            <td class="headerCovTableEntryMed">74.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-05-27</td>
+            <td class="headerValue">2014-10-06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">14</td>
@@ -125,63 +125,63 @@
 <span class="lineNum">      63 </span>            : class BufferCache : public BufferListener
 <a name="64"><span class="lineNum">      64 </span>            : {</a>
 <span class="lineNum">      65 </span>            : public:
-<span class="lineNum">      66 </span><span class="lineCov">        109 :     BufferCache( const int32_t minFree )</span>
-<span class="lineNum">      67 </span><span class="lineCov">        109 :         : _minFree( minFree )</span>
+<span class="lineNum">      66 </span><span class="lineCov">        105 :     BufferCache( const int32_t minFree )</span>
+<span class="lineNum">      67 </span><span class="lineCov">        105 :         : _minFree( minFree )</span>
 <span class="lineNum">      68 </span>            :     {
-<span class="lineNum">      69 </span><span class="lineCov">        108 :         LBASSERT( minFree &gt; 1);</span>
-<span class="lineNum">      70 </span><span class="lineCov">        108 :         flush();</span>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">        109 :     }</span></a>
+<span class="lineNum">      69 </span><span class="lineCov">        105 :         LBASSERT( minFree &gt; 1);</span>
+<span class="lineNum">      70 </span><span class="lineCov">        105 :         flush();</span>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">        105 :     }</span></a>
 <span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span><span class="lineCov">        210 :     ~BufferCache()</span>
-<span class="lineNum">      74 </span><span class="lineCov">        210 :     {</span>
-<span class="lineNum">      75 </span><span class="lineCov">        105 :         LBASSERT( _cache.size() == 1 );</span>
-<span class="lineNum">      76 </span><span class="lineCov">        105 :         LBASSERT( _cache.front()-&gt;isFree( ));</span>
+<span class="lineNum">      73 </span><span class="lineCov">        202 :     ~BufferCache()</span>
+<span class="lineNum">      74 </span><span class="lineCov">        202 :     {</span>
+<span class="lineNum">      75 </span><span class="lineCov">        101 :         LBASSERT( _cache.size() == 1 );</span>
+<span class="lineNum">      76 </span><span class="lineCov">        101 :         LBASSERT( _cache.front()-&gt;isFree( ));</span>
 <span class="lineNum">      77 </span>            : 
-<span class="lineNum">      78 </span><span class="lineCov">        105 :         delete _cache.front();</span>
-<span class="lineNum">      79 </span><span class="lineCov">        105 :         _cache.clear();</span>
-<a name="80"><span class="lineNum">      80 </span><span class="lineCov">        210 :     }</span></a>
+<span class="lineNum">      78 </span><span class="lineCov">        101 :         delete _cache.front();</span>
+<span class="lineNum">      79 </span><span class="lineCov">        101 :         _cache.clear();</span>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">        202 :     }</span></a>
 <span class="lineNum">      81 </span>            : 
-<span class="lineNum">      82 </span><span class="lineCov">        306 :     void flush()</span>
+<span class="lineNum">      82 </span><span class="lineCov">        296 :     void flush()</span>
 <span class="lineNum">      83 </span>            :     {
-<span class="lineNum">      84 </span><span class="lineCov">        904 :         for( DataCIter i = _cache.begin(); i != _cache.end(); ++i )</span>
+<span class="lineNum">      84 </span><span class="lineCov">        678 :         for( DataCIter i = _cache.begin(); i != _cache.end(); ++i )</span>
 <span class="lineNum">      85 </span>            :         {
-<span class="lineNum">      86 </span><span class="lineCov">        598 :             co::Buffer* buffer = *i;</span>
+<span class="lineNum">      86 </span><span class="lineCov">        382 :             co::Buffer* buffer = *i;</span>
 <span class="lineNum">      87 </span>            :             //LBASSERTINFO( buffer-&gt;isFree(), *buffer );
-<span class="lineNum">      88 </span><span class="lineCov">        598 :             delete buffer;</span>
+<span class="lineNum">      88 </span><span class="lineCov">        382 :             delete buffer;</span>
 <span class="lineNum">      89 </span>            :         }
-<span class="lineNum">      90 </span><span class="lineCov">        307 :         LBASSERTINFO( size_t( _free ) == _cache.size(),</span>
+<span class="lineNum">      90 </span><span class="lineCov">        296 :         LBASSERTINFO( size_t( _free ) == _cache.size(),</span>
 <span class="lineNum">      91 </span>            :                       size_t( _free ) &lt;&lt; &quot; != &quot; &lt;&lt; _cache.size() );
 <span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span><span class="lineCov">        308 :         _cache.clear();</span>
-<span class="lineNum">      94 </span><span class="lineCov">        308 :         _cache.push_back( new co::Buffer( this ));</span>
-<span class="lineNum">      95 </span><span class="lineCov">        308 :         _free = 1;</span>
-<span class="lineNum">      96 </span><span class="lineCov">        308 :         _maxFree = _minFree;</span>
-<span class="lineNum">      97 </span><span class="lineCov">        308 :         _position = _cache.begin();</span>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        308 :     }</span></a>
+<span class="lineNum">      93 </span><span class="lineCov">        296 :         _cache.clear();</span>
+<span class="lineNum">      94 </span><span class="lineCov">        296 :         _cache.push_back( new co::Buffer( this ));</span>
+<span class="lineNum">      95 </span><span class="lineCov">        296 :         _free = 1;</span>
+<span class="lineNum">      96 </span><span class="lineCov">        296 :         _maxFree = _minFree;</span>
+<span class="lineNum">      97 </span><span class="lineCov">        296 :         _position = _cache.begin();</span>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        296 :     }</span></a>
 <span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span><span class="lineCov">     142644 :     BufferPtr newBuffer()</span>
+<span class="lineNum">     100 </span><span class="lineCov">     154065 :     BufferPtr newBuffer()</span>
 <span class="lineNum">     101 </span>            :     {
-<span class="lineNum">     102 </span><span class="lineCov">     142644 :         const uint32_t cacheSize = uint32_t( _cache.size( ));</span>
-<span class="lineNum">     103 </span><span class="lineCov">     142645 :         LBASSERTINFO( size_t( _free ) &lt;= cacheSize,</span>
+<span class="lineNum">     102 </span><span class="lineCov">     154065 :         const uint32_t cacheSize = uint32_t( _cache.size( ));</span>
+<span class="lineNum">     103 </span><span class="lineCov">     154064 :         LBASSERTINFO( size_t( _free ) &lt;= cacheSize,</span>
 <span class="lineNum">     104 </span>            :                       size_t( _free ) &lt;&lt; &quot; &gt; &quot; &lt;&lt; cacheSize );
 <span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span><span class="lineCov">     142645 :         if( _free &gt; 0 )</span>
+<span class="lineNum">     106 </span><span class="lineCov">     154065 :         if( _free &gt; 0 )</span>
 <span class="lineNum">     107 </span>            :         {
-<span class="lineNum">     108 </span><span class="lineCov">     142438 :             LBASSERT( cacheSize &gt; 0 );</span>
+<span class="lineNum">     108 </span><span class="lineCov">     153883 :             LBASSERT( cacheSize &gt; 0 );</span>
 <span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span><span class="lineCov">     142438 :             const DataCIter end = _position;</span>
-<span class="lineNum">     111 </span><span class="lineCov">     142438 :             DataCIter&amp; i = _position;</span>
+<span class="lineNum">     110 </span><span class="lineCov">     153883 :             const DataCIter end = _position;</span>
+<span class="lineNum">     111 </span><span class="lineCov">     153883 :             DataCIter&amp; i = _position;</span>
 <span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span><span class="lineCov">     173636 :             for( ++i; i != end; ++i )</span>
+<span class="lineNum">     113 </span><span class="lineCov">     183595 :             for( ++i; i != end; ++i )</span>
 <span class="lineNum">     114 </span>            :             {
-<span class="lineNum">     115 </span><span class="lineCov">     173636 :                 if( i == _cache.end( ))</span>
-<span class="lineNum">     116 </span><span class="lineCov">      29567 :                     i = _cache.begin();</span>
+<span class="lineNum">     115 </span><span class="lineCov">     183595 :                 if( i == _cache.end( ))</span>
+<span class="lineNum">     116 </span><span class="lineCov">      36519 :                     i = _cache.begin();</span>
 <span class="lineNum">     117 </span>            : #ifdef PROFILE
 <span class="lineNum">     118 </span>            :                 ++_lookups;
 <span class="lineNum">     119 </span>            : #endif
-<span class="lineNum">     120 </span><span class="lineCov">     173636 :                 co::Buffer* buffer = *i;</span>
-<span class="lineNum">     121 </span><span class="lineCov">     173636 :                 if( !buffer-&gt;isFree( ))</span>
-<span class="lineNum">     122 </span><span class="lineCov">      31198 :                     continue;</span>
+<span class="lineNum">     120 </span><span class="lineCov">     183595 :                 co::Buffer* buffer = *i;</span>
+<span class="lineNum">     121 </span><span class="lineCov">     183595 :                 if( !buffer-&gt;isFree( ))</span>
+<span class="lineNum">     122 </span><span class="lineCov">      29712 :                     continue;</span>
 <span class="lineNum">     123 </span>            : 
 <span class="lineNum">     124 </span>            : #ifdef PROFILE
 <span class="lineNum">     125 </span>            :                 const long hits = ++_hits;
@@ -199,33 +199,33 @@
 <span class="lineNum">     137 </span>            :                            &lt;&lt; size / 1024 &lt;&lt; &quot;KB&quot; &lt;&lt; std::endl;
 <span class="lineNum">     138 </span>            :                 }
 <span class="lineNum">     139 </span>            : #endif
-<span class="lineNum">     140 </span><span class="lineCov">     142437 :                 --_free;</span>
-<span class="lineNum">     141 </span><span class="lineCov">     142438 :                 buffer-&gt;setUsed();</span>
-<span class="lineNum">     142 </span><span class="lineCov">     284876 :                 return buffer;</span>
+<span class="lineNum">     140 </span><span class="lineCov">     153883 :                 --_free;</span>
+<span class="lineNum">     141 </span><span class="lineCov">     153883 :                 buffer-&gt;setUsed();</span>
+<span class="lineNum">     142 </span><span class="lineCov">     307766 :                 return buffer;</span>
 <span class="lineNum">     143 </span>            :             }
 <span class="lineNum">     144 </span>            :         }
 <span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span><span class="lineCov">        207 :         const uint32_t add = (cacheSize &gt;&gt; 3) + 1;</span>
-<span class="lineNum">     147 </span><span class="lineCov">        609 :         for( size_t j = 0; j &lt; add; ++j )</span>
-<span class="lineNum">     148 </span><span class="lineCov">        402 :             _cache.push_back( new co::Buffer( this ));</span>
+<span class="lineNum">     146 </span><span class="lineCov">        182 :         const uint32_t add = (cacheSize &gt;&gt; 3) + 1;</span>
+<span class="lineNum">     147 </span><span class="lineCov">        376 :         for( size_t j = 0; j &lt; add; ++j )</span>
+<span class="lineNum">     148 </span><span class="lineCov">        194 :             _cache.push_back( new co::Buffer( this ));</span>
 <span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span><span class="lineCov">        207 :         _free += add - 1;</span>
-<span class="lineNum">     151 </span><span class="lineCov">        207 :         const int32_t num = int32_t( _cache.size() &gt;&gt; _maxFreeShift );</span>
-<span class="lineNum">     152 </span><span class="lineCov">        207 :         _maxFree = LB_MAX( _minFree, num );</span>
-<span class="lineNum">     153 </span><span class="lineCov">        207 :         _position = _cache.begin();</span>
+<span class="lineNum">     150 </span><span class="lineCov">        182 :         _free += add - 1;</span>
+<span class="lineNum">     151 </span><span class="lineCov">        182 :         const int32_t num = int32_t( _cache.size() &gt;&gt; _maxFreeShift );</span>
+<span class="lineNum">     152 </span><span class="lineCov">        182 :         _maxFree = LB_MAX( _minFree, num );</span>
+<span class="lineNum">     153 </span><span class="lineCov">        182 :         _position = _cache.begin();</span>
 <span class="lineNum">     154 </span>            : 
 <span class="lineNum">     155 </span>            : #ifdef PROFILE
 <span class="lineNum">     156 </span>            :         ++_misses;
 <span class="lineNum">     157 </span>            :         _allocs += add;
 <span class="lineNum">     158 </span>            : #endif
-<span class="lineNum">     159 </span><span class="lineCov">        207 :         _cache.back()-&gt;setUsed();</span>
-<span class="lineNum">     160 </span><span class="lineCov">        207 :         return _cache.back();</span>
+<span class="lineNum">     159 </span><span class="lineCov">        182 :         _cache.back()-&gt;setUsed();</span>
+<span class="lineNum">     160 </span><span class="lineCov">        182 :         return _cache.back();</span>
 <a name="161"><span class="lineNum">     161 </span>            :     }</a>
 <span class="lineNum">     162 </span>            : 
-<span class="lineNum">     163 </span><span class="lineCov">     144378 :     void compact()</span>
+<span class="lineNum">     163 </span><span class="lineCov">     144380 :     void compact()</span>
 <span class="lineNum">     164 </span>            :     {
-<span class="lineNum">     165 </span><span class="lineCov">     144378 :         if( _free &lt;= _maxFree )</span>
-<span class="lineNum">     166 </span><span class="lineCov">     288756 :             return;</span>
+<span class="lineNum">     165 </span><span class="lineCov">     144380 :         if( _free &lt;= _maxFree )</span>
+<span class="lineNum">     166 </span><span class="lineCov">     288760 :             return;</span>
 <span class="lineNum">     167 </span>            : 
 <span class="lineNum">     168 </span><span class="lineNoCov">          0 :         const int32_t tgt = _maxFree &gt;&gt; _targetShift;</span>
 <span class="lineNum">     169 </span><span class="lineNoCov">          0 :         const int32_t target = LB_MAX( tgt, _minFree );</span>
@@ -266,47 +266,47 @@
 <span class="lineNum">     204 </span>            :     const int32_t _minFree;
 <a name="205"><span class="lineNum">     205 </span>            :     int32_t _maxFree; //!&lt; The maximum number of free items</a>
 <span class="lineNum">     206 </span>            : 
-<span class="lineNum">     207 </span><span class="lineCov">     142644 :     virtual void notifyFree( co::Buffer* )</span>
+<span class="lineNum">     207 </span><span class="lineCov">     154062 :     virtual void notifyFree( co::Buffer* )</span>
 <span class="lineNum">     208 </span>            :     {
-<span class="lineNum">     209 </span><span class="lineCov">     142644 :         ++_free;</span>
-<span class="lineNum">     210 </span><span class="lineCov">     142644 :     }</span>
+<span class="lineNum">     209 </span><span class="lineCov">     154062 :         ++_free;</span>
+<span class="lineNum">     210 </span><span class="lineCov">     154064 :     }</span>
 <span class="lineNum">     211 </span>            : };
 <a name="212"><span class="lineNum">     212 </span>            : }</a>
 <span class="lineNum">     213 </span>            : 
-<span class="lineNum">     214 </span><span class="lineCov">        109 : BufferCache::BufferCache( const int32_t minFree )</span>
-<span class="lineNum">     215 </span><span class="lineCov">        109 :         : _impl( new detail::BufferCache( minFree ))</span>
-<a name="216"><span class="lineNum">     216 </span><span class="lineCov">        109 : {}</span></a>
+<span class="lineNum">     214 </span><span class="lineCov">        105 : BufferCache::BufferCache( const int32_t minFree )</span>
+<span class="lineNum">     215 </span><span class="lineCov">        105 :         : _impl( new detail::BufferCache( minFree ))</span>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">        105 : {}</span></a>
 <span class="lineNum">     217 </span>            : 
-<span class="lineNum">     218 </span><span class="lineCov">        210 : BufferCache::~BufferCache()</span>
+<span class="lineNum">     218 </span><span class="lineCov">        202 : BufferCache::~BufferCache()</span>
 <span class="lineNum">     219 </span>            : {
-<span class="lineNum">     220 </span><span class="lineCov">        105 :     flush();</span>
-<span class="lineNum">     221 </span><span class="lineCov">        105 :     delete _impl;</span>
-<a name="222"><span class="lineNum">     222 </span><span class="lineCov">        105 : }</span></a>
+<span class="lineNum">     220 </span><span class="lineCov">        101 :     flush();</span>
+<span class="lineNum">     221 </span><span class="lineCov">        101 :     delete _impl;</span>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">        101 : }</span></a>
 <span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span><span class="lineCov">        199 : void BufferCache::flush()</span>
+<span class="lineNum">     224 </span><span class="lineCov">        191 : void BufferCache::flush()</span>
 <span class="lineNum">     225 </span>            : {
-<span class="lineNum">     226 </span><span class="lineCov">        199 :     _impl-&gt;flush();</span>
-<a name="227"><span class="lineNum">     227 </span><span class="lineCov">        199 : }</span></a>
+<span class="lineNum">     226 </span><span class="lineCov">        191 :     _impl-&gt;flush();</span>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">        191 : }</span></a>
 <span class="lineNum">     228 </span>            : 
-<span class="lineNum">     229 </span><span class="lineCov">     142645 : BufferPtr BufferCache::alloc( const uint64_t size )</span>
+<span class="lineNum">     229 </span><span class="lineCov">     154065 : BufferPtr BufferCache::alloc( const uint64_t size )</span>
 <span class="lineNum">     230 </span>            : {
-<span class="lineNum">     231 </span><span class="lineCov">     142645 :     LB_TS_SCOPED( _thread );</span>
-<span class="lineNum">     232 </span><span class="lineCov">     142645 :     LBASSERTINFO( size &gt;= COMMAND_ALLOCSIZE, size );</span>
-<span class="lineNum">     233 </span><span class="lineCov">     142644 :     LBASSERTINFO( size &lt; LB_BIT48,</span>
+<span class="lineNum">     231 </span><span class="lineCov">     154065 :     LB_TS_SCOPED( _thread );</span>
+<span class="lineNum">     232 </span><span class="lineCov">     154065 :     LBASSERTINFO( size &gt;= COMMAND_ALLOCSIZE, size );</span>
+<span class="lineNum">     233 </span><span class="lineCov">     154065 :     LBASSERTINFO( size &lt; LB_BIT48,</span>
 <span class="lineNum">     234 </span>            :                   &quot;Out-of-sync network stream: buffer size &quot; &lt;&lt; size &lt;&lt; &quot;?&quot; );
 <span class="lineNum">     235 </span>            : 
-<span class="lineNum">     236 </span><span class="lineCov">     142645 :     BufferPtr buffer = _impl-&gt;newBuffer();</span>
-<span class="lineNum">     237 </span><span class="lineCov">     142645 :     LBASSERT( buffer-&gt;getRefCount() == 1 );</span>
+<span class="lineNum">     236 </span><span class="lineCov">     154065 :     BufferPtr buffer = _impl-&gt;newBuffer();</span>
+<span class="lineNum">     237 </span><span class="lineCov">     154065 :     LBASSERT( buffer-&gt;getRefCount() == 1 );</span>
 <span class="lineNum">     238 </span>            : 
-<span class="lineNum">     239 </span><span class="lineCov">     142645 :     buffer-&gt;reserve( size );</span>
-<span class="lineNum">     240 </span><span class="lineCov">     142645 :     buffer-&gt;resize( 0 );</span>
-<span class="lineNum">     241 </span><span class="lineCov">     142644 :     return buffer;</span>
+<span class="lineNum">     239 </span><span class="lineCov">     154065 :     buffer-&gt;reserve( size );</span>
+<span class="lineNum">     240 </span><span class="lineCov">     154065 :     buffer-&gt;resize( 0 );</span>
+<span class="lineNum">     241 </span><span class="lineCov">     154065 :     return buffer;</span>
 <a name="242"><span class="lineNum">     242 </span>            : }</a>
 <span class="lineNum">     243 </span>            : 
-<span class="lineNum">     244 </span><span class="lineCov">     144378 : void BufferCache::compact()</span>
+<span class="lineNum">     244 </span><span class="lineCov">     144380 : void BufferCache::compact()</span>
 <span class="lineNum">     245 </span>            : {
-<span class="lineNum">     246 </span><span class="lineCov">     144378 :     _impl-&gt;compact();</span>
-<a name="247"><span class="lineNum">     247 </span><span class="lineCov">     144378 : }</span></a>
+<span class="lineNum">     246 </span><span class="lineCov">     144380 :     _impl-&gt;compact();</span>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">     144380 : }</span></a>
 <span class="lineNum">     248 </span>            : 
 <span class="lineNum">     249 </span><span class="lineNoCov">          0 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const BufferCache&amp; cache )</span>
 <span class="lineNum">     250 </span>            : {
@@ -325,7 +325,7 @@
 <span class="lineNum">     263 </span><span class="lineNoCov">          0 :               &lt;&lt; lunchbox::enableFlush;</span>
 <a name="264"><span class="lineNum">     264 </span>            : }</a>
 <span class="lineNum">     265 </span>            : 
-<span class="lineNum">     266 </span><span class="lineCov">         63 : }</span>
+<span class="lineNum">     266 </span><span class="lineCov">         60 : }</span>
 </pre>
       </td>
     </tr>

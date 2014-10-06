@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2014-05-27</td>
+            <td class="headerValue">2014-10-06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
             <td class="headerCovTableEntry">5</td>
-            <td class="headerCovTableEntryLo">60.0 %</td>
+            <td class="headerCovTableEntryMed">60.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -90,61 +90,58 @@
 <span class="lineNum">      28 </span>            : 
 <span class="lineNum">      29 </span>            : namespace co
 <span class="lineNum">      30 </span>            : {
-<span class="lineNum">      31 </span>            :     class Exception;
-<span class="lineNum">      32 </span>            :     std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Exception&amp; e );
-<span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span>            :     /** A base Exception class for Collage operations. */
-<span class="lineNum">      35 </span>            :     class Exception : public std::exception
-<span class="lineNum">      36 </span>            :     {
-<span class="lineNum">      37 </span>            :     public:
-<span class="lineNum">      38 </span>            :         /** The exception type. @version 1.0 */
-<span class="lineNum">      39 </span>            :         enum Type
-<span class="lineNum">      40 </span>            :         {
-<span class="lineNum">      41 </span>            :             TIMEOUT_WRITE,   //!&lt; A write timeout operation
-<span class="lineNum">      42 </span>            :             TIMEOUT_READ,    //!&lt; A read timeout operation
-<span class="lineNum">      43 </span>            :             TIMEOUT_BARRIER, //!&lt; A barrier timeout operation
-<span class="lineNum">      44 </span>            :             TIMEOUT_COMMANDQUEUE, //!&lt; A timeout on a cmd queue operation
-<span class="lineNum">      45 </span>            :             CUSTOM      = 20 //!&lt; Application-specific exceptions
-<span class="lineNum">      46 </span>            :         };
+<span class="lineNum">      31 </span>            :     /** A base Exception class for Collage operations. */
+<span class="lineNum">      32 </span>            :     class Exception : public std::exception
+<span class="lineNum">      33 </span>            :     {
+<span class="lineNum">      34 </span>            :     public:
+<span class="lineNum">      35 </span>            :         /** The exception type. @version 1.0 */
+<span class="lineNum">      36 </span>            :         enum Type
+<span class="lineNum">      37 </span>            :         {
+<span class="lineNum">      38 </span>            :             TIMEOUT_WRITE,   //!&lt; A write timeout operation
+<span class="lineNum">      39 </span>            :             TIMEOUT_READ,    //!&lt; A read timeout operation
+<span class="lineNum">      40 </span>            :             TIMEOUT_BARRIER, //!&lt; A barrier timeout operation
+<span class="lineNum">      41 </span>            :             TIMEOUT_COMMANDQUEUE, //!&lt; A timeout on a cmd queue operation
+<span class="lineNum">      42 </span>            :             CUSTOM      = 20 //!&lt; Application-specific exceptions
+<span class="lineNum">      43 </span>            :         };
+<a name="44"><span class="lineNum">      44 </span>            : </a>
+<span class="lineNum">      45 </span>            :         /** Construct a new Exception. @version 1.0 */
+<span class="lineNum">      46 </span><span class="lineCov">         23 :         explicit Exception( const uint32_t type ) : _type( type ) {}</span>
 <a name="47"><span class="lineNum">      47 </span>            : </a>
-<span class="lineNum">      48 </span>            :         /** Construct a new Exception. @version 1.0 */
-<span class="lineNum">      49 </span><span class="lineCov">         30 :         explicit Exception( const uint32_t type ) : _type( type ) {}</span>
+<span class="lineNum">      48 </span>            :         /** Destruct this exception. @version 1.0 */
+<span class="lineNum">      49 </span><span class="lineCov">         23 :         virtual ~Exception() throw() {}</span>
 <a name="50"><span class="lineNum">      50 </span>            : </a>
-<span class="lineNum">      51 </span>            :         /** Destruct this exception. @version 1.0 */
-<span class="lineNum">      52 </span><span class="lineCov">         30 :         virtual ~Exception() throw() {}</span>
+<span class="lineNum">      51 </span>            :         /** @return the type of this exception @version 1.0 */
+<span class="lineNum">      52 </span><span class="lineCov">         23 :         virtual uint32_t getType() const { return _type; }</span>
 <a name="53"><span class="lineNum">      53 </span>            : </a>
-<span class="lineNum">      54 </span>            :         /** @return the type of this exception @version 1.0 */
-<span class="lineNum">      55 </span><span class="lineCov">         30 :         virtual uint32_t getType() const { return _type; }</span>
-<a name="56"><span class="lineNum">      56 </span>            : </a>
-<span class="lineNum">      57 </span>            :         /** Output the exception in human-readable form. @version 1.0 */
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         const char* what() const throw() override</span>
-<span class="lineNum">      59 </span>            :         {
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :             switch( _type )</span>
-<span class="lineNum">      61 </span>            :             {
-<span class="lineNum">      62 </span>            :               case Exception::TIMEOUT_WRITE:
-<span class="lineNum">      63 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on write operation&quot;;</span>
-<span class="lineNum">      64 </span>            :               case Exception::TIMEOUT_READ:
-<span class="lineNum">      65 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on read operation&quot;;</span>
-<span class="lineNum">      66 </span>            :               case Exception::TIMEOUT_BARRIER:
-<span class="lineNum">      67 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on barrier&quot;;</span>
-<span class="lineNum">      68 </span>            :               case Exception::TIMEOUT_COMMANDQUEUE:
-<span class="lineNum">      69 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on command queue&quot;;</span>
-<span class="lineNum">      70 </span>            :               default:
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 :                   return  &quot; Unknown Exception&quot;;</span>
-<span class="lineNum">      72 </span>            :             }
-<span class="lineNum">      73 </span>            :         }
-<span class="lineNum">      74 </span>            : 
-<span class="lineNum">      75 </span>            :     private:
-<span class="lineNum">      76 </span>            :         /** The type of this eception instance **/
-<span class="lineNum">      77 </span>            :         const uint32_t _type;
-<span class="lineNum">      78 </span>            :     };
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span>            :     /** Output the exception in human-readable form. @version 1.0 */
-<span class="lineNum">      81 </span>            :     inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Exception&amp; e )
-<span class="lineNum">      82 </span>            :         { return os &lt;&lt; e.what(); }
-<span class="lineNum">      83 </span>            : }
-<span class="lineNum">      84 </span>            : 
-<span class="lineNum">      85 </span>            : #endif // CO_EXCEPTION_H
+<span class="lineNum">      54 </span>            :         /** Output the exception in human-readable form. @version 1.0 */
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :         const char* what() const throw() override</span>
+<span class="lineNum">      56 </span>            :         {
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :             switch( _type )</span>
+<span class="lineNum">      58 </span>            :             {
+<span class="lineNum">      59 </span>            :               case Exception::TIMEOUT_WRITE:
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on write operation&quot;;</span>
+<span class="lineNum">      61 </span>            :               case Exception::TIMEOUT_READ:
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on read operation&quot;;</span>
+<span class="lineNum">      63 </span>            :               case Exception::TIMEOUT_BARRIER:
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on barrier&quot;;</span>
+<span class="lineNum">      65 </span>            :               case Exception::TIMEOUT_COMMANDQUEUE:
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :                   return &quot; Timeout on command queue&quot;;</span>
+<span class="lineNum">      67 </span>            :               default:
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :                   return  &quot; Unknown Exception&quot;;</span>
+<span class="lineNum">      69 </span>            :             }
+<span class="lineNum">      70 </span>            :         }
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :     private:
+<span class="lineNum">      73 </span>            :         /** The type of this eception instance **/
+<span class="lineNum">      74 </span>            :         const uint32_t _type;
+<span class="lineNum">      75 </span>            :     };
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :     /** Output the exception in human-readable form. @version 1.0 */
+<span class="lineNum">      78 </span>            :     inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Exception&amp; e )
+<span class="lineNum">      79 </span>            :         { return os &lt;&lt; e.what(); }
+<span class="lineNum">      80 </span>            : }
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            : #endif // CO_EXCEPTION_H
 </pre>
       </td>
     </tr>
