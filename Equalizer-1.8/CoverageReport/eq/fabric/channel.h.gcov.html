@@ -1,0 +1,529 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov2.info - eq/fabric/channel.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">eq/fabric</a> - channel.h<span style="font-size: 80%;"> (source / <a href="channel.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">38</td>
+            <td class="headerCovTableEntry">55</td>
+            <td class="headerCovTableEntryMed">69.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2014-10-08</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">40</td>
+            <td class="headerCovTableEntry">88</td>
+            <td class="headerCovTableEntryMed">45.5 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2010-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *                    2010, Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
+<span class="lineNum">       4 </span>            :  *                    2013, Julio Delgado Mangas &lt;julio.delgadomangas@epfl.ch&gt;
+<span class="lineNum">       5 </span>            :  *
+<span class="lineNum">       6 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       7 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       8 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       9 </span>            :  *
+<span class="lineNum">      10 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">      11 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      12 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      13 </span>            :  * details.
+<span class="lineNum">      14 </span>            :  *
+<span class="lineNum">      15 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      16 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      17 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      18 </span>            :  */
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #ifndef EQFABRIC_CHANNEL_H
+<span class="lineNum">      21 </span>            : #define EQFABRIC_CHANNEL_H
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : #include &lt;eq/fabric/object.h&gt;        // base class
+<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/paths.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/renderContext.h&gt; // member
+<span class="lineNum">      26 </span>            : #include &lt;eq/fabric/types.h&gt;
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : namespace eq
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span>            : namespace fabric
+<span class="lineNum">      31 </span>            : {
+<span class="lineNum">      32 </span>            : /** Base data transport class for channels. @sa eq::Channel */
+<span class="lineNum">      33 </span>            : template&lt; class W, class C &gt; class Channel : public Object
+<span class="lineNum">      34 </span>            : {
+<span class="lineNum">      35 </span>            : public:
+<span class="lineNum">      36 </span>            :     typedef LeafVisitor&lt; C &gt; Visitor; //!&lt; The channel visitor type
+<span class="lineNum">      37 </span>            :     typedef W Parent; //!&lt; The parent window type
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            :     /**
+<span class="lineNum">      40 </span>            :      * The drawable format defines the components used as an alternate drawable
+<span class="lineNum">      41 </span>            :      * for this channel. If an alternate drawable is configured, the channel
+<span class="lineNum">      42 </span>            :      * uses the appropriate targets in place of the window's frame buffer.
+<span class="lineNum">      43 </span>            :      * @version 1.0
+<span class="lineNum">      44 </span>            :      */
+<span class="lineNum">      45 </span>            :     enum Drawable
+<span class="lineNum">      46 </span>            :     {
+<span class="lineNum">      47 </span>            :         FB_WINDOW   = LB_BIT_NONE, //!&lt; Use the window's frame buffer
+<span class="lineNum">      48 </span>            :         FBO_COLOR   = LB_BIT1,     //!&lt; Use an FBO for color values
+<span class="lineNum">      49 </span>            :         FBO_DEPTH   = LB_BIT2,     //!&lt; Use an FBO for depth values
+<span class="lineNum">      50 </span>            :         FBO_STENCIL = LB_BIT3      //!&lt; Use an FBO for stencil values
+<span class="lineNum">      51 </span>            :     };
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :     /** @name Data Access */
+<span class="lineNum">      54 </span>            :     //@{
+<span class="lineNum">      55 </span>            :     /** @internal Initialize this channel (calls virtual methods) */
+<span class="lineNum">      56 </span>            :     void init();
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<span class="lineNum">      58 </span>            :     /** @return the parent window. @version 1.0 */
+<span class="lineNum">      59 </span><span class="lineCov">       5019 :     W* getWindow() { return _window; }</span>
+<a name="60"><span class="lineNum">      60 </span>            : </a>
+<span class="lineNum">      61 </span>            :     /** @return the parent window. @version 1.0 */
+<span class="lineNum">      62 </span><span class="lineCov">         29 :     const W* getWindow() const { return _window; }</span>
+<a name="63"><span class="lineNum">      63 </span>            : </a>
+<span class="lineNum">      64 </span>            :     /** @internal @return the native view identifier and version. */
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :     bool isDestination() const</span>
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :         { return _data.nativeContext.view.identifier != 0;}</span>
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :     /** @internal Update the native view identifier and version. */
+<span class="lineNum">      69 </span>            :     void setViewVersion( const co::ObjectVersion&amp; view );
+<a name="70"><span class="lineNum">      70 </span>            : </a>
+<span class="lineNum">      71 </span>            :     /** @internal @return the native view identifier and version. */
+<span class="lineNum">      72 </span><span class="lineCov">          5 :     const co::ObjectVersion&amp; getViewVersion() const</span>
+<span class="lineNum">      73 </span><span class="lineCov">          5 :         { return _data.nativeContext.view; }</span>
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :     /** @internal Set the channel's pixel viewport wrt its parent window. */
+<span class="lineNum">      76 </span>            :     void setPixelViewport( const PixelViewport&amp; pvp );
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            :     /** @internal Set the channel's viewport wrt its parent window. */
+<span class="lineNum">      79 </span>            :     EQFABRIC_INL void setViewport( const Viewport&amp; vp );
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :     /** @internal Notification that the vp/pvp has changed. */
+<span class="lineNum">      82 </span>            :     virtual void notifyViewportChanged();
+<a name="83"><span class="lineNum">      83 </span>            : </a>
+<span class="lineNum">      84 </span>            :     /** @return the native pixel viewport. @version 1.0 */
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; getNativePixelViewport() const</span>
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         { return _data.nativeContext.pvp; }</span>
+<a name="87"><span class="lineNum">      87 </span>            : </a>
+<span class="lineNum">      88 </span>            :     /** @return true if a viewport was specified last. @version 1.0 */
+<span class="lineNum">      89 </span><span class="lineCov">       1015 :     bool hasFixedViewport() const { return _data.fixedVP; }</span>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            :     /**
+<span class="lineNum">      92 </span>            :      * Set the near and far planes for this channel.
+<span class="lineNum">      93 </span>            :      *
+<span class="lineNum">      94 </span>            :      * The given near and far planes update the current perspective and
+<span class="lineNum">      95 </span>            :      * orthographics frustum accordingly. Furthermore, they will be used in the
+<span class="lineNum">      96 </span>            :      * future by the server to compute the frusta.
+<span class="lineNum">      97 </span>            :      *
+<span class="lineNum">      98 </span>            :      * @param nearPlane the near plane.
+<span class="lineNum">      99 </span>            :      * @param farPlane the far plane.
+<span class="lineNum">     100 </span>            :      * @version 1.0
+<span class="lineNum">     101 </span>            :      */
+<span class="lineNum">     102 </span>            :     EQFABRIC_INL void setNearFar( const float nearPlane, const float farPlane );
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            :     /**
+<span class="lineNum">     105 </span>            :      * @return the channel's framebuffer attachment configuration.
+<a name="106"><span class="lineNum">     106 </span>            :      * @version 1.0</a>
+<span class="lineNum">     107 </span>            :      */
+<span class="lineNum">     108 </span><span class="lineCov">        450 :     uint32_t getDrawable() const { return _drawable; }</span>
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span>            :     /**
+<span class="lineNum">     111 </span>            :      * Perform a depth-first traversal of this channel.
+<span class="lineNum">     112 </span>            :      *
+<span class="lineNum">     113 </span>            :      * @param visitor the visitor.
+<span class="lineNum">     114 </span>            :      * @return the result of the visitor traversal.
+<span class="lineNum">     115 </span>            :      * @version 1.0
+<span class="lineNum">     116 </span>            :      */
+<span class="lineNum">     117 </span>            :     EQFABRIC_INL VisitorResult accept( Visitor&amp; visitor );
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span>            :     /** Const-version of accept(). @version 1.0 */
+<span class="lineNum">     120 </span>            :     EQFABRIC_INL VisitorResult accept( Visitor&amp; visitor ) const;
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            :     /**
+<span class="lineNum">     123 </span>            :      * Set the capabilities supported by the channel
+<span class="lineNum">     124 </span>            :      *
+<span class="lineNum">     125 </span>            :      * Channel which do not support all capabilities required by the current
+<span class="lineNum">     126 </span>            :      * destination view do not execute any tasks. The capabilities are an
+<span class="lineNum">     127 </span>            :      * application-defined bit mask. By default all bits are set.
+<span class="lineNum">     128 </span>            :      * @version 1.0
+<span class="lineNum">     129 </span>            :      */
+<span class="lineNum">     130 </span>            :     EQFABRIC_INL void setCapabilities( const uint64_t bitmask );
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span>            :     /** @return the supported capabilities. @version 1.0 */
+<span class="lineNum">     133 </span>            :     EQFABRIC_INL uint64_t getCapabilities() const;
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            :     /** @warning Undocumented - may not be supported in the future */
+<span class="lineNum">     136 </span>            :     EQFABRIC_INL void setMaxSize( const Vector2i&amp; size );
+<a name="137"><span class="lineNum">     137 </span>            : </a>
+<span class="lineNum">     138 </span>            :     void setOverdraw( const Vector4i&amp; overdraw ); //!&lt; @internal
+<span class="lineNum">     139 </span><span class="lineCov">         29 :     const Vector2i&amp; getMaxSize()  const { return _maxSize; } //!&lt; @internal</span>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span>            :     /** @internal @return the index path to this channel. */
+<span class="lineNum">     142 </span>            :     EQFABRIC_INL ChannelPath getPath() const;
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            :     EQFABRIC_INL virtual void backup(); //!&lt; @internal
+<span class="lineNum">     145 </span>            :     EQFABRIC_INL virtual void restore(); //!&lt; @internal
+<span class="lineNum">     146 </span>            :     //@}
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :     /**
+<span class="lineNum">     149 </span>            :      * @name Context-specific data access.
+<span class="lineNum">     150 </span>            :      *
+<span class="lineNum">     151 </span>            :      * The data returned by these methods depends on the context (callback) they
+<span class="lineNum">     152 </span>            :      * are called from, typically the data for the current rendering task. If
+<span class="lineNum">     153 </span>            :      * they are called outside of a frame task method, they return the channel's
+<span class="lineNum">     154 </span>            :      * native parameter, e.g., a placeholder value for the task decomposition
+<span class="lineNum">     155 </span>            :      * parameters.
+<span class="lineNum">     156 </span>            :      */
+<a name="157"><span class="lineNum">     157 </span>            :     //@{</a>
+<span class="lineNum">     158 </span>            :     /** @return the current draw buffer for glDrawBuffer. @version 1.0 */
+<span class="lineNum">     159 </span><span class="lineCov">          7 :     uint32_t getDrawBuffer() const { return _context-&gt;buffer; }</span>
+<a name="160"><span class="lineNum">     160 </span>            : </a>
+<span class="lineNum">     161 </span>            :     /** @return the current read buffer for glReadBuffer. @version 1.0 */
+<span class="lineNum">     162 </span><span class="lineCov">          7 :     uint32_t getReadBuffer() const { return _context-&gt;buffer; }</span>
+<a name="163"><span class="lineNum">     163 </span>            : </a>
+<span class="lineNum">     164 </span>            :     /** @return the current color mask for glColorMask. @version 1.0 */
+<span class="lineNum">     165 </span><span class="lineCov">          9 :     const ColorMask&amp; getDrawBufferMask() const</span>
+<span class="lineNum">     166 </span><span class="lineCov">          9 :         { return _context-&gt;bufferMask; }</span>
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            :     /**
+<span class="lineNum">     169 </span>            :      * @return the current pixel viewport for glViewport and glScissor.
+<a name="170"><span class="lineNum">     170 </span>            :      * @version 1.0</a>
+<span class="lineNum">     171 </span>            :      */
+<span class="lineNum">     172 </span><span class="lineCov">        557 :     const PixelViewport&amp; getPixelViewport() const { return _context-&gt;pvp; }</span>
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span>            :     /**
+<span class="lineNum">     175 </span>            :      * Select perspective or orthographic rendering.
+<span class="lineNum">     176 </span>            :      *
+<span class="lineNum">     177 </span>            :      * Influences the behaviour of getFrustum, getHeadTransform and the
+<span class="lineNum">     178 </span>            :      * corresponding apply methods in eq::Channel. Intended to be overwritten by
+<span class="lineNum">     179 </span>            :      * the implementation to select orthographic rendering.
+<a name="180"><span class="lineNum">     180 </span>            :      * @version 1.0</a>
+<span class="lineNum">     181 </span>            :      */
+<span class="lineNum">     182 </span><span class="lineCov">         18 :     virtual bool useOrtho() const { return false; }</span>
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            :     /**
+<span class="lineNum">     185 </span>            :      * @return the current frustum for glFrustum or glOrtho.
+<a name="186"><span class="lineNum">     186 </span>            :      * @version 1.0</a>
+<span class="lineNum">     187 </span>            :      */
+<span class="lineNum">     188 </span><span class="lineCov">         10 :     const Frustumf&amp; getFrustum() const</span>
+<span class="lineNum">     189 </span><span class="lineCov">         10 :         { return useOrtho() ? getOrtho() : getPerspective(); }</span>
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span>            :     /**
+<span class="lineNum">     192 </span>            :      * @return the current perspective frustum for glFrustum.
+<a name="193"><span class="lineNum">     193 </span>            :      * @version 1.0</a>
+<span class="lineNum">     194 </span>            :      */
+<span class="lineNum">     195 </span><span class="lineCov">         14 :     const Frustumf&amp; getPerspective() const { return _context-&gt;frustum; }</span>
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span>            :     /**
+<span class="lineNum">     198 </span>            :      * @return the current orthographic frustum for glOrtho.
+<a name="199"><span class="lineNum">     199 </span>            :      * @version 1.0</a>
+<span class="lineNum">     200 </span>            :      */
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :     const Frustumf&amp; getOrtho() const { return _context-&gt;ortho; }</span>
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            :     /**
+<span class="lineNum">     204 </span>            :      * Return the view matrix.
+<span class="lineNum">     205 </span>            :      *
+<span class="lineNum">     206 </span>            :      * The view matrix is part of the GL_MODEL*VIEW* matrix, and is typically
+<span class="lineNum">     207 </span>            :      * applied first to the GL_MODELVIEW matrix.
+<span class="lineNum">     208 </span>            :      *
+<span class="lineNum">     209 </span>            :      * @return the head transformation matrix
+<a name="210"><span class="lineNum">     210 </span>            :      * @version 1.0</a>
+<span class="lineNum">     211 </span>            :      */
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :     const Matrix4f&amp; getHeadTransform() const</span>
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :         { return useOrtho() ? getOrthoTransform() : getPerspectiveTransform(); }</span>
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span>            :     /**
+<span class="lineNum">     216 </span>            :      * Return the perspective view matrix.
+<span class="lineNum">     217 </span>            :      *
+<span class="lineNum">     218 </span>            :      * The view matrix is part of the GL_MODEL*VIEW* matrix, and is typically
+<span class="lineNum">     219 </span>            :      * applied first to the GL_MODELVIEW matrix.
+<span class="lineNum">     220 </span>            :      *
+<span class="lineNum">     221 </span>            :      * @return the head transformation matrix
+<a name="222"><span class="lineNum">     222 </span>            :      * @version 1.0</a>
+<span class="lineNum">     223 </span>            :      */
+<span class="lineNum">     224 </span><span class="lineCov">          4 :     const Matrix4f&amp; getPerspectiveTransform() const</span>
+<span class="lineNum">     225 </span><span class="lineCov">          4 :         { return _context-&gt;headTransform; }</span>
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            :     /**
+<span class="lineNum">     228 </span>            :      * Return the orthographic view matrix.
+<span class="lineNum">     229 </span>            :      *
+<span class="lineNum">     230 </span>            :      * The view matrix is part of the GL_MODEL*VIEW* matrix, and is typically
+<span class="lineNum">     231 </span>            :      * applied first to the GL_MODELVIEW matrix.
+<span class="lineNum">     232 </span>            :      *
+<span class="lineNum">     233 </span>            :      * @return the head transformation matrix
+<a name="234"><span class="lineNum">     234 </span>            :      * @version 1.0</a>
+<span class="lineNum">     235 </span>            :      */
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :     const Matrix4f&amp; getOrthoTransform() const</span>
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :         { return _context-&gt;orthoTransform; }</span>
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span>            :     /**
+<span class="lineNum">     240 </span>            :      * @return the fractional viewport wrt the destination view.
+<a name="241"><span class="lineNum">     241 </span>            :      * @version 1.0</a>
+<span class="lineNum">     242 </span>            :      */
+<span class="lineNum">     243 </span><span class="lineCov">       1026 :     const Viewport&amp; getViewport() const { return _context-&gt;vp; }</span>
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span>            :     /**
+<span class="lineNum">     246 </span>            :      * @return the database range for the current rendering task.
+<a name="247"><span class="lineNum">     247 </span>            :      * @version 1.0</a>
+<span class="lineNum">     248 </span>            :      */
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :     const Range&amp; getRange() const { return _context-&gt;range; }</span>
+<span class="lineNum">     250 </span>            : 
+<span class="lineNum">     251 </span>            :     /**
+<span class="lineNum">     252 </span>            :      * @return the pixel decomposition for the current rendering task.
+<a name="253"><span class="lineNum">     253 </span>            :      * @version 1.0</a>
+<span class="lineNum">     254 </span>            :      */
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :     const Pixel&amp; getPixel() const { return _context-&gt;pixel; }</span>
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span>            :     /**
+<span class="lineNum">     258 </span>            :      * @return the subpixel decomposition for the current rendering task.
+<a name="259"><span class="lineNum">     259 </span>            :      * @version 1.0</a>
+<span class="lineNum">     260 </span>            :      */
+<span class="lineNum">     261 </span><span class="lineCov">          4 :     const SubPixel&amp; getSubPixel() const { return _context-&gt;subpixel; }</span>
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span>            :     /**
+<span class="lineNum">     264 </span>            :      * @return the up/downscale zoom factor for the current rendering task.
+<a name="265"><span class="lineNum">     265 </span>            :      * @version 1.0</a>
+<span class="lineNum">     266 </span>            :      */
+<span class="lineNum">     267 </span><span class="lineCov">          1 :     const Zoom&amp; getZoom() const { return _context-&gt;zoom; }</span>
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span>            :     /**
+<span class="lineNum">     270 </span>            :      * @return the DPlex period for the current rendering task.
+<a name="271"><span class="lineNum">     271 </span>            :      * @version 1.0</a>
+<span class="lineNum">     272 </span>            :      */
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :     uint32_t getPeriod() const { return _context-&gt;period; }</span>
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span>            :     /**
+<span class="lineNum">     276 </span>            :      * @return the DPlex phase for the current rendering task.
+<a name="277"><span class="lineNum">     277 </span>            :      * @version 1.0</a>
+<span class="lineNum">     278 </span>            :      */
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :     uint32_t getPhase() const { return _context-&gt;phase; }</span>
+<span class="lineNum">     280 </span>            : 
+<span class="lineNum">     281 </span>            :     /**
+<span class="lineNum">     282 </span>            :      * Get the channel's current position wrt the destination channel.
+<span class="lineNum">     283 </span>            :      *
+<span class="lineNum">     284 </span>            :      * Note that computing this value from the current viewport and pixel
+<span class="lineNum">     285 </span>            :      * viewport is inaccurate because it neglects rounding errors of the pixel
+<span class="lineNum">     286 </span>            :      * viewport done by the server.
+<span class="lineNum">     287 </span>            :      *
+<span class="lineNum">     288 </span>            :      * @return the channel's current position wrt the destination channel.
+<a name="289"><span class="lineNum">     289 </span>            :      * @version 1.0</a>
+<span class="lineNum">     290 </span>            :      */
+<span class="lineNum">     291 </span><span class="lineNoCov">          0 :     const Vector2i&amp; getPixelOffset() const { return _context-&gt;offset; }</span>
+<a name="292"><span class="lineNum">     292 </span>            : </a>
+<span class="lineNum">     293 </span>            :     /** @return the currently rendered eye pass. @version 1.0 */
+<span class="lineNum">     294 </span><span class="lineNoCov">          0 :     Eye getEye() const { return _context-&gt;eye; }</span>
+<a name="295"><span class="lineNum">     295 </span>            : </a>
+<span class="lineNum">     296 </span>            :     /** @warning Undocumented - may not be supported in the future */
+<span class="lineNum">     297 </span><span class="lineCov">         51 :     const Vector4i&amp; getOverdraw() const { return _context-&gt;overdraw; }</span>
+<a name="298"><span class="lineNum">     298 </span>            : </a>
+<span class="lineNum">     299 </span>            :     /** @warning Undocumented - may not be supported in the future */
+<span class="lineNum">     300 </span><span class="lineCov">         20 :     uint32_t getTaskID() const { return _context-&gt;taskID; }</span>
+<span class="lineNum">     301 </span>            :     //@}
+<span class="lineNum">     302 </span>            : 
+<span class="lineNum">     303 </span>            :     /** @name Attributes */
+<span class="lineNum">     304 </span>            :     //@{
+<span class="lineNum">     305 </span>            :     // Note: also update string array initialization in channel.cpp
+<span class="lineNum">     306 </span>            :     /** Integer attributes for a channel. @version 1.0 */
+<span class="lineNum">     307 </span>            :     enum IAttribute
+<span class="lineNum">     308 </span>            :     {
+<span class="lineNum">     309 </span>            :         /** Statistics gathering mode (OFF, FASTEST [ON], NICEST) */
+<span class="lineNum">     310 </span>            :         IATTR_HINT_STATISTICS,
+<span class="lineNum">     311 </span>            :         /** Use a send token for output frames (OFF, ON) */
+<span class="lineNum">     312 </span>            :         IATTR_HINT_SENDTOKEN,
+<span class="lineNum">     313 </span>            :         IATTR_LAST,
+<span class="lineNum">     314 </span>            :         IATTR_ALL = IATTR_LAST + 5
+<span class="lineNum">     315 </span>            :     };
+<span class="lineNum">     316 </span>            : 
+<span class="lineNum">     317 </span>            :     /** String attributes. */
+<span class="lineNum">     318 </span>            :     enum SAttribute
+<span class="lineNum">     319 </span>            :     {
+<span class="lineNum">     320 </span>            :         SATTR_DUMP_IMAGE,
+<span class="lineNum">     321 </span>            :         SATTR_LAST,
+<span class="lineNum">     322 </span>            :         SATTR_ALL = SATTR_LAST + 5
+<span class="lineNum">     323 </span>            :     };
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span>            :     /** @return the value of an integer attribute. @version 1.0 */
+<span class="lineNum">     326 </span>            :     EQFABRIC_INL int32_t getIAttribute( const IAttribute attr ) const;
+<span class="lineNum">     327 </span>            : 
+<span class="lineNum">     328 </span>            :     /** @return the value of a string attribute. @version 1.7.2 */
+<span class="lineNum">     329 </span>            :     EQFABRIC_INL std::string getSAttribute( const SAttribute attr ) const;
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span>            :     /** @return the name of an integer attribute. @version 1.7.2 */
+<span class="lineNum">     332 </span>            :     EQFABRIC_INL static const std::string&amp; getIAttributeString(
+<span class="lineNum">     333 </span>            :         const IAttribute attr );
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span>            :     /** @return the name of an string attribute. @version 1.7.2 */
+<span class="lineNum">     336 </span>            :     EQFABRIC_INL static const std::string&amp; getSAttributeString(
+<span class="lineNum">     337 </span>            :         const SAttribute attr );
+<a name="338"><span class="lineNum">     338 </span>            :     //@}</a>
+<a name="339"><span class="lineNum">     339 </span>            : </a>
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :     virtual bool omitOutput() const { return false; } //!&lt; @internal</span>
+<span class="lineNum">     341 </span><span class="lineNoCov">          0 :     virtual void output( std::ostream&amp; ) const {} //!&lt; @internal</span>
+<span class="lineNum">     342 </span>            : 
+<span class="lineNum">     343 </span>            : protected:
+<span class="lineNum">     344 </span>            :     /** Construct a new channel. @internal */
+<span class="lineNum">     345 </span>            :     EQFABRIC_INL Channel( W* parent );
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span>            :     /** Construct a copy of a channel (view/segment dest). @internal */
+<span class="lineNum">     348 </span>            :     Channel( const Channel&amp; from );
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span>            :     /** Destruct the channel. @internal */
+<span class="lineNum">     351 </span>            :     EQFABRIC_INL virtual ~Channel();
+<span class="lineNum">     352 </span>            : 
+<span class="lineNum">     353 </span>            :     /** @internal */
+<span class="lineNum">     354 </span>            :     EQFABRIC_INL virtual void serialize( co::DataOStream&amp; os,
+<span class="lineNum">     355 </span>            :                                          const uint64_t dirtyBits );
+<span class="lineNum">     356 </span>            :     /** @internal */
+<span class="lineNum">     357 </span>            :     EQFABRIC_INL virtual void deserialize( co::DataIStream&amp; is,
+<span class="lineNum">     358 </span>            :                                            const uint64_t dirtyBits );
+<span class="lineNum">     359 </span>            : 
+<span class="lineNum">     360 </span>            :     /** @internal @sa Serializable::setDirty() */
+<span class="lineNum">     361 </span>            :     EQFABRIC_INL virtual void setDirty( const uint64_t bits );
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            :     void setDrawable( const uint32_t drawable ); //!&lt; @internal
+<span class="lineNum">     364 </span>            : 
+<span class="lineNum">     365 </span>            :     /** @name Render context access */
+<a name="366"><span class="lineNum">     366 </span>            :     //@{</a>
+<span class="lineNum">     367 </span>            :     /** @internal Override the channel's native render context. */
+<span class="lineNum">     368 </span><span class="lineCov">         30 :     void overrideContext( RenderContext&amp; context ) { _context = &amp;context; }</span>
+<a name="369"><span class="lineNum">     369 </span>            : </a>
+<span class="lineNum">     370 </span>            :     /** @internal Re-set the channel's native render context. */
+<span class="lineNum">     371 </span><span class="lineCov">         30 :     void resetContext() { _context = &amp;_data.nativeContext; }</span>
+<a name="372"><span class="lineNum">     372 </span>            : </a>
+<span class="lineNum">     373 </span>            :     /** @internal @return the current render context. */
+<span class="lineNum">     374 </span><span class="lineCov">         17 :     const RenderContext&amp; getContext() const { return *_context; }</span>
+<a name="375"><span class="lineNum">     375 </span>            : </a>
+<span class="lineNum">     376 </span>            :     /** @internal @return the native render context. */
+<span class="lineNum">     377 </span><span class="lineCov">         14 :     const RenderContext&amp; getNativeContext() const</span>
+<span class="lineNum">     378 </span><span class="lineCov">         14 :         { return _data.nativeContext; }</span>
+<span class="lineNum">     379 </span>            :     //@}
+<a name="380"><span class="lineNum">     380 </span>            : </a>
+<span class="lineNum">     381 </span>            :     /** @internal */
+<span class="lineNum">     382 </span><span class="lineCov">       5796 :     void setIAttribute( const IAttribute attr, const int32_t value )</span>
+<span class="lineNum">     383 </span><span class="lineCov">       5796 :         { _iAttributes[attr] = value; setDirty( DIRTY_ATTRIBUTES ); }</span>
+<a name="384"><span class="lineNum">     384 </span>            : </a>
+<span class="lineNum">     385 </span>            :     /** @internal */
+<span class="lineNum">     386 </span><span class="lineCov">       4969 :     void setSAttribute( const SAttribute attr, const std::string&amp; value )</span>
+<span class="lineNum">     387 </span><span class="lineCov">       4969 :         { _sAttributes[attr] = value; setDirty( DIRTY_ATTRIBUTES ); }</span>
+<a name="388"><span class="lineNum">     388 </span>            : </a>
+<span class="lineNum">     389 </span>            :     /** @internal */
+<span class="lineNum">     390 </span><span class="lineCov">         31 :     virtual ChangeType getChangeType() const { return UNBUFFERED; }</span>
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span>            :     enum DirtyBits
+<span class="lineNum">     393 </span>            :     {
+<span class="lineNum">     394 </span>            :         DIRTY_ATTRIBUTES    = Object::DIRTY_CUSTOM &lt;&lt; 0, //   64
+<span class="lineNum">     395 </span>            :         DIRTY_VIEWPORT      = Object::DIRTY_CUSTOM &lt;&lt; 1, //  128
+<span class="lineNum">     396 </span>            :         DIRTY_MEMBER        = Object::DIRTY_CUSTOM &lt;&lt; 2, //  256
+<span class="lineNum">     397 </span>            :         DIRTY_FRUSTUM       = Object::DIRTY_CUSTOM &lt;&lt; 3, //  512
+<span class="lineNum">     398 </span>            :         DIRTY_CAPABILITIES  = Object::DIRTY_CUSTOM &lt;&lt; 4, // 1024
+<span class="lineNum">     399 </span>            :         DIRTY_CHANNEL_BITS =
+<span class="lineNum">     400 </span>            :         DIRTY_ATTRIBUTES | DIRTY_VIEWPORT | DIRTY_MEMBER |
+<span class="lineNum">     401 </span>            :         DIRTY_FRUSTUM | DIRTY_OBJECT_BITS
+<span class="lineNum">     402 </span>            :     };
+<a name="403"><span class="lineNum">     403 </span>            : </a>
+<span class="lineNum">     404 </span>            :     /** @internal @return the bits to be re-committed by the master. */
+<span class="lineNum">     405 </span><span class="lineCov">          1 :     virtual uint64_t getRedistributableBits() const</span>
+<a name="406"><span class="lineNum">     406 </span><span class="lineCov">          1 :         { return DIRTY_CHANNEL_BITS; }</span></a>
+<span class="lineNum">     407 </span>            : 
+<span class="lineNum">     408 </span><span class="lineCov">          9 :     virtual void updateCapabilities() {} //!&lt; @internal</span>
+<span class="lineNum">     409 </span>            : 
+<span class="lineNum">     410 </span>            : private:
+<span class="lineNum">     411 </span>            :     /** The parent window. */
+<a name="412"><span class="lineNum">     412 </span>            :     W* const _window;</a>
+<span class="lineNum">     413 </span>            : 
+<a name="414"><span class="lineNum">     414 </span><span class="lineCov">       2874 :     struct BackupData</span></a>
+<span class="lineNum">     415 </span>            :     {
+<span class="lineNum">     416 </span><span class="lineCov">       3882 :         BackupData() : capabilities( LB_BIT_ALL_64 ), fixedVP( true ) {}</span>
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span>            :         /** The native render context parameters of this channel. */
+<span class="lineNum">     419 </span>            :         RenderContext nativeContext;
+<span class="lineNum">     420 </span>            : 
+<span class="lineNum">     421 </span>            :         /** Bitmask of supported capabilities */
+<span class="lineNum">     422 </span>            :         uint64_t capabilities;
+<span class="lineNum">     423 </span>            : 
+<span class="lineNum">     424 </span>            :         /** true if the vp is immutable, false if the pvp is immutable */
+<span class="lineNum">     425 </span>            :         bool fixedVP;
+<span class="lineNum">     426 </span>            :     }
+<span class="lineNum">     427 </span>            :         _data, _backup;
+<span class="lineNum">     428 </span>            : 
+<span class="lineNum">     429 </span>            :     /** The current rendering context. */
+<span class="lineNum">     430 </span>            :     RenderContext* _context;
+<span class="lineNum">     431 </span>            : 
+<span class="lineNum">     432 </span>            :     /** Integer attributes. */
+<span class="lineNum">     433 </span>            :     int32_t _iAttributes[IATTR_ALL];
+<span class="lineNum">     434 </span>            : 
+<span class="lineNum">     435 </span>            :     /** String attributes. */
+<span class="lineNum">     436 </span>            :     std::string _sAttributes[SATTR_ALL];
+<span class="lineNum">     437 </span>            : 
+<span class="lineNum">     438 </span>            :     /** An alternate drawable config. */
+<span class="lineNum">     439 </span>            :     uint32_t _drawable;
+<span class="lineNum">     440 </span>            : 
+<span class="lineNum">     441 </span>            :     /** Overdraw limiter */
+<span class="lineNum">     442 </span>            :     Vector2i    _maxSize;
+<span class="lineNum">     443 </span>            : 
+<span class="lineNum">     444 </span>            :     struct Private;
+<span class="lineNum">     445 </span>            :     Private* _private; // placeholder for binary-compatible changes
+<span class="lineNum">     446 </span>            : };
+<span class="lineNum">     447 </span>            : 
+<span class="lineNum">     448 </span>            : template&lt; class W, class C &gt; EQFABRIC_INL
+<span class="lineNum">     449 </span>            : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp;, const Channel&lt; W, C &gt;&amp; );
+<span class="lineNum">     450 </span>            : }
+<span class="lineNum">     451 </span>            : }
+<span class="lineNum">     452 </span>            : 
+<span class="lineNum">     453 </span>            : #endif // EQFABRIC_CHANNEL_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
