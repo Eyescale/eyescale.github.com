@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov2.info - seq/application.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">seq</a> - application.h<span style="font-size: 80%;"> (source / <a href="application.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2014-10-08</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2011-2014, Stefan Eilemann &lt;eile@eyescale.ch&gt;
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #ifndef EQSEQUEL_APPLICATION_H
+<span class="lineNum">      19 </span>            : #define EQSEQUEL_APPLICATION_H
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;co/objectFactory.h&gt; // interface
+<span class="lineNum">      22 </span>            : #include &lt;seq/types.h&gt;
+<span class="lineNum">      23 </span>            : #include &lt;eq/client/client.h&gt;               // base class
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : namespace seq
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span>            : /** The main application object. */
+<span class="lineNum">      28 </span>            : class Application : public eq::Client, public co::ObjectFactory
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span>            : public:
+<span class="lineNum">      31 </span>            :     /** Construct a new application instance. @version 1.0 */
+<span class="lineNum">      32 </span>            :     SEQ_API Application();
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            :     /** @name Data Access */
+<span class="lineNum">      35 </span>            :     //@{
+<span class="lineNum">      36 </span>            :     /** @return the node running the main instance. @version 1.3.1 */
+<span class="lineNum">      37 </span>            :     SEQ_API co::NodePtr getMasterNode();
+<span class="lineNum">      38 </span>            :     //@}
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            :     /** @name Operations */
+<span class="lineNum">      41 </span>            :     //@{
+<span class="lineNum">      42 </span>            :     /**
+<span class="lineNum">      43 </span>            :      * Initialize the application instance.
+<span class="lineNum">      44 </span>            :      *
+<span class="lineNum">      45 </span>            :      * The initData object is registered and is passed to all initialization
+<span class="lineNum">      46 </span>            :      * callbacks on all processes. The object may be 0, if the application does
+<span class="lineNum">      47 </span>            :      * not want to use an object during initialization.
+<span class="lineNum">      48 </span>            :      *
+<span class="lineNum">      49 </span>            :      * @param argc the command line argument count.
+<span class="lineNum">      50 </span>            :      * @param argv the command line arguments.
+<span class="lineNum">      51 </span>            :      * @param initData a distributable object for initialization data.
+<span class="lineNum">      52 </span>            :      * @return true on success, false otherwise.
+<span class="lineNum">      53 </span>            :      * @version 1.0
+<span class="lineNum">      54 </span>            :      */
+<span class="lineNum">      55 </span>            :     SEQ_API virtual bool init( const int argc, char** argv,
+<span class="lineNum">      56 </span>            :                                co::Object* initData );
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :     /**
+<span class="lineNum">      59 </span>            :      * Run the application main loop.
+<span class="lineNum">      60 </span>            :      *
+<span class="lineNum">      61 </span>            :      * The frameData object is registered and is passed to all rendering
+<span class="lineNum">      62 </span>            :      * callbacks on all processes. It is automatically committed at the
+<span class="lineNum">      63 </span>            :      * beginning of each frame. The instance passed to the render callbacks is
+<span class="lineNum">      64 </span>            :      * automatically synchronized to the version belonging to the frame
+<span class="lineNum">      65 </span>            :      * rendered. The object may be 0, if the application does not want to use a
+<span class="lineNum">      66 </span>            :      * per-frame object.
+<span class="lineNum">      67 </span>            :      *
+<span class="lineNum">      68 </span>            :      * @return true on success, false otherwise.
+<span class="lineNum">      69 </span>            :      * @param frameData a distributed object holding frame-specific data.
+<span class="lineNum">      70 </span>            :      * @version 1.0
+<span class="lineNum">      71 </span>            :      */
+<span class="lineNum">      72 </span>            :     SEQ_API virtual bool run( co::Object* frameData );
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :     /**
+<span class="lineNum">      75 </span>            :      * Exit this application instance.
+<span class="lineNum">      76 </span>            :      *
+<span class="lineNum">      77 </span>            :      * @return true on success, false otherwise.
+<span class="lineNum">      78 </span>            :      * @version 1.0
+<span class="lineNum">      79 </span>            :      */
+<span class="lineNum">      80 </span>            :     SEQ_API virtual bool exit();
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            :     /** Request that the application leaves its run loop. @version 1.1.6 */
+<span class="lineNum">      83 </span>            :     SEQ_API void stopRunning();
+<span class="lineNum">      84 </span>            :     //@}
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :     /** @name Callbacks */
+<span class="lineNum">      87 </span>            :     //@{
+<span class="lineNum">      88 </span>            :     /**
+<span class="lineNum">      89 </span>            :      * Initialize a render client.
+<span class="lineNum">      90 </span>            :      *
+<span class="lineNum">      91 </span>            :      * Also called on the master application node if it contributes to the
+<span class="lineNum">      92 </span>            :      * rendering.
+<span class="lineNum">      93 </span>            :      *
+<span class="lineNum">      94 </span>            :      * @param initData A slave instance of the object passed to init().
+<span class="lineNum">      95 </span>            :      * @return true on success, false on error.
+<a name="96"><span class="lineNum">      96 </span>            :      * @version 1.0</a>
+<span class="lineNum">      97 </span>            :      */
+<span class="lineNum">      98 </span><span class="lineCov">          1 :     virtual bool clientInit( co::Object* initData LB_UNUSED )</span>
+<span class="lineNum">      99 </span><span class="lineCov">          1 :         { return true; }</span>
+<a name="100"><span class="lineNum">     100 </span>            : </a>
+<span class="lineNum">     101 </span>            :     /** Exit a render client. @version 1.0 */
+<span class="lineNum">     102 </span><span class="lineCov">          1 :     virtual bool clientExit() { return true; }</span>
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            :     /**
+<span class="lineNum">     105 </span>            :      * Create a new renderer instance.
+<span class="lineNum">     106 </span>            :      *
+<span class="lineNum">     107 </span>            :      * Called once per rendering thread, potentially in parallel, during
+<span class="lineNum">     108 </span>            :      * initialization.
+<span class="lineNum">     109 </span>            :      *
+<span class="lineNum">     110 </span>            :      * @return the new renderer
+<span class="lineNum">     111 </span>            :      * @version 1.0
+<span class="lineNum">     112 </span>            :      */
+<span class="lineNum">     113 </span>            :     virtual Renderer* createRenderer() = 0;
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span>            :     /** Delete the given renderer. @version 1.0 */
+<span class="lineNum">     116 </span>            :     SEQ_API virtual void destroyRenderer( Renderer* renderer );
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :     /**
+<span class="lineNum">     119 </span>            :      * Create a new per-view data instance.
+<span class="lineNum">     120 </span>            :      *
+<span class="lineNum">     121 </span>            :      * Called once for each view in the current configuration. Creates the view
+<span class="lineNum">     122 </span>            :      * data objects used by the application to set parameters for the renderers.
+<span class="lineNum">     123 </span>            :      *
+<span class="lineNum">     124 </span>            :      * @return the new view data
+<span class="lineNum">     125 </span>            :      * @version 1.0
+<span class="lineNum">     126 </span>            :      */
+<span class="lineNum">     127 </span>            :     SEQ_API virtual ViewData* createViewData();
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span>            :     /** Delete the given view data. @version 1.0 */
+<span class="lineNum">     130 </span>            :     SEQ_API virtual void destroyViewData( ViewData* viewData );
+<span class="lineNum">     131 </span>            :     //@}
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            :     /** @name Internal */
+<a name="134"><span class="lineNum">     134 </span>            :     //@{</a>
+<span class="lineNum">     135 </span>            :     SEQ_API eq::Config* getConfig(); //!&lt; @internal
+<span class="lineNum">     136 </span><span class="lineCov">          3 :     detail::Application* getImpl() { return _impl; } //!&lt; @internal</span>
+<span class="lineNum">     137 </span>            :     //@}
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            : protected:
+<span class="lineNum">     140 </span>            :     /** Destruct this application instance. @version 1.0 */
+<span class="lineNum">     141 </span>            :     SEQ_API virtual ~Application();
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            : private:
+<span class="lineNum">     144 </span>            :     detail::Application* _impl;
+<span class="lineNum">     145 </span>            : };
+<span class="lineNum">     146 </span>            : }
+<span class="lineNum">     147 </span>            : #endif // EQSEQUEL_APPLICATION_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
