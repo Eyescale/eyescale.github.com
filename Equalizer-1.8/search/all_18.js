@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['y',['y',['../structeq_1_1_resize_event.html#a9b17f2bd276d8ab2422dca6acb173a5c',1,'eq::ResizeEvent::y()'],['../structeq_1_1_pointer_event.html#a0d7d4e7409d66e031ba6a9bdea2b1ff1',1,'eq::PointerEvent::y()'],['../classeq_1_1fabric_1_1_viewport.html#a860e97f910f61ab3269ee4635d6f8ac7',1,'eq::fabric::Viewport::y()']]],
-  ['yaxis',['yAxis',['../structeq_1_1_pointer_event.html#a4c138031ace580f08a951fb899a8d0a7',1,'eq::PointerEvent::yAxis()'],['../structeq_1_1_magellan_event.html#a459dc21fde69f6e26cfea70c91467933',1,'eq::MagellanEvent::yAxis()']]],
-  ['yrotation',['yRotation',['../structeq_1_1_magellan_event.html#acc549ba56b93f9b614ad201858e2f468',1,'eq::MagellanEvent']]]
+  ['x',['x',['../structeq_1_1fabric_1_1_resize_event.html#af4a817aa96a418227aacf318249ea343',1,'eq::fabric::ResizeEvent::x()'],['../structeq_1_1fabric_1_1_pointer_event.html#a616b99aa2107bac81534070830c85383',1,'eq::fabric::PointerEvent::x()'],['../classeq_1_1fabric_1_1_viewport.html#ade1822ae793b0914ddc460aa3bb64171',1,'eq::fabric::Viewport::x()']]],
+  ['xaxis',['xAxis',['../structeq_1_1fabric_1_1_pointer_event.html#ae289bcfbb92d70ced9234d1858901f43',1,'eq::fabric::PointerEvent::xAxis()'],['../structeq_1_1fabric_1_1_magellan_event.html#acc4a616ee31e5a9faff7bd8ef7b552ba',1,'eq::fabric::MagellanEvent::xAxis()']]],
+  ['xevent',['xEvent',['../classeq_1_1glx_1_1_window_event.html#a9ec996238e1b14ecf0c51bc93de4810d',1,'eq::glx::WindowEvent']]],
+  ['xgetcurrentdisplay',['XGetCurrentDisplay',['../namespaceeq_1_1glx.html#af17b73eb3e32a823b615cef49edb4e2e',1,'eq::glx']]],
+  ['xrotation',['xRotation',['../structeq_1_1fabric_1_1_magellan_event.html#ad2e71a9b486248e23ecfd766bd5cfbbf',1,'eq::fabric::MagellanEvent']]],
+  ['xsetcurrentdisplay',['XSetCurrentDisplay',['../namespaceeq_1_1glx.html#a0b09ece2f0224344f89baaf47cc7efd2',1,'eq::glx']]]
 ];

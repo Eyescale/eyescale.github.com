@@ -61,7 +61,7 @@ var classeq_1_1fabric_1_1_channel =
     [ "getRange", "classeq_1_1fabric_1_1_channel.html#ad91975289a44e9f9578de0c9aa5b842c", null ],
     [ "getReadBuffer", "classeq_1_1fabric_1_1_channel.html#a343254c0881fbcdbbe39270e930cd2a5", null ],
     [ "getRedistributableBits", "classeq_1_1fabric_1_1_channel.html#a7a53570759d6e955527a508ad4449abf", null ],
-    [ "getSAttribute", "classeq_1_1fabric_1_1_channel.html#aa5f9fc20f72dea88303c5798fc132381", null ],
+    [ "getSAttribute", "classeq_1_1fabric_1_1_channel.html#a347c8bdf0dfe51459692ba75feb9d2b0", null ],
     [ "getSubPixel", "classeq_1_1fabric_1_1_channel.html#ab611fbd3666f5d4651905873695d207d", null ],
     [ "getTaskID", "classeq_1_1fabric_1_1_channel.html#a3a42f9b72a9a918659c83b06b9075134", null ],
     [ "getViewport", "classeq_1_1fabric_1_1_channel.html#aa5df108f0004ee002e568d3181419c07", null ],

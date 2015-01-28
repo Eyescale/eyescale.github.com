@@ -1,7 +1,5 @@
 var namespaceeq =
 [
-    [ "admin", "namespaceeq_1_1admin.html", "namespaceeq_1_1admin" ],
-    [ "agl", "namespaceeq_1_1agl.html", null ],
     [ "fabric", "namespaceeq_1_1fabric.html", "namespaceeq_1_1fabric" ],
     [ "glx", "namespaceeq_1_1glx.html", "namespaceeq_1_1glx" ],
     [ "qt", "namespaceeq_1_1qt.html", "namespaceeq_1_1qt" ],
@@ -18,12 +16,6 @@ var namespaceeq =
     [ "ConfigEvent", "structeq_1_1_config_event.html", "structeq_1_1_config_event" ],
     [ "ConfigStatistics", "classeq_1_1_config_statistics.html", "classeq_1_1_config_statistics" ],
     [ "CUDAContext", "classeq_1_1_c_u_d_a_context.html", "classeq_1_1_c_u_d_a_context" ],
-    [ "ResizeEvent", "structeq_1_1_resize_event.html", "structeq_1_1_resize_event" ],
-    [ "PointerEvent", "structeq_1_1_pointer_event.html", "structeq_1_1_pointer_event" ],
-    [ "KeyEvent", "structeq_1_1_key_event.html", "structeq_1_1_key_event" ],
-    [ "MagellanEvent", "structeq_1_1_magellan_event.html", "structeq_1_1_magellan_event" ],
-    [ "UserEvent", "structeq_1_1_user_event.html", "structeq_1_1_user_event" ],
-    [ "Event", "structeq_1_1_event.html", "structeq_1_1_event" ],
     [ "EventHandler", "classeq_1_1_event_handler.html", "classeq_1_1_event_handler" ],
     [ "EventICommand", "classeq_1_1_event_i_command.html", "classeq_1_1_event_i_command" ],
     [ "Exception", "classeq_1_1_exception.html", "classeq_1_1_exception" ],
@@ -43,7 +35,6 @@ var namespaceeq =
     [ "PixelData", "structeq_1_1_pixel_data.html", "structeq_1_1_pixel_data" ],
     [ "Segment", "classeq_1_1_segment.html", "classeq_1_1_segment" ],
     [ "Server", "classeq_1_1_server.html", "classeq_1_1_server" ],
-    [ "Statistic", "structeq_1_1_statistic.html", "structeq_1_1_statistic" ],
     [ "StatisticSampler", "classeq_1_1_statistic_sampler.html", "classeq_1_1_statistic_sampler" ],
     [ "SystemPipe", "classeq_1_1_system_pipe.html", "classeq_1_1_system_pipe" ],
     [ "SystemWindow", "classeq_1_1_system_window.html", "classeq_1_1_system_window" ],
@@ -52,6 +43,6 @@ var namespaceeq =
     [ "Window", "classeq_1_1_window.html", "classeq_1_1_window" ],
     [ "WindowSettings", "classeq_1_1_window_settings.html", "classeq_1_1_window_settings" ],
     [ "WindowStatistics", "classeq_1_1_window_statistics.html", "classeq_1_1_window_statistics" ],
-    [ "WindowSystemIF", "classeq_1_1_window_system_i_f.html", "classeq_1_1_window_system_i_f" ],
-    [ "WindowSystem", "classeq_1_1_window_system.html", "classeq_1_1_window_system" ]
+    [ "WindowSystem", "classeq_1_1_window_system.html", "classeq_1_1_window_system" ],
+    [ "WindowSystemIF", "classeq_1_1_window_system_i_f.html", "classeq_1_1_window_system_i_f" ]
 ];

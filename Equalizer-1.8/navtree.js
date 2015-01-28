@@ -49,20 +49,21 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"accum_8h_source.html",
-"classeq_1_1_frame.html#afaf6be696fc489d9bd1acc40756c4972",
-"classeq_1_1_pipe.html#addd8c1d8e0856fb17f13aecae34f31d9",
-"classeq_1_1fabric_1_1_canvas.html#a58e60633c2deeec7ddbb85f5b0cb0f80",
-"classeq_1_1fabric_1_1_equalizer.html",
-"classeq_1_1fabric_1_1_pipe.html#a236bd348b796920f1cb00dfd38544032",
-"classeq_1_1fabric_1_1_view.html#ad20dd7293245d9e06cba3d8268e595df",
-"classeq_1_1qt_1_1_window.html#aa5e6b86dae03e8da74b1ddd922e5d907",
-"client_2qt_2types_8h_source.html",
-"structeq_1_1_event.html#a192ffbc305ce13a8ffee452220c32d38"
+".html",
+"classeq_1_1_channel.html#ad2db425c1eba03336bd34010e6d484bd",
+"classeq_1_1_image.html#a8f8774da68d799177ab6dfd5ce677cd3",
+"classeq_1_1_window.html#a9f1c3acc2a8e9f7497681c9503b71ede",
+"classeq_1_1fabric_1_1_config.html#a7c59d9140f2193f294bac7b0bc602dd1",
+"classeq_1_1fabric_1_1_object.html#a074a96afc7fb9e31a1d5b4368ebde972",
+"classeq_1_1fabric_1_1_server.html#a1ea97ddcf05243b97083ec4f3fd8dd34",
+"classeq_1_1glx_1_1_message_pump.html#aa9f3f4ea6766ea890279b22f2f8fbb59",
+"classeq_1_1wgl_1_1_event_handler.html#a91cdc51287c7f0a76d5ce6f24fa6501f",
+"classeq_ply_1_1_frame_data.html#afba508e3d334c62cea68f97a65b35c9e",
+"fabric_2segment_8h_source.html",
+"struct_g_l_x_hyperpipe_config_s_g_i_x.html#afe9288e75dc1ae5e0f33eff978d7024d",
+"structeq_async_1_1_texture_id.html#a63706c5c8dfa821dcfef83352906c543"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
 var SYNCONMSG = 'click to disable panel synchronisation';
 var SYNCOFFMSG = 'click to enable panel synchronisation';
 var navTreeSubIndices = new Array();
@@ -87,6 +88,21 @@ function stripPath2(uri)
   return m ? uri.substring(i-6) : s;
 }
 
+function hashValue()
+{
+  return $(location).attr('hash').substring(1).replace(/[^\w\-]/g,'');
+}
+
+function hashUrl()
+{
+  return '#'+hashValue();
+}
+
+function pathName()
+{
+  return $(location).attr('pathname').replace(/[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]/g, '');
+}
+
 function localStorageSupported()
 {
   try {
@@ -109,7 +125,7 @@ function deleteLink()
 {
   if (localStorageSupported()) {
     window.localStorage.setItem('navpath','');
-  } 
+  }
 }
 
 function cachedLink()
@@ -181,11 +197,13 @@ var animationInProgress = false;
 function gotoAnchor(anchor,aname,updateLocation)
 {
   var pos, docContent = $('#doc-content');
-  if (anchor.parent().attr('class')=='memItemLeft' ||
-      anchor.parent().attr('class')=='fieldtype' ||
-      anchor.parent().is(':header')) 
+  var ancParent = $(anchor.parent());
+  if (ancParent.hasClass('memItemLeft') ||
+      ancParent.hasClass('fieldname') ||
+      ancParent.hasClass('fieldtype') ||
+      ancParent.is(':header'))
   {
-    pos = anchor.parent().position().top;
+    pos = ancParent.position().top;
   } else if (anchor.position()) {
     pos = anchor.position().top;
   }
@@ -243,7 +261,7 @@ function newNode(o, po, text, link, childrenData, lastNode)
     a.className = stripPath(link.replace('#',':'));
     if (link.indexOf('#')!=-1) {
       var aname = '#'+link.split('#')[1];
-      var srcPage = stripPath($(location).attr('pathname'));
+      var srcPage = stripPath(pathName());
       var targetPage = stripPath(link.split('#')[0]);
       a.href = srcPage!=targetPage ? url : "javascript:void(0)"; 
       a.onclick = function(){
@@ -337,14 +355,13 @@ function glowEffect(n,duration)
 
 function highlightAnchor()
 {
-  var aname = $(location).attr('hash');
+  var aname = hashUrl();
   var anchor = $(aname);
   if (anchor.parent().attr('class')=='memItemLeft'){
-    var rows = $('.memberdecls tr[class$="'+
-               window.location.hash.substring(1)+'"]');
+    var rows = $('.memberdecls tr[class$="'+hashValue()+'"]');
     glowEffect(rows.children(),300); // member without details
-  } else if (anchor.parents().slice(2).prop('tagName')=='TR') {
-    glowEffect(anchor.parents('div.memitem'),1000); // enum value
+  } else if (anchor.parent().attr('class')=='fieldname'){
+    glowEffect(anchor.parent().parent(),1000); // enum value
   } else if (anchor.parent().attr('class')=='fieldtype'){
     glowEffect(anchor.parent().parent(),1000); // struct field
   } else if (anchor.parent().is(":header")) {
@@ -359,7 +376,7 @@ function selectAndHighlight(hash,n)
 {
   var a;
   if (hash) {
-    var link=stripPath($(location).attr('pathname'))+':'+hash.substring(1);
+    var link=stripPath(pathName())+':'+hash.substring(1);
     a=$('.item a[class$="'+link+'"]');
   }
   if (a && a.length) {
@@ -470,14 +487,13 @@ function navTo(o,root,hash,relpath)
   if (link) {
     var parts = link.split('#');
     root = parts[0];
-    if (parts.length>1) hash = '#'+parts[1];
+    if (parts.length>1) hash = '#'+parts[1].replace(/[^\w\-]/g,'');
     else hash='';
   }
   if (hash.match(/^#l\d+$/)) {
     var anchor=$('a[name='+hash.substring(1)+']');
     glowEffect(anchor.parent(),1000); // line number
     hash=''; // strip line number anchors
-    //root=root.replace(/_source\./,'.'); // source link to doc link
   }
   var url=root+hash;
   var i=-1;
@@ -511,7 +527,7 @@ function toggleSyncButton(relpath)
   if (navSync.hasClass('sync')) {
     navSync.removeClass('sync');
     showSyncOff(navSync,relpath);
-    storeLink(stripPath2($(location).attr('pathname'))+$(location).attr('hash'));
+    storeLink(stripPath2(pathName())+hashUrl());
   } else {
     navSync.addClass('sync');
     showSyncOn(navSync,relpath);
@@ -551,7 +567,7 @@ function initNavTree(toroot,relpath)
   }
 
   $(window).load(function(){
-    navTo(o,toroot,window.location.hash,relpath);
+    navTo(o,toroot,hashUrl(),relpath);
     showRoot();
   });
 
@@ -559,21 +575,20 @@ function initNavTree(toroot,relpath)
      if (window.location.hash && window.location.hash.length>1){
        var a;
        if ($(location).attr('hash')){
-         var clslink=stripPath($(location).attr('pathname'))+':'+
-                               $(location).attr('hash').substring(1);
-         a=$('.item a[class$="'+clslink+'"]');
+         var clslink=stripPath(pathName())+':'+hashValue();
+         a=$('.item a[class$="'+clslink.replace(/</g,'\\3c ')+'"]');
        }
        if (a==null || !$(a).parent().parent().hasClass('selected')){
          $('.item').removeClass('selected');
          $('.item').removeAttr('id');
        }
-       var link=stripPath2($(location).attr('pathname'));
-       navTo(o,link,$(location).attr('hash'),relpath);
+       var link=stripPath2(pathName());
+       navTo(o,link,hashUrl(),relpath);
      } else if (!animationInProgress) {
        $('#doc-content').scrollTop(0);
        $('.item').removeClass('selected');
        $('.item').removeAttr('id');
-       navTo(o,toroot,window.location.hash,relpath);
+       navTo(o,toroot,hashUrl(),relpath);
      }
   })
 }

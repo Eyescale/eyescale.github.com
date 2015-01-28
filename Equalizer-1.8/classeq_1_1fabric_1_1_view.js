@@ -12,12 +12,18 @@ var classeq_1_1fabric_1_1_view =
       [ "DIRTY_EQUALIZER", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a85bbc966283d4652bfa08a5d34c30606", null ],
       [ "DIRTY_EQUALIZERS", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a5224c31af4056dc819c94a1a3d7acd5d", null ],
       [ "DIRTY_MODELUNIT", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a4496ef6909b64ab13e57cced54ae8c9f", null ],
-      [ "DIRTY_DISPLAYCLUSTER", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52ae9993b8286e89f1b8a7dd6f42088cb5a", null ],
+      [ "DIRTY_ATTRIBUTES", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a04529202b7b9d189a09e66fc66fd4b45", null ],
       [ "DIRTY_VIEW_BITS", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a29d69c3ec7076f6f253a4d9e9f70f330", null ]
     ] ],
     [ "Mode", "classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76", [
       [ "MODE_MONO", "classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76aa89a6d02e2de50f9019ecf13ef592149", null ],
       [ "MODE_STEREO", "classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76a7b9b423bbd9dab8bd0569417d11cbdc5", null ]
+    ] ],
+    [ "SAttribute", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9b", [
+      [ "SATTR_DISPLAYCLUSTER", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9ba7c89d689c3f1ab23a5a5643a6305daa4", null ],
+      [ "SATTR_PIXELSTREAM_NAME", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9bab2eee9ffa9aecaeba3d755cdc16b2429", null ],
+      [ "SATTR_LAST", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9ba8b34a7e1eb9b9e26b0f94b136dea0d72", null ],
+      [ "SATTR_ALL", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9ba38fdadfff86dd5659340fbf999155f59", null ]
     ] ],
     [ "View", "classeq_1_1fabric_1_1_view.html#a68b0193ba3f97a6f699542ce566b4429", null ],
     [ "~View", "classeq_1_1fabric_1_1_view.html#ac36b0e6dfa03be8aa0fbf8adf14717a8", null ],
@@ -28,7 +34,6 @@ var classeq_1_1fabric_1_1_view =
     [ "changeMode", "classeq_1_1fabric_1_1_view.html#a336c3027b475b0146e4e0a76adc766da", null ],
     [ "deserialize", "classeq_1_1fabric_1_1_view.html#a0248e491ea43f9ed5ed512b5a1532244", null ],
     [ "getCapabilities", "classeq_1_1fabric_1_1_view.html#ab4af128aaa8e7b021a1319cb230563f8", null ],
-    [ "getDisplayCluster", "classeq_1_1fabric_1_1_view.html#ae215e21a55cb0687a5ed560a2eb5ce86", null ],
     [ "getEqualizer", "classeq_1_1fabric_1_1_view.html#a511b441761da1ecc6369ca769425f8b4", null ],
     [ "getEqualizer", "classeq_1_1fabric_1_1_view.html#afe2e076c268d85d4e15d4eaa7e5f5a28", null ],
     [ "getEqualizers", "classeq_1_1fabric_1_1_view.html#a65fd2ac146adb91f1edfb80abdcca0d1", null ],
@@ -42,6 +47,7 @@ var classeq_1_1fabric_1_1_view =
     [ "getObserver", "classeq_1_1fabric_1_1_view.html#ad876a82befbc07e48239ff912fa4af74", null ],
     [ "getOverdraw", "classeq_1_1fabric_1_1_view.html#a230eef09d3f25abef27bbb043d724f35", null ],
     [ "getRedistributableBits", "classeq_1_1fabric_1_1_view.html#ab9adf526da478a732b99961960415055", null ],
+    [ "getSAttribute", "classeq_1_1fabric_1_1_view.html#a2ebcbdbbfe0b357ab83903bbfcd35706", null ],
     [ "getUserDataLatency", "classeq_1_1fabric_1_1_view.html#a44d34cd3f299c72ce9da240ce31a9436", null ],
     [ "getViewport", "classeq_1_1fabric_1_1_view.html#a8dd088a43b077053db416057c70f3c82", null ],
     [ "hasMasterUserData", "classeq_1_1fabric_1_1_view.html#ac20ebbb0f83db8c73c54c2f2ffdfef5e", null ],
@@ -51,12 +57,12 @@ var classeq_1_1fabric_1_1_view =
     [ "serialize", "classeq_1_1fabric_1_1_view.html#a2c6c8df3546698287375844a79a2b265", null ],
     [ "setCapabilities", "classeq_1_1fabric_1_1_view.html#a2d37a30b77cd895463ebfe9a11940464", null ],
     [ "setDirty", "classeq_1_1fabric_1_1_view.html#a3b59a4bd415c1ad62420d9b99af0c17e", null ],
-    [ "setDisplayCluster", "classeq_1_1fabric_1_1_view.html#a478fd1d0a9ca13021c835349d6869eb4", null ],
     [ "setMaximumCapabilities", "classeq_1_1fabric_1_1_view.html#ac0d2c4195b58b737003e8d2b238a4c2f", null ],
     [ "setMinimumCapabilities", "classeq_1_1fabric_1_1_view.html#aabd9e1ece376004f43f4fbdbc7b5f168", null ],
     [ "setModelUnit", "classeq_1_1fabric_1_1_view.html#af61d17c462d26e87b2f7b6d417cbbaf5", null ],
     [ "setObserver", "classeq_1_1fabric_1_1_view.html#a2986d691ea9527e527a21a0f301a6253", null ],
     [ "setOverdraw", "classeq_1_1fabric_1_1_view.html#aefc8b6e282d343e735870d66f8b45908", null ],
+    [ "setSAttribute", "classeq_1_1fabric_1_1_view.html#aba082e29c295a5fe8db8fd52573c3628", null ],
     [ "setViewport", "classeq_1_1fabric_1_1_view.html#ab6af3613435b830789a11be718cbaeb3", null ],
     [ "updateCapabilities", "classeq_1_1fabric_1_1_view.html#a26b259792b2edfb5a364b52672e72a32", null ],
     [ "useEqualizer", "classeq_1_1fabric_1_1_view.html#a90cfccc05afe927930debc5804da3820", null ]

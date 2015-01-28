@@ -12,7 +12,6 @@ var classeq_1_1fabric_1_1_window =
     [ "Window", "classeq_1_1fabric_1_1_window.html#a450b090a948316d01d3da8b635a23810", null ],
     [ "~Window", "classeq_1_1fabric_1_1_window.html#ae9d170d1f75814fcf7db73db0896744b", null ],
     [ "_findChannel", "classeq_1_1fabric_1_1_window.html#aca2971db091331d4e5c5f7e36abb3123", null ],
-    [ "_getSettings", "classeq_1_1fabric_1_1_window.html#a5880affc83c89e38efdc4dcd5f86cfa3", null ],
     [ "_setDrawableConfig", "classeq_1_1fabric_1_1_window.html#a22c825a3f90becb0cfc05957ae1edab6", null ],
     [ "accept", "classeq_1_1fabric_1_1_window.html#a2fae0dd865f127c5f6cbd71ebc93e044", null ],
     [ "accept", "classeq_1_1fabric_1_1_window.html#a09f78e6b44411ad948e97a966a91d4c3", null ],
@@ -44,6 +43,7 @@ var classeq_1_1fabric_1_1_window =
     [ "setIAttribute", "classeq_1_1fabric_1_1_window.html#aa70a1a03c836f8d4315bcf3509bc7e7f", null ],
     [ "setName", "classeq_1_1fabric_1_1_window.html#aa6b731d14d5f5133239db8dc41d2ffb2", null ],
     [ "setPixelViewport", "classeq_1_1fabric_1_1_window.html#a8ce5cdb619a1b8200cf66efbf10e2594", null ],
+    [ "setSettings", "classeq_1_1fabric_1_1_window.html#a8d1aed8a09bd5744fceb7e6cbb8a4388", null ],
     [ "setViewport", "classeq_1_1fabric_1_1_window.html#a17897ac43fb68a9668d6572719d4d4ca", null ],
     [ "Channel< W, C >", "classeq_1_1fabric_1_1_window.html#adec1367b73db923c2c5de4d36aa3e411", null ]
 ];

@@ -3,7 +3,7 @@ var structeq_1_1_pixel_data =
     [ "PixelData", "structeq_1_1_pixel_data.html#aeba3bdb3e1d5121588c8f4b0736a4cec", null ],
     [ "~PixelData", "structeq_1_1_pixel_data.html#ab61c5943e88bb043631e1b6a68a522e5", null ],
     [ "reset", "structeq_1_1_pixel_data.html#a434c3c94359c1b6d1d0f21eb8875e03d", null ],
-    [ "compressedData", "structeq_1_1_pixel_data.html#aeb7acb1b43ed606bc42411971929a15a", null ],
+    [ "compressedData", "structeq_1_1_pixel_data.html#a9149afb1c7523ee2c76ba190900f8ffa", null ],
     [ "compressorFlags", "structeq_1_1_pixel_data.html#a07aa4936fed4380cd2849b25d9e69712", null ],
     [ "compressorName", "structeq_1_1_pixel_data.html#a1cce1dff4768db74c2b93ad17f2df58f", null ],
     [ "externalFormat", "structeq_1_1_pixel_data.html#a0d07801753568105ddf01a430711f52d", null ],

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['zoom',['Zoom',['../classeq_1_1fabric_1_1_zoom.html#af9b18484c82590c416287488ed965f98',1,'eq::fabric::Zoom::Zoom()'],['../classeq_1_1fabric_1_1_zoom.html#a549d6aab26dfdc829d7e4f084b840555',1,'eq::fabric::Zoom::Zoom(const float x_, const float y_)']]]
+  ['xgetcurrentdisplay',['XGetCurrentDisplay',['../namespaceeq_1_1glx.html#af17b73eb3e32a823b615cef49edb4e2e',1,'eq::glx']]],
+  ['xsetcurrentdisplay',['XSetCurrentDisplay',['../namespaceeq_1_1glx.html#a0b09ece2f0224344f89baaf47cc7efd2',1,'eq::glx']]]
 ];

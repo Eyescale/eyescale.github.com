@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['accum',['Accum',['../classeq_1_1util_1_1_accum.html',1,'eq::util']]],
-  ['accumbufferobject',['AccumBufferObject',['../classeq_1_1util_1_1_accum_buffer_object.html',1,'eq::util']]]
+  ['_5f_5fglxevent',['__GLXEvent',['../union_____g_l_x_event.html',1,'']]],
+  ['_5fgpu_5fdevice',['_GPU_DEVICE',['../struct___g_p_u___d_e_v_i_c_e.html',1,'']]]
 ];

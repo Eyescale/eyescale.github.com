@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keyevent',['KeyEvent',['../structeq_1_1_key_event.html',1,'eq']]]
+  ['hfile',['hFile',['../structhlp_funcs_1_1h_file.html',1,'hlpFuncs']]]
 ];

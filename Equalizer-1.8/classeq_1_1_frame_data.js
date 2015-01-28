@@ -1,6 +1,5 @@
 var classeq_1_1_frame_data =
 [
-    [ "Data", "structeq_1_1_frame_data_1_1_data.html", "structeq_1_1_frame_data_1_1_data" ],
     [ "ImageHeader", "structeq_1_1_frame_data_1_1_image_header.html", "structeq_1_1_frame_data_1_1_image_header" ],
     [ "Listener", "classeq_1_1_frame_data.html#a5cfb97ef32365ae884508af41be2d373", null ],
     [ "FrameData", "classeq_1_1_frame_data.html#ac1e48c545eb2f550d7374008a8b48c05", null ],
@@ -15,7 +14,7 @@ var classeq_1_1_frame_data =
     [ "flush", "classeq_1_1_frame_data.html#ad958e3dfb3de96a3e66e477cec6a4cd7", null ],
     [ "getBuffers", "classeq_1_1_frame_data.html#a00037c088e58982e157f0dc483b85ac6", null ],
     [ "getChangeType", "classeq_1_1_frame_data.html#adb2ed3f008f28cb4e4d41bc784c37b54", null ],
-    [ "getData", "classeq_1_1_frame_data.html#a726852f2e454c02d8e15f8a7a06fe236", null ],
+    [ "getData", "classeq_1_1_frame_data.html#ad0822c93f4447008ceda78746e02cd70", null ],
     [ "getImages", "classeq_1_1_frame_data.html#ad34e3158a5e297be3ec8250e052111eb", null ],
     [ "getInstanceData", "classeq_1_1_frame_data.html#a5e73a7b6a1f597dac86e10991a13c7e4", null ],
     [ "getPeriod", "classeq_1_1_frame_data.html#a139b7a3532f59805afb1cb49c4a616d4", null ],
@@ -37,7 +36,7 @@ var classeq_1_1_frame_data =
     [ "setQuality", "classeq_1_1_frame_data.html#af821a676d33493d14efacbfc3ea7ffc7", null ],
     [ "setRange", "classeq_1_1_frame_data.html#a6646e5e3ab3a96782e2be43e8011f345", null ],
     [ "setReady", "classeq_1_1_frame_data.html#ab7b3425b03c6594612a8665951ee214d", null ],
-    [ "setReady", "classeq_1_1_frame_data.html#ad51e0503587747621f3e3aa020ae41d3", null ],
+    [ "setReady", "classeq_1_1_frame_data.html#ada25cbf949fa41887bd39a9efca3428d", null ],
     [ "setType", "classeq_1_1_frame_data.html#a6a522e9f6a11c88d4ebd4cde4582f756", null ],
     [ "setVersion", "classeq_1_1_frame_data.html#a0fc4effa06b119e89517cd311c82115c", null ],
     [ "setZoom", "classeq_1_1_frame_data.html#ab21be2c84824214fe41fde59405566b0", null ],

@@ -1,8 +1,14 @@
 var searchData=
 [
-  ['newimage',['newImage',['../classeq_1_1_frame_data.html#ad6a0f03a731443f8ef0952bf29e5c60d',1,'eq::FrameData']]],
-  ['nextevent',['nextEvent',['../classeq_1_1_config.html#ad32d15be2b1300a34cf0ce4b0ee7c94f',1,'eq::Config']]],
-  ['node',['Node',['../classeq_1_1admin_1_1_node.html#abf306ac5c656c2f2a7105f229149b595',1,'eq::admin::Node::Node()'],['../classeq_1_1_node.html#abd1f7b065e82357e39363f6d689befd5',1,'eq::Node::Node()']]],
-  ['notifystopframe',['notifyStopFrame',['../classeq_1_1_channel.html#a00704e350faa8c49fbfa1ffe39f26185',1,'eq::Channel']]],
-  ['notifyviewportchanged',['notifyViewportChanged',['../classeq_1_1_channel.html#a1e084c76e73f195daaff20afd2e26325',1,'eq::Channel']]]
+  ['makecurrent',['makeCurrent',['../classeq_1_1_g_l_window.html#a7f29b54b229f68dd440bdacffdf52c85',1,'eq::GLWindow::makeCurrent()'],['../classeq_1_1glx_1_1_window.html#a855aa5f6fea9290baddb38cecb80ea83',1,'eq::glx::Window::makeCurrent()'],['../classeq_1_1qt_1_1_window.html#aeb7422389ac1b6c2cf74f0acb6476982',1,'eq::qt::Window::makeCurrent()'],['../classeq_1_1_system_window.html#a1af5e39e90baaf1db27698bbd07e57cc',1,'eq::SystemWindow::makeCurrent()'],['../classeq_1_1wgl_1_1_window.html#a7763bb8e6d6f4fa8fa9904ce046deab7',1,'eq::wgl::Window::makeCurrent()'],['../classeq_1_1_window.html#a5e15bf16f8e90d98cf8bcbaa9e62704e',1,'eq::Window::makeCurrent()']]],
+  ['mapobject',['mapObject',['../classeq_1_1_config.html#a26d436104e9539d7c706422fd553a6a8',1,'eq::Config']]],
+  ['mapobjectnb',['mapObjectNB',['../classeq_1_1_config.html#aa4f47eadd4ce3127b6f1c99949713e18',1,'eq::Config::mapObjectNB(co::Object *object, const uint128_t &amp;id, const uint128_t &amp;version=co::VERSION_OLDEST)'],['../classeq_1_1_config.html#ade96765c2c389e7d547a1787bae433f9',1,'eq::Config::mapObjectNB(co::Object *object, const uint128_t &amp;id, const uint128_t &amp;version, co::NodePtr master)']]],
+  ['mapobjectsync',['mapObjectSync',['../classeq_1_1_config.html#acf757c5bcde8ec301ffb41124b48bcaf',1,'eq::Config']]],
+  ['mapread',['mapRead',['../classeq_1_1util_1_1_pixel_buffer_object.html#ae4beae58a9f43506953f59b083f264f6',1,'eq::util::PixelBufferObject']]],
+  ['mapwrite',['mapWrite',['../classeq_1_1util_1_1_pixel_buffer_object.html#af16410e63a05d4c22cec65d310493266',1,'eq::util::PixelBufferObject']]],
+  ['merge',['merge',['../classeq_1_1fabric_1_1_pixel_viewport.html#a5e578b48913843ba2f3e6b28e8a66652',1,'eq::fabric::PixelViewport']]],
+  ['mergeframescpu',['mergeFramesCPU',['../classeq_1_1_compositor.html#ae0393bb9cf0f73330ebfb557ad66f1af',1,'eq::Compositor::mergeFramesCPU(const Frames &amp;frames, const bool blendAlpha=false, const uint32_t timeout=LB_TIMEOUT_INDEFINITE)'],['../classeq_1_1_compositor.html#a3e3b7bcd3f03d45d8f82159a570644dc',1,'eq::Compositor::mergeFramesCPU(const Frames &amp;frames, const bool blendAlpha, void *colorBuffer, const uint32_t colorBufferSize, void *depthBuffer, const uint32_t depthBufferSize, PixelViewport &amp;outPVP, const uint32_t timeout=LB_TIMEOUT_INDEFINITE)']]],
+  ['messagepump',['MessagePump',['../classeq_1_1glx_1_1_message_pump.html#a42b0b1470c6a81642fd0e601f030c1e5',1,'eq::glx::MessagePump::MessagePump()'],['../classeq_1_1_message_pump.html#a398cf554cf2a9d1a133348e403882dce',1,'eq::MessagePump::MessagePump()'],['../classeq_1_1qt_1_1_message_pump.html#ab95df918e3894e398568906e48924555',1,'eq::qt::MessagePump::MessagePump()'],['../classeq_1_1wgl_1_1_message_pump.html#a76bced1a1405d0afbe146b8421e10b48',1,'eq::wgl::MessagePump::MessagePump()']]],
+  ['movefocus',['moveFocus',['../classeq_1_1fabric_1_1_wall.html#a4160e3723cafa512fc268ff724e0631c',1,'eq::fabric::Wall']]],
+  ['movemodel',['moveModel',['../classseq_1_1_view_data.html#ac1a0122d8d3fdc3b7c8a9e0c4753b619',1,'seq::ViewData']]]
 ];
