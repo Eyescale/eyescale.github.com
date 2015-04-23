@@ -1,19 +1,20 @@
 
-# Copyright (c) 2012-2014 Stefan Eilemann <eile@eyescale.ch>
+# Copyright (c) 2012-2015 Stefan Eilemann <eile@eyescale.ch>
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(Eyescale)
 
-set(VERSION_MAJOR "2013")
-set(VERSION_MINOR "6")
+set(VERSION_MAJOR "2015")
+set(VERSION_MINOR "4")
 set(VERSION_PATCH "0")
 set(GITTARGETS_RELEASE_BRANCH current)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
   ${CMAKE_SOURCE_DIR}/CMake/common)
 
 include(GitExternal)
 include(Common)
 
 set(DOXYGIT_TOC_POST "<p>See also <a href='http://www.equalizergraphics.com'>www.equalizergraphics.com</a></p>")
+set(DOXYGIT_GENERATE_INDEX ON)
 common_documentation()
