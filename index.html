@@ -1,48 +1,81 @@
+---
+---
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//ENhttp://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
-    <title>Eyescale Software Directory</title>
-    <link rel="stylesheet" href="css/github.css" type="text/css">  </head>
-  <body>
-  <div class="toc">    <h2 style="text-align: center;">Projects</h2><a href="#Collage">Collage 1.1</a>
-      <div class="badges"><a href="https://github.com/Eyescale/Collage.git"><img src="images/git.png" alt="Source Repository"></a><a href="Collage-1.1/index.html"><img src="images/help.png"></a>
-        <img src="images/EP.png" alt="Exploratory">
-      </div><div class="flush"></div><a href="#Equalizer">Equalizer 1.8</a>
-      <div class="badges"><a href="https://github.com/Eyescale/Equalizer.git"><img src="images/git.png" alt="Source Repository"></a><a href="Equalizer-1.8/index.html"><img src="images/help.png"></a>
-        <img src="images/EP.png" alt="Exploratory">
-      </div><div class="flush"></div><a href="#GLStats">GLStats 0.3</a>
-      <div class="badges"><a href="https://github.com/Eyescale/GLStats.git"><img src="images/git.png" alt="Source Repository"></a><a href="https://launchpad.net/~bbp/+archive/ppa"><img src="images/package.png" alt="Packages"></a><a href="GLStats-0.3/index.html"><img src="images/help.png"></a>
-        <img src="images/EP.png" alt="Exploratory">
-      </div><div class="flush"></div><a href="#Lunchbox">Lunchbox 1.11</a>
-      <div class="badges"><a href="https://github.com/Eyescale/Lunchbox.git"><img src="images/git.png" alt="Source Repository"></a><a href="https://launchpad.net/~eilemann/+archive/equalizer-dev"><img src="images/package.png" alt="Packages"></a><a href="Lunchbox-1.11/index.html"><img src="images/help.png"></a>
-        <img src="images/RD.png" alt="Research Development">
-      </div><div class="flush"></div><a href="#hwsd">hwsd 1.1</a>
-      <div class="badges"><a href="https://github.com/Eyescale/hwsd.git"><img src="images/git.png" alt="Source Repository"></a><a href="https://launchpad.net/~bbp/+archive/ppa"><img src="images/package.png" alt="Packages"></a><a href="hwsd-1.1/index.html"><img src="images/help.png"></a>
-        <img src="images/EP.png" alt="Exploratory">
-      </div><div class="flush"></div><a href="#vmmlib">vmmlib 1.8</a>
-      <div class="badges"><a href="https://github.com/Eyescale/vmmlib.git"><img src="images/git.png" alt="Source Repository"></a><a href="vmmlib-1.8/index.html"><img src="images/help.png"></a>
-        <img src="images/EP.png" alt="Exploratory">
-      </div><div class="flush"></div><p>See also <a href='http://www.equalizergraphics.com'>www.equalizergraphics.com</a></p>
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <link rel="stylesheet" href="css/github.css" type="text/css">
+  </head>
+    <body>
+    {% assign projectsByName = site.projects | group_by:"name" %}
+    <div class="toc">
+      <h2 style="text-align: center;">Projects</h2>
+      {% for project in projectsByName %}
+      {% assign entriesByMajorVersion = project.items | group_by:"major" %}
+      {% assign latestMajorSorted = entriesByMajorVersion.last.items | sort:"minor" %}
+      {% assign entry = latestMajorSorted.last %}
+      <div class="project-menu-entry">
+        <a href="#{{ project.name }}">{{ project.name }} {{ entry.version }}</a>
+        <div class="badges">
+          <a href="https://github.com/{{ site.organization }}/{{ project.name }}.git"><img src="images/git.png" alt="Source Repository"></a>
+          <a href="{{ project.name }}-{{ entry.version }}/index.html"><img src="images/help.png"></a>
+        </div>
+        <div class="flush"></div>
+      </div>
+      {% endfor %}
+      {% if site.seealso %}
+      <p>See also <a href='https://{{ site.seealso }}'>{{ site.seealso }}</a></p>
+      {% endif %}
     </div>
     <div class="content">
-      <h1>Eyescale Software Directory</h1>
-       <a name="Collage"></a><h2>Collage 1.1</h2>
-      <p></p>
-      <div class="factoid"><a href="Collage-1.1/index.html"><img src="images/help.png"> API Documentation</a></div><div class="factoid"><a href="https://github.com/Eyescale/Collage.git"><img src="images/git.png" alt="Git source repository"> Source Repository</a></div><div class="factoid"><a href="https://github.com/Eyescale/Collage/issues"><img src="images/issues.png" alt="Project Issues"> Project Issues</a></div><div class="factoid"><a href="https://travis-ci.org/Eyescale/Collage"><img src="https://travis-ci.org/Eyescale/Collage.png" alt="Continuous Integration"> Continuous Integration</a></div><div class="factoid"><a href="Collage-1.1/CoverageReport/index.html"><img src="images/search.png" alt="Test Coverage Report"> Test Coverage Report</a></div>
-      <div class="factoid"><img src="images/EP.png" alt="Exploratory"> Exploratory Code Quality</div><div class="factoid"><img src="images/help.png"> Old Versions: <a href="Collage-1.0/index.html">1.0</a> <a href="Collage-0.6/index.html">0.6</a></div><div class="flush"> <a name="Equalizer"></a><h2>Equalizer 1.8</h2>
-      <p></p>
-      <div class="factoid"><a href="Equalizer-1.8/index.html"><img src="images/help.png"> API Documentation</a></div><div class="factoid"><a href="https://github.com/Eyescale/Equalizer.git"><img src="images/git.png" alt="Git source repository"> Source Repository</a></div><div class="factoid"><a href="https://github.com/Eyescale/Equalizer/issues"><img src="images/issues.png" alt="Project Issues"> Project Issues</a></div><div class="factoid"><a href="https://travis-ci.org/Eyescale/Equalizer"><img src="https://travis-ci.org/Eyescale/Equalizer.png" alt="Continuous Integration"> Continuous Integration</a></div>
-      <div class="factoid"><img src="images/EP.png" alt="Exploratory"> Exploratory Code Quality</div><div class="factoid"><img src="images/help.png"> Old Versions: <a href="Equalizer-1.7/index.html">1.7</a> <a href="Equalizer-1.6/index.html">1.6</a> <a href="Equalizer-1.4/index.html">1.4</a> <a href="Equalizer-1.2/index.html">1.2</a> <a href="Equalizer-1.0/index.html">1.0</a></div><div class="flush"> <a name="GLStats"></a><h2>GLStats 0.3</h2>
-      <p></p>
-      <div class="factoid"><a href="GLStats-0.3/index.html"><img src="images/help.png"> API Documentation</a></div><div class="factoid"><a href="https://github.com/Eyescale/GLStats.git"><img src="images/git.png" alt="Git source repository"> Source Repository</a></div><div class="factoid"><a href="https://github.com/Eyescale/GLStats/issues"><img src="images/issues.png" alt="Project Issues"> Project Issues</a></div><div class="factoid"><a href="https://launchpad.net/~bbp/+archive/ppa"><img src="images/package.png" alt="Packages"> Packages</a></div><div class="factoid"><a href="https://travis-ci.org/Eyescale/GLStats"><img src="https://travis-ci.org/Eyescale/GLStats.png" alt="Continuous Integration"> Continuous Integration</a></div>
-      <div class="factoid"><img src="images/EP.png" alt="Exploratory"> Exploratory Code Quality</div><div class="factoid"><img src="images/help.png"> Old Versions: <a href="GLStats-0.1/index.html">0.1</a></div><div class="flush"> <a name="Lunchbox"></a><h2>Lunchbox 1.11</h2>
-      <p>Multi-threaded C++ toolbox library for all application developers creating high-performance multi-threaded programs.</p>
-      <div class="factoid"><a href="Lunchbox-1.11/index.html"><img src="images/help.png"> API Documentation</a></div><div class="factoid"><a href="https://github.com/Eyescale/Lunchbox.git"><img src="images/git.png" alt="Git source repository"> Source Repository</a></div><div class="factoid"><a href="https://github.com/Eyescale/Lunchbox/issues"><img src="images/issues.png" alt="Project Issues"> Project Issues</a></div><div class="factoid"><a href="https://launchpad.net/~eilemann/+archive/equalizer-dev"><img src="images/package.png" alt="Packages"> Packages</a></div><div class="factoid"><a href="https://travis-ci.org/Eyescale/Lunchbox"><img src="https://travis-ci.org/Eyescale/Lunchbox.png" alt="Continuous Integration"> Continuous Integration</a></div>
-      <div class="factoid"><img src="images/RD.png" alt="Research Development"> Research Development Code Quality</div><div class="factoid"><img src="images/help.png"> Old Versions: <a href="Lunchbox-1.10/index.html">1.10</a> <a href="Lunchbox-1.9/index.html">1.9</a> <a href="Lunchbox-1.8/index.html">1.8</a> <a href="Lunchbox-1.6/index.html">1.6</a> <a href="Lunchbox-1.4/index.html">1.4</a></div><div class="flush"> <a name="hwsd"></a><h2>hwsd 1.1</h2>
-      <p>Local and remote ZeroConf service discovery for hardware resources.</p>
-      <div class="factoid"><a href="hwsd-1.1/index.html"><img src="images/help.png"> API Documentation</a></div><div class="factoid"><a href="https://github.com/Eyescale/hwsd.git"><img src="images/git.png" alt="Git source repository"> Source Repository</a></div><div class="factoid"><a href="https://github.com/Eyescale/hwsd/issues"><img src="images/issues.png" alt="Project Issues"> Project Issues</a></div><div class="factoid"><a href="https://launchpad.net/~bbp/+archive/ppa"><img src="images/package.png" alt="Packages"> Packages</a></div><div class="factoid"><a href="https://travis-ci.org/Eyescale/hwsd"><img src="https://travis-ci.org/Eyescale/hwsd.png" alt="Continuous Integration"> Continuous Integration</a></div>
-      <div class="factoid"><img src="images/EP.png" alt="Exploratory"> Exploratory Code Quality</div><div class="factoid"><img src="images/help.png"> Old Versions: <a href="hwsd-1.0/index.html">1.0</a> <a href="hwsd-0.1/index.html">0.1</a></div><div class="flush"> <a name="vmmlib"></a><h2>vmmlib 1.8</h2>
-      <p></p>
-      <div class="factoid"><a href="vmmlib-1.8/index.html"><img src="images/help.png"> API Documentation</a></div><div class="factoid"><a href="https://github.com/Eyescale/vmmlib.git"><img src="images/git.png" alt="Git source repository"> Source Repository</a></div><div class="factoid"><a href="https://github.com/Eyescale/vmmlib/issues"><img src="images/issues.png" alt="Project Issues"> Project Issues</a></div><div class="factoid"><a href="https://travis-ci.org/Eyescale/vmmlib"><img src="https://travis-ci.org/Eyescale/vmmlib.png" alt="Continuous Integration"> Continuous Integration</a></div><div class="factoid"><a href="vmmlib-1.8/CoverageReport/index.html"><img src="images/search.png" alt="Test Coverage Report"> Test Coverage Report</a></div>
-      <div class="factoid"><img src="images/EP.png" alt="Exploratory"> Exploratory Code Quality</div><div class="factoid"><img src="images/help.png"> Old Versions: <a href="vmmlib-1.7/index.html">1.7</a> <a href="vmmlib-1.6/index.html">1.6</a> <a href="vmmlib-1.4/index.html">1.4</a></div>
-  </html>
+    <h1>{{ site.organization }} Software Directory</h1>
+      {% for project in projectsByName %}
+      {% assign entriesByMajorVersion = project.items | group_by:"major" %}
+      {% assign latestMajorSorted = entriesByMajorVersion.last.items | sort:"minor" %}
+      {% assign entry = latestMajorSorted.last %}
+      <div class="project">
+        {% if entry.issuesurl %}
+        {% assign issuesurl = entry.issuesurl %}
+        {% else %}
+        {% capture issuesurl %}https://github.com/{{ site.organization }}/{{ project.name }}/issues{% endcapture %}
+        {% endif %}
+        {% if entry.packageurl %}
+        {% assign packageurl = entry.packageurl %}
+        {% else %}
+        {% capture packageurl %}https://github.com/{{ site.organization }}/{{ project.name }}/releases{% endcapture %}
+        {% endif %}
+        <h2>{{ project.name }} {{ entry.version }}</h2>
+        <p>{{ entry.description }}</p>
+        <div class="factoid"><a href="{{ project.name }}-{{ entry.version }}/index.html"><img src="images/help.png"> API Documentation</a></div>
+        <div class="factoid"><a href="{{ project.name }}-{{ entry.version }}/CoverageReport/index.html"><img src="images/search.png" alt="Test Coverage Report"> Test Coverage Report</a></div>
+        <div class="factoid"><a href="https://github.com/{{ site.organization }}/{{ project.name }}.git"><img src="images/git.png" alt="Git source repository"> Source Repository</a></div>
+        <div class="factoid"><a href="{{ issuesurl }}"><img src="images/issues.png" alt="Project Issues"> Project Issues</a></div>
+        <div class="factoid"><a href="{{ packageurl }}"><img src="images/package.png" alt="Packages"> Packages</a></div>
+        <!-- <div class="factoid"><a href="https://travis-ci.org/{{ site.organization }}/{{ project.name }}"><img src="https://travis-ci.org/{{ site.organization }}/{{ project.name }}.png" alt="Continuous Integration"> Continuous Integration</a></div> -->
+        {% case entry.maturity %}
+        {% when 'RS' %}
+        <div class="factoid"><img src="images/RS.png" alt="Research Stable" /> Research Stable Code Quality</div>
+        {% when 'RD' %}
+        <div class="factoid"><img src="images/RD.png" alt="Research Development" /> Research Development Code Quality</div>
+        {% else %}
+        <div class="factoid"><img src="images/EP.png" alt="Exploratory" /> Exploratory Code Quality</div>
+        {% endcase %}
+        {% if project.items.size > 1 %}
+        <div class="factoid"><img src="images/help.png"> Old Versions:
+          {% for majorVersion in entriesByMajorVersion reversed %}
+            {% assign majorVersionSorted = majorVersion.items | sort:"minor" %}
+            {% for oldentry in majorVersionSorted reversed %}
+            {% if oldentry != entry %}
+            <a href="{{ project.name }}-{{ oldentry.version }}/index.html">{{ oldentry.version }}</a>
+            {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div class="flush"></div>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
+
