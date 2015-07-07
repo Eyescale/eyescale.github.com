@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['lunchbox_20api_20documentation',['Lunchbox API Documentation',['../index.html',1,'']]],
   ['launcher',['Launcher',['../classlunchbox_1_1_launcher.html',1,'lunchbox']]],
   ['lb_5fmax',['LB_MAX',['../types_8h.html#ad68ab8ea456ab30b7bdfe17ec3d4eb33',1,'types.h']]],
   ['lb_5fmax_5fuint32',['LB_MAX_UINT32',['../types_8h.html#a3b1b0b72ecd87e86483d8684aa2b9a0f',1,'types.h']]],
@@ -10,6 +9,7 @@ var searchData=
   ['lb_5fundefined_5fuint16',['LB_UNDEFINED_UINT16',['../types_8h.html#ab13e3fc319bb42e552f679425f0b3dd7',1,'types.h']]],
   ['lb_5fundefined_5fuint32',['LB_UNDEFINED_UINT32',['../types_8h.html#a6c534b359ad7f231cc88d62cc8b48f3f',1,'types.h']]],
   ['lb_5fundefined_5fuint64',['LB_UNDEFINED_UINT64',['../types_8h.html#a5fc3714d3be39f82194604200f0830ea',1,'types.h']]],
+  ['lbdebug',['LBDEBUG',['../log_8h.html#a9c965bb2cc6418eef306fc94a73ee192',1,'log.h']]],
   ['lberror',['LBERROR',['../log_8h.html#a92e4d12e3e46c1bfc6621841912c1244',1,'log.h']]],
   ['lbinfo',['LBINFO',['../log_8h.html#a4aa7eab491821715f6b2913196d60e92',1,'log.h']]],
   ['lblog',['LBLOG',['../log_8h.html#affdf07fed2dd75e991e08606bd88eb68',1,'log.h']]],
@@ -35,6 +35,7 @@ var searchData=
   ['log_5fany',['LOG_ANY',['../namespacelunchbox.html#a68115890651a788f5e8e38de12cc6682aaea6b56f6b96fa283b7cd52f0ff290e7',1,'lunchbox']]],
   ['log_5fbug',['LOG_BUG',['../namespacelunchbox.html#a68115890651a788f5e8e38de12cc6682a4cf8ca5e48db7e7503c7673fa99c45f8',1,'lunchbox']]],
   ['log_5fcustom',['LOG_CUSTOM',['../namespacelunchbox.html#a68115890651a788f5e8e38de12cc6682a3b62a7d6b3fc0b0d52499cf839247209',1,'lunchbox']]],
+  ['log_5fdebug',['LOG_DEBUG',['../namespacelunchbox.html#ae68656dc67ec561fdc56a0f06f3bb99da66499fbe0386413650c9c18c0f4d777c',1,'lunchbox']]],
   ['log_5ferror',['LOG_ERROR',['../namespacelunchbox.html#ae68656dc67ec561fdc56a0f06f3bb99da872a7f262c105038340247a341de8c4d',1,'lunchbox']]],
   ['log_5fexception',['LOG_EXCEPTION',['../namespacelunchbox.html#a68115890651a788f5e8e38de12cc6682adabe255430653f57ca46749e73c00c22',1,'lunchbox']]],
   ['log_5finfo',['LOG_INFO',['../namespacelunchbox.html#ae68656dc67ec561fdc56a0f06f3bb99dae146d2ab02b18351aadceb180fac4b60',1,'lunchbox']]],
@@ -42,7 +43,6 @@ var searchData=
   ['log_5fwarn',['LOG_WARN',['../namespacelunchbox.html#ae68656dc67ec561fdc56a0f06f3bb99da7bda497438ca08d2edb7bf3fed525da9',1,'lunchbox']]],
   ['loglevel',['LogLevel',['../namespacelunchbox.html#ae68656dc67ec561fdc56a0f06f3bb99d',1,'lunchbox']]],
   ['logtopic',['LogTopic',['../namespacelunchbox.html#a68115890651a788f5e8e38de12cc6682',1,'lunchbox']]],
-  ['low',['low',['../classlunchbox_1_1uint128__t.html#ad523173c8e420c6f56e00cf957526479',1,'lunchbox::uint128_t::low() const '],['../classlunchbox_1_1uint128__t.html#abfdac13d891e8599e5ad8d7acf58ed05',1,'lunchbox::uint128_t::low()']]],
   ['lunchbox',['lunchbox',['../namespacelunchbox.html',1,'']]],
   ['lunchbox_5fversion_5fabi',['LUNCHBOX_VERSION_ABI',['../version_8h.html#a1cbb00de2dcddcc6442e7b4e45dfff80',1,'version.h']]],
   ['lunchbox_5fversion_5fge',['LUNCHBOX_VERSION_GE',['../version_8h.html#ae81f3777fa89007c263878310b11c5a3',1,'version.h']]],

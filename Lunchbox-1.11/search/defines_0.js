@@ -8,6 +8,7 @@ var searchData=
   ['lb_5fundefined_5fuint16',['LB_UNDEFINED_UINT16',['../types_8h.html#ab13e3fc319bb42e552f679425f0b3dd7',1,'types.h']]],
   ['lb_5fundefined_5fuint32',['LB_UNDEFINED_UINT32',['../types_8h.html#a6c534b359ad7f231cc88d62cc8b48f3f',1,'types.h']]],
   ['lb_5fundefined_5fuint64',['LB_UNDEFINED_UINT64',['../types_8h.html#a5fc3714d3be39f82194604200f0830ea',1,'types.h']]],
+  ['lbdebug',['LBDEBUG',['../log_8h.html#a9c965bb2cc6418eef306fc94a73ee192',1,'log.h']]],
   ['lberror',['LBERROR',['../log_8h.html#a92e4d12e3e46c1bfc6621841912c1244',1,'log.h']]],
   ['lbinfo',['LBINFO',['../log_8h.html#a4aa7eab491821715f6b2913196d60e92',1,'log.h']]],
   ['lblog',['LBLOG',['../log_8h.html#affdf07fed2dd75e991e08606bd88eb68',1,'log.h']]],

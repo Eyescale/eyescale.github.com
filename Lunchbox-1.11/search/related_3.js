@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['perthreaddelete',['perThreadDelete',['../classlunchbox_1_1_log.html#a6d30627d312d8eb53f54a87a798f023b',1,'lunchbox::Log']]]
+  ['unsafe_5fany_5fcast',['unsafe_any_cast',['../classlunchbox_1_1_any.html#a390278691df87bff430e531520eb0d0d',1,'lunchbox::Any']]]
 ];

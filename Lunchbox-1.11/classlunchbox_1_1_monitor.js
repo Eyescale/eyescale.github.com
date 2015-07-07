@@ -4,7 +4,7 @@ var classlunchbox_1_1_monitor =
     [ "Monitor", "classlunchbox_1_1_monitor.html#aa108ccf33c8deae93297083560397e14", null ],
     [ "Monitor", "classlunchbox_1_1_monitor.html#a44bc656d09f783f29afca1ae7a8bf909", null ],
     [ "~Monitor", "classlunchbox_1_1_monitor.html#ad5de0e0cafc67308ffb77db7630df952", null ],
-    [ "Monitor", "classlunchbox_1_1_monitor.html#a7f852b93dac021ecaa53885d035b222f", null ],
+    [ "Monitor", "classlunchbox_1_1_monitor.html#a1ca7b24ee80af582478e582da8652d68", null ],
     [ "get", "classlunchbox_1_1_monitor.html#a4f65b15236944dee768f06d25e441005", null ],
     [ "operator bool_t", "classlunchbox_1_1_monitor.html#a3f6d88d90dd36bde8517da9beb7a2125", null ],
     [ "operator!=", "classlunchbox_1_1_monitor.html#a004eef555234c1bd22c3c326a4e1be75", null ],

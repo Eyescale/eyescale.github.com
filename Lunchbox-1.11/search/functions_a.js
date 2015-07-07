@@ -7,6 +7,5 @@ var searchData=
   ['load',['load',['../classlunchbox_1_1_plugin_factory.html#a98ffa8135d235ffd114476e80776fe22',1,'lunchbox::PluginFactory']]],
   ['loadany',['loadAny',['../namespacelunchbox.html#ae74a941f06e7a7c383a9e674a5f83d4b',1,'lunchbox']]],
   ['lock',['lock',['../classlunchbox_1_1_condition.html#ab9de310e9e06c6af655622f2538e47ca',1,'lunchbox::Condition::lock()'],['../classlunchbox_1_1_lock.html#a6c6f4ebc57ccf108313d2a3a460b400d',1,'lunchbox::Lock::Lock()']]],
-  ['lockable',['Lockable',['../classlunchbox_1_1_lockable.html#a545266d20a7a99f623ef34eea1d86c08',1,'lunchbox::Lockable::Lockable()'],['../classlunchbox_1_1_lockable.html#ad09578bf94a32b3fa346124cd8e1a7b6',1,'lunchbox::Lockable::Lockable(const D &amp;value)'],['../classlunchbox_1_1_lockable.html#ab913952bac275dcfbd74c8d5fdf052c6',1,'lunchbox::Lockable::Lockable(const P1 &amp;p1)']]],
-  ['low',['low',['../classlunchbox_1_1uint128__t.html#ad523173c8e420c6f56e00cf957526479',1,'lunchbox::uint128_t::low() const '],['../classlunchbox_1_1uint128__t.html#abfdac13d891e8599e5ad8d7acf58ed05',1,'lunchbox::uint128_t::low()']]]
+  ['lockable',['Lockable',['../classlunchbox_1_1_lockable.html#a545266d20a7a99f623ef34eea1d86c08',1,'lunchbox::Lockable::Lockable()'],['../classlunchbox_1_1_lockable.html#ad09578bf94a32b3fa346124cd8e1a7b6',1,'lunchbox::Lockable::Lockable(const D &amp;value)'],['../classlunchbox_1_1_lockable.html#ab913952bac275dcfbd74c8d5fdf052c6',1,'lunchbox::Lockable::Lockable(const P1 &amp;p1)']]]
 ];

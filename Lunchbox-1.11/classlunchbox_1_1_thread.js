@@ -17,7 +17,6 @@ var classlunchbox_1_1_thread =
     [ "isRunning", "classlunchbox_1_1_thread.html#ad344d16f1779a735472a93504d4fc2d1", null ],
     [ "isStopped", "classlunchbox_1_1_thread.html#ac092d27b5ef93b90f70756cd3ef97805", null ],
     [ "join", "classlunchbox_1_1_thread.html#a237b26381c30e393d697dda3d9c7a24e", null ],
-    [ "pinCurrentThread", "classlunchbox_1_1_thread.html#a7bf09e300ec47dd5b43d70bdaa352a75", null ],
     [ "run", "classlunchbox_1_1_thread.html#a83d5f979e5054e3900c360416652bca6", null ],
     [ "setAffinity", "classlunchbox_1_1_thread.html#aa696cc4be85c03f6e64a72c1e554ec46", null ],
     [ "setName", "classlunchbox_1_1_thread.html#abec21c9c101809146e6a845cd34ad838", null ],

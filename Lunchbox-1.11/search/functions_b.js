@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['make_5fuint128',['make_uint128',['../namespacelunchbox.html#a2bf60b0eb4737576505a404b129cba47',1,'lunchbox::make_uint128(const char *string)'],['../namespacelunchbox.html#a85f894dbf18d9ce6b5c186a02bd9ac6c',1,'lunchbox::make_uint128(const std::string &amp;string)']]],
-  ['make_5fuuid',['make_UUID',['../namespacelunchbox.html#a94de31efc9fed4a5ab6c77d027e28836',1,'lunchbox']]],
   ['makefalsefuture',['makeFalseFuture',['../namespacelunchbox.html#aa02b78510b26b8f01c43a1a4f16e85c6',1,'lunchbox']]],
   ['maketruefuture',['makeTrueFuture',['../namespacelunchbox.html#a668605a2d7946e36f1996eeac85ae66e',1,'lunchbox']]],
   ['map',['map',['../classlunchbox_1_1_memory_map.html#a6dfa6a62163224dda0e28a1e46d5c983',1,'lunchbox::MemoryMap']]],

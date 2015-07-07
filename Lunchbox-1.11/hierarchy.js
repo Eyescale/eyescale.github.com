@@ -27,7 +27,6 @@ var hierarchy =
       [ "lunchbox::TimedLock", "classlunchbox_1_1_timed_lock.html", null ],
       [ "lunchbox::TLS", "classlunchbox_1_1_t_l_s.html", null ]
     ] ],
-    [ "hash< lunchbox::uint128_t >", "structhash_3_01lunchbox_1_1uint128__t_01_4.html", null ],
     [ "lunchbox::Any", "classlunchbox_1_1_any.html", null ],
     [ "lunchbox::Array< T >", "classlunchbox_1_1_array.html", null ],
     [ "lunchbox::Atomic< T >", "classlunchbox_1_1_atomic.html", null ],
@@ -57,16 +56,11 @@ var hierarchy =
       [ "lunchbox::FutureImpl< T >", "classlunchbox_1_1_future_impl.html", null ]
     ] ],
     [ "lunchbox::RefPtr< T >", "classlunchbox_1_1_ref_ptr.html", null ],
-    [ "lunchbox::Result", "classlunchbox_1_1_result.html", [
-      [ "lunchbox::Servus::Result", "classlunchbox_1_1_servus_1_1_result.html", null ]
-    ] ],
+    [ "lunchbox::Result", "classlunchbox_1_1_result.html", null ],
     [ "lunchbox::ScopedMutex< L, T >", "classlunchbox_1_1_scoped_mutex.html", null ],
-    [ "lunchbox::Servus", "classlunchbox_1_1_servus.html", null ],
     [ "lunchbox::Thread", "classlunchbox_1_1_thread.html", null ],
     [ "lunchbox::ThreadID", "classlunchbox_1_1_thread_i_d.html", null ],
-    [ "lunchbox::uint128_t", "classlunchbox_1_1uint128__t.html", null ],
     [ "lunchbox::UnorderedIntervalSet< T >", "classlunchbox_1_1_unordered_interval_set.html", null ],
-    [ "lunchbox::URI", "classlunchbox_1_1_u_r_i.html", null ],
     [ "lunchbox::Version", "classlunchbox_1_1_version.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< T > >", "classlunchbox_1_1_ref_ptr.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< void > >", "classlunchbox_1_1_ref_ptr.html", null ],
@@ -96,5 +90,11 @@ var hierarchy =
         [ "lunchbox::LFVectorIterator< V, T >", "classlunchbox_1_1_l_f_vector_iterator.html", null ]
       ] ],
       [ "lunchbox::IndexIterator< S, C, T >", "classlunchbox_1_1_index_iterator.html", null ]
+    ] ],
+    [ "unordered_map", null, [
+      [ "hash_map< K, T, H, P, A >", "classhash__map.html", null ]
+    ] ],
+    [ "unordered_set", null, [
+      [ "hash_set< T, H, P, A >", "classhash__set.html", null ]
     ] ]
 ];

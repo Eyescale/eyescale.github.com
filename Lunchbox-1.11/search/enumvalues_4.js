@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['socket',['SOCKET',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275af8d8d241627e0789e9034cd0ffeb7a57',1,'lunchbox::Thread']]],
-  ['socket_5fmax',['SOCKET_MAX',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275a5402e43e4c126064aeea8f7bdd3e9e1d',1,'lunchbox::Thread']]]
+  ['traverse_5fcontinue',['TRAVERSE_CONTINUE',['../namespacelunchbox.html#aca78acf5551966f165963ad82d1adf55ae20fab5a481d9c70ad75aeb0718943ee',1,'lunchbox']]],
+  ['traverse_5fprune',['TRAVERSE_PRUNE',['../namespacelunchbox.html#aca78acf5551966f165963ad82d1adf55a5d37372e6aebd173927d49e263895233',1,'lunchbox']]],
+  ['traverse_5fterminate',['TRAVERSE_TERMINATE',['../namespacelunchbox.html#aca78acf5551966f165963ad82d1adf55a26dbc17a6354462cd98610242c693728',1,'lunchbox']]]
 ];

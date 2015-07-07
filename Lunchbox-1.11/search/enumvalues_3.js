@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['none',['NONE',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275ad2a05346cca184ddfbe0d15ac49f7bb8',1,'lunchbox::Thread']]]
+  ['socket',['SOCKET',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275af8d8d241627e0789e9034cd0ffeb7a57',1,'lunchbox::Thread']]],
+  ['socket_5fmax',['SOCKET_MAX',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275a5402e43e4c126064aeea8f7bdd3e9e1d',1,'lunchbox::Thread']]]
 ];

@@ -15,7 +15,7 @@ var files =
     [ "daemon.h", "daemon_8h_source.html", null ],
     [ "debug.h", "debug_8h_source.html", null ],
     [ "defines.h", "defines_8h.html", null ],
-    [ "definesDarwin.h", "defines_darwin_8h_source.html", null ],
+    [ "definesLinux.h", "defines_linux_8h_source.html", null ],
     [ "dso.h", "dso_8h_source.html", null ],
     [ "file.h", "file_8h_source.html", null ],
     [ "future.h", "future_8h_source.html", null ],

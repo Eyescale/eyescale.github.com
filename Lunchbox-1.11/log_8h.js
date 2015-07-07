@@ -1,6 +1,7 @@
 var log_8h =
 [
     [ "Log", "classlunchbox_1_1_log.html", "classlunchbox_1_1_log" ],
+    [ "LBDEBUG", "log_8h.html#a9c965bb2cc6418eef306fc94a73ee192", null ],
     [ "LBERROR", "log_8h.html#a92e4d12e3e46c1bfc6621841912c1244", null ],
     [ "LBINFO", "log_8h.html#a4aa7eab491821715f6b2913196d60e92", null ],
     [ "LBLOG", "log_8h.html#affdf07fed2dd75e991e08606bd88eb68", null ],
@@ -11,6 +12,7 @@ var log_8h =
       [ "LOG_ERROR", "log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99da872a7f262c105038340247a341de8c4d", null ],
       [ "LOG_WARN", "log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99da7bda497438ca08d2edb7bf3fed525da9", null ],
       [ "LOG_INFO", "log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99dae146d2ab02b18351aadceb180fac4b60", null ],
+      [ "LOG_DEBUG", "log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99da66499fbe0386413650c9c18c0f4d777c", null ],
       [ "LOG_VERB", "log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99da6c14877cc6a7c9e0667eabc23851d86c", null ],
       [ "LOG_ALL", "log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99da92aee711b257d6147b5c7c8eb8fb3e56", null ]
     ] ],
