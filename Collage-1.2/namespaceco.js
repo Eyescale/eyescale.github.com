@@ -35,7 +35,7 @@ var namespaceco =
     [ "QueueSlave", "classco_1_1_queue_slave.html", "classco_1_1_queue_slave" ],
     [ "SendToken", "classco_1_1_send_token.html", "classco_1_1_send_token" ],
     [ "Serializable", "classco_1_1_serializable.html", "classco_1_1_serializable" ],
-    [ "Version", "classco_1_1_version.html", "classco_1_1_version" ],
     [ "WorkerThread", "classco_1_1_worker_thread.html", "classco_1_1_worker_thread" ],
+    [ "Version", "classco_1_1_version.html", "classco_1_1_version" ],
     [ "Zeroconf", "classco_1_1_zeroconf.html", "classco_1_1_zeroconf" ]
 ];

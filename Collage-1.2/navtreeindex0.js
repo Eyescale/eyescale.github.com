@@ -52,7 +52,7 @@ var NAVTREEINDEX0 =
 "classco_1_1_command_func.html#a4eab5bf662811e2e0c79dd29c3294dde":[7,0,0,4,4],
 "classco_1_1_command_func.html#a5bc722f932cff06281a2c938c7fbbbdb":[7,0,0,4,6],
 "classco_1_1_command_func.html#a5f09f0604a823920d21625f8024a6abc":[7,0,0,4,1],
-"classco_1_1_command_func.html#ac80c954cc4f899aeb9b450adb0d3c8de":[7,0,0,4,5],
+"classco_1_1_command_func.html#a9bedec9cd49c51227ea2968cfe0188ed":[7,0,0,4,5],
 "classco_1_1_command_queue.html":[7,0,0,5],
 "classco_1_1_command_queue.html#a19059e5bd7840665382bdbcd72f5291e":[7,0,0,5,11],
 "classco_1_1_command_queue.html#a4cf639cffa1b887bd0ad26f80a4c96c3":[7,0,0,5,3],
@@ -208,11 +208,9 @@ var NAVTREEINDEX0 =
 "classco_1_1_data_i_stream.html#afc83473ea3d43284309549e69806261f":[7,0,0,11,5],
 "classco_1_1_data_i_stream_archive.html":[7,0,0,12],
 "classco_1_1_data_i_stream_archive.html#a5ed97c661fb59a92cb0224deebdd51c4":[7,0,0,12,1],
-"classco_1_1_data_i_stream_archive.html#a845c68b27fad4e346118aece5fc94c66":[7,0,0,12,6],
-"classco_1_1_data_i_stream_archive.html#a879ca0407ff5406640dfe226d0a02ae8":[7,0,0,12,5],
-"classco_1_1_data_i_stream_archive.html#ab05d3414978027d962904287d5a7bb61":[7,0,0,12,3],
-"classco_1_1_data_i_stream_archive.html#ae04f944757903bc68b8de316ef06978a":[7,0,0,12,2],
-"classco_1_1_data_i_stream_archive.html#aebb377a09ed7493815655c91606e5b2b":[7,0,0,12,4],
+"classco_1_1_data_i_stream_archive.html#a845c68b27fad4e346118aece5fc94c66":[7,0,0,12,4],
+"classco_1_1_data_i_stream_archive.html#a879ca0407ff5406640dfe226d0a02ae8":[7,0,0,12,3],
+"classco_1_1_data_i_stream_archive.html#aebb377a09ed7493815655c91606e5b2b":[7,0,0,12,2],
 "classco_1_1_data_o_stream.html":[7,0,0,13],
 "classco_1_1_data_o_stream.html#a039f4e81b084b95691e36ca540f910e4":[7,0,0,13,40],
 "classco_1_1_data_o_stream.html#a07653ad66b8cd3c90732a00ad357b70d":[7,0,0,13,30],
@@ -249,5 +247,7 @@ var NAVTREEINDEX0 =
 "classco_1_1_data_o_stream.html#ab29e26c1160b772fab6e861f8331e0ea":[7,0,0,13,44],
 "classco_1_1_data_o_stream.html#abbe64aeb56843c78188ddfc08a76b19d":[7,0,0,13,37],
 "classco_1_1_data_o_stream.html#abd59f2c1bab4826d83756696ed3acca5":[7,0,0,13,27],
-"classco_1_1_data_o_stream.html#accc955744a11f5a6058aee355c0bf512":[7,0,0,13,43]
+"classco_1_1_data_o_stream.html#accc955744a11f5a6058aee355c0bf512":[7,0,0,13,43],
+"classco_1_1_data_o_stream.html#ad4eea48a07238b49178b7e7e4a5b09e9":[7,0,0,13,7],
+"classco_1_1_data_o_stream.html#ad8bd37ebab9fa6319721f4b64d801f92":[7,0,0,13,32]
 };
