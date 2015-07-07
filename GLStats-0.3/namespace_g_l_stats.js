@@ -6,5 +6,5 @@ var namespace_g_l_stats =
     [ "Renderer", "class_g_l_stats_1_1_renderer.html", "class_g_l_stats_1_1_renderer" ],
     [ "Thread", "struct_g_l_stats_1_1_thread.html", "struct_g_l_stats_1_1_thread" ],
     [ "Type", "struct_g_l_stats_1_1_type.html", "struct_g_l_stats_1_1_type" ],
-    [ "Version", "class_g_l_stats_1_1_version.html", null ]
+    [ "Version", "class_g_l_stats_1_1_version.html", "class_g_l_stats_1_1_version" ]
 ];

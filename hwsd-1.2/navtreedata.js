@@ -11,10 +11,9 @@ var NAVTREE =
     [ "Projects using HW-SD", "index.html#Projects", null ],
     [ "Further Links", "index.html#Links", null ],
     [ "Changes", "index.html#Changes", [
-      [ "Version 1.2", "index.html#Changes12", null ],
-      [ "Version 1.1", "index.html#Changes11", null ]
+      [ "Version 1.2 (7-Jun-2015)", "index.html#Changes12", null ],
+      [ "Version 1.1 (7-Oct-2014)", "index.html#Changes11", null ]
     ] ],
-    [ "RelNotes", "md___users_eilemann__software__buildyard_config_8bbp_hwsd_doc__rel_notes.html", null ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],

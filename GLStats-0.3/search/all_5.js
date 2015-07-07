@@ -14,5 +14,14 @@ var searchData=
   ['gettype',['getType',['../class_g_l_stats_1_1_data.html#a1b036c1c68a7a130db05e82170f20d54',1,'GLStats::Data']]],
   ['gettypes',['getTypes',['../class_g_l_stats_1_1_data.html#ae240af4a83e6f562c8f9c25a5f498021',1,'GLStats::Data']]],
   ['glstats',['GLStats',['../namespace_g_l_stats.html',1,'']]],
+  ['glstats_5fversion_5fabi',['GLSTATS_VERSION_ABI',['../version_8h.html#a5e838d7ea8417ed966fd709a78a05a66',1,'version.h']]],
+  ['glstats_5fversion_5fge',['GLSTATS_VERSION_GE',['../version_8h.html#a5d8c09f45531ce0abf4d0607cf865d88',1,'version.h']]],
+  ['glstats_5fversion_5fgt',['GLSTATS_VERSION_GT',['../version_8h.html#a7e12bd441bcdb68e084f22a2a6f004f1',1,'version.h']]],
+  ['glstats_5fversion_5fle',['GLSTATS_VERSION_LE',['../version_8h.html#ab160695d3476339af0bb2c3909401c97',1,'version.h']]],
+  ['glstats_5fversion_5flt',['GLSTATS_VERSION_LT',['../version_8h.html#a72584269bce7867f187071b204ae4bd2',1,'version.h']]],
+  ['glstats_5fversion_5fmajor',['GLSTATS_VERSION_MAJOR',['../version_8h.html#a7a1609591bbf3d60556502da7ca3af55',1,'version.h']]],
+  ['glstats_5fversion_5fminor',['GLSTATS_VERSION_MINOR',['../version_8h.html#ac093fde7b83285254cdbd2fee8570056',1,'version.h']]],
+  ['glstats_5fversion_5fpatch',['GLSTATS_VERSION_PATCH',['../version_8h.html#ae06632167cc82b5de51e8da98a045ee9',1,'version.h']]],
+  ['glstats_5fversion_5frevision',['GLSTATS_VERSION_REVISION',['../version_8h.html#a8cc96b7fd7d4e1f74764d204e157370b',1,'version.h']]],
   ['group',['group',['../struct_g_l_stats_1_1_type.html#a8393bf071342e3fc3d9add9008c76e61',1,'GLStats::Type']]]
 ];
