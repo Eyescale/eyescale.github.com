@@ -2,8 +2,8 @@ var classeq_1_1util_1_1_texture =
 [
     [ "Texture", "classeq_1_1util_1_1_texture.html#a9555af8906e408f8a8c7286b4a170036", null ],
     [ "~Texture", "classeq_1_1util_1_1_texture.html#ad7ca81ca7d13aa5765b958d7d83c1245", null ],
-    [ "applyWrap", "classeq_1_1util_1_1_texture.html#a4b26cb5558a3f671613bb513d07fe469", null ],
-    [ "applyZoomFilter", "classeq_1_1util_1_1_texture.html#a12e776b6de5ef66f3b00d7680cccefa3", null ],
+    [ "applyWrap", "classeq_1_1util_1_1_texture.html#a9f2245d87623bd7ee3058f963eabc973", null ],
+    [ "applyZoomFilter", "classeq_1_1util_1_1_texture.html#a6e433b2c7eaa0ee4fa615cf7caf85071", null ],
     [ "bind", "classeq_1_1util_1_1_texture.html#af703d0cc44ae09b57ef2714ec1c941d9", null ],
     [ "bindToFBO", "classeq_1_1util_1_1_texture.html#a85c5af225f9a7590823a757858a9ac92", null ],
     [ "copyFromFrameBuffer", "classeq_1_1util_1_1_texture.html#aa3bb3588666cfebca69cdd7d1aedef44", null ],

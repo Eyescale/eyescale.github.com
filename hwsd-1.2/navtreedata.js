@@ -11,6 +11,7 @@ var NAVTREE =
     [ "Projects using HW-SD", "index.html#Projects", null ],
     [ "Further Links", "index.html#Links", null ],
     [ "Changes", "index.html#Changes", [
+      [ "git master", "index.html#master", null ],
       [ "Version 1.2 (7-Jun-2015)", "index.html#Changes12", null ],
       [ "Version 1.1 (7-Oct-2014)", "index.html#Changes11", null ]
     ] ],
@@ -38,7 +39,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-".html"
+".html",
+"net_2sys_2version_8h.html#a8114f537ab68f4163ab0fab03de78faf"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

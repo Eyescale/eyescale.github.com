@@ -6,6 +6,8 @@ var classco_1_1_data_o_stream_archive =
     [ "DataOStreamArchive", "classco_1_1_data_o_stream_archive.html#a98e1aa5118f17e5906f6f1472f44cf4d", null ],
     [ "save", "classco_1_1_data_o_stream_archive.html#a5999d7892016fb53b255bbf0f524e176", null ],
     [ "save", "classco_1_1_data_o_stream_archive.html#ad401c22d3ed12abc8c82d00d7ce055fd", null ],
+    [ "save", "classco_1_1_data_o_stream_archive.html#ad401c22d3ed12abc8c82d00d7ce055fd", null ],
+    [ "save", "classco_1_1_data_o_stream_archive.html#a3625c24392a185ae5389153a18baf1f5", null ],
     [ "save", "classco_1_1_data_o_stream_archive.html#a3625c24392a185ae5389153a18baf1f5", null ],
     [ "save_array", "classco_1_1_data_o_stream_archive.html#a8fda7a8aa78e6162e1fa55d75ad3ae75", null ],
     [ "save_array", "classco_1_1_data_o_stream_archive.html#a8fda7a8aa78e6162e1fa55d75ad3ae75", null ],

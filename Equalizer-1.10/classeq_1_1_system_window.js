@@ -6,6 +6,7 @@ var classeq_1_1_system_window =
     [ "bindFrameBuffer", "classeq_1_1_system_window.html#a4da5e10ee038ef7fd1527b366c6471fe", null ],
     [ "configExit", "classeq_1_1_system_window.html#ab0dac0408016b13d3e680706d19f3a14", null ],
     [ "configInit", "classeq_1_1_system_window.html#ac4931aa0dcd232b19680622a2e0d5dea", null ],
+    [ "doneCurrent", "classeq_1_1_system_window.html#abbc51a15f9d32e9eefc00f9a2613423c", null ],
     [ "finish", "classeq_1_1_system_window.html#a1cbcc919db60a809a9be3c26f23e5f87", null ],
     [ "flush", "classeq_1_1_system_window.html#ac274fc5f05332661b0303e400869664b", null ],
     [ "getColorFormat", "classeq_1_1_system_window.html#a119d8a857a9f21cf50b3cc33ade88b97", null ],

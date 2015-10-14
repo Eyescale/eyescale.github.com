@@ -20,7 +20,7 @@ var classeq_1_1_config =
     [ "getErrors", "classeq_1_1_config.html#abbc863e212eaf7f45462e5912f5439cb", null ],
     [ "getFinishedFrame", "classeq_1_1_config.html#a7368d87a3b6c6b7b38ead8e41fc28fd1", null ],
     [ "getMainThreadQueue", "classeq_1_1_config.html#a7db5a3cee74c0bf98c42c21de24d5637", null ],
-    [ "getMessagePump", "classeq_1_1_config.html#a3cad43712d74cd70fc71685e1a76479e", null ],
+    [ "getMessagePump", "classeq_1_1_config.html#a7d2aa276ab3a62d024fd1cc868bf8c1e", null ],
     [ "getNextEvent", "classeq_1_1_config.html#a2b6bbaa0f874dc742510f996a1211d70", null ],
     [ "getStatistics", "classeq_1_1_config.html#a06430a5486cf1d9783de7e0a06d2fadc", null ],
     [ "getTime", "classeq_1_1_config.html#aa69c4896e802b06de4b11338df206bbe", null ],

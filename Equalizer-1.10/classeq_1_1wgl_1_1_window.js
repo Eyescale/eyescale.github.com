@@ -12,6 +12,7 @@ var classeq_1_1wgl_1_1_window =
     [ "createWGLContext", "classeq_1_1wgl_1_1_window.html#a1e8bcad2b38c167c76ec5cf79923b636", null ],
     [ "createWGLDisplayDC", "classeq_1_1wgl_1_1_window.html#a74829863a1da1edc138109571739104f", null ],
     [ "destroyWGLContext", "classeq_1_1wgl_1_1_window.html#accb0dde5e1eb8694a60439d0622fd7b9", null ],
+    [ "doneCurrent", "classeq_1_1wgl_1_1_window.html#a84906f92db230d467ce471d639f17376", null ],
     [ "exitEventHandler", "classeq_1_1wgl_1_1_window.html#a89a3ed89cba0c79d744a3faf0fd5b2d7", null ],
     [ "exitWGLAffinityDC", "classeq_1_1wgl_1_1_window.html#a67e479ea26faa2f58e0c10d283c58391", null ],
     [ "getWGLAffinityDC", "classeq_1_1wgl_1_1_window.html#a1c372c09ecc4e58e6fb562e5e2f51ad0", null ],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['version',['version',['../structco_1_1_object_version.html#a9c2cb2e325c49c1fb856d74c730ad563',1,'co::ObjectVersion']]]
+  ['type',['type',['../classco_1_1_connection_description.html#a09a58e93a477bb31806d0d972506b980',1,'co::ConnectionDescription']]]
 ];

@@ -1,5 +1,15 @@
 var NAVTREEINDEX3 =
 {
+"classeq_1_1fabric_1_1_canvas.html#af0ff485cf96719b2a802cdd43b1e37f0":[6,0,0,0,0,27],
+"classeq_1_1fabric_1_1_canvas.html#af8784510d513b46d6a17981dbda687ca":[6,0,0,0,0,2],
+"classeq_1_1fabric_1_1_canvas.html#afba34d60aae57b7eaac4cdba2616ec4c":[6,0,0,0,0,19],
+"classeq_1_1fabric_1_1_canvas.html#afeac1e56f40d6538fcbfc298438c204c":[6,0,0,0,0,12],
+"classeq_1_1fabric_1_1_canvas.html#affe95b4bbe1909168fca3eaa2bfef1d8":[6,0,0,0,0,6],
+"classeq_1_1fabric_1_1_channel.html":[6,0,0,0,1],
+"classeq_1_1fabric_1_1_channel.html#a070db2845bfdab8a7ff696fd68cf48e6":[6,0,0,0,1,66],
+"classeq_1_1fabric_1_1_channel.html#a0a786b8cf66393ebe4633405df1469f2":[6,0,0,0,1,12],
+"classeq_1_1fabric_1_1_channel.html#a0c986a8eca7a82df6f7b05324fc92554":[6,0,0,0,1,30],
+"classeq_1_1fabric_1_1_channel.html#a0f1854b0407fd8bf1b67019addcd20b5":[6,0,0,0,1,48],
 "classeq_1_1fabric_1_1_channel.html#a12c18e0d277dc35920e4ca8941f5f63b":[6,0,0,0,1,34],
 "classeq_1_1fabric_1_1_channel.html#a12d825673baf323b931e560a28114290":[6,0,0,0,1,33],
 "classeq_1_1fabric_1_1_channel.html#a1885ef51b70bee3b8e1d099ca7487ff7":[6,0,0,0,1,16],
@@ -239,15 +249,5 @@ var NAVTREEINDEX3 =
 "classeq_1_1fabric_1_1_equalizer.html#a999a437f685cecaab8b6acf84ecdc8dca301730daff1a082e76e68fe15300c6b2":[6,0,0,0,9,0,2],
 "classeq_1_1fabric_1_1_equalizer.html#a999a437f685cecaab8b6acf84ecdc8dca8b28472851595c7adbb8802e86344033":[6,0,0,0,9,0,1],
 "classeq_1_1fabric_1_1_equalizer.html#a999a437f685cecaab8b6acf84ecdc8dcaa8eac02eeea34721bb480d062d1c54dd":[6,0,0,0,9,0,0],
-"classeq_1_1fabric_1_1_equalizer.html#ab20968470a5ec74387335b96bce12bfd":[6,0,0,0,9,9],
-"classeq_1_1fabric_1_1_equalizer.html#ab42ed1d44eabfd466bdd12edb2b26787":[6,0,0,0,9,24],
-"classeq_1_1fabric_1_1_equalizer.html#aba32a5a69f1440ecc390a5fc08b800ab":[6,0,0,0,9,15],
-"classeq_1_1fabric_1_1_equalizer.html#aba8ac97d81b1f1465e08f4a8c989c493":[6,0,0,0,9,5],
-"classeq_1_1fabric_1_1_equalizer.html#ac60ae8b880a30d812b4894d36814cb69":[6,0,0,0,9,28],
-"classeq_1_1fabric_1_1_equalizer.html#ad25f4bfee88e38dcdf8016b539803395":[6,0,0,0,9,23],
-"classeq_1_1fabric_1_1_equalizer.html#ad4f083e484b23f7817b46d3630e866b4":[6,0,0,0,9,7],
-"classeq_1_1fabric_1_1_equalizer.html#ad69452b841a113caf22f07e60c19f9bf":[6,0,0,0,9,16],
-"classeq_1_1fabric_1_1_equalizer.html#ad9b960bd145cf9943748e71240dca951":[6,0,0,0,9,2],
-"classeq_1_1fabric_1_1_equalizer.html#adab9356e577821f66f0e017c3d558500":[6,0,0,0,9,1],
-"classeq_1_1fabric_1_1_equalizer.html#ae557494d8a14d0a90048a0aa2faf8e59":[6,0,0,0,9,8]
+"classeq_1_1fabric_1_1_equalizer.html#ab20968470a5ec74387335b96bce12bfd":[6,0,0,0,9,9]
 };

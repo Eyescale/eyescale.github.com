@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['eigenvalue_5fcompare',['eigenvalue_compare',['../structvmml_1_1lapack__sym__eigs_1_1eigenvalue__compare.html',1,'vmml::lapack_sym_eigs']]],
-  ['eigs_5fparams',['eigs_params',['../structvmml_1_1lapack_1_1eigs__params.html',1,'vmml::lapack']]],
-  ['enable_5fif',['enable_if',['../structvmml_1_1enable__if.html',1,'vmml']]],
-  ['enable_5fif_3c_20false_2c_20t_20_3e',['enable_if&lt; false, T &gt;',['../structvmml_1_1enable__if_3_01false_00_01_t_01_4.html',1,'vmml']]],
-  ['except_5fhere',['except_here',['../structvmml_1_1except__here.html',1,'vmml']]],
-  ['exception',['exception',['../classvmml_1_1exception.html',1,'vmml']]]
+  ['get',['get',['../classvmml_1_1lowpass__filter.html#a908aa60fbf9a0b95fad1a585e35d7f2d',1,'vmml::lowpass_filter']]],
+  ['get_5fsub_5fvector',['get_sub_vector',['../classvmml_1_1vector.html#a6326c3823f4e6049e1901378f6bce1f8',1,'vmml::vector::get_sub_vector(size_t offset=0, typename enable_if&lt; M &gt;=N &gt;::type *=0)'],['../classvmml_1_1vector.html#ad999f422e8a553d81893138f9f830bb1',1,'vmml::vector::get_sub_vector(size_t offset=0, typename enable_if&lt; M &gt;=N &gt;::type *=0) const ']]]
 ];

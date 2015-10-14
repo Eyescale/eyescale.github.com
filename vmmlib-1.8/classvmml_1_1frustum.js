@@ -29,6 +29,7 @@ var classvmml_1_1frustum =
     [ "set_perspective", "classvmml_1_1frustum.html#af1bf2057eea8846b82c88fc071e97ce9", null ],
     [ "top", "classvmml_1_1frustum.html#a46b69e5f70af2f4a12e41829f6d4bccb", null ],
     [ "top", "classvmml_1_1frustum.html#ac3d2756461a9c35d7f30aee7311939ce", null ],
-    [ "VMMLIB_ALIGN", "classvmml_1_1frustum.html#a3d54cf7a641c23bdfb00e8399dbad8d8", null ],
-    [ "operator<<", "classvmml_1_1frustum.html#a5f8081d965bce529750f9f9a9debf5b0", null ]
+    [ "operator<<", "classvmml_1_1frustum.html#a5f8081d965bce529750f9f9a9debf5b0", null ],
+    [ "array", "classvmml_1_1frustum.html#ae5ae25d794e4cccf2339a4ab8475ea25", null ],
+    [ "DEFAULT", "classvmml_1_1frustum.html#ad20313712e27468ddcd5e53b9b34919b", null ]
 ];

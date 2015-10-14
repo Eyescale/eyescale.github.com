@@ -9,6 +9,7 @@ var classeq_1_1glx_1_1_window =
     [ "configInitGLXPBuffer", "classeq_1_1glx_1_1_window.html#af3f71f1bca03d763fe74b95aeb2abe84", null ],
     [ "configInitGLXWindow", "classeq_1_1glx_1_1_window.html#a10840a4b25636de3603d0230b67e8c6f", null ],
     [ "createGLXContext", "classeq_1_1glx_1_1_window.html#adbc6730e97f37e96bf273e58f6da891a", null ],
+    [ "doneCurrent", "classeq_1_1glx_1_1_window.html#abdf8a8d9845dd509fe068a66bc195977", null ],
     [ "exitEventHandler", "classeq_1_1glx_1_1_window.html#a28203e7bfa95fe3306fc3ea48cd282cc", null ],
     [ "getGLXContext", "classeq_1_1glx_1_1_window.html#a45d2c4f9bdcb3938e14cfefcecb08fe6", null ],
     [ "getXDisplay", "classeq_1_1glx_1_1_window.html#a145355b135f4b181df8f38f0da089d7d", null ],

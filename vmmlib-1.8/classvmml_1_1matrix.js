@@ -12,7 +12,8 @@ var classvmml_1_1matrix =
     [ "begin", "classvmml_1_1matrix.html#a55ba85b74fde366b9ceee77e8cd7987d", null ],
     [ "begin", "classvmml_1_1matrix.html#a42ddc287980701417ca83c6d4a299e2b", null ],
     [ "convolve", "classvmml_1_1matrix.html#ad597ecb0bef774c0be5986274214f61e", null ],
-    [ "direct_sum", "classvmml_1_1matrix.html#a0f7abf72ab6d11e3c20e43f8d0dcd5ce", null ],
+    [ "direct_sum", "classvmml_1_1matrix.html#a6b3652ddd78d113693f3f1a41a879acc", null ],
+    [ "direct_sum", "classvmml_1_1matrix.html#a3b856d6ed56046074c71949c79eab9c6", null ],
     [ "end", "classvmml_1_1matrix.html#a03e58854b2e84c878dd6e91c1f88f216", null ],
     [ "end", "classvmml_1_1matrix.html#ab9718c32f7a51d311c334e16cdb4b47b", null ],
     [ "equals", "classvmml_1_1matrix.html#afafbebcbfa62a6d5b0ebb68290a73a59", null ],
@@ -30,8 +31,9 @@ var classvmml_1_1matrix =
     [ "operator*", "classvmml_1_1matrix.html#a73f0f405b2ac53d76c7b04d8a3904077", null ],
     [ "operator*", "classvmml_1_1matrix.html#a5031100a8a7daa67e4c21bcbbf49f29c", null ],
     [ "operator*", "classvmml_1_1matrix.html#afc9b2c73e60b65a5a9a4f7a51a6f7bef", null ],
-    [ "operator*=", "classvmml_1_1matrix.html#a96520404fd9b6d924e0ec6a171be5b88", null ],
+    [ "operator*=", "classvmml_1_1matrix.html#af93e44bce5a66d35e0061356102315b0", null ],
     [ "operator*=", "classvmml_1_1matrix.html#a9fdfd4695b007d3af7190c514668ed53", null ],
+    [ "operator*=", "classvmml_1_1matrix.html#af93e44bce5a66d35e0061356102315b0", null ],
     [ "operator+", "classvmml_1_1matrix.html#ade46b37c506c724039a8f85b4b79b7bd", null ],
     [ "operator+=", "classvmml_1_1matrix.html#a177eafcbd5289a716ba29c2d4a878fb3", null ],
     [ "operator+=", "classvmml_1_1matrix.html#aafa0f703b563704340dbd9c55ae6e1df", null ],
@@ -47,5 +49,8 @@ var classvmml_1_1matrix =
     [ "rend", "classvmml_1_1matrix.html#a7bb38ba66b42ca1b9016c467c65fb957", null ],
     [ "rend", "classvmml_1_1matrix.html#a0a447012c9891aabe745d41792962b6a", null ],
     [ "tensor", "classvmml_1_1matrix.html#a0da2730ca48a3800fc69c867988b276e", null ],
-    [ "tensor", "classvmml_1_1matrix.html#a1619d8e3db19ee24cff22b5722b3db4b", null ]
+    [ "tensor", "classvmml_1_1matrix.html#a926592dbee3c0a9587a0a53db090f3ed", null ],
+    [ "tensor", "classvmml_1_1matrix.html#a926592dbee3c0a9587a0a53db090f3ed", null ],
+    [ "COLS", "classvmml_1_1matrix.html#a4e401a0ce3d009386c68f1acd267cac8", null ],
+    [ "ROWS", "classvmml_1_1matrix.html#a7b62cbd5d10fc3d1de219c96137f0156", null ]
 ];

@@ -5,6 +5,7 @@ var classeq_1_1qt_1_1_share_context_window =
     [ "bindFrameBuffer", "classeq_1_1qt_1_1_share_context_window.html#abcc9ca185aa7ea3e5da3a7641a6a6333", null ],
     [ "configExit", "classeq_1_1qt_1_1_share_context_window.html#aa9af4f256f40e8e564eb59e20a1e2a58", null ],
     [ "configInit", "classeq_1_1qt_1_1_share_context_window.html#a269ccd69bccf4b48a0797b6084b96df5", null ],
+    [ "doneCurrent", "classeq_1_1qt_1_1_share_context_window.html#a97afae1b3d3ca9578cb602f515bb0ba2", null ],
     [ "finish", "classeq_1_1qt_1_1_share_context_window.html#addef28d39367555eb55b568580c31cd6", null ],
     [ "flush", "classeq_1_1qt_1_1_share_context_window.html#acce0529b59fdd7cd8d0dc62e928c5557", null ],
     [ "getContext", "classeq_1_1qt_1_1_share_context_window.html#aeb04c648be66c28badfce5e02d79cc06", null ],

@@ -1,4 +1,4 @@
-DOCSET_NAME=org.doxygen.glstats.docset
+DOCSET_NAME=ch.eyescale.glstats.docset
 DOCSET_CONTENTS=$(DOCSET_NAME)/Contents
 DOCSET_RESOURCES=$(DOCSET_CONTENTS)/Resources
 DOCSET_DOCUMENTS=$(DOCSET_RESOURCES)/Documents

@@ -10,6 +10,7 @@ var classvmml_1_1quaternion =
     [ "conjugate", "classvmml_1_1quaternion.html#afac0cd62e54c4c8a912a8a865886b348", null ],
     [ "cross", "classvmml_1_1quaternion.html#abc750bf2056d52759177ca28d14b92f5", null ],
     [ "dot", "classvmml_1_1quaternion.html#afbfcbad9048da44d26bc54071ffbb365", null ],
+    [ "dot", "classvmml_1_1quaternion.html#a12b4b8ad4f86372193dd5384ec2a8950", null ],
     [ "get_conjugate", "classvmml_1_1quaternion.html#a55db86f7ff5d1bdf7c872157202a6def", null ],
     [ "get_normalized", "classvmml_1_1quaternion.html#af510eb91ac8a3cf06fef808750295ffd", null ],
     [ "get_rotation_matrix", "classvmml_1_1quaternion.html#a8b6f1ab48e89f10d6a7416dc748b21ac", null ],
@@ -55,7 +56,12 @@ var classvmml_1_1quaternion =
     [ "set", "classvmml_1_1quaternion.html#aec3c145db6ee66d9458e11530ccc2a44", null ],
     [ "set", "classvmml_1_1quaternion.html#a4067e7b884adbb90f92036d011cb48d9", null ],
     [ "set", "classvmml_1_1quaternion.html#a2755c9c44133f62c22e08dac36c6fde1", null ],
+    [ "slerp", "classvmml_1_1quaternion.html#af796d121e6c955ba8f81b4d453458187", null ],
     [ "squared_abs", "classvmml_1_1quaternion.html#a6e5130374e24cce57bd5c4e2278b16cc", null ],
     [ "zero", "classvmml_1_1quaternion.html#a4ed977e645ea446e1692081f03f29d3b", null ],
-    [ "operator<<", "classvmml_1_1quaternion.html#a68a8207619f6b7c91c263d6f0cb2894d", null ]
+    [ "operator<<", "classvmml_1_1quaternion.html#a68a8207619f6b7c91c263d6f0cb2894d", null ],
+    [ "IDENTITY", "classvmml_1_1quaternion.html#a85ae5d89a7a2239b1be5023d02bab2e4", null ],
+    [ "QUATERI", "classvmml_1_1quaternion.html#a312974d7f121c09e0cb5a31ffbe8d31d", null ],
+    [ "QUATERJ", "classvmml_1_1quaternion.html#a7108a3967e690c0463643fd83ba66c50", null ],
+    [ "QUATERK", "classvmml_1_1quaternion.html#a9a6fc072e76bec214cc3e54651e1a00c", null ]
 ];

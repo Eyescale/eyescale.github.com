@@ -1,7 +1,7 @@
 var searchData=
 [
   ['enablesendonregister',['enableSendOnRegister',['../classco_1_1_local_node.html#a7a516662ed06e068b93253667eb56cb7',1,'co::LocalNode']]],
-  ['enter',['enter',['../classco_1_1_barrier.html#ade53e6b9ab9d654eed420ea7d4e5b166',1,'co::Barrier']]],
+  ['enter',['enter',['../classco_1_1_barrier.html#adc3480ec8578311e19b8e24b24cb6d50',1,'co::Barrier']]],
   ['event',['Event',['../classco_1_1_connection_set.html#a160c9d1faea8c6a1079fd491baa20182',1,'co::ConnectionSet']]],
   ['event_5fconnect',['EVENT_CONNECT',['../classco_1_1_connection_set.html#a160c9d1faea8c6a1079fd491baa20182a82c7ed39e0604f8549e8c1a64d4e8899',1,'co::ConnectionSet']]],
   ['event_5fdata',['EVENT_DATA',['../classco_1_1_connection_set.html#a160c9d1faea8c6a1079fd491baa20182a4381cedcb23749fe913527f8fdb4b624',1,'co::ConnectionSet']]],

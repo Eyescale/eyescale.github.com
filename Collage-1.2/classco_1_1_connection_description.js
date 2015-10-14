@@ -20,5 +20,6 @@ var classco_1_1_connection_description =
     [ "hostname", "classco_1_1_connection_description.html#ac4c278ddf8fd076dc64c40ca38110996", null ],
     [ "interfacename", "classco_1_1_connection_description.html#af3bb1b70a88cbc65743ab5a3cf6fb86b", null ],
     [ "port", "classco_1_1_connection_description.html#a7063d28b28ab1753a33564d92bdc92b3", null ],
+    [ "RANDOM_MULTICAST_PORT", "classco_1_1_connection_description.html#a8ae25c631bcf56f732fe2c1ee154b917", null ],
     [ "type", "classco_1_1_connection_description.html#a09a58e93a477bb31806d0d972506b980", null ]
 ];

@@ -5,6 +5,7 @@ var classeq_1_1x11_1_1_window =
     [ "bindFrameBuffer", "classeq_1_1x11_1_1_window.html#ab4c9be6782e0895c7f49f471e92c3b2e", null ],
     [ "configExit", "classeq_1_1x11_1_1_window.html#a2cf7f11c9a19c22f337291303f840e7b", null ],
     [ "configInit", "classeq_1_1x11_1_1_window.html#a96e2971a2b0163e744ce537225758e76", null ],
+    [ "doneCurrent", "classeq_1_1x11_1_1_window.html#a8ea665db1f9d4d68058d8bfe314cbc80", null ],
     [ "finish", "classeq_1_1x11_1_1_window.html#a812459f10cdd272b50f5578ef040c5fe", null ],
     [ "flush", "classeq_1_1x11_1_1_window.html#acc18fa82b571edcdc392ab20f362bee2", null ],
     [ "getXDisplay", "classeq_1_1x11_1_1_window.html#af4be7dd8df4de6e07922d11dba60c755", null ],

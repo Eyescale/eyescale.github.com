@@ -1,15 +1,10 @@
 var searchData=
 [
-  ['icilist',['icilist',['../structicilist.html',1,'']]],
-  ['init_5fdct',['init_dct',['../structvmml_1_1t3__hooi_1_1init__dct.html',1,'vmml::t3_hooi']]],
-  ['init_5fdct',['init_dct',['../structvmml_1_1t3__hopm_1_1init__dct.html',1,'vmml::t3_hopm']]],
-  ['init_5fhosvd',['init_hosvd',['../structvmml_1_1t4__hooi_1_1init__hosvd.html',1,'vmml::t4_hooi']]],
-  ['init_5fhosvd',['init_hosvd',['../structvmml_1_1t3__hopm_1_1init__hosvd.html',1,'vmml::t3_hopm']]],
-  ['init_5fhosvd',['init_hosvd',['../structvmml_1_1t3__hooi_1_1init__hosvd.html',1,'vmml::t3_hooi']]],
-  ['init_5frandom',['init_random',['../structvmml_1_1t3__hooi_1_1init__random.html',1,'vmml::t3_hooi']]],
-  ['init_5frandom',['init_random',['../structvmml_1_1t3__hopm_1_1init__random.html',1,'vmml::t3_hopm']]],
-  ['init_5frandom',['init_random',['../structvmml_1_1t4__hooi_1_1init__random.html',1,'vmml::t4_hooi']]],
-  ['inlist',['inlist',['../structinlist.html',1,'']]],
-  ['intersection',['intersection',['../classvmml_1_1intersection.html#ab811a95bcd7a0842a359c29e945300f7',1,'vmml::intersection']]],
-  ['intersection',['intersection',['../classvmml_1_1intersection.html',1,'vmml']]]
+  ['matrix',['matrix',['../classvmml_1_1matrix.html',1,'vmml']]],
+  ['matrix3d',['Matrix3d',['../namespacevmml.html#a0396c65cc2afb57b6be2f3aca0fb92bc',1,'vmml']]],
+  ['matrix3f',['Matrix3f',['../namespacevmml.html#ac49d1dd71db04451e5bf7b9415b4be9f',1,'vmml']]],
+  ['matrix4d',['Matrix4d',['../namespacevmml.html#a5cc8b3bb9df9332115b78b0ca59c0c1a',1,'vmml']]],
+  ['matrix4f',['Matrix4f',['../namespacevmml.html#ae9baae85b3d68f3592aea186ca528d3c',1,'vmml']]],
+  ['matrix_5fequals_5fallow_5finverted_5fcolumns',['matrix_equals_allow_inverted_columns',['../structvmml_1_1matrix__equals__allow__inverted__columns.html',1,'vmml']]],
+  ['matrix_5fequals_5fallow_5finverted_5frows',['matrix_equals_allow_inverted_rows',['../structvmml_1_1matrix__equals__allow__inverted__rows.html',1,'vmml']]]
 ];

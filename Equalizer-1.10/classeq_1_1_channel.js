@@ -70,6 +70,6 @@ var classeq_1_1_channel =
     [ "sendError", "classeq_1_1_channel.html#a8f0b0b5d2294ce17086d384e9c05a4f2", null ],
     [ "setupAssemblyState", "classeq_1_1_channel.html#a9f31eb3cb9222c2090ec4936dbf39551", null ],
     [ "startFrame", "classeq_1_1_channel.html#ace53101eaf8402782ca6265716c44b3b", null ],
-    [ "waitFrameFinished", "classeq_1_1_channel.html#ac4437488bfae1af8b20c54bda4cba904", null ],
+    [ "waitFrameFinished", "classeq_1_1_channel.html#aed694c16bcba5caf665612da16ec8d74", null ],
     [ "fabric::Window< Pipe, Window, Channel, WindowSettings >", "classeq_1_1_channel.html#ab3c6b58dbe6233c30262299992a71782", null ]
 ];

@@ -3,6 +3,7 @@ var structco_1_1_object_version =
     [ "ObjectVersion", "structco_1_1_object_version.html#a15a5dc412610668c92f11d10c6d130f6", null ],
     [ "ObjectVersion", "structco_1_1_object_version.html#a31d335652bf53c9a2210fd6282434dc3", null ],
     [ "ObjectVersion", "structco_1_1_object_version.html#a522ef49ea487b77c5c69939c05d2f583", null ],
+    [ "ObjectVersion", "structco_1_1_object_version.html#aacef3a0330617ea09da779f950ccb6cc", null ],
     [ "ObjectVersion", "structco_1_1_object_version.html#a945d86e6c1a540566b9e748f10c8ce63", null ],
     [ "operator!=", "structco_1_1_object_version.html#a728dbc2576b132e63738d487ab845058", null ],
     [ "operator<", "structco_1_1_object_version.html#a2f06a1e12c14ee573cb9ed5fcd474db0", null ],

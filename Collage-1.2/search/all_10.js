@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['random_5fmulticast_5fport',['RANDOM_MULTICAST_PORT',['../classco_1_1_connection_description.html#a8ae25c631bcf56f732fe2c1ee154b917',1,'co::ConnectionDescription']]],
   ['read',['read',['../classco_1_1_data_i_stream.html#a47e6cb8854d5c3eb9388f9f04b15036a',1,'co::DataIStream']]],
   ['readnb',['readNB',['../classco_1_1_buffer_connection.html#a258d26abc466a32399a4f8a96e42e7a3',1,'co::BufferConnection::readNB()'],['../classco_1_1_connection.html#a9d51b4f926adc20c850ead432f8715c3',1,'co::Connection::readNB()']]],
   ['readstatus',['ReadStatus',['../classco_1_1_connection.html#a36295964184291d799883c4ec31875a7',1,'co::Connection']]],
