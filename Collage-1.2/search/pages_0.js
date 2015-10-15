@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['changelog',['Changelog',['../md___users_eilemann__software_config_8bbp__collage_doc__changelog.html',1,'']]]
+  ['changelog',['Changelog',['../md__home_eilemann_config_8bbp__collage_doc__changelog.html',1,'']]]
 ];

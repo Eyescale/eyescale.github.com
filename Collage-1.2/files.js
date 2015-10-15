@@ -25,7 +25,7 @@ var files =
     [ "dataOStreamArchive.ipp", "data_o_stream_archive_8ipp_source.html", null ],
     [ "dataStreamArchiveException.h", "data_stream_archive_exception_8h_source.html", null ],
     [ "defines.h", "defines_8h.html", null ],
-    [ "definesDarwin.h", "defines_darwin_8h_source.html", null ],
+    [ "definesLinux.h", "defines_linux_8h_source.html", null ],
     [ "dispatcher.h", "dispatcher_8h_source.html", null ],
     [ "exception.h", "exception_8h_source.html", null ],
     [ "features.h", "features_8h_source.html", null ],

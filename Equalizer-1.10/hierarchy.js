@@ -58,8 +58,8 @@ var hierarchy =
         [ "eq::fabric::Observer< C, O >", "classeq_1_1fabric_1_1_observer.html", null ],
         [ "eq::fabric::Pipe< N, P, W, V >", "classeq_1_1fabric_1_1_pipe.html", null ],
         [ "eq::fabric::Segment< C, S, CH >", "classeq_1_1fabric_1_1_segment.html", null ],
-        [ "eq::fabric::View< L, V, O >", "classeq_1_1fabric_1_1_view.html", null ],
-        [ "eq::fabric::Window< P, W, C, Settings >", "classeq_1_1fabric_1_1_window.html", null ],
+        [ "eq::fabric::View< class, class, class >", "classeq_1_1fabric_1_1_view.html", null ],
+        [ "eq::fabric::Window< class, class, class, class >", "classeq_1_1fabric_1_1_window.html", null ],
         [ "eq::fabric::Layout< Config, Layout, View >", "classeq_1_1fabric_1_1_layout.html", [
           [ "eq::Layout", "classeq_1_1_layout.html", null ]
         ] ],
@@ -110,7 +110,7 @@ var hierarchy =
       [ "eq::fabric::Canvas< Config, Canvas, Segment, Layout >", "classeq_1_1fabric_1_1_canvas.html", null ],
       [ "eq::fabric::Canvas< CFG, C, S, L >", "classeq_1_1fabric_1_1_canvas.html", null ],
       [ "eq::fabric::Segment< C, S, CH >", "classeq_1_1fabric_1_1_segment.html", null ],
-      [ "eq::fabric::View< L, V, O >", "classeq_1_1fabric_1_1_view.html", null ],
+      [ "eq::fabric::View< class, class, class >", "classeq_1_1fabric_1_1_view.html", null ],
       [ "eq::fabric::Segment< Canvas, Segment, Channel >", "classeq_1_1fabric_1_1_segment.html", null ],
       [ "eq::fabric::View< Layout, View, Observer >", "classeq_1_1fabric_1_1_view.html", null ]
     ] ],

@@ -3,7 +3,7 @@ var searchData=
   ['canvases',['Canvases',['../classeq_1_1fabric_1_1_canvas.html#a6a67e9740720e6d423a7c046c6792523',1,'eq::fabric::Canvas::Canvases()'],['../classeq_1_1fabric_1_1_config.html#a7d274a34b4ea7b874af6c16b2a4054af',1,'eq::fabric::Config::Canvases()'],['../namespaceeq.html#ad6fb67248e56a637f161d71a0624337c',1,'eq::Canvases()']]],
   ['canvasesciter',['CanvasesCIter',['../namespaceeq.html#abea00811accc9c76289f81620adac4bc',1,'eq']]],
   ['canvasvisitor',['CanvasVisitor',['../namespaceeq.html#aab74463e4e7c58ef24bf15933023e69d',1,'eq']]],
-  ['channels',['Channels',['../classeq_1_1fabric_1_1_window.html#a1ea47ec88c8a3f1d3236f464ce2eb530',1,'eq::fabric::Window::Channels()'],['../namespaceeq.html#ae62ee75536c515d5d875e17765b5da6b',1,'eq::Channels()']]],
+  ['channels',['Channels',['../classeq_1_1fabric_1_1_window.html#abc5aae62bddf65795452b6078c9bc24c',1,'eq::fabric::Window::Channels()'],['../namespaceeq.html#ae62ee75536c515d5d875e17765b5da6b',1,'eq::Channels()']]],
   ['channelsciter',['ChannelsCIter',['../namespaceeq.html#a8a01115c61d80844b7f015db233c15c4',1,'eq']]],
   ['channelvisitor',['ChannelVisitor',['../namespaceeq.html#ade237ed6059a20f00d621a0f73cac2bc',1,'eq']]],
   ['clientptr',['ClientPtr',['../classeq_1_1fabric_1_1_server.html#ab0fe0cca18f9b098179bae1a86b55c11',1,'eq::fabric::Server::ClientPtr()'],['../namespaceeq.html#a5ee6f3abb96fbc2830e28a0cea662134',1,'eq::ClientPtr()']]],

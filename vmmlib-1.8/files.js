@@ -2,7 +2,7 @@ var files =
 [
     [ "aabb.hpp", "aabb_8hpp_source.html", null ],
     [ "defines.h", "defines_8h.html", null ],
-    [ "definesDarwin.h", "defines_darwin_8h_source.html", null ],
+    [ "definesLinux.h", "defines_linux_8h_source.html", null ],
     [ "enable_if.hpp", "enable__if_8hpp_source.html", null ],
     [ "exception.hpp", "exception_8hpp_source.html", null ],
     [ "frustum.hpp", "frustum_8hpp_source.html", null ],

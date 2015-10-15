@@ -10,6 +10,7 @@ var structhwsd_1_1_g_p_u_info =
     [ "device", "structhwsd_1_1_g_p_u_info.html#a96165a08aa6b71bf6e44628e3615107b", null ],
     [ "FLAG_VIRTUALGL", "structhwsd_1_1_g_p_u_info.html#ad062e0f4139675a9dc7f4051f87f847c", null ],
     [ "FLAG_VIRTUALGL_DISPLAY", "structhwsd_1_1_g_p_u_info.html#ac773b4e8d65209ae941d634cf1be4504", null ],
+    [ "FLAG_VNC", "structhwsd_1_1_g_p_u_info.html#a6a7d100bdedd4542b7eb14b6c30bdcb9", null ],
     [ "flags", "structhwsd_1_1_g_p_u_info.html#ac26761d399457b7374444d09d00f4c6d", null ],
     [ "port", "structhwsd_1_1_g_p_u_info.html#a927a9078f437be2787194b5c83374ed5", null ],
     [ "pvp", "structhwsd_1_1_g_p_u_info.html#a72c208789b70a370b3e6b682be365b8a", null ],

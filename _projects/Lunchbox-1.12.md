@@ -4,51 +4,15 @@ version: "1.12"
 major: 1
 minor: 12
 description: Multi-threaded C++ toolbox library for all application developers creating high-performance multi-threaded programs.
-updated: 14/10/15
+updated: 15/10/15
 homepage: https://github.com/Eyescale/Lunchbox
 repository: https://github.com/Eyescale/Lunchbox.git
 issuesurl: https://github.com/Eyescale/Lunchbox/issues
 packageurl: https://launchpad.net/~eilemann/+archive/equalizer-dev
-license: LGPL
+license: 
 maturity: RD
-maintainers: Stefan Eilemann <eile@eyescale.ch>
-contributors:  
-  - Stefan Eilemann         75.5%
-  - Daniel Nachbaur         14.6%
-  - Cedric Stalder          2.5%
-  - marwan-abdellah         0.8%
-  - Ahmet Bilgili           0.8%
-  - Juan Hernando           0.7%
-  - Daniel Pfeifer          0.6%
-  - Carsten Rohn            0.6%
-  - Fabien Delalondre       0.5%
-  - Maxim Makhinya          0.4%
-  - Raphael Dumusc          0.4%
-  - Michael Seifert         0.3%
-  - John Biddiscombe        0.3%
-  - Dardo D Kleiner         0.3%
-  - Marwan Abdellah         0.3%
-  - Jafet Villafranca       0.2%
-  - Sarah Amsellem          0.2%
-  - carlosduelo             0.1%
-  - Martin Lambers          0.1%
-  - Jaroslav Škarvada        0.1%
-  - hernando                0.1%
-  - Julio Delgado           0.1%
-  - Marwan                  0.1%
-  - unknown                 0.0%
-  - Cedric                  0.0%
-  - Chevtchenko Grigori     0.0%
-  - Enrique G. Paredes      0.0%
-  - Fatih Erol              0.0%
-  - Jafet Villafranca Diaz  0.0%
-  - Johannes Zarl           0.0%
-  - Lucas Peetz Dulley      0.0%
-  - Philippe Robert         0.0%
-  - Theo Diefenthal         0.0%
-  - bilgili                 0.0%
-  - cstalder                0.0%
-  - delyas                  0.0%
+maintainers: 
+contributors: Ahmet Bilgili; Carsten Rohn; Cedric; Cedric Stalder; Chevtchenko Grigori; Daniel Nachbaur; Daniel Pfeifer; Dardo D Kleiner; Enrique G. Paredes; Fabien Delalondre; Fatih Erol; Jafet Villafranca; Jafet Villafranca Diaz; Jaroslav Škarvada; Johannes Zarl; John Biddiscombe; Juan Hernando; Julio Delgado; Lucas Peetz Dulley; Martin Lambers; Marwan; Marwan Abdellah; Maxim Makhinya; Michael Seifert; Philippe Robert; Raphael Dumusc; Sarah Amsellem; Stefan Eilemann; Theo Diefenthal; bilgili; carlosduelo; cstalder; delyas; hernando; marwan-abdellah; unknown
 readmetype: text/x-markdown
 ---
 [TOC]

@@ -15,5 +15,5 @@ var searchData=
   ['contains',['contains',['../classlunchbox_1_1_persistent_map.html#af0b97290754e37f1622df24749a308a3',1,'lunchbox::PersistentMap']]],
   ['core',['CORE',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275abdc093f548630be3a35d5f76d10bd8dc',1,'lunchbox::Thread']]],
   ['create',['create',['../classlunchbox_1_1_memory_map.html#a2cd3252b6dc304cd7097a93a1606d6f7',1,'lunchbox::MemoryMap::create()'],['../classlunchbox_1_1_plugin_factory.html#a80b980190a5be5028670800f37d8359a',1,'lunchbox::PluginFactory::create()']]],
-  ['changelog',['Changelog',['../md___users_eilemann__software_config_8bbp__lunchbox_doc__changelog.html',1,'']]]
+  ['changelog',['Changelog',['../md__home_eilemann_config_8bbp__lunchbox_doc__changelog.html',1,'']]]
 ];

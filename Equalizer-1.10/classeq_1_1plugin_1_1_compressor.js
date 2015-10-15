@@ -1,10 +1,10 @@
 var classeq_1_1plugin_1_1_compressor =
 [
     [ "Functions", "structeq_1_1plugin_1_1_compressor_1_1_functions.html", "structeq_1_1plugin_1_1_compressor_1_1_functions" ],
-    [ "CompressorGetInfo_t", "classeq_1_1plugin_1_1_compressor.html#a80cfda625b831ee9144a66d6303a7de6", null ],
-    [ "Decompress_t", "classeq_1_1plugin_1_1_compressor.html#a4209616b29b9e817098e785abbcdbca9", null ],
-    [ "IsCompatible_t", "classeq_1_1plugin_1_1_compressor.html#a04f1fd71be2a0ffe2684b3b0c88dc347", null ],
-    [ "NewCompressor_t", "classeq_1_1plugin_1_1_compressor.html#a4b1bee78ad448eed182b364d1d1f0145", null ],
+    [ "CompressorGetInfo_t", "classeq_1_1plugin_1_1_compressor.html#a04915e1714683be21715f5a29ce457b3", null ],
+    [ "Decompress_t", "classeq_1_1plugin_1_1_compressor.html#a05577300d4ed7a5352e14ddfddbff67e", null ],
+    [ "IsCompatible_t", "classeq_1_1plugin_1_1_compressor.html#a6744573952a252d355e3fc9deb98d3ba", null ],
+    [ "NewCompressor_t", "classeq_1_1plugin_1_1_compressor.html#a62717f5d376f2b0051d7df687e2f20e0", null ],
     [ "Result", "classeq_1_1plugin_1_1_compressor.html#abecb1b214c04f5ba72c403414f4a785f", null ],
     [ "Results", "classeq_1_1plugin_1_1_compressor.html#a33d06b4a05b8a2df870702f273692c45", null ],
     [ "Compressor", "classeq_1_1plugin_1_1_compressor.html#a77c03e07dc1f934aeae6a2cac0b7950c", null ],

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['canvas',['Canvas',['../classeq_1_1_canvas.html#a4c217a902ae69a4e9f88be50fd9ed9d7',1,'eq::Canvas::Canvas()'],['../classeq_1_1fabric_1_1_canvas.html#ab76c5c0835a408c41abce1608aa28735',1,'eq::fabric::Canvas::Canvas()']]],
-  ['changemode',['changeMode',['../classeq_1_1fabric_1_1_view.html#a5538a14b335d3f272d2ebb6f11b5a135',1,'eq::fabric::View']]],
+  ['changemode',['changeMode',['../classeq_1_1fabric_1_1_view.html#a336c3027b475b0146e4e0a76adc766da',1,'eq::fabric::View']]],
   ['channel',['Channel',['../classeq_1_1_channel.html#a4b5efb631f8cde0fc811b25b310170fe',1,'eq::Channel::Channel()'],['../classeq_1_1fabric_1_1_channel.html#ab6993ec8fd0d503af791656d19390201',1,'eq::fabric::Channel::Channel(W *parent)'],['../classeq_1_1fabric_1_1_channel.html#a7ccc7384abdd3235d9682063249d14d6',1,'eq::fabric::Channel::Channel(const Channel &amp;from)']]],
   ['channelstatistics',['ChannelStatistics',['../classeq_1_1_channel_statistics.html#a0fc0f6867a1135fde97e5d78f0393695',1,'eq::ChannelStatistics']]],
   ['check',['check',['../classeqfabric_1_1_version.html#a7a04c3928233045e23114d239f39610b',1,'eqfabric::Version::check()'],['../classeqserver_1_1_version.html#ae3ea92b405340567056d3f4a3e6d8c63',1,'eqserver::Version::check()'],['../classeq_1_1_version.html#a8da1f0cfc35025a617ef66eb2d055507',1,'eq::Version::check()'],['../classseq_1_1_version.html#a6913cfb804038c9f87a4629ea22423b0',1,'seq::Version::check()']]],

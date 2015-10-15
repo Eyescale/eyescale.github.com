@@ -4,7 +4,7 @@ version: "1.2"
 major: 1
 minor: 2
 description: High-performance C++ library for developing object-oriented distributed applications.
-updated: 14/10/15
+updated: 15/10/15
 homepage: https://github.com/Eyescale/Collage
 repository: https://github.com/Eyescale/Collage.git
 issuesurl: https://github.com/Eyescale/Collage/issues
@@ -12,51 +12,7 @@ packageurl:
 license: 
 maturity: EP
 maintainers: 
-contributors:  
-  - Stefan Eilemann           76.3%
-  - Daniel Nachbaur           9.1%
-  - Cedric Stalder            5.3%
-  - Maxim Makhinya            2.5%
-  - Dardo D Kleiner           1.0%
-  - Daniel Pfeifer            0.8%
-  - Carsten Rohn              0.7%
-  - Sarah Amsellem            0.6%
-  - delyas                    0.5%
-  - marwan-abdellah           0.5%
-  - Marwan Abdellah           0.3%
-  - Lucas Peetz Dulley        0.3%
-  - Philippe Robert           0.2%
-  - Ahmet Bilgili             0.2%
-  - Cedric                    0.2%
-  - Tobias Wolf               0.2%
-  - Juan Hernando             0.2%
-  - Fabien Delalondre         0.1%
-  - Dustin Wueest             0.1%
-  - cstalder                  0.1%
-  - Raphael Dumusc            0.1%
-  - ahmetbilgili              0.1%
-  - Rick Arkin                0.1%
-  - Matthew Dawson            0.1%
-  - Bruno Stefanizze          0.1%
-  - unknown                   0.0%
-  - John Biddiscombe          0.0%
-  - Oliver Elias              0.0%
-  - U-DE\daniel_nachbaur      0.0%
-  - nikolay_lukash            0.0%
-  - Martin Lambers            0.0%
-  - Jaroslav Škarvada          0.0%
-  - Thomas McGuire            0.0%
-  - Marwan                    0.0%
-  - Bidur Bohara              0.0%
-  - Julio Delgado             0.0%
-  - Theo Diefenthal           0.0%
-  - Enrique G. Paredes        0.0%
-  - Stefan Hutter             0.0%
-  - Madhusudhanan Srinivasan  0.0%
-  - bilgili                   0.0%
-  - Jafet Villafranca         0.0%
-  - MichaelVlad               0.0%
-  - Dardo                     0.0%
+contributors: Ahmet Bilgili; Bidur Bohara; Carsten Rohn; Cedric; Cedric Stalder; Daniel Nachbaur; Daniel Pfeifer; Dardo; Dardo D Kleiner; Enrique G. Paredes; Fabien Delalondre; Jafet Villafranca; Jaroslav Škarvada; John Biddiscombe; Juan Hernando; Julio Delgado; Lucas Peetz Dulley; Madhusudhanan Srinivasan; Martin Lambers; Marwan; Marwan Abdellah; Matthew Dawson; Maxim Makhinya; MichaelVlad; Oliver Elias; Philippe Robert; Raphael Dumusc; Rick Arkin; Sarah Amsellem; Stefan Eilemann; Stefan Hutter; Theo Diefenthal; Thomas McGuire; U-DE\daniel_nachbaur; ahmetbilgili; bilgili; cstalder; delyas; marwan-abdellah; nikolay_lukash; unknown
 readmetype: text/x-markdown
 ---
 [TOC]

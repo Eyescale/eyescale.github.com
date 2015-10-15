@@ -1,5 +1,6 @@
 var namespaceeq =
 [
+    [ "agl", "namespaceeq_1_1agl.html", null ],
     [ "fabric", "namespaceeq_1_1fabric.html", "namespaceeq_1_1fabric" ],
     [ "glx", "namespaceeq_1_1glx.html", "namespaceeq_1_1glx" ],
     [ "plugin", null, [
@@ -50,6 +51,6 @@ var namespaceeq =
     [ "Window", "classeq_1_1_window.html", "classeq_1_1_window" ],
     [ "WindowSettings", "classeq_1_1_window_settings.html", "classeq_1_1_window_settings" ],
     [ "WindowStatistics", "classeq_1_1_window_statistics.html", "classeq_1_1_window_statistics" ],
-    [ "WindowSystem", "classeq_1_1_window_system.html", "classeq_1_1_window_system" ],
-    [ "WindowSystemIF", "classeq_1_1_window_system_i_f.html", "classeq_1_1_window_system_i_f" ]
+    [ "WindowSystemIF", "classeq_1_1_window_system_i_f.html", "classeq_1_1_window_system_i_f" ],
+    [ "WindowSystem", "classeq_1_1_window_system.html", "classeq_1_1_window_system" ]
 ];

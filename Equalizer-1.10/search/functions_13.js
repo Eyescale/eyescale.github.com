@@ -11,7 +11,7 @@ var searchData=
   ['updatenearfar',['updateNearFar',['../classseq_1_1_renderer.html#a9089eddd7261305b3b4f689403cc6aae',1,'seq::Renderer']]],
   ['upload',['upload',['../classeq_1_1plugin_1_1_compressor.html#a2e5526104be4d6eacd947ba62ede0faa',1,'eq::plugin::Compressor::upload()'],['../classeq_1_1_image.html#ac5b2f1f4908a4f539bfcb8f1808439c8',1,'eq::Image::upload()'],['../classeq_1_1util_1_1_texture.html#a2645973e66856a8a2a5f551cf5294a20',1,'eq::util::Texture::upload()']]],
   ['usecompressor',['useCompressor',['../classeq_1_1_frame.html#ac947e4ea82bf98d03106ca0bf3a21209',1,'eq::Frame::useCompressor()'],['../classeq_1_1_frame_data.html#a88e2418a5cb7665e70edf7a06de12234',1,'eq::FrameData::useCompressor()'],['../classeq_1_1_image.html#a91b7fe3bbd13c9fa62c99639bda54bee',1,'eq::Image::useCompressor()']]],
-  ['useequalizer',['useEqualizer',['../classeq_1_1fabric_1_1_view.html#a4feaaa528c9118e31cfb97dc478eb4bb',1,'eq::fabric::View']]],
+  ['useequalizer',['useEqualizer',['../classeq_1_1fabric_1_1_view.html#a90cfccc05afe927930debc5804da3820',1,'eq::fabric::View']]],
   ['uselayout',['useLayout',['../classeq_1_1fabric_1_1_canvas.html#a139a4ab8462bec50fb84052a69579f50',1,'eq::fabric::Canvas']]],
   ['useortho',['useOrtho',['../classeq_1_1fabric_1_1_channel.html#a9b3d02de45551ad52be390928bb54554',1,'eq::fabric::Channel::useOrtho()'],['../classseq_1_1_view_data.html#a1ed2238e07405faf0f0c1dfe9c5290e2',1,'seq::ViewData::useOrtho()']]],
   ['usesfbo',['usesFBO',['../classeq_1_1util_1_1_accum.html#a4cb9deccca9b1263f86b268088768929',1,'eq::util::Accum']]]

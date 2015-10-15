@@ -8,7 +8,7 @@ var files =
     [ "compressorTypes.h", "compressor_types_8h.html", "compressor_types_8h" ],
     [ "decompressor.h", "decompressor_8h_source.html", null ],
     [ "defines.h", "defines_8h.html", null ],
-    [ "definesDarwin.h", "defines_darwin_8h_source.html", null ],
+    [ "definesLinux.h", "defines_linux_8h_source.html", null ],
     [ "downloader.h", "downloader_8h_source.html", null ],
     [ "log.h", "log_8h_source.html", null ],
     [ "plugin.h", "plugin_8h_source.html", null ],

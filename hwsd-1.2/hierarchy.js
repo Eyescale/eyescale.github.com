@@ -1,7 +1,6 @@
 var hierarchy =
 [
     [ "hwsd::Module< T >", "classhwsd_1_1_module.html", [
-      [ "hwsd::gpu::cgl::Module", "classhwsd_1_1gpu_1_1cgl_1_1_module.html", null ],
       [ "hwsd::gpu::dns_sd::Module", "classhwsd_1_1gpu_1_1dns__sd_1_1_module.html", null ],
       [ "hwsd::gpu::glx::Module", "classhwsd_1_1gpu_1_1glx_1_1_module.html", null ]
     ] ],

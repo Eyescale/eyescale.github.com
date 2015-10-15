@@ -4,65 +4,15 @@ version: "1.10"
 major: 1
 minor: 10
 description: Parallel Rendering Framework
-updated: 14/10/15
+updated: 15/10/15
 homepage: https://github.com/Eyescale/Equalizer
 repository: https://github.com/Eyescale/Equalizer.git
 issuesurl: https://github.com/Eyescale/Equalizer/issues
 packageurl: 
-license: 
+license: LGPL;BSD
 maturity: EP
-maintainers: 
-contributors:  
-  - Stefan Eilemann           75.7%
-  - Daniel Nachbaur           9.9%
-  - Cedric Stalder            5.0%
-  - Maxim Makhinya            2.3%
-  - Dardo D Kleiner           0.9%
-  - Carsten Rohn              0.7%
-  - Daniel Pfeifer            0.7%
-  - Sarah Amsellem            0.5%
-  - delyas                    0.5%
-  - marwan-abdellah           0.4%
-  - Marwan Abdellah           0.3%
-  - Juan Hernando             0.3%
-  - Lucas Peetz Dulley        0.3%
-  - Jafet Villafranca         0.2%
-  - Philippe Robert           0.2%
-  - Cedric                    0.2%
-  - Ahmet Bilgili             0.2%
-  - Tobias Wolf               0.2%
-  - Raphael Dumusc            0.1%
-  - Fabien Delalondre         0.1%
-  - Dustin Wueest             0.1%
-  - cstalder                  0.1%
-  - ahmetbilgili              0.1%
-  - Marc Treib                0.1%
-  - Rick Arkin                0.1%
-  - Julio Delgado             0.1%
-  - Matthew Dawson            0.1%
-  - Bruno Stefanizze          0.1%
-  - petroskataras             0.1%
-  - Oliver Elias              0.0%
-  - nikolay_lukash            0.0%
-  - Petros Kataras            0.0%
-  - U-DE\daniel_nachbaur      0.0%
-  - Martin Lambers            0.0%
-  - Jaroslav Škarvada          0.0%
-  - unknown                   0.0%
-  - Thomas McGuire            0.0%
-  - Marwan                    0.0%
-  - Sepehr Laal               0.0%
-  - Theo Diefenthal           0.0%
-  - whimlex                   0.0%
-  - bilgili                   0.0%
-  - Robert                    0.0%
-  - MichaelVlad               0.0%
-  - hernando                  0.0%
-  - Madhusudhanan Srinivasan  0.0%
-  - Julio Delgado Mangas      0.0%
-  - Dardo                     0.0%
-  - Cyrille Favreau           0.0%
-  - Stefan Hutter             0.0%
+maintainers: Stefan Eilemann (eile@eyescale.ch)
+contributors: Ahmet Bilgili; Carsten Rohn; Cedric; Cedric Stalder; Cyrille Favreau; Daniel Nachbaur; Daniel Pfeifer; Dardo; Dardo D Kleiner; Fabien Delalondre; Jafet Villafranca; Jaroslav Škarvada; Juan Hernando; Julio Delgado; Julio Delgado Mangas; Lucas Peetz Dulley; Madhusudhanan Srinivasan; Marc Treib; Martin Lambers; Marwan; Marwan Abdellah; Matthew Dawson; Maxim Makhinya; MichaelVlad; Oliver Elias; Petros Kataras; Philippe Robert; Raphael Dumusc; Rick Arkin; Robert; Sarah Amsellem; Sepehr Laal; Stefan Eilemann; Stefan Hutter; Theo Diefenthal; Thomas McGuire; U-DE\daniel_nachbaur; ahmetbilgili; bilgili; cstalder; delyas; hernando; marwan-abdellah; nikolay_lukash; petroskataras; unknown; whimlex
 readmetype: text/x-markdown
 ---
 [TOC]
