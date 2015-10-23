@@ -2,7 +2,7 @@ var classeq_1_1plugin_1_1_compressor_y_u_v =
 [
     [ "CompressorYUV", "classeq_1_1plugin_1_1_compressor_y_u_v.html#a6d09f7a70d031e6ec4b140d37ce9a28c", null ],
     [ "~CompressorYUV", "classeq_1_1plugin_1_1_compressor_y_u_v.html#a21a3281a1e2c009ff931f12d9b77cdbd", null ],
-    [ "compress", "classeq_1_1plugin_1_1_compressor_y_u_v.html#aff780da9fc6c781759823434cf34c240", null ],
+    [ "compress", "classeq_1_1plugin_1_1_compressor_y_u_v.html#a6deec273bca6db71aec8e039383dbe81", null ],
     [ "download", "classeq_1_1plugin_1_1_compressor_y_u_v.html#a0d970ae7fbae18493ee472a4668c8172", null ],
     [ "getNewCompressor", "classeq_1_1plugin_1_1_compressor_y_u_v.html#a8c3ec9f377e66e38d72ea77d9a5f25ff", null ],
     [ "getNewDecompressor", "classeq_1_1plugin_1_1_compressor_y_u_v.html#af0b0b6d9ba6cf08392d843eecaf668f3", null ],

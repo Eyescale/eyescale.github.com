@@ -17,7 +17,7 @@ var searchData=
   ['clientinit',['clientInit',['../classseq_1_1_application.html#ae0df51932e99913e2a2e09ca6d133899',1,'seq::Application']]],
   ['clientloop',['clientLoop',['../classeq_1_1_client.html#acc985156e76c880bfe65c86c6a913290',1,'eq::Client']]],
   ['colormask',['ColorMask',['../classeq_1_1fabric_1_1_color_mask.html#a8a74cf6af184f6240446f5bc79b7e321',1,'eq::fabric::ColorMask::ColorMask()'],['../classeq_1_1fabric_1_1_color_mask.html#a3c40761149afd43f96358b4b649b92bf',1,'eq::fabric::ColorMask::ColorMask(const bool r, const bool g, const bool b, const bool a=true)']]],
-  ['compress',['compress',['../classeq_1_1plugin_1_1_compressor.html#a8de0dea876715061da965d296c09ab2f',1,'eq::plugin::Compressor']]],
+  ['compress',['compress',['../classeq_1_1plugin_1_1_compressor.html#a8de0dea876715061da965d296c09ab2f',1,'eq::plugin::Compressor::compress()'],['../classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#aca06c121fa0ec5d0e5cf07b5e319f4ec',1,'eq::plugin::CompressorReadDrawPixels::compress()'],['../classeq_1_1plugin_1_1_compressor_y_u_v.html#a6deec273bca6db71aec8e039383dbe81',1,'eq::plugin::CompressorYUV::compress()']]],
   ['compressor',['Compressor',['../classeq_1_1plugin_1_1_compressor.html#a77c03e07dc1f934aeae6a2cac0b7950c',1,'eq::plugin::Compressor']]],
   ['compresspixeldata',['compressPixelData',['../classeq_1_1_image.html#a64d316fb3615d629179dd2376bff7929',1,'eq::Image']]],
   ['computecontext',['ComputeContext',['../classeq_1_1_compute_context.html#a619c94418d609435d835f0f9cee37e1f',1,'eq::ComputeContext']]],

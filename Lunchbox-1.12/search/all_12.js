@@ -6,6 +6,8 @@ var searchData=
   ['unorderedintervalset',['UnorderedIntervalSet',['../classlunchbox_1_1_unordered_interval_set.html',1,'lunchbox']]],
   ['unorderedintervalset',['UnorderedIntervalSet',['../classlunchbox_1_1_unordered_interval_set.html#a01c729a43f08dd7bdad5fb3b594b7e65',1,'lunchbox::UnorderedIntervalSet']]],
   ['unref',['unref',['../classlunchbox_1_1_referenced.html#adfe377cef3ee7b739d2da1d1c58c2ed5',1,'lunchbox::Referenced']]],
+  ['unregister',['unregister',['../classlunchbox_1_1_request.html#a476a20dd046bacf7589aa0a63afd827d',1,'lunchbox::Request']]],
+  ['unregisteredrequest',['UnregisteredRequest',['../classlunchbox_1_1_unregistered_request.html',1,'lunchbox']]],
   ['unregisterrequest',['unregisterRequest',['../classlunchbox_1_1_request_handler.html#ae8d9102224cd8b0d3fb7edb1b4c49396',1,'lunchbox::RequestHandler']]],
   ['unsafe_5fany_5fcast',['unsafe_any_cast',['../classlunchbox_1_1_any.html#a390278691df87bff430e531520eb0d0d',1,'lunchbox::Any::unsafe_any_cast()'],['../namespacelunchbox.html#a38a14ba67cf704679d258d0329d69656',1,'lunchbox::unsafe_any_cast(Any *operand)'],['../namespacelunchbox.html#a73a0eb6facd4906ce41bc36b1f1d382c',1,'lunchbox::unsafe_any_cast(const Any *operand)'],['../namespacelunchbox.html#a9d56defcb1c937b137906fb4cf795fed',1,'lunchbox::unsafe_any_cast(Any &amp;operand)'],['../namespacelunchbox.html#a55922c7c1c6fae5f6f380b2af8359b25',1,'lunchbox::unsafe_any_cast(const Any &amp;operand)']]],
   ['unset',['unset',['../classlunchbox_1_1_lock.html#a41e870b0399534bd46d16e0d820dddf8',1,'lunchbox::Lock::unset()'],['../classlunchbox_1_1_spin_lock.html#a1d5acf7ddcdf3d219fa0820ddd5a4182',1,'lunchbox::SpinLock::unset()'],['../classlunchbox_1_1_timed_lock.html#a9901eab41d9e239cc759c43260f6f773',1,'lunchbox::TimedLock::unset()']]],

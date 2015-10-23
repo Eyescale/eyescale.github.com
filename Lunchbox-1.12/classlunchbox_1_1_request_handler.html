@@ -147,9 +147,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afdcd80fd7e29528c5105b68b093ef3e1"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlunchbox_1_1_request.html">Request</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1_request_handler.html#afdcd80fd7e29528c5105b68b093ef3e1">registerRequest</a> (void *data=0)</td></tr>
 <tr class="memdesc:afdcd80fd7e29528c5105b68b093ef3e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a request.  <a href="#afdcd80fd7e29528c5105b68b093ef3e1">More...</a><br/></td></tr>
 <tr class="separator:afdcd80fd7e29528c5105b68b093ef3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a049fc77faeb008500c8638f2d228f7f5"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1_request_handler.html#a049fc77faeb008500c8638f2d228f7f5">registerRequest</a> (void *data=0) LB_DEPRECATED</td></tr>
-<tr class="memdesc:a049fc77faeb008500c8638f2d228f7f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a request.  <a href="#a049fc77faeb008500c8638f2d228f7f5">More...</a><br/></td></tr>
-<tr class="separator:a049fc77faeb008500c8638f2d228f7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e2248bad96618d539e7d3a7ba42273d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1_request_handler.html#a3e2248bad96618d539e7d3a7ba42273d">registerRequest</a> (void *data=0)</td></tr>
+<tr class="memdesc:a3e2248bad96618d539e7d3a7ba42273d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a request.  <a href="#a3e2248bad96618d539e7d3a7ba42273d">More...</a><br/></td></tr>
+<tr class="separator:a3e2248bad96618d539e7d3a7ba42273d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8d9102224cd8b0d3fb7edb1b4c49396"><td class="memItemLeft" align="right" valign="top">LUNCHBOX_API void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlunchbox_1_1_request_handler.html#ae8d9102224cd8b0d3fb7edb1b4c49396">unregisterRequest</a> (const uint32_t requestID)</td></tr>
 <tr class="memdesc:ae8d9102224cd8b0d3fb7edb1b4c49396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister a request.  <a href="#ae8d9102224cd8b0d3fb7edb1b4c49396">More...</a><br/></td></tr>
 <tr class="separator:ae8d9102224cd8b0d3fb7edb1b4c49396"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,6 +268,10 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <div class="line">        request = requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a91510c2c9390818ff86806e5242b8401">pop</a>();</div>
 <div class="line">        TEST( handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#ad57d2e04e8d46526dfed2ae270466596">getRequestData</a>( request ) == ++payload );</div>
 <div class="line">        handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c">serveRequest</a>( request, uuid );</div>
+<div class="line"></div>
+<div class="line">        request = requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a91510c2c9390818ff86806e5242b8401">pop</a>();</div>
+<div class="line">        TEST( handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#ad57d2e04e8d46526dfed2ae270466596">getRequestData</a>( request ) == ++payload );</div>
+<div class="line">        handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c">serveRequest</a>( request );</div>
 <div class="line">    }</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -303,6 +307,36 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <div class="line">    TEST( future.<a class="code" href="classlunchbox_1_1_future.html#ac5ec8524e98bd91cc0dff04087dc2a8b">wait</a>( ));</div>
 <div class="line">    TEST( uint128Future.wait() == uuid );</div>
 <div class="line">    TEST( handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#af4130e9600c8006d43744a68deda00c8">isRequestServed</a>( voidFuture.getID( )));</div>
+<div class="line">    TEST( voidFuture.isReady( ));</div>
+<div class="line">    voidFuture.wait( );</div>
+<div class="line"></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="classlunchbox_1_1_request.html">lunchbox::Request&lt; void &gt;</a> waitAtDestructor =</div>
+<div class="line">            handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#afdcd80fd7e29528c5105b68b093ef3e1">registerRequest</a>&lt; <span class="keywordtype">void</span> &gt;( ++payload );</div>
+<div class="line">        requestQ_.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( waitAtDestructor.<a class="code" href="classlunchbox_1_1_request.html#a9ff7e852be1d1f9d16d3b691c5bacc84">getID</a>( ));</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="classlunchbox_1_1_request.html">lunchbox::Request&lt; void &gt;</a> wontBeServed =</div>
+<div class="line">            handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#afdcd80fd7e29528c5105b68b093ef3e1">registerRequest</a>&lt; <span class="keywordtype">void</span> &gt;( ++payload );</div>
+<div class="line">        <span class="keywordflow">try</span></div>
+<div class="line">        {</div>
+<div class="line">            wontBeServed.<a class="code" href="classlunchbox_1_1_future.html#ac5ec8524e98bd91cc0dff04087dc2a8b">wait</a>( 1 );</div>
+<div class="line">            lunchbox::abort();</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">catch</span>( <span class="keyword">const</span> <a class="code" href="classlunchbox_1_1_future_timeout.html">lunchbox::FutureTimeout</a>&amp; ) {}</div>
+<div class="line"></div>
+<div class="line">        TEST( handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#ae68fa3ace992389be27a815706191244">hasPendingRequests</a>( ))</div>
+<div class="line">        wontBeServed.<a class="code" href="classlunchbox_1_1_request.html#a476a20dd046bacf7589aa0a63afd827d">unregister</a>();</div>
+<div class="line">        TEST( !handler_.<a class="code" href="classlunchbox_1_1_request_handler.html#ae68fa3ace992389be27a815706191244">hasPendingRequests</a>( ))</div>
+<div class="line"></div>
+<div class="line">        <span class="keywordflow">try</span></div>
+<div class="line">        {</div>
+<div class="line">            wontBeServed.<a class="code" href="classlunchbox_1_1_future.html#ac5ec8524e98bd91cc0dff04087dc2a8b">wait</a>();</div>
+<div class="line">            lunchbox::abort();</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">catch</span>( <span class="keyword">const</span> <a class="code" href="classlunchbox_1_1_unregistered_request.html">lunchbox::UnregisteredRequest</a>&amp; ) {}</div>
+<div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    TEST( thread.join( ));</div>
 <div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
@@ -415,7 +449,7 @@ LUNCHBOX_API std::ostream &amp;&#160;</td><td class="memItemRight" valign="botto
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000013">Deprecated:</a></b></dt><dd>use <a class="el" href="classlunchbox_1_1_future.html#af349a2b76540d7b11a0f64fc2fd44fbc">Request::isReady()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="request_handler_8h_source.html#l00123">123</a> of file <a class="el" href="request_handler_8h_source.html">requestHandler.h</a>.</p>
+<p>Definition at line <a class="el" href="request_handler_8h_source.html#l00120">120</a> of file <a class="el" href="request_handler_8h_source.html">requestHandler.h</a>.</p>
 
 </div>
 </div>
@@ -453,11 +487,11 @@ template&lt;class T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classlunchbox_1_1_future.html" title="A future represents a asynchronous operation. ">Future</a> which will be fulfilled on <a class="el" href="classlunchbox_1_1_request_handler.html#a50bdd3fc2e24d3e9ded80c6744cfc01c" title="Serve a request with a void* result. ">serveRequest()</a>. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.9.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="request_handler_8h_source.html#l00176">176</a> of file <a class="el" href="request_handler_8h_source.html">requestHandler.h</a>.</p>
+<p>Definition at line <a class="el" href="request_handler_8h_source.html#l00173">173</a> of file <a class="el" href="request_handler_8h_source.html">requestHandler.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a049fc77faeb008500c8638f2d228f7f5"></a>
+<a class="anchor" id="a3e2248bad96618d539e7d3a7ba42273d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -490,7 +524,7 @@ template&lt;class T &gt; </div>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000012">Deprecated:</a></b></dt><dd>use the future-based <a class="el" href="classlunchbox_1_1_request_handler.html#afdcd80fd7e29528c5105b68b093ef3e1" title="Register a request. ">registerRequest()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="request_handler_8h_source.html#l00072">72</a> of file <a class="el" href="request_handler_8h_source.html">requestHandler.h</a>.</p>
+<p>Definition at line <a class="el" href="request_handler_8h_source.html#l00070">70</a> of file <a class="el" href="request_handler_8h_source.html">requestHandler.h</a>.</p>
 
 </div>
 </div>
@@ -834,7 +868,7 @@ template&lt;class T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelunchbox.html">lunchbox</a></li><li class="navelem"><a class="el" href="classlunchbox_1_1_request_handler.html">RequestHandler</a></li>
-    <li class="footer">Generated on Thu Oct 15 2015 14:48:07 for Lunchbox by
+    <li class="footer">Generated on Fri Oct 23 2015 13:55:57 for Lunchbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

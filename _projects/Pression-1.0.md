@@ -4,7 +4,7 @@ version: "1.0"
 major: 1
 minor: 0
 description: Compressor, decompressor, uploader and downloader plugins
-updated: 15/10/15
+updated: 23/10/15
 homepage: https://github.com/Eyescale/Pression
 repository: https://github.com/Eyescale/Pression.git
 issuesurl: https://github.com/Eyescale/Pression/issues

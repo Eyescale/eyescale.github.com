@@ -43,6 +43,7 @@ var namespacelunchbox =
     [ "FutureBool", "classlunchbox_1_1_future_bool.html", "classlunchbox_1_1_future_bool" ],
     [ "Referenced", "classlunchbox_1_1_referenced.html", "classlunchbox_1_1_referenced" ],
     [ "RefPtr", "classlunchbox_1_1_ref_ptr.html", "classlunchbox_1_1_ref_ptr" ],
+    [ "UnregisteredRequest", "classlunchbox_1_1_unregistered_request.html", "classlunchbox_1_1_unregistered_request" ],
     [ "Request", "classlunchbox_1_1_request.html", "classlunchbox_1_1_request" ],
     [ "RequestHandler", "classlunchbox_1_1_request_handler.html", "classlunchbox_1_1_request_handler" ],
     [ "Result", "classlunchbox_1_1_result.html", "classlunchbox_1_1_result" ],

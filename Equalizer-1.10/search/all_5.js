@@ -62,7 +62,7 @@ var searchData=
   ['exiterrors',['exitErrors',['../namespaceseq.html#a96de08e505674c076e156ad4f1a3abb0',1,'seq']]],
   ['exiteventhandler',['exitEventHandler',['../classeq_1_1glx_1_1_window.html#a28203e7bfa95fe3306fc3ea48cd282cc',1,'eq::glx::Window::exitEventHandler()'],['../classeq_1_1wgl_1_1_window.html#a89a3ed89cba0c79d744a3faf0fd5b2d7',1,'eq::wgl::Window::exitEventHandler()']]],
   ['exitglew',['exitGLEW',['../classeq_1_1_g_l_window.html#abda0f097fa517fd9a50ba9faa66c7389',1,'eq::GLWindow']]],
-  ['exitlocal',['exitLocal',['../classeq_1_1_client.html#a2210a91b4c3015f5e8348b8876781837',1,'eq::Client']]],
+  ['exitlocal',['exitLocal',['../classeq_1_1_client.html#aa0dde520d14f5ff0691b1063c5cd9d97',1,'eq::Client']]],
   ['exitmagellan',['exitMagellan',['../classeq_1_1wgl_1_1_event_handler.html#ad1b96397f37ac6d33c2271506efba41a',1,'eq::wgl::EventHandler']]],
   ['exitwglaffinitydc',['exitWGLAffinityDC',['../classeq_1_1wgl_1_1_window.html#a67e479ea26faa2f58e0c10d283c58391',1,'eq::wgl::Window']]],
   ['externalformat',['externalFormat',['../structeq_1_1_pixel_data.html#a0d07801753568105ddf01a430711f52d',1,'eq::PixelData']]],

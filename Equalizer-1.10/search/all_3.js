@@ -54,7 +54,7 @@ var searchData=
   ['colormask',['ColorMask',['../classeq_1_1fabric_1_1_color_mask.html#a8a74cf6af184f6240446f5bc79b7e321',1,'eq::fabric::ColorMask::ColorMask()'],['../classeq_1_1fabric_1_1_color_mask.html#a3c40761149afd43f96358b4b649b92bf',1,'eq::fabric::ColorMask::ColorMask(const bool r, const bool g, const bool b, const bool a=true)']]],
   ['commandqueue',['CommandQueue',['../classeq_1_1_command_queue.html',1,'eq']]],
   ['compositor',['Compositor',['../classeq_1_1_compositor.html',1,'eq']]],
-  ['compress',['compress',['../classeq_1_1plugin_1_1_compressor.html#a8de0dea876715061da965d296c09ab2f',1,'eq::plugin::Compressor']]],
+  ['compress',['compress',['../classeq_1_1plugin_1_1_compressor.html#a8de0dea876715061da965d296c09ab2f',1,'eq::plugin::Compressor::compress()'],['../classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#aca06c121fa0ec5d0e5cf07b5e319f4ec',1,'eq::plugin::CompressorReadDrawPixels::compress()'],['../classeq_1_1plugin_1_1_compressor_y_u_v.html#a6deec273bca6db71aec8e039383dbe81',1,'eq::plugin::CompressorYUV::compress()']]],
   ['compresseddata',['compressedData',['../structeq_1_1_pixel_data.html#a9149afb1c7523ee2c76ba190900f8ffa',1,'eq::PixelData']]],
   ['compressor',['Compressor',['../classeq_1_1plugin_1_1_compressor.html#a77c03e07dc1f934aeae6a2cac0b7950c',1,'eq::plugin::Compressor']]],
   ['compressor',['Compressor',['../classeq_1_1plugin_1_1_compressor.html',1,'eq::plugin']]],

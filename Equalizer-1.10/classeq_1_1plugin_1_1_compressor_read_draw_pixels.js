@@ -8,7 +8,7 @@ var classeq_1_1plugin_1_1_compressor_read_draw_pixels =
     [ "_initPBO", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#a3f60a9fd2a6fb7c08cedec37ad327b77", null ],
     [ "_initTexture", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#aba21405cbffcde242980881a499626f8", null ],
     [ "_resizeBuffer", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#a6ffbd7b02bd14e1092625b1d0945cb61", null ],
-    [ "compress", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#af17a34c6e72ccd066bef807a6ce49975", null ],
+    [ "compress", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#aca06c121fa0ec5d0e5cf07b5e319f4ec", null ],
     [ "download", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#aba1e92f4bd3770a7b9ad6ef9d2f6d8e4", null ],
     [ "finishDownload", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#aaa3bea8a37ba3af257e0e639be780309", null ],
     [ "getNewCompressor", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html#a47ae176a2316562d3df020450bbe47e2", null ],

@@ -69,7 +69,8 @@ var hierarchy =
         [ "lunchbox::bad_any_cast", "classlunchbox_1_1bad__any__cast.html", null ]
       ] ],
       [ "std::runtime_error", null, [
-        [ "lunchbox::FutureTimeout", "classlunchbox_1_1_future_timeout.html", null ]
+        [ "lunchbox::FutureTimeout", "classlunchbox_1_1_future_timeout.html", null ],
+        [ "lunchbox::UnregisteredRequest", "classlunchbox_1_1_unregistered_request.html", null ]
       ] ]
     ] ],
     [ "hash_map", null, [

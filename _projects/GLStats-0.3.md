@@ -4,7 +4,7 @@ version: "0.3"
 major: 0
 minor: 3
 description: 
-updated: 15/10/15
+updated: 23/10/15
 homepage: https://github.com/Eyescale/GLStats
 repository: https://github.com/Eyescale/GLStats.git
 issuesurl: https://github.com/Eyescale/GLStats/issues

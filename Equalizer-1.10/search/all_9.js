@@ -42,7 +42,7 @@ var searchData=
   ['initerrors',['initErrors',['../namespaceseq.html#a722a06a537d8774394dd3c129f4872fd',1,'seq']]],
   ['initeventhandler',['initEventHandler',['../classeq_1_1glx_1_1_window.html#a58a9ab6ba719d498904371ca9e7bc35c',1,'eq::glx::Window::initEventHandler()'],['../classeq_1_1wgl_1_1_window.html#a04717b41b24aac6d89772846a0b7769e',1,'eq::wgl::Window::initEventHandler()']]],
   ['initglew',['initGLEW',['../classeq_1_1_g_l_window.html#aac0da2da1f2e83bb9a7a487faec4ff6b',1,'eq::GLWindow']]],
-  ['initlocal',['initLocal',['../classeq_1_1_client.html#ac30c3e512ceb7c136a6e30e9507d2a1a',1,'eq::Client']]],
+  ['initlocal',['initLocal',['../classeq_1_1_client.html#ab9bc95e0088775873ab92dafe6b4f17c',1,'eq::Client']]],
   ['initmagellan',['initMagellan',['../classeq_1_1wgl_1_1_event_handler.html#af11bd29c175e04f8394fe0ff0a8b9223',1,'eq::wgl::EventHandler']]],
   ['initwglaffinitydc',['initWGLAffinityDC',['../classeq_1_1wgl_1_1_window.html#a48e405376f5ac5573a5884a69d00b292',1,'eq::wgl::Window']]],
   ['internalformat',['internalFormat',['../structeq_1_1_pixel_data.html#a2d80968165be581d4606647ef6af42dd',1,'eq::PixelData']]],

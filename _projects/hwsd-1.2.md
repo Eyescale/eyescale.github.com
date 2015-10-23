@@ -4,7 +4,7 @@ version: "1.2"
 major: 1
 minor: 2
 description: Local and remote ZeroConf service discovery for hardware resources.
-updated: 15/10/15
+updated: 23/10/15
 homepage: https://github.com/Eyescale/hwsd
 repository: https://github.com/Eyescale/hwsd.git
 issuesurl: https://github.com/Eyescale/hwsd/issues

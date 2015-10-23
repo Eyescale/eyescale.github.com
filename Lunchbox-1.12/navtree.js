@@ -52,7 +52,7 @@ var NAVTREEINDEX =
 "algorithm_8h_source.html",
 "classlunchbox_1_1_lockable.html#a88a0949e0c11edd2bd81687f19445e2b",
 "classlunchbox_1_1_referenced.html#a0e404446893bd747c01d8722771405ea",
-"log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99d"
+"log_8h.html#ad555e60064d1e85a1fca5088c430843a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

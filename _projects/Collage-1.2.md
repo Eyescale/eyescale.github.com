@@ -4,7 +4,7 @@ version: "1.2"
 major: 1
 minor: 2
 description: High-performance C++ library for developing object-oriented distributed applications.
-updated: 15/10/15
+updated: 23/10/15
 homepage: https://github.com/Eyescale/Collage
 repository: https://github.com/Eyescale/Collage.git
 issuesurl: https://github.com/Eyescale/Collage/issues

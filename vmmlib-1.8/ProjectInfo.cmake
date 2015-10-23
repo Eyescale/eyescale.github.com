@@ -1,5 +1,5 @@
 set(VMMLIB_MATURITY "EP")
-set(VMMLIB_DESCRIPTION "")
+set(VMMLIB_DESCRIPTION "Templatized C++ vector and matrix math library")
 set(VMMLIB_GIT_ROOT_URL "https://github.com/Eyescale/vmmlib.git")
 set(VMMLIB_PACKAGE_URL "https://launchpad.net/~eilemann/+archive/equalizer-dev")
 set(VMMLIB_CI_URL "https://travis-ci.org/Eyescale/vmmlib")

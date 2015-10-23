@@ -56,7 +56,7 @@ var searchData=
   ['setheadmatrix',['setHeadMatrix',['../classeq_1_1fabric_1_1_observer.html#a2322016b3cfb97abeace52cb9c9a1061',1,'eq::fabric::Observer']]],
   ['setiattribute',['setIAttribute',['../classeq_1_1fabric_1_1_window.html#aa70a1a03c836f8d4315bcf3509bc7e7f',1,'eq::fabric::Window::setIAttribute()'],['../classeq_1_1fabric_1_1_window_settings.html#a26e182d01f766e48768d7059fccea575',1,'eq::fabric::WindowSettings::setIAttribute()']]],
   ['setinternalformat',['setInternalFormat',['../classeq_1_1_image.html#a0cf9e9ab8d6c6a59a29c14132329a00a',1,'eq::Image']]],
-  ['setlatency',['setLatency',['../classeq_1_1_config.html#a732fe0fa11bc5cddab225fb11371e387',1,'eq::Config::setLatency()'],['../classeq_1_1fabric_1_1_config.html#a5fa38850580e61ab97a7959d4cb610c3',1,'eq::fabric::Config::setLatency()']]],
+  ['setlatency',['setLatency',['../classeq_1_1_config.html#af33fd1f046bdf139ae98f7d020053dc6',1,'eq::Config::setLatency()'],['../classeq_1_1fabric_1_1_config.html#a5fa38850580e61ab97a7959d4cb610c3',1,'eq::fabric::Config::setLatency()']]],
   ['setmaximumcapabilities',['setMaximumCapabilities',['../classeq_1_1fabric_1_1_view.html#ac0d2c4195b58b737003e8d2b238a4c2f',1,'eq::fabric::View']]],
   ['setmaxsize',['setMaxSize',['../classeq_1_1fabric_1_1_channel.html#af667b4074f02e830aa7cddfc1451926f',1,'eq::fabric::Channel']]],
   ['setminimumcapabilities',['setMinimumCapabilities',['../classeq_1_1fabric_1_1_view.html#aabd9e1ece376004f43f4fbdbc7b5f168',1,'eq::fabric::View']]],
