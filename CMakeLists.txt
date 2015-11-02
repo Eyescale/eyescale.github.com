@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(Eyescale)
 
 set(VERSION_MAJOR "2015")
-set(VERSION_MINOR "4")
+set(VERSION_MINOR "11")
 set(VERSION_PATCH "0")
 set(GITTARGETS_RELEASE_BRANCH current)
 
