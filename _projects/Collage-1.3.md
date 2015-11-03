@@ -1,0 +1,81 @@
+---
+name: Collage
+version: "1.3"
+major: 1
+minor: 3
+description: High-performance C++ library for developing object-oriented distributed applications.
+updated: 03/11/15
+homepage: https://github.com/Eyescale/Collage
+repository: https://github.com/Eyescale/Collage.git
+issuesurl: https://github.com/Eyescale/Collage/issues
+packageurl: 
+license: LGPL
+maturity: EP
+maintainers: Stefan Eilemann (eile@eyescale.ch)
+contributors: Ahmet Bilgili; Bidur Bohara; Carsten Rohn; Cedric; Cedric Stalder; Daniel Nachbaur; Daniel Pfeifer; Dardo; Dardo D Kleiner; Enrique G. Paredes; Fabien Delalondre; Jafet Villafranca; Jaroslav Škarvada; John Biddiscombe; Juan Hernando; Julio Delgado; Lucas Peetz Dulley; Madhusudhanan Srinivasan; Martin Lambers; Marwan; Marwan Abdellah; Matthew Dawson; Maxim Makhinya; MichaelVlad; Oliver Elias; Philippe Robert; Raphael Dumusc; Rick Arkin; Sarah Amsellem; Stefan Eilemann; Stefan Hutter; Theo Diefenthal; Thomas McGuire; U-DE\daniel_nachbaur; ahmetbilgili; bilgili; cstalder; delyas; marwan-abdellah; nikolay_lukash; unknown
+readmetype: text/x-markdown
+---
+[TOC]
+
+# Introduction {#Introduction}
+
+Collage is a cross-platform C++ library for building heterogenous, distributed
+applications. Among other things, it is the cluster backend for the [Equalizer
+parallel rendering framework](https://github.com/Eyescale/Equalizer). Collage
+provides an abstraction of different network connections, peer-to-peer
+messaging, node discovery, synchronization and high-performance,
+object-oriented, versioned data distribution. Collage is designed for
+low-overhead multi-threaded execution which allows applications to easily
+exploit multi-core architectures.
+
+The
+[API documentation](http://eyescale.github.io/Collage-1.3/index.html) can be
+found on [eyescale.github.io](http://eyescale.github.io/). As with any open
+source project, the available source code, in particular the
+[unit tests](https://github.com/Eyescale/Collage/tree/1.3/tests) provide a
+reference for developing applications.
+
+Technical questions can be posted to the Equalizer
+[Developer Mailing List](http://www.equalizergraphics.com/cgi-bin/mailman/listinfo/eq-dev),
+or directly to
+[info@equalizergraphics.com](mailto:info@equalizergraphics.com?subject=Collage%20question).
+
+Commercial support, custom software development and porting services are
+available from [Eyescale](http://www.eyescale.ch). Please contact
+[info@eyescale.ch](mailto:info@eyescale.ch?subject=Collage%20support)
+for further information.
+
+# Features {#Features}
+
+Collage provides different levels of abstraction to facilitate the
+development distributed applications:
+
+* Network Connections: stream-oriented point-to-point and reliable multicast
+  connections for TCP/IP, SDP, InfiniBand RDMA, UDT, events, named and anonymous
+  pipes, memory buffers and reliable multicast over UDP.
+* Peer-to-Peer Messaging: Endian-safe node-to-node message communication with
+  thread-aware message dispatch.
+* Synchronization: Distributed barriers and synchronous messaging.
+* Object data distribution: high-performance, object-oriented, versioned data
+  distribution for C++ objects based on delta serialization.
+* Detailed @ref Changelog
+
+# Building {#Building}
+
+Collage is a cross-platform library, designed to run on any modern operating
+system, including all Unix variants and the Windows operating system. Collage
+uses CMake to create a platform-specific build environment. The following
+platforms and build environments are tested:
+
+* Linux: Ubuntu 14.04, RHEL 6.6 (Makefile, Ninja)
+* Windows: 7 (Visual Studio 2012)
+* Mac OS X: 10.8 (Makefile, Ninja)
+
+Building from source is as simple as:
+
+    git clone https://github.com/Eyescale/Collage.git
+    mkdir Collage/build
+    cd Collage/build
+    cmake ..
+    make
+
