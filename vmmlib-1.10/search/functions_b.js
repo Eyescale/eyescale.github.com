@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reset',['reset',['../classvmml_1_1_a_a_b_b.html#a0f196ea2252c35e94d038a612c0dde47',1,'vmml::AABB']]]
+  ['quaternion',['quaternion',['../classvmml_1_1quaternion.html#a8bbdcc917563b1f8744358a7a6c7abbd',1,'vmml::quaternion::quaternion()'],['../classvmml_1_1quaternion.html#a73d255358403bcbfaf99b98ddb5cea32',1,'vmml::quaternion::quaternion(T angle, vec3 axis)']]]
 ];

@@ -2,9 +2,9 @@ var searchData=
 [
   ['compressor_2eh',['compressor.h',['../plugins_2compressor_8h.html',1,'']]],
   ['plugin',['Plugin',['../classpression_1_1_plugin.html',1,'pression']]],
-  ['plugin',['Plugin',['../classpression_1_1_plugin.html#a4f29bc1abd6450c55c2d1abd1b020269',1,'pression::Plugin']]],
+  ['plugin',['Plugin',['../classpression_1_1_plugin.html#ae32ad860d08337aea4f6df34cfad661b',1,'pression::Plugin']]],
   ['pluginregistry',['PluginRegistry',['../classpression_1_1_plugin_registry.html',1,'pression']]],
-  ['pluginregistry',['PluginRegistry',['../classpression_1_1_plugin_registry.html#ab1e62b58cd41ff45b2d7e2355b07df7c',1,'pression::PluginRegistry']]],
+  ['pluginregistry',['PluginRegistry',['../classpression_1_1_plugin_registry.html#a56478c0fad5bf404f83052bd43b14bc3',1,'pression::PluginRegistry']]],
   ['pluginvisitort',['PluginVisitorT',['../classpression_1_1_plugin_visitor_t.html',1,'pression']]],
   ['pluginvisitort',['PluginVisitorT',['../classpression_1_1_plugin_visitor_t.html#a440738c57395f721332b805f609de352',1,'pression::PluginVisitorT']]],
   ['pression_5fversion_5fabi',['PRESSION_VERSION_ABI',['../version_8h.html#a5d754bf30058b49806ceaa6aabaadfc2',1,'version.h']]],

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2015-11-03 12:17:29</td>
+            <td class="headerValue">2016-03-29 17:10:13</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -193,10 +193,10 @@
 <span class="lineNum">     131 </span>            : {
 <span class="lineNum">     132 </span>            :   /* for short block, choose fastlz1 */
 <span class="lineNum">     133 </span><span class="lineCov">         76 :   if(length &lt; 65536)</span>
-<span class="lineNum">     134 </span><span class="lineCov">          6 :     return fastlz1_compress(input, length, output);</span>
+<span class="lineNum">     134 </span><span class="lineCov">         10 :     return fastlz1_compress(input, length, output);</span>
 <span class="lineNum">     135 </span>            : 
 <span class="lineNum">     136 </span>            :   /* else... */
-<span class="lineNum">     137 </span><span class="lineCov">         70 :   return fastlz2_compress(input, length, output);</span>
+<span class="lineNum">     137 </span><span class="lineCov">         66 :   return fastlz2_compress(input, length, output);</span>
 <a name="138"><span class="lineNum">     138 </span>            : }</a>
 <span class="lineNum">     139 </span>            : 
 <span class="lineNum">     140 </span><span class="lineCov">         76 : int fastlz_decompress(const void* input, int length, void* output, int maxout)</span>
@@ -205,9 +205,9 @@
 <span class="lineNum">     143 </span><span class="lineCov">         76 :   int level = ((*(const flzuint8*)input) &gt;&gt; 5) + 1;</span>
 <span class="lineNum">     144 </span>            : 
 <span class="lineNum">     145 </span><span class="lineCov">         76 :   if(level == 1)</span>
-<span class="lineNum">     146 </span><span class="lineCov">          6 :     return fastlz1_decompress(input, length, output, maxout);</span>
-<span class="lineNum">     147 </span><span class="lineCov">         70 :   if(level == 2)</span>
-<span class="lineNum">     148 </span><span class="lineCov">         70 :     return fastlz2_decompress(input, length, output, maxout);</span>
+<span class="lineNum">     146 </span><span class="lineCov">         10 :     return fastlz1_decompress(input, length, output, maxout);</span>
+<span class="lineNum">     147 </span><span class="lineCov">         66 :   if(level == 2)</span>
+<span class="lineNum">     148 </span><span class="lineCov">         66 :     return fastlz2_decompress(input, length, output, maxout);</span>
 <span class="lineNum">     149 </span>            : 
 <span class="lineNum">     150 </span>            :   /* unknown level, trigger error */
 <span class="lineNum">     151 </span><span class="lineNoCov">          0 :   return 0;</span>
@@ -265,203 +265,203 @@
 <span class="lineNum">     203 </span><span class="lineCov">         76 :   *op++ = *ip++;</span>
 <span class="lineNum">     204 </span>            : 
 <span class="lineNum">     205 </span>            :   /* main loop */
-<span class="lineNum">     206 </span><span class="lineCov">  245208074 :   while(FASTLZ_EXPECT_CONDITIONAL(ip &lt; ip_limit))</span>
+<span class="lineNum">     206 </span><span class="lineCov">  189588390 :   while(FASTLZ_EXPECT_CONDITIONAL(ip &lt; ip_limit))</span>
 <span class="lineNum">     207 </span>            :   {
 <span class="lineNum">     208 </span>            :     const flzuint8* ref;
 <span class="lineNum">     209 </span>            :     flzuint32 distance;
 <span class="lineNum">     210 </span>            : 
 <span class="lineNum">     211 </span>            :     /* minimum match length */
-<span class="lineNum">     212 </span><span class="lineCov">  245207922 :     flzuint32 len = 3;</span>
+<span class="lineNum">     212 </span><span class="lineCov">  189588238 :     flzuint32 len = 3;</span>
 <span class="lineNum">     213 </span>            : 
 <span class="lineNum">     214 </span>            :     /* comparison starting-point */
-<span class="lineNum">     215 </span><span class="lineCov">  245207922 :     const flzuint8* anchor = ip;</span>
+<span class="lineNum">     215 </span><span class="lineCov">  189588238 :     const flzuint8* anchor = ip;</span>
 <span class="lineNum">     216 </span>            : 
 <span class="lineNum">     217 </span>            :     /* check for a run */
 <span class="lineNum">     218 </span>            : #if FASTLZ_LEVEL==2
-<span class="lineNum">     219 </span><span class="lineCov">  245145092 :     if(ip[0] == ip[-1] &amp;&amp; FASTLZ_READU16(ip-1)==FASTLZ_READU16(ip+1))</span>
+<span class="lineNum">     219 </span><span class="lineCov">  189462756 :     if(ip[0] == ip[-1] &amp;&amp; FASTLZ_READU16(ip-1)==FASTLZ_READU16(ip+1))</span>
 <span class="lineNum">     220 </span>            :     {
-<span class="lineNum">     221 </span><span class="lineCov">     239626 :       distance = 1;</span>
-<span class="lineNum">     222 </span><span class="lineCov">     239626 :       ip += 3;</span>
-<span class="lineNum">     223 </span><span class="lineCov">     239626 :       ref = anchor - 1 + 3;</span>
-<span class="lineNum">     224 </span><span class="lineCov">     239626 :       goto match;</span>
+<span class="lineNum">     221 </span><span class="lineCov">     107990 :       distance = 1;</span>
+<span class="lineNum">     222 </span><span class="lineCov">     107990 :       ip += 3;</span>
+<span class="lineNum">     223 </span><span class="lineCov">     107990 :       ref = anchor - 1 + 3;</span>
+<span class="lineNum">     224 </span><span class="lineCov">     107990 :       goto match;</span>
 <span class="lineNum">     225 </span>            :     }
 <span class="lineNum">     226 </span>            : #endif
 <span class="lineNum">     227 </span>            : 
 <span class="lineNum">     228 </span>            :     /* find potential match */
-<span class="lineNum">     229 </span><span class="lineCov">  244968296 :     HASH_FUNCTION(hval,ip);</span>
-<span class="lineNum">     230 </span><span class="lineCov">  244968296 :     hslot = htab + hval;</span>
-<span class="lineNum">     231 </span><span class="lineCov">  244968296 :     ref = htab[hval];</span>
+<span class="lineNum">     229 </span><span class="lineCov">  189480248 :     HASH_FUNCTION(hval,ip);</span>
+<span class="lineNum">     230 </span><span class="lineCov">  189480248 :     hslot = htab + hval;</span>
+<span class="lineNum">     231 </span><span class="lineCov">  189480248 :     ref = htab[hval];</span>
 <span class="lineNum">     232 </span>            : 
 <span class="lineNum">     233 </span>            :     /* calculate distance to the match */
-<span class="lineNum">     234 </span><span class="lineCov">  244968296 :     distance = anchor - ref;</span>
+<span class="lineNum">     234 </span><span class="lineCov">  189480248 :     distance = anchor - ref;</span>
 <span class="lineNum">     235 </span>            : 
 <span class="lineNum">     236 </span>            :     /* update hash table */
-<span class="lineNum">     237 </span><span class="lineCov">  244968296 :     *hslot = anchor;</span>
+<span class="lineNum">     237 </span><span class="lineCov">  189480248 :     *hslot = anchor;</span>
 <span class="lineNum">     238 </span>            : 
 <span class="lineNum">     239 </span>            :     /* is this a match? check the first 3 bytes */
-<span class="lineNum">     240 </span><span class="lineCov">  244968296 :     if(distance==0 || </span>
+<span class="lineNum">     240 </span><span class="lineCov">  189480248 :     if(distance==0 || </span>
 <span class="lineNum">     241 </span>            : #if FASTLZ_LEVEL==1
-<span class="lineNum">     242 </span><span class="lineCov">      42768 :     (distance &gt;= MAX_DISTANCE) ||</span>
+<span class="lineNum">     242 </span><span class="lineCov">      84350 :     (distance &gt;= MAX_DISTANCE) ||</span>
 <span class="lineNum">     243 </span>            : #else
-<span class="lineNum">     244 </span><span class="lineCov">  242540198 :     (distance &gt;= MAX_FARDISTANCE) ||</span>
+<span class="lineNum">     244 </span><span class="lineCov">  188044558 :     (distance &gt;= MAX_FARDISTANCE) ||</span>
 <span class="lineNum">     245 </span>            : #endif
-<span class="lineNum">     246 </span><span class="lineCov">  261257100 :     *ref++ != *ip++ || *ref++!=*ip++ || *ref++!=*ip++)</span>
+<span class="lineNum">     246 </span><span class="lineCov">  200627956 :     *ref++ != *ip++ || *ref++!=*ip++ || *ref++!=*ip++)</span>
 <span class="lineNum">     247 </span>            :       goto literal;
 <span class="lineNum">     248 </span>            : 
 <span class="lineNum">     249 </span>            : #if FASTLZ_LEVEL==2
 <span class="lineNum">     250 </span>            :     /* far, needs at least 5-byte match */
-<span class="lineNum">     251 </span><span class="lineCov">   15390498 :     if(distance &gt;= MAX_DISTANCE)</span>
+<span class="lineNum">     251 </span><span class="lineCov">   10864714 :     if(distance &gt;= MAX_DISTANCE)</span>
 <span class="lineNum">     252 </span>            :     {
-<span class="lineNum">     253 </span><span class="lineCov">    2111100 :       if(*ip++ != *ref++ || *ip++!= *ref++) </span>
+<span class="lineNum">     253 </span><span class="lineCov">    1341040 :       if(*ip++ != *ref++ || *ip++!= *ref++) </span>
 <span class="lineNum">     254 </span>            :         goto literal;
-<span class="lineNum">     255 </span><span class="lineCov">     736522 :       len += 2;</span>
+<span class="lineNum">     255 </span><span class="lineCov">     554764 :       len += 2;</span>
 <span class="lineNum">     256 </span>            :     }
 <span class="lineNum">     257 </span>            :     
 <span class="lineNum">     258 </span>            :     match:
 <span class="lineNum">     259 </span>            : #endif
 <span class="lineNum">     260 </span>            : 
 <span class="lineNum">     261 </span>            :     /* last matched byte */
-<span class="lineNum">     262 </span><span class="lineCov">   14283192 :     ip = anchor + len;</span>
+<span class="lineNum">     262 </span><span class="lineCov">   10234212 :     ip = anchor + len;</span>
 <span class="lineNum">     263 </span>            : 
 <span class="lineNum">     264 </span>            :     /* distance is biased */
-<span class="lineNum">     265 </span><span class="lineCov">   14283192 :     distance--;</span>
+<span class="lineNum">     265 </span><span class="lineCov">   10234212 :     distance--;</span>
 <span class="lineNum">     266 </span>            : 
-<span class="lineNum">     267 </span><span class="lineCov">   14283192 :     if(!distance)</span>
+<span class="lineNum">     267 </span><span class="lineCov">   10234212 :     if(!distance)</span>
 <span class="lineNum">     268 </span>            :     {
 <span class="lineNum">     269 </span>            :       /* zero distance means a run */
-<span class="lineNum">     270 </span><span class="lineCov">     242014 :       flzuint8 x = ip[-1];</span>
-<span class="lineNum">     271 </span><span class="lineCov">    2578872 :       while(ip &lt; ip_bound)</span>
-<span class="lineNum">     272 </span><span class="lineCov">    2336858 :         if(*ref++ != x) break; else ip++;</span>
+<span class="lineNum">     270 </span><span class="lineCov">     111370 :       flzuint8 x = ip[-1];</span>
+<span class="lineNum">     271 </span><span class="lineCov">     931760 :       while(ip &lt; ip_bound)</span>
+<span class="lineNum">     272 </span><span class="lineCov">     820390 :         if(*ref++ != x) break; else ip++;</span>
 <span class="lineNum">     273 </span>            :     }
 <span class="lineNum">     274 </span>            :     else
 <span class="lineNum">     275 </span>            :     for(;;)
 <span class="lineNum">     276 </span>            :     {
 <span class="lineNum">     277 </span>            :       /* safe because the outer check against ip limit */
-<span class="lineNum">     278 </span><span class="lineCov">   14041178 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     279 </span><span class="lineCov">    8205898 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     280 </span><span class="lineCov">    5902566 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     281 </span><span class="lineCov">    4791582 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     282 </span><span class="lineCov">    3842888 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     283 </span><span class="lineCov">    3048450 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     284 </span><span class="lineCov">    2482086 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     285 </span><span class="lineCov">    2239022 :       if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     286 </span><span class="lineCov">   32414422 :       while(ip &lt; ip_bound)</span>
-<span class="lineNum">     287 </span><span class="lineCov">   30365470 :         if(*ref++ != *ip++) break;</span>
-<span class="lineNum">     288 </span><span class="lineCov">    2048938 :       break;</span>
+<span class="lineNum">     278 </span><span class="lineCov">   10122842 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     279 </span><span class="lineCov">    6556998 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     280 </span><span class="lineCov">    5017290 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     281 </span><span class="lineCov">    4073240 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     282 </span><span class="lineCov">    3114680 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     283 </span><span class="lineCov">    2199210 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     284 </span><span class="lineCov">    1745394 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     285 </span><span class="lineCov">    1559588 :       if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     286 </span><span class="lineCov">   20662470 :       while(ip &lt; ip_bound)</span>
+<span class="lineNum">     287 </span><span class="lineCov">   19262896 :         if(*ref++ != *ip++) break;</span>
+<span class="lineNum">     288 </span><span class="lineCov">    1399552 :       break;</span>
 <span class="lineNum">     289 </span>            :     }
 <span class="lineNum">     290 </span>            : 
 <span class="lineNum">     291 </span>            :     /* if we have copied something, adjust the copy count */
-<span class="lineNum">     292 </span><span class="lineCov">   14283192 :     if(copy)</span>
+<span class="lineNum">     292 </span><span class="lineCov">   10234212 :     if(copy)</span>
 <span class="lineNum">     293 </span>            :       /* copy is biased, '0' means 1 byte copy */
-<span class="lineNum">     294 </span><span class="lineCov">    8351596 :       *(op-copy-1) = copy-1;</span>
+<span class="lineNum">     294 </span><span class="lineCov">    5628542 :       *(op-copy-1) = copy-1;</span>
 <span class="lineNum">     295 </span>            :     else
 <span class="lineNum">     296 </span>            :       /* back, to overwrite the copy count */
-<span class="lineNum">     297 </span><span class="lineCov">    5931596 :       op--;</span>
+<span class="lineNum">     297 </span><span class="lineCov">    4605670 :       op--;</span>
 <span class="lineNum">     298 </span>            : 
 <span class="lineNum">     299 </span>            :     /* reset literal counter */
-<span class="lineNum">     300 </span><span class="lineCov">   14283192 :     copy = 0;</span>
+<span class="lineNum">     300 </span><span class="lineCov">   10234212 :     copy = 0;</span>
 <span class="lineNum">     301 </span>            : 
 <span class="lineNum">     302 </span>            :     /* length is biased, '1' means a match of 3 bytes */
-<span class="lineNum">     303 </span><span class="lineCov">   14283192 :     ip -= 3;</span>
-<span class="lineNum">     304 </span><span class="lineCov">   14283192 :     len = ip - anchor;</span>
+<span class="lineNum">     303 </span><span class="lineCov">   10234212 :     ip -= 3;</span>
+<span class="lineNum">     304 </span><span class="lineCov">   10234212 :     len = ip - anchor;</span>
 <span class="lineNum">     305 </span>            : 
 <span class="lineNum">     306 </span>            :     /* encode the match */
 <span class="lineNum">     307 </span>            : #if FASTLZ_LEVEL==2
-<span class="lineNum">     308 </span><span class="lineCov">   14255546 :     if(distance &lt; MAX_DISTANCE)</span>
+<span class="lineNum">     308 </span><span class="lineCov">   10186428 :     if(distance &lt; MAX_DISTANCE)</span>
 <span class="lineNum">     309 </span>            :     {
-<span class="lineNum">     310 </span><span class="lineCov">   13519056 :       if(len &lt; 7)</span>
+<span class="lineNum">     310 </span><span class="lineCov">    9631716 :       if(len &lt; 7)</span>
 <span class="lineNum">     311 </span>            :       {
-<span class="lineNum">     312 </span><span class="lineCov">   11226810 :         *op++ = (len &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
-<span class="lineNum">     313 </span><span class="lineCov">   11226810 :         *op++ = (distance &amp; 255);</span>
+<span class="lineNum">     312 </span><span class="lineCov">    8064956 :         *op++ = (len &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
+<span class="lineNum">     313 </span><span class="lineCov">    8064956 :         *op++ = (distance &amp; 255);</span>
 <span class="lineNum">     314 </span>            :       }
 <span class="lineNum">     315 </span>            :       else
 <span class="lineNum">     316 </span>            :       {
-<span class="lineNum">     317 </span><span class="lineCov">    2292246 :         *op++ = (7 &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
-<span class="lineNum">     318 </span><span class="lineCov">    2301680 :         for(len-=7; len &gt;= 255; len-= 255)</span>
-<span class="lineNum">     319 </span><span class="lineCov">       9434 :           *op++ = 255;</span>
-<span class="lineNum">     320 </span><span class="lineCov">    2292246 :         *op++ = len;</span>
-<span class="lineNum">     321 </span><span class="lineCov">    2292246 :         *op++ = (distance &amp; 255);</span>
+<span class="lineNum">     317 </span><span class="lineCov">    1566760 :         *op++ = (7 &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
+<span class="lineNum">     318 </span><span class="lineCov">    1570322 :         for(len-=7; len &gt;= 255; len-= 255)</span>
+<span class="lineNum">     319 </span><span class="lineCov">       3562 :           *op++ = 255;</span>
+<span class="lineNum">     320 </span><span class="lineCov">    1566760 :         *op++ = len;</span>
+<span class="lineNum">     321 </span><span class="lineCov">    1566760 :         *op++ = (distance &amp; 255);</span>
 <span class="lineNum">     322 </span>            :       }
 <span class="lineNum">     323 </span>            :     }
 <span class="lineNum">     324 </span>            :     else
 <span class="lineNum">     325 </span>            :     {
 <span class="lineNum">     326 </span>            :       /* far away, but not yet in the another galaxy... */
-<span class="lineNum">     327 </span><span class="lineCov">     736490 :       if(len &lt; 7)</span>
+<span class="lineNum">     327 </span><span class="lineCov">     554712 :       if(len &lt; 7)</span>
 <span class="lineNum">     328 </span>            :       {
-<span class="lineNum">     329 </span><span class="lineCov">     448658 :         distance -= MAX_DISTANCE;</span>
-<span class="lineNum">     330 </span><span class="lineCov">     448658 :         *op++ = (len &lt;&lt; 5) + 31;</span>
-<span class="lineNum">     331 </span><span class="lineCov">     448658 :         *op++ = 255;</span>
-<span class="lineNum">     332 </span><span class="lineCov">     448658 :         *op++ = distance &gt;&gt; 8;</span>
-<span class="lineNum">     333 </span><span class="lineCov">     448658 :         *op++ = distance &amp; 255;</span>
+<span class="lineNum">     329 </span><span class="lineCov">     317896 :         distance -= MAX_DISTANCE;</span>
+<span class="lineNum">     330 </span><span class="lineCov">     317896 :         *op++ = (len &lt;&lt; 5) + 31;</span>
+<span class="lineNum">     331 </span><span class="lineCov">     317896 :         *op++ = 255;</span>
+<span class="lineNum">     332 </span><span class="lineCov">     317896 :         *op++ = distance &gt;&gt; 8;</span>
+<span class="lineNum">     333 </span><span class="lineCov">     317896 :         *op++ = distance &amp; 255;</span>
 <span class="lineNum">     334 </span>            :       }
 <span class="lineNum">     335 </span>            :       else
 <span class="lineNum">     336 </span>            :       {
-<span class="lineNum">     337 </span><span class="lineCov">     287832 :         distance -= MAX_DISTANCE;</span>
-<span class="lineNum">     338 </span><span class="lineCov">     287832 :         *op++ = (7 &lt;&lt; 5) + 31;</span>
-<span class="lineNum">     339 </span><span class="lineCov">     296544 :         for(len-=7; len &gt;= 255; len-= 255)</span>
-<span class="lineNum">     340 </span><span class="lineCov">       8712 :           *op++ = 255;</span>
-<span class="lineNum">     341 </span><span class="lineCov">     287832 :         *op++ = len;</span>
-<span class="lineNum">     342 </span><span class="lineCov">     287832 :         *op++ = 255;</span>
-<span class="lineNum">     343 </span><span class="lineCov">     287832 :         *op++ = distance &gt;&gt; 8;</span>
-<span class="lineNum">     344 </span><span class="lineCov">     287832 :         *op++ = distance &amp; 255;</span>
+<span class="lineNum">     337 </span><span class="lineCov">     236816 :         distance -= MAX_DISTANCE;</span>
+<span class="lineNum">     338 </span><span class="lineCov">     236816 :         *op++ = (7 &lt;&lt; 5) + 31;</span>
+<span class="lineNum">     339 </span><span class="lineCov">     238928 :         for(len-=7; len &gt;= 255; len-= 255)</span>
+<span class="lineNum">     340 </span><span class="lineCov">       2112 :           *op++ = 255;</span>
+<span class="lineNum">     341 </span><span class="lineCov">     236816 :         *op++ = len;</span>
+<span class="lineNum">     342 </span><span class="lineCov">     236816 :         *op++ = 255;</span>
+<span class="lineNum">     343 </span><span class="lineCov">     236816 :         *op++ = distance &gt;&gt; 8;</span>
+<span class="lineNum">     344 </span><span class="lineCov">     236816 :         *op++ = distance &amp; 255;</span>
 <span class="lineNum">     345 </span>            :       }
 <span class="lineNum">     346 </span>            :     }
 <span class="lineNum">     347 </span>            : #else
 <span class="lineNum">     348 </span>            : 
-<span class="lineNum">     349 </span><span class="lineCov">      27646 :     if(FASTLZ_UNEXPECT_CONDITIONAL(len &gt; MAX_LEN-2))</span>
-<span class="lineNum">     350 </span><span class="lineCov">         46 :       while(len &gt; MAX_LEN-2)</span>
+<span class="lineNum">     349 </span><span class="lineCov">      47784 :     if(FASTLZ_UNEXPECT_CONDITIONAL(len &gt; MAX_LEN-2))</span>
+<span class="lineNum">     350 </span><span class="lineCov">         52 :       while(len &gt; MAX_LEN-2)</span>
 <span class="lineNum">     351 </span>            :       {
-<span class="lineNum">     352 </span><span class="lineCov">         30 :         *op++ = (7 &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
-<span class="lineNum">     353 </span><span class="lineCov">         30 :         *op++ = MAX_LEN - 2 - 7 -2; </span>
-<span class="lineNum">     354 </span><span class="lineCov">         30 :         *op++ = (distance &amp; 255);</span>
-<span class="lineNum">     355 </span><span class="lineCov">         30 :         len -= MAX_LEN-2;</span>
+<span class="lineNum">     352 </span><span class="lineCov">         20 :         *op++ = (7 &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
+<span class="lineNum">     353 </span><span class="lineCov">         20 :         *op++ = MAX_LEN - 2 - 7 -2; </span>
+<span class="lineNum">     354 </span><span class="lineCov">         20 :         *op++ = (distance &amp; 255);</span>
+<span class="lineNum">     355 </span><span class="lineCov">         20 :         len -= MAX_LEN-2;</span>
 <span class="lineNum">     356 </span>            :       }
 <span class="lineNum">     357 </span>            : 
-<span class="lineNum">     358 </span><span class="lineCov">      27646 :     if(len &lt; 7)</span>
+<span class="lineNum">     358 </span><span class="lineCov">      47784 :     if(len &lt; 7)</span>
 <span class="lineNum">     359 </span>            :     {
-<span class="lineNum">     360 </span><span class="lineCov">      20930 :       *op++ = (len &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
-<span class="lineNum">     361 </span><span class="lineCov">      20930 :       *op++ = (distance &amp; 255);</span>
+<span class="lineNum">     360 </span><span class="lineCov">      39950 :       *op++ = (len &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
+<span class="lineNum">     361 </span><span class="lineCov">      39950 :       *op++ = (distance &amp; 255);</span>
 <span class="lineNum">     362 </span>            :     }
 <span class="lineNum">     363 </span>            :     else
 <span class="lineNum">     364 </span>            :     {
-<span class="lineNum">     365 </span><span class="lineCov">       6716 :       *op++ = (7 &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
-<span class="lineNum">     366 </span><span class="lineCov">       6716 :       *op++ = len - 7;</span>
-<span class="lineNum">     367 </span><span class="lineCov">       6716 :       *op++ = (distance &amp; 255);</span>
+<span class="lineNum">     365 </span><span class="lineCov">       7834 :       *op++ = (7 &lt;&lt; 5) + (distance &gt;&gt; 8);</span>
+<span class="lineNum">     366 </span><span class="lineCov">       7834 :       *op++ = len - 7;</span>
+<span class="lineNum">     367 </span><span class="lineCov">       7834 :       *op++ = (distance &amp; 255);</span>
 <span class="lineNum">     368 </span>            :     }
 <span class="lineNum">     369 </span>            : #endif
 <span class="lineNum">     370 </span>            : 
 <span class="lineNum">     371 </span>            :     /* update the hash at match boundary */
-<span class="lineNum">     372 </span><span class="lineCov">   14283192 :     HASH_FUNCTION(hval,ip);</span>
-<span class="lineNum">     373 </span><span class="lineCov">   14283192 :     htab[hval] = ip++;</span>
-<span class="lineNum">     374 </span><span class="lineCov">   14283192 :     HASH_FUNCTION(hval,ip);</span>
-<span class="lineNum">     375 </span><span class="lineCov">   14283192 :     htab[hval] = ip++;</span>
+<span class="lineNum">     372 </span><span class="lineCov">   10234212 :     HASH_FUNCTION(hval,ip);</span>
+<span class="lineNum">     373 </span><span class="lineCov">   10234212 :     htab[hval] = ip++;</span>
+<span class="lineNum">     374 </span><span class="lineCov">   10234212 :     HASH_FUNCTION(hval,ip);</span>
+<span class="lineNum">     375 </span><span class="lineCov">   10234212 :     htab[hval] = ip++;</span>
 <span class="lineNum">     376 </span>            : 
 <span class="lineNum">     377 </span>            :     /* assuming literal copy */
-<span class="lineNum">     378 </span><span class="lineCov">   14283192 :     *op++ = MAX_COPY-1;</span>
+<span class="lineNum">     378 </span><span class="lineCov">   10234212 :     *op++ = MAX_COPY-1;</span>
 <span class="lineNum">     379 </span>            : 
-<span class="lineNum">     380 </span><span class="lineCov">   14283192 :     continue;</span>
+<span class="lineNum">     380 </span><span class="lineCov">   10234212 :     continue;</span>
 <span class="lineNum">     381 </span>            : 
 <span class="lineNum">     382 </span>            :     literal:
-<span class="lineNum">     383 </span><span class="lineCov">  230924730 :       *op++ = *anchor++;</span>
-<span class="lineNum">     384 </span><span class="lineCov">  230924730 :       ip = anchor;</span>
-<span class="lineNum">     385 </span><span class="lineCov">  230924730 :       copy++;</span>
-<span class="lineNum">     386 </span><span class="lineCov">  230924730 :       if(FASTLZ_UNEXPECT_CONDITIONAL(copy == MAX_COPY))</span>
+<span class="lineNum">     383 </span><span class="lineCov">  179354026 :       *op++ = *anchor++;</span>
+<span class="lineNum">     384 </span><span class="lineCov">  179354026 :       ip = anchor;</span>
+<span class="lineNum">     385 </span><span class="lineCov">  179354026 :       copy++;</span>
+<span class="lineNum">     386 </span><span class="lineCov">  179354026 :       if(FASTLZ_UNEXPECT_CONDITIONAL(copy == MAX_COPY))</span>
 <span class="lineNum">     387 </span>            :       {
-<span class="lineNum">     388 </span><span class="lineCov">    6464736 :         copy = 0;</span>
-<span class="lineNum">     389 </span><span class="lineCov">    6464736 :         *op++ = MAX_COPY-1;</span>
+<span class="lineNum">     388 </span><span class="lineCov">    5216080 :         copy = 0;</span>
+<span class="lineNum">     389 </span><span class="lineCov">    5216080 :         *op++ = MAX_COPY-1;</span>
 <span class="lineNum">     390 </span>            :       }
 <span class="lineNum">     391 </span>            :   }
 <span class="lineNum">     392 </span>            : 
 <span class="lineNum">     393 </span>            :   /* left-over as literal copy */
 <span class="lineNum">     394 </span><span class="lineCov">         76 :   ip_bound++;</span>
-<span class="lineNum">     395 </span><span class="lineCov">        794 :   while(ip &lt;= ip_bound)</span>
+<span class="lineNum">     395 </span><span class="lineCov">        716 :   while(ip &lt;= ip_bound)</span>
 <span class="lineNum">     396 </span>            :   {
-<span class="lineNum">     397 </span><span class="lineCov">        642 :     *op++ = *ip++;</span>
-<span class="lineNum">     398 </span><span class="lineCov">        642 :     copy++;</span>
-<span class="lineNum">     399 </span><span class="lineCov">        642 :     if(copy == MAX_COPY)</span>
+<span class="lineNum">     397 </span><span class="lineCov">        564 :     *op++ = *ip++;</span>
+<span class="lineNum">     398 </span><span class="lineCov">        564 :     copy++;</span>
+<span class="lineNum">     399 </span><span class="lineCov">        564 :     if(copy == MAX_COPY)</span>
 <span class="lineNum">     400 </span>            :     {
-<span class="lineNum">     401 </span><span class="lineCov">         10 :       copy = 0;</span>
-<span class="lineNum">     402 </span><span class="lineCov">         10 :       *op++ = MAX_COPY-1;</span>
+<span class="lineNum">     401 </span><span class="lineCov">         16 :       copy = 0;</span>
+<span class="lineNum">     402 </span><span class="lineCov">         16 :       *op++ = MAX_COPY-1;</span>
 <span class="lineNum">     403 </span>            :     }
 <span class="lineNum">     404 </span>            :   }
 <span class="lineNum">     405 </span>            : 
@@ -473,7 +473,7 @@
 <span class="lineNum">     411 </span>            : 
 <span class="lineNum">     412 </span>            : #if FASTLZ_LEVEL==2
 <span class="lineNum">     413 </span>            :   /* marker for fastlz2 */
-<span class="lineNum">     414 </span><span class="lineCov">         70 :   *(flzuint8*)output |= (1 &lt;&lt; 5);</span>
+<span class="lineNum">     414 </span><span class="lineCov">         66 :   *(flzuint8*)output |= (1 &lt;&lt; 5);</span>
 <span class="lineNum">     415 </span>            : #endif
 <span class="lineNum">     416 </span>            : 
 <span class="lineNum">     417 </span><span class="lineCov">         76 :   return op - (flzuint8*)output;</span>
@@ -490,62 +490,62 @@
 <span class="lineNum">     428 </span>            : 
 <span class="lineNum">     429 </span>            :   do
 <span class="lineNum">     430 </span>            :   {
-<span class="lineNum">     431 </span><span class="lineCov">   29099640 :     const flzuint8* ref = op;</span>
-<span class="lineNum">     432 </span><span class="lineCov">   29099640 :     flzuint32 len = ctrl &gt;&gt; 5;</span>
-<span class="lineNum">     433 </span><span class="lineCov">   29099640 :     flzuint32 ofs = (ctrl &amp; 31) &lt;&lt; 8;</span>
+<span class="lineNum">     431 </span><span class="lineCov">   21078946 :     const flzuint8* ref = op;</span>
+<span class="lineNum">     432 </span><span class="lineCov">   21078946 :     flzuint32 len = ctrl &gt;&gt; 5;</span>
+<span class="lineNum">     433 </span><span class="lineCov">   21078946 :     flzuint32 ofs = (ctrl &amp; 31) &lt;&lt; 8;</span>
 <span class="lineNum">     434 </span>            : 
-<span class="lineNum">     435 </span><span class="lineCov">   29099640 :     if(ctrl &gt;= 32)</span>
+<span class="lineNum">     435 </span><span class="lineCov">   21078946 :     if(ctrl &gt;= 32)</span>
 <span class="lineNum">     436 </span>            :     {
 <span class="lineNum">     437 </span>            : #if FASTLZ_LEVEL==2
 <span class="lineNum">     438 </span>            :       flzuint8 code;
 <span class="lineNum">     439 </span>            : #endif
-<span class="lineNum">     440 </span><span class="lineCov">   14283222 :       len--;</span>
-<span class="lineNum">     441 </span><span class="lineCov">   14283222 :       ref -= ofs;</span>
-<span class="lineNum">     442 </span><span class="lineCov">   14283222 :       if (len == 7-1)</span>
+<span class="lineNum">     440 </span><span class="lineCov">   10234232 :       len--;</span>
+<span class="lineNum">     441 </span><span class="lineCov">   10234232 :       ref -= ofs;</span>
+<span class="lineNum">     442 </span><span class="lineCov">   10234232 :       if (len == 7-1)</span>
 <span class="lineNum">     443 </span>            : #if FASTLZ_LEVEL==1
-<span class="lineNum">     444 </span><span class="lineCov">       6746 :         len += *ip++;</span>
-<span class="lineNum">     445 </span><span class="lineCov">      27676 :       ref -= *ip++;</span>
+<span class="lineNum">     444 </span><span class="lineCov">       7854 :         len += *ip++;</span>
+<span class="lineNum">     445 </span><span class="lineCov">      47804 :       ref -= *ip++;</span>
 <span class="lineNum">     446 </span>            : #else
 <span class="lineNum">     447 </span>            :         do
 <span class="lineNum">     448 </span>            :         {
-<span class="lineNum">     449 </span><span class="lineCov">    2598224 :           code = *ip++;</span>
-<span class="lineNum">     450 </span><span class="lineCov">    2598224 :           len += code;</span>
-<span class="lineNum">     451 </span><span class="lineCov">    2598224 :         } while (code==255);</span>
-<span class="lineNum">     452 </span><span class="lineCov">   14255546 :       code = *ip++;</span>
-<span class="lineNum">     453 </span><span class="lineCov">   14255546 :       ref -= code;</span>
+<span class="lineNum">     449 </span><span class="lineCov">    1809250 :           code = *ip++;</span>
+<span class="lineNum">     450 </span><span class="lineCov">    1809250 :           len += code;</span>
+<span class="lineNum">     451 </span><span class="lineCov">    1809250 :         } while (code==255);</span>
+<span class="lineNum">     452 </span><span class="lineCov">   10186428 :       code = *ip++;</span>
+<span class="lineNum">     453 </span><span class="lineCov">   10186428 :       ref -= code;</span>
 <span class="lineNum">     454 </span>            : 
 <span class="lineNum">     455 </span>            :       /* match from 16-bit distance */
-<span class="lineNum">     456 </span><span class="lineCov">   14255546 :       if(FASTLZ_UNEXPECT_CONDITIONAL(code==255))</span>
-<span class="lineNum">     457 </span><span class="lineCov">     840256 :       if(FASTLZ_EXPECT_CONDITIONAL(ofs==(31 &lt;&lt; 8)))</span>
+<span class="lineNum">     456 </span><span class="lineCov">   10186428 :       if(FASTLZ_UNEXPECT_CONDITIONAL(code==255))</span>
+<span class="lineNum">     457 </span><span class="lineCov">     597300 :       if(FASTLZ_EXPECT_CONDITIONAL(ofs==(31 &lt;&lt; 8)))</span>
 <span class="lineNum">     458 </span>            :       {
-<span class="lineNum">     459 </span><span class="lineCov">     736490 :         ofs = (*ip++) &lt;&lt; 8;</span>
-<span class="lineNum">     460 </span><span class="lineCov">     736490 :         ofs += *ip++;</span>
-<span class="lineNum">     461 </span><span class="lineCov">     736490 :         ref = op - ofs - MAX_DISTANCE;</span>
+<span class="lineNum">     459 </span><span class="lineCov">     554712 :         ofs = (*ip++) &lt;&lt; 8;</span>
+<span class="lineNum">     460 </span><span class="lineCov">     554712 :         ofs += *ip++;</span>
+<span class="lineNum">     461 </span><span class="lineCov">     554712 :         ref = op - ofs - MAX_DISTANCE;</span>
 <span class="lineNum">     462 </span>            :       }
 <span class="lineNum">     463 </span>            : #endif
 <span class="lineNum">     464 </span>            :       
 <span class="lineNum">     465 </span>            : #ifdef FASTLZ_SAFE
-<span class="lineNum">     466 </span><span class="lineCov">   14283222 :       if (FASTLZ_UNEXPECT_CONDITIONAL(op + len + 3 &gt; op_limit))</span>
+<span class="lineNum">     466 </span><span class="lineCov">   10234232 :       if (FASTLZ_UNEXPECT_CONDITIONAL(op + len + 3 &gt; op_limit))</span>
 <span class="lineNum">     467 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     468 </span>            : 
-<span class="lineNum">     469 </span><span class="lineCov">   14283222 :       if (FASTLZ_UNEXPECT_CONDITIONAL(ref-1 &lt; (flzuint8 *)output))</span>
+<span class="lineNum">     469 </span><span class="lineCov">   10234232 :       if (FASTLZ_UNEXPECT_CONDITIONAL(ref-1 &lt; (flzuint8 *)output))</span>
 <span class="lineNum">     470 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     471 </span>            : #endif
 <span class="lineNum">     472 </span>            : 
-<span class="lineNum">     473 </span><span class="lineCov">   14283222 :       if(FASTLZ_EXPECT_CONDITIONAL(ip &lt; ip_limit))</span>
-<span class="lineNum">     474 </span><span class="lineCov">   14283222 :         ctrl = *ip++;</span>
+<span class="lineNum">     473 </span><span class="lineCov">   10234232 :       if(FASTLZ_EXPECT_CONDITIONAL(ip &lt; ip_limit))</span>
+<span class="lineNum">     474 </span><span class="lineCov">   10234232 :         ctrl = *ip++;</span>
 <span class="lineNum">     475 </span>            :       else
 <span class="lineNum">     476 </span><span class="lineNoCov">          0 :         loop = 0;</span>
 <span class="lineNum">     477 </span>            : 
-<span class="lineNum">     478 </span><span class="lineCov">   14283222 :       if(ref == op)</span>
+<span class="lineNum">     478 </span><span class="lineCov">   10234232 :       if(ref == op)</span>
 <span class="lineNum">     479 </span>            :       {
 <span class="lineNum">     480 </span>            :         /* optimize copy for a run */
-<span class="lineNum">     481 </span><span class="lineCov">     242044 :         flzuint8 b = ref[-1];</span>
-<span class="lineNum">     482 </span><span class="lineCov">     242044 :         *op++ = b;</span>
-<span class="lineNum">     483 </span><span class="lineCov">     242044 :         *op++ = b;</span>
-<span class="lineNum">     484 </span><span class="lineCov">     242044 :         *op++ = b;</span>
-<span class="lineNum">     485 </span><span class="lineCov">    2094784 :         for(; len; --len)</span>
-<span class="lineNum">     486 </span><span class="lineCov">    1852740 :           *op++ = b;</span>
+<span class="lineNum">     481 </span><span class="lineCov">     111382 :         flzuint8 b = ref[-1];</span>
+<span class="lineNum">     482 </span><span class="lineCov">     111382 :         *op++ = b;</span>
+<span class="lineNum">     483 </span><span class="lineCov">     111382 :         *op++ = b;</span>
+<span class="lineNum">     484 </span><span class="lineCov">     111382 :         *op++ = b;</span>
+<span class="lineNum">     485 </span><span class="lineCov">     708996 :         for(; len; --len)</span>
+<span class="lineNum">     486 </span><span class="lineCov">     597614 :           *op++ = b;</span>
 <span class="lineNum">     487 </span>            :       }
 <span class="lineNum">     488 </span>            :       else
 <span class="lineNum">     489 </span>            :       {
@@ -554,10 +554,10 @@
 <span class="lineNum">     492 </span>            :         flzuint16* q;
 <span class="lineNum">     493 </span>            : #endif
 <span class="lineNum">     494 </span>            :         /* copy from reference */
-<span class="lineNum">     495 </span><span class="lineCov">   14041178 :         ref--;</span>
-<span class="lineNum">     496 </span><span class="lineCov">   14041178 :         *op++ = *ref++;</span>
-<span class="lineNum">     497 </span><span class="lineCov">   14041178 :         *op++ = *ref++;</span>
-<span class="lineNum">     498 </span><span class="lineCov">   14041178 :         *op++ = *ref++;</span>
+<span class="lineNum">     495 </span><span class="lineCov">   10122850 :         ref--;</span>
+<span class="lineNum">     496 </span><span class="lineCov">   10122850 :         *op++ = *ref++;</span>
+<span class="lineNum">     497 </span><span class="lineCov">   10122850 :         *op++ = *ref++;</span>
+<span class="lineNum">     498 </span><span class="lineCov">   10122850 :         *op++ = *ref++;</span>
 <span class="lineNum">     499 </span>            : 
 <span class="lineNum">     500 </span>            : #if !defined(FASTLZ_STRICT_ALIGN)
 <span class="lineNum">     501 </span>            :         /* copy a byte, so that now it's word aligned */
@@ -581,31 +581,31 @@
 <span class="lineNum">     519 </span>            :         for(; len; --len)
 <span class="lineNum">     520 </span>            :           *q++ = *p++;
 <span class="lineNum">     521 </span>            : #else
-<span class="lineNum">     522 </span><span class="lineCov">   76392184 :         for(; len; --len)</span>
-<span class="lineNum">     523 </span><span class="lineCov">   62351006 :           *op++ = *ref++;</span>
+<span class="lineNum">     522 </span><span class="lineCov">   54761650 :         for(; len; --len)</span>
+<span class="lineNum">     523 </span><span class="lineCov">   44638800 :           *op++ = *ref++;</span>
 <span class="lineNum">     524 </span>            : #endif
 <span class="lineNum">     525 </span>            :       }
 <span class="lineNum">     526 </span>            :     }
 <span class="lineNum">     527 </span>            :     else
 <span class="lineNum">     528 </span>            :     {
-<span class="lineNum">     529 </span><span class="lineCov">   14816418 :       ctrl++;</span>
+<span class="lineNum">     529 </span><span class="lineCov">   10844714 :       ctrl++;</span>
 <span class="lineNum">     530 </span>            : #ifdef FASTLZ_SAFE
-<span class="lineNum">     531 </span><span class="lineCov">   14816418 :       if (FASTLZ_UNEXPECT_CONDITIONAL(op + ctrl &gt; op_limit))</span>
+<span class="lineNum">     531 </span><span class="lineCov">   10844714 :       if (FASTLZ_UNEXPECT_CONDITIONAL(op + ctrl &gt; op_limit))</span>
 <span class="lineNum">     532 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     533 </span><span class="lineCov">   14816418 :       if (FASTLZ_UNEXPECT_CONDITIONAL(ip + ctrl &gt; ip_limit))</span>
+<span class="lineNum">     533 </span><span class="lineCov">   10844714 :       if (FASTLZ_UNEXPECT_CONDITIONAL(ip + ctrl &gt; ip_limit))</span>
 <span class="lineNum">     534 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     535 </span>            : #endif
 <span class="lineNum">     536 </span>            : 
-<span class="lineNum">     537 </span><span class="lineCov">   14816418 :       *op++ = *ip++; </span>
-<span class="lineNum">     538 </span><span class="lineCov">  230925524 :       for(--ctrl; ctrl; ctrl--)</span>
-<span class="lineNum">     539 </span><span class="lineCov">  216109106 :         *op++ = *ip++;</span>
+<span class="lineNum">     537 </span><span class="lineCov">   10844714 :       *op++ = *ip++; </span>
+<span class="lineNum">     538 </span><span class="lineCov">  179354742 :       for(--ctrl; ctrl; ctrl--)</span>
+<span class="lineNum">     539 </span><span class="lineCov">  168510028 :         *op++ = *ip++;</span>
 <span class="lineNum">     540 </span>            : 
-<span class="lineNum">     541 </span><span class="lineCov">   14816418 :       loop = FASTLZ_EXPECT_CONDITIONAL(ip &lt; ip_limit);</span>
-<span class="lineNum">     542 </span><span class="lineCov">   14816418 :       if(loop)</span>
-<span class="lineNum">     543 </span><span class="lineCov">   14816342 :         ctrl = *ip++;</span>
+<span class="lineNum">     541 </span><span class="lineCov">   10844714 :       loop = FASTLZ_EXPECT_CONDITIONAL(ip &lt; ip_limit);</span>
+<span class="lineNum">     542 </span><span class="lineCov">   10844714 :       if(loop)</span>
+<span class="lineNum">     543 </span><span class="lineCov">   10844638 :         ctrl = *ip++;</span>
 <span class="lineNum">     544 </span>            :     }
 <span class="lineNum">     545 </span>            :   }
-<span class="lineNum">     546 </span><span class="lineCov">   29099640 :   while(FASTLZ_EXPECT_CONDITIONAL(loop));</span>
+<span class="lineNum">     546 </span><span class="lineCov">   21078946 :   while(FASTLZ_EXPECT_CONDITIONAL(loop));</span>
 <span class="lineNum">     547 </span>            : 
 <span class="lineNum">     548 </span><span class="lineCov">         76 :   return op - (flzuint8*)output;</span>
 <span class="lineNum">     549 </span>            : }

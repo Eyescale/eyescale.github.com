@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Lunchbox - tests/monitor.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - monitor.cpp<span style="font-size: 80%;"> (source / <a href="monitor.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Lunchbox</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">116</td>
+            <td class="headerCovTableEntry">118</td>
+            <td class="headerCovTableEntryHi">98.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-03-29 17:09:06</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryHi">85.7 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2010-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #define TEST_RUNTIME 300 // seconds
+<span class="lineNum">      19 </span>            : #include &quot;test.h&quot;
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;lunchbox/clock.h&gt;
+<span class="lineNum">      22 </span>            : #include &lt;lunchbox/monitor.h&gt;
+<span class="lineNum">      23 </span>            : #include &lt;lunchbox/thread.h&gt;
+<span class="lineNum">      24 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      25 </span>            : 
+<a name="26"><span class="lineNum">      26 </span>            : using servus::uint128_t;</a>
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span><span class="lineCov">          1 : lunchbox::Monitor&lt; int64_t &gt; monitor;</span>
+<span class="lineNum">      29 </span><span class="lineCov">          1 : lunchbox::Monitor&lt; bool &gt; boolMonitor;</span>
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : class Thread1 : public lunchbox::Thread
+<a name="32"><span class="lineNum">      32 </span>            : {</a>
+<a name="33"><span class="lineNum">      33 </span>            : public:</a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">          1 :     explicit Thread1( int64_t loops ) : _loops( loops ) {}</span></a>
+<span class="lineNum">      35 </span><span class="lineCov">          1 :     virtual ~Thread1() {}</span>
+<span class="lineNum">      36 </span><span class="lineCov">          1 :     virtual void run()</span>
+<span class="lineNum">      37 </span>            :         {
+<span class="lineNum">      38 </span><span class="lineCov">          1 :             int64_t nOps = _loops;</span>
+<span class="lineNum">      39 </span><span class="lineCov">          1 :             lunchbox::Clock clock;</span>
+<span class="lineNum">      40 </span><span class="lineCov">     200002 :             while( nOps-- )</span>
+<span class="lineNum">      41 </span>            :             {
+<span class="lineNum">      42 </span><span class="lineCov">     200000 :                 monitor.waitEQ( nOps );</span>
+<span class="lineNum">      43 </span><span class="lineCov">     200000 :                 monitor = -nOps;</span>
+<span class="lineNum">      44 </span>            :             }
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span><span class="lineCov">          1 :             const float time = clock.getTimef();</span>
+<span class="lineNum">      47 </span><span class="lineCov">          1 :             std::cout &lt;&lt; 2*_loops / time &lt;&lt; &quot; ops/ms&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">      48 </span><span class="lineCov">          1 :         }</span>
+<span class="lineNum">      49 </span>            : private:
+<span class="lineNum">      50 </span>            :     int64_t _loops;
+<a name="51"><span class="lineNum">      51 </span>            : };</a>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">          1 : void testSimpleMonitor()</span>
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span><span class="lineCov">          1 :     TEST( !boolMonitor );</span>
+<span class="lineNum">      56 </span><span class="lineCov">          1 :     boolMonitor = true;</span>
+<span class="lineNum">      57 </span><span class="lineCov">          1 :     TEST( boolMonitor );</span>
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span><span class="lineCov">          1 :     const int64_t loops = 200000;</span>
+<span class="lineNum">      60 </span><span class="lineCov">          1 :     int64_t nOps = loops;</span>
+<span class="lineNum">      61 </span><span class="lineCov">          1 :     Thread1 waiter( nOps );</span>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineCov">          1 :     TEST( waiter.start( ));</span>
+<span class="lineNum">      64 </span><span class="lineCov">          2 :     lunchbox::Clock clock;</span>
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineCov">     200002 :     while( nOps-- )</span>
+<span class="lineNum">      67 </span>            :     {
+<span class="lineNum">      68 </span><span class="lineCov">     200000 :         monitor = nOps;</span>
+<span class="lineNum">      69 </span><span class="lineCov">     200000 :         monitor.waitEQ( -nOps );</span>
+<span class="lineNum">      70 </span>            :     }
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineCov">          1 :     const float time = clock.getTimef();</span>
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span><span class="lineCov">          1 :     TEST( waiter.join( ));</span>
+<span class="lineNum">      75 </span><span class="lineCov">          2 :     std::cout &lt;&lt; 2*loops / time &lt;&lt; &quot; ops/ms&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">      76 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : class Thread2 : public lunchbox::Thread
+<a name="79"><span class="lineNum">      79 </span>            : {</a>
+<span class="lineNum">      80 </span>            : public:
+<span class="lineNum">      81 </span><span class="lineCov">          2 :     explicit Thread2( size_t loops )</span>
+<span class="lineNum">      82 </span>            :         : innerLoops( 0 )
+<span class="lineNum">      83 </span><span class="lineCov">          2 :         , _outerLoops( loops )</span>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">          2 :     {}</span></a>
+<a name="85"><span class="lineNum">      85 </span>            : </a>
+<span class="lineNum">      86 </span><span class="lineCov">          2 :     virtual ~Thread2() {}</span>
+<span class="lineNum">      87 </span><span class="lineCov">          2 :     virtual void run()</span>
+<span class="lineNum">      88 </span>            :         {
+<span class="lineNum">      89 </span><span class="lineCov">          2 :             lunchbox::Clock clock;</span>
+<span class="lineNum">      90 </span><span class="lineCov">          2 :             size_t ops = 0;</span>
+<span class="lineNum">      91 </span><span class="lineCov">          6 :             for( size_t k = 0; k != 2; ++k )</span>
+<span class="lineNum">      92 </span>            :             {
+<span class="lineNum">      93 </span><span class="lineCov">       4004 :                 for( size_t i = 0; i != _outerLoops; ++i )</span>
+<span class="lineNum">      94 </span>            :                 {
+<span class="lineNum">      95 </span><span class="lineCov">       4000 :                     const int64_t loops = innerLoops.waitNE( 0 );</span>
+<span class="lineNum">      96 </span><span class="lineCov">       4000 :                     innerLoops = 0;</span>
+<span class="lineNum">      97 </span><span class="lineCov">    2006000 :                     for( int64_t j = 0; j != loops; ++j )</span>
+<span class="lineNum">      98 </span>            :                     {
+<span class="lineNum">      99 </span><span class="lineCov">    2002000 :                         if (innerLoops &gt; 0)</span>
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :                             abort();</span>
+<span class="lineNum">     101 </span><span class="lineCov">    2002000 :                         ++monitor;</span>
+<span class="lineNum">     102 </span>            :                     }
+<span class="lineNum">     103 </span><span class="lineCov">       4000 :                     ops += loops * 2 + 2;</span>
+<span class="lineNum">     104 </span>            :                 }
+<span class="lineNum">     105 </span>            :             }
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span><span class="lineCov">          6 :             for( size_t k = 0; k != 2; ++k )</span>
+<span class="lineNum">     108 </span>            :             {
+<span class="lineNum">     109 </span><span class="lineCov">       4004 :                 for( size_t i = 0; i != _outerLoops; ++i )</span>
+<span class="lineNum">     110 </span>            :                 {
+<span class="lineNum">     111 </span><span class="lineCov">       4000 :                     const int64_t loops = innerLoops.waitNE( 0 );</span>
+<span class="lineNum">     112 </span><span class="lineCov">       4000 :                     innerLoops = 0;</span>
+<span class="lineNum">     113 </span><span class="lineCov">    2006000 :                     for( int64_t j = 0; j != loops; ++j )</span>
+<span class="lineNum">     114 </span>            :                     {
+<span class="lineNum">     115 </span><span class="lineCov">    2002000 :                         if (innerLoops &gt; 0)</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :                             abort();</span>
+<span class="lineNum">     117 </span><span class="lineCov">    2002000 :                         --monitor;</span>
+<span class="lineNum">     118 </span>            :                     }
+<span class="lineNum">     119 </span><span class="lineCov">       4000 :                     ops += loops * 2 + 2;</span>
+<span class="lineNum">     120 </span>            :                 }
+<span class="lineNum">     121 </span>            :             }
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span><span class="lineCov">          2 :             const float time = clock.getTimef();</span>
+<span class="lineNum">     124 </span><span class="lineCov">          2 :             std::cout &lt;&lt; ops/time &lt;&lt; &quot; ops/ms&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     125 </span><span class="lineCov">          2 :         }</span>
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            :     lunchbox::Monitor&lt; int64_t &gt; innerLoops;
+<span class="lineNum">     128 </span>            : private:
+<span class="lineNum">     129 </span>            :     size_t _outerLoops;
+<a name="130"><span class="lineNum">     130 </span>            : };</a>
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span><span class="lineCov">          1 : void testMonitorComparisons()</span>
+<span class="lineNum">     133 </span>            : {
+<span class="lineNum">     134 </span><span class="lineCov">          1 :     boolMonitor = true;</span>
+<span class="lineNum">     135 </span><span class="lineCov">          1 :     const int64_t loops = 1000;</span>
+<span class="lineNum">     136 </span><span class="lineCov">          1 :     Thread2 waiter( loops );</span>
+<span class="lineNum">     137 </span><span class="lineCov">          1 :     TEST( waiter.start( ));</span>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span><span class="lineCov">       1001 :     for( int64_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     140 </span>            :     {
+<span class="lineNum">     141 </span><span class="lineCov">       1000 :         monitor = 0;</span>
+<span class="lineNum">     142 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     143 </span><span class="lineCov">       1000 :         TEST( monitor.waitGE( i + 1 ) &gt;= i + 1 );</span>
+<span class="lineNum">     144 </span><span class="lineCov">       1000 :         TEST( monitor &gt;= i + 1 );</span>
+<span class="lineNum">     145 </span>            :     }
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">       1001 :     for( int64_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     148 </span>            :     {
+<span class="lineNum">     149 </span><span class="lineCov">       1000 :         monitor = 0;</span>
+<span class="lineNum">     150 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     151 </span><span class="lineCov">       1000 :         TEST( monitor.waitGT( i ) &gt; i );</span>
+<span class="lineNum">     152 </span><span class="lineCov">       1000 :         TEST( monitor &gt; i );</span>
+<span class="lineNum">     153 </span>            :     }
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span><span class="lineCov">       1001 :     for( int64_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     156 </span>            :     {
+<span class="lineNum">     157 </span><span class="lineCov">       1000 :         monitor = i + 1;</span>
+<span class="lineNum">     158 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     159 </span><span class="lineCov">       1000 :         TEST( monitor.waitLE( 0 ) &lt;= 0 );</span>
+<span class="lineNum">     160 </span><span class="lineCov">       1000 :         TEST( monitor &lt;= 0 );</span>
+<span class="lineNum">     161 </span>            :     }
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span><span class="lineCov">       1001 :     for( int64_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     164 </span>            :     {
+<span class="lineNum">     165 </span><span class="lineCov">       1000 :         monitor = i + 1;</span>
+<span class="lineNum">     166 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     167 </span><span class="lineCov">       1000 :         TEST( monitor.waitLT( 1 ) &lt; 1 );</span>
+<span class="lineNum">     168 </span><span class="lineCov">       1000 :         TEST( monitor &lt; 1 );</span>
+<span class="lineNum">     169 </span>            :     }
+<span class="lineNum">     170 </span>            : 
+<span class="lineNum">     171 </span><span class="lineCov">          1 :     TEST( waiter.join( ));</span>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span><span class="lineCov">          1 : void testTimedMonitorComparisons()</span>
+<span class="lineNum">     175 </span>            : {
+<span class="lineNum">     176 </span><span class="lineCov">          1 :     boolMonitor = true;</span>
+<span class="lineNum">     177 </span><span class="lineCov">          1 :     const size_t loops = 1000;</span>
+<span class="lineNum">     178 </span><span class="lineCov">          1 :     Thread2 waiter( loops );</span>
+<span class="lineNum">     179 </span><span class="lineCov">          1 :     TEST( waiter.start( ));</span>
+<span class="lineNum">     180 </span><span class="lineCov">          1 :     const uint32_t timeout = 1;</span>
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span><span class="lineCov">       1001 :     for( size_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     183 </span>            :     {
+<span class="lineNum">     184 </span><span class="lineCov">       1000 :         monitor = 0;</span>
+<span class="lineNum">     185 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     186 </span><span class="lineCov">       1000 :         while( !monitor.timedWaitGE( i + 1, timeout ))</span>
+<span class="lineNum">     187 </span>            :             ;
+<span class="lineNum">     188 </span><span class="lineCov">       1000 :         TEST( monitor &gt;= i + 1 );</span>
+<span class="lineNum">     189 </span>            :     }
+<span class="lineNum">     190 </span><span class="lineCov">       1001 :     for( size_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     191 </span>            :     {
+<span class="lineNum">     192 </span><span class="lineCov">       1000 :         monitor = 0;</span>
+<span class="lineNum">     193 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     194 </span><span class="lineCov">       1000 :         while( !monitor.timedWaitGT( i, timeout ))</span>
+<span class="lineNum">     195 </span>            :             ;
+<span class="lineNum">     196 </span><span class="lineCov">       1000 :         TEST( monitor &gt; i );</span>
+<span class="lineNum">     197 </span>            :     }
+<span class="lineNum">     198 </span><span class="lineCov">       1001 :     for( size_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     199 </span>            :     {
+<span class="lineNum">     200 </span><span class="lineCov">       1000 :         monitor = i + 1;</span>
+<span class="lineNum">     201 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     202 </span><span class="lineCov">       1000 :         while( !monitor.timedWaitLE( 0, timeout ))</span>
+<span class="lineNum">     203 </span>            :             ;
+<span class="lineNum">     204 </span><span class="lineCov">       1000 :         TEST( monitor &lt;= 0 );</span>
+<span class="lineNum">     205 </span>            :     }
+<span class="lineNum">     206 </span><span class="lineCov">       1001 :     for( size_t i = 0; i != loops; ++i )</span>
+<span class="lineNum">     207 </span>            :     {
+<span class="lineNum">     208 </span><span class="lineCov">       1000 :         monitor = i + 1;</span>
+<span class="lineNum">     209 </span><span class="lineCov">       1000 :         waiter.innerLoops = i + 1;</span>
+<span class="lineNum">     210 </span><span class="lineCov">       1000 :         while( !monitor.timedWaitLT( 1, timeout ))</span>
+<span class="lineNum">     211 </span>            :             ;
+<span class="lineNum">     212 </span><span class="lineCov">       1000 :         TEST( monitor &lt; 1 );</span>
+<span class="lineNum">     213 </span>            :     }
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span><span class="lineCov">          1 :     TEST( waiter.join( ));</span>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span><span class="lineCov">          1 : int main( int, char** )</span>
+<span class="lineNum">     219 </span>            : {
+<span class="lineNum">     220 </span><span class="lineCov">          1 :     testSimpleMonitor();</span>
+<span class="lineNum">     221 </span><span class="lineCov">          1 :     testMonitorComparisons();</span>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">          1 :     testTimedMonitorComparisons();</span></a>
+<span class="lineNum">     223 </span><span class="lineCov">          1 :     return EXIT_SUCCESS;</span>
+<span class="lineNum">     224 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

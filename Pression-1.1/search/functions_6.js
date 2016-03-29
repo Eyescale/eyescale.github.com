@@ -1,5 +1,5 @@
 var searchData=
 [
   ['iscompressed',['isCompressed',['../structpression_1_1_compressor_result.html#a3db8f7dbcf3297ce318b5e72ae96e95c',1,'pression::CompressorResult']]],
-  ['isgood',['isGood',['../classpression_1_1_compressor.html#a0ae697b94b7b704f4c5573c673477ad4',1,'pression::Compressor::isGood()'],['../classpression_1_1_decompressor.html#ac27396d3703b3c078e8c47a26b7e113b',1,'pression::Decompressor::isGood()'],['../classpression_1_1_downloader.html#a5db886765230f21e6485a88393cbd8c9',1,'pression::Downloader::isGood()'],['../classpression_1_1_plugin.html#a2173f2d656a210717b2b873558e83cd5',1,'pression::Plugin::isGood()'],['../classpression_1_1_uploader.html#af750ffb799fd2d1bb688588b9cff56af',1,'pression::Uploader::isGood()']]]
+  ['isgood',['isGood',['../classpression_1_1_compressor.html#abf037687973b543bd1a7f12e0d2e2459',1,'pression::Compressor::isGood()'],['../classpression_1_1_decompressor.html#a5be27f014eb71e3667d2c103b9526e05',1,'pression::Decompressor::isGood()'],['../classpression_1_1_downloader.html#af3a2acae8fbbe4c1cef6385bddf006d6',1,'pression::Downloader::isGood()'],['../classpression_1_1_plugin.html#a4961aabf61ec6790f59f1323d48b153b',1,'pression::Plugin::isGood()'],['../classpression_1_1_uploader.html#a7a86c0c83fd4c2b333d07f839f801281',1,'pression::Uploader::isGood()']]]
 ];

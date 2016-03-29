@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['data',['Data',['../class_g_l_stats_1_1_data.html#a1a90a1d9ceb86ca47aaca3063fe9b643',1,'GLStats::Data::Data()'],['../class_g_l_stats_1_1_data.html#a145844787ad631f8f407e7a29a6f378b',1,'GLStats::Data::Data(const Data &amp;from)']]],
-  ['draw',['draw',['../class_g_l_stats_1_1_renderer.html#a79634b2f623669cf68772c9d38a5165c',1,'GLStats::Renderer']]]
+  ['data',['Data',['../class_g_l_stats_1_1_data.html#a6b126a2d8700ce55fe2e37beca069a72',1,'GLStats::Data::Data()'],['../class_g_l_stats_1_1_data.html#acb05375eb04ae751086326db1599a788',1,'GLStats::Data::Data(const Data &amp;from)']]],
+  ['draw',['draw',['../class_g_l_stats_1_1_renderer.html#a83c45065441ab0cd5e3edbc511ac6cba',1,'GLStats::Renderer']]]
 ];

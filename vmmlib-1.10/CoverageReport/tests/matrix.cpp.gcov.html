@@ -31,17 +31,17 @@
             <td class="headerValue">vmmlib</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">13</td>
-            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntry">29</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-02-25 10:59:10</td>
+            <td class="headerValue">2016-03-29 17:10:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">4</td>
-            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">8</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
@@ -92,7 +92,7 @@
 <span class="lineNum">      30 </span>            : #include &lt;vmmlib/math.hpp&gt;
 <span class="lineNum">      31 </span>            : #include &lt;vmmlib/types.hpp&gt;
 <span class="lineNum">      32 </span>            : 
-<a name="33"><span class="lineNum">      33 </span>            : #define BOOST_TEST_MODULE matrix</a>
+<span class="lineNum">      33 </span>            : #define BOOST_TEST_MODULE matrix
 <a name="34"><span class="lineNum">      34 </span>            : #include &lt;boost/test/unit_test.hpp&gt;</a>
 <span class="lineNum">      35 </span>            : 
 <span class="lineNum">      36 </span><span class="lineCov">          3 : BOOST_AUTO_TEST_CASE(base)</span>
@@ -110,9 +110,34 @@
 <span class="lineNum">      48 </span><span class="lineCov">         17 :     for( size_t i = 0; i &lt; 16; ++i )</span>
 <span class="lineNum">      49 </span>            :     {
 <span class="lineNum">      50 </span><span class="lineCov">         16 :         BOOST_CHECK_EQUAL( matrix2.array[ i ], i+1. );</span>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">         16 :         BOOST_CHECK_EQUAL( matrix.array[ i ], matrix2.array[ i ] );</span></a>
+<span class="lineNum">      51 </span><span class="lineCov">         16 :         BOOST_CHECK_EQUAL( matrix.array[ i ], matrix2.array[ i ] );</span>
 <span class="lineNum">      52 </span>            :     }
-<span class="lineNum">      53 </span><span class="lineCov">          4 : }</span>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span><span class="lineCov">          3 : BOOST_AUTO_TEST_CASE( construction )</span>
+<span class="lineNum">      56 </span>            : {
+<span class="lineNum">      57 </span><span class="lineCov">          1 :     vmml::Matrix4f m1( vmml::Quaternionf(), vmml::Vector3f( 1.f, 2.f, 3.f ));</span>
+<span class="lineNum">      58 </span>            :     const float data[] = { 1, 0, 0, 0,
+<span class="lineNum">      59 </span>            :                            0, 1, 0, 0,
+<span class="lineNum">      60 </span>            :                            0, 0, 1, 0,
+<span class="lineNum">      61 </span><span class="lineCov">          1 :                            1.f, 2.f, 3.f, 1 };</span>
+<span class="lineNum">      62 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL( m1, vmml::Matrix4f( data, data + 16 ));</span>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span><span class="lineCov">          3 : BOOST_AUTO_TEST_CASE( lookat )</span>
+<span class="lineNum">      66 </span>            : {
+<span class="lineNum">      67 </span><span class="lineCov">          1 :     const vmml::Vector3f eye( 1, 2, 3 );</span>
+<span class="lineNum">      68 </span><span class="lineCov">          1 :     const vmml::Vector3f lookAt( eye + vmml::Vector3f( 0, 1, 0 ));</span>
+<span class="lineNum">      69 </span><span class="lineCov">          1 :     const vmml::Vector3f up( 0, 0, 1 );</span>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineCov">          1 :     const vmml::Matrix4f m1( eye, lookAt, up );</span>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineCov">          1 :     vmml::Vector3f newEye, newLookAt, newUp;</span>
+<span class="lineNum">      74 </span><span class="lineCov">          1 :     m1.getLookAt( newEye, newLookAt, newUp );</span>
+<span class="lineNum">      75 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL( eye, newEye );</span>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL( lookAt, newLookAt );</span></a>
+<span class="lineNum">      77 </span><span class="lineCov">          1 :     BOOST_CHECK_EQUAL( up, newUp );</span>
+<span class="lineNum">      78 </span><span class="lineCov">          4 : }</span>
 </pre>
       </td>
     </tr>
@@ -121,7 +146,7 @@
 
   <table width="100%" border=0 cellspacing=0 cellpadding=0>
     <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
-    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11 pre (CVS 1.77)</a></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
   </table>
   <br>
 

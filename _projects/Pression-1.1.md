@@ -4,10 +4,10 @@ version: "1.1"
 major: 1
 minor: 1
 description: Compressor, decompressor, uploader and downloader plugins
-updated: 03/11/15
-homepage: https://github.com/Eyescale/Pression
-repository: https://github.com/Eyescale/Pression.git
-issuesurl: https://github.com/Eyescale/Pression/issues
+updated: 29/03/16
+homepage: git@github.com:Eyescale/Pression.git
+repository: git@github.com:Eyescale/Pression.git
+issuesurl: git@github.com:Eyescale/Pression/issues
 packageurl: https://launchpad.net/~eilemann/+archive/equalizer-dev
 license: LGPL
 maturity: EP

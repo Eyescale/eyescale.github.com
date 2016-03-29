@@ -1,16 +1,16 @@
 var classpression_1_1_downloader =
 [
-    [ "Downloader", "classpression_1_1_downloader.html#ad95335cf37cd1397fe688e94040ec2ea", null ],
-    [ "Downloader", "classpression_1_1_downloader.html#a30e2fd0a52801911f501f3133dddec2b", null ],
-    [ "~Downloader", "classpression_1_1_downloader.html#ae61dd53239189e0bd7d7951df3f17a31", null ],
-    [ "choose", "classpression_1_1_downloader.html#aa5d6bd4edf5ce2881230f3bd7c1e70f3", null ],
-    [ "clear", "classpression_1_1_downloader.html#a901b50a545847b7d88af2d01578fc601", null ],
-    [ "finish", "classpression_1_1_downloader.html#ae394dd6067f14716072ab2ee419af83b", null ],
-    [ "getInfo", "classpression_1_1_downloader.html#ad934a3d29f790738a214b6570dd3897b", null ],
-    [ "isGood", "classpression_1_1_downloader.html#a5db886765230f21e6485a88393cbd8c9", null ],
-    [ "setup", "classpression_1_1_downloader.html#aafd222badef5ebeb527965b298e10d99", null ],
-    [ "setup", "classpression_1_1_downloader.html#af7261c45297abb8e17d6aa2222606a18", null ],
-    [ "start", "classpression_1_1_downloader.html#a21df7f69e1989711c5d88a42f03dd15f", null ],
-    [ "supports", "classpression_1_1_downloader.html#a0276af11e7aeb95a2f04e75d5ce115f5", null ],
-    [ "uses", "classpression_1_1_downloader.html#a4284d0738a687d16845b7348cb0dcfd8", null ]
+    [ "Downloader", "classpression_1_1_downloader.html#adc0d521b03829e8d105f423c5e08d313", null ],
+    [ "Downloader", "classpression_1_1_downloader.html#a87ff5ef69d3695552345499b9d423959", null ],
+    [ "~Downloader", "classpression_1_1_downloader.html#aa855637a104f904402fdb2193c54653a", null ],
+    [ "choose", "classpression_1_1_downloader.html#af5a647deb2ecb59052db62966d177441", null ],
+    [ "clear", "classpression_1_1_downloader.html#acbc58a62abc265d7096eba8966797302", null ],
+    [ "finish", "classpression_1_1_downloader.html#a72d3387a25ddcf5d5ab27cd11f857eb1", null ],
+    [ "getInfo", "classpression_1_1_downloader.html#ac07648a2e14d94c9b4deb2ce70cc08d4", null ],
+    [ "isGood", "classpression_1_1_downloader.html#af3a2acae8fbbe4c1cef6385bddf006d6", null ],
+    [ "setup", "classpression_1_1_downloader.html#ac2b4fb3edae0d5f47bae71746bcb4dae", null ],
+    [ "setup", "classpression_1_1_downloader.html#a1e09f4fdcc8a933df3ed55b44b5bbdaf", null ],
+    [ "start", "classpression_1_1_downloader.html#a18c3175a2bb7af79d72d208fbc8b088d", null ],
+    [ "supports", "classpression_1_1_downloader.html#a18d6e4d5726f57735dbf1fd6dcca9e0f", null ],
+    [ "uses", "classpression_1_1_downloader.html#a33b03c2ab03d77c66d684df12d8097cb", null ]
 ];

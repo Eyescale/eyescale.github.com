@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Collage - tests/pipeperf.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tests</a> - pipeperf.cpp<span style="font-size: 80%;"> (source / <a href="pipeperf.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Collage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">59</td>
+            <td class="headerCovTableEntry">59</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-03-29 17:11:40</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryHi">85.7 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2008-2015, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : // Tests PipeConnection throughput
+<span class="lineNum">      19 </span>            : // Usage: ./pipeperf
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #define CO_TEST_RUNTIME 600 // seconds, needed for NighlyMemoryCheck
+<span class="lineNum">      22 </span>            : #include &lt;test.h&gt;
+<span class="lineNum">      23 </span>            : #include &lt;co/buffer.h&gt;
+<span class="lineNum">      24 </span>            : #include &lt;co/connectionSet.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;co/init.h&gt;
+<span class="lineNum">      26 </span>            : #include &lt;lunchbox/clock.h&gt;
+<span class="lineNum">      27 </span>            : #include &lt;lunchbox/monitor.h&gt;
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : #include &lt;co/pipeConnection.h&gt; // private header
+<span class="lineNum">      32 </span>            : 
+<a name="33"><span class="lineNum">      33 </span>            : #define MAXPACKETSIZE LB_64MB</a>
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span><span class="lineCov">          1 : static lunchbox::Monitor&lt; unsigned &gt; _nextStage;</span>
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : class Sender : public lunchbox::Thread
+<a name="38"><span class="lineNum">      38 </span>            : {</a>
+<span class="lineNum">      39 </span>            : public:
+<span class="lineNum">      40 </span><span class="lineCov">          1 :     explicit Sender( co::ConnectionPtr connection )</span>
+<span class="lineNum">      41 </span>            :             : lunchbox::Thread()
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          1 :             , _connection( connection )</span></a>
+<span class="lineNum">      43 </span><span class="lineCov">          1 :         {}</span>
+<span class="lineNum">      44 </span><span class="lineCov">          1 :     virtual ~Sender(){}</span>
+<a name="45"><span class="lineNum">      45 </span>            : </a>
+<span class="lineNum">      46 </span>            : protected:
+<span class="lineNum">      47 </span><span class="lineCov">          1 :     virtual void run()</span>
+<span class="lineNum">      48 </span>            :         {
+<span class="lineNum">      49 </span><span class="lineCov">          1 :             void* buffer = calloc( 1, MAXPACKETSIZE );</span>
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span><span class="lineCov">          1 :             unsigned stage = 2;</span>
+<span class="lineNum">      52 </span><span class="lineCov">         28 :             for( uint64_t packetSize = MAXPACKETSIZE; packetSize &gt; 0;</span>
+<span class="lineNum">      53 </span>            :                  packetSize = packetSize &gt;&gt; 1 )
+<span class="lineNum">      54 </span>            :             {
+<span class="lineNum">      55 </span><span class="lineCov">         27 :                 uint32_t nPackets = 10 * MAXPACKETSIZE / packetSize;</span>
+<span class="lineNum">      56 </span><span class="lineCov">         27 :                 if( nPackets &gt; 10000 )</span>
+<span class="lineNum">      57 </span><span class="lineCov">         17 :                     nPackets = 10000;</span>
+<span class="lineNum">      58 </span><span class="lineCov">         27 :                 uint32_t i = nPackets + 1;</span>
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span><span class="lineCov">     180284 :                 while( --i )</span>
+<span class="lineNum">      61 </span>            :                 {
+<span class="lineNum">      62 </span><span class="lineCov">     180230 :                     TEST( _connection-&gt;send( buffer, packetSize ));</span>
+<span class="lineNum">      63 </span>            :                 }
+<span class="lineNum">      64 </span><span class="lineCov">         27 :                 ++_nextStage;</span>
+<span class="lineNum">      65 </span><span class="lineCov">         27 :                 _nextStage.waitGE( stage );</span>
+<span class="lineNum">      66 </span><span class="lineCov">         27 :                 stage += 2;</span>
+<span class="lineNum">      67 </span>            :             }
+<span class="lineNum">      68 </span><span class="lineCov">          1 :             free( buffer );</span>
+<span class="lineNum">      69 </span><span class="lineCov">          1 :         }</span>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            : private:
+<span class="lineNum">      72 </span>            :     co::ConnectionPtr _connection;
+<a name="73"><span class="lineNum">      73 </span>            : };</a>
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span><span class="lineCov">          1 : int main( int argc, char **argv )</span>
+<span class="lineNum">      76 </span>            : {
+<span class="lineNum">      77 </span><span class="lineCov">          1 :     co::init( argc, argv );</span>
+<span class="lineNum">      78 </span><span class="lineCov">          1 :     co::PipeConnectionPtr connection = new co::PipeConnection;</span>
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span><span class="lineCov">          1 :     TEST( connection-&gt;connect( ));</span>
+<span class="lineNum">      81 </span><span class="lineCov">          2 :     Sender sender( connection-&gt;acceptSync( ));</span>
+<span class="lineNum">      82 </span><span class="lineCov">          1 :     TEST( sender.start( ));</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineCov">          2 :     co::Buffer buffer;</span>
+<span class="lineNum">      85 </span><span class="lineCov">          2 :     co::BufferPtr syncBuffer;</span>
+<span class="lineNum">      86 </span><span class="lineCov">          2 :     lunchbox::Clock clock;</span>
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span><span class="lineCov">          1 :     unsigned stage = 2;</span>
+<span class="lineNum">      89 </span><span class="lineCov">         28 :     for( uint64_t packetSize = MAXPACKETSIZE; packetSize &gt; 0;</span>
+<span class="lineNum">      90 </span>            :          packetSize = packetSize &gt;&gt; 1 )
+<span class="lineNum">      91 </span>            :     {
+<span class="lineNum">      92 </span><span class="lineCov">         27 :         const float mBytes    = packetSize / 1024.0f / 1024.0f;</span>
+<span class="lineNum">      93 </span><span class="lineCov">         27 :         const float mBytesSec = mBytes * 1000.0f;</span>
+<span class="lineNum">      94 </span><span class="lineCov">         27 :         uint32_t nPackets = 10 * MAXPACKETSIZE / packetSize;</span>
+<span class="lineNum">      95 </span><span class="lineCov">         27 :         if( nPackets &gt; 10000 )</span>
+<span class="lineNum">      96 </span><span class="lineCov">         17 :             nPackets = 10000;</span>
+<span class="lineNum">      97 </span><span class="lineCov">         27 :         uint32_t i = nPackets + 1;</span>
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span><span class="lineCov">         27 :         clock.reset();</span>
+<span class="lineNum">     100 </span><span class="lineCov">     180284 :         while( --i )</span>
+<span class="lineNum">     101 </span>            :         {
+<span class="lineNum">     102 </span><span class="lineCov">     180230 :             buffer.setSize( 0 );</span>
+<span class="lineNum">     103 </span><span class="lineCov">     180230 :             connection-&gt;recvNB( &amp;buffer, packetSize );</span>
+<span class="lineNum">     104 </span><span class="lineCov">     180230 :             TEST( connection-&gt;recvSync( syncBuffer ));</span>
+<span class="lineNum">     105 </span><span class="lineCov">     180230 :             TEST( syncBuffer == &amp;buffer );</span>
+<span class="lineNum">     106 </span>            :         }
+<span class="lineNum">     107 </span><span class="lineCov">         27 :         const float time = clock.getTimef();</span>
+<span class="lineNum">     108 </span><span class="lineCov">         27 :         if( mBytes &gt; 0.2f )</span>
+<span class="lineNum">     109 </span><span class="lineCov">          9 :             std::cerr &lt;&lt; nPackets * mBytesSec / time &lt;&lt; &quot;MB/s, &quot;</span>
+<span class="lineNum">     110 </span><span class="lineCov">         18 :                       &lt;&lt; nPackets / time &lt;&lt; &quot;p/ms (&quot; &lt;&lt; mBytes &lt;&lt; &quot;MB)&quot;</span>
+<span class="lineNum">     111 </span><span class="lineCov">          9 :                       &lt;&lt; std::endl;</span>
+<span class="lineNum">     112 </span>            :         else
+<span class="lineNum">     113 </span><span class="lineCov">         18 :             std::cerr &lt;&lt; nPackets * mBytesSec / time &lt;&lt; &quot;MB/s, &quot;</span>
+<span class="lineNum">     114 </span><span class="lineCov">         36 :                       &lt;&lt; nPackets / time &lt;&lt; &quot;p/ms (&quot; &lt;&lt; packetSize &lt;&lt; &quot;B)&quot;</span>
+<span class="lineNum">     115 </span><span class="lineCov">         18 :                       &lt;&lt; std::endl;</span>
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span><span class="lineCov">         27 :         ++_nextStage;</span>
+<span class="lineNum">     118 </span><span class="lineCov">         27 :         _nextStage.waitGE( stage );</span>
+<span class="lineNum">     119 </span><span class="lineCov">         27 :         stage += 2;</span>
+<span class="lineNum">     120 </span>            :     }
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span><span class="lineCov">          1 :     TEST( sender.join( ));</span>
+<span class="lineNum">     123 </span><span class="lineCov">          1 :     connection-&gt;close();</span>
+<span class="lineNum">     124 </span>            : 
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">          1 :     co::exit();</span></a>
+<span class="lineNum">     126 </span><span class="lineCov">          2 :     return EXIT_SUCCESS;</span>
+<span class="lineNum">     127 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

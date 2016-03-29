@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7efrustum',['~Frustum',['../classvmml_1_1_frustum.html#ac237e8193e2a2f5a6ab0f5474348e600',1,'vmml::Frustum']]],
-  ['_7efrustumculler',['~FrustumCuller',['../classvmml_1_1_frustum_culler.html#a6e1fbaac5e2f532b5eab9db45b9e74f7',1,'vmml::FrustumCuller']]]
+  ['test',['test',['../classvmml_1_1_frustum_culler.html#a2624b2c2d4382d47a083b85af5bb9681',1,'vmml::FrustumCuller::test(const vec4 &amp;sphere) const '],['../classvmml_1_1_frustum_culler.html#af460d844e8bc3c7e3d83ac29be5eb472',1,'vmml::FrustumCuller::test(const AABB&lt; T &gt; &amp;aabb) const '],['../classvmml_1_1_ray.html#ac0462c83c68547b801b4db28d66fa044',1,'vmml::Ray::test()']]]
 ];

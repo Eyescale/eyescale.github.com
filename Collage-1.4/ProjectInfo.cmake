@@ -1,0 +1,7 @@
+set(COLLAGE_MATURITY "EP")
+set(COLLAGE_DESCRIPTION "")
+set(COLLAGE_GIT_ROOT_URL "git@github.com:Eyescale/Collage.git")
+set(COLLAGE_PACKAGE_URL "")
+set(COLLAGE_CI_URL "git@travis-ci.org:Eyescale/Collage")
+set(COLLAGE_CI_PNG "git@travis-ci.org:Eyescale/Collage.png")
+set(COLLAGE_ISSUES_URL "git@github.com:Eyescale/Collage/issues")
