@@ -4,15 +4,15 @@ version: "1.4"
 major: 1
 minor: 4
 description: High-performance C++ library for developing object-oriented distributed applications.
-updated: 29/03/16
-homepage: git@github.com:Eyescale/Collage.git
-repository: git@github.com:Eyescale/Collage.git
-issuesurl: git@github.com:Eyescale/Collage/issues
+updated: 01/06/16
+homepage: https://github.com/Eyescale/Collage
+repository: https://github.com/Eyescale/Collage.git
+issuesurl: https://github.com/Eyescale/Collage/issues
 packageurl: 
 license: LGPL
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Ahmet Bilgili; Bidur Bohara; Carsten Rohn; Cedric; Cedric Stalder; Daniel Nachbaur; Daniel Pfeifer; Dardo; Dardo D Kleiner; Enrique G. Paredes; Fabien Delalondre; Jafet Villafranca; Jaroslav Škarvada; John Biddiscombe; Juan Hernando; Julio Delgado; Lucas Peetz Dulley; Madhusudhanan Srinivasan; Martin Lambers; Marwan; Marwan Abdellah; Matthew Dawson; Maxim Makhinya; MichaelVlad; Oliver Elias; Philippe Robert; Raphael Dumusc; Rick Arkin; Sarah Amsellem; Stefan Eilemann; Stefan Hutter; Theo Diefenthal; Thomas McGuire; U-DE\daniel_nachbaur; ahmetbilgili; bilgili; cstalder; delyas; marwan-abdellah; nikolay_lukash; unknown
+contributors: Stefan Eilemann
 readmetype: text/x-markdown
 ---
 [TOC]

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-03-29 17:11:40</td>
+            <td class="headerValue">2016-06-01 15:22:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">42</td>
@@ -223,11 +223,11 @@
 <span class="lineNum">     161 </span><span class="lineCov">        102 :         _instanceCache-&gt;expire( age );</span>
 <a name="162"><span class="lineNum">     162 </span><span class="lineCov">        102 : }</span></a>
 <span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span><span class="lineCov">        117 : void ObjectStore::removeInstanceData( const NodeID&amp; nodeID )</span>
+<span class="lineNum">     164 </span><span class="lineCov">        115 : void ObjectStore::removeInstanceData( const NodeID&amp; nodeID )</span>
 <span class="lineNum">     165 </span>            : {
-<span class="lineNum">     166 </span><span class="lineCov">        117 :     if( _instanceCache )</span>
-<span class="lineNum">     167 </span><span class="lineCov">        117 :         _instanceCache-&gt;remove( nodeID );</span>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">        117 : }</span></a>
+<span class="lineNum">     166 </span><span class="lineCov">        115 :     if( _instanceCache )</span>
+<span class="lineNum">     167 </span><span class="lineCov">        115 :         _instanceCache-&gt;remove( nodeID );</span>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">        115 : }</span></a>
 <span class="lineNum">     169 </span>            : 
 <span class="lineNum">     170 </span><span class="lineNoCov">          0 : void ObjectStore::enableSendOnRegister()</span>
 <span class="lineNum">     171 </span>            : {
@@ -703,11 +703,11 @@
 <span class="lineNum">     641 </span><span class="lineCov">         21 :     object-&gt;notifyDetached();</span>
 <a name="642"><span class="lineNum">     642 </span>            : }</a>
 <span class="lineNum">     643 </span>            : 
-<span class="lineNum">     644 </span><span class="lineCov">      51523 : bool ObjectStore::notifyCommandThreadIdle()</span>
+<span class="lineNum">     644 </span><span class="lineCov">      23269 : bool ObjectStore::notifyCommandThreadIdle()</span>
 <span class="lineNum">     645 </span>            : {
-<span class="lineNum">     646 </span><span class="lineCov">      51523 :     LB_TS_THREAD( _commandThread );</span>
-<span class="lineNum">     647 </span><span class="lineCov">      51523 :     if( _sendQueue.empty( ))</span>
-<span class="lineNum">     648 </span><span class="lineCov">      51523 :         return false;</span>
+<span class="lineNum">     646 </span><span class="lineCov">      23269 :     LB_TS_THREAD( _commandThread );</span>
+<span class="lineNum">     647 </span><span class="lineCov">      23269 :     if( _sendQueue.empty( ))</span>
+<span class="lineNum">     648 </span><span class="lineCov">      23269 :         return false;</span>
 <span class="lineNum">     649 </span>            : 
 <span class="lineNum">     650 </span><span class="lineNoCov">          0 :     LBASSERT( _sendOnRegister &gt; 0 );</span>
 <span class="lineNum">     651 </span><span class="lineNoCov">          0 :     SendQueueItem&amp; item = _sendQueue.front();</span>
@@ -728,11 +728,11 @@
 <span class="lineNum">     666 </span><span class="lineNoCov">          0 :     return !_sendQueue.empty();</span>
 <a name="667"><span class="lineNum">     667 </span>            : }</a>
 <span class="lineNum">     668 </span>            : 
-<span class="lineNum">     669 </span><span class="lineCov">          9 : void ObjectStore::removeNode( NodePtr node )</span>
+<span class="lineNum">     669 </span><span class="lineCov">          8 : void ObjectStore::removeNode( NodePtr node )</span>
 <span class="lineNum">     670 </span>            : {
-<span class="lineNum">     671 </span><span class="lineCov">          9 :     lunchbox::Request&lt; void &gt; request = _localNode-&gt;registerRequest&lt; void &gt;();</span>
-<span class="lineNum">     672 </span><span class="lineCov">          9 :     _localNode-&gt;send( CMD_NODE_REMOVE_NODE ) &lt;&lt; node.get() &lt;&lt; request;</span>
-<span class="lineNum">     673 </span><span class="lineCov">          9 : }</span>
+<span class="lineNum">     671 </span><span class="lineCov">          8 :     lunchbox::Request&lt; void &gt; request = _localNode-&gt;registerRequest&lt; void &gt;();</span>
+<span class="lineNum">     672 </span><span class="lineCov">          8 :     _localNode-&gt;send( CMD_NODE_REMOVE_NODE ) &lt;&lt; node.get() &lt;&lt; request;</span>
+<span class="lineNum">     673 </span><span class="lineCov">          8 : }</span>
 <span class="lineNum">     674 </span>            : 
 <span class="lineNum">     675 </span>            : //===========================================================================
 <a name="676"><span class="lineNum">     676 </span>            : // ICommand handling</a>
@@ -1335,28 +1335,28 @@
 <span class="lineNum">    1273 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="1274"><span class="lineNum">    1274 </span>            : }</a>
 <span class="lineNum">    1275 </span>            : 
-<span class="lineNum">    1276 </span><span class="lineCov">         44 : bool ObjectStore::_cmdRemoveNode( ICommand&amp; command )</span>
+<span class="lineNum">    1276 </span><span class="lineCov">         41 : bool ObjectStore::_cmdRemoveNode( ICommand&amp; command )</span>
 <span class="lineNum">    1277 </span>            : {
-<span class="lineNum">    1278 </span><span class="lineCov">         44 :     LB_TS_THREAD( _commandThread );</span>
-<span class="lineNum">    1279 </span><span class="lineCov">         44 :     LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;Cmd object  &quot; &lt;&lt; command &lt;&lt; std::endl;</span>
+<span class="lineNum">    1278 </span><span class="lineCov">         41 :     LB_TS_THREAD( _commandThread );</span>
+<span class="lineNum">    1279 </span><span class="lineCov">         42 :     LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;Cmd object  &quot; &lt;&lt; command &lt;&lt; std::endl;</span>
 <span class="lineNum">    1280 </span>            : 
-<span class="lineNum">    1281 </span><span class="lineCov">         44 :     Node* node = command.get&lt; Node* &gt;();</span>
-<span class="lineNum">    1282 </span><span class="lineCov">         44 :     const uint32_t requestID = command.get&lt; uint32_t &gt;();</span>
+<span class="lineNum">    1281 </span><span class="lineCov">         42 :     Node* node = command.get&lt; Node* &gt;();</span>
+<span class="lineNum">    1282 </span><span class="lineCov">         42 :     const uint32_t requestID = command.get&lt; uint32_t &gt;();</span>
 <span class="lineNum">    1283 </span>            : 
-<span class="lineNum">    1284 </span><span class="lineCov">         44 :     lunchbox::ScopedFastWrite mutex( _objects );</span>
-<span class="lineNum">    1285 </span><span class="lineCov">         69 :     for( ObjectsHashCIter i = _objects-&gt;begin(); i != _objects-&gt;end(); ++i )</span>
+<span class="lineNum">    1284 </span><span class="lineCov">         42 :     lunchbox::ScopedFastWrite mutex( _objects );</span>
+<span class="lineNum">    1285 </span><span class="lineCov">         67 :     for( ObjectsHashCIter i = _objects-&gt;begin(); i != _objects-&gt;end(); ++i )</span>
 <span class="lineNum">    1286 </span>            :     {
 <span class="lineNum">    1287 </span><span class="lineCov">         25 :         const Objects&amp; objects = i-&gt;second;</span>
 <span class="lineNum">    1288 </span><span class="lineCov">         50 :         for( ObjectsCIter j = objects.begin(); j != objects.end(); ++j )</span>
 <span class="lineNum">    1289 </span><span class="lineCov">         25 :             (*j)-&gt;removeSlaves( node );</span>
 <span class="lineNum">    1290 </span>            :     }
 <span class="lineNum">    1291 </span>            : 
-<span class="lineNum">    1292 </span><span class="lineCov">         44 :     if( requestID != LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1293 </span><span class="lineCov">          9 :         _localNode-&gt;serveRequest( requestID );</span>
+<span class="lineNum">    1292 </span><span class="lineCov">         42 :     if( requestID != LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1293 </span><span class="lineCov">          8 :         _localNode-&gt;serveRequest( requestID );</span>
 <span class="lineNum">    1294 </span>            :     else
-<span class="lineNum">    1295 </span><span class="lineCov">         35 :         node-&gt;unref(); // node was ref'd before LocalNode::_handleDisconnect()</span>
+<span class="lineNum">    1295 </span><span class="lineCov">         34 :         node-&gt;unref(); // node was ref'd before LocalNode::_handleDisconnect()</span>
 <span class="lineNum">    1296 </span>            : 
-<span class="lineNum">    1297 </span><span class="lineCov">         44 :     return true;</span>
+<span class="lineNum">    1297 </span><span class="lineCov">         42 :     return true;</span>
 <a name="1298"><span class="lineNum">    1298 </span>            : }</a>
 <span class="lineNum">    1299 </span>            : 
 <span class="lineNum">    1300 </span><span class="lineCov">          5 : bool ObjectStore::_cmdPush( ICommand&amp; command )</span>

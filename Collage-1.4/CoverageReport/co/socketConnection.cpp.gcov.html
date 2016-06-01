@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-03-29 17:11:40</td>
+            <td class="headerValue">2016-06-01 15:22:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">19</td>
@@ -117,7 +117,7 @@
 <span class="lineNum">      55 </span>            : 
 <a name="56"><span class="lineNum">      56 </span>            : namespace co</a>
 <span class="lineNum">      57 </span>            : {
-<span class="lineNum">      58 </span><span class="lineCov">        147 : SocketConnection::SocketConnection( const ConnectionType type )</span>
+<span class="lineNum">      58 </span><span class="lineCov">        145 : SocketConnection::SocketConnection( const ConnectionType type )</span>
 <span class="lineNum">      59 </span>            : #ifdef _WIN32
 <span class="lineNum">      60 </span>            :         : _overlappedAcceptData( 0 )
 <span class="lineNum">      61 </span>            :         , _overlappedSocket( INVALID_SOCKET )
@@ -129,19 +129,19 @@
 <span class="lineNum">      67 </span>            :     memset( &amp;_overlappedWrite, 0, sizeof( _overlappedWrite ));
 <span class="lineNum">      68 </span>            : #endif
 <span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span><span class="lineCov">        147 :     LBASSERT( type == CONNECTIONTYPE_TCPIP || type == CONNECTIONTYPE_SDP );</span>
-<span class="lineNum">      71 </span><span class="lineCov">        147 :     ConnectionDescriptionPtr description = _getDescription();</span>
-<span class="lineNum">      72 </span><span class="lineCov">        147 :     description-&gt;type = type;</span>
-<span class="lineNum">      73 </span><span class="lineCov">        147 :     description-&gt;bandwidth = (type == CONNECTIONTYPE_TCPIP) ?</span>
-<span class="lineNum">      74 </span><span class="lineCov">        147 :                                  102400 : 819200; // 100MB : 800 MB</span>
+<span class="lineNum">      70 </span><span class="lineCov">        145 :     LBASSERT( type == CONNECTIONTYPE_TCPIP || type == CONNECTIONTYPE_SDP );</span>
+<span class="lineNum">      71 </span><span class="lineCov">        145 :     ConnectionDescriptionPtr description = _getDescription();</span>
+<span class="lineNum">      72 </span><span class="lineCov">        145 :     description-&gt;type = type;</span>
+<span class="lineNum">      73 </span><span class="lineCov">        145 :     description-&gt;bandwidth = (type == CONNECTIONTYPE_TCPIP) ?</span>
+<span class="lineNum">      74 </span><span class="lineCov">        145 :                                  102400 : 819200; // 100MB : 800 MB</span>
 <span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">        147 :     LBVERB &lt;&lt; &quot;New SocketConnection @&quot; &lt;&lt; (void*)this &lt;&lt; std::endl;</span>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">        147 : }</span></a>
+<span class="lineNum">      76 </span><span class="lineCov">        145 :     LBVERB &lt;&lt; &quot;New SocketConnection @&quot; &lt;&lt; (void*)this &lt;&lt; std::endl;</span>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">        145 : }</span></a>
 <span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineCov">        441 : SocketConnection::~SocketConnection()</span>
+<span class="lineNum">      79 </span><span class="lineCov">        435 : SocketConnection::~SocketConnection()</span>
 <span class="lineNum">      80 </span>            : {
-<span class="lineNum">      81 </span><span class="lineCov">        147 :     _close();</span>
-<span class="lineNum">      82 </span><span class="lineCov">        294 : }</span>
+<span class="lineNum">      81 </span><span class="lineCov">        145 :     _close();</span>
+<span class="lineNum">      82 </span><span class="lineCov">        290 : }</span>
 <span class="lineNum">      83 </span>            : 
 <a name="84"><span class="lineNum">      84 </span>            : namespace</a>
 <span class="lineNum">      85 </span>            : {
@@ -156,28 +156,28 @@
 <span class="lineNum">      94 </span><span class="lineCov">         51 :     return std::string();</span>
 <a name="95"><span class="lineNum">      95 </span>            : }</a>
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineCov">         99 : bool _parseAddress( ConstConnectionDescriptionPtr description,</span>
+<span class="lineNum">      97 </span><span class="lineCov">         98 : bool _parseAddress( ConstConnectionDescriptionPtr description,</span>
 <span class="lineNum">      98 </span>            :                     sockaddr_in&amp; address )
 <span class="lineNum">      99 </span>            : {
-<span class="lineNum">     100 </span><span class="lineCov">         99 :     address.sin_family      = AF_INET;</span>
-<span class="lineNum">     101 </span><span class="lineCov">         99 :     address.sin_addr.s_addr = htonl( INADDR_ANY );</span>
-<span class="lineNum">     102 </span><span class="lineCov">         99 :     address.sin_port        = htons( description-&gt;port );</span>
-<span class="lineNum">     103 </span><span class="lineCov">         99 :     memset( &amp;(address.sin_zero), 0, 8 ); // zero the rest</span>
+<span class="lineNum">     100 </span><span class="lineCov">         98 :     address.sin_family      = AF_INET;</span>
+<span class="lineNum">     101 </span><span class="lineCov">         98 :     address.sin_addr.s_addr = htonl( INADDR_ANY );</span>
+<span class="lineNum">     102 </span><span class="lineCov">         98 :     address.sin_port        = htons( description-&gt;port );</span>
+<span class="lineNum">     103 </span><span class="lineCov">         98 :     memset( &amp;(address.sin_zero), 0, 8 ); // zero the rest</span>
 <span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineCov">         99 :     const std::string&amp; hostname = description-&gt;getHostname();</span>
-<span class="lineNum">     106 </span><span class="lineCov">         99 :     if( !hostname.empty( ))</span>
+<span class="lineNum">     105 </span><span class="lineCov">         98 :     const std::string&amp; hostname = description-&gt;getHostname();</span>
+<span class="lineNum">     106 </span><span class="lineCov">         98 :     if( !hostname.empty( ))</span>
 <span class="lineNum">     107 </span>            :     {
 <span class="lineNum">     108 </span>            :         addrinfo hints;
-<span class="lineNum">     109 </span><span class="lineCov">         70 :         memset( &amp;hints, 0, sizeof(hints));</span>
-<span class="lineNum">     110 </span><span class="lineCov">         70 :         hints.ai_flags = 0;</span>
-<span class="lineNum">     111 </span><span class="lineCov">         70 :         hints.ai_family = AF_INET;</span>
-<span class="lineNum">     112 </span><span class="lineCov">         70 :         hints.ai_socktype = SOCK_STREAM;</span>
-<span class="lineNum">     113 </span><span class="lineCov">         70 :         addrinfo* info = 0;</span>
+<span class="lineNum">     109 </span><span class="lineCov">         69 :         memset( &amp;hints, 0, sizeof(hints));</span>
+<span class="lineNum">     110 </span><span class="lineCov">         69 :         hints.ai_flags = 0;</span>
+<span class="lineNum">     111 </span><span class="lineCov">         69 :         hints.ai_family = AF_INET;</span>
+<span class="lineNum">     112 </span><span class="lineCov">         69 :         hints.ai_socktype = SOCK_STREAM;</span>
+<span class="lineNum">     113 </span><span class="lineCov">         69 :         addrinfo* info = 0;</span>
 <span class="lineNum">     114 </span>            : 
-<span class="lineNum">     115 </span><span class="lineCov">         70 :         if( getaddrinfo( hostname.c_str(), NULL, &amp;hints, &amp;info ) == 0 )</span>
+<span class="lineNum">     115 </span><span class="lineCov">         69 :         if( getaddrinfo( hostname.c_str(), NULL, &amp;hints, &amp;info ) == 0 )</span>
 <span class="lineNum">     116 </span>            :         {
-<span class="lineNum">     117 </span><span class="lineCov">         70 :             address.sin_addr.s_addr = ((sockaddr_in *)(info-&gt;ai_addr))-&gt;sin_addr.s_addr;</span>
-<span class="lineNum">     118 </span><span class="lineCov">         70 :             freeaddrinfo( info );</span>
+<span class="lineNum">     117 </span><span class="lineCov">         69 :             address.sin_addr.s_addr = ((sockaddr_in *)(info-&gt;ai_addr))-&gt;sin_addr.s_addr;</span>
+<span class="lineNum">     118 </span><span class="lineCov">         69 :             freeaddrinfo( info );</span>
 <span class="lineNum">     119 </span>            :         }
 <span class="lineNum">     120 </span>            :         else
 <span class="lineNum">     121 </span>            :         {
@@ -186,42 +186,42 @@
 <span class="lineNum">     124 </span>            :         }
 <span class="lineNum">     125 </span>            :     }
 <span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span><span class="lineCov">        198 :     LBVERB &lt;&lt; &quot;Address &quot; &lt;&lt; getHostName( address ) &lt;&lt; &quot;:&quot;</span>
-<span class="lineNum">     128 </span><span class="lineCov">        297 :            &lt;&lt; ntohs( address.sin_port ) &lt;&lt; std::endl;</span>
-<span class="lineNum">     129 </span><span class="lineCov">         99 :     return true;</span>
+<span class="lineNum">     127 </span><span class="lineCov">        196 :     LBVERB &lt;&lt; &quot;Address &quot; &lt;&lt; getHostName( address ) &lt;&lt; &quot;:&quot;</span>
+<span class="lineNum">     128 </span><span class="lineCov">        294 :            &lt;&lt; ntohs( address.sin_port ) &lt;&lt; std::endl;</span>
+<span class="lineNum">     129 </span><span class="lineCov">         98 :     return true;</span>
 <span class="lineNum">     130 </span>            : }
 <span class="lineNum">     131 </span>            : }
 <span class="lineNum">     132 </span>            : 
 <span class="lineNum">     133 </span>            : //----------------------------------------------------------------------
 <a name="134"><span class="lineNum">     134 </span>            : // connect</a>
 <span class="lineNum">     135 </span>            : //----------------------------------------------------------------------
-<span class="lineNum">     136 </span><span class="lineCov">         48 : bool SocketConnection::connect()</span>
+<span class="lineNum">     136 </span><span class="lineCov">         47 : bool SocketConnection::connect()</span>
 <span class="lineNum">     137 </span>            : {
-<span class="lineNum">     138 </span><span class="lineCov">         48 :     ConnectionDescriptionPtr description = _getDescription();</span>
-<span class="lineNum">     139 </span><span class="lineCov">         48 :     LBASSERT( description-&gt;type == CONNECTIONTYPE_TCPIP ||</span>
+<span class="lineNum">     138 </span><span class="lineCov">         47 :     ConnectionDescriptionPtr description = _getDescription();</span>
+<span class="lineNum">     139 </span><span class="lineCov">         47 :     LBASSERT( description-&gt;type == CONNECTIONTYPE_TCPIP ||</span>
 <span class="lineNum">     140 </span>            :               description-&gt;type == CONNECTIONTYPE_SDP );
-<span class="lineNum">     141 </span><span class="lineCov">         48 :     if( !isClosed() )</span>
+<span class="lineNum">     141 </span><span class="lineCov">         47 :     if( !isClosed() )</span>
 <span class="lineNum">     142 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineCov">         48 :     if( description-&gt;port == 0 )</span>
+<span class="lineNum">     144 </span><span class="lineCov">         47 :     if( description-&gt;port == 0 )</span>
 <span class="lineNum">     145 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span><span class="lineCov">         48 :     if( description-&gt;getHostname().empty( ))</span>
+<span class="lineNum">     147 </span><span class="lineCov">         47 :     if( description-&gt;getHostname().empty( ))</span>
 <span class="lineNum">     148 </span><span class="lineCov">         25 :         description-&gt;setHostname( &quot;127.0.0.1&quot; );</span>
 <span class="lineNum">     149 </span>            : 
 <span class="lineNum">     150 </span>            :     sockaddr_in address;
-<span class="lineNum">     151 </span><span class="lineCov">         48 :     if( !_parseAddress( description, address ))</span>
+<span class="lineNum">     151 </span><span class="lineCov">         47 :     if( !_parseAddress( description, address ))</span>
 <span class="lineNum">     152 </span>            :     {
 <span class="lineNum">     153 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Can't parse connection parameters&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     154 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     155 </span>            :     }
 <span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span><span class="lineCov">         48 :     _setState( STATE_CONNECTING );</span>
+<span class="lineNum">     157 </span><span class="lineCov">         47 :     _setState( STATE_CONNECTING );</span>
 <span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span><span class="lineCov">         48 :     if( !_createSocket( ))</span>
+<span class="lineNum">     159 </span><span class="lineCov">         47 :     if( !_createSocket( ))</span>
 <span class="lineNum">     160 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     161 </span>            : 
-<span class="lineNum">     162 </span><span class="lineCov">         48 :     if( address.sin_addr.s_addr == 0 )</span>
+<span class="lineNum">     162 </span><span class="lineCov">         47 :     if( address.sin_addr.s_addr == 0 )</span>
 <span class="lineNum">     163 </span>            :     {
 <span class="lineNum">     164 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Refuse to connect to 0.0.0.0&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     165 </span><span class="lineNoCov">          0 :         close();</span>
@@ -232,13 +232,13 @@
 <span class="lineNum">     170 </span>            :     const bool connected = WSAConnect( _readFD, (sockaddr*)&amp;address,
 <span class="lineNum">     171 </span>            :                                        sizeof( address ), 0, 0, 0, 0 ) == 0;
 <span class="lineNum">     172 </span>            : #else
-<span class="lineNum">     173 </span><span class="lineCov">         48 :     int nTries = 10;</span>
-<span class="lineNum">     174 </span><span class="lineCov">         96 :     while( nTries-- )</span>
+<span class="lineNum">     173 </span><span class="lineCov">         47 :     int nTries = 10;</span>
+<span class="lineNum">     174 </span><span class="lineCov">         94 :     while( nTries-- )</span>
 <span class="lineNum">     175 </span>            :     {
 <span class="lineNum">     176 </span>            :         const bool connected = (::connect( _readFD, (sockaddr*)&amp;address,
-<span class="lineNum">     177 </span><span class="lineCov">         48 :                                            sizeof( address )) == 0);</span>
-<span class="lineNum">     178 </span><span class="lineCov">         48 :         if( connected )</span>
-<span class="lineNum">     179 </span><span class="lineCov">         48 :             break;</span>
+<span class="lineNum">     177 </span><span class="lineCov">         47 :                                            sizeof( address )) == 0);</span>
+<span class="lineNum">     178 </span><span class="lineCov">         47 :         if( connected )</span>
+<span class="lineNum">     179 </span><span class="lineCov">         47 :             break;</span>
 <span class="lineNum">     180 </span>            : 
 <span class="lineNum">     181 </span><span class="lineNoCov">          0 :         switch( errno )</span>
 <span class="lineNum">     182 </span>            :         {
@@ -253,10 +253,10 @@
 <span class="lineNum">     191 </span><span class="lineNoCov">          0 :               break;</span>
 <span class="lineNum">     192 </span>            :         }
 <span class="lineNum">     193 </span>            :     }
-<span class="lineNum">     194 </span><span class="lineCov">         48 :     const bool connected = nTries &gt; 0;</span>
+<span class="lineNum">     194 </span><span class="lineCov">         47 :     const bool connected = nTries &gt; 0;</span>
 <span class="lineNum">     195 </span>            : #endif
 <span class="lineNum">     196 </span>            : 
-<span class="lineNum">     197 </span><span class="lineCov">         48 :     if( !connected )</span>
+<span class="lineNum">     197 </span><span class="lineCov">         47 :     if( !connected )</span>
 <span class="lineNum">     198 </span>            :     {
 <span class="lineNum">     199 </span><span class="lineNoCov">          0 :         LBDEBUG &lt;&lt; &quot;Could not connect to '&quot; &lt;&lt; description-&gt;getHostname() &lt;&lt; &quot;:&quot;</span>
 <span class="lineNum">     200 </span><span class="lineNoCov">          0 :                 &lt;&lt; description-&gt;port &lt;&lt; &quot;': &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
@@ -264,37 +264,37 @@
 <span class="lineNum">     202 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     203 </span>            :     }
 <span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span><span class="lineCov">         48 :     _initAIORead();</span>
-<span class="lineNum">     206 </span><span class="lineCov">         48 :     _setState( STATE_CONNECTED );</span>
-<span class="lineNum">     207 </span><span class="lineCov">         48 :     LBDEBUG &lt;&lt; &quot;Connected &quot; &lt;&lt; description-&gt;toString() &lt;&lt; std::endl;</span>
-<span class="lineNum">     208 </span><span class="lineCov">         48 :     return true;</span>
+<span class="lineNum">     205 </span><span class="lineCov">         47 :     _initAIORead();</span>
+<span class="lineNum">     206 </span><span class="lineCov">         47 :     _setState( STATE_CONNECTED );</span>
+<span class="lineNum">     207 </span><span class="lineCov">         47 :     LBDEBUG &lt;&lt; &quot;Connected &quot; &lt;&lt; description-&gt;toString() &lt;&lt; std::endl;</span>
+<span class="lineNum">     208 </span><span class="lineCov">         47 :     return true;</span>
 <a name="209"><span class="lineNum">     209 </span>            : }</a>
 <span class="lineNum">     210 </span>            : 
-<span class="lineNum">     211 </span><span class="lineCov">        293 : void SocketConnection::_close()</span>
+<span class="lineNum">     211 </span><span class="lineCov">        289 : void SocketConnection::_close()</span>
 <span class="lineNum">     212 </span>            : {
-<span class="lineNum">     213 </span><span class="lineCov">        293 :     if( isClosed( ))</span>
-<span class="lineNum">     214 </span><span class="lineCov">        439 :         return;</span>
+<span class="lineNum">     213 </span><span class="lineCov">        289 :     if( isClosed( ))</span>
+<span class="lineNum">     214 </span><span class="lineCov">        433 :         return;</span>
 <span class="lineNum">     215 </span>            : 
-<span class="lineNum">     216 </span><span class="lineCov">        147 :     if( isListening( ))</span>
+<span class="lineNum">     216 </span><span class="lineCov">        145 :     if( isListening( ))</span>
 <span class="lineNum">     217 </span><span class="lineCov">         51 :         _exitAIOAccept();</span>
-<span class="lineNum">     218 </span><span class="lineCov">         96 :     else if( isConnected( ))</span>
-<span class="lineNum">     219 </span><span class="lineCov">         96 :         _exitAIORead();</span>
+<span class="lineNum">     218 </span><span class="lineCov">         94 :     else if( isConnected( ))</span>
+<span class="lineNum">     219 </span><span class="lineCov">         94 :         _exitAIORead();</span>
 <span class="lineNum">     220 </span>            : 
-<span class="lineNum">     221 </span><span class="lineCov">        147 :     LBASSERT( _readFD &gt; 0 );</span>
+<span class="lineNum">     221 </span><span class="lineCov">        145 :     LBASSERT( _readFD &gt; 0 );</span>
 <span class="lineNum">     222 </span>            : 
 <span class="lineNum">     223 </span>            : #ifdef _WIN32
 <span class="lineNum">     224 </span>            :     const bool closed = ( ::closesocket(_readFD) == 0 );
 <span class="lineNum">     225 </span>            : #else
-<span class="lineNum">     226 </span><span class="lineCov">        147 :     const bool closed = ( ::close(_readFD) == 0 );</span>
+<span class="lineNum">     226 </span><span class="lineCov">        145 :     const bool closed = ( ::close(_readFD) == 0 );</span>
 <span class="lineNum">     227 </span>            : #endif
 <span class="lineNum">     228 </span>            : 
-<span class="lineNum">     229 </span><span class="lineCov">        147 :     if( !closed )</span>
+<span class="lineNum">     229 </span><span class="lineCov">        145 :     if( !closed )</span>
 <span class="lineNum">     230 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Could not close socket: &quot; &lt;&lt; lunchbox::sysError</span>
 <span class="lineNum">     231 </span><span class="lineNoCov">          0 :                &lt;&lt; std::endl;</span>
 <span class="lineNum">     232 </span>            : 
-<span class="lineNum">     233 </span><span class="lineCov">        147 :     _readFD  = INVALID_SOCKET;</span>
-<span class="lineNum">     234 </span><span class="lineCov">        147 :     _writeFD = INVALID_SOCKET;</span>
-<span class="lineNum">     235 </span><span class="lineCov">        147 :     _setState( STATE_CLOSED );</span>
+<span class="lineNum">     233 </span><span class="lineCov">        145 :     _readFD  = INVALID_SOCKET;</span>
+<span class="lineNum">     234 </span><span class="lineCov">        145 :     _writeFD = INVALID_SOCKET;</span>
+<span class="lineNum">     235 </span><span class="lineCov">        145 :     _setState( STATE_CLOSED );</span>
 <span class="lineNum">     236 </span>            : }
 <span class="lineNum">     237 </span>            : 
 <span class="lineNum">     238 </span>            : //----------------------------------------------------------------------
@@ -346,8 +346,8 @@
 <a name="284"><span class="lineNum">     284 </span>            : #else</a>
 <a name="285"><span class="lineNum">     285 </span><span class="lineCov">         51 : void SocketConnection::_initAIOAccept(){ /* NOP */ }</span></a>
 <a name="286"><span class="lineNum">     286 </span><span class="lineCov">         51 : void SocketConnection::_exitAIOAccept(){ /* NOP */ }</span></a>
-<span class="lineNum">     287 </span><span class="lineCov">         48 : void SocketConnection::_initAIORead(){ /* NOP */ }</span>
-<span class="lineNum">     288 </span><span class="lineCov">         96 : void SocketConnection::_exitAIORead(){ /* NOP */ }</span>
+<span class="lineNum">     287 </span><span class="lineCov">         47 : void SocketConnection::_initAIORead(){ /* NOP */ }</span>
+<span class="lineNum">     288 </span><span class="lineCov">         94 : void SocketConnection::_exitAIORead(){ /* NOP */ }</span>
 <span class="lineNum">     289 </span>            : #endif
 <span class="lineNum">     290 </span>            : 
 <span class="lineNum">     291 </span>            : //----------------------------------------------------------------------
@@ -454,43 +454,43 @@
 <span class="lineNum">     392 </span>            : 
 <a name="393"><span class="lineNum">     393 </span>            : #else // !_WIN32</a>
 <span class="lineNum">     394 </span>            : 
-<a name="395"><span class="lineNum">     395 </span><span class="lineCov">         95 : void SocketConnection::acceptNB(){ /* NOP */ }</span></a>
+<a name="395"><span class="lineNum">     395 </span><span class="lineCov">         94 : void SocketConnection::acceptNB(){ /* NOP */ }</span></a>
 <span class="lineNum">     396 </span>            : 
-<span class="lineNum">     397 </span><span class="lineCov">         48 : ConnectionPtr SocketConnection::acceptSync()</span>
+<span class="lineNum">     397 </span><span class="lineCov">         47 : ConnectionPtr SocketConnection::acceptSync()</span>
 <span class="lineNum">     398 </span>            : {
-<span class="lineNum">     399 </span><span class="lineCov">         48 :     if( !isListening( ))</span>
+<span class="lineNum">     399 </span><span class="lineCov">         47 :     if( !isListening( ))</span>
 <span class="lineNum">     400 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     401 </span>            : 
 <span class="lineNum">     402 </span>            :     sockaddr_in newAddress;
-<span class="lineNum">     403 </span><span class="lineCov">         48 :     socklen_t   newAddressLen = sizeof( newAddress );</span>
+<span class="lineNum">     403 </span><span class="lineCov">         47 :     socklen_t   newAddressLen = sizeof( newAddress );</span>
 <span class="lineNum">     404 </span>            : 
 <span class="lineNum">     405 </span>            :     Socket    fd;
-<span class="lineNum">     406 </span><span class="lineCov">         48 :     unsigned  nTries = 1000;</span>
-<span class="lineNum">     407 </span><span class="lineCov">         48 :     do</span>
-<span class="lineNum">     408 </span><span class="lineCov">         48 :         fd = ::accept( _readFD, (sockaddr*)&amp;newAddress, &amp;newAddressLen );</span>
-<span class="lineNum">     409 </span><span class="lineCov">         48 :     while( fd == INVALID_SOCKET &amp;&amp; errno == EINTR &amp;&amp; --nTries );</span>
+<span class="lineNum">     406 </span><span class="lineCov">         47 :     unsigned  nTries = 1000;</span>
+<span class="lineNum">     407 </span><span class="lineCov">         47 :     do</span>
+<span class="lineNum">     408 </span><span class="lineCov">         47 :         fd = ::accept( _readFD, (sockaddr*)&amp;newAddress, &amp;newAddressLen );</span>
+<span class="lineNum">     409 </span><span class="lineCov">         47 :     while( fd == INVALID_SOCKET &amp;&amp; errno == EINTR &amp;&amp; --nTries );</span>
 <span class="lineNum">     410 </span>            : 
-<span class="lineNum">     411 </span><span class="lineCov">         48 :     if( fd == INVALID_SOCKET )</span>
+<span class="lineNum">     411 </span><span class="lineCov">         47 :     if( fd == INVALID_SOCKET )</span>
 <span class="lineNum">     412 </span>            :     {
 <span class="lineNum">     413 </span><span class="lineNoCov">          0 :       LBWARN &lt;&lt; &quot;accept failed: &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">     414 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     415 </span>            :     }
 <span class="lineNum">     416 </span>            : 
-<span class="lineNum">     417 </span><span class="lineCov">         48 :     _tuneSocket( fd );</span>
+<span class="lineNum">     417 </span><span class="lineCov">         47 :     _tuneSocket( fd );</span>
 <span class="lineNum">     418 </span>            : 
-<span class="lineNum">     419 </span><span class="lineCov">         48 :     ConstConnectionDescriptionPtr description = getDescription();</span>
-<span class="lineNum">     420 </span><span class="lineCov">         48 :     SocketConnection* newConnection = new SocketConnection( description-&gt;type );</span>
+<span class="lineNum">     419 </span><span class="lineCov">         47 :     ConstConnectionDescriptionPtr description = getDescription();</span>
+<span class="lineNum">     420 </span><span class="lineCov">         47 :     SocketConnection* newConnection = new SocketConnection( description-&gt;type );</span>
 <span class="lineNum">     421 </span>            : 
-<span class="lineNum">     422 </span><span class="lineCov">         48 :     newConnection-&gt;_readFD      = fd;</span>
-<span class="lineNum">     423 </span><span class="lineCov">         48 :     newConnection-&gt;_writeFD     = fd;</span>
-<span class="lineNum">     424 </span><span class="lineCov">         48 :     newConnection-&gt;_setState( STATE_CONNECTED );</span>
-<span class="lineNum">     425 </span><span class="lineCov">         96 :     ConnectionDescriptionPtr newDescription = newConnection-&gt;_getDescription();</span>
-<span class="lineNum">     426 </span><span class="lineCov">         48 :     newDescription-&gt;bandwidth = description-&gt;bandwidth;</span>
-<span class="lineNum">     427 </span><span class="lineCov">         48 :     newDescription-&gt;port = ntohs( newAddress.sin_port );</span>
-<span class="lineNum">     428 </span><span class="lineCov">         48 :     newDescription-&gt;setHostname( inet_ntoa( newAddress.sin_addr ));</span>
+<span class="lineNum">     422 </span><span class="lineCov">         47 :     newConnection-&gt;_readFD      = fd;</span>
+<span class="lineNum">     423 </span><span class="lineCov">         47 :     newConnection-&gt;_writeFD     = fd;</span>
+<span class="lineNum">     424 </span><span class="lineCov">         47 :     newConnection-&gt;_setState( STATE_CONNECTED );</span>
+<span class="lineNum">     425 </span><span class="lineCov">         94 :     ConnectionDescriptionPtr newDescription = newConnection-&gt;_getDescription();</span>
+<span class="lineNum">     426 </span><span class="lineCov">         47 :     newDescription-&gt;bandwidth = description-&gt;bandwidth;</span>
+<span class="lineNum">     427 </span><span class="lineCov">         47 :     newDescription-&gt;port = ntohs( newAddress.sin_port );</span>
+<span class="lineNum">     428 </span><span class="lineCov">         47 :     newDescription-&gt;setHostname( inet_ntoa( newAddress.sin_addr ));</span>
 <span class="lineNum">     429 </span>            : 
-<span class="lineNum">     430 </span><span class="lineCov">         48 :     LBDEBUG &lt;&lt; &quot;Accepted &quot; &lt;&lt; newDescription-&gt;toString() &lt;&lt; std::endl;</span>
-<span class="lineNum">     431 </span><span class="lineCov">         96 :     return newConnection;</span>
+<span class="lineNum">     430 </span><span class="lineCov">         47 :     LBDEBUG &lt;&lt; &quot;Accepted &quot; &lt;&lt; newDescription-&gt;toString() &lt;&lt; std::endl;</span>
+<span class="lineNum">     431 </span><span class="lineCov">         94 :     return newConnection;</span>
 <span class="lineNum">     432 </span>            : }
 <span class="lineNum">     433 </span>            : 
 <span class="lineNum">     434 </span>            : #endif // !_WIN32
@@ -657,9 +657,9 @@
 <span class="lineNum">     595 </span>            : }
 <a name="596"><span class="lineNum">     596 </span>            : #endif // _WIN32</a>
 <span class="lineNum">     597 </span>            : 
-<span class="lineNum">     598 </span><span class="lineCov">         99 : bool SocketConnection::_createSocket()</span>
+<span class="lineNum">     598 </span><span class="lineCov">         98 : bool SocketConnection::_createSocket()</span>
 <span class="lineNum">     599 </span>            : {
-<span class="lineNum">     600 </span><span class="lineCov">         99 :     ConstConnectionDescriptionPtr description = getDescription();</span>
+<span class="lineNum">     600 </span><span class="lineCov">         98 :     ConstConnectionDescriptionPtr description = getDescription();</span>
 <span class="lineNum">     601 </span>            : #ifdef _WIN32
 <span class="lineNum">     602 </span>            :     const DWORD flags = description-&gt;type == CONNECTIONTYPE_SDP ?
 <span class="lineNum">     603 </span>            :                             WSA_FLAG_OVERLAPPED | WSA_FLAG_SDP :
@@ -671,34 +671,34 @@
 <span class="lineNum">     609 </span>            :         LBDEBUG &lt;&lt; &quot;Created SDP socket&quot; &lt;&lt; std::endl;
 <span class="lineNum">     610 </span>            : #else
 <span class="lineNum">     611 </span>            :     Socket fd;
-<span class="lineNum">     612 </span><span class="lineCov">         99 :     if( description-&gt;type == CONNECTIONTYPE_SDP )</span>
+<span class="lineNum">     612 </span><span class="lineCov">         98 :     if( description-&gt;type == CONNECTIONTYPE_SDP )</span>
 <span class="lineNum">     613 </span><span class="lineNoCov">          0 :         fd = ::socket( AF_INET_SDP, SOCK_STREAM, IPPROTO_TCP );</span>
 <span class="lineNum">     614 </span>            :     else
-<span class="lineNum">     615 </span><span class="lineCov">         99 :         fd = ::socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );</span>
+<span class="lineNum">     615 </span><span class="lineCov">         98 :         fd = ::socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );</span>
 <span class="lineNum">     616 </span>            : #endif
 <span class="lineNum">     617 </span>            : 
-<span class="lineNum">     618 </span><span class="lineCov">         99 :     if( fd == INVALID_SOCKET )</span>
+<span class="lineNum">     618 </span><span class="lineCov">         98 :     if( fd == INVALID_SOCKET )</span>
 <span class="lineNum">     619 </span>            :     {
 <span class="lineNum">     620 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Could not create socket: &quot;</span>
 <span class="lineNum">     621 </span><span class="lineNoCov">          0 :                 &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">     622 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     623 </span>            :     }
 <span class="lineNum">     624 </span>            : 
-<span class="lineNum">     625 </span><span class="lineCov">         99 :     _tuneSocket( fd );</span>
+<span class="lineNum">     625 </span><span class="lineCov">         98 :     _tuneSocket( fd );</span>
 <span class="lineNum">     626 </span>            : 
-<span class="lineNum">     627 </span><span class="lineCov">         99 :     _readFD  = fd;</span>
-<span class="lineNum">     628 </span><span class="lineCov">         99 :     _writeFD = fd; // TCP/IP sockets are bidirectional</span>
+<span class="lineNum">     627 </span><span class="lineCov">         98 :     _readFD  = fd;</span>
+<span class="lineNum">     628 </span><span class="lineCov">         98 :     _writeFD = fd; // TCP/IP sockets are bidirectional</span>
 <span class="lineNum">     629 </span>            : 
-<span class="lineNum">     630 </span><span class="lineCov">         99 :     return true;</span>
+<span class="lineNum">     630 </span><span class="lineCov">         98 :     return true;</span>
 <a name="631"><span class="lineNum">     631 </span>            : }</a>
 <span class="lineNum">     632 </span>            : 
-<span class="lineNum">     633 </span><span class="lineCov">        147 : void SocketConnection::_tuneSocket( const Socket fd )</span>
+<span class="lineNum">     633 </span><span class="lineCov">        145 : void SocketConnection::_tuneSocket( const Socket fd )</span>
 <span class="lineNum">     634 </span>            : {
-<span class="lineNum">     635 </span><span class="lineCov">        147 :     const int on         = 1;</span>
+<span class="lineNum">     635 </span><span class="lineCov">        145 :     const int on         = 1;</span>
 <span class="lineNum">     636 </span>            :     setsockopt( fd, IPPROTO_TCP, TCP_NODELAY,
-<span class="lineNum">     637 </span><span class="lineCov">        147 :                 reinterpret_cast&lt;const char*&gt;( &amp;on ), sizeof( on ));</span>
+<span class="lineNum">     637 </span><span class="lineCov">        145 :                 reinterpret_cast&lt;const char*&gt;( &amp;on ), sizeof( on ));</span>
 <span class="lineNum">     638 </span>            :     setsockopt( fd, SOL_SOCKET, SO_REUSEADDR,
-<span class="lineNum">     639 </span><span class="lineCov">        147 :                 reinterpret_cast&lt;const char*&gt;( &amp;on ), sizeof( on ));</span>
+<span class="lineNum">     639 </span><span class="lineCov">        145 :                 reinterpret_cast&lt;const char*&gt;( &amp;on ), sizeof( on ));</span>
 <span class="lineNum">     640 </span>            : 
 <span class="lineNum">     641 </span>            : #ifdef _WIN32
 <span class="lineNum">     642 </span>            :     const int size = 128768;
@@ -707,7 +707,7 @@
 <span class="lineNum">     645 </span>            :     setsockopt( fd, SOL_SOCKET, SO_SNDBUF,
 <span class="lineNum">     646 </span>            :                 reinterpret_cast&lt;const char*&gt;( &amp;size ), sizeof( size ));
 <span class="lineNum">     647 </span>            : #endif
-<span class="lineNum">     648 </span><span class="lineCov">        147 : }</span>
+<span class="lineNum">     648 </span><span class="lineCov">        145 : }</span>
 <span class="lineNum">     649 </span>            : 
 <span class="lineNum">     650 </span>            : //----------------------------------------------------------------------
 <span class="lineNum">     651 </span>            : // listen

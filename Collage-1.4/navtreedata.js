@@ -44,8 +44,8 @@ var NAVTREEINDEX =
 [
 "_changelog.html",
 "classco_1_1_data_o_stream.html#abbe64aeb56843c78188ddfc08a76b19d",
-"classco_1_1_object.html#ac86523c3143a409558cc383fbeb09359",
-"structco_1_1_data_o_stream_archive_1_1use__array__optimization.html"
+"classco_1_1_object.html#ac5c35d27fb9c4149924abefca4a610f2",
+"structco_1_1_data_o_stream_archive_1_1use__array__optimization_1_1apply.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
