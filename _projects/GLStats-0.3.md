@@ -4,7 +4,7 @@ version: "0.3"
 major: 0
 minor: 3
 description: 
-updated: 29/03/16
+updated: 01/06/16
 homepage: https://github.com/Eyescale/GLStats
 repository: https://github.com/Eyescale/GLStats.git
 issuesurl: https://github.com/Eyescale/GLStats/issues
@@ -12,7 +12,7 @@ packageurl: https://launchpad.net/~bbp/+archive/ppa
 license: 
 maturity: EP
 maintainers: 
-contributors: Ahmet Bilgili; Carsten Rohn; Cedric Stalder; Daniel Nachbaur; Daniel Pfeifer; Dardo D Kleiner; Fabien Delalondre; Glendon Holst; Jafet Villafranca; Juan Hernando; Marwan; Raphael Dumusc; Sarah Amsellem; Stefan Eilemann; marwan-abdellah; nikolay_lukash
+contributors: Raphael Dumusc
 readmetype: text/x-markdown
 ---
 # GLStats {#glstats}
