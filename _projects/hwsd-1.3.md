@@ -4,7 +4,7 @@ version: "1.3"
 major: 1
 minor: 3
 description: Local and remote ZeroConf service discovery for hardware resources
-updated: 03/11/15
+updated: 01/06/16
 homepage: https://github.com/Eyescale/hwsd
 repository: https://github.com/Eyescale/hwsd.git
 issuesurl: https://github.com/Eyescale/hwsd/issues
@@ -12,7 +12,7 @@ packageurl:
 license: LGPL
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Ahmet Bilgili; Carsten Rohn; Cedric Stalder; Daniel Nachbaur; Daniel Pfeifer; Dardo D Kleiner; Fabien Delalondre; Jafet Villafranca; Juan Hernando; Julio Delgado; Marwan; Raphael Dumusc; Sarah Amsellem; Stefan Eilemann; marwan-abdellah
+contributors: Raphael Dumusc
 readmetype: text/x-markdown
 ---
 [TOC]

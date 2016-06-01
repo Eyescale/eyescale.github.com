@@ -1,11 +1,11 @@
 var structhwsd_1_1_g_p_u_info =
 [
-    [ "GPUInfo", "structhwsd_1_1_g_p_u_info.html#ad14460df92152b99afb15b865fac5ec2", null ],
-    [ "GPUInfo", "structhwsd_1_1_g_p_u_info.html#a34beeb03098be9dd17b680196a2305cf", null ],
-    [ "getName", "structhwsd_1_1_g_p_u_info.html#ae95a108fdf3371cd6357a5cd346684d3", null ],
-    [ "invalidatePVP", "structhwsd_1_1_g_p_u_info.html#a321522070a47883e90739a850ebd2d70", null ],
-    [ "operator!=", "structhwsd_1_1_g_p_u_info.html#a5508302ee2420b409cd3ec76afd693d8", null ],
-    [ "operator==", "structhwsd_1_1_g_p_u_info.html#a93c9572d81856682c913fabe19c97867", null ],
+    [ "GPUInfo", "structhwsd_1_1_g_p_u_info.html#ad72a0279ebc568b36ff739208a289a48", null ],
+    [ "GPUInfo", "structhwsd_1_1_g_p_u_info.html#afa2c4557fed9798215b09f3486e0e6ab", null ],
+    [ "getName", "structhwsd_1_1_g_p_u_info.html#af4cf0da944d394a7b6cffcc9ebe25ba2", null ],
+    [ "invalidatePVP", "structhwsd_1_1_g_p_u_info.html#a5db3a095c719a8ea0950cb312993bffd", null ],
+    [ "operator!=", "structhwsd_1_1_g_p_u_info.html#afb1889566c01e6ca9bbfa1a0a6bf1b88", null ],
+    [ "operator==", "structhwsd_1_1_g_p_u_info.html#a5f27de0b8fcf81491ba9dc43baef5d0c", null ],
     [ "defaultValue", "structhwsd_1_1_g_p_u_info.html#a08818ab61adf0406fe0672e10603b270", null ],
     [ "device", "structhwsd_1_1_g_p_u_info.html#a96165a08aa6b71bf6e44628e3615107b", null ],
     [ "FLAG_VIRTUALGL", "structhwsd_1_1_g_p_u_info.html#ad062e0f4139675a9dc7f4051f87f847c", null ],
