@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">55</td>
             <td class="headerCovTableEntry">56</td>
-            <td class="headerCovTableEntryHi">98.2 %</td>
+            <td class="headerCovTableEntry">56</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-01 15:22:19</td>
+            <td class="headerValue">2016-06-07 01:19:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">50</td>
@@ -98,20 +98,20 @@
 <span class="lineNum">      36 </span>            : template&lt; typename T &gt; class RingPtr
 <a name="37"><span class="lineNum">      37 </span>            : {</a>
 <span class="lineNum">      38 </span>            : public:
-<a name="39"><span class="lineNum">      39 </span><span class="lineCov">    2175212 :     inline T value() const {return ptrVal;};</span></a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">    6674617 :     inline T value() const {return ptrVal;};</span></a>
 <span class="lineNum">      40 </span>            :     inline T ptr(T num) const {return ((ptrVal % num) + ptrAdjust) % num;};
-<a name="41"><span class="lineNum">      41 </span><span class="lineCov">     717062 :     inline T ptr(T num,T off) const {return ((ptrVal % num) + ptrAdjust + off) % num;};</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">    4303154 :     inline T ptr(T num,T off) const {return ((ptrVal % num) + ptrAdjust + off) % num;};</span></a>
 <span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span><span class="lineCov">     511754 :     void incr(T num,T amount)</span>
+<span class="lineNum">      43 </span><span class="lineCov">    4418522 :     void incr(T num,T amount)</span>
 <span class="lineNum">      44 </span>            :         {
-<span class="lineNum">      45 </span><span class="lineCov">     511754 :             T optrVal = ptrVal;</span>
-<span class="lineNum">      46 </span><span class="lineCov">     511754 :             ptrVal += amount;</span>
+<span class="lineNum">      45 </span><span class="lineCov">    4418522 :             T optrVal = ptrVal;</span>
+<span class="lineNum">      46 </span><span class="lineCov">    4418522 :             ptrVal += amount;</span>
 <span class="lineNum">      47 </span>            :             /* Since the length of the ring is not a power of two we need to
 <span class="lineNum">      48 </span>            :                correct when there is a wrap around. This scheme puts the bulk of
 <span class="lineNum">      49 </span>            :                the cost of that calculation at incr time, not at access time.*/
-<span class="lineNum">      50 </span><span class="lineCov">     511754 :             if (ptrVal &lt; optrVal)</span>
-<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :                 ptrAdjust = (ptrAdjust + ((T)(-1) % num) + 1) % num;</span></a>
-<span class="lineNum">      52 </span><span class="lineCov">     511754 :         }</span>
+<span class="lineNum">      50 </span><span class="lineCov">    4418522 :             if (ptrVal &lt; optrVal)</span>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          7 :                 ptrAdjust = (ptrAdjust + ((T)(-1) % num) + 1) % num;</span></a>
+<span class="lineNum">      52 </span><span class="lineCov">    4418522 :         }</span>
 <a name="53"><span class="lineNum">      53 </span><span class="lineCov">         76 :     inline void clear() {ptrVal = 0; ptrAdjust = 0;};</span></a>
 <span class="lineNum">      54 </span>            : 
 <span class="lineNum">      55 </span><span class="lineCov">         74 :     inline RingPtr() : ptrVal(0), ptrAdjust(0) {};</span>
@@ -130,17 +130,17 @@
 <span class="lineNum">      68 </span><span class="lineCov">         24 :     inline T size() const {return num;};</span>
 <a name="69"><span class="lineNum">      69 </span><span class="lineCov">          2 :     inline bool isEmpty(unsigned int ID1,unsigned int ID2) const</span></a>
 <span class="lineNum">      70 </span><span class="lineCov">          2 :         {return ptrs[ID1].value() == ptrs[ID2].value();};</span>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">     477628 :     inline bool isFull(unsigned int ID1,unsigned int ID2) const</span></a>
-<span class="lineNum">      72 </span><span class="lineCov">     477628 :         {return available(ID1,ID2) == num;};</span>
-<a name="73"><span class="lineNum">      73 </span><span class="lineCov">    1087604 :     inline T available(unsigned int ID1,unsigned int ID2) const</span></a>
-<span class="lineNum">      74 </span><span class="lineCov">    1087604 :         {return ptrs[ID1].value() - ptrs[ID2].value();};</span>
-<span class="lineNum">      75 </span><span class="lineCov">     543856 :     inline T negAvailable(unsigned int ID1,unsigned int ID2) const</span>
-<span class="lineNum">      76 </span><span class="lineCov">     543856 :         {return num - available(ID1,ID2);};</span>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">     695490 :     inline bool isFull(unsigned int ID1,unsigned int ID2) const</span></a>
+<span class="lineNum">      72 </span><span class="lineCov">     695490 :         {return available(ID1,ID2) == num;};</span>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">    3340821 :     inline T available(unsigned int ID1,unsigned int ID2) const</span></a>
+<span class="lineNum">      74 </span><span class="lineCov">    3340821 :         {return ptrs[ID1].value() - ptrs[ID2].value();};</span>
+<span class="lineNum">      75 </span><span class="lineCov">    1681758 :     inline T negAvailable(unsigned int ID1,unsigned int ID2) const</span>
+<span class="lineNum">      76 </span><span class="lineCov">    1681758 :         {return num - available(ID1,ID2);};</span>
 <span class="lineNum">      77 </span>            :     inline bool isEqual(unsigned int ID1,unsigned int ID2) const
 <a name="78"><span class="lineNum">      78 </span>            :         {return ptrs[ID1].value() == ptrs[ID2].value();};</a>
 <a name="79"><span class="lineNum">      79 </span>            : </a>
-<span class="lineNum">      80 </span><span class="lineCov">     511754 :     inline void incr(unsigned int ID,T amount = 1) {ptrs[ID].incr(num,amount);};</span>
-<span class="lineNum">      81 </span><span class="lineCov">     717062 :     inline T ptr(unsigned int ID,T off = 0) const {return ptrs[ID].ptr(num,off);};</span>
+<span class="lineNum">      80 </span><span class="lineCov">    4478099 :     inline void incr(unsigned int ID,T amount = 1) {ptrs[ID].incr(num,amount);};</span>
+<span class="lineNum">      81 </span><span class="lineCov">    4306737 :     inline T ptr(unsigned int ID,T off = 0) const {return ptrs[ID].ptr(num,off);};</span>
 <span class="lineNum">      82 </span>            :     inline T value(unsigned int ID) const {return ptrs[ID].value();};
 <span class="lineNum">      83 </span>            : 
 <span class="lineNum">      84 </span>            :     /* This moves the pointer to a new value. The new pointer is thought of as
@@ -150,14 +150,14 @@
 <a name="88"><span class="lineNum">      88 </span>            : </a>
 <a name="89"><span class="lineNum">      89 </span>            :     // Simple accessors for the head/tail</a>
 <a name="90"><span class="lineNum">      90 </span><span class="lineCov">          2 :     inline bool isEmpty() const {return isEmpty(HEAD,TAIL);};</span></a>
-<a name="91"><span class="lineNum">      91 </span><span class="lineCov">     477628 :     inline bool isFull() const {return isFull(HEAD,TAIL);};</span></a>
-<span class="lineNum">      92 </span><span class="lineCov">      33006 :     inline T available() const {return available(HEAD,TAIL);};</span>
-<span class="lineNum">      93 </span><span class="lineCov">     543856 :     inline T negAvailable() const {return negAvailable(HEAD,TAIL);};</span>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">     695490 :     inline bool isFull() const {return isFull(HEAD,TAIL);};</span></a>
+<span class="lineNum">      92 </span><span class="lineCov">     472721 :     inline T available() const {return available(HEAD,TAIL);};</span>
+<span class="lineNum">      93 </span><span class="lineCov">    1681758 :     inline T negAvailable() const {return negAvailable(HEAD,TAIL);};</span>
 <a name="94"><span class="lineNum">      94 </span>            : </a>
 <a name="95"><span class="lineNum">      95 </span>            :     inline T head(T off = 0) const {return ptr(HEAD,off);};</a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">     374118 :     inline void incrHead(T amount = 1) {incr(HEAD,amount);};</span></a>
-<span class="lineNum">      97 </span><span class="lineCov">      33006 :     inline T tail(T off = 0) const {return ptr(TAIL,off);};</span>
-<span class="lineNum">      98 </span><span class="lineCov">     104522 :     inline void incrTail(T amount = 1) {incr(TAIL,amount);};</span>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">    2391788 :     inline void incrHead(T amount = 1) {incr(HEAD,amount);};</span></a>
+<span class="lineNum">      97 </span><span class="lineCov">     472721 :     inline T tail(T off = 0) const {return ptr(TAIL,off);};</span>
+<span class="lineNum">      98 </span><span class="lineCov">    1594388 :     inline void incrTail(T amount = 1) {incr(TAIL,amount);};</span>
 <span class="lineNum">      99 </span>            : 
 <span class="lineNum">     100 </span>            :     /* Return the number of consecutive entries between ID1 and ID2, such that
 <span class="lineNum">     101 </span>            :        bptr(ID2) + linearSize() does not pass ID1 or the end of the buffer. */
@@ -240,21 +240,21 @@
 <span class="lineNum">     178 </span>            :     inline const buffer_t *bhead(T off = 0) const {return bptr(HEAD,off);}
 <a name="179"><span class="lineNum">     179 </span>            :     inline const buffer_t *btail(T off = 0) const {return bptr(TAIL,off);}</a>
 <a name="180"><span class="lineNum">     180 </span>            : </a>
-<a name="181"><span class="lineNum">     181 </span><span class="lineCov">      73972 :     inline buffer_t *bptr(unsigned int ID,T off = 0) {return buffer + this-&gt;ptr(ID,off);}</span></a>
-<span class="lineNum">     182 </span><span class="lineCov">      35962 :     inline buffer_t *bhead(T off = 0) {return bptr(HEAD,off);}</span>
-<a name="183"><span class="lineNum">     183 </span><span class="lineCov">      38010 :     inline buffer_t *btail(T off = 0) {return bptr(TAIL,off);}</span></a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineCov">    1167514 :     inline buffer_t *bptr(unsigned int ID,T off = 0) {return buffer + this-&gt;ptr(ID,off);}</span></a>
+<span class="lineNum">     182 </span><span class="lineCov">     582825 :     inline buffer_t *bhead(T off = 0) {return bptr(HEAD,off);}</span>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">     584877 :     inline buffer_t *btail(T off = 0) {return bptr(TAIL,off);}</span></a>
 <span class="lineNum">     184 </span>            : 
-<span class="lineNum">     185 </span><span class="lineCov">      35962 :     inline buffer_t &amp;get()</span>
+<span class="lineNum">     185 </span><span class="lineCov">     582825 :     inline buffer_t &amp;get()</span>
 <span class="lineNum">     186 </span>            :         {
-<span class="lineNum">     187 </span><span class="lineCov">      35962 :             buffer_t *res = bhead();</span>
-<span class="lineNum">     188 </span><span class="lineCov">      35962 :             RING::incrHead();</span>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">      35962 :             return *res;</span></a>
+<span class="lineNum">     187 </span><span class="lineCov">     582825 :             buffer_t *res = bhead();</span>
+<span class="lineNum">     188 </span><span class="lineCov">     582824 :             RING::incrHead();</span>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">     582824 :             return *res;</span></a>
 <span class="lineNum">     190 </span>            :         };
-<span class="lineNum">     191 </span><span class="lineCov">      38010 :     inline void put(const buffer_t &amp;val)</span>
+<span class="lineNum">     191 </span><span class="lineCov">     584877 :     inline void put(const buffer_t &amp;val)</span>
 <span class="lineNum">     192 </span>            :         {
-<span class="lineNum">     193 </span><span class="lineCov">      38010 :             *btail() = val;</span>
-<span class="lineNum">     194 </span><span class="lineCov">      38010 :             RING::incrTail();</span>
-<span class="lineNum">     195 </span><span class="lineCov">      38010 :         };</span>
+<span class="lineNum">     193 </span><span class="lineCov">     584877 :             *btail() = val;</span>
+<span class="lineNum">     194 </span><span class="lineCov">     584877 :             RING::incrTail();</span>
+<span class="lineNum">     195 </span><span class="lineCov">     584875 :         };</span>
 <span class="lineNum">     196 </span>            : 
 <a name="197"><span class="lineNum">     197 </span>            :     inline buffer_t *bufferPtr() const {return buffer;};</a>
 <span class="lineNum">     198 </span>            : 

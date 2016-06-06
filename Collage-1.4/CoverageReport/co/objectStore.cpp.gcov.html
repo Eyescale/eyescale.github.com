@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-01 15:22:19</td>
+            <td class="headerValue">2016-06-07 01:19:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">42</td>
@@ -447,7 +447,7 @@
 <span class="lineNum">     385 </span>            : 
 <span class="lineNum">     386 </span><span class="lineCov">         42 :     const bool isAttached = object-&gt;isAttached();</span>
 <span class="lineNum">     387 </span><span class="lineCov">         42 :     const bool isMaster = object-&gt;isMaster();</span>
-<span class="lineNum">     388 </span><span class="lineCov">         42 :     LBASSERT( !isAttached );</span>
+<span class="lineNum">     388 </span><span class="lineCov">         42 :     LBASSERTINFO( !isAttached, *object );</span>
 <span class="lineNum">     389 </span><span class="lineCov">         42 :     LBASSERT( !isMaster ) ;</span>
 <span class="lineNum">     390 </span><span class="lineCov">         42 :     if( isAttached || isMaster )</span>
 <span class="lineNum">     391 </span>            :     {
@@ -703,11 +703,11 @@
 <span class="lineNum">     641 </span><span class="lineCov">         21 :     object-&gt;notifyDetached();</span>
 <a name="642"><span class="lineNum">     642 </span>            : }</a>
 <span class="lineNum">     643 </span>            : 
-<span class="lineNum">     644 </span><span class="lineCov">      23269 : bool ObjectStore::notifyCommandThreadIdle()</span>
+<span class="lineNum">     644 </span><span class="lineCov">      51606 : bool ObjectStore::notifyCommandThreadIdle()</span>
 <span class="lineNum">     645 </span>            : {
-<span class="lineNum">     646 </span><span class="lineCov">      23269 :     LB_TS_THREAD( _commandThread );</span>
-<span class="lineNum">     647 </span><span class="lineCov">      23269 :     if( _sendQueue.empty( ))</span>
-<span class="lineNum">     648 </span><span class="lineCov">      23269 :         return false;</span>
+<span class="lineNum">     646 </span><span class="lineCov">      51606 :     LB_TS_THREAD( _commandThread );</span>
+<span class="lineNum">     647 </span><span class="lineCov">      51606 :     if( _sendQueue.empty( ))</span>
+<span class="lineNum">     648 </span><span class="lineCov">      51606 :         return false;</span>
 <span class="lineNum">     649 </span>            : 
 <span class="lineNum">     650 </span><span class="lineNoCov">          0 :     LBASSERT( _sendOnRegister &gt; 0 );</span>
 <span class="lineNum">     651 </span><span class="lineNoCov">          0 :     SendQueueItem&amp; item = _sendQueue.front();</span>
@@ -1335,9 +1335,9 @@
 <span class="lineNum">    1273 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="1274"><span class="lineNum">    1274 </span>            : }</a>
 <span class="lineNum">    1275 </span>            : 
-<span class="lineNum">    1276 </span><span class="lineCov">         41 : bool ObjectStore::_cmdRemoveNode( ICommand&amp; command )</span>
+<span class="lineNum">    1276 </span><span class="lineCov">         42 : bool ObjectStore::_cmdRemoveNode( ICommand&amp; command )</span>
 <span class="lineNum">    1277 </span>            : {
-<span class="lineNum">    1278 </span><span class="lineCov">         41 :     LB_TS_THREAD( _commandThread );</span>
+<span class="lineNum">    1278 </span><span class="lineCov">         42 :     LB_TS_THREAD( _commandThread );</span>
 <span class="lineNum">    1279 </span><span class="lineCov">         42 :     LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;Cmd object  &quot; &lt;&lt; command &lt;&lt; std::endl;</span>
 <span class="lineNum">    1280 </span>            : 
 <span class="lineNum">    1281 </span><span class="lineCov">         42 :     Node* node = command.get&lt; Node* &gt;();</span>

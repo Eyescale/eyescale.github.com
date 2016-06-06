@@ -4,7 +4,7 @@ version: "1.4"
 major: 1
 minor: 4
 description: High-performance C++ library for developing object-oriented distributed applications.
-updated: 01/06/16
+updated: 07/06/16
 homepage: https://github.com/Eyescale/Collage
 repository: https://github.com/Eyescale/Collage.git
 issuesurl: https://github.com/Eyescale/Collage/issues
@@ -51,7 +51,7 @@ Collage provides different levels of abstraction to facilitate the
 development distributed applications:
 
 * Network Connections: stream-oriented point-to-point and reliable multicast
-  connections for TCP/IP, SDP, InfiniBand RDMA, UDT, events, named and anonymous
+  connections for TCP/IP, InfiniBand RDMA, UDT, events, named and anonymous
   pipes, memory buffers and reliable multicast over UDP.
 * Peer-to-Peer Messaging: Endian-safe node-to-node message communication with
   thread-aware message dispatch.

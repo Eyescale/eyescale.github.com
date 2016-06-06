@@ -51,7 +51,6 @@ var searchData=
   ['connectiontype_5fpipe',['CONNECTIONTYPE_PIPE',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba9f9eeb3e30869888b2960b36c05a75ad',1,'co']]],
   ['connectiontype_5frdma',['CONNECTIONTYPE_RDMA',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba8514882a49fbc007188ce797b72444e3',1,'co']]],
   ['connectiontype_5frsp',['CONNECTIONTYPE_RSP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba96cc6084d953a46bce53e1a8e437532c',1,'co']]],
-  ['connectiontype_5fsdp',['CONNECTIONTYPE_SDP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdbaaf478ea8d405467dd3b4937c75ac1c04',1,'co']]],
   ['connectiontype_5ftcpip',['CONNECTIONTYPE_TCPIP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba3679bc9affad045bbb6b126d0cea4248',1,'co']]],
   ['connectiontype_5fudt',['CONNECTIONTYPE_UDT',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba27061e42355c2e23cdad501df680130e',1,'co']]],
   ['connectobjectmaster',['connectObjectMaster',['../classco_1_1_local_node.html#a7f54acb337f9f0aeac6b32bcb9615338',1,'co::LocalNode']]],
@@ -65,7 +64,7 @@ var searchData=
   ['createnode',['createNode',['../classco_1_1_local_node.html#a554958e39f8ef8f5f2218fc1b2643ee3',1,'co::LocalNode']]],
   ['createobject',['createObject',['../classco_1_1_object_factory.html#a8cb94615e031892d3ae7399cab42b3d6',1,'co::ObjectFactory']]],
   ['custom',['CUSTOM',['../classco_1_1_exception.html#a77095f782590a447d158bde1408c5c40a7c9698cdc95b5c8ea7adb8d0b847bb29',1,'co::Exception']]],
-  ['customicommand',['CustomICommand',['../classco_1_1_custom_i_command.html#a707d531818c606f5cb535af3e9bf7d0b',1,'co::CustomICommand']]],
   ['customicommand',['CustomICommand',['../classco_1_1_custom_i_command.html',1,'co']]],
+  ['customicommand',['CustomICommand',['../classco_1_1_custom_i_command.html#a707d531818c606f5cb535af3e9bf7d0b',1,'co::CustomICommand']]],
   ['customocommand',['CustomOCommand',['../classco_1_1_custom_o_command.html',1,'co']]]
 ];

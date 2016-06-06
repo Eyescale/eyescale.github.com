@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-01 15:22:19</td>
+            <td class="headerValue">2016-06-07 01:19:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">75</td>
@@ -182,8 +182,8 @@
 <span class="lineNum">     120 </span><span class="lineCov">         50 :         return true;</span>
 <a name="121"><span class="lineNum">     121 </span>            :     }</a>
 <a name="122"><span class="lineNum">     122 </span>            : </a>
-<span class="lineNum">     123 </span><span class="lineCov">     103112 :     bool stopRunning() override { return _localNode-&gt;isClosed(); }</span>
-<span class="lineNum">     124 </span><span class="lineCov">      23269 :     bool notifyIdle() override { return _localNode-&gt;_notifyCommandThreadIdle();}</span>
+<span class="lineNum">     123 </span><span class="lineCov">     103335 :     bool stopRunning() override { return _localNode-&gt;isClosed(); }</span>
+<span class="lineNum">     124 </span><span class="lineCov">      51606 :     bool notifyIdle() override { return _localNode-&gt;_notifyCommandThreadIdle();}</span>
 <span class="lineNum">     125 </span>            : 
 <span class="lineNum">     126 </span>            : private:
 <span class="lineNum">     127 </span>            :     co::LocalNode* const _localNode;
@@ -869,10 +869,10 @@
 <span class="lineNum">     807 </span>            : };
 <a name="808"><span class="lineNum">     808 </span>            : }</a>
 <span class="lineNum">     809 </span>            : 
-<span class="lineNum">     810 </span><span class="lineCov">         72 : NodePtr LocalNode::connect( const NodeID&amp; nodeID )</span>
+<span class="lineNum">     810 </span><span class="lineCov">         73 : NodePtr LocalNode::connect( const NodeID&amp; nodeID )</span>
 <span class="lineNum">     811 </span>            : {
-<span class="lineNum">     812 </span><span class="lineCov">         72 :     LBASSERT( nodeID != 0 );</span>
-<span class="lineNum">     813 </span><span class="lineCov">         72 :     LBASSERT( isListening( ));</span>
+<span class="lineNum">     812 </span><span class="lineCov">         73 :     LBASSERT( nodeID != 0 );</span>
+<span class="lineNum">     813 </span><span class="lineCov">         73 :     LBASSERT( isListening( ));</span>
 <span class="lineNum">     814 </span>            : 
 <span class="lineNum">     815 </span>            :     // Make sure that only one connection request based on the node identifier
 <span class="lineNum">     816 </span>            :     // is pending at a given time. Otherwise a node with the same id might be
@@ -880,17 +880,17 @@
 <span class="lineNum">     818 </span>            :     // mutex is to register connecting nodes with this local node, and handle
 <span class="lineNum">     819 </span>            :     // all cases correctly, which is far more complex. Node connections only
 <span class="lineNum">     820 </span>            :     // happen a lot during initialization, and are therefore not time-critical.
-<span class="lineNum">     821 </span><span class="lineCov">         72 :     lunchbox::ScopedWrite mutex( _impl-&gt;connectLock );</span>
+<span class="lineNum">     821 </span><span class="lineCov">         73 :     lunchbox::ScopedWrite mutex( _impl-&gt;connectLock );</span>
 <span class="lineNum">     822 </span>            : 
-<span class="lineNum">     823 </span><span class="lineCov">        144 :     Nodes nodes;</span>
-<span class="lineNum">     824 </span><span class="lineCov">         72 :     getNodes( nodes );</span>
+<span class="lineNum">     823 </span><span class="lineCov">        146 :     Nodes nodes;</span>
+<span class="lineNum">     824 </span><span class="lineCov">         73 :     getNodes( nodes );</span>
 <span class="lineNum">     825 </span>            : 
-<span class="lineNum">     826 </span><span class="lineCov">         73 :     for( NodesCIter i = nodes.begin(); i != nodes.end(); ++i )</span>
+<span class="lineNum">     826 </span><span class="lineCov">         76 :     for( NodesCIter i = nodes.begin(); i != nodes.end(); ++i )</span>
 <span class="lineNum">     827 </span>            :     {
-<span class="lineNum">     828 </span><span class="lineCov">         73 :         NodePtr peer = *i;</span>
-<span class="lineNum">     829 </span><span class="lineCov">         73 :         if( peer-&gt;getNodeID() == nodeID &amp;&amp; peer-&gt;isReachable( )) // early out</span>
-<span class="lineNum">     830 </span><span class="lineCov">         72 :             return peer;</span>
-<span class="lineNum">     831 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     828 </span><span class="lineCov">         76 :         NodePtr peer = *i;</span>
+<span class="lineNum">     829 </span><span class="lineCov">         76 :         if( peer-&gt;getNodeID() == nodeID &amp;&amp; peer-&gt;isReachable( )) // early out</span>
+<span class="lineNum">     830 </span><span class="lineCov">         73 :             return peer;</span>
+<span class="lineNum">     831 </span><span class="lineCov">          3 :     }</span>
 <span class="lineNum">     832 </span>            : 
 <span class="lineNum">     833 </span><span class="lineNoCov">          0 :     LBDEBUG &lt;&lt; &quot;Connecting node &quot; &lt;&lt; nodeID &lt;&lt; std::endl;</span>
 <span class="lineNum">     834 </span><span class="lineNoCov">          0 :     for( NodesCIter i = nodes.begin(); i != nodes.end(); ++i )</span>
@@ -916,7 +916,7 @@
 <span class="lineNum">     854 </span>            :     }
 <span class="lineNum">     855 </span>            : 
 <span class="lineNum">     856 </span><span class="lineNoCov">          0 :     LBWARN &lt;&lt; &quot;Node &quot; &lt;&lt; nodeID &lt;&lt; &quot; connection failed&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     857 </span><span class="lineCov">         72 :     return 0;</span>
+<span class="lineNum">     857 </span><span class="lineCov">         73 :     return 0;</span>
 <a name="858"><span class="lineNum">     858 </span>            : }</a>
 <span class="lineNum">     859 </span>            : 
 <span class="lineNum">     860 </span><span class="lineNoCov">          0 : NodePtr LocalNode::_connect( const NodeID&amp; nodeID, NodePtr peer )</span>
@@ -1167,16 +1167,16 @@
 <span class="lineNum">    1105 </span><span class="lineNoCov">          0 :     return i-&gt;second;</span>
 <a name="1106"><span class="lineNum">    1106 </span>            : }</a>
 <span class="lineNum">    1107 </span>            : 
-<span class="lineNum">    1108 </span><span class="lineCov">        112 : void LocalNode::getNodes( Nodes&amp; nodes, const bool addSelf ) const</span>
+<span class="lineNum">    1108 </span><span class="lineCov">        113 : void LocalNode::getNodes( Nodes&amp; nodes, const bool addSelf ) const</span>
 <span class="lineNum">    1109 </span>            : {
-<span class="lineNum">    1110 </span><span class="lineCov">        112 :     lunchbox::ScopedFastRead mutex( _impl-&gt;nodes );</span>
-<span class="lineNum">    1111 </span><span class="lineCov">        328 :     for( NodeHashCIter i = _impl-&gt;nodes-&gt;begin(); i != _impl-&gt;nodes-&gt;end(); ++i)</span>
+<span class="lineNum">    1110 </span><span class="lineCov">        113 :     lunchbox::ScopedFastRead mutex( _impl-&gt;nodes );</span>
+<span class="lineNum">    1111 </span><span class="lineCov">        332 :     for( NodeHashCIter i = _impl-&gt;nodes-&gt;begin(); i != _impl-&gt;nodes-&gt;end(); ++i)</span>
 <span class="lineNum">    1112 </span>            :     {
-<span class="lineNum">    1113 </span><span class="lineCov">        216 :         NodePtr node = i-&gt;second;</span>
-<span class="lineNum">    1114 </span><span class="lineCov">        216 :         if( node-&gt;isReachable() &amp;&amp; ( addSelf || node != this ))</span>
-<span class="lineNum">    1115 </span><span class="lineCov">        216 :             nodes.push_back( i-&gt;second );</span>
-<span class="lineNum">    1116 </span><span class="lineCov">        328 :     }</span>
-<a name="1117"><span class="lineNum">    1117 </span><span class="lineCov">        112 : }</span></a>
+<span class="lineNum">    1113 </span><span class="lineCov">        219 :         NodePtr node = i-&gt;second;</span>
+<span class="lineNum">    1114 </span><span class="lineCov">        219 :         if( node-&gt;isReachable() &amp;&amp; ( addSelf || node != this ))</span>
+<span class="lineNum">    1115 </span><span class="lineCov">        219 :             nodes.push_back( i-&gt;second );</span>
+<span class="lineNum">    1116 </span><span class="lineCov">        332 :     }</span>
+<a name="1117"><span class="lineNum">    1117 </span><span class="lineCov">        113 : }</span></a>
 <span class="lineNum">    1118 </span>            : 
 <span class="lineNum">    1119 </span><span class="lineCov">        146 : CommandQueue* LocalNode::getCommandThreadQueue()</span>
 <span class="lineNum">    1120 </span>            : {
@@ -1212,10 +1212,10 @@
 <span class="lineNum">    1150 </span><span class="lineCov">         50 :     _initService();</span>
 <span class="lineNum">    1151 </span>            : 
 <span class="lineNum">    1152 </span><span class="lineCov">         50 :     int nErrors = 0;</span>
-<span class="lineNum">    1153 </span><span class="lineCov">      72653 :     while( isListening( ))</span>
+<span class="lineNum">    1153 </span><span class="lineCov">      72650 :     while( isListening( ))</span>
 <span class="lineNum">    1154 </span>            :     {
-<span class="lineNum">    1155 </span><span class="lineCov">      72554 :         const ConnectionSet::Event result = _impl-&gt;incoming.select();</span>
-<span class="lineNum">    1156 </span><span class="lineCov">      72553 :         switch( result )</span>
+<span class="lineNum">    1155 </span><span class="lineCov">      72551 :         const ConnectionSet::Event result = _impl-&gt;incoming.select();</span>
+<span class="lineNum">    1156 </span><span class="lineCov">      72550 :         switch( result )</span>
 <span class="lineNum">    1157 </span>            :         {
 <span class="lineNum">    1158 </span>            :             case ConnectionSet::EVENT_CONNECT:
 <span class="lineNum">    1159 </span><span class="lineCov">         34 :                 _handleConnect();</span>
@@ -1257,8 +1257,8 @@
 <span class="lineNum">    1195 </span><span class="lineNoCov">          0 :                 break;</span>
 <span class="lineNum">    1196 </span>            : 
 <span class="lineNum">    1197 </span>            :             case ConnectionSet::EVENT_INTERRUPT:
-<span class="lineNum">    1198 </span><span class="lineCov">        306 :                 _redispatchCommands();</span>
-<span class="lineNum">    1199 </span><span class="lineCov">        306 :                 break;</span>
+<span class="lineNum">    1198 </span><span class="lineCov">        303 :                 _redispatchCommands();</span>
+<span class="lineNum">    1199 </span><span class="lineCov">        303 :                 break;</span>
 <span class="lineNum">    1200 </span>            : 
 <span class="lineNum">    1201 </span>            :             default:
 <span class="lineNum">    1202 </span><span class="lineNoCov">          0 :                 LBUNIMPLEMENTED;</span>
@@ -1511,10 +1511,10 @@
 <span class="lineNum">    1449 </span>            :     }
 <a name="1450"><span class="lineNum">    1450 </span>            : }</a>
 <span class="lineNum">    1451 </span>            : 
-<span class="lineNum">    1452 </span><span class="lineCov">      72500 : void LocalNode::_redispatchCommands()</span>
+<span class="lineNum">    1452 </span><span class="lineCov">      72497 : void LocalNode::_redispatchCommands()</span>
 <span class="lineNum">    1453 </span>            : {
-<span class="lineNum">    1454 </span><span class="lineCov">      72500 :     bool changes = true;</span>
-<span class="lineNum">    1455 </span><span class="lineCov">     145000 :     while( changes &amp;&amp; !_impl-&gt;pendingCommands.empty( ))</span>
+<span class="lineNum">    1454 </span><span class="lineCov">      72497 :     bool changes = true;</span>
+<span class="lineNum">    1455 </span><span class="lineCov">     144994 :     while( changes &amp;&amp; !_impl-&gt;pendingCommands.empty( ))</span>
 <span class="lineNum">    1456 </span>            :     {
 <span class="lineNum">    1457 </span><span class="lineNoCov">          0 :         changes = false;</span>
 <span class="lineNum">    1458 </span>            : 
@@ -1534,12 +1534,12 @@
 <span class="lineNum">    1472 </span>            :     }
 <span class="lineNum">    1473 </span>            : 
 <span class="lineNum">    1474 </span>            : #ifndef NDEBUG
-<span class="lineNum">    1475 </span><span class="lineCov">      72500 :     if( !_impl-&gt;pendingCommands.empty( ))</span>
+<span class="lineNum">    1475 </span><span class="lineCov">      72497 :     if( !_impl-&gt;pendingCommands.empty( ))</span>
 <span class="lineNum">    1476 </span><span class="lineNoCov">          0 :         LBVERB &lt;&lt; _impl-&gt;pendingCommands.size() &lt;&lt; &quot; undispatched commands&quot;</span>
 <span class="lineNum">    1477 </span><span class="lineNoCov">          0 :                &lt;&lt; std::endl;</span>
-<span class="lineNum">    1478 </span><span class="lineCov">      72500 :     LBASSERT( _impl-&gt;pendingCommands.size() &lt; 200 );</span>
+<span class="lineNum">    1478 </span><span class="lineCov">      72497 :     LBASSERT( _impl-&gt;pendingCommands.size() &lt; 200 );</span>
 <span class="lineNum">    1479 </span>            : #endif
-<a name="1480"><span class="lineNum">    1480 </span><span class="lineCov">      72500 : }</span></a>
+<a name="1480"><span class="lineNum">    1480 </span><span class="lineCov">      72497 : }</span></a>
 <span class="lineNum">    1481 </span>            : 
 <span class="lineNum">    1482 </span><span class="lineCov">         50 : void LocalNode::_initService()</span>
 <span class="lineNum">    1483 </span>            : {
@@ -1591,9 +1591,9 @@
 <span class="lineNum">    1529 </span><span class="lineCov">         50 :     return _impl-&gt;commandThread-&gt;start();</span>
 <a name="1530"><span class="lineNum">    1530 </span>            : }</a>
 <span class="lineNum">    1531 </span>            : 
-<span class="lineNum">    1532 </span><span class="lineCov">      23269 : bool LocalNode::_notifyCommandThreadIdle()</span>
+<span class="lineNum">    1532 </span><span class="lineCov">      51606 : bool LocalNode::_notifyCommandThreadIdle()</span>
 <span class="lineNum">    1533 </span>            : {
-<span class="lineNum">    1534 </span><span class="lineCov">      23269 :     return _impl-&gt;objectStore-&gt;notifyCommandThreadIdle();</span>
+<span class="lineNum">    1534 </span><span class="lineCov">      51606 :     return _impl-&gt;objectStore-&gt;notifyCommandThreadIdle();</span>
 <a name="1535"><span class="lineNum">    1535 </span>            : }</a>
 <span class="lineNum">    1536 </span>            : 
 <span class="lineNum">    1537 </span><span class="lineCov">      20001 : bool LocalNode::_cmdAckRequest( ICommand&amp; command )</span>

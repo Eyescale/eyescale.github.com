@@ -10,7 +10,6 @@ var searchData=
   ['connectiontype_5fpipe',['CONNECTIONTYPE_PIPE',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba9f9eeb3e30869888b2960b36c05a75ad',1,'co']]],
   ['connectiontype_5frdma',['CONNECTIONTYPE_RDMA',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba8514882a49fbc007188ce797b72444e3',1,'co']]],
   ['connectiontype_5frsp',['CONNECTIONTYPE_RSP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba96cc6084d953a46bce53e1a8e437532c',1,'co']]],
-  ['connectiontype_5fsdp',['CONNECTIONTYPE_SDP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdbaaf478ea8d405467dd3b4937c75ac1c04',1,'co']]],
   ['connectiontype_5ftcpip',['CONNECTIONTYPE_TCPIP',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba3679bc9affad045bbb6b126d0cea4248',1,'co']]],
   ['connectiontype_5fudt',['CONNECTIONTYPE_UDT',['../namespaceco.html#a65133c6a094c4df2f4d59562f82bdfdba27061e42355c2e23cdad501df680130e',1,'co']]],
   ['counter_5fmap_5fobject_5fremote',['COUNTER_MAP_OBJECT_REMOTE',['../classco_1_1_local_node.html#adc244ea5c5bc1b8759c3a3e7c2784e6ba7d876b380e88b136e9252d1a1dc700c5',1,'co::LocalNode']]],
