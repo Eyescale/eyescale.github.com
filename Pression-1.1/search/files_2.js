@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['defines_2eh',['defines.h',['../defines_8h.html',1,'']]]
+  ['compressor_2eh',['compressor.h',['../plugins_2compressor_8h.html',1,'']]]
 ];
