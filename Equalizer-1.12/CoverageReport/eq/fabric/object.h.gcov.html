@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">47</td>
+            <td class="headerCovTableEntry">29</td>
             <td class="headerCovTableEntry">52</td>
-            <td class="headerCovTableEntryHi">90.4 %</td>
+            <td class="headerCovTableEntryMed">55.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-05-31 05:03:29</td>
+            <td class="headerValue">2016-06-08 05:05:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">75</td>
+            <td class="headerCovTableEntry">24</td>
             <td class="headerCovTableEntry">100</td>
-            <td class="headerCovTableEntryMed">75.0 %</td>
+            <td class="headerCovTableEntryLo">24.0 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -228,11 +228,11 @@
 <span class="lineNum">     166 </span>            : 
 <a name="167"><span class="lineNum">     167 </span>            :     /** @internal commit slave instance to the server. */</a>
 <span class="lineNum">     168 </span>            :     template&lt; class C &gt; inline
-<span class="lineNum">     169 </span><span class="lineCov">          8 :     void commitChild( C* child, const uint32_t incarnation )</span>
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :     void commitChild( C* child, const uint32_t incarnation )</span>
 <span class="lineNum">     170 </span>            :         {
-<span class="lineNum">     171 </span><span class="lineCov">          8 :             LBASSERT( child-&gt;isAttached( ));</span>
-<span class="lineNum">     172 </span><span class="lineCov">          8 :             child-&gt;commit( incarnation );</span>
-<span class="lineNum">     173 </span><span class="lineCov">          8 :         }</span>
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :             LBASSERT( child-&gt;isAttached( ));</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :             child-&gt;commit( incarnation );</span>
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :         }</span>
 <span class="lineNum">     174 </span>            : 
 <span class="lineNum">     175 </span>            :     /** @internal commit, register child slave instances with the server. */
 <span class="lineNum">     176 </span>            :     template&lt; class C, class S &gt;
@@ -241,9 +241,9 @@
 <span class="lineNum">     179 </span>            : 
 <a name="180"><span class="lineNum">     180 </span>            :     /** @internal commit, register child slave instances with the server. */</a>
 <span class="lineNum">     181 </span>            :     template&lt; class C &gt;
-<span class="lineNum">     182 </span><span class="lineCov">      59596 :     void commitChildren( const std::vector&lt; C* &gt;&amp; children, uint32_t cmd,</span>
+<span class="lineNum">     182 </span><span class="lineCov">         32 :     void commitChildren( const std::vector&lt; C* &gt;&amp; children, uint32_t cmd,</span>
 <span class="lineNum">     183 </span>            :                          const uint32_t incarnation )
-<span class="lineNum">     184 </span><span class="lineCov">      59596 :         { commitChildren&lt; C, Object &gt;( children, this, cmd, incarnation ); }</span>
+<span class="lineNum">     184 </span><span class="lineCov">         32 :         { commitChildren&lt; C, Object &gt;( children, this, cmd, incarnation ); }</span>
 <span class="lineNum">     185 </span>            : 
 <span class="lineNum">     186 </span>            :     /** @internal commit all children. */
 <span class="lineNum">     187 </span>            :     template&lt; class C &gt;
@@ -267,85 +267,85 @@
 <span class="lineNum">     205 </span>            : 
 <a name="206"><span class="lineNum">     206 </span>            : // Template Implementation</a>
 <span class="lineNum">     207 </span>            : template&lt; class C, class S &gt; inline void
-<span class="lineNum">     208 </span><span class="lineCov">     127074 : Object::commitChild( C* child, S* sender, uint32_t cmd,</span>
+<span class="lineNum">     208 </span><span class="lineCov">         76 : Object::commitChild( C* child, S* sender, uint32_t cmd,</span>
 <span class="lineNum">     209 </span>            :                      const uint32_t incarnation )
 <span class="lineNum">     210 </span>            : {
-<span class="lineNum">     211 </span><span class="lineCov">     127074 :     if( !child-&gt;isAttached( ))</span>
+<span class="lineNum">     211 </span><span class="lineCov">         76 :     if( !child-&gt;isAttached( ))</span>
 <span class="lineNum">     212 </span>            :     {
-<span class="lineNum">     213 </span><span class="lineCov">         24 :         LBASSERT( !isMaster( ));</span>
-<span class="lineNum">     214 </span><span class="lineCov">         24 :         co::LocalNodePtr localNode = child-&gt;getConfig()-&gt;getLocalNode();</span>
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :         LBASSERT( !isMaster( ));</span>
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :         co::LocalNodePtr localNode = child-&gt;getConfig()-&gt;getLocalNode();</span>
 <span class="lineNum">     215 </span>            :         lunchbox::Request&lt; uint128_t &gt; request =
-<span class="lineNum">     216 </span><span class="lineCov">         48 :             localNode-&gt;registerRequest&lt; uint128_t &gt;();</span>
-<span class="lineNum">     217 </span><span class="lineCov">         48 :         co::NodePtr node = child-&gt;getServer().get();</span>
-<span class="lineNum">     218 </span><span class="lineCov">         24 :         sender-&gt;send( node, cmd ) &lt;&lt; request;</span>
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :             localNode-&gt;registerRequest&lt; uint128_t &gt;();</span>
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :         co::NodePtr node = child-&gt;getServer().get();</span>
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 :         sender-&gt;send( node, cmd ) &lt;&lt; request;</span>
 <span class="lineNum">     219 </span>            : 
-<span class="lineNum">     220 </span><span class="lineCov">         24 :         LBCHECK( localNode-&gt;mapObject( child, request.wait(),</span>
-<span class="lineNum">     221 </span><span class="lineCov">         24 :                                        co::VERSION_NONE ));</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :         LBCHECK( localNode-&gt;mapObject( child, request.wait(),</span>
+<span class="lineNum">     221 </span><span class="lineNoCov">          0 :                                        co::VERSION_NONE ));</span>
 <span class="lineNum">     222 </span>            :     }
-<span class="lineNum">     223 </span><span class="lineCov">     127074 :     child-&gt;commit( incarnation );</span>
-<span class="lineNum">     224 </span><span class="lineCov">     127074 : }</span>
+<span class="lineNum">     223 </span><span class="lineCov">         76 :     child-&gt;commit( incarnation );</span>
+<span class="lineNum">     224 </span><span class="lineCov">         76 : }</span>
 <a name="225"><span class="lineNum">     225 </span>            : </a>
 <span class="lineNum">     226 </span>            : template&lt; class C, class S &gt; inline void
-<span class="lineNum">     227 </span><span class="lineCov">      74646 : Object::commitChildren( const std::vector&lt; C* &gt;&amp; children, S* sender,</span>
+<span class="lineNum">     227 </span><span class="lineCov">         70 : Object::commitChildren( const std::vector&lt; C* &gt;&amp; children, S* sender,</span>
 <span class="lineNum">     228 </span>            :                         uint32_t cmd, const uint32_t incarnation )
 <span class="lineNum">     229 </span>            : {
 <span class="lineNum">     230 </span>            :     // TODO Opt: async register and commit
-<span class="lineNum">     231 </span><span class="lineCov">     605160 :     for( typename std::vector&lt; C* &gt;::const_iterator i = children.begin();</span>
-<span class="lineNum">     232 </span><span class="lineCov">     403440 :          i != children.end(); ++i )</span>
+<span class="lineNum">     231 </span><span class="lineCov">        438 :     for( typename std::vector&lt; C* &gt;::const_iterator i = children.begin();</span>
+<span class="lineNum">     232 </span><span class="lineCov">        292 :          i != children.end(); ++i )</span>
 <span class="lineNum">     233 </span>            :     {
-<span class="lineNum">     234 </span><span class="lineCov">     127074 :         C* child = *i;</span>
-<span class="lineNum">     235 </span><span class="lineCov">     127074 :         commitChild&lt; C, S &gt;( child, sender, cmd, incarnation );</span>
+<span class="lineNum">     234 </span><span class="lineCov">         76 :         C* child = *i;</span>
+<span class="lineNum">     235 </span><span class="lineCov">         76 :         commitChild&lt; C, S &gt;( child, sender, cmd, incarnation );</span>
 <span class="lineNum">     236 </span>            :     }
-<span class="lineNum">     237 </span><span class="lineCov">      74646 : }</span>
+<span class="lineNum">     237 </span><span class="lineCov">         70 : }</span>
 <a name="238"><span class="lineNum">     238 </span>            : </a>
 <span class="lineNum">     239 </span>            : template&lt; class C &gt;
-<span class="lineNum">     240 </span><span class="lineCov">        282 : inline void Object::commitChildren( const std::vector&lt; C* &gt;&amp; children,</span>
+<span class="lineNum">     240 </span><span class="lineCov">         16 : inline void Object::commitChildren( const std::vector&lt; C* &gt;&amp; children,</span>
 <span class="lineNum">     241 </span>            :                                     const uint32_t incarnation )
 <span class="lineNum">     242 </span>            : {
 <span class="lineNum">     243 </span>            :     // TODO Opt: async commit
-<span class="lineNum">     244 </span><span class="lineCov">       2094 :     for( typename std::vector&lt; C* &gt;::const_iterator i = children.begin();</span>
-<span class="lineNum">     245 </span><span class="lineCov">       1396 :          i != children.end(); ++i )</span>
+<span class="lineNum">     244 </span><span class="lineCov">         96 :     for( typename std::vector&lt; C* &gt;::const_iterator i = children.begin();</span>
+<span class="lineNum">     245 </span><span class="lineCov">         64 :          i != children.end(); ++i )</span>
 <span class="lineNum">     246 </span>            :     {
-<span class="lineNum">     247 </span><span class="lineCov">        416 :         C* child = *i;</span>
-<span class="lineNum">     248 </span><span class="lineCov">        416 :         LBASSERT( child-&gt;isAttached( ));</span>
-<span class="lineNum">     249 </span><span class="lineCov">        416 :         child-&gt;commit( incarnation );</span>
+<span class="lineNum">     247 </span><span class="lineCov">         16 :         C* child = *i;</span>
+<span class="lineNum">     248 </span><span class="lineCov">         16 :         LBASSERT( child-&gt;isAttached( ));</span>
+<span class="lineNum">     249 </span><span class="lineCov">         16 :         child-&gt;commit( incarnation );</span>
 <span class="lineNum">     250 </span>            :     }
-<span class="lineNum">     251 </span><span class="lineCov">        282 : }</span>
+<span class="lineNum">     251 </span><span class="lineCov">         16 : }</span>
 <a name="252"><span class="lineNum">     252 </span>            : </a>
 <span class="lineNum">     253 </span>            : template&lt; class C &gt;
-<span class="lineNum">     254 </span><span class="lineCov">        488 : inline void Object::syncChildren( const std::vector&lt; C* &gt;&amp; children )</span>
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 : inline void Object::syncChildren( const std::vector&lt; C* &gt;&amp; children )</span>
 <span class="lineNum">     255 </span>            : {
-<span class="lineNum">     256 </span><span class="lineCov">       4056 :     for( typename std::vector&lt; C* &gt;::const_iterator i = children.begin();</span>
-<span class="lineNum">     257 </span><span class="lineCov">       2704 :          i != children.end(); ++i )</span>
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :     for( typename std::vector&lt; C* &gt;::const_iterator i = children.begin();</span>
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :          i != children.end(); ++i )</span>
 <span class="lineNum">     258 </span>            :     {
-<span class="lineNum">     259 </span><span class="lineCov">        864 :         C* child = *i;</span>
-<span class="lineNum">     260 </span><span class="lineCov">        864 :         LBASSERT( child-&gt;isMaster( )); // slaves are synced using version</span>
-<span class="lineNum">     261 </span><span class="lineCov">        864 :         child-&gt;sync();</span>
+<span class="lineNum">     259 </span><span class="lineNoCov">          0 :         C* child = *i;</span>
+<span class="lineNum">     260 </span><span class="lineNoCov">          0 :         LBASSERT( child-&gt;isMaster( )); // slaves are synced using version</span>
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :         child-&gt;sync();</span>
 <span class="lineNum">     262 </span>            :     }
-<span class="lineNum">     263 </span><span class="lineCov">        488 : }</span>
+<span class="lineNum">     263 </span><span class="lineNoCov">          0 : }</span>
 <a name="264"><span class="lineNum">     264 </span>            : </a>
 <span class="lineNum">     265 </span>            : template&lt; class P, class C &gt;
-<span class="lineNum">     266 </span><span class="lineCov">        457 : inline void Object::releaseChildren( const std::vector&lt; C* &gt;&amp; children )</span>
+<span class="lineNum">     266 </span><span class="lineCov">         12 : inline void Object::releaseChildren( const std::vector&lt; C* &gt;&amp; children )</span>
 <span class="lineNum">     267 </span>            : {
-<span class="lineNum">     268 </span><span class="lineCov">        910 :     for( size_t i = children.size(); i &gt; 0; --i )</span>
+<span class="lineNum">     268 </span><span class="lineCov">         24 :     for( size_t i = children.size(); i &gt; 0; --i )</span>
 <span class="lineNum">     269 </span>            :     {
-<span class="lineNum">     270 </span><span class="lineCov">        453 :         C* child = children[ i - 1 ];</span>
+<span class="lineNum">     270 </span><span class="lineCov">         12 :         C* child = children[ i - 1 ];</span>
 <span class="lineNum">     271 </span>            : 
-<span class="lineNum">     272 </span><span class="lineCov">        453 :         if( child-&gt;isAttached( ))</span>
+<span class="lineNum">     272 </span><span class="lineCov">         12 :         if( child-&gt;isAttached( ))</span>
 <span class="lineNum">     273 </span>            :         {
-<span class="lineNum">     274 </span><span class="lineCov">        167 :             getLocalNode()-&gt;releaseObject( child );</span>
-<span class="lineNum">     275 </span><span class="lineCov">        167 :             if( !isMaster( ))</span>
+<span class="lineNum">     274 </span><span class="lineCov">          4 :             getLocalNode()-&gt;releaseObject( child );</span>
+<span class="lineNum">     275 </span><span class="lineCov">          4 :             if( !isMaster( ))</span>
 <span class="lineNum">     276 </span>            :             {
-<span class="lineNum">     277 </span><span class="lineCov">        163 :                 static_cast&lt; P* &gt;( this )-&gt;_removeChild( child );</span>
-<span class="lineNum">     278 </span><span class="lineCov">        163 :                 static_cast&lt; P* &gt;( this )-&gt;release( child );</span>
+<span class="lineNum">     277 </span><span class="lineCov">          4 :                 static_cast&lt; P* &gt;( this )-&gt;_removeChild( child );</span>
+<span class="lineNum">     278 </span><span class="lineCov">          4 :                 static_cast&lt; P* &gt;( this )-&gt;release( child );</span>
 <span class="lineNum">     279 </span>            :             }
 <span class="lineNum">     280 </span>            :         }
 <span class="lineNum">     281 </span>            :         else
 <span class="lineNum">     282 </span>            :         {
-<span class="lineNum">     283 </span><span class="lineCov">        286 :             LBASSERT( isMaster( ));</span>
+<span class="lineNum">     283 </span><span class="lineCov">          8 :             LBASSERT( isMaster( ));</span>
 <span class="lineNum">     284 </span>            :         }
 <span class="lineNum">     285 </span>            :     }
-<span class="lineNum">     286 </span><span class="lineCov">        457 : }</span>
+<span class="lineNum">     286 </span><span class="lineCov">         12 : }</span>
 <span class="lineNum">     287 </span>            : }
 <span class="lineNum">     288 </span>            : }
 <span class="lineNum">     289 </span>            : #endif // EQFABRIC_OBJECT_H

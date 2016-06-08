@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntry">14</td>
             <td class="headerCovTableEntry">64</td>
-            <td class="headerCovTableEntryLo">31.2 %</td>
+            <td class="headerCovTableEntryLo">21.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-05-31 05:03:29</td>
+            <td class="headerValue">2016-06-08 05:05:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntry">14</td>
-            <td class="headerCovTableEntryMed">64.3 %</td>
+            <td class="headerCovTableEntryMed">50.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -110,10 +110,10 @@
 <span class="lineNum">      48 </span>            : class Observer
 <a name="49"><span class="lineNum">      49 </span>            : {</a>
 <span class="lineNum">      50 </span>            : public:
-<span class="lineNum">      51 </span><span class="lineCov">         20 :     Observer()</span>
+<span class="lineNum">      51 </span><span class="lineCov">          2 :     Observer()</span>
 <span class="lineNum">      52 </span>            :         : vrpnTracker( 0 )
-<span class="lineNum">      53 </span><span class="lineCov">         20 :         , cvTracker( 0 )</span>
-<span class="lineNum">      54 </span><span class="lineCov">         20 :     {}</span>
+<span class="lineNum">      53 </span><span class="lineCov">          2 :         , cvTracker( 0 )</span>
+<span class="lineNum">      54 </span><span class="lineCov">          2 :     {}</span>
 <span class="lineNum">      55 </span>            : 
 <span class="lineNum">      56 </span>            :     vrpn_Tracker_Remote *vrpnTracker;
 <span class="lineNum">      57 </span>            :     CVTracker* cvTracker;
@@ -122,15 +122,15 @@
 <span class="lineNum">      60 </span>            : 
 <a name="61"><span class="lineNum">      61 </span>            : typedef fabric::Observer&lt; Config, Observer &gt; Super;</a>
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">         20 : Observer::Observer( Config* parent )</span>
+<span class="lineNum">      63 </span><span class="lineCov">          2 : Observer::Observer( Config* parent )</span>
 <span class="lineNum">      64 </span>            :         : Super( parent )
-<span class="lineNum">      65 </span><span class="lineCov">         20 :         , _impl( new detail::Observer )</span>
-<a name="66"><span class="lineNum">      66 </span><span class="lineCov">         20 : {}</span></a>
+<span class="lineNum">      65 </span><span class="lineCov">          2 :         , _impl( new detail::Observer )</span>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">          2 : {}</span></a>
 <span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span><span class="lineCov">         60 : Observer::~Observer()</span>
+<span class="lineNum">      68 </span><span class="lineCov">          6 : Observer::~Observer()</span>
 <span class="lineNum">      69 </span>            : {
-<span class="lineNum">      70 </span><span class="lineCov">         20 :     delete _impl;</span>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">         40 : }</span></a>
+<span class="lineNum">      70 </span><span class="lineCov">          2 :     delete _impl;</span>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">      72 </span>            : 
 <span class="lineNum">      73 </span><span class="lineNoCov">          0 : ServerPtr Observer::getServer()</span>
 <span class="lineNum">      74 </span>            : {
@@ -187,11 +187,11 @@
 <span class="lineNum">     125 </span>            : }
 <a name="126"><span class="lineNum">     126 </span>            : #endif</a>
 <span class="lineNum">     127 </span>            : 
-<span class="lineNum">     128 </span><span class="lineCov">         27 : bool Observer::configInit()</span>
+<span class="lineNum">     128 </span><span class="lineCov">          1 : bool Observer::configInit()</span>
 <span class="lineNum">     129 </span>            : {
 <span class="lineNum">     130 </span>            : #ifdef EQUALIZER_USE_VRPN
-<span class="lineNum">     131 </span><span class="lineCov">         27 :     const std::string&amp; vrpnName = getVRPNTracker();</span>
-<span class="lineNum">     132 </span><span class="lineCov">         27 :     if( !vrpnName.empty( ))</span>
+<span class="lineNum">     131 </span><span class="lineCov">          1 :     const std::string&amp; vrpnName = getVRPNTracker();</span>
+<span class="lineNum">     132 </span><span class="lineCov">          1 :     if( !vrpnName.empty( ))</span>
 <span class="lineNum">     133 </span>            :     {
 <span class="lineNum">     134 </span><span class="lineNoCov">          0 :         _impl-&gt;vrpnTracker = new vrpn_Tracker_Remote( vrpnName.c_str( ));</span>
 <span class="lineNum">     135 </span><span class="lineNoCov">          0 :         if( _impl-&gt;vrpnTracker-&gt;register_change_handler(this, trackerCB) != -1 )</span>
@@ -221,7 +221,7 @@
 <span class="lineNum">     159 </span>            :     _impl-&gt;cvTracker = 0;
 <span class="lineNum">     160 </span>            :     return getOpenCVCamera() == AUTO; // not a failure for auto setting
 <span class="lineNum">     161 </span>            : #endif
-<span class="lineNum">     162 </span><span class="lineCov">         27 :     return true;</span>
+<span class="lineNum">     162 </span><span class="lineCov">          1 :     return true;</span>
 <a name="163"><span class="lineNum">     163 </span>            : }</a>
 <span class="lineNum">     164 </span>            : 
 <span class="lineNum">     165 </span><span class="lineNoCov">          0 : bool Observer::handleEvent( EventICommand&amp; command )</span>
@@ -234,10 +234,10 @@
 <span class="lineNum">     172 </span><span class="lineNoCov">          0 :     return false;</span>
 <a name="173"><span class="lineNum">     173 </span>            : }</a>
 <span class="lineNum">     174 </span>            : 
-<span class="lineNum">     175 </span><span class="lineCov">         26 : bool Observer::configExit()</span>
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 : bool Observer::configExit()</span>
 <span class="lineNum">     176 </span>            : {
 <span class="lineNum">     177 </span>            : #ifdef EQUALIZER_USE_VRPN
-<span class="lineNum">     178 </span><span class="lineCov">         26 :     if( _impl-&gt;vrpnTracker )</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :     if( _impl-&gt;vrpnTracker )</span>
 <span class="lineNum">     179 </span>            :     {
 <span class="lineNum">     180 </span><span class="lineNoCov">          0 :         _impl-&gt;vrpnTracker-&gt;unregister_change_handler( this, trackerCB );</span>
 <span class="lineNum">     181 </span><span class="lineNoCov">          0 :         delete _impl-&gt;vrpnTracker;</span>
@@ -248,16 +248,16 @@
 <span class="lineNum">     186 </span>            :     delete _impl-&gt;cvTracker;
 <span class="lineNum">     187 </span>            :     _impl-&gt;cvTracker = 0;
 <span class="lineNum">     188 </span>            : #endif
-<span class="lineNum">     189 </span><span class="lineCov">         26 :     return true;</span>
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="190"><span class="lineNum">     190 </span>            : }</a>
 <span class="lineNum">     191 </span>            : 
-<span class="lineNum">     192 </span><span class="lineCov">          5 : void Observer::frameStart( const uint32_t /*frame*/ )</span>
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 : void Observer::frameStart( const uint32_t /*frame*/ )</span>
 <span class="lineNum">     193 </span>            : {
 <span class="lineNum">     194 </span>            : #ifdef EQUALIZER_USE_VRPN
-<span class="lineNum">     195 </span><span class="lineCov">          5 :     if( _impl-&gt;vrpnTracker )</span>
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :     if( _impl-&gt;vrpnTracker )</span>
 <span class="lineNum">     196 </span><span class="lineNoCov">          0 :         _impl-&gt;vrpnTracker-&gt;mainloop();</span>
 <span class="lineNum">     197 </span>            : #endif
-<span class="lineNum">     198 </span><span class="lineCov">          5 : }</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 : }</span>
 <span class="lineNum">     199 </span>            : 
 <span class="lineNum">     200 </span>            : }
 <span class="lineNum">     201 </span>            : 
@@ -266,7 +266,7 @@
 <span class="lineNum">     204 </span>            : 
 <a name="205"><span class="lineNum">     205 </span>            : /** @cond IGNORE */</a>
 <span class="lineNum">     206 </span>            : template EQFABRIC_API std::ostream&amp; eq::fabric::operator &lt;&lt; ( std::ostream&amp;,
-<span class="lineNum">     207 </span><span class="lineCov">         60 :                       const eq::fabric::Observer&lt; eq::Config, eq::Observer &gt;&amp; );</span>
+<span class="lineNum">     207 </span><span class="lineCov">         42 :                       const eq::fabric::Observer&lt; eq::Config, eq::Observer &gt;&amp; );</span>
 <span class="lineNum">     208 </span>            : /** @endcond */
 </pre>
       </td>

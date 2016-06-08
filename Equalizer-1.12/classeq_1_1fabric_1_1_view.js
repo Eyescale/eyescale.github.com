@@ -20,8 +20,8 @@ var classeq_1_1fabric_1_1_view =
       [ "MODE_STEREO", "classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76a61f7cc23613e76b5d68c25acad4826d8", null ]
     ] ],
     [ "SAttribute", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9b", [
-      [ "SATTR_DISPLAYCLUSTER", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9bae8d1faf99c755c27e872d4e8e4e99945", null ],
-      [ "SATTR_PIXELSTREAM_NAME", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9ba2ffca6f72b3fa948478f524be1f7e019", null ],
+      [ "SATTR_DEFLECT_HOST", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9baf3237563e04f30c853294128942ac491", null ],
+      [ "SATTR_DEFLECT_ID", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9baaae3fdb1e092ec7a99b04c03a4f86452", null ],
       [ "SATTR_LAST", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9babfc61212dee0a303645068c76b913fe4", null ],
       [ "SATTR_ALL", "classeq_1_1fabric_1_1_view.html#a6b8696fc0db87846bbbfcd3fb4fb0c9ba82a5739136666ad98090599b1df63ea6", null ]
     ] ],

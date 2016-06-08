@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-05-31 05:03:29</td>
+            <td class="headerValue">2016-06-08 05:05:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">12</td>
@@ -93,13 +93,13 @@
 <span class="lineNum">      31 </span>            : 
 <a name="32"><span class="lineNum">      32 </span>            : namespace</a>
 <span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span><span class="lineCov">       2840 : struct ErrorData</span>
+<span class="lineNum">      34 </span><span class="lineCov">       1988 : struct ErrorData</span>
 <span class="lineNum">      35 </span>            : {
 <span class="lineNum">      36 </span>            :     const uint32_t code;
 <span class="lineNum">      37 </span>            :     const std::string text;
 <a name="38"><span class="lineNum">      38 </span>            : };</a>
 <span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span><span class="lineCov">         80 : ErrorData _errors[] = {</span>
+<span class="lineNum">      40 </span><span class="lineCov">         56 : ErrorData _errors[] = {</span>
 <span class="lineNum">      41 </span>            :     { ERROR_FBO_UNSUPPORTED, &quot;Framebuffer objects not supported&quot; },
 <span class="lineNum">      42 </span>            :     { ERROR_FRAMEBUFFER_STATUS, &quot;Error querying framebuffer status&quot; },
 <span class="lineNum">      43 </span>            :     { ERROR_FRAMEBUFFER_UNSUPPORTED, &quot;Unsupported framebuffer format&quot; },
@@ -202,32 +202,32 @@
 <span class="lineNum">     140 </span>            :     { ERROR_PBO_TYPE_UNSUPPORTED, &quot;Unsupported PBO type&quot; },
 <span class="lineNum">     141 </span>            : 
 <span class="lineNum">     142 </span>            :     { 0, &quot;&quot; } // last!
-<span class="lineNum">     143 </span><span class="lineCov">         40 : };</span>
+<span class="lineNum">     143 </span><span class="lineCov">         28 : };</span>
 <a name="144"><span class="lineNum">     144 </span>            : }</a>
 <span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span><span class="lineCov">         24 : void _initErrors()</span>
+<span class="lineNum">     146 </span><span class="lineCov">         12 : void _initErrors()</span>
 <span class="lineNum">     147 </span>            : {
-<span class="lineNum">     148 </span><span class="lineCov">         24 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
-<span class="lineNum">     149 </span><span class="lineCov">       1704 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
-<span class="lineNum">     150 </span><span class="lineCov">       1680 :         registry.setString( _errors[i].code, _errors[i].text );</span>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         24 : }</span></a>
+<span class="lineNum">     148 </span><span class="lineCov">         12 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
+<span class="lineNum">     149 </span><span class="lineCov">        852 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
+<span class="lineNum">     150 </span><span class="lineCov">        840 :         registry.setString( _errors[i].code, _errors[i].text );</span>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         12 : }</span></a>
 <span class="lineNum">     152 </span>            : 
-<span class="lineNum">     153 </span><span class="lineCov">         24 : void _exitErrors()</span>
+<span class="lineNum">     153 </span><span class="lineCov">         12 : void _exitErrors()</span>
 <span class="lineNum">     154 </span>            : {
-<span class="lineNum">     155 </span><span class="lineCov">         24 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
-<span class="lineNum">     156 </span><span class="lineCov">       1704 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
-<span class="lineNum">     157 </span><span class="lineCov">       1680 :         registry.eraseString( _errors[i].code );</span>
-<a name="158"><span class="lineNum">     158 </span><span class="lineCov">         24 : }</span></a>
+<span class="lineNum">     155 </span><span class="lineCov">         12 :     eq::fabric::ErrorRegistry&amp; registry =eq::fabric::Global::getErrorRegistry();</span>
+<span class="lineNum">     156 </span><span class="lineCov">        852 :     for( size_t i=0; _errors[i].code != 0; ++i )</span>
+<span class="lineNum">     157 </span><span class="lineCov">        840 :         registry.eraseString( _errors[i].code );</span>
+<a name="158"><span class="lineNum">     158 </span><span class="lineCov">         12 : }</span></a>
 <span class="lineNum">     159 </span>            : 
-<span class="lineNum">     160 </span><span class="lineCov">         10 : Error::Error()</span>
+<span class="lineNum">     160 </span><span class="lineCov">          6 : Error::Error()</span>
 <span class="lineNum">     161 </span>            :     : _code( ERROR_NONE )
-<span class="lineNum">     162 </span><span class="lineCov">         10 :     , _originator()</span>
-<a name="163"><span class="lineNum">     163 </span><span class="lineCov">         10 : {}</span></a>
+<span class="lineNum">     162 </span><span class="lineCov">          6 :     , _originator()</span>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">          6 : {}</span></a>
 <span class="lineNum">     164 </span>            : 
-<span class="lineNum">     165 </span><span class="lineCov">        302 : Error::Error( const uint32_t code, const uint128_t&amp; originator )</span>
+<span class="lineNum">     165 </span><span class="lineCov">         10 : Error::Error( const uint32_t code, const uint128_t&amp; originator )</span>
 <span class="lineNum">     166 </span>            :     : _code( code )
-<span class="lineNum">     167 </span><span class="lineCov">        302 :     , _originator( originator )</span>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">        302 : {}</span></a>
+<span class="lineNum">     167 </span><span class="lineCov">         10 :     , _originator( originator )</span>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">         10 : {}</span></a>
 <span class="lineNum">     169 </span>            : 
 <span class="lineNum">     170 </span><span class="lineNoCov">          0 : Error&amp; Error::operator = ( const ErrorCode code )</span>
 <span class="lineNum">     171 </span>            : {
@@ -235,19 +235,19 @@
 <span class="lineNum">     173 </span><span class="lineNoCov">          0 :     return *this;</span>
 <a name="174"><span class="lineNum">     174 </span>            : }</a>
 <span class="lineNum">     175 </span>            : 
-<span class="lineNum">     176 </span><span class="lineCov">        284 : Error::operator bool_t() const</span>
+<span class="lineNum">     176 </span><span class="lineCov">          2 : Error::operator bool_t() const</span>
 <span class="lineNum">     177 </span>            : {
-<span class="lineNum">     178 </span><span class="lineCov">        284 :     return _code != ERROR_NONE ? &amp;Error::bool_true : 0;</span>
+<span class="lineNum">     178 </span><span class="lineCov">          2 :     return _code != ERROR_NONE ? &amp;Error::bool_true : 0;</span>
 <a name="179"><span class="lineNum">     179 </span>            : }</a>
 <span class="lineNum">     180 </span>            : 
-<span class="lineNum">     181 </span><span class="lineCov">        106 : bool Error::operator ! () const</span>
+<span class="lineNum">     181 </span><span class="lineCov">          6 : bool Error::operator ! () const</span>
 <span class="lineNum">     182 </span>            : {
-<span class="lineNum">     183 </span><span class="lineCov">        106 :     return _code == ERROR_NONE;\</span>
+<span class="lineNum">     183 </span><span class="lineCov">          6 :     return _code == ERROR_NONE;\</span>
 <a name="184"><span class="lineNum">     184 </span>            : }</a>
 <span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span><span class="lineCov">         50 : uint32_t Error::getCode() const</span>
+<span class="lineNum">     186 </span><span class="lineCov">         30 : uint32_t Error::getCode() const</span>
 <span class="lineNum">     187 </span>            : {
-<span class="lineNum">     188 </span><span class="lineCov">         50 :     return _code;</span>
+<span class="lineNum">     188 </span><span class="lineCov">         30 :     return _code;</span>
 <a name="189"><span class="lineNum">     189 </span>            : }</a>
 <span class="lineNum">     190 </span>            : 
 <span class="lineNum">     191 </span><span class="lineNoCov">          0 : const uint128_t&amp; Error::getOriginator() const</span>
@@ -285,21 +285,21 @@
 <span class="lineNum">     223 </span><span class="lineNoCov">          0 :     is &gt;&gt; _code &gt;&gt; _originator;</span>
 <a name="224"><span class="lineNum">     224 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     225 </span>            : 
-<span class="lineNum">     226 </span><span class="lineCov">         20 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Error&amp; error )</span>
+<span class="lineNum">     226 </span><span class="lineCov">         12 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Error&amp; error )</span>
 <span class="lineNum">     227 </span>            : {
-<span class="lineNum">     228 </span><span class="lineCov">         20 :     const ErrorRegistry&amp; registry = Global::getErrorRegistry();</span>
-<span class="lineNum">     229 </span><span class="lineCov">         20 :     const std::string&amp; text = registry.getString( error.getCode( ));</span>
+<span class="lineNum">     228 </span><span class="lineCov">         12 :     const ErrorRegistry&amp; registry = Global::getErrorRegistry();</span>
+<span class="lineNum">     229 </span><span class="lineCov">         12 :     const std::string&amp; text = registry.getString( error.getCode( ));</span>
 <span class="lineNum">     230 </span>            : 
-<span class="lineNum">     231 </span><span class="lineCov">         20 :     if( text.empty( ))</span>
+<span class="lineNum">     231 </span><span class="lineCov">         12 :     if( text.empty( ))</span>
 <span class="lineNum">     232 </span><span class="lineNoCov">          0 :         return os &lt;&lt; &quot;error 0x&quot; &lt;&lt; std::hex &lt;&lt; uint32_t( error.getCode( ))</span>
 <span class="lineNum">     233 </span><span class="lineNoCov">          0 :                   &lt;&lt; std::dec;</span>
 <span class="lineNum">     234 </span>            : 
-<span class="lineNum">     235 </span><span class="lineCov">         20 :     return os &lt;&lt; text &lt;&lt; &quot; (0x&quot; &lt;&lt; std::hex &lt;&lt; uint32_t( error.getCode( ))</span>
-<span class="lineNum">     236 </span><span class="lineCov">         20 :               &lt;&lt; std::dec &lt;&lt; &quot;)&quot;;</span>
+<span class="lineNum">     235 </span><span class="lineCov">         12 :     return os &lt;&lt; text &lt;&lt; &quot; (0x&quot; &lt;&lt; std::hex &lt;&lt; uint32_t( error.getCode( ))</span>
+<span class="lineNum">     236 </span><span class="lineCov">         12 :               &lt;&lt; std::dec &lt;&lt; &quot;)&quot;;</span>
 <span class="lineNum">     237 </span>            : }
 <a name="238"><span class="lineNum">     238 </span>            : </a>
 <span class="lineNum">     239 </span>            : } // fabric
-<span class="lineNum">     240 </span><span class="lineCov">        120 : } // eq</span>
+<span class="lineNum">     240 </span><span class="lineCov">         84 : } // eq</span>
 </pre>
       </td>
     </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-05-31 05:03:29</td>
+            <td class="headerValue">2016-06-08 05:05:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -93,46 +93,46 @@
 <span class="lineNum">      31 </span>            : {
 <a name="32"><span class="lineNum">      32 </span>            : namespace server</a>
 <span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span><span class="lineCov">        356 : CompoundInitVisitor::CompoundInitVisitor( )</span>
-<span class="lineNum">      35 </span><span class="lineCov">        356 :         : _taskID( 0 )</span>
-<a name="36"><span class="lineNum">      36 </span><span class="lineCov">        356 : {}</span></a>
+<span class="lineNum">      34 </span><span class="lineCov">          2 : CompoundInitVisitor::CompoundInitVisitor( )</span>
+<span class="lineNum">      35 </span><span class="lineCov">          2 :         : _taskID( 0 )</span>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          2 : {}</span></a>
 <span class="lineNum">      37 </span>            : 
-<span class="lineNum">      38 </span><span class="lineCov">       3288 : VisitorResult CompoundInitVisitor::visit( Compound* compound )</span>
+<span class="lineNum">      38 </span><span class="lineCov">          4 : VisitorResult CompoundInitVisitor::visit( Compound* compound )</span>
 <span class="lineNum">      39 </span>            : {
-<span class="lineNum">      40 </span><span class="lineCov">       3288 :     Channel* channel = compound-&gt;getChannel();</span>
+<span class="lineNum">      40 </span><span class="lineCov">          4 :     Channel* channel = compound-&gt;getChannel();</span>
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">       3288 :     compound-&gt;setTaskID( ++_taskID );</span>
-<span class="lineNum">      43 </span><span class="lineCov">       3288 :     if( channel &amp;&amp; channel-&gt;getView( ))</span>
-<span class="lineNum">      44 </span><span class="lineCov">       2280 :         channel-&gt;getView()-&gt;updateFrusta();</span>
+<span class="lineNum">      42 </span><span class="lineCov">          4 :     compound-&gt;setTaskID( ++_taskID );</span>
+<span class="lineNum">      43 </span><span class="lineCov">          4 :     if( channel &amp;&amp; channel-&gt;getView( ))</span>
+<span class="lineNum">      44 </span><span class="lineCov">          2 :         channel-&gt;getView()-&gt;updateFrusta();</span>
 <span class="lineNum">      45 </span>            :     else
-<span class="lineNum">      46 </span><span class="lineCov">       1008 :         compound-&gt;updateFrustum( Vector3f::ZERO, 1.f );</span>
+<span class="lineNum">      46 </span><span class="lineCov">          2 :         compound-&gt;updateFrustum( Vector3f::ZERO, 1.f );</span>
 <span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span><span class="lineCov">       3288 :     compound-&gt;updateInheritData( 0 ); // Compound::activate needs _inherit.eyes</span>
+<span class="lineNum">      48 </span><span class="lineCov">          4 :     compound-&gt;updateInheritData( 0 ); // Compound::activate needs _inherit.eyes</span>
 <span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span><span class="lineCov">       6576 :     if( !channel || // non-channel root compounds</span>
-<span class="lineNum">      51 </span><span class="lineCov">       3288 :         ( compound-&gt;isDestination() &amp;&amp; !channel-&gt;getSegment( )))</span>
+<span class="lineNum">      50 </span><span class="lineCov">          8 :     if( !channel || // non-channel root compounds</span>
+<span class="lineNum">      51 </span><span class="lineCov">          4 :         ( compound-&gt;isDestination() &amp;&amp; !channel-&gt;getSegment( )))</span>
 <span class="lineNum">      52 </span>            :     {
 <span class="lineNum">      53 </span>            :         // Note: The second case are non-view destination compounds. One use
 <span class="lineNum">      54 </span>            :         // case is swap-syncing all output channels using task-less compounds.
 <span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span><span class="lineCov">        356 :         LBASSERT( !channel || !channel-&gt;getView( ));</span>
-<span class="lineNum">      57 </span><span class="lineCov">        356 :         uint32_t eyes = compound-&gt;getEyes();</span>
-<span class="lineNum">      58 </span><span class="lineCov">        356 :         if( eyes == fabric::EYE_UNDEFINED )</span>
-<span class="lineNum">      59 </span><span class="lineCov">        356 :             eyes = fabric::EYES_ALL;</span>
+<span class="lineNum">      56 </span><span class="lineCov">          2 :         LBASSERT( !channel || !channel-&gt;getView( ));</span>
+<span class="lineNum">      57 </span><span class="lineCov">          2 :         uint32_t eyes = compound-&gt;getEyes();</span>
+<span class="lineNum">      58 </span><span class="lineCov">          2 :         if( eyes == fabric::EYE_UNDEFINED )</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :             eyes = fabric::EYES_ALL;</span>
 <span class="lineNum">      60 </span>            : 
-<span class="lineNum">      61 </span><span class="lineCov">        356 :         compound-&gt;activate( eyes );</span>
+<span class="lineNum">      61 </span><span class="lineCov">          2 :         compound-&gt;activate( eyes );</span>
 <span class="lineNum">      62 </span>            :     }
 <span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">       3288 :     if( channel )</span>
+<span class="lineNum">      64 </span><span class="lineCov">          4 :     if( channel )</span>
 <span class="lineNum">      65 </span>            :     {
-<span class="lineNum">      66 </span><span class="lineCov">       2932 :         compound-&gt;updateInheritTasks();</span>
-<span class="lineNum">      67 </span><span class="lineCov">       2932 :         channel-&gt;addTasks( compound-&gt;getInheritTasks( ));</span>
+<span class="lineNum">      66 </span><span class="lineCov">          2 :         compound-&gt;updateInheritTasks();</span>
+<span class="lineNum">      67 </span><span class="lineCov">          2 :         channel-&gt;addTasks( compound-&gt;getInheritTasks( ));</span>
 <span class="lineNum">      68 </span>            :     }
-<span class="lineNum">      69 </span><span class="lineCov">       3288 :     return TRAVERSE_CONTINUE;</span>
+<span class="lineNum">      69 </span><span class="lineCov">          4 :     return TRAVERSE_CONTINUE;</span>
 <span class="lineNum">      70 </span>            : }
 <a name="71"><span class="lineNum">      71 </span>            : </a>
 <span class="lineNum">      72 </span>            : }
-<span class="lineNum">      73 </span><span class="lineCov">        120 : }</span>
+<span class="lineNum">      73 </span><span class="lineCov">         84 : }</span>
 </pre>
       </td>
     </tr>

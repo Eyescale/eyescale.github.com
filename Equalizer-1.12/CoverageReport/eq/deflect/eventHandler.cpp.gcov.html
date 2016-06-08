@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-05-31 05:03:29</td>
+            <td class="headerValue">2016-06-08 05:05:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -97,7 +97,7 @@
 <span class="lineNum">      35 </span>            : namespace
 <a name="36"><span class="lineNum">      36 </span>            : {</a>
 <span class="lineNum">      37 </span>            : typedef std::vector&lt; EventHandler* &gt; EventHandlers;
-<span class="lineNum">      38 </span><span class="lineCov">         20 : static lunchbox::PerThread&lt; EventHandlers &gt; _eventHandlers;</span>
+<span class="lineNum">      38 </span><span class="lineCov">         14 : static lunchbox::PerThread&lt; EventHandlers &gt; _eventHandlers;</span>
 <a name="39"><span class="lineNum">      39 </span>            : </a>
 <span class="lineNum">      40 </span>            : // Values come from QtCore/qnamespace.h, but don't want to depend on Qt just for that
 <span class="lineNum">      41 </span><span class="lineNoCov">          0 : uint32_t _getKey( const int key )</span>
@@ -160,7 +160,7 @@
 <span class="lineNum">      98 </span><span class="lineNoCov">          0 :         _eventHandlers = new EventHandlers;</span>
 <span class="lineNum">      99 </span><span class="lineNoCov">          0 :     _eventHandlers-&gt;push_back( this );</span>
 <span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     Pipe* pipe = proxy-&gt;getChannel()-&gt;getPipe();</span>
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     Pipe* pipe = proxy-&gt;getChannel().getPipe();</span>
 <span class="lineNum">     102 </span><span class="lineNoCov">          0 :     MessagePump* messagePump = pipe-&gt;isThreaded() ? pipe-&gt;getMessagePump() :</span>
 <span class="lineNum">     103 </span><span class="lineNoCov">          0 :                                             pipe-&gt;getConfig()-&gt;getMessagePump();</span>
 <span class="lineNum">     104 </span><span class="lineNoCov">          0 :     if( messagePump )</span>
@@ -172,7 +172,7 @@
 <span class="lineNum">     110 </span>            : 
 <span class="lineNum">     111 </span><span class="lineNoCov">          0 : EventHandler::~EventHandler()</span>
 <span class="lineNum">     112 </span>            : {
-<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     Pipe* pipe = _proxy-&gt;getChannel()-&gt;getPipe();</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     Pipe* pipe = _proxy-&gt;getChannel().getPipe();</span>
 <span class="lineNum">     114 </span>            :     MessagePump* messagePump =
 <span class="lineNum">     115 </span><span class="lineNoCov">          0 :         dynamic_cast&lt;MessagePump*&gt;( pipe-&gt;isThreaded() ?</span>
 <span class="lineNum">     116 </span>            :                                     pipe-&gt;getMessagePump() :
@@ -190,10 +190,10 @@
 <span class="lineNum">     128 </span>            :     }
 <a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     130 </span>            : 
-<span class="lineNum">     131 </span><span class="lineCov">       2810 : void EventHandler::processEvents( const Proxy* proxy )</span>
+<span class="lineNum">     131 </span><span class="lineCov">         19 : void EventHandler::processEvents( const Proxy* proxy )</span>
 <span class="lineNum">     132 </span>            : {
-<span class="lineNum">     133 </span><span class="lineCov">       2810 :     if( !_eventHandlers )</span>
-<span class="lineNum">     134 </span><span class="lineCov">       5612 :         return;</span>
+<span class="lineNum">     133 </span><span class="lineCov">         19 :     if( !_eventHandlers )</span>
+<span class="lineNum">     134 </span><span class="lineCov">         38 :         return;</span>
 <span class="lineNum">     135 </span>            : 
 <span class="lineNum">     136 </span><span class="lineNoCov">          0 :     for( EventHandlers::const_iterator i = _eventHandlers-&gt;begin();</span>
 <span class="lineNum">     137 </span><span class="lineNoCov">          0 :          i != _eventHandlers-&gt;end(); ++i )</span>
@@ -208,9 +208,9 @@
 <span class="lineNum">     146 </span><span class="lineNoCov">          0 :     if( !_proxy || (proxy &amp;&amp; _proxy != proxy ))</span>
 <span class="lineNum">     147 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; pvp = _proxy-&gt;getChannel()-&gt;getPixelViewport();</span>
-<span class="lineNum">     150 </span><span class="lineNoCov">          0 :     Channel* channel = _proxy-&gt;getChannel();</span>
-<span class="lineNum">     151 </span><span class="lineNoCov">          0 :     Window* window = channel-&gt;getWindow();</span>
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :     Channel&amp; channel = _proxy-&gt;getChannel();</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; pvp = channel.getPixelViewport();</span>
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :     Window* window = channel.getWindow();</span>
 <span class="lineNum">     152 </span>            : 
 <span class="lineNum">     153 </span><span class="lineNoCov">          0 :     while( _proxy-&gt;hasNewEvent( ))</span>
 <span class="lineNum">     154 </span>            :     {
@@ -226,8 +226,8 @@
 <span class="lineNum">     164 </span>            :         }
 <span class="lineNum">     165 </span>            : 
 <span class="lineNum">     166 </span><span class="lineNoCov">          0 :         Event event;</span>
-<span class="lineNum">     167 </span><span class="lineNoCov">          0 :         event.originator = channel-&gt;getID();</span>
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 :         event.serial = channel-&gt;getSerial();</span>
+<span class="lineNum">     167 </span><span class="lineNoCov">          0 :         event.originator = channel.getID();</span>
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :         event.serial = channel.getSerial();</span>
 <span class="lineNum">     169 </span><span class="lineNoCov">          0 :         event.type = Event::UNKNOWN;</span>
 <span class="lineNum">     170 </span>            : 
 <span class="lineNum">     171 </span><span class="lineNoCov">          0 :         const float x = deflectEvent.mouseX * pvp.w;</span>
@@ -312,13 +312,13 @@
 <span class="lineNum">     250 </span><span class="lineNoCov">          0 :             if( !window-&gt;getRenderContext( x, y, event.context ))</span>
 <span class="lineNum">     251 </span><span class="lineNoCov">          0 :                 LBVERB &lt;&lt; &quot;No rendering context for pointer event at &quot; &lt;&lt; x</span>
 <span class="lineNum">     252 </span><span class="lineNoCov">          0 :                        &lt;&lt; &quot;, &quot; &lt;&lt; y &lt;&lt; std::endl;</span>
-<span class="lineNum">     253 </span><span class="lineNoCov">          0 :             channel-&gt;processEvent( event );</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :             channel.processEvent( event );</span>
 <span class="lineNum">     254 </span>            :         }
 <span class="lineNum">     255 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     256 </span>            : }
 <a name="257"><span class="lineNum">     257 </span>            : </a>
 <span class="lineNum">     258 </span>            : }
-<span class="lineNum">     259 </span><span class="lineCov">         60 : }</span>
+<span class="lineNum">     259 </span><span class="lineCov">         42 : }</span>
 </pre>
       </td>
     </tr>
