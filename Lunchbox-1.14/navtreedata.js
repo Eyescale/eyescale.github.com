@@ -45,8 +45,8 @@ var NAVTREEINDEX =
 [
 "_changelog.html",
 "classlunchbox_1_1_lockable.html#a8a92c1de38ee14461ed96eac93995ebe",
-"classlunchbox_1_1_referenced.html#a4b75d91a8562485c885cbf65b42232a3",
-"log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99da92aee711b257d6147b5c7c8eb8fb3e56"
+"classlunchbox_1_1_referenced.html#a4194650cb8c1f901cd3dd8c1ae3a02b0",
+"log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99da872a7f262c105038340247a341de8c4d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
