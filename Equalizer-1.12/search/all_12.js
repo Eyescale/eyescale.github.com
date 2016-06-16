@@ -26,6 +26,7 @@ var searchData=
   ['rendercontext',['RenderContext',['../classeq_1_1fabric_1_1_render_context.html',1,'eq::fabric']]],
   ['renderer',['Renderer',['../classseq_1_1_renderer.html',1,'seq']]],
   ['renderer',['Renderer',['../classseq_1_1_renderer.html#aaa2b9e1dd9d262d0ae0d5fe8a2e74f7a',1,'seq::Renderer']]],
+  ['requestredraw',['requestRedraw',['../classseq_1_1_renderer.html#ab48de49361de7aaa3a399d043cc99acd',1,'seq::Renderer']]],
   ['reset',['reset',['../classeq_1_1_image.html#a1ef8a2df60c3aedb72011d8521c6ae70',1,'eq::Image::reset()'],['../structeq_1_1_pixel_data.html#a434c3c94359c1b6d1d0f21eb8875e03d',1,'eq::PixelData::reset()']]],
   ['resetassemblystate',['resetAssemblyState',['../classeq_1_1_channel.html#a8766d34a4e85d12479f12b02cf4e0f52',1,'eq::Channel::resetAssemblyState()'],['../classeq_1_1_compositor.html#ab188dfdd905dcdf208b2d24dd64378f1',1,'eq::Compositor::resetAssemblyState()']]],
   ['resetoverlaystate',['resetOverlayState',['../classeq_1_1_channel.html#a9128c4a1882457172463355ca1cc56e4',1,'eq::Channel']]],

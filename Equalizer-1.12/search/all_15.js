@@ -17,7 +17,7 @@ var searchData=
   ['useequalizer',['useEqualizer',['../classeq_1_1fabric_1_1_view.html#a4feaaa528c9118e31cfb97dc478eb4bb',1,'eq::fabric::View']]],
   ['uselayout',['useLayout',['../classeq_1_1fabric_1_1_canvas.html#a139a4ab8462bec50fb84052a69579f50',1,'eq::fabric::Canvas']]],
   ['useortho',['useOrtho',['../classeq_1_1fabric_1_1_channel.html#a9b3d02de45551ad52be390928bb54554',1,'eq::fabric::Channel::useOrtho()'],['../classseq_1_1_view_data.html#a1ed2238e07405faf0f0c1dfe9c5290e2',1,'seq::ViewData::useOrtho()']]],
-  ['user',['USER',['../structeq_1_1fabric_1_1_event.html#aa368600a699b213675df0359adc125ccaeb31d07e7ba64707a53bf1fa64cf2a42',1,'eq::fabric::Event::USER()'],['../structeq_1_1fabric_1_1_event.html#ae24b041c284d8c1115c07e4c3d09867e',1,'eq::fabric::Event::user()']]],
+  ['user',['user',['../structeq_1_1fabric_1_1_event.html#ae24b041c284d8c1115c07e4c3d09867e',1,'eq::fabric::Event::user()'],['../structeq_1_1fabric_1_1_event.html#aa368600a699b213675df0359adc125ccaeb31d07e7ba64707a53bf1fa64cf2a42',1,'eq::fabric::Event::USER()']]],
   ['userevent',['UserEvent',['../structeq_1_1fabric_1_1_user_event.html',1,'eq::fabric']]],
   ['usesfbo',['usesFBO',['../classeq_1_1util_1_1_accum.html#a4cb9deccca9b1263f86b268088768929',1,'eq::util::Accum']]]
 ];

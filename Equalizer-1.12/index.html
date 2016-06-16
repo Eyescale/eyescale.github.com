@@ -104,25 +104,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">Equalizer Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#Introduction">Introduction</a></li>
-<li class="level1"><a href="#Features">Features</a></li>
-<li class="level1"><a href="#Bugs">Known Bugs</a></li>
-<li class="level1"><a href="#Building">Building from source</a><ul><li class="level2"><a href="#Unix">Linux, Mac OS X</a></li>
-<li class="level2"><a href="#Windows">Windows</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="textblock"><h1><a class="anchor" id="Introduction"></a>
-Introduction</h1>
-<p>Welcome to Equalizer, the standard middleware to create and deploy parallel, scalable OpenGL applications. It enables applications to benefit from multiple graphics cards, processors and computers to scale the rendering performance, visual quality and display size. An Equalizer application runs unmodified on any visualization system, from a simple workstation to large scale graphics clusters, multi-GPU workstations and Virtual Reality installations.</p>
-<p>The Equalizer Programming and User Guide covers the basics of Equalizer programming. The API documentation can be found on <a href="http://eyescale.github.com/">github</a>.</p>
+<div class="textblock"><p>Welcome to Equalizer, the standard middleware to create and deploy parallel, scalable OpenGL applications. It enables applications to benefit from multiple graphics cards, processors and computers to scale the rendering performance, visual quality and display size. An Equalizer application runs unmodified on any visualization system, from a simple workstation to large scale graphics clusters, multi-GPU workstations and Virtual Reality installations.</p>
+<p>The Equalizer <a href="https://github.com/Eyescale/EqDocs/raw/master/Developer/ProgrammingGuide/paper.pdf">Programming and User Guide</a> covers the basics of Equalizer programming. The API documentation can be found on <a href="http://eyescale.github.com/">github</a>.</p>
 <p>As with any open source project, the available source code, in particular the shipped examples provide a reference for developing or porting applications.</p>
 <p>Technical questions can be posted to the eq-dev Mailing List, or directly to <a href="#" onclick="location.href='mai'+'lto:'+'inf'+'o@'+'equ'+'al'+'ize'+'rg'+'rap'+'hi'+'cs.'+'co'+'m'; return false;">info@<span style="display: none;">.nosp@m.</span>equa<span style="display: none;">.nosp@m.</span>lizer<span style="display: none;">.nosp@m.</span>grap<span style="display: none;">.nosp@m.</span>hics.<span style="display: none;">.nosp@m.</span>com</a>.</p>
 <p>Commercial support, custom software development and porting services are available from <a href="http://www.eyescale.ch">Eyescale</a>. Please contact <a href="#" onclick="location.href='mai'+'lto:'+'inf'+'o@'+'eye'+'sc'+'ale'+'.c'+'h?s'+'ub'+'jec'+'t='+'Equ'+'al'+'ize'+'r%'+'20s'+'up'+'por'+'t'; return false;">info@eyescale.ch</a> for further information.</p>
-<h1><a class="anchor" id="Features"></a>
-Features</h1>
+<h1>Features</h1>
 <p>Equalizer provides the following major features to facilitate the development and deployment of scalable OpenGL applications. A <a href="http://www.equalizergraphics.com/features.html">detailed feature list</a> can be found on the <a href="http://www.equalizergraphics.com">Equalizer website</a>. The <a class="el" href="_changelog.html">change log</a> lists features, improvements and bug fixes introduced in each version.</p>
 <ul>
 <li>Runtime Configurability: An Equalizer application is configured automatically or manually at runtime and can be deployed on laptops, multi-GPU workstations and large-scale visualization clusters without recompilation.</li>
@@ -131,32 +118,22 @@ Features</h1>
 <li>Support for Stereo and Immersive Environments: Equalizer supports stereo rendering head tracking, head-mounted displays and other advanced features for immersive Virtual Reality installations.</li>
 <li>Detailed <a class="el" href="_changelog.html">Changelog</a></li>
 </ul>
-<h1><a class="anchor" id="Bugs"></a>
-Known Bugs</h1>
+<h1>Known Bugs</h1>
 <p>Please refer to the <a href="https://github.com/Eyescale/Equalizer/issues">github issue tracker</a> for fixed and open bugs, and to report new bugs.</p>
-<h1><a class="anchor" id="Building"></a>
-Building from source</h1>
+<h1>Building from source</h1>
 <p>Equalizer is a cross-platform library, designed to run on any modern operating system, including all Unix variants and the Windows operating system. Equalizer requires at least <a href="http://www.opengl.org">OpenGL 1.1</a>, but uses newer OpenGL features when available. Equalizer uses CMake to create a platform-specific build environment. The following platforms and build environments are tested:</p>
 <ul>
 <li>Linux: Ubuntu 14.04, RHEL 6.6 (Makefile, Ninja)</li>
 <li>Windows: 7 (Visual Studio 2012)</li>
 <li>Mac OS X: 10.8 (Makefile, Ninja)</li>
 </ul>
-<h2><a class="anchor" id="Unix"></a>
-Linux, Mac OS X</h2>
+<h2>Linux, Mac OS X</h2>
 <pre class="fragment">git clone https://github.com/Eyescale/Equalizer.git
 mkdir Equalizer/build
 cd Equalizer/build
-cmake ..
+cmake  -DINSTALL_PACKAGES=1 ..
 make
-</pre><p>In case of errors, remove all traces of previously installed dependencies, as cmake will not check if they are new enough and the build may fail: </p><pre class="fragment">rm -rf /usr/include/{eq,co,triply,seq,hwsd,pression,lunchbox}
-rm -rf /usr/share/{Collage,hwsd,Pression,Lunchbox}
-rm -rf /usr/lib/lib{triply*,Sequel*,Equalizer*,Collage*,hwsd*,Pression*,Lunchbox*}
-rm -rf Equalizer
-</pre><p>Using "git pull" to update Equalizer later is not enough, as it does not update externals and subprojects. Use the 'make rebase' target to update these, or if your cmake run fails CMake/common use "git clean -ffdx" to remove them all and let cmake re-clone them.</p>
-<h2><a class="anchor" id="Windows"></a>
-Windows</h2>
-<p>If <code>CMake</code> and <code>git</code> are in PATH, run the following batch script to build using Visual Studio 2013: </p><pre class="fragment">build.bat
+</pre><p>If <code>CMake</code> and <code>git</code> are in PATH, run the following batch script to build using Visual Studio 2013: </p><pre class="fragment">build.bat
 </pre><h2>A note about BOOST + CMake on Windows</h2>
 <p>If your build fails with a <code>Could NOT find Boost</code> message, you may have a bad environment setup for <code>Boost</code> and <code>CMake</code>. To remedy this, <code>CMake</code> requires you to properly hint it to find your <code>Boost</code> distribution. Make sure you have the following variables set up:</p>
 <ol type="1">
@@ -178,7 +155,7 @@ Windows</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jun 8 2016 05:04:16 for Equalizer by
+    <li class="footer">Generated on Thu Jun 16 2016 05:02:32 for Equalizer by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

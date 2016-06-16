@@ -33,6 +33,7 @@ var classseq_1_1_renderer =
     [ "initContext", "classseq_1_1_renderer.html#a2c690b20cf1795e5e569e3b7b77a42b4", null ],
     [ "mapObject", "classseq_1_1_renderer.html#a68364f5538c829e70b3ccd9d73f41ff5", null ],
     [ "processEvent", "classseq_1_1_renderer.html#a0a5f596d0ddc15db7ab4bf1586647a71", null ],
+    [ "requestRedraw", "classseq_1_1_renderer.html#ab48de49361de7aaa3a399d043cc99acd", null ],
     [ "setNearFar", "classseq_1_1_renderer.html#a4801c63871c2f3cc76469f18674225dd", null ],
     [ "unmap", "classseq_1_1_renderer.html#a667ad6b45ef6d48e1b088dc7599adb5e", null ],
     [ "updateNearFar", "classseq_1_1_renderer.html#a9089eddd7261305b3b4f689403cc6aae", null ]
