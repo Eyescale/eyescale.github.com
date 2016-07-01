@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-06-14 05:20:54</td>
+            <td class="headerValue">2016-07-01 05:21:14</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">5</td>
@@ -108,12 +108,12 @@
 <span class="lineNum">      46 </span>            : {
 <a name="47"><span class="lineNum">      47 </span>            : public:</a>
 <span class="lineNum">      48 </span>            :     /** Increase the reference count. @version 1.0 .*/
-<span class="lineNum">      49 </span><span class="lineCov">   14925851 :     void ref( const void* holder LB_UNUSED = 0 ) const</span>
+<span class="lineNum">      49 </span><span class="lineCov">   14708306 :     void ref( const void* holder LB_UNUSED = 0 ) const</span>
 <span class="lineNum">      50 </span>            :     {
 <span class="lineNum">      51 </span>            : #ifndef NDEBUG
-<span class="lineNum">      52 </span><span class="lineCov">   14925851 :         LBASSERT( !_hasBeenDeleted );</span>
+<span class="lineNum">      52 </span><span class="lineCov">   14708306 :         LBASSERT( !_hasBeenDeleted );</span>
 <span class="lineNum">      53 </span>            : #endif
-<span class="lineNum">      54 </span><span class="lineCov">   14392066 :         ++_refCount;</span>
+<span class="lineNum">      54 </span><span class="lineCov">   14345434 :         ++_refCount;</span>
 <span class="lineNum">      55 </span>            : 
 <span class="lineNum">      56 </span>            : #ifdef LUNCHBOX_REFERENCED_DEBUG
 <span class="lineNum">      57 </span>            :         if( holder )
@@ -128,7 +128,7 @@
 <span class="lineNum">      66 </span>            :             _holders.data[ holder ] = cs.str();
 <span class="lineNum">      67 </span>            :         }
 <span class="lineNum">      68 </span>            : #endif
-<span class="lineNum">      69 </span><span class="lineCov">   15741087 :     }</span>
+<span class="lineNum">      69 </span><span class="lineCov">   15374232 :     }</span>
 <span class="lineNum">      70 </span>            : 
 <span class="lineNum">      71 </span>            :     /**
 <span class="lineNum">      72 </span>            :      * Decrease the reference count.
@@ -137,13 +137,13 @@
 <span class="lineNum">      75 </span>            :      * @version 1.0
 <a name="76"><span class="lineNum">      76 </span>            :      * @return true if the reference count went to 0, false otherwise.</a>
 <span class="lineNum">      77 </span>            :      */
-<span class="lineNum">      78 </span><span class="lineCov">   14417263 :     bool unref( const void* holder LB_UNUSED = 0 ) const</span>
+<span class="lineNum">      78 </span><span class="lineCov">   14493991 :     bool unref( const void* holder LB_UNUSED = 0 ) const</span>
 <span class="lineNum">      79 </span>            :     {
 <span class="lineNum">      80 </span>            : #ifndef NDEBUG
-<span class="lineNum">      81 </span><span class="lineCov">   14417263 :         LBASSERT( !_hasBeenDeleted );</span>
+<span class="lineNum">      81 </span><span class="lineCov">   14493991 :         LBASSERT( !_hasBeenDeleted );</span>
 <span class="lineNum">      82 </span>            : #endif
-<span class="lineNum">      83 </span><span class="lineCov">   14458318 :         LBASSERT( _refCount &gt; 0 );</span>
-<span class="lineNum">      84 </span><span class="lineCov">   16342727 :         const bool last = (--_refCount==0);</span>
+<span class="lineNum">      83 </span><span class="lineCov">   14651766 :         LBASSERT( _refCount &gt; 0 );</span>
+<span class="lineNum">      84 </span><span class="lineCov">   16504566 :         const bool last = (--_refCount==0);</span>
 <span class="lineNum">      85 </span>            : 
 <span class="lineNum">      86 </span>            : #ifdef LUNCHBOX_REFERENCED_DEBUG
 <span class="lineNum">      87 </span>            :         if( holder )
@@ -156,9 +156,9 @@
 <span class="lineNum">      94 </span>            :         }
 <span class="lineNum">      95 </span>            : #endif
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineCov">   16570680 :         if( last )</span>
+<span class="lineNum">      97 </span><span class="lineCov">   16246926 :         if( last )</span>
 <span class="lineNum">      98 </span><span class="lineCov">    2000011 :             const_cast&lt; Referenced* &gt;( this )-&gt;notifyFree();</span>
-<span class="lineNum">      99 </span><span class="lineCov">   18123566 :         return last;</span>
+<span class="lineNum">      99 </span><span class="lineCov">   18058934 :         return last;</span>
 <span class="lineNum">     100 </span>            :     }
 <a name="101"><span class="lineNum">     101 </span>            : </a>
 <span class="lineNum">     102 </span>            :     /** @return the current reference count. @version 1.0 */
@@ -219,16 +219,16 @@
 <span class="lineNum">     157 </span>            : namespace boost
 <a name="158"><span class="lineNum">     158 </span>            : {</a>
 <span class="lineNum">     159 </span>            : /** Allow creation of boost::intrusive_ptr from RefPtr or Referenced. */
-<span class="lineNum">     160 </span><span class="lineCov">    5911625 : inline void intrusive_ptr_add_ref( lunchbox::Referenced* referenced )</span>
+<span class="lineNum">     160 </span><span class="lineCov">    6041825 : inline void intrusive_ptr_add_ref( lunchbox::Referenced* referenced )</span>
 <span class="lineNum">     161 </span>            : {
-<span class="lineNum">     162 </span><span class="lineCov">    5911625 :     referenced-&gt;ref();</span>
-<span class="lineNum">     163 </span><span class="lineCov">    7401068 : }</span>
+<span class="lineNum">     162 </span><span class="lineCov">    6041825 :     referenced-&gt;ref();</span>
+<span class="lineNum">     163 </span><span class="lineCov">    7485168 : }</span>
 <a name="164"><span class="lineNum">     164 </span>            : </a>
 <span class="lineNum">     165 </span>            : /** Allow creation of boost::intrusive_ptr from RefPtr or Referenced. */
-<span class="lineNum">     166 </span><span class="lineCov">    5644807 : inline void intrusive_ptr_release( lunchbox::Referenced* referenced )</span>
+<span class="lineNum">     166 </span><span class="lineCov">    5860126 : inline void intrusive_ptr_release( lunchbox::Referenced* referenced )</span>
 <span class="lineNum">     167 </span>            : {
-<span class="lineNum">     168 </span><span class="lineCov">    5644807 :     referenced-&gt;unref();</span>
-<span class="lineNum">     169 </span><span class="lineCov">    7634967 : }</span>
+<span class="lineNum">     168 </span><span class="lineCov">    5860126 :     referenced-&gt;unref();</span>
+<span class="lineNum">     169 </span><span class="lineCov">    7065170 : }</span>
 <span class="lineNum">     170 </span>            : }
 <span class="lineNum">     171 </span>            : 
 <span class="lineNum">     172 </span>            : #endif //LUNCHBOX_REFERENCED_H
