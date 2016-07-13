@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-01 01:21:37</td>
+            <td class="headerValue">2016-07-14 01:20:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -93,9 +93,9 @@
 <span class="lineNum">      31 </span>            : 
 <a name="32"><span class="lineNum">      32 </span>            : namespace co</a>
 <span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span><span class="lineCov">        367 : FDConnection::FDConnection()</span>
+<span class="lineNum">      34 </span><span class="lineCov">        366 : FDConnection::FDConnection()</span>
 <span class="lineNum">      35 </span>            :         : _readFD( 0 ),
-<span class="lineNum">      36 </span><span class="lineCov">        367 :           _writeFD( 0 )</span>
+<span class="lineNum">      36 </span><span class="lineCov">        366 :           _writeFD( 0 )</span>
 <a name="37"><span class="lineNum">      37 </span><span class="lineCov">        367 : {}</span></a>
 <span class="lineNum">      38 </span>            : 
 <span class="lineNum">      39 </span><span class="lineCov">         38 : int FDConnection::_getTimeOut()</span>
@@ -107,14 +107,14 @@
 <span class="lineNum">      45 </span>            : //----------------------------------------------------------------------
 <a name="46"><span class="lineNum">      46 </span>            : // read</a>
 <span class="lineNum">      47 </span>            : //----------------------------------------------------------------------
-<span class="lineNum">      48 </span><span class="lineCov">    3134693 : int64_t FDConnection::readSync( void* buffer, const uint64_t bytes, const bool )</span>
+<span class="lineNum">      48 </span><span class="lineCov">    2157764 : int64_t FDConnection::readSync( void* buffer, const uint64_t bytes, const bool )</span>
 <span class="lineNum">      49 </span>            : {
-<span class="lineNum">      50 </span><span class="lineCov">    3134693 :     if( _readFD &lt; 1 )</span>
+<span class="lineNum">      50 </span><span class="lineCov">    2157764 :     if( _readFD &lt; 1 )</span>
 <span class="lineNum">      51 </span><span class="lineNoCov">          0 :         return -1;</span>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">    3134693 :     ssize_t bytesRead = ::read( _readFD, buffer, bytes );</span>
-<span class="lineNum">      54 </span><span class="lineCov">    3134693 :     if( bytesRead &gt; 0 )</span>
-<span class="lineNum">      55 </span><span class="lineCov">    3134655 :         return bytesRead;</span>
+<span class="lineNum">      53 </span><span class="lineCov">    2157764 :     ssize_t bytesRead = ::read( _readFD, buffer, bytes );</span>
+<span class="lineNum">      54 </span><span class="lineCov">    2157764 :     if( bytesRead &gt; 0 )</span>
+<span class="lineNum">      55 </span><span class="lineCov">    2157726 :         return bytesRead;</span>
 <span class="lineNum">      56 </span>            : 
 <span class="lineNum">      57 </span><span class="lineCov">         38 :     if( bytesRead == 0 || errno == EWOULDBLOCK || errno == EAGAIN )</span>
 <span class="lineNum">      58 </span>            :     {
@@ -159,14 +159,14 @@
 <span class="lineNum">      97 </span>            : //----------------------------------------------------------------------
 <a name="98"><span class="lineNum">      98 </span>            : // write</a>
 <span class="lineNum">      99 </span>            : //----------------------------------------------------------------------
-<span class="lineNum">     100 </span><span class="lineCov">    3087910 : int64_t FDConnection::write( const void* buffer, const uint64_t bytes )</span>
+<span class="lineNum">     100 </span><span class="lineCov">    2118231 : int64_t FDConnection::write( const void* buffer, const uint64_t bytes )</span>
 <span class="lineNum">     101 </span>            : {
-<span class="lineNum">     102 </span><span class="lineCov">    3087910 :     if( !isConnected() || _writeFD &lt; 1 )</span>
+<span class="lineNum">     102 </span><span class="lineCov">    2118231 :     if( !isConnected() || _writeFD &lt; 1 )</span>
 <span class="lineNum">     103 </span><span class="lineNoCov">          0 :         return -1;</span>
 <span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineCov">    3087110 :     ssize_t bytesWritten = ::write( _writeFD, buffer, bytes );</span>
-<span class="lineNum">     106 </span><span class="lineCov">    3084274 :     if( bytesWritten &gt; 0 )</span>
-<span class="lineNum">     107 </span><span class="lineCov">    3084274 :         return bytesWritten;</span>
+<span class="lineNum">     105 </span><span class="lineCov">    2117955 :     ssize_t bytesWritten = ::write( _writeFD, buffer, bytes );</span>
+<span class="lineNum">     106 </span><span class="lineCov">    2115662 :     if( bytesWritten &gt; 0 )</span>
+<span class="lineNum">     107 </span><span class="lineCov">    2115662 :         return bytesWritten;</span>
 <span class="lineNum">     108 </span>            : 
 <span class="lineNum">     109 </span><span class="lineNoCov">          0 :     if( bytesWritten == 0 || errno == EWOULDBLOCK || errno == EAGAIN )</span>
 <span class="lineNum">     110 </span>            :     {

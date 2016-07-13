@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-01 01:21:37</td>
+            <td class="headerValue">2016-07-14 01:20:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -327,7 +327,7 @@
 <span class="lineNum">     265 </span><span class="lineNoCov">          0 :             return false;</span>
 <span class="lineNum">     266 </span>            : 
 <span class="lineNum">     267 </span><span class="lineNoCov">          0 :         const ip::address ifAddr( ip::udp::endpoint( *interfaceIP ).address( ));</span>
-<span class="lineNum">     268 </span><span class="lineNoCov">          0 :         LBINFO &lt;&lt; &quot;Joining &quot; &lt;&lt; mcAddr &lt;&lt; &quot; on &quot; &lt;&lt; ifAddr &lt;&lt; std::endl;</span>
+<span class="lineNum">     268 </span><span class="lineNoCov">          0 :         LBDEBUG &lt;&lt; &quot;Joining &quot; &lt;&lt; mcAddr &lt;&lt; &quot; on &quot; &lt;&lt; ifAddr &lt;&lt; std::endl;</span>
 <span class="lineNum">     269 </span>            : 
 <span class="lineNum">     270 </span>            :         _read-&gt;set_option( ip::multicast::join_group( mcAddr.to_v4(),
 <span class="lineNum">     271 </span><span class="lineNoCov">          0 :                                                       ifAddr.to_v4( )));</span>
@@ -391,7 +391,7 @@
 <span class="lineNum">     329 </span><span class="lineNoCov">          0 :     RSPConnectionPtr newConnection = _newChildren.back();</span>
 <span class="lineNum">     330 </span><span class="lineNoCov">          0 :     _newChildren.pop_back();</span>
 <span class="lineNum">     331 </span>            : 
-<span class="lineNum">     332 </span><span class="lineNoCov">          0 :     LBINFO &lt;&lt; _id &lt;&lt; &quot; accepted RSP connection &quot; &lt;&lt; newConnection-&gt;_id</span>
+<span class="lineNum">     332 </span><span class="lineNoCov">          0 :     LBDEBUG &lt;&lt; _id &lt;&lt; &quot; accepted RSP connection &quot; &lt;&lt; newConnection-&gt;_id</span>
 <span class="lineNum">     333 </span><span class="lineNoCov">          0 :            &lt;&lt; std::endl;</span>
 <span class="lineNum">     334 </span>            : 
 <span class="lineNum">     335 </span><span class="lineNoCov">          0 :     lunchbox::ScopedWrite mutex2( _mutexEvent );</span>
@@ -475,7 +475,7 @@
 <span class="lineNum">     413 </span>            : {
 <span class="lineNum">     414 </span><span class="lineNoCov">          0 :     _connection-&gt;_runThread();</span>
 <span class="lineNum">     415 </span><span class="lineNoCov">          0 :     _connection = 0;</span>
-<span class="lineNum">     416 </span><span class="lineNoCov">          0 :     LBINFO &lt;&lt; &quot;Left RSP protocol thread&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     416 </span><span class="lineNoCov">          0 :     LBDEBUG &lt;&lt; &quot;Left RSP protocol thread&quot; &lt;&lt; std::endl;</span>
 <a name="417"><span class="lineNum">     417 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     418 </span>            : 
 <span class="lineNum">     419 </span><span class="lineNoCov">          0 : void RSPConnection::_handleTimeout( const boost::system::error_code&amp; error )</span>
@@ -522,7 +522,7 @@
 <span class="lineNum">     460 </span>            :     else
 <span class="lineNum">     461 </span>            :     {
 <span class="lineNum">     462 </span><span class="lineNoCov">          0 :         _setState( STATE_LISTENING );</span>
-<span class="lineNum">     463 </span><span class="lineNoCov">          0 :         LBINFO &lt;&lt; &quot;RSP connection &quot; &lt;&lt; _id &lt;&lt; &quot; listening&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     463 </span><span class="lineNoCov">          0 :         LBDEBUG &lt;&lt; &quot;RSP connection &quot; &lt;&lt; _id &lt;&lt; &quot; listening&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     464 </span><span class="lineNoCov">          0 :         _timeouts = 0;</span>
 <span class="lineNum">     465 </span><span class="lineNoCov">          0 :         _ioService.stop(); // thread initialized, run restarts</span>
 <span class="lineNum">     466 </span>            :     }
@@ -531,7 +531,7 @@
 <span class="lineNum">     469 </span>            : 
 <span class="lineNum">     470 </span><span class="lineNoCov">          0 : void RSPConnection::_clearWriteQueues()</span>
 <span class="lineNum">     471 </span>            : {
-<span class="lineNum">     472 </span><span class="lineNoCov">          0 :     while( !_threadBuffers.isEmpty() )</span>
+<span class="lineNum">     472 </span><span class="lineNoCov">          0 :     while( !_threadBuffers.isEmpty( ))</span>
 <span class="lineNum">     473 </span>            :     {
 <span class="lineNum">     474 </span><span class="lineNoCov">          0 :         Buffer* buffer = 0;</span>
 <span class="lineNum">     475 </span><span class="lineNoCov">          0 :         _threadBuffers.pop( buffer );</span>
@@ -1577,7 +1577,7 @@
 <span class="lineNum">    1515 </span><span class="lineNoCov">          0 :     if( _findConnection( id ))</span>
 <span class="lineNum">    1516 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1517 </span>            : 
-<span class="lineNum">    1518 </span><span class="lineNoCov">          0 :     LBINFO &lt;&lt; &quot;add connection &quot; &lt;&lt; id &lt;&lt; std::endl;</span>
+<span class="lineNum">    1518 </span><span class="lineNoCov">          0 :     LBDEBUG &lt;&lt; &quot;add connection &quot; &lt;&lt; id &lt;&lt; std::endl;</span>
 <span class="lineNum">    1519 </span><span class="lineNoCov">          0 :     RSPConnectionPtr connection = new RSPConnection();</span>
 <span class="lineNum">    1520 </span><span class="lineNoCov">          0 :     connection-&gt;_id = id;</span>
 <span class="lineNum">    1521 </span><span class="lineNoCov">          0 :     connection-&gt;_parent = this;</span>
@@ -1607,7 +1607,7 @@
 <span class="lineNum">    1545 </span>            : 
 <span class="lineNum">    1546 </span><span class="lineNoCov">          0 : void RSPConnection::_removeConnection( const uint16_t id )</span>
 <span class="lineNum">    1547 </span>            : {
-<span class="lineNum">    1548 </span><span class="lineNoCov">          0 :     LBINFO &lt;&lt; &quot;remove connection &quot; &lt;&lt; id &lt;&lt; std::endl;</span>
+<span class="lineNum">    1548 </span><span class="lineNoCov">          0 :     LBDEBUG &lt;&lt; &quot;remove connection &quot; &lt;&lt; id &lt;&lt; std::endl;</span>
 <span class="lineNum">    1549 </span><span class="lineNoCov">          0 :     if( id == _id )</span>
 <span class="lineNum">    1550 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">    1551 </span>            : 

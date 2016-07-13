@@ -9,10 +9,13 @@ var classco_1_1_node =
     [ "deserialize", "classco_1_1_node.html#af7cea5c5934aaf1f9f06c50b16d0a3b5", null ],
     [ "getConnection", "classco_1_1_node.html#aa6228dbf18331ade984ca40e4fb94078", null ],
     [ "getConnectionDescriptions", "classco_1_1_node.html#a66004e9f3587dee643b2cc1919c5d660", null ],
+    [ "getHostname", "classco_1_1_node.html#a33ecb08cb0b7706b35b80ab2ebfbe853", null ],
     [ "getLastReceiveTime", "classco_1_1_node.html#a4076d02ee77b2e035cee0cdc389b5bd7", null ],
+    [ "getLaunchQuote", "classco_1_1_node.html#a42bf0d1f925d79cfaa751a65cbb253bf", null ],
     [ "getMulticast", "classco_1_1_node.html#a5b6ee5c25ac7437eb83cb48e4002e21f", null ],
     [ "getNodeID", "classco_1_1_node.html#a91452251ff4a0d5e54ad83cd4b757e70", null ],
     [ "getType", "classco_1_1_node.html#aee56e8c0fc4f79d3b1862e30df57545c", null ],
+    [ "getWorkDir", "classco_1_1_node.html#af99299e45e945cf6b1672ae6857a6d64", null ],
     [ "isBigEndian", "classco_1_1_node.html#aa470f5bc81adcb470cff1469d856c770", null ],
     [ "isClosed", "classco_1_1_node.html#a9d789df7a1ebd5a4205bd396fc95688d", null ],
     [ "isClosing", "classco_1_1_node.html#a33e7cd0c00fd996fbb888d981db90d76", null ],
@@ -25,6 +28,7 @@ var classco_1_1_node =
     [ "send", "classco_1_1_node.html#a106d506240ba6880bec678affabd1e77", null ],
     [ "send", "classco_1_1_node.html#a8b55043d34ea3039cd6d0b24b6f91b2a", null ],
     [ "serialize", "classco_1_1_node.html#af9d951e9872b1aacb700d3a12861e844", null ],
+    [ "setHostname", "classco_1_1_node.html#a6cfc5daecda43dfcdd6eea071f4fe402", null ],
     [ "LocalNode", "classco_1_1_node.html#a94aade96b15796931de2cab7f8c0a293", null ],
     [ "operator<<", "classco_1_1_node.html#a1715167abdb2c31500a2b07ce1ccc2fb", null ]
 ];

@@ -9,5 +9,5 @@ var searchData=
   ['api_2eh',['api.h',['../api_8h.html',1,'']]],
   ['apply',['apply',['../structco_1_1_data_i_stream_archive_1_1use__array__optimization_1_1apply.html',1,'co::DataIStreamArchive::use_array_optimization']]],
   ['apply',['apply',['../structco_1_1_data_o_stream_archive_1_1use__array__optimization_1_1apply.html',1,'co::DataOStreamArchive::use_array_optimization']]],
-  ['applyinstancedata',['applyInstanceData',['../classco_1_1_barrier.html#a42e764b13a37408be51149e8bc2fd28e',1,'co::Barrier::applyInstanceData()'],['../classco_1_1_object.html#ad5d185282f6677499100df40e462e1b1',1,'co::Object::applyInstanceData()'],['../classco_1_1_queue_slave.html#aef28dea7c2b2d6eaba5934f809e88320',1,'co::QueueSlave::applyInstanceData()'],['../classco_1_1_serializable.html#a4d5dcb0135f393bc504cd0b731a62ca1',1,'co::Serializable::applyInstanceData()']]]
+  ['applyinstancedata',['applyInstanceData',['../classco_1_1_barrier.html#a42e764b13a37408be51149e8bc2fd28e',1,'co::Barrier::applyInstanceData()'],['../classco_1_1_object.html#a819a60e41207987c9be512c8910e24cd',1,'co::Object::applyInstanceData()'],['../classco_1_1_queue_slave.html#aef28dea7c2b2d6eaba5934f809e88320',1,'co::QueueSlave::applyInstanceData()'],['../classco_1_1_serializable.html#a8f559943e66ba59d2bad3086fce8a595',1,'co::Serializable::applyInstanceData()']]]
 ];

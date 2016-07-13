@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">32</td>
-            <td class="headerCovTableEntry">85</td>
-            <td class="headerCovTableEntryLo">37.6 %</td>
+            <td class="headerCovTableEntry">84</td>
+            <td class="headerCovTableEntryLo">38.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-01 01:21:37</td>
+            <td class="headerValue">2016-07-14 01:20:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">11</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *
 <span class="lineNum">       4 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -199,7 +199,7 @@
 <span class="lineNum">     137 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="138"><span class="lineNum">     138 </span>            : }</a>
 <span class="lineNum">     139 </span>            : 
-<span class="lineNum">     140 </span><span class="lineNoCov">          0 : void Global::toString( std::string&amp; data )</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 : std::string Global::toString()</span>
 <span class="lineNum">     141 </span>            : {
 <span class="lineNum">     142 </span><span class="lineNoCov">          0 :     std::stringstream stream;</span>
 <span class="lineNum">     143 </span><span class="lineNoCov">          0 :     stream &lt;&lt; SEPARATOR &lt;&lt; SEPARATOR;</span>
@@ -208,8 +208,8 @@
 <span class="lineNum">     146 </span><span class="lineNoCov">          0 :         stream &lt;&lt; _iAttributes[i] &lt;&lt; SEPARATOR;</span>
 <span class="lineNum">     147 </span>            : 
 <span class="lineNum">     148 </span><span class="lineNoCov">          0 :     stream &lt;&lt; SEPARATOR;</span>
-<span class="lineNum">     149 </span><span class="lineNoCov">          0 :     data = stream.str();</span>
-<a name="150"><span class="lineNum">     150 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :     return stream.str();</span>
+<a name="150"><span class="lineNum">     150 </span>            : }</a>
 <span class="lineNum">     151 </span>            : 
 <span class="lineNum">     152 </span><span class="lineNoCov">          0 : void Global::setDefaultPort( const uint16_t port )</span>
 <span class="lineNum">     153 </span>            : {
@@ -226,9 +226,9 @@
 <span class="lineNum">     164 </span><span class="lineCov">          2 :     _objectBufferSize = size;</span>
 <a name="165"><span class="lineNum">     165 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span><span class="lineCov">     314177 : uint32_t Global::getObjectBufferSize()</span>
+<span class="lineNum">     167 </span><span class="lineCov">     314110 : uint32_t Global::getObjectBufferSize()</span>
 <span class="lineNum">     168 </span>            : {
-<span class="lineNum">     169 </span><span class="lineCov">     314177 :     return  _objectBufferSize;</span>
+<span class="lineNum">     169 </span><span class="lineCov">     314110 :     return  _objectBufferSize;</span>
 <a name="170"><span class="lineNum">     170 </span>            : }</a>
 <span class="lineNum">     171 </span>            : 
 <span class="lineNum">     172 </span><span class="lineCov">        398 : pression::PluginRegistry&amp; Global::getPluginRegistry()</span>
@@ -242,15 +242,15 @@
 <span class="lineNum">     180 </span><span class="lineCov">          3 :     _iAttributes[ attr ] = value;</span>
 <a name="181"><span class="lineNum">     181 </span><span class="lineCov">          3 : }</span></a>
 <span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span><span class="lineCov">    2008236 : int32_t Global::getIAttribute( const IAttribute attr )</span>
+<span class="lineNum">     183 </span><span class="lineCov">    2141788 : int32_t Global::getIAttribute( const IAttribute attr )</span>
 <span class="lineNum">     184 </span>            : {
-<span class="lineNum">     185 </span><span class="lineCov">    2008236 :     return _iAttributes[ attr ];</span>
+<span class="lineNum">     185 </span><span class="lineCov">    2141788 :     return _iAttributes[ attr ];</span>
 <a name="186"><span class="lineNum">     186 </span>            : }</a>
 <span class="lineNum">     187 </span>            : 
-<span class="lineNum">     188 </span><span class="lineCov">     967879 : uint32_t Global::getTimeout()</span>
+<span class="lineNum">     188 </span><span class="lineCov">    1034612 : uint32_t Global::getTimeout()</span>
 <span class="lineNum">     189 </span>            : {
-<span class="lineNum">     190 </span><span class="lineCov">     967879 :     return getIAttribute( IATTR_ROBUSTNESS ) ?</span>
-<span class="lineNum">     191 </span><span class="lineCov">     967875 :         getIAttribute( IATTR_TIMEOUT_DEFAULT ) : LB_TIMEOUT_INDEFINITE;</span>
+<span class="lineNum">     190 </span><span class="lineCov">    1034612 :     return getIAttribute( IATTR_ROBUSTNESS ) ?</span>
+<span class="lineNum">     191 </span><span class="lineCov">    1034637 :         getIAttribute( IATTR_TIMEOUT_DEFAULT ) : LB_TIMEOUT_INDEFINITE;</span>
 <a name="192"><span class="lineNum">     192 </span>            : }</a>
 <span class="lineNum">     193 </span>            : 
 <span class="lineNum">     194 </span><span class="lineNoCov">          0 : uint32_t Global::getKeepaliveTimeout()</span>

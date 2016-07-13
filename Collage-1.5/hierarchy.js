@@ -47,7 +47,6 @@ var hierarchy =
       ] ],
       [ "co::Object", "classco_1_1_object.html", [
         [ "co::Barrier", "classco_1_1_barrier.html", null ],
-        [ "co::Distributable< T >", "classco_1_1_distributable.html", null ],
         [ "co::QueueMaster", "classco_1_1_queue_master.html", null ],
         [ "co::QueueSlave", "classco_1_1_queue_slave.html", null ],
         [ "co::Serializable", "classco_1_1_serializable.html", [
@@ -80,10 +79,13 @@ var hierarchy =
     [ "Thread", null, [
       [ "co::WorkerThread< Q >", "classco_1_1_worker_thread.html", null ]
     ] ],
+    [ "S", null, [
+      [ "co::Distributable< T, S, Args >", "classco_1_1_distributable.html", null ]
+    ] ],
     [ "std::exception", null, [
       [ "co::Exception", "classco_1_1_exception.html", null ]
     ] ],
     [ "T", null, [
-      [ "co::Distributable< T >", "classco_1_1_distributable.html", null ]
+      [ "co::Distributable< T, S, Args >", "classco_1_1_distributable.html", null ]
     ] ]
 ];

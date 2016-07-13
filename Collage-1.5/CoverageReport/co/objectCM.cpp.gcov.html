@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-01 01:21:37</td>
+            <td class="headerValue">2016-07-14 01:20:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">12</td>
@@ -231,51 +231,50 @@
 <span class="lineNum">     169 </span>            : 
 <span class="lineNum">     170 </span>            :     // send instance data
 <span class="lineNum">     171 </span><span class="lineCov">         16 :     ObjectInstanceDataOStream os( this );</span>
-<span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span><span class="lineCov">          8 :     os.enableMap( replyVersion, command.getNode(), command.getInstanceID( ));</span>
-<span class="lineNum">     174 </span><span class="lineCov">          8 :     _object-&gt;getInstanceData( os );</span>
-<span class="lineNum">     175 </span><span class="lineCov">          8 :     os.disable();</span>
-<span class="lineNum">     176 </span><span class="lineCov">          8 :     if( !os.hasSentData( ))</span>
-<span class="lineNum">     177 </span>            :         // no data, send empty command to set version
-<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         _sendEmptyVersion( command, replyVersion, true /* mc */ );</span>
-<span class="lineNum">     179 </span>            : 
-<span class="lineNum">     180 </span><span class="lineCov">          8 :     _sendMapReply( command, replyVersion, true, replyUseCache, true );</span>
-<span class="lineNum">     181 </span><span class="lineCov">         16 :     return true;</span>
-<a name="182"><span class="lineNum">     182 </span>            : }</a>
-<span class="lineNum">     183 </span>            : 
-<span class="lineNum">     184 </span><span class="lineCov">         42 : void ObjectCM::_sendMapSuccess( const MasterCMCommand&amp; command,</span>
-<span class="lineNum">     185 </span>            :                                 const bool multicast )
-<span class="lineNum">     186 </span>            : {
-<span class="lineNum">     187 </span>            :     command.getNode()-&gt;send( CMD_NODE_MAP_OBJECT_SUCCESS, multicast )
-<span class="lineNum">     188 </span><span class="lineCov">         84 :             &lt;&lt; command.getNode()-&gt;getNodeID() &lt;&lt; command.getObjectID()</span>
-<span class="lineNum">     189 </span><span class="lineCov">        126 :             &lt;&lt; command.getRequestID() &lt;&lt; command.getInstanceID()</span>
-<span class="lineNum">     190 </span><span class="lineCov">        126 :             &lt;&lt; _object-&gt;getChangeType() &lt;&lt; _object-&gt;getInstanceID();</span>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">         42 : }</span></a>
-<span class="lineNum">     192 </span>            : 
-<span class="lineNum">     193 </span><span class="lineCov">         42 : void ObjectCM::_sendMapReply( const MasterCMCommand&amp; command,</span>
-<span class="lineNum">     194 </span>            :                               const uint128_t&amp; version, const bool result,
-<span class="lineNum">     195 </span>            :                               const bool useCache, const bool multicast )
-<span class="lineNum">     196 </span>            : {
-<span class="lineNum">     197 </span>            :     command.getNode()-&gt;send( CMD_NODE_MAP_OBJECT_REPLY, multicast )
-<span class="lineNum">     198 </span><span class="lineCov">         84 :             &lt;&lt; command.getNode()-&gt;getNodeID() &lt;&lt; command.getObjectID()</span>
-<span class="lineNum">     199 </span><span class="lineCov">        126 :             &lt;&lt; version &lt;&lt; command.getRequestID() &lt;&lt; result</span>
-<span class="lineNum">     200 </span><span class="lineCov">        126 :             &lt;&lt; command.useCache() &lt;&lt; useCache;</span>
-<a name="201"><span class="lineNum">     201 </span><span class="lineCov">         42 : }</span></a>
-<span class="lineNum">     202 </span>            : 
-<span class="lineNum">     203 </span><span class="lineCov">          4 : void ObjectCM::_sendEmptyVersion( const MasterCMCommand&amp; command,</span>
-<span class="lineNum">     204 </span>            :                                   const uint128_t&amp; version,
-<span class="lineNum">     205 </span>            :                                   const bool multicast )
-<span class="lineNum">     206 </span>            : {
-<span class="lineNum">     207 </span><span class="lineCov">          4 :     NodePtr node = command.getNode();</span>
-<span class="lineNum">     208 </span><span class="lineCov">          8 :     ConnectionPtr connection = node-&gt;getConnection( multicast );</span>
-<span class="lineNum">     209 </span>            : 
-<span class="lineNum">     210 </span>            :     ObjectDataOCommand( Connections( 1, connection ), CMD_OBJECT_INSTANCE,
-<span class="lineNum">     211 </span><span class="lineCov">          4 :                         COMMANDTYPE_OBJECT, _object-&gt;getID(),</span>
-<span class="lineNum">     212 </span>            :                         command.getInstanceID(), version, 0, 0, 0, true, 0 )
-<span class="lineNum">     213 </span><span class="lineCov">         12 :             &lt;&lt; NodeID() &lt;&lt; _object-&gt;getInstanceID();</span>
-<a name="214"><span class="lineNum">     214 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">     215 </span>            : 
-<span class="lineNum">     216 </span><span class="lineCov">         66 : }</span>
+<span class="lineNum">     172 </span><span class="lineCov">          8 :     os.enableMap( replyVersion, command.getNode(), command.getInstanceID( ));</span>
+<span class="lineNum">     173 </span><span class="lineCov">          8 :     _object-&gt;getInstanceData( os );</span>
+<span class="lineNum">     174 </span><span class="lineCov">          8 :     os.disable();</span>
+<span class="lineNum">     175 </span><span class="lineCov">          8 :     if( !os.hasSentData( ))</span>
+<span class="lineNum">     176 </span>            :         // no data, send empty command to set version
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         _sendEmptyVersion( command, replyVersion, true /* mc */ );</span>
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span><span class="lineCov">          8 :     _sendMapReply( command, replyVersion, true, replyUseCache, true );</span>
+<span class="lineNum">     180 </span><span class="lineCov">         16 :     return true;</span>
+<a name="181"><span class="lineNum">     181 </span>            : }</a>
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span><span class="lineCov">         42 : void ObjectCM::_sendMapSuccess( const MasterCMCommand&amp; command,</span>
+<span class="lineNum">     184 </span>            :                                 const bool multicast )
+<span class="lineNum">     185 </span>            : {
+<span class="lineNum">     186 </span>            :     command.getNode()-&gt;send( CMD_NODE_MAP_OBJECT_SUCCESS, multicast )
+<span class="lineNum">     187 </span><span class="lineCov">         84 :             &lt;&lt; command.getNode()-&gt;getNodeID() &lt;&lt; command.getObjectID()</span>
+<span class="lineNum">     188 </span><span class="lineCov">        126 :             &lt;&lt; command.getRequestID() &lt;&lt; command.getInstanceID()</span>
+<span class="lineNum">     189 </span><span class="lineCov">        126 :             &lt;&lt; _object-&gt;getChangeType() &lt;&lt; _object-&gt;getInstanceID();</span>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">         42 : }</span></a>
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span><span class="lineCov">         42 : void ObjectCM::_sendMapReply( const MasterCMCommand&amp; command,</span>
+<span class="lineNum">     193 </span>            :                               const uint128_t&amp; version, const bool result,
+<span class="lineNum">     194 </span>            :                               const bool useCache, const bool multicast )
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span>            :     command.getNode()-&gt;send( CMD_NODE_MAP_OBJECT_REPLY, multicast )
+<span class="lineNum">     197 </span><span class="lineCov">         84 :             &lt;&lt; command.getNode()-&gt;getNodeID() &lt;&lt; command.getObjectID()</span>
+<span class="lineNum">     198 </span><span class="lineCov">        126 :             &lt;&lt; version &lt;&lt; command.getRequestID() &lt;&lt; result</span>
+<span class="lineNum">     199 </span><span class="lineCov">        126 :             &lt;&lt; command.useCache() &lt;&lt; useCache;</span>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">         42 : }</span></a>
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span><span class="lineCov">          4 : void ObjectCM::_sendEmptyVersion( const MasterCMCommand&amp; command,</span>
+<span class="lineNum">     203 </span>            :                                   const uint128_t&amp; version,
+<span class="lineNum">     204 </span>            :                                   const bool multicast )
+<span class="lineNum">     205 </span>            : {
+<span class="lineNum">     206 </span><span class="lineCov">          4 :     NodePtr node = command.getNode();</span>
+<span class="lineNum">     207 </span><span class="lineCov">          8 :     ConnectionPtr connection = node-&gt;getConnection( multicast );</span>
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            :     ObjectDataOCommand( Connections( 1, connection ), CMD_OBJECT_INSTANCE,
+<span class="lineNum">     210 </span><span class="lineCov">          4 :                         COMMANDTYPE_OBJECT, _object-&gt;getID(),</span>
+<span class="lineNum">     211 </span>            :                         command.getInstanceID(), version, 0, 0, 0, true, 0 )
+<span class="lineNum">     212 </span><span class="lineCov">         12 :             &lt;&lt; NodeID() &lt;&lt; _object-&gt;getInstanceID();</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

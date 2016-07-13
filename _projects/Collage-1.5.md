@@ -4,7 +4,7 @@ version: "1.5"
 major: 1
 minor: 5
 description: High-performance C++ library for developing object-oriented distributed applications.
-updated: 01/07/16
+updated: 14/07/16
 homepage: https://github.com/Eyescale/Collage
 repository: https://github.com/Eyescale/Collage.git
 issuesurl: https://github.com/Eyescale/Collage/issues
@@ -12,7 +12,7 @@ packageurl:
 license: LGPL
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Daniel Nachbaur
+contributors: Stefan Eilemann
 readmetype: text/x-markdown
 ---
 [TOC]

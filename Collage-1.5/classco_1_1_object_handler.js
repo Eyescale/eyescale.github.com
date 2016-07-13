@@ -7,6 +7,6 @@ var classco_1_1_object_handler =
     [ "mapObjectSync", "classco_1_1_object_handler.html#a3f91175d7f12b2738a70e8b840131aa3", null ],
     [ "registerObject", "classco_1_1_object_handler.html#a059b7d0d98c214b65eb4fd8ed590babf", null ],
     [ "releaseObject", "classco_1_1_object_handler.html#a6d30da561053556790f0786246dd52c3", null ],
-    [ "syncObject", "classco_1_1_object_handler.html#a1198ff93701837b52929030625ddcf32", null ],
+    [ "syncObject", "classco_1_1_object_handler.html#aa850011a7b889fd86a087869de9e6e36", null ],
     [ "unmapObject", "classco_1_1_object_handler.html#aab4ee36b6c68ee5beb504d42ff6a9de9", null ]
 ];
