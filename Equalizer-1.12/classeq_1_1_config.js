@@ -48,7 +48,7 @@ var classeq_1_1_config =
     [ "startFrame", "classeq_1_1_config.html#afeaf5ab737f8f54845c6f3e96e13e2fe", null ],
     [ "stopFrames", "classeq_1_1_config.html#a1e1efc1d5342cfa27566f622340c6ca5", null ],
     [ "stopRunning", "classeq_1_1_config.html#a65003f2492e1cfa0c6fa82f2083b33c8", null ],
-    [ "syncObject", "classeq_1_1_config.html#ab04ea7a18cbcba06d467eb6c7abd8929", null ],
+    [ "syncObject", "classeq_1_1_config.html#a66ea7f80be850cf24718d4bc480f1944", null ],
     [ "tryNextEvent", "classeq_1_1_config.html#a2f746f8119917877d5d962b327b00801", null ],
     [ "unmapObject", "classeq_1_1_config.html#af03719006e9c97a2370d44b7c4186c12", null ],
     [ "update", "classeq_1_1_config.html#a8a331cc9d8b372f06c2a865f6d5c9301", null ],
