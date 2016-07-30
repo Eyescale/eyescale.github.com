@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntry">66</td>
+            <td class="headerCovTableEntry">67</td>
             <td class="headerCovTableEntryLo">1.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-15 05:05:33</td>
+            <td class="headerValue">2016-07-30 05:04:55</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -137,78 +137,79 @@
 <span class="lineNum">      75 </span>            : 
 <span class="lineNum">      76 </span><span class="lineNoCov">          0 : bool View::configExit()</span>
 <span class="lineNum">      77 </span>            : {
-<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     if( !getPipe() &amp;&amp; getViewData( )) // application view</span>
-<span class="lineNum">      79 </span>            :     {
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :         setUserData( 0 );</span>
-<span class="lineNum">      81 </span><span class="lineNoCov">          0 :         getConfig()-&gt;getApplication()-&gt;destroyViewData( getViewData( ));</span>
-<span class="lineNum">      82 </span>            :     }
-<span class="lineNum">      83 </span><span class="lineNoCov">          0 :     return eq::View::configExit();</span>
-<a name="84"><span class="lineNum">      84 </span>            : }</a>
-<span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span><span class="lineNoCov">          0 : void View::notifyAttach()</span>
-<span class="lineNum">      87 </span>            : {
-<span class="lineNum">      88 </span><span class="lineNoCov">          0 :     eq::View::notifyAttach();</span>
-<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     Pipe* pipe = getPipe();</span>
-<span class="lineNum">      90 </span>            : 
-<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     if( pipe ) // render client view</span>
-<span class="lineNum">      92 </span><span class="lineNoCov">          0 :         setUserData( pipe-&gt;getRenderer()-&gt;createViewData( *this ));</span>
-<a name="93"><span class="lineNum">      93 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span><span class="lineNoCov">          0 : void View::notifyDetached()</span>
-<span class="lineNum">      96 </span>            : {
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
-<span class="lineNum">      98 </span><span class="lineNoCov">          0 :     setUserData( 0 );</span>
-<span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span><span class="lineNoCov">          0 :     if( data )</span>
-<span class="lineNum">     101 </span>            :     {
-<span class="lineNum">     102 </span><span class="lineNoCov">          0 :         Pipe* pipe = getPipe();</span>
-<span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         if( pipe ) // render client view</span>
-<span class="lineNum">     105 </span><span class="lineNoCov">          0 :             pipe-&gt;getRenderer()-&gt;destroyViewData( data );</span>
-<span class="lineNum">     106 </span>            :     }
-<span class="lineNum">     107 </span>            : 
-<span class="lineNum">     108 </span><span class="lineNoCov">          0 :     eq::View::notifyDetached();</span>
-<a name="109"><span class="lineNum">     109 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     110 </span>            : 
-<span class="lineNum">     111 </span><span class="lineNoCov">          0 : bool View::updateData()</span>
-<span class="lineNum">     112 </span>            : {
-<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     if( !isActive( ))</span>
-<span class="lineNum">     114 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     115 </span>            : 
-<span class="lineNum">     116 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
-<span class="lineNum">     117 </span><span class="lineNoCov">          0 :     LBASSERT( data );</span>
-<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     if( data )</span>
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :         return data-&gt;update();</span>
-<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     return false;</span>
-<span class="lineNum">     121 </span>            : }
-<a name="122"><span class="lineNum">     122 </span>            : </a>
-<span class="lineNum">     123 </span>            : #ifndef EQ_2_0_API
-<span class="lineNum">     124 </span><span class="lineNoCov">          0 : bool View::handleEvent( const eq::ConfigEvent* event )</span>
-<span class="lineNum">     125 </span>            : {
-<span class="lineNum">     126 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
-<span class="lineNum">     127 </span><span class="lineNoCov">          0 :     LBASSERT( data );</span>
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     if( !data )</span>
-<span class="lineNum">     129 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     130 </span><span class="lineNoCov">          0 :     if( isActive( ))</span>
-<span class="lineNum">     131 </span><span class="lineNoCov">          0 :         return data-&gt;handleEvent( event );</span>
-<span class="lineNum">     132 </span><span class="lineNoCov">          0 :     data-&gt;handleEvent( event );</span>
-<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     return false;</span>
-<span class="lineNum">     134 </span>            : }
-<a name="135"><span class="lineNum">     135 </span>            : #endif</a>
-<span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span><span class="lineNoCov">          0 : bool View::handleEvent( const eq::EventICommand&amp; command )</span>
-<span class="lineNum">     138 </span>            : {
-<span class="lineNum">     139 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
-<span class="lineNum">     140 </span><span class="lineNoCov">          0 :     LBASSERT( data );</span>
-<span class="lineNum">     141 </span><span class="lineNoCov">          0 :     if( !data )</span>
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     143 </span><span class="lineNoCov">          0 :     if( isActive( ))</span>
-<span class="lineNum">     144 </span><span class="lineNoCov">          0 :         return data-&gt;handleEvent( command );</span>
-<span class="lineNum">     145 </span><span class="lineNoCov">          0 :     data-&gt;handleEvent( command );</span>
-<span class="lineNum">     146 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="147"><span class="lineNum">     147 </span>            : }</a>
-<span class="lineNum">     148 </span>            : }
-<span class="lineNum">     149 </span><span class="lineCov">         42 : }</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     ViewData* viewData = getViewData();</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :     if( !getPipe() &amp;&amp; viewData ) // application view</span>
+<span class="lineNum">      80 </span>            :     {
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :         setUserData( 0 );</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :         getConfig()-&gt;getApplication()-&gt;destroyViewData( viewData );</span>
+<span class="lineNum">      83 </span>            :     }
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     return eq::View::configExit();</span>
+<a name="85"><span class="lineNum">      85 </span>            : }</a>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 : void View::notifyAttach()</span>
+<span class="lineNum">      88 </span>            : {
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     eq::View::notifyAttach();</span>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :     Pipe* pipe = getPipe();</span>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :     if( pipe ) // render client view</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :         setUserData( pipe-&gt;getRenderer()-&gt;createViewData( *this ));</span>
+<a name="94"><span class="lineNum">      94 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 : void View::notifyDetached()</span>
+<span class="lineNum">      97 </span>            : {
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :     setUserData( 0 );</span>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     if( data )</span>
+<span class="lineNum">     102 </span>            :     {
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         Pipe* pipe = getPipe();</span>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :         if( pipe ) // render client view</span>
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :             pipe-&gt;getRenderer()-&gt;destroyViewData( data );</span>
+<span class="lineNum">     107 </span>            :     }
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :     eq::View::notifyDetached();</span>
+<a name="110"><span class="lineNum">     110 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 : bool View::updateData()</span>
+<span class="lineNum">     113 </span>            : {
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :     if( !isActive( ))</span>
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     LBASSERT( data );</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     if( data )</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         return data-&gt;update();</span>
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     122 </span>            : }
+<a name="123"><span class="lineNum">     123 </span>            : </a>
+<span class="lineNum">     124 </span>            : #ifndef EQ_2_0_API
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 : bool View::handleEvent( const eq::ConfigEvent* event )</span>
+<span class="lineNum">     126 </span>            : {
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
+<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     LBASSERT( data );</span>
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :     if( !data )</span>
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 :     if( isActive( ))</span>
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :         return data-&gt;handleEvent( event );</span>
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     data-&gt;handleEvent( event );</span>
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     135 </span>            : }
+<a name="136"><span class="lineNum">     136 </span>            : #endif</a>
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 : bool View::handleEvent( const eq::EventICommand&amp; command )</span>
+<span class="lineNum">     139 </span>            : {
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :     ViewData* data = getViewData();</span>
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :     LBASSERT( data );</span>
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :     if( !data )</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :     if( isActive( ))</span>
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         return data-&gt;handleEvent( command );</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :     data-&gt;handleEvent( command );</span>
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :     return false;</span>
+<a name="148"><span class="lineNum">     148 </span>            : }</a>
+<span class="lineNum">     149 </span>            : }
+<span class="lineNum">     150 </span><span class="lineCov">         42 : }</span>
 </pre>
       </td>
     </tr>
