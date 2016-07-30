@@ -4,7 +4,7 @@ version: "1.1"
 major: 1
 minor: 1
 description: Compressor, decompressor, uploader and downloader plugins
-updated: 08/06/16
+updated: 30/07/16
 homepage: https://github.com/Eyescale/Pression
 repository: https://github.com/Eyescale/Pression.git
 issuesurl: https://github.com/Eyescale/Pression/issues
@@ -12,7 +12,7 @@ packageurl: https://launchpad.net/~eilemann/+archive/equalizer-dev
 license: LGPL
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Raphael Dumusc
+contributors: Daniel Nachbaur
 readmetype: text/x-markdown
 ---
 [TOC]
