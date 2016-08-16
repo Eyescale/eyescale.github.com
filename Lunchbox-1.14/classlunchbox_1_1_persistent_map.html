@@ -237,9 +237,6 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="preprocessor">#ifdef LUNCHBOX_USE_LEVELDB</span></div>
 <div class="line"><span class="preprocessor">#  include &lt;leveldb/db.h&gt;</span></div>
 <div class="line"><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="preprocessor">#ifdef LUNCHBOX_USE_SKV</span></div>
-<div class="line"><span class="preprocessor">#  include &lt;FxLogger/FxLogger.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="preprocessor">#include &lt;boost/format.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
 <div class="line"></div>
@@ -547,19 +544,6 @@ Static Public Member Functions</h2></td></tr>
 <div class="line">                    benchmark( <span class="stringliteral">&quot;memcached://&quot;</span>, 0, i );</div>
 <div class="line">        }</div>
 <div class="line"><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="preprocessor">#ifdef LUNCHBOX_USE_SKV</span></div>
-<div class="line">        FxLogger_Init( argv[0] );</div>
-<div class="line">        setup( <span class="stringliteral">&quot;skv://&quot;</span> );</div>
-<div class="line">        read( <span class="stringliteral">&quot;skv://&quot;</span> );</div>
-<div class="line">        <span class="keywordflow">if</span>( perfTest )</div>
-<div class="line">        {</div>
-<div class="line">            benchmark( <span class="stringliteral">&quot;skv://&quot;</span>, 0, 64 );</div>
-<div class="line">            <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i=1; i &lt;= 65536; i = i&lt;&lt;1 )</div>
-<div class="line">                benchmark( <span class="stringliteral">&quot;skv://&quot;</span>, i, 64 );</div>
-<div class="line">            <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i=1; i &lt;= 65536; i = i&lt;&lt;2 )</div>
-<div class="line">                benchmark( <span class="stringliteral">&quot;skv://&quot;</span>, 65536, i );</div>
-<div class="line">        }</div>
-<div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line">    }</div>
 <div class="line"><span class="preprocessor">#ifdef LUNCHBOX_USE_LEVELDB</span></div>
 <div class="line">    <span class="keywordflow">catch</span>( <span class="keyword">const</span> leveldb::Status&amp; status )</div>
@@ -569,13 +553,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line">    <span class="keywordflow">catch</span>( <span class="keyword">const</span> std::runtime_error&amp; error )</div>
 <div class="line">    {</div>
-<div class="line"><span class="preprocessor">#ifdef LUNCHBOX_USE_SKV</span></div>
-<div class="line">        <span class="keywordflow">if</span>( error.what() !=</div>
-<div class="line">            std::string( <span class="stringliteral">&quot;skv init failed: SKV_ERRNO_CONN_FAILED&quot;</span> ))</div>
-<div class="line">#endif</div>
-<div class="line">        {</div>
-<div class="line">            TESTINFO( !<span class="stringliteral">&quot;exception&quot;</span>, error.what( ));</div>
-<div class="line">        }</div>
+<div class="line">        TESTINFO( !<span class="stringliteral">&quot;exception&quot;</span>, error.what( ));</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    testGenericFailures();</div>
@@ -1274,7 +1252,7 @@ template&lt;class V &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelunchbox.html">lunchbox</a></li><li class="navelem"><a class="el" href="classlunchbox_1_1_persistent_map.html">PersistentMap</a></li>
-    <li class="footer">Generated on Sat Jul 30 2016 05:20:02 for Lunchbox by
+    <li class="footer">Generated on Tue Aug 16 2016 05:24:35 for Lunchbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

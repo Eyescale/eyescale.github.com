@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-30 05:20:45</td>
+            <td class="headerValue">2016-08-16 05:25:18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">8</td>
@@ -88,11 +88,11 @@
 <span class="lineNum">      26 </span>            : 
 <a name="27"><span class="lineNum">      27 </span>            : namespace lunchbox</a>
 <span class="lineNum">      28 </span>            : {
-<span class="lineNum">      29 </span><span class="lineCov">    4627592 : ThreadID::ThreadID()</span>
-<span class="lineNum">      30 </span><span class="lineCov">    4627592 :         : _impl( new detail::ThreadID )</span>
+<span class="lineNum">      29 </span><span class="lineCov">    4743704 : ThreadID::ThreadID()</span>
+<span class="lineNum">      30 </span><span class="lineCov">    4743704 :         : _impl( new detail::ThreadID )</span>
 <span class="lineNum">      31 </span>            : {
-<span class="lineNum">      32 </span><span class="lineCov">    5070320 :     memset( &amp;_impl-&gt;pthread, 0, sizeof( pthread_t ));</span>
-<a name="33"><span class="lineNum">      33 </span><span class="lineCov">    5070320 : }</span></a>
+<span class="lineNum">      32 </span><span class="lineCov">    5233062 :     memset( &amp;_impl-&gt;pthread, 0, sizeof( pthread_t ));</span>
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">    5233062 : }</span></a>
 <span class="lineNum">      34 </span>            : 
 <span class="lineNum">      35 </span><span class="lineCov">       1412 : ThreadID::ThreadID( const ThreadID&amp; from )</span>
 <span class="lineNum">      36 </span><span class="lineCov">       1412 :         : _impl( new detail::ThreadID )</span>
@@ -100,20 +100,20 @@
 <span class="lineNum">      38 </span><span class="lineCov">       1412 :     _impl-&gt;pthread = from._impl-&gt;pthread;</span>
 <a name="39"><span class="lineNum">      39 </span><span class="lineCov">       1412 : }</span></a>
 <span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span><span class="lineCov">    5165523 : ThreadID::~ThreadID()</span>
+<span class="lineNum">      41 </span><span class="lineCov">    5368810 : ThreadID::~ThreadID()</span>
 <span class="lineNum">      42 </span>            : {
-<span class="lineNum">      43 </span><span class="lineCov">    5165523 :     delete _impl;</span>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">    5202566 : }</span></a>
+<span class="lineNum">      43 </span><span class="lineCov">    5368810 :     delete _impl;</span>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">    5353204 : }</span></a>
 <span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span><span class="lineCov">    2229541 : ThreadID&amp; ThreadID::operator = ( const ThreadID&amp; from )</span>
+<span class="lineNum">      46 </span><span class="lineCov">    2283469 : ThreadID&amp; ThreadID::operator = ( const ThreadID&amp; from )</span>
 <span class="lineNum">      47 </span>            : {
-<span class="lineNum">      48 </span><span class="lineCov">    2229541 :     _impl-&gt;pthread = from._impl-&gt;pthread;</span>
-<span class="lineNum">      49 </span><span class="lineCov">    2229541 :     return *this;</span>
+<span class="lineNum">      48 </span><span class="lineCov">    2283469 :     _impl-&gt;pthread = from._impl-&gt;pthread;</span>
+<span class="lineNum">      49 </span><span class="lineCov">    2283469 :     return *this;</span>
 <a name="50"><span class="lineNum">      50 </span>            : }</a>
 <span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">    3215789 : bool ThreadID::operator == ( const ThreadID&amp; rhs ) const</span>
+<span class="lineNum">      52 </span><span class="lineCov">    3337242 : bool ThreadID::operator == ( const ThreadID&amp; rhs ) const</span>
 <span class="lineNum">      53 </span>            : {
-<span class="lineNum">      54 </span><span class="lineCov">    3215789 :     return pthread_equal( _impl-&gt;pthread, rhs._impl-&gt;pthread );</span>
+<span class="lineNum">      54 </span><span class="lineCov">    3337242 :     return pthread_equal( _impl-&gt;pthread, rhs._impl-&gt;pthread );</span>
 <a name="55"><span class="lineNum">      55 </span>            : }</a>
 <span class="lineNum">      56 </span>            : 
 <span class="lineNum">      57 </span><span class="lineNoCov">          0 : bool ThreadID::operator != ( const ThreadID&amp; rhs ) const</span>
@@ -121,12 +121,12 @@
 <span class="lineNum">      59 </span><span class="lineNoCov">          0 :     return !pthread_equal( _impl-&gt;pthread, rhs._impl-&gt;pthread );</span>
 <a name="60"><span class="lineNum">      60 </span>            : }</a>
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span><span class="lineCov">       9744 : bool ThreadID::operator &lt; ( const ThreadID&amp; rhs ) const</span>
+<span class="lineNum">      62 </span><span class="lineCov">       9751 : bool ThreadID::operator &lt; ( const ThreadID&amp; rhs ) const</span>
 <span class="lineNum">      63 </span>            : {
 <span class="lineNum">      64 </span>            : #ifdef PTW32_VERSION
 <span class="lineNum">      65 </span>            :     return _impl-&gt;pthread.p &lt; rhs._impl-&gt;pthread.p;
 <span class="lineNum">      66 </span>            : #else
-<span class="lineNum">      67 </span><span class="lineCov">       9744 :     return _impl-&gt;pthread &lt; rhs._impl-&gt;pthread;</span>
+<span class="lineNum">      67 </span><span class="lineCov">       9751 :     return _impl-&gt;pthread &lt; rhs._impl-&gt;pthread;</span>
 <span class="lineNum">      68 </span>            : #endif
 <a name="69"><span class="lineNum">      69 </span>            : }</a>
 <span class="lineNum">      70 </span>            : 
