@@ -13,7 +13,7 @@ var searchData=
   ['setbuffers',['setBuffers',['../classeq_1_1fabric_1_1_frame_data.html#af92cfaf40bb29e7f4b49bef21a4df838',1,'eq::fabric::FrameData']]],
   ['setcapabilities',['setCapabilities',['../classeq_1_1fabric_1_1_channel.html#ad1b9b116389b4907f2d1804bd81a2193',1,'eq::fabric::Channel']]],
   ['setcomputecontext',['setComputeContext',['../classeq_1_1_pipe.html#a5d1ccce1de2989905ec39e2b9f7ccd94',1,'eq::Pipe']]],
-  ['setconfigfile',['setConfigFile',['../classeq_1_1_global.html#a8c6b3a4d8e207976de251ed192563260',1,'eq::Global']]],
+  ['setconfig',['setConfig',['../classeq_1_1_global.html#ac791a64e40d2c2db3be0844922eb1b24',1,'eq::Global']]],
   ['setcontext',['setContext',['../classeq_1_1fabric_1_1_frame_data.html#a9814f9d86ffba160d85d4a175227287e',1,'eq::fabric::FrameData::setContext()'],['../classeq_1_1_image.html#aa3124a3710ac82a55e3a07e755ca63cb',1,'eq::Image::setContext()']]],
   ['setdamping',['setDamping',['../classeq_1_1fabric_1_1_equalizer.html#a6c331ac33e862441cee8d79db3889e09',1,'eq::fabric::Equalizer']]],
   ['setdirty',['setDirty',['../classeq_1_1fabric_1_1_canvas.html#a7965e8f32b362d86f366fd5da976f03e',1,'eq::fabric::Canvas::setDirty()'],['../classeq_1_1fabric_1_1_node.html#a1a019d07f253c74d7c2b5fdb43b0e0a1',1,'eq::fabric::Node::setDirty()'],['../classeq_1_1fabric_1_1_window.html#ad4d19918e0b173d3f6527fe48a36ab5c',1,'eq::fabric::Window::setDirty()'],['../classeq_1_1_node.html#acf1cc79da1bb38ee61aea4df3abb77a0',1,'eq::Node::setDirty()']]],
