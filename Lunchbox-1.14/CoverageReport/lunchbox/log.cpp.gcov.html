@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-08-16 05:25:18</td>
+            <td class="headerValue">2016-09-03 05:21:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">34</td>
@@ -189,7 +189,7 @@
 <span class="lineNum">     127 </span>            :         }
 <span class="lineNum">     128 </span>            : 
 <span class="lineNum">     129 </span><span class="lineCov">      86521 :         _stringStream &lt;&lt; (char)c;</span>
-<span class="lineNum">     130 </span><span class="lineCov">      86521 :         return c;</span>
+<span class="lineNum">     130 </span><span class="lineCov">      86518 :         return c;</span>
 <a name="131"><span class="lineNum">     131 </span>            :     }</a>
 <span class="lineNum">     132 </span>            : 
 <span class="lineNum">     133 </span><span class="lineCov">       5023 :     int sync() override</span>
@@ -384,10 +384,10 @@
 <span class="lineNum">     322 </span>            : #endif
 <a name="323"><span class="lineNum">     323 </span>            : }</a>
 <span class="lineNum">     324 </span>            : 
-<span class="lineNum">     325 </span><span class="lineCov">       6658 : Log&amp; Log::instance()</span>
+<span class="lineNum">     325 </span><span class="lineCov">       6657 : Log&amp; Log::instance()</span>
 <span class="lineNum">     326 </span>            : {
-<span class="lineNum">     327 </span><span class="lineCov">       6658 :     Log* log = _logInstance.get();</span>
-<span class="lineNum">     328 </span><span class="lineCov">       6655 :     if( !log )</span>
+<span class="lineNum">     327 </span><span class="lineCov">       6657 :     Log* log = _logInstance.get();</span>
+<span class="lineNum">     328 </span><span class="lineCov">       6642 :     if( !log )</span>
 <span class="lineNum">     329 </span>            :     {
 <span class="lineNum">     330 </span><span class="lineCov">       1675 :         log = new Log();</span>
 <span class="lineNum">     331 </span><span class="lineCov">       1675 :         _logInstance = log;</span>
@@ -407,7 +407,7 @@
 <span class="lineNum">     345 </span>            :         }
 <span class="lineNum">     346 </span>            :     }
 <span class="lineNum">     347 </span>            : 
-<span class="lineNum">     348 </span><span class="lineCov">       6655 :     return *log;</span>
+<span class="lineNum">     348 </span><span class="lineCov">       6642 :     return *log;</span>
 <a name="349"><span class="lineNum">     349 </span>            : }</a>
 <span class="lineNum">     350 </span>            : 
 <span class="lineNum">     351 </span><span class="lineCov">       1681 : Log&amp; Log::instance( const char* file, const int line )</span>
@@ -446,22 +446,22 @@
 <span class="lineNum">     384 </span>            : 
 <span class="lineNum">     385 </span><span class="lineNoCov">          0 : bool Log::setOutput( const std::string&amp; file )</span>
 <span class="lineNum">     386 </span>            : {
-<span class="lineNum">     387 </span><span class="lineNoCov">          0 :     std::ostream* oldLog = _logStream;</span>
-<span class="lineNum">     388 </span><span class="lineNoCov">          0 :     std::ofstream* newLog = new std::ofstream( file.c_str( ));</span>
-<span class="lineNum">     389 </span>            : 
-<span class="lineNum">     390 </span><span class="lineNoCov">          0 :     if( newLog-&gt;is_open( ))</span>
-<span class="lineNum">     391 </span>            :     {
-<span class="lineNum">     392 </span><span class="lineNoCov">          0 :         setOutput( *newLog );</span>
-<span class="lineNum">     393 </span><span class="lineNoCov">          0 :         *oldLog &lt;&lt; &quot;Redirected log to &quot; &lt;&lt; file &lt;&lt; std::endl;</span>
-<span class="lineNum">     394 </span>            : 
-<span class="lineNum">     395 </span><span class="lineNoCov">          0 :         delete _logFile;</span>
-<span class="lineNum">     396 </span><span class="lineNoCov">          0 :         _logFile = newLog;</span>
-<span class="lineNum">     397 </span><span class="lineNoCov">          0 :         return true;</span>
-<span class="lineNum">     398 </span>            :     }
+<span class="lineNum">     387 </span><span class="lineNoCov">          0 :     std::ofstream* newLog = new std::ofstream( file.c_str( ));</span>
+<span class="lineNum">     388 </span>            : 
+<span class="lineNum">     389 </span><span class="lineNoCov">          0 :     if( !newLog-&gt;is_open( ))</span>
+<span class="lineNum">     390 </span>            :     {
+<span class="lineNum">     391 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Can't open log file &quot; &lt;&lt; file &lt;&lt; &quot;: &quot; &lt;&lt; sysError</span>
+<span class="lineNum">     392 </span><span class="lineNoCov">          0 :                 &lt;&lt; std::endl;</span>
+<span class="lineNum">     393 </span><span class="lineNoCov">          0 :         delete newLog;</span>
+<span class="lineNum">     394 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     395 </span>            :     }
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span><span class="lineNoCov">          0 :     getOutput() &lt;&lt; &quot;Redirect log to &quot; &lt;&lt; file &lt;&lt; std::endl;</span>
+<span class="lineNum">     398 </span><span class="lineNoCov">          0 :     setOutput( *newLog );</span>
 <span class="lineNum">     399 </span>            : 
-<span class="lineNum">     400 </span><span class="lineNoCov">          0 :     LBERROR &lt;&lt; &quot;Can't open log file &quot; &lt;&lt; file &lt;&lt; &quot;: &quot; &lt;&lt; sysError &lt;&lt; std::endl;</span>
-<span class="lineNum">     401 </span><span class="lineNoCov">          0 :     delete newLog;</span>
-<span class="lineNum">     402 </span><span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     400 </span><span class="lineNoCov">          0 :     delete _logFile;</span>
+<span class="lineNum">     401 </span><span class="lineNoCov">          0 :     _logFile = newLog;</span>
+<span class="lineNum">     402 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="403"><span class="lineNum">     403 </span>            : }</a>
 <span class="lineNum">     404 </span>            : 
 <span class="lineNum">     405 </span><span class="lineNoCov">          0 : void Log::setClock( Clock* clock )</span>
