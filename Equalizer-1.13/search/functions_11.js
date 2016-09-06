@@ -53,6 +53,8 @@ var searchData=
   ['setquality',['setQuality',['../classeq_1_1_frame.html#a5f599c1aad79da41b2f3c8b7971e2e73',1,'eq::Frame::setQuality()'],['../classeq_1_1_frame_data.html#af821a676d33493d14efacbfc3ea7ffc7',1,'eq::FrameData::setQuality()'],['../classeq_1_1_image.html#aa1ae517a0b10924ce01aa2359a1669de',1,'eq::Image::setQuality()']]],
   ['setready',['setReady',['../classeq_1_1_frame.html#a9d63734156987fa799962c37d336a71b',1,'eq::Frame::setReady()'],['../classeq_1_1_frame_data.html#ab7b3425b03c6594612a8665951ee214d',1,'eq::FrameData::setReady()']]],
   ['setrenderclient',['setRenderClient',['../classeq_1_1fabric_1_1_config_params.html#aa4fc58fa82ec1326f3341f4172c38397',1,'eq::fabric::ConfigParams']]],
+  ['setrenderclientargs',['setRenderClientArgs',['../classeq_1_1fabric_1_1_config_params.html#a5244289fa60ac4d013ddfd1cfd1daada',1,'eq::fabric::ConfigParams']]],
+  ['setrenderclientenvprefixes',['setRenderClientEnvPrefixes',['../classeq_1_1fabric_1_1_config_params.html#afed7708a0a44c5c80771ae103963153e',1,'eq::fabric::ConfigParams']]],
   ['setresistance',['setResistance',['../classeq_1_1fabric_1_1_equalizer.html#a810806f012b151ea816f95ff2f3b5396',1,'eq::fabric::Equalizer::setResistance(const Vector2i &amp;resistance)'],['../classeq_1_1fabric_1_1_equalizer.html#a72214cc5f0ce35c15c364820d3888bee',1,'eq::fabric::Equalizer::setResistance(const float resistance)']]],
   ['setserver',['setServer',['../classeq_1_1fabric_1_1_global.html#a4d756a70eb85ebd869d53cd02635c4c4',1,'eq::fabric::Global']]],
   ['setsettings',['setSettings',['../classeq_1_1fabric_1_1_window.html#a5f7939f4b2cb8be732ff30fb954a5c08',1,'eq::fabric::Window']]],

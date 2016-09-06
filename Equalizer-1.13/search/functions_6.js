@@ -126,6 +126,8 @@ var searchData=
   ['getregion',['getRegion',['../classeq_1_1_channel.html#a0dc579f1c47e45171583e4577943452d',1,'eq::Channel']]],
   ['getregions',['getRegions',['../classeq_1_1_channel.html#a96cef106c4f817614948aeefed472bc3',1,'eq::Channel']]],
   ['getrenderclient',['getRenderClient',['../classeq_1_1fabric_1_1_config_params.html#aaa9af234adeb487301124cee53222b99',1,'eq::fabric::ConfigParams']]],
+  ['getrenderclientargs',['getRenderClientArgs',['../classeq_1_1fabric_1_1_config_params.html#a023833b89e8fa0e4377832068994082a',1,'eq::fabric::ConfigParams']]],
+  ['getrenderclientenvprefixes',['getRenderClientEnvPrefixes',['../classeq_1_1fabric_1_1_config_params.html#a1c09451a8a2af84e628b836b5fbdc7a5',1,'eq::fabric::ConfigParams']]],
   ['getrendercontext',['getRenderContext',['../classeq_1_1_window.html#aeae92aef685f970b30277fae999972c4',1,'eq::Window::getRenderContext()'],['../classseq_1_1_renderer.html#a50a72a2898972c43c9cd482ef1ee3a6b',1,'seq::Renderer::getRenderContext()']]],
   ['getresistance2i',['getResistance2i',['../classeq_1_1fabric_1_1_equalizer.html#afc6ff793c8f4ab2dd0794d5f597762bd',1,'eq::fabric::Equalizer']]],
   ['getresistancef',['getResistancef',['../classeq_1_1fabric_1_1_equalizer.html#a3c2828b5c4001f5821cb4ba4aaebf598',1,'eq::fabric::Equalizer']]],

@@ -23,6 +23,8 @@ var classeq_1_1fabric_1_1_config_params =
     [ "getName", "classeq_1_1fabric_1_1_config_params.html#a1125c1732f7ac1440cf9325612898ea9", null ],
     [ "getPrefixes", "classeq_1_1fabric_1_1_config_params.html#aa3801a1c131b20ef98f21109d07b8444", null ],
     [ "getRenderClient", "classeq_1_1fabric_1_1_config_params.html#aaa9af234adeb487301124cee53222b99", null ],
+    [ "getRenderClientArgs", "classeq_1_1fabric_1_1_config_params.html#a023833b89e8fa0e4377832068994082a", null ],
+    [ "getRenderClientEnvPrefixes", "classeq_1_1fabric_1_1_config_params.html#a1c09451a8a2af84e628b836b5fbdc7a5", null ],
     [ "getWorkDir", "classeq_1_1fabric_1_1_config_params.html#ab73dc12891eae75e8bf157674bc17f7f", null ],
     [ "operator=", "classeq_1_1fabric_1_1_config_params.html#a9db4b70bb154e059e755779f7f558a36", null ],
     [ "serialize", "classeq_1_1fabric_1_1_config_params.html#a58d6c5ae9b9b07927931262ac63c8529", null ],
@@ -31,5 +33,7 @@ var classeq_1_1fabric_1_1_config_params =
     [ "setName", "classeq_1_1fabric_1_1_config_params.html#a0e747b4863278c040b3e4d188146ce24", null ],
     [ "setPrefixes", "classeq_1_1fabric_1_1_config_params.html#a47723bff008a46441a5cbf770c8cfd8b", null ],
     [ "setRenderClient", "classeq_1_1fabric_1_1_config_params.html#aa4fc58fa82ec1326f3341f4172c38397", null ],
+    [ "setRenderClientArgs", "classeq_1_1fabric_1_1_config_params.html#a5244289fa60ac4d013ddfd1cfd1daada", null ],
+    [ "setRenderClientEnvPrefixes", "classeq_1_1fabric_1_1_config_params.html#afed7708a0a44c5c80771ae103963153e", null ],
     [ "setWorkDir", "classeq_1_1fabric_1_1_config_params.html#a288d76b7286a8f6c1501b16f5a3635a9", null ]
 ];
