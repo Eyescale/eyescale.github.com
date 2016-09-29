@@ -11,7 +11,6 @@ var classeq_1_1fabric_1_1_pipe =
     [ "IAttribute", "classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0", [
       [ "IATTR_HINT_THREAD", "classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0ae69ac68301954561568e9ae66dcd5a15", null ],
       [ "IATTR_HINT_AFFINITY", "classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0ae822d37c88d2676ea0b5d37d48d8a8ed", null ],
-      [ "IATTR_HINT_CUDA_GL_INTEROP", "classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0a39bb6c9993743174a554ea8ac5617996", null ],
       [ "IATTR_LAST", "classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0a0a58d82517c73a946c294b3c2ace540c", null ],
       [ "IATTR_ALL", "classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0a9a4a18dcebc09af50c7935e885d9cd6f", null ]
     ] ],

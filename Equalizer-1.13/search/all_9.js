@@ -2,7 +2,6 @@ var searchData=
 [
   ['iattr_5fhint_5faffinity',['IATTR_HINT_AFFINITY',['../classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0ae822d37c88d2676ea0b5d37d48d8a8ed',1,'eq::fabric::Pipe']]],
   ['iattr_5fhint_5fcore_5fprofile',['IATTR_HINT_CORE_PROFILE',['../classeq_1_1fabric_1_1_window_settings.html#ad48bcf47b867c55cacae99e901f1e5fdaa98d2a0dc438bb907fcd6e261e825271',1,'eq::fabric::WindowSettings']]],
-  ['iattr_5fhint_5fcuda_5fgl_5finterop',['IATTR_HINT_CUDA_GL_INTEROP',['../classeq_1_1fabric_1_1_pipe.html#aed3ba4a1d748c4d6a8deff5ec07879d0a39bb6c9993743174a554ea8ac5617996',1,'eq::fabric::Pipe']]],
   ['iattr_5fhint_5fdecoration',['IATTR_HINT_DECORATION',['../classeq_1_1fabric_1_1_window_settings.html#ad48bcf47b867c55cacae99e901f1e5fda79749fc0fc575e401e99caea2a47845d',1,'eq::fabric::WindowSettings']]],
   ['iattr_5fhint_5fdoublebuffer',['IATTR_HINT_DOUBLEBUFFER',['../classeq_1_1fabric_1_1_window_settings.html#ad48bcf47b867c55cacae99e901f1e5fdad98f44b89ecc5f03262280c447d6f8b4',1,'eq::fabric::WindowSettings']]],
   ['iattr_5fhint_5fdrawable',['IATTR_HINT_DRAWABLE',['../classeq_1_1fabric_1_1_window_settings.html#ad48bcf47b867c55cacae99e901f1e5fda59a089c35c0da69a84c70b2a7f8088a3',1,'eq::fabric::WindowSettings']]],

@@ -88,9 +88,6 @@ var hierarchy =
       [ "eq::fabric::ConfigVisitor< C, OV, LV, CV, NV >", "classeq_1_1fabric_1_1_config_visitor.html", null ]
     ] ],
     [ "eq::Compositor", "classeq_1_1_compositor.html", null ],
-    [ "eq::ComputeContext", "classeq_1_1_compute_context.html", [
-      [ "eq::CUDAContext", "classeq_1_1_c_u_d_a_context.html", null ]
-    ] ],
     [ "eq::ConfigEvent", "structeq_1_1_config_event.html", null ],
     [ "eq::EventHandler", "classeq_1_1_event_handler.html", [
       [ "eq::glx::EventHandler", "classeq_1_1glx_1_1_event_handler.html", null ],
