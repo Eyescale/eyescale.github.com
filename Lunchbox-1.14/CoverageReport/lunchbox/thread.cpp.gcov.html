@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-13 05:24:20</td>
+            <td class="headerValue">2016-09-30 05:23:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">18</td>
@@ -119,7 +119,7 @@
 <span class="lineNum">      57 </span>            : {
 <a name="58"><span class="lineNum">      58 </span>            : namespace</a>
 <span class="lineNum">      59 </span>            : {
-<span class="lineNum">      60 </span><span class="lineCov">         26 : a_int32_t _threadIDs;</span>
+<span class="lineNum">      60 </span><span class="lineCov">         25 : a_int32_t _threadIDs;</span>
 <span class="lineNum">      61 </span>            : 
 <span class="lineNum">      62 </span>            : enum ThreadState //!&lt; The current state of a thread.
 <span class="lineNum">      63 </span>            : {
@@ -131,7 +131,7 @@
 <span class="lineNum">      69 </span>            : 
 <span class="lineNum">      70 </span>            : #ifdef __linux__
 <a name="71"><span class="lineNum">      71 </span>            : typedef std::set&lt; ThreadID &gt; ThreadIDSet;</a>
-<span class="lineNum">      72 </span><span class="lineCov">         26 : static Lockable&lt; ThreadIDSet, SpinLock &gt; _threads;</span>
+<span class="lineNum">      72 </span><span class="lineCov">         25 : static Lockable&lt; ThreadIDSet, SpinLock &gt; _threads;</span>
 <span class="lineNum">      73 </span><span class="lineNoCov">          0 : void _sigUserHandler( int, siginfo_t*, void* )</span>
 <span class="lineNum">      74 </span>            : {
 <span class="lineNum">      75 </span><span class="lineNoCov">          0 :     LBERROR &lt;&lt; &quot;:&quot; &lt;&lt; backtrace &lt;&lt; std::endl;</span>
@@ -142,10 +142,10 @@
 <span class="lineNum">      80 </span>            : 
 <a name="81"><span class="lineNum">      81 </span>            : namespace detail</a>
 <span class="lineNum">      82 </span>            : {
-<span class="lineNum">      83 </span><span class="lineCov">       1643 : class Thread</span>
+<span class="lineNum">      83 </span><span class="lineCov">       1642 : class Thread</span>
 <a name="84"><span class="lineNum">      84 </span>            : {</a>
 <span class="lineNum">      85 </span>            : public:
-<span class="lineNum">      86 </span><span class="lineCov">       1643 :     Thread() : state( STATE_STOPPED ), index( ++_threadIDs ) {}</span>
+<span class="lineNum">      86 </span><span class="lineCov">       1642 :     Thread() : state( STATE_STOPPED ), index( ++_threadIDs ) {}</span>
 <span class="lineNum">      87 </span>            : 
 <span class="lineNum">      88 </span>            :     lunchbox::ThreadID id;
 <span class="lineNum">      89 </span>            :     Monitor&lt; ThreadState &gt; state;
@@ -153,20 +153,20 @@
 <span class="lineNum">      91 </span>            : };
 <a name="92"><span class="lineNum">      92 </span>            : }</a>
 <span class="lineNum">      93 </span>            : 
-<span class="lineNum">      94 </span><span class="lineCov">       1643 : Thread::Thread()</span>
-<span class="lineNum">      95 </span><span class="lineCov">       1643 :     : _impl( new detail::Thread )</span>
+<span class="lineNum">      94 </span><span class="lineCov">       1642 : Thread::Thread()</span>
+<span class="lineNum">      95 </span><span class="lineCov">       1642 :     : _impl( new detail::Thread )</span>
 <span class="lineNum">      96 </span>            : {
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">       1643 : }</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">       1642 : }</span></a>
 <span class="lineNum">      98 </span>            : 
 <span class="lineNum">      99 </span><span class="lineNoCov">          0 : Thread::Thread( const Thread&amp; )</span>
 <span class="lineNum">     100 </span><span class="lineNoCov">          0 :     : _impl( new detail::Thread )</span>
 <span class="lineNum">     101 </span>            : {
 <a name="102"><span class="lineNum">     102 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span><span class="lineCov">       1643 : Thread::~Thread()</span>
+<span class="lineNum">     104 </span><span class="lineCov">       1642 : Thread::~Thread()</span>
 <span class="lineNum">     105 </span>            : {
-<span class="lineNum">     106 </span><span class="lineCov">       1643 :     delete _impl;</span>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">       1643 : }</span></a>
+<span class="lineNum">     106 </span><span class="lineCov">       1642 :     delete _impl;</span>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">       1642 : }</span></a>
 <span class="lineNum">     108 </span>            : 
 <span class="lineNum">     109 </span><span class="lineCov">        257 : bool Thread::isStopped() const</span>
 <span class="lineNum">     110 </span>            : {
@@ -178,31 +178,31 @@
 <span class="lineNum">     116 </span><span class="lineCov">          1 :     return ( _impl-&gt;state == STATE_RUNNING );</span>
 <a name="117"><span class="lineNum">     117 </span>            : }</a>
 <span class="lineNum">     118 </span>            : 
-<span class="lineNum">     119 </span><span class="lineCov">       1667 : void* Thread::runChild( void* arg )</span>
+<span class="lineNum">     119 </span><span class="lineCov">       1666 : void* Thread::runChild( void* arg )</span>
 <span class="lineNum">     120 </span>            : {
-<span class="lineNum">     121 </span><span class="lineCov">       1667 :     Thread* thread = static_cast&lt;Thread*&gt;(arg);</span>
-<span class="lineNum">     122 </span><span class="lineCov">       1667 :     thread-&gt;_runChild();</span>
+<span class="lineNum">     121 </span><span class="lineCov">       1666 :     Thread* thread = static_cast&lt;Thread*&gt;(arg);</span>
+<span class="lineNum">     122 </span><span class="lineCov">       1666 :     thread-&gt;_runChild();</span>
 <span class="lineNum">     123 </span><span class="lineNoCov">          0 :     return 0; // not reached</span>
 <a name="124"><span class="lineNum">     124 </span>            : }</a>
 <span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span><span class="lineCov">       1667 : void Thread::_runChild()</span>
+<span class="lineNum">     126 </span><span class="lineCov">       1666 : void Thread::_runChild()</span>
 <span class="lineNum">     127 </span>            : {
-<span class="lineNum">     128 </span><span class="lineCov">       1667 :     setName( boost::lexical_cast&lt; std::string &gt;( _impl-&gt;index ));</span>
-<span class="lineNum">     129 </span><span class="lineCov">       1667 :     _impl-&gt;id._impl-&gt;pthread = pthread_self();</span>
+<span class="lineNum">     128 </span><span class="lineCov">       1666 :     setName( boost::lexical_cast&lt; std::string &gt;( _impl-&gt;index ));</span>
+<span class="lineNum">     129 </span><span class="lineCov">       1666 :     _impl-&gt;id._impl-&gt;pthread = pthread_self();</span>
 <span class="lineNum">     130 </span>            : #ifdef __linux__
 <span class="lineNum">     131 </span>            :     {
-<span class="lineNum">     132 </span><span class="lineCov">       1667 :         ScopedFastWrite mutex( _threads );</span>
-<span class="lineNum">     133 </span><span class="lineCov">       1667 :         _threads-&gt;insert( _impl-&gt;id );</span>
+<span class="lineNum">     132 </span><span class="lineCov">       1666 :         ScopedFastWrite mutex( _threads );</span>
+<span class="lineNum">     133 </span><span class="lineCov">       1666 :         _threads-&gt;insert( _impl-&gt;id );</span>
 <span class="lineNum">     134 </span>            :     }
 <span class="lineNum">     135 </span>            :     // install signal handler to dump thread state for debugging
 <span class="lineNum">     136 </span>            :     struct sigaction sa;
-<span class="lineNum">     137 </span><span class="lineCov">       1667 :     ::sigfillset( &amp;sa.sa_mask );</span>
-<span class="lineNum">     138 </span><span class="lineCov">       1667 :     sa.sa_flags = SA_SIGINFO;</span>
-<span class="lineNum">     139 </span><span class="lineCov">       1667 :     sa.sa_sigaction = _sigUserHandler;</span>
-<span class="lineNum">     140 </span><span class="lineCov">       1667 :     ::sigaction( SIGUSR1, &amp;sa, 0 );</span>
+<span class="lineNum">     137 </span><span class="lineCov">       1666 :     ::sigfillset( &amp;sa.sa_mask );</span>
+<span class="lineNum">     138 </span><span class="lineCov">       1666 :     sa.sa_flags = SA_SIGINFO;</span>
+<span class="lineNum">     139 </span><span class="lineCov">       1666 :     sa.sa_sigaction = _sigUserHandler;</span>
+<span class="lineNum">     140 </span><span class="lineCov">       1666 :     ::sigaction( SIGUSR1, &amp;sa, 0 );</span>
 <span class="lineNum">     141 </span>            : #endif
 <span class="lineNum">     142 </span>            : 
-<span class="lineNum">     143 </span><span class="lineCov">       1667 :     if( !init( ))</span>
+<span class="lineNum">     143 </span><span class="lineCov">       1666 :     if( !init( ))</span>
 <span class="lineNum">     144 </span>            :     {
 <span class="lineNum">     145 </span><span class="lineCov">          5 :         LBWARN &lt;&lt; &quot;Thread &quot; &lt;&lt; className( this ) &lt;&lt; &quot; failed to initialize&quot;</span>
 <span class="lineNum">     146 </span><span class="lineCov">          4 :                &lt;&lt; std::endl;</span>
@@ -211,11 +211,11 @@
 <span class="lineNum">     149 </span>            :         LBUNREACHABLE;
 <span class="lineNum">     150 </span>            :     }
 <span class="lineNum">     151 </span>            : 
-<span class="lineNum">     152 </span><span class="lineCov">       1666 :     _impl-&gt;state = STATE_RUNNING;</span>
-<span class="lineNum">     153 </span><span class="lineCov">       8328 :     LBDEBUG &lt;&lt; &quot;Thread #&quot; &lt;&lt; _impl-&gt;index &lt;&lt; &quot; type &quot; &lt;&lt; className( *this )</span>
-<span class="lineNum">     154 </span><span class="lineCov">       6662 :            &lt;&lt; &quot; successfully initialized&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     152 </span><span class="lineCov">       1665 :     _impl-&gt;state = STATE_RUNNING;</span>
+<span class="lineNum">     153 </span><span class="lineCov">       8323 :     LBDEBUG &lt;&lt; &quot;Thread #&quot; &lt;&lt; _impl-&gt;index &lt;&lt; &quot; type &quot; &lt;&lt; className( *this )</span>
+<span class="lineNum">     154 </span><span class="lineCov">       6658 :            &lt;&lt; &quot; successfully initialized&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span><span class="lineCov">       1664 :     run();</span>
+<span class="lineNum">     156 </span><span class="lineCov">       1663 :     run();</span>
 <span class="lineNum">     157 </span><span class="lineCov">       1386 :     LBVERB &lt;&lt; &quot;Thread &quot; &lt;&lt; className( this ) &lt;&lt; &quot; finished&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     158 </span>            : #ifdef __linux__
 <span class="lineNum">     159 </span>            :     {
@@ -228,26 +228,26 @@
 <span class="lineNum">     166 </span><span class="lineNoCov">          0 :     LBUNREACHABLE;</span>
 <a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     168 </span>            : 
-<span class="lineNum">     169 </span><span class="lineCov">       1667 : bool Thread::start()</span>
+<span class="lineNum">     169 </span><span class="lineCov">       1666 : bool Thread::start()</span>
 <span class="lineNum">     170 </span>            : {
-<span class="lineNum">     171 </span><span class="lineCov">       1667 :     if( _impl-&gt;state != STATE_STOPPED )</span>
+<span class="lineNum">     171 </span><span class="lineCov">       1666 :     if( _impl-&gt;state != STATE_STOPPED )</span>
 <span class="lineNum">     172 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     173 </span>            : 
-<span class="lineNum">     174 </span><span class="lineCov">       1667 :     _impl-&gt;state = STATE_STARTING;</span>
+<span class="lineNum">     174 </span><span class="lineCov">       1666 :     _impl-&gt;state = STATE_STARTING;</span>
 <span class="lineNum">     175 </span>            : 
 <span class="lineNum">     176 </span>            :     pthread_attr_t attributes;
-<span class="lineNum">     177 </span><span class="lineCov">       1667 :     pthread_attr_init( &amp;attributes );</span>
-<span class="lineNum">     178 </span><span class="lineCov">       1667 :     pthread_attr_setscope( &amp;attributes, PTHREAD_SCOPE_SYSTEM );</span>
+<span class="lineNum">     177 </span><span class="lineCov">       1666 :     pthread_attr_init( &amp;attributes );</span>
+<span class="lineNum">     178 </span><span class="lineCov">       1666 :     pthread_attr_setscope( &amp;attributes, PTHREAD_SCOPE_SYSTEM );</span>
 <span class="lineNum">     179 </span>            : 
-<span class="lineNum">     180 </span><span class="lineCov">       1667 :     int nTries = 10;</span>
-<span class="lineNum">     181 </span><span class="lineCov">       3334 :     while( nTries-- )</span>
+<span class="lineNum">     180 </span><span class="lineCov">       1666 :     int nTries = 10;</span>
+<span class="lineNum">     181 </span><span class="lineCov">       3332 :     while( nTries-- )</span>
 <span class="lineNum">     182 </span>            :     {
 <span class="lineNum">     183 </span>            :         const int error = pthread_create( &amp;_impl-&gt;id._impl-&gt;pthread,
-<span class="lineNum">     184 </span><span class="lineCov">       1667 :                                           &amp;attributes, runChild, this );</span>
-<span class="lineNum">     185 </span><span class="lineCov">       1667 :         if( error == 0 ) // succeeded</span>
+<span class="lineNum">     184 </span><span class="lineCov">       1666 :                                           &amp;attributes, runChild, this );</span>
+<span class="lineNum">     185 </span><span class="lineCov">       1666 :         if( error == 0 ) // succeeded</span>
 <span class="lineNum">     186 </span>            :         {
-<span class="lineNum">     187 </span><span class="lineCov">       1667 :             LBVERB &lt;&lt; &quot;Created pthread &quot; &lt;&lt; this &lt;&lt; std::endl;</span>
-<span class="lineNum">     188 </span><span class="lineCov">       1667 :             break;</span>
+<span class="lineNum">     187 </span><span class="lineCov">       1666 :             LBVERB &lt;&lt; &quot;Created pthread &quot; &lt;&lt; this &lt;&lt; std::endl;</span>
+<span class="lineNum">     188 </span><span class="lineCov">       1666 :             break;</span>
 <span class="lineNum">     189 </span>            :         }
 <span class="lineNum">     190 </span><span class="lineNoCov">          0 :         if( error != EAGAIN || nTries == 0 )</span>
 <span class="lineNum">     191 </span>            :         {
@@ -259,9 +259,9 @@
 <span class="lineNum">     197 </span>            :     }
 <span class="lineNum">     198 </span>            : 
 <span class="lineNum">     199 </span>            :     // avoid memleak, we don't use pthread_join
-<span class="lineNum">     200 </span><span class="lineCov">       1667 :     pthread_detach( _impl-&gt;id._impl-&gt;pthread );</span>
-<span class="lineNum">     201 </span><span class="lineCov">       1667 :     _impl-&gt;state.waitNE( STATE_STARTING );</span>
-<span class="lineNum">     202 </span><span class="lineCov">       1667 :     return (_impl-&gt;state != STATE_STOPPED);</span>
+<span class="lineNum">     200 </span><span class="lineCov">       1666 :     pthread_detach( _impl-&gt;id._impl-&gt;pthread );</span>
+<span class="lineNum">     201 </span><span class="lineCov">       1666 :     _impl-&gt;state.waitNE( STATE_STARTING );</span>
+<span class="lineNum">     202 </span><span class="lineCov">       1666 :     return (_impl-&gt;state != STATE_STOPPED);</span>
 <a name="203"><span class="lineNum">     203 </span>            : }</a>
 <span class="lineNum">     204 </span>            : 
 <span class="lineNum">     205 </span><span class="lineCov">       1642 : void Thread::exit()</span>
@@ -276,17 +276,17 @@
 <span class="lineNum">     214 </span>            :     LBUNREACHABLE;
 <a name="215"><span class="lineNum">     215 </span>            : }</a>
 <span class="lineNum">     216 </span>            : 
-<span class="lineNum">     217 </span><span class="lineCov">         24 : void Thread::cancel()</span>
+<span class="lineNum">     217 </span><span class="lineCov">         23 : void Thread::cancel()</span>
 <span class="lineNum">     218 </span>            : {
-<span class="lineNum">     219 </span><span class="lineCov">         24 :     LBASSERTINFO( !isCurrent(), &quot;Thread::cancel called from child thread&quot; );</span>
+<span class="lineNum">     219 </span><span class="lineCov">         23 :     LBASSERTINFO( !isCurrent(), &quot;Thread::cancel called from child thread&quot; );</span>
 <span class="lineNum">     220 </span>            : 
-<span class="lineNum">     221 </span><span class="lineCov">         24 :     LBVERB &lt;&lt; &quot;Canceling thread &quot; &lt;&lt; className( this ) &lt;&lt; std::endl;</span>
-<span class="lineNum">     222 </span><span class="lineCov">         24 :     _impl-&gt;state = STATE_STOPPING;</span>
+<span class="lineNum">     221 </span><span class="lineCov">         23 :     LBVERB &lt;&lt; &quot;Canceling thread &quot; &lt;&lt; className( this ) &lt;&lt; std::endl;</span>
+<span class="lineNum">     222 </span><span class="lineCov">         23 :     _impl-&gt;state = STATE_STOPPING;</span>
 <span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span><span class="lineCov">         24 :     const int error = pthread_cancel( _impl-&gt;id._impl-&gt;pthread );</span>
-<span class="lineNum">     225 </span><span class="lineCov">         24 :     if( error !=  0 )</span>
+<span class="lineNum">     224 </span><span class="lineCov">         23 :     const int error = pthread_cancel( _impl-&gt;id._impl-&gt;pthread );</span>
+<span class="lineNum">     225 </span><span class="lineCov">         23 :     if( error !=  0 )</span>
 <span class="lineNum">     226 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Could not cancel thread: &quot; &lt;&lt; strerror( error ) &lt;&lt; std::endl;</span>
-<a name="227"><span class="lineNum">     227 </span><span class="lineCov">         24 : }</span></a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">         23 : }</span></a>
 <span class="lineNum">     228 </span>            : 
 <span class="lineNum">     229 </span><span class="lineCov">       1899 : bool Thread::join()</span>
 <span class="lineNum">     230 </span>            : {
@@ -302,19 +302,19 @@
 <span class="lineNum">     240 </span><span class="lineCov">       1642 :     return true;</span>
 <a name="241"><span class="lineNum">     241 </span>            : }</a>
 <span class="lineNum">     242 </span>            : 
-<span class="lineNum">     243 </span><span class="lineCov">       3564 : bool Thread::isCurrent() const</span>
+<span class="lineNum">     243 </span><span class="lineCov">       3561 : bool Thread::isCurrent() const</span>
 <span class="lineNum">     244 </span>            : {
-<span class="lineNum">     245 </span><span class="lineCov">       3564 :     return pthread_equal( pthread_self(), _impl-&gt;id._impl-&gt;pthread );</span>
+<span class="lineNum">     245 </span><span class="lineCov">       3561 :     return pthread_equal( pthread_self(), _impl-&gt;id._impl-&gt;pthread );</span>
 <a name="246"><span class="lineNum">     246 </span>            : }</a>
 <span class="lineNum">     247 </span>            : 
-<span class="lineNum">     248 </span><span class="lineCov">    2027673 : ThreadID Thread::getSelfThreadID()</span>
+<span class="lineNum">     248 </span><span class="lineCov">    2280631 : ThreadID Thread::getSelfThreadID()</span>
 <span class="lineNum">     249 </span>            : {
-<span class="lineNum">     250 </span><span class="lineCov">    2027673 :     ThreadID threadID;</span>
-<span class="lineNum">     251 </span><span class="lineCov">    2043508 :     threadID._impl-&gt;pthread = pthread_self();</span>
-<span class="lineNum">     252 </span><span class="lineCov">    2043560 :     return threadID;</span>
+<span class="lineNum">     250 </span><span class="lineCov">    2280631 :     ThreadID threadID;</span>
+<span class="lineNum">     251 </span><span class="lineCov">    2292493 :     threadID._impl-&gt;pthread = pthread_self();</span>
+<span class="lineNum">     252 </span><span class="lineCov">    2292520 :     return threadID;</span>
 <a name="253"><span class="lineNum">     253 </span>            : }</a>
 <span class="lineNum">     254 </span>            : 
-<span class="lineNum">     255 </span><span class="lineCov">       1371 : void Thread::yield()</span>
+<span class="lineNum">     255 </span><span class="lineCov">       1159 : void Thread::yield()</span>
 <span class="lineNum">     256 </span>            : {
 <span class="lineNum">     257 </span>            : #ifdef _MSC_VER
 <span class="lineNum">     258 </span>            :     ::Sleep( 0 ); // sleeps thread
@@ -322,9 +322,9 @@
 <span class="lineNum">     260 </span>            : #elif defined (__APPLE__)
 <span class="lineNum">     261 </span>            :     ::pthread_yield_np();
 <span class="lineNum">     262 </span>            : #else
-<span class="lineNum">     263 </span><span class="lineCov">       1371 :     ::sched_yield();</span>
+<span class="lineNum">     263 </span><span class="lineCov">       1159 :     ::sched_yield();</span>
 <span class="lineNum">     264 </span>            : #endif
-<span class="lineNum">     265 </span><span class="lineCov">       1376 : }</span>
+<span class="lineNum">     265 </span><span class="lineCov">       1161 : }</span>
 <span class="lineNum">     266 </span>            : 
 <span class="lineNum">     267 </span>            : #ifdef _MSC_VER
 <span class="lineNum">     268 </span>            : #  ifndef MS_VC_EXCEPTION
@@ -361,9 +361,9 @@
 <span class="lineNum">     299 </span>            : }
 <a name="300"><span class="lineNum">     300 </span>            : #endif</a>
 <span class="lineNum">     301 </span>            : 
-<span class="lineNum">     302 </span><span class="lineCov">       1689 : void Thread::setName( const std::string&amp; name )</span>
+<span class="lineNum">     302 </span><span class="lineCov">       1687 : void Thread::setName( const std::string&amp; name )</span>
 <span class="lineNum">     303 </span>            : {
-<span class="lineNum">     304 </span><span class="lineCov">       1689 :     Log::instance().setThreadName( name );</span>
+<span class="lineNum">     304 </span><span class="lineCov">       1687 :     Log::instance().setThreadName( name );</span>
 <span class="lineNum">     305 </span>            : 
 <span class="lineNum">     306 </span>            : #ifdef _MSC_VER
 <span class="lineNum">     307 </span>            : #  ifndef NDEBUG
@@ -372,12 +372,12 @@
 <span class="lineNum">     310 </span>            : #elif __MAC_OS_X_VERSION_MIN_REQUIRED &gt;= 1060
 <span class="lineNum">     311 </span>            :     pthread_setname_np( name.c_str( ));
 <span class="lineNum">     312 </span>            : #elif defined(__linux__)
-<span class="lineNum">     313 </span><span class="lineCov">       1689 :     prctl( PR_SET_NAME, name.c_str(), 0, 0, 0 );</span>
+<span class="lineNum">     313 </span><span class="lineCov">       1687 :     prctl( PR_SET_NAME, name.c_str(), 0, 0, 0 );</span>
 <span class="lineNum">     314 </span>            : #else
 <span class="lineNum">     315 </span>            :     // Not implemented
 <span class="lineNum">     316 </span>            :     LBVERB &lt;&lt; &quot;Thread::setName() not implemented&quot; &lt;&lt; std::endl;
 <span class="lineNum">     317 </span>            : #endif
-<span class="lineNum">     318 </span><span class="lineCov">       1689 : }</span>
+<span class="lineNum">     318 </span><span class="lineCov">       1687 : }</span>
 <a name="319"><span class="lineNum">     319 </span>            : </a>
 <span class="lineNum">     320 </span>            : #ifdef LUNCHBOX_USE_HWLOC
 <span class="lineNum">     321 </span><span class="lineNoCov">          0 : static hwloc_bitmap_t _getCpuSet( const int32_t affinity,</span>
@@ -504,7 +504,7 @@
 <span class="lineNum">     442 </span>            :     return os;
 <a name="443"><span class="lineNum">     443 </span>            : }</a>
 <span class="lineNum">     444 </span>            : #endif
-<span class="lineNum">     445 </span><span class="lineCov">         78 : }</span>
+<span class="lineNum">     445 </span><span class="lineCov">         75 : }</span>
 </pre>
       </td>
     </tr>

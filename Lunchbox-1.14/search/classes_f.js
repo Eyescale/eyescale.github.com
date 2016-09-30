@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['unorderedintervalset',['UnorderedIntervalSet',['../classlunchbox_1_1_unordered_interval_set.html',1,'lunchbox']]],
-  ['unregisteredrequest',['UnregisteredRequest',['../classlunchbox_1_1_unregistered_request.html',1,'lunchbox']]]
+  ['version',['Version',['../classlunchbox_1_1_version.html',1,'lunchbox']]]
 ];

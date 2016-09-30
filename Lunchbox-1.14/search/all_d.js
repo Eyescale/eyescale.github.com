@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['omp',['OMP',['../classlunchbox_1_1_o_m_p.html',1,'lunchbox']]],
   ['open',['open',['../classlunchbox_1_1_d_s_o.html#a563a7c9d07f7fe8da4038bf5224c0ad6',1,'lunchbox::DSO']]],
   ['operator_20bool_5ft',['operator bool_t',['../classlunchbox_1_1_future.html#aaa892d7cd41729b40af845590e155446',1,'lunchbox::Future::operator bool_t()'],['../classlunchbox_1_1_monitor.html#a3f6d88d90dd36bde8517da9beb7a2125',1,'lunchbox::Monitor::operator bool_t()'],['../classlunchbox_1_1_ref_ptr.html#a6d2cc70e2c1c6302f20dabee76c05256',1,'lunchbox::RefPtr::operator bool_t()'],['../classlunchbox_1_1_result.html#a11da10e35a7cee4fdbfa37826b4cfb75',1,'lunchbox::Result::operator bool_t()']]],
   ['operator_20t',['operator T',['../classlunchbox_1_1_atomic.html#a54e40ceec8c08744ad5998475fbc82ad',1,'lunchbox::Atomic']]],

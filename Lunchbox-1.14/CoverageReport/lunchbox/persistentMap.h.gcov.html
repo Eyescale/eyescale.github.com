@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-13 05:24:20</td>
+            <td class="headerValue">2016-09-30 05:23:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">28</td>
@@ -210,8 +210,8 @@
 <span class="lineNum">     148 </span>            :      * @throw std::runtime_error if the value is not copyable
 <a name="149"><span class="lineNum">     149 </span>            :      * @version 1.9.2</a>
 <span class="lineNum">     150 </span>            :      */
-<span class="lineNum">     151 </span><span class="lineCov">         18 :     template&lt; class V &gt; bool insert( const std::string&amp; key, const V&amp; value )</span>
-<span class="lineNum">     152 </span><span class="lineCov">         18 :         { return _insert( key, value, boost::has_trivial_assign&lt; V &gt;( )); }</span>
+<span class="lineNum">     151 </span><span class="lineCov">         25 :     template&lt; class V &gt; bool insert( const std::string&amp; key, const V&amp; value )</span>
+<span class="lineNum">     152 </span><span class="lineCov">         25 :         { return _insert( key, value, boost::has_trivial_assign&lt; V &gt;( )); }</span>
 <span class="lineNum">     153 </span>            :     LUNCHBOX_API bool insert( const std::string&amp; key, const void* data,
 <span class="lineNum">     154 </span>            :                               size_t size );
 <span class="lineNum">     155 </span>            : 
@@ -225,8 +225,8 @@
 <span class="lineNum">     163 </span>            :      * @version 1.9.2
 <a name="164"><span class="lineNum">     164 </span>            :      */</a>
 <span class="lineNum">     165 </span>            :     template&lt; class V &gt;
-<span class="lineNum">     166 </span><span class="lineCov">         18 :     bool insert( const std::string&amp; key, const std::vector&lt; V &gt;&amp; values )</span>
-<span class="lineNum">     167 </span><span class="lineCov">         18 :         { return _insert( key, values, boost::has_trivial_assign&lt; V &gt;( )); }</span>
+<span class="lineNum">     166 </span><span class="lineCov">         24 :     bool insert( const std::string&amp; key, const std::vector&lt; V &gt;&amp; values )</span>
+<span class="lineNum">     167 </span><span class="lineCov">         24 :         { return _insert( key, values, boost::has_trivial_assign&lt; V &gt;( )); }</span>
 <span class="lineNum">     168 </span>            : 
 <span class="lineNum">     169 </span>            :     /**
 <span class="lineNum">     170 </span>            :      * Insert or update a set of values in the database.
@@ -238,8 +238,8 @@
 <span class="lineNum">     176 </span>            :      * @version 1.9.2
 <a name="177"><span class="lineNum">     177 </span>            :      */</a>
 <span class="lineNum">     178 </span>            :     template&lt; class V &gt;
-<span class="lineNum">     179 </span><span class="lineCov">          6 :     bool insert( const std::string&amp; key, const std::set&lt; V &gt;&amp; values )</span>
-<span class="lineNum">     180 </span><span class="lineCov">          6 :         { return insert( key, std::vector&lt;V&gt;( values.begin(), values.end( ))); }</span>
+<span class="lineNum">     179 </span><span class="lineCov">          8 :     bool insert( const std::string&amp; key, const std::set&lt; V &gt;&amp; values )</span>
+<span class="lineNum">     180 </span><span class="lineCov">          8 :         { return insert( key, std::vector&lt;V&gt;( values.begin(), values.end( ))); }</span>
 <span class="lineNum">     181 </span>            : 
 <span class="lineNum">     182 </span>            :     /**
 <span class="lineNum">     183 </span>            :      * Retrieve a value for a key.
@@ -257,8 +257,8 @@
 <span class="lineNum">     195 </span>            :      * @return the value, or an empty string if the key is not available.
 <a name="196"><span class="lineNum">     196 </span>            :      * @version 1.11</a>
 <span class="lineNum">     197 </span>            :      */
-<span class="lineNum">     198 </span><span class="lineCov">         18 :     template&lt; class V &gt; V get( const std::string&amp; key ) const</span>
-<span class="lineNum">     199 </span><span class="lineCov">         18 :         { return _get&lt; V &gt;( key ); }</span>
+<span class="lineNum">     198 </span><span class="lineCov">         24 :     template&lt; class V &gt; V get( const std::string&amp; key ) const</span>
+<span class="lineNum">     199 </span><span class="lineCov">         24 :         { return _get&lt; V &gt;( key ); }</span>
 <span class="lineNum">     200 </span>            : 
 <span class="lineNum">     201 </span>            :     /**
 <span class="lineNum">     202 </span>            :      * Retrieve a value as a vector for a key.
@@ -339,17 +339,17 @@
 <span class="lineNum">     277 </span>            :     // declare v as a &quot;const ref to array of four chars&quot;, not as a &quot;const array
 <a name="278"><span class="lineNum">     278 </span>            :     // to four char refs&quot;. Long live Bjarne!</a>
 <span class="lineNum">     279 </span>            :     template&lt; size_t N &gt; bool
-<span class="lineNum">     280 </span><span class="lineCov">          6 :     _insert( const std::string&amp; k, char const (&amp; v)[N], const boost::true_type&amp;)</span>
+<span class="lineNum">     280 </span><span class="lineCov">          9 :     _insert( const std::string&amp; k, char const (&amp; v)[N], const boost::true_type&amp;)</span>
 <span class="lineNum">     281 </span>            :     {
-<span class="lineNum">     282 </span><span class="lineCov">          6 :         return insert( k, (void*)v, N - 1 ); // strip '0'</span>
+<span class="lineNum">     282 </span><span class="lineCov">          9 :         return insert( k, (void*)v, N - 1 ); // strip '0'</span>
 <span class="lineNum">     283 </span>            :     }
 <a name="284"><span class="lineNum">     284 </span>            : </a>
 <span class="lineNum">     285 </span>            :     template&lt; class V &gt;
-<span class="lineNum">     286 </span><span class="lineCov">          9 :     bool _insert( const std::string&amp; k, const V&amp; v, const boost::true_type&amp; )</span>
+<span class="lineNum">     286 </span><span class="lineCov">         12 :     bool _insert( const std::string&amp; k, const V&amp; v, const boost::true_type&amp; )</span>
 <span class="lineNum">     287 </span>            :     {
 <span class="lineNum">     288 </span>            :         if( boost::is_pointer&lt; V &gt;::value )
 <span class="lineNum">     289 </span>            :             LBTHROW( std::runtime_error( &quot;Can't insert pointers&quot; ));
-<span class="lineNum">     290 </span><span class="lineCov">          9 :         return insert( k, &amp;v, sizeof( V ));</span>
+<span class="lineNum">     290 </span><span class="lineCov">         12 :         return insert( k, &amp;v, sizeof( V ));</span>
 <span class="lineNum">     291 </span>            :     }
 <span class="lineNum">     292 </span>            : 
 <span class="lineNum">     293 </span>            :     template&lt; class V &gt;
@@ -357,65 +357,65 @@
 <span class="lineNum">     295 </span>            :     { LBTHROW( std::runtime_error( &quot;Can't insert non-POD &quot; + className( v ))); }
 <a name="296"><span class="lineNum">     296 </span>            : </a>
 <span class="lineNum">     297 </span>            :     template&lt; class V &gt;
-<span class="lineNum">     298 </span><span class="lineCov">         18 :     bool _insert( const std::string&amp; key, const std::vector&lt; V &gt;&amp; values,</span>
+<span class="lineNum">     298 </span><span class="lineCov">         24 :     bool _insert( const std::string&amp; key, const std::vector&lt; V &gt;&amp; values,</span>
 <span class="lineNum">     299 </span>            :                   const boost::true_type&amp; )
-<a name="300"><span class="lineNum">     300 </span><span class="lineCov">         18 :         { return insert( key, values.data(), values.size() * sizeof( V )); }</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">         24 :         { return insert( key, values.data(), values.size() * sizeof( V )); }</span></a>
 <span class="lineNum">     301 </span>            : 
-<span class="lineNum">     302 </span><span class="lineCov">         18 :     template&lt; class V &gt; V _get( const std::string&amp; k ) const</span>
+<span class="lineNum">     302 </span><span class="lineCov">         24 :     template&lt; class V &gt; V _get( const std::string&amp; k ) const</span>
 <span class="lineNum">     303 </span>            :     {
-<span class="lineNum">     304 </span><span class="lineCov">         18 :         if( !boost::has_trivial_assign&lt; V &gt;( ))</span>
+<span class="lineNum">     304 </span><span class="lineCov">         24 :         if( !boost::has_trivial_assign&lt; V &gt;( ))</span>
 <span class="lineNum">     305 </span><span class="lineNoCov">          0 :             LBTHROW( std::runtime_error( &quot;Can't retrieve non-POD &quot; +</span>
 <span class="lineNum">     306 </span>            :                                          className( V( ))));
 <span class="lineNum">     307 </span>            :         if( boost::is_pointer&lt; V &gt;::value )
 <span class="lineNum">     308 </span>            :             LBTHROW( std::runtime_error( &quot;Can't retrieve pointers&quot; ));
 <span class="lineNum">     309 </span>            : 
-<span class="lineNum">     310 </span><span class="lineCov">         18 :         const std::string&amp; value = (*this)[ k ];</span>
-<span class="lineNum">     311 </span><span class="lineCov">         18 :         if( value.size() != sizeof( V ))</span>
+<span class="lineNum">     310 </span><span class="lineCov">         24 :         const std::string&amp; value = (*this)[ k ];</span>
+<span class="lineNum">     311 </span><span class="lineCov">         24 :         if( value.size() != sizeof( V ))</span>
 <span class="lineNum">     312 </span><span class="lineNoCov">          0 :             LBTHROW( std::runtime_error( std::string( &quot;Wrong value size &quot; ) +</span>
 <span class="lineNum">     313 </span>            :                             boost::lexical_cast&lt; std::string &gt;( value.size( )) +
 <span class="lineNum">     314 </span>            :                                          &quot; for type &quot; + className( V( ))));
 <span class="lineNum">     315 </span>            : 
-<span class="lineNum">     316 </span><span class="lineCov">         18 :         V v( *reinterpret_cast&lt; const V* &gt;( value.data( )));</span>
-<span class="lineNum">     317 </span><span class="lineCov">         18 :         if( _swap( ))</span>
-<span class="lineNum">     318 </span><span class="lineCov">          3 :             byteswap( v );</span>
-<span class="lineNum">     319 </span><span class="lineCov">         18 :         return v;</span>
+<span class="lineNum">     316 </span><span class="lineCov">         24 :         V v( *reinterpret_cast&lt; const V* &gt;( value.data( )));</span>
+<span class="lineNum">     317 </span><span class="lineCov">         24 :         if( _swap( ))</span>
+<span class="lineNum">     318 </span><span class="lineCov">          4 :             byteswap( v );</span>
+<span class="lineNum">     319 </span><span class="lineCov">         24 :         return v;</span>
 <span class="lineNum">     320 </span>            :     }
 <span class="lineNum">     321 </span>            : };
 <a name="322"><span class="lineNum">     322 </span>            : </a>
 <span class="lineNum">     323 </span>            : template&lt;&gt; inline
-<span class="lineNum">     324 </span><span class="lineCov">          3 : bool PersistentMap::_insert( const std::string&amp; k, const std::string&amp; v,</span>
+<span class="lineNum">     324 </span><span class="lineCov">          4 : bool PersistentMap::_insert( const std::string&amp; k, const std::string&amp; v,</span>
 <span class="lineNum">     325 </span>            :                              const boost::false_type&amp; )
 <span class="lineNum">     326 </span>            : {
-<span class="lineNum">     327 </span><span class="lineCov">          3 :     return insert( k, v.data(), v.length( ));</span>
+<span class="lineNum">     327 </span><span class="lineCov">          4 :     return insert( k, v.data(), v.length( ));</span>
 <span class="lineNum">     328 </span>            : }
 <a name="329"><span class="lineNum">     329 </span>            : </a>
 <span class="lineNum">     330 </span>            : template&lt; class V &gt; inline
-<span class="lineNum">     331 </span><span class="lineCov">         18 : std::vector&lt; V &gt; PersistentMap::getVector( const std::string&amp; key ) const</span>
+<span class="lineNum">     331 </span><span class="lineCov">         24 : std::vector&lt; V &gt; PersistentMap::getVector( const std::string&amp; key ) const</span>
 <span class="lineNum">     332 </span>            : {
-<span class="lineNum">     333 </span><span class="lineCov">         18 :     const std::string&amp; value = (*this)[ key ];</span>
-<span class="lineNum">     334 </span><span class="lineCov">         18 :     std::vector&lt; V &gt; vector( reinterpret_cast&lt; const V* &gt;( value.data( )),</span>
-<span class="lineNum">     335 </span><span class="lineCov">         36 :                    reinterpret_cast&lt; const V* &gt;( value.data() + value.size( )));</span>
-<span class="lineNum">     336 </span><span class="lineCov">         18 :     if( _swap() &amp;&amp; sizeof( V ) != 1 )</span>
+<span class="lineNum">     333 </span><span class="lineCov">         24 :     const std::string&amp; value = (*this)[ key ];</span>
+<span class="lineNum">     334 </span><span class="lineCov">         24 :     std::vector&lt; V &gt; vector( reinterpret_cast&lt; const V* &gt;( value.data( )),</span>
+<span class="lineNum">     335 </span><span class="lineCov">         48 :                    reinterpret_cast&lt; const V* &gt;( value.data() + value.size( )));</span>
+<span class="lineNum">     336 </span><span class="lineCov">         24 :     if( _swap() &amp;&amp; sizeof( V ) != 1 )</span>
 <span class="lineNum">     337 </span>            :     {
 <span class="lineNum">     338 </span><span class="lineNoCov">          0 :         BOOST_FOREACH( V&amp; elem, vector )</span>
 <span class="lineNum">     339 </span><span class="lineNoCov">          0 :             byteswap( elem );</span>
 <span class="lineNum">     340 </span>            :     }
-<span class="lineNum">     341 </span><span class="lineCov">         18 :     return vector;</span>
+<span class="lineNum">     341 </span><span class="lineCov">         24 :     return vector;</span>
 <span class="lineNum">     342 </span>            : }
 <a name="343"><span class="lineNum">     343 </span>            : </a>
 <span class="lineNum">     344 </span>            : template&lt; class V &gt; inline
-<span class="lineNum">     345 </span><span class="lineCov">          6 : std::set&lt; V &gt; PersistentMap::getSet( const std::string&amp; key ) const</span>
+<span class="lineNum">     345 </span><span class="lineCov">          8 : std::set&lt; V &gt; PersistentMap::getSet( const std::string&amp; key ) const</span>
 <span class="lineNum">     346 </span>            : {
-<span class="lineNum">     347 </span><span class="lineCov">          6 :     std::string value = (*this)[ key ];</span>
+<span class="lineNum">     347 </span><span class="lineCov">          8 :     std::string value = (*this)[ key ];</span>
 <span class="lineNum">     348 </span>            :     V* const begin = reinterpret_cast&lt; V* &gt;(
-<span class="lineNum">     349 </span><span class="lineCov">          6 :                          const_cast&lt; char * &gt;( value.data( )));</span>
-<span class="lineNum">     350 </span><span class="lineCov">          6 :     V* const end = begin + value.size() / sizeof( V );</span>
+<span class="lineNum">     349 </span><span class="lineCov">          8 :                          const_cast&lt; char * &gt;( value.data( )));</span>
+<span class="lineNum">     350 </span><span class="lineCov">          8 :     V* const end = begin + value.size() / sizeof( V );</span>
 <span class="lineNum">     351 </span>            : 
-<span class="lineNum">     352 </span><span class="lineCov">          6 :     if( _swap() &amp;&amp; sizeof( V ) != 1 )</span>
+<span class="lineNum">     352 </span><span class="lineCov">          8 :     if( _swap() &amp;&amp; sizeof( V ) != 1 )</span>
 <span class="lineNum">     353 </span><span class="lineNoCov">          0 :         for( V* i = begin; i &lt; end; ++i )</span>
 <span class="lineNum">     354 </span><span class="lineNoCov">          0 :             byteswap( *i );</span>
 <span class="lineNum">     355 </span>            : 
-<span class="lineNum">     356 </span><span class="lineCov">          6 :     return std::set&lt; V &gt;( begin, end );</span>
+<span class="lineNum">     356 </span><span class="lineCov">          8 :     return std::set&lt; V &gt;( begin, end );</span>
 <span class="lineNum">     357 </span>            : }
 <span class="lineNum">     358 </span>            : 
 <span class="lineNum">     359 </span>            : }

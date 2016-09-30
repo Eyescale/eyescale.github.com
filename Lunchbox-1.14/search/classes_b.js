@@ -1,13 +1,12 @@
 var searchData=
 [
-  ['persistentmap',['PersistentMap',['../classlunchbox_1_1_persistent_map.html',1,'lunchbox']]],
-  ['perthread',['PerThread',['../classlunchbox_1_1_per_thread.html',1,'lunchbox']]],
-  ['perthreadref',['PerThreadRef',['../classlunchbox_1_1_per_thread_ref.html',1,'lunchbox']]],
-  ['plugin',['Plugin',['../classlunchbox_1_1_plugin.html',1,'lunchbox']]],
-  ['pluginfactory',['PluginFactory',['../classlunchbox_1_1_plugin_factory.html',1,'lunchbox']]],
-  ['pluginregisterer',['PluginRegisterer',['../classlunchbox_1_1_plugin_registerer.html',1,'lunchbox']]],
-  ['pluginregisterer_3c_20impl_2c_20false_20_3e',['PluginRegisterer&lt; Impl, false &gt;',['../classlunchbox_1_1_plugin_registerer_3_01_impl_00_01false_01_4.html',1,'lunchbox']]],
-  ['pluginregisterer_3c_20impl_2c_20true_20_3e',['PluginRegisterer&lt; Impl, true &gt;',['../classlunchbox_1_1_plugin_registerer_3_01_impl_00_01true_01_4.html',1,'lunchbox']]],
-  ['pool',['Pool',['../classlunchbox_1_1_pool.html',1,'lunchbox']]],
-  ['ptrhash',['PtrHash',['../classlunchbox_1_1_ptr_hash.html',1,'lunchbox']]]
+  ['referenced',['Referenced',['../classlunchbox_1_1_referenced.html',1,'lunchbox']]],
+  ['refptr',['RefPtr',['../classlunchbox_1_1_ref_ptr.html',1,'lunchbox']]],
+  ['refptr_3c_20futureimpl_3c_20t_20_3e_20_3e',['RefPtr&lt; FutureImpl&lt; T &gt; &gt;',['../classlunchbox_1_1_ref_ptr.html',1,'lunchbox']]],
+  ['refptr_3c_20futureimpl_3c_20void_20_3e_20_3e',['RefPtr&lt; FutureImpl&lt; void &gt; &gt;',['../classlunchbox_1_1_ref_ptr.html',1,'lunchbox']]],
+  ['refptrhash',['RefPtrHash',['../classlunchbox_1_1_ref_ptr_hash.html',1,'lunchbox']]],
+  ['request',['Request',['../classlunchbox_1_1_request.html',1,'lunchbox']]],
+  ['requesthandler',['RequestHandler',['../classlunchbox_1_1_request_handler.html',1,'lunchbox']]],
+  ['result',['Result',['../classlunchbox_1_1_result.html',1,'lunchbox']]],
+  ['rng',['RNG',['../classlunchbox_1_1_r_n_g.html',1,'lunchbox']]]
 ];

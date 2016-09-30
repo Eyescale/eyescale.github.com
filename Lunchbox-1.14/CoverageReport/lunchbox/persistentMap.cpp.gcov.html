@@ -31,13 +31,13 @@
             <td class="headerValue">Lunchbox</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">26</td>
-            <td class="headerCovTableEntry">49</td>
-            <td class="headerCovTableEntryMed">53.1 %</td>
+            <td class="headerCovTableEntry">28</td>
+            <td class="headerCovTableEntry">55</td>
+            <td class="headerCovTableEntryMed">50.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-13 05:24:20</td>
+            <td class="headerValue">2016-09-30 05:23:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">13</td>
@@ -89,14 +89,14 @@
 <span class="lineNum">      27 </span>            : class PersistentMap
 <a name="28"><span class="lineNum">      28 </span>            : {</a>
 <a name="29"><span class="lineNum">      29 </span>            : public:</a>
-<a name="30"><span class="lineNum">      30 </span><span class="lineCov">          7 :     PersistentMap() : swap( false ) {}</span></a>
-<span class="lineNum">      31 </span><span class="lineCov">          7 :     virtual ~PersistentMap() {}</span>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">         10 :     PersistentMap() : swap( false ) {}</span></a>
+<span class="lineNum">      31 </span><span class="lineCov">         10 :     virtual ~PersistentMap() {}</span>
 <span class="lineNum">      32 </span><span class="lineNoCov">          0 :     virtual size_t setQueueDepth( const size_t ) { return 0; }</span>
 <span class="lineNum">      33 </span>            :     virtual bool insert( const std::string&amp; key, const void* data,
 <a name="34"><span class="lineNum">      34 </span>            :                          const size_t size ) = 0;</a>
 <span class="lineNum">      35 </span>            :     virtual std::string operator [] ( const std::string&amp; key ) const = 0;
-<span class="lineNum">      36 </span><span class="lineCov">          6 :     virtual bool fetch( const std::string&amp;, const size_t ) const</span>
-<span class="lineNum">      37 </span><span class="lineCov">          6 :         { return true; }</span>
+<span class="lineNum">      36 </span><span class="lineCov">          8 :     virtual bool fetch( const std::string&amp;, const size_t ) const</span>
+<span class="lineNum">      37 </span><span class="lineCov">          8 :         { return true; }</span>
 <span class="lineNum">      38 </span>            :     virtual void getValues( const Strings&amp; keys,
 <span class="lineNum">      39 </span>            :                             const ConstValueFunc&amp; func ) const = 0;
 <span class="lineNum">      40 </span>            :     virtual void takeValues( const Strings&amp; keys,
@@ -118,16 +118,16 @@
 <span class="lineNum">      56 </span>            : 
 <a name="57"><span class="lineNum">      57 </span>            : namespace</a>
 <span class="lineNum">      58 </span>            : {
-<span class="lineNum">      59 </span><span class="lineCov">          8 : lunchbox::detail::PersistentMap* _newImpl( const servus::URI&amp; uri )</span>
+<span class="lineNum">      59 </span><span class="lineCov">         11 : lunchbox::detail::PersistentMap* _newImpl( const servus::URI&amp; uri )</span>
 <span class="lineNum">      60 </span>            : {
 <span class="lineNum">      61 </span>            :     // Update handles() below on any change here!
 <span class="lineNum">      62 </span>            : #ifdef LUNCHBOX_USE_LEVELDB
-<span class="lineNum">      63 </span><span class="lineCov">          8 :     if( lunchbox::leveldb::PersistentMap::handles( uri ))</span>
-<span class="lineNum">      64 </span><span class="lineCov">         13 :         return new lunchbox::leveldb::PersistentMap( uri );</span>
+<span class="lineNum">      63 </span><span class="lineCov">         11 :     if( lunchbox::leveldb::PersistentMap::handles( uri ))</span>
+<span class="lineNum">      64 </span><span class="lineCov">          8 :         return new lunchbox::leveldb::PersistentMap( uri );</span>
 <span class="lineNum">      65 </span>            : #endif
 <span class="lineNum">      66 </span>            : #ifdef LUNCHBOX_USE_LIBMEMCACHED
-<span class="lineNum">      67 </span>            :     if( lunchbox::memcached::PersistentMap::handles( uri ))
-<span class="lineNum">      68 </span>            :         return new lunchbox::memcached::PersistentMap( uri );
+<span class="lineNum">      67 </span><span class="lineCov">          4 :     if( lunchbox::memcached::PersistentMap::handles( uri ))</span>
+<span class="lineNum">      68 </span><span class="lineCov">          3 :         return new lunchbox::memcached::PersistentMap( uri );</span>
 <span class="lineNum">      69 </span>            : #endif
 <span class="lineNum">      70 </span>            : 
 <span class="lineNum">      71 </span><span class="lineCov">          1 :     LBTHROW( std::runtime_error(</span>
@@ -138,15 +138,15 @@
 <span class="lineNum">      76 </span>            : 
 <a name="77"><span class="lineNum">      77 </span>            : namespace lunchbox</a>
 <span class="lineNum">      78 </span>            : {
-<span class="lineNum">      79 </span><span class="lineCov">          8 : PersistentMap::PersistentMap( const std::string&amp; uri )</span>
-<span class="lineNum">      80 </span><span class="lineCov">         10 :     : _impl( _newImpl( servus::URI( uri )))</span>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          6 : {}</span></a>
+<span class="lineNum">      79 </span><span class="lineCov">         11 : PersistentMap::PersistentMap( const std::string&amp; uri )</span>
+<span class="lineNum">      80 </span><span class="lineCov">         13 :     : _impl( _newImpl( servus::URI( uri )))</span>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          9 : {}</span></a>
 <span class="lineNum">      82 </span>            : 
 <span class="lineNum">      83 </span><span class="lineNoCov">          0 : PersistentMap::PersistentMap( const servus::URI&amp; uri )</span>
 <span class="lineNum">      84 </span><span class="lineNoCov">          0 :     : _impl( _newImpl( uri ))</span>
 <a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 : {}</span></a>
 <span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span><span class="lineCov">          6 : PersistentMap::~PersistentMap()</span>
+<span class="lineNum">      87 </span><span class="lineCov">          9 : PersistentMap::~PersistentMap()</span>
 <span class="lineNum">      88 </span>            : {
 <span class="lineNum">      89 </span>            : #ifdef HISTOGRAM
 <span class="lineNum">      90 </span>            :     std::cout &lt;&lt; std::endl &lt;&lt; &quot;keys&quot; &lt;&lt; std::endl;
@@ -156,14 +156,14 @@
 <span class="lineNum">      94 </span>            :     for( std::pair&lt; size_t, size_t &gt; i : _impl-&gt;values )
 <span class="lineNum">      95 </span>            :         std::cout &lt;&lt; i.first &lt;&lt; &quot;, &quot; &lt;&lt; i.second &lt;&lt; std::endl;
 <span class="lineNum">      96 </span>            : #endif
-<span class="lineNum">      97 </span><span class="lineCov">          6 :     delete _impl;</span>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">          6 : }</span></a>
+<span class="lineNum">      97 </span><span class="lineCov">          9 :     delete _impl;</span>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">          9 : }</span></a>
 <span class="lineNum">      99 </span>            : 
 <span class="lineNum">     100 </span><span class="lineNoCov">          0 : PersistentMapPtr PersistentMap::createCache()</span>
 <span class="lineNum">     101 </span>            : {
 <span class="lineNum">     102 </span>            : #ifdef LUNCHBOX_USE_LIBMEMCACHED
-<span class="lineNum">     103 </span>            :     if( ::getenv( &quot;MEMCACHED_SERVERS&quot; ))
-<span class="lineNum">     104 </span>            :         return PersistentMapPtr( new PersistentMap( &quot;memcached://&quot; ));
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :     if( ::getenv( &quot;MEMCACHED_SERVERS&quot; ))</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         return PersistentMapPtr( new PersistentMap( &quot;memcached://&quot; ));</span>
 <span class="lineNum">     105 </span>            : #endif
 <span class="lineNum">     106 </span>            : #ifdef LUNCHBOX_USE_LEVELDB
 <span class="lineNum">     107 </span><span class="lineNoCov">          0 :     const char* leveldb = ::getenv( &quot;LEVELDB_CACHE&quot; );</span>
@@ -182,8 +182,8 @@
 <span class="lineNum">     120 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     121 </span>            : #endif
 <span class="lineNum">     122 </span>            : #ifdef LUNCHBOX_USE_LIBMEMCACHED
-<span class="lineNum">     123 </span>            :     if( lunchbox::memcached::PersistentMap::handles( uri ))
-<span class="lineNum">     124 </span>            :         return true;
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :     if( lunchbox::memcached::PersistentMap::handles( uri ))</span>
+<span class="lineNum">     124 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     125 </span>            : #endif
 <span class="lineNum">     126 </span><span class="lineNoCov">          0 :     return false;</span>
 <a name="127"><span class="lineNum">     127 </span>            : }</a>
@@ -193,24 +193,24 @@
 <span class="lineNum">     131 </span><span class="lineNoCov">          0 :     return _impl-&gt;setQueueDepth( depth );</span>
 <a name="132"><span class="lineNum">     132 </span>            : }</a>
 <span class="lineNum">     133 </span>            : 
-<span class="lineNum">     134 </span><span class="lineCov">         36 : bool PersistentMap::insert( const std::string&amp; key, const void* data,</span>
+<span class="lineNum">     134 </span><span class="lineCov">         49 : bool PersistentMap::insert( const std::string&amp; key, const void* data,</span>
 <span class="lineNum">     135 </span>            :                             const size_t size )
 <span class="lineNum">     136 </span>            : {
 <span class="lineNum">     137 </span>            : #ifdef HISTOGRAM
 <span class="lineNum">     138 </span>            :     ++_impl-&gt;keys[ key.size() ];
 <span class="lineNum">     139 </span>            :     ++_impl-&gt;values[ size ];
 <span class="lineNum">     140 </span>            : #endif
-<span class="lineNum">     141 </span><span class="lineCov">         36 :     return _impl-&gt;insert( key, data, size );</span>
+<span class="lineNum">     141 </span><span class="lineCov">         49 :     return _impl-&gt;insert( key, data, size );</span>
 <a name="142"><span class="lineNum">     142 </span>            : }</a>
 <span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineCov">         60 : std::string PersistentMap::operator [] ( const std::string&amp; key ) const</span>
+<span class="lineNum">     144 </span><span class="lineCov">         81 : std::string PersistentMap::operator [] ( const std::string&amp; key ) const</span>
 <span class="lineNum">     145 </span>            : {
-<span class="lineNum">     146 </span><span class="lineCov">         60 :     return (*_impl)[ key ];</span>
+<span class="lineNum">     146 </span><span class="lineCov">         81 :     return (*_impl)[ key ];</span>
 <a name="147"><span class="lineNum">     147 </span>            : }</a>
 <span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span><span class="lineCov">          6 : bool PersistentMap::fetch( const std::string&amp; key, const size_t sizeHint ) const</span>
+<span class="lineNum">     149 </span><span class="lineCov">          8 : bool PersistentMap::fetch( const std::string&amp; key, const size_t sizeHint ) const</span>
 <span class="lineNum">     150 </span>            : {
-<span class="lineNum">     151 </span><span class="lineCov">          6 :     return _impl-&gt;fetch( key, sizeHint );</span>
+<span class="lineNum">     151 </span><span class="lineCov">          8 :     return _impl-&gt;fetch( key, sizeHint );</span>
 <a name="152"><span class="lineNum">     152 </span>            : }</a>
 <span class="lineNum">     153 </span>            : 
 <span class="lineNum">     154 </span><span class="lineNoCov">          0 : void PersistentMap::getValues( const Strings&amp; keys,</span>
@@ -230,17 +230,17 @@
 <span class="lineNum">     168 </span><span class="lineNoCov">          0 :     return _impl-&gt;flush();</span>
 <a name="169"><span class="lineNum">     169 </span>            : }</a>
 <span class="lineNum">     170 </span>            : 
-<span class="lineNum">     171 </span><span class="lineCov">          6 : void PersistentMap::setByteswap( const bool swap )</span>
+<span class="lineNum">     171 </span><span class="lineCov">          8 : void PersistentMap::setByteswap( const bool swap )</span>
 <span class="lineNum">     172 </span>            : {
-<span class="lineNum">     173 </span><span class="lineCov">          6 :     _impl-&gt;swap = swap;</span>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          6 : }</span></a>
+<span class="lineNum">     173 </span><span class="lineCov">          8 :     _impl-&gt;swap = swap;</span>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          8 : }</span></a>
 <span class="lineNum">     175 </span>            : 
-<span class="lineNum">     176 </span><span class="lineCov">         42 : bool PersistentMap::_swap() const</span>
+<span class="lineNum">     176 </span><span class="lineCov">         56 : bool PersistentMap::_swap() const</span>
 <span class="lineNum">     177 </span>            : {
-<span class="lineNum">     178 </span><span class="lineCov">         42 :     return _impl-&gt;swap;</span>
+<span class="lineNum">     178 </span><span class="lineCov">         56 :     return _impl-&gt;swap;</span>
 <a name="179"><span class="lineNum">     179 </span>            : }</a>
 <span class="lineNum">     180 </span>            : 
-<span class="lineNum">     181 </span><span class="lineCov">         78 : }</span>
+<span class="lineNum">     181 </span><span class="lineCov">         75 : }</span>
 </pre>
       </td>
     </tr>

@@ -12,8 +12,6 @@ var searchData=
   ['monitor',['Monitor',['../classlunchbox_1_1_monitor.html#a9ccea26bb37295705d4d553d971f4c40',1,'lunchbox::Monitor::Monitor()'],['../classlunchbox_1_1_monitor.html#aa108ccf33c8deae93297083560397e14',1,'lunchbox::Monitor::Monitor(const T &amp;value)'],['../classlunchbox_1_1_monitor.html#a44bc656d09f783f29afca1ae7a8bf909',1,'lunchbox::Monitor::Monitor(const Monitor&lt; T &gt; &amp;from)']]],
   ['monitorb',['Monitorb',['../namespacelunchbox.html#a5b17ccd4a5baea475ece5b3f5528d7b7',1,'lunchbox']]],
   ['monitoru',['Monitoru',['../namespacelunchbox.html#a9225c9132da8788f84a8ce137b57fc84',1,'lunchbox']]],
-  ['mpi',['MPI',['../classlunchbox_1_1_m_p_i.html',1,'lunchbox']]],
-  ['mpi',['MPI',['../classlunchbox_1_1_m_p_i.html#aecfe996748d0fb9b6d7e164706297448',1,'lunchbox::MPI::MPI(int argc, char **argv)'],['../classlunchbox_1_1_m_p_i.html#ac82ff99df74874db7e48ebc591e02670',1,'lunchbox::MPI::MPI()']]],
   ['mtqueue',['MTQueue',['../classlunchbox_1_1_m_t_queue.html',1,'lunchbox']]],
   ['mtqueue',['MTQueue',['../classlunchbox_1_1_m_t_queue.html#a64b286cfbedb8c279a9094124fa80f86',1,'lunchbox::MTQueue::MTQueue(const size_t maxSize=S)'],['../classlunchbox_1_1_m_t_queue.html#a8023a6fd553a9c20580c462236f754d1',1,'lunchbox::MTQueue::MTQueue(const MTQueue&lt; T, S &gt; &amp;from)']]]
 ];

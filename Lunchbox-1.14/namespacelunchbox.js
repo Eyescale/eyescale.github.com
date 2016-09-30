@@ -17,6 +17,7 @@ var namespacelunchbox =
     [ "hashRefPtr", "structlunchbox_1_1hash_ref_ptr.html", "structlunchbox_1_1hash_ref_ptr" ],
     [ "hasInitDataT", "structlunchbox_1_1has_init_data_t.html", "structlunchbox_1_1has_init_data_t" ],
     [ "IndexIterator", "classlunchbox_1_1_index_iterator.html", "classlunchbox_1_1_index_iterator" ],
+    [ "IntervalSet", "classlunchbox_1_1_interval_set.html", "classlunchbox_1_1_interval_set" ],
     [ "Launcher", "classlunchbox_1_1_launcher.html", "classlunchbox_1_1_launcher" ],
     [ "LFQueue", "classlunchbox_1_1_l_f_queue.html", "classlunchbox_1_1_l_f_queue" ],
     [ "LFVector", "classlunchbox_1_1_l_f_vector.html", "classlunchbox_1_1_l_f_vector" ],
@@ -26,9 +27,7 @@ var namespacelunchbox =
     [ "Log", "classlunchbox_1_1_log.html", "classlunchbox_1_1_log" ],
     [ "MemoryMap", "classlunchbox_1_1_memory_map.html", "classlunchbox_1_1_memory_map" ],
     [ "Monitor", "classlunchbox_1_1_monitor.html", "classlunchbox_1_1_monitor" ],
-    [ "MPI", "classlunchbox_1_1_m_p_i.html", "classlunchbox_1_1_m_p_i" ],
     [ "MTQueue", "classlunchbox_1_1_m_t_queue.html", "classlunchbox_1_1_m_t_queue" ],
-    [ "OMP", "classlunchbox_1_1_o_m_p.html", "classlunchbox_1_1_o_m_p" ],
     [ "PersistentMap", "classlunchbox_1_1_persistent_map.html", "classlunchbox_1_1_persistent_map" ],
     [ "PerThread", "classlunchbox_1_1_per_thread.html", "classlunchbox_1_1_per_thread" ],
     [ "PerThreadRef", "classlunchbox_1_1_per_thread_ref.html", "classlunchbox_1_1_per_thread_ref" ],
@@ -52,7 +51,6 @@ var namespacelunchbox =
     [ "ThreadID", "classlunchbox_1_1_thread_i_d.html", "classlunchbox_1_1_thread_i_d" ],
     [ "TimedLock", "classlunchbox_1_1_timed_lock.html", "classlunchbox_1_1_timed_lock" ],
     [ "TLS", "classlunchbox_1_1_t_l_s.html", "classlunchbox_1_1_t_l_s" ],
-    [ "UnorderedIntervalSet", "classlunchbox_1_1_unordered_interval_set.html", "classlunchbox_1_1_unordered_interval_set" ],
     [ "UnregisteredRequest", "classlunchbox_1_1_unregistered_request.html", "classlunchbox_1_1_unregistered_request" ],
     [ "Version", "classlunchbox_1_1_version.html", "classlunchbox_1_1_version" ]
 ];
