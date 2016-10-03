@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-01 01:19:39</td>
+            <td class="headerValue">2016-10-04 01:19:52</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">11</td>
@@ -90,7 +90,7 @@
 <span class="lineNum">      28 </span>            : namespace detail
 <a name="29"><span class="lineNum">      29 </span>            : {</a>
 <span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span><span class="lineCov">      72181 : class OCommand</span>
+<span class="lineNum">      31 </span><span class="lineCov">      72182 : class OCommand</span>
 <a name="32"><span class="lineNum">      32 </span>            : {</a>
 <span class="lineNum">      33 </span>            : public:
 <span class="lineNum">      34 </span><span class="lineCov">      72182 :     OCommand( co::Dispatcher* const dispatcher_, LocalNodePtr localNode_ )</span>
@@ -98,7 +98,7 @@
 <span class="lineNum">      36 </span>            :         , size( 0 )
 <span class="lineNum">      37 </span>            :         , dispatcher( dispatcher_ )
 <span class="lineNum">      38 </span><span class="lineCov">      72182 :         , localNode( localNode_ )</span>
-<span class="lineNum">      39 </span><span class="lineCov">      72181 :     {}</span>
+<span class="lineNum">      39 </span><span class="lineCov">      72182 :     {}</span>
 <span class="lineNum">      40 </span>            : 
 <span class="lineNum">      41 </span>            :     bool isLocked;
 <span class="lineNum">      42 </span>            :     uint64_t size;
@@ -108,14 +108,14 @@
 <span class="lineNum">      46 </span>            : 
 <a name="47"><span class="lineNum">      47 </span>            : }</a>
 <span class="lineNum">      48 </span>            : 
-<span class="lineNum">      49 </span><span class="lineCov">      72146 : OCommand::OCommand( const Connections&amp; receivers, const uint32_t cmd,</span>
+<span class="lineNum">      49 </span><span class="lineCov">      72148 : OCommand::OCommand( const Connections&amp; receivers, const uint32_t cmd,</span>
 <span class="lineNum">      50 </span>            :                     const uint32_t type )
 <span class="lineNum">      51 </span>            :     : DataOStream()
-<span class="lineNum">      52 </span><span class="lineCov">      72146 :     , _impl( new detail::OCommand( 0, 0 ))</span>
+<span class="lineNum">      52 </span><span class="lineCov">      72148 :     , _impl( new detail::OCommand( 0, 0 ))</span>
 <span class="lineNum">      53 </span>            : {
-<span class="lineNum">      54 </span><span class="lineCov">      72147 :     _setupConnections( receivers );</span>
-<span class="lineNum">      55 </span><span class="lineCov">      72148 :     _init( cmd, type );</span>
-<a name="56"><span class="lineNum">      56 </span><span class="lineCov">      72143 : }</span></a>
+<span class="lineNum">      54 </span><span class="lineCov">      72148 :     _setupConnections( receivers );</span>
+<span class="lineNum">      55 </span><span class="lineCov">      72147 :     _init( cmd, type );</span>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">      72144 : }</span></a>
 <span class="lineNum">      57 </span>            : 
 <span class="lineNum">      58 </span><span class="lineCov">         34 : OCommand::OCommand( Dispatcher* const dispatcher, LocalNodePtr localNode,</span>
 <span class="lineNum">      59 </span>            :                     const uint32_t cmd, const uint32_t type )
@@ -131,9 +131,9 @@
 <span class="lineNum">      69 </span>            : {
 <a name="70"><span class="lineNum">      70 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">      71 </span>            : 
-<span class="lineNum">      72 </span><span class="lineCov">     144361 : OCommand::~OCommand()</span>
+<span class="lineNum">      72 </span><span class="lineCov">     144364 : OCommand::~OCommand()</span>
 <span class="lineNum">      73 </span>            : {
-<span class="lineNum">      74 </span><span class="lineCov">      72179 :     if( _impl-&gt;isLocked )</span>
+<span class="lineNum">      74 </span><span class="lineCov">      72182 :     if( _impl-&gt;isLocked )</span>
 <span class="lineNum">      75 </span>            :     {
 <span class="lineNum">      76 </span><span class="lineCov">        165 :         LBASSERT( _impl-&gt;size &gt; 0 );</span>
 <span class="lineNum">      77 </span><span class="lineCov">        165 :         const uint64_t size = _impl-&gt;size + getBuffer().getSize();</span>
@@ -160,9 +160,9 @@
 <span class="lineNum">      98 </span><span class="lineCov">        165 :         reset();</span>
 <span class="lineNum">      99 </span>            :     }
 <span class="lineNum">     100 </span>            :     else
-<span class="lineNum">     101 </span><span class="lineCov">      72014 :         disable();</span>
+<span class="lineNum">     101 </span><span class="lineCov">      72017 :         disable();</span>
 <span class="lineNum">     102 </span>            : 
-<span class="lineNum">     103 </span><span class="lineCov">      72181 :     if( _impl-&gt;dispatcher )</span>
+<span class="lineNum">     103 </span><span class="lineCov">      72182 :     if( _impl-&gt;dispatcher )</span>
 <span class="lineNum">     104 </span>            :     {
 <span class="lineNum">     105 </span><span class="lineCov">         34 :         LBASSERT( _impl-&gt;localNode );</span>
 <span class="lineNum">     106 </span>            : 
@@ -177,19 +177,19 @@
 <span class="lineNum">     115 </span><span class="lineCov">         68 :         _impl-&gt;dispatcher-&gt;dispatchCommand( cmd );</span>
 <span class="lineNum">     116 </span>            :     }
 <span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span><span class="lineCov">      72181 :     delete _impl;</span>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">      72181 : }</span></a>
+<span class="lineNum">     118 </span><span class="lineCov">      72182 :     delete _impl;</span>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">      72182 : }</span></a>
 <span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span><span class="lineCov">      72182 : void OCommand::_init( const uint32_t cmd, const uint32_t type )</span>
+<span class="lineNum">     121 </span><span class="lineCov">      72181 : void OCommand::_init( const uint32_t cmd, const uint32_t type )</span>
 <span class="lineNum">     122 </span>            : {
 <span class="lineNum">     123 </span>            : #ifndef COLLAGE_BIGENDIAN
 <span class="lineNum">     124 </span>            :     // big endian hosts swap handshake commands to little endian...
-<span class="lineNum">     125 </span><span class="lineCov">      72182 :     LBASSERTINFO( cmd &lt; CMD_NODE_MAXIMUM, std::hex &lt;&lt; &quot;0x&quot; &lt;&lt; cmd &lt;&lt; std::dec );</span>
+<span class="lineNum">     125 </span><span class="lineCov">      72181 :     LBASSERTINFO( cmd &lt; CMD_NODE_MAXIMUM, std::hex &lt;&lt; &quot;0x&quot; &lt;&lt; cmd &lt;&lt; std::dec );</span>
 <span class="lineNum">     126 </span>            : #endif
-<span class="lineNum">     127 </span><span class="lineCov">      72182 :     enableSave();</span>
+<span class="lineNum">     127 </span><span class="lineCov">      72181 :     enableSave();</span>
 <span class="lineNum">     128 </span><span class="lineCov">      72181 :     _enable();</span>
-<span class="lineNum">     129 </span><span class="lineCov">      72180 :     *this &lt;&lt; 0ull /* size */ &lt;&lt; type &lt;&lt; cmd;</span>
-<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      72177 : }</span></a>
+<span class="lineNum">     129 </span><span class="lineCov">      72181 :     *this &lt;&lt; 0ull /* size */ &lt;&lt; type &lt;&lt; cmd;</span>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      72178 : }</span></a>
 <span class="lineNum">     131 </span>            : 
 <span class="lineNum">     132 </span><span class="lineCov">        165 : void OCommand::sendHeader( const uint64_t additionalSize )</span>
 <span class="lineNum">     133 </span>            : {
@@ -213,31 +213,31 @@
 <span class="lineNum">     151 </span><span class="lineCov">          3 :     return sizeof( uint64_t ) + sizeof( uint32_t ) + sizeof( uint32_t );</span>
 <a name="152"><span class="lineNum">     152 </span>            : }</a>
 <span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span><span class="lineCov">      72141 : void OCommand::sendData( const void* buffer LB_UNUSED, const uint64_t size,</span>
+<span class="lineNum">     154 </span><span class="lineCov">      72145 : void OCommand::sendData( const void* buffer LB_UNUSED, const uint64_t size,</span>
 <span class="lineNum">     155 </span>            :                          const bool last LB_UNUSED )
 <span class="lineNum">     156 </span>            : {
-<span class="lineNum">     157 </span><span class="lineCov">      72141 :     LBASSERT( !_impl-&gt;dispatcher );</span>
-<span class="lineNum">     158 </span><span class="lineCov">      72141 :     LBASSERT( last );</span>
-<span class="lineNum">     159 </span><span class="lineCov">      72140 :     LBASSERTINFO( size &gt;= 16, size );</span>
-<span class="lineNum">     160 </span><span class="lineCov">      72137 :     LBASSERT( getBuffer().getData() == buffer );</span>
-<span class="lineNum">     161 </span><span class="lineCov">      72132 :     LBASSERT( getBuffer().getSize() == size );</span>
-<span class="lineNum">     162 </span><span class="lineCov">      72129 :     LBASSERT( getBuffer().getMaxSize() &gt;= COMMAND_MINSIZE );</span>
+<span class="lineNum">     157 </span><span class="lineCov">      72145 :     LBASSERT( !_impl-&gt;dispatcher );</span>
+<span class="lineNum">     158 </span><span class="lineCov">      72145 :     LBASSERT( last );</span>
+<span class="lineNum">     159 </span><span class="lineCov">      72145 :     LBASSERTINFO( size &gt;= 16, size );</span>
+<span class="lineNum">     160 </span><span class="lineCov">      72144 :     LBASSERT( getBuffer().getData() == buffer );</span>
+<span class="lineNum">     161 </span><span class="lineCov">      72143 :     LBASSERT( getBuffer().getSize() == size );</span>
+<span class="lineNum">     162 </span><span class="lineCov">      72140 :     LBASSERT( getBuffer().getMaxSize() &gt;= COMMAND_MINSIZE );</span>
 <span class="lineNum">     163 </span>            : 
 <span class="lineNum">     164 </span>            :     // Update size field
 <span class="lineNum">     165 </span>            :     // cppcheck-suppress unreadVariable
-<span class="lineNum">     166 </span><span class="lineCov">      72128 :     uint8_t* bytes = getBuffer().getData();</span>
-<span class="lineNum">     167 </span><span class="lineCov">      72127 :     reinterpret_cast&lt; uint64_t* &gt;( bytes )[ 0 ] = _impl-&gt;size + size;</span>
-<span class="lineNum">     168 </span><span class="lineCov">      72127 :     const uint64_t sendSize = _impl-&gt;isLocked ? size : LB_MAX( size,</span>
+<span class="lineNum">     166 </span><span class="lineCov">      72140 :     uint8_t* bytes = getBuffer().getData();</span>
+<span class="lineNum">     167 </span><span class="lineCov">      72140 :     reinterpret_cast&lt; uint64_t* &gt;( bytes )[ 0 ] = _impl-&gt;size + size;</span>
+<span class="lineNum">     168 </span><span class="lineCov">      72140 :     const uint64_t sendSize = _impl-&gt;isLocked ? size : LB_MAX( size,</span>
 <span class="lineNum">     169 </span>            :                                                                COMMAND_MINSIZE);
-<span class="lineNum">     170 </span><span class="lineCov">      72127 :     const Connections&amp; connections = getConnections();</span>
-<span class="lineNum">     171 </span><span class="lineCov">     144273 :     for( ConnectionsCIter i = connections.begin(); i != connections.end(); ++i )</span>
+<span class="lineNum">     170 </span><span class="lineCov">      72140 :     const Connections&amp; connections = getConnections();</span>
+<span class="lineNum">     171 </span><span class="lineCov">     144287 :     for( ConnectionsCIter i = connections.begin(); i != connections.end(); ++i )</span>
 <span class="lineNum">     172 </span>            :     {
-<span class="lineNum">     173 </span><span class="lineCov">      72121 :         ConnectionPtr connection = *i;</span>
-<span class="lineNum">     174 </span><span class="lineCov">      72147 :         if ( connection )</span>
+<span class="lineNum">     173 </span><span class="lineCov">      72140 :         ConnectionPtr connection = *i;</span>
+<span class="lineNum">     174 </span><span class="lineCov">      72146 :         if ( connection )</span>
 <span class="lineNum">     175 </span><span class="lineCov">      72147 :             connection-&gt;send( bytes, sendSize, _impl-&gt;isLocked );</span>
 <span class="lineNum">     176 </span>            :         else
 <span class="lineNum">     177 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Can't send data, node is closed&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     178 </span><span class="lineCov">      72147 :     }</span>
+<span class="lineNum">     178 </span><span class="lineCov">      72146 :     }</span>
 <a name="179"><span class="lineNum">     179 </span><span class="lineCov">      72146 : }</span></a>
 <span class="lineNum">     180 </span>            : 
 <span class="lineNum">     181 </span><span class="lineCov">         66 : }</span>
