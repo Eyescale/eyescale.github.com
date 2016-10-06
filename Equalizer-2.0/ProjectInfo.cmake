@@ -1,0 +1,7 @@
+set(EQUALIZER_MATURITY "EP")
+set(EQUALIZER_DESCRIPTION "")
+set(EQUALIZER_GIT_ROOT_URL "https://github.com/Eyescale/Equalizer.git")
+set(EQUALIZER_PACKAGE_URL "")
+set(EQUALIZER_CI_URL "https://travis-ci.org/Eyescale/Equalizer")
+set(EQUALIZER_CI_PNG "https://travis-ci.org/Eyescale/Equalizer.png")
+set(EQUALIZER_ISSUES_URL "https://github.com/Eyescale/Equalizer/issues")
