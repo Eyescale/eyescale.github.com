@@ -43,7 +43,7 @@ var searchData=
   ['_7etexture',['~Texture',['../classeq_1_1util_1_1_texture.html#ad7ca81ca7d13aa5765b958d7d83c1245',1,'eq::util::Texture']]],
   ['_7eview',['~View',['../classeq_1_1_view.html#a4eef7b1aa6dbbe246b7af4f7a2e59e0b',1,'eq::View']]],
   ['_7eviewdata',['~ViewData',['../classseq_1_1_view_data.html#af5f7ea55488e0ef7d70ca38942c3fc9b',1,'seq::ViewData']]],
-  ['_7ewindow',['~Window',['../classeq_1_1glx_1_1_window.html#a593c24ce146a751a36fe352e2a8c87f7',1,'eq::glx::Window::~Window()'],['../classeq_1_1wgl_1_1_window.html#aefd3e980f9326254a46f27855244acfc',1,'eq::wgl::Window::~Window()'],['../classeq_1_1_window.html#a6a5502630f3f18534227690374e11f35',1,'eq::Window::~Window()']]],
+  ['_7ewindow',['~Window',['../classeq_1_1glx_1_1_window.html#a593c24ce146a751a36fe352e2a8c87f7',1,'eq::glx::Window::~Window()'],['../classeq_1_1qt_1_1_window.html#a04e3fbb5eb0798e190b1578a55436091',1,'eq::qt::Window::~Window()'],['../classeq_1_1wgl_1_1_window.html#aefd3e980f9326254a46f27855244acfc',1,'eq::wgl::Window::~Window()'],['../classeq_1_1_window.html#a6a5502630f3f18534227690374e11f35',1,'eq::Window::~Window()']]],
   ['_7ewindowif',['~WindowIF',['../classeq_1_1wgl_1_1_window_i_f.html#a3acbac8c41ee6c64c9cbebb6dfc08f92',1,'eq::wgl::WindowIF']]],
   ['_7ewindowsettings',['~WindowSettings',['../classeq_1_1fabric_1_1_window_settings.html#a9c89747b15516f4cce267c1abd05817e',1,'eq::fabric::WindowSettings::~WindowSettings()'],['../classeq_1_1_window_settings.html#a95fbbe13bbe4fa90dcdc6e93c22ff863',1,'eq::WindowSettings::~WindowSettings()']]],
   ['_7ewindowstatistics',['~WindowStatistics',['../classeq_1_1_window_statistics.html#a8b5d2de5f1f3e7913de1e2f01a487bf7',1,'eq::WindowStatistics']]],

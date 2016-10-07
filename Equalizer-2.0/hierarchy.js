@@ -162,10 +162,14 @@ var hierarchy =
         [ "eq::glx::WindowIF", "classeq_1_1glx_1_1_window_i_f.html", [
           [ "eq::glx::Window", "classeq_1_1glx_1_1_window.html", null ]
         ] ],
+        [ "eq::qt::WindowIF", "classeq_1_1qt_1_1_window_i_f.html", [
+          [ "eq::qt::Window", "classeq_1_1qt_1_1_window.html", null ]
+        ] ],
         [ "eq::wgl::WindowIF", "classeq_1_1wgl_1_1_window_i_f.html", [
           [ "eq::wgl::Window", "classeq_1_1wgl_1_1_window.html", null ]
         ] ]
       ] ],
+      [ "eq::qt::ShareContextWindow", "classeq_1_1qt_1_1_share_context_window.html", null ],
       [ "eq::x11::Window", "classeq_1_1x11_1_1_window.html", null ]
     ] ],
     [ "eq::util::Accum", "classeq_1_1util_1_1_accum.html", null ],
@@ -193,6 +197,9 @@ var hierarchy =
     ] ],
     [ "OV", null, [
       [ "eq::fabric::ConfigVisitor< C, OV, LV, CV, NV >", "classeq_1_1fabric_1_1_config_visitor.html", null ]
+    ] ],
+    [ "QObject", null, [
+      [ "eq::qt::Window", "classeq_1_1qt_1_1_window.html", null ]
     ] ],
     [ "seq::Version", "classseq_1_1_version.html", null ],
     [ "eq::StatisticSampler< Channel >", "classeq_1_1_statistic_sampler.html", [

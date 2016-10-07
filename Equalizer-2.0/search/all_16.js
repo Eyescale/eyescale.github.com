@@ -11,7 +11,7 @@ var searchData=
   ['vertical',['VERTICAL',['../namespaceeq_1_1fabric.html#a01b6b996932dcb42ea205e657abae6b2abe836a3ae3d50d5656d18f05a09d8e59',1,'eq::fabric']]],
   ['view',['View',['../classeq_1_1_view.html',1,'eq']]],
   ['view',['View',['../classeq_1_1fabric_1_1_view.html',1,'eq::fabric']]],
-  ['view',['view',['../classeq_1_1fabric_1_1_render_context.html#ac735c0eb8b73af77e6222c5a06e11f69',1,'eq::fabric::RenderContext::view()'],['../classeq_1_1_view.html#aed32174588eaf622d38e9ee005dbe875',1,'eq::View::View()']]],
+  ['view',['View',['../classeq_1_1_view.html#aed32174588eaf622d38e9ee005dbe875',1,'eq::View::View()'],['../classeq_1_1fabric_1_1_render_context.html#ac735c0eb8b73af77e6222c5a06e11f69',1,'eq::fabric::RenderContext::view()']]],
   ['view_3c_20layout_2c_20view_2c_20observer_20_3e',['View&lt; Layout, View, Observer &gt;',['../classeq_1_1fabric_1_1_view.html',1,'eq::fabric']]],
   ['viewdata',['ViewData',['../classseq_1_1_view_data.html',1,'seq']]],
   ['viewdata',['ViewData',['../classseq_1_1_view_data.html#aae3b129e2d53b2374bdb4904b0e998c2',1,'seq::ViewData']]],

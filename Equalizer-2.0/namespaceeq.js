@@ -7,6 +7,7 @@ var namespaceeq =
       [ "CompressorReadDrawPixels", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html", "classeq_1_1plugin_1_1_compressor_read_draw_pixels" ],
       [ "CompressorYUV", "classeq_1_1plugin_1_1_compressor_y_u_v.html", "classeq_1_1plugin_1_1_compressor_y_u_v" ]
     ] ],
+    [ "qt", "namespaceeq_1_1qt.html", "namespaceeq_1_1qt" ],
     [ "util", "namespaceeq_1_1util.html", "namespaceeq_1_1util" ],
     [ "wgl", "namespaceeq_1_1wgl.html", "namespaceeq_1_1wgl" ],
     [ "x11", "namespaceeq_1_1x11.html", "namespaceeq_1_1x11" ],
