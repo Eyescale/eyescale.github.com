@@ -18,7 +18,7 @@ var searchData=
   ['gethostname',['getHostname',['../namespacelunchbox.html#aaaceee32393c5a0d7f7b1cd89453b77f',1,'lunchbox']]],
   ['getid',['getID',['../classlunchbox_1_1_request.html#a9ff7e852be1d1f9d16d3b691c5bacc84',1,'lunchbox::Request']]],
   ['getindexoflastbit',['getIndexOfLastBit',['../group__bitops.html#gae448417a963ee82fe4a16259336f9f8c',1,'lunchbox']]],
-  ['getinstance',['getInstance',['../classlunchbox_1_1_plugin_factory.html#ac0e15aa80a8ee5475ada8a14e63ec0d7',1,'lunchbox::PluginFactory']]],
+  ['getinstance',['getInstance',['../classlunchbox_1_1_plugin_factory.html#ace679a6237da6f8863ed85bc6ac53515',1,'lunchbox::PluginFactory']]],
   ['getlibrarypath',['getLibraryPath',['../namespacelunchbox.html#a8d4518d988741d99b5b5527bad5510fe',1,'lunchbox']]],
   ['getlibrarypaths',['getLibraryPaths',['../namespacelunchbox.html#ae0fe2872ff7b42cd7665f8d1ce5d26c1',1,'lunchbox']]],
   ['getloglevel',['getLogLevel',['../classlunchbox_1_1_log.html#add3a650cfa5e8a2199401a370188c562',1,'lunchbox::Log']]],

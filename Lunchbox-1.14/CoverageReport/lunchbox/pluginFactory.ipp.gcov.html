@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-30 05:23:41</td>
+            <td class="headerValue">2016-10-08 05:21:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2013-2015, EPFL/Blue Brain Project
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2013-2016, EPFL/Blue Brain Project
 <span class="lineNum">       3 </span>            :  *                          Raphael Dumusc &lt;raphael.dumusc@epfl.ch&gt;
 <span class="lineNum">       4 </span>            :  *                          Stefan.Eilemann@epfl.ch
 <span class="lineNum">       5 </span>            :  *
@@ -83,16 +83,16 @@
 <span class="lineNum">      21 </span>            : 
 <span class="lineNum">      22 </span>            : namespace lunchbox
 <span class="lineNum">      23 </span>            : {
-<a name="24"><span class="lineNum">      24 </span>            : template&lt; typename PluginT, typename InitDataT &gt;</a>
-<span class="lineNum">      25 </span>            : PluginFactory&lt; PluginT, InitDataT &gt;&amp;
-<span class="lineNum">      26 </span><span class="lineCov">         24 : PluginFactory&lt; PluginT, InitDataT &gt;::getInstance()</span>
+<a name="24"><span class="lineNum">      24 </span>            : template&lt; typename T, typename InitDataT &gt;</a>
+<span class="lineNum">      25 </span>            : PluginFactory&lt; T, InitDataT &gt;&amp;
+<span class="lineNum">      26 </span><span class="lineCov">         24 : PluginFactory&lt; T, InitDataT &gt;::getInstance()</span>
 <span class="lineNum">      27 </span>            : {
-<span class="lineNum">      28 </span><span class="lineCov">         24 :     static PluginFactory&lt; PluginT, InitDataT &gt; factory;</span>
+<span class="lineNum">      28 </span><span class="lineCov">         24 :     static PluginFactory&lt; T, InitDataT &gt; factory;</span>
 <span class="lineNum">      29 </span><span class="lineCov">         24 :     return factory;</span>
 <span class="lineNum">      30 </span>            : }
 <a name="31"><span class="lineNum">      31 </span>            : </a>
-<span class="lineNum">      32 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">      33 </span><span class="lineCov">          2 : PluginFactory&lt; PluginT, InitDataT &gt;::~PluginFactory()</span>
+<span class="lineNum">      32 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">      33 </span><span class="lineCov">          2 : PluginFactory&lt; T, InitDataT &gt;::~PluginFactory()</span>
 <span class="lineNum">      34 </span>            : {
 <span class="lineNum">      35 </span>            :     // Do not do this: dtor is called in atexit(), at which point the other DSOs
 <span class="lineNum">      36 </span>            :     // might be unloaded already, causing dlclose to trip. It's pointless
@@ -101,10 +101,10 @@
 <span class="lineNum">      39 </span>            :     //   deregisterAll(); // unload the DSO libraries
 <span class="lineNum">      40 </span><span class="lineCov">          2 : }</span>
 <a name="41"><span class="lineNum">      41 </span>            : </a>
-<span class="lineNum">      42 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">      43 </span><span class="lineCov">          8 : PluginT* PluginFactory&lt; PluginT, InitDataT &gt;::create( const InitDataT&amp; initData )</span>
+<span class="lineNum">      42 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">      43 </span><span class="lineCov">          8 : T* PluginFactory&lt; T, InitDataT &gt;::create( const InitDataT&amp; initData )</span>
 <span class="lineNum">      44 </span>            : {
-<span class="lineNum">      45 </span><span class="lineCov">         12 :     BOOST_FOREACH( PluginHolder&amp; plugin, _plugins )</span>
+<span class="lineNum">      45 </span><span class="lineCov">         12 :     BOOST_FOREACH( PluginT&amp; plugin, _plugins )</span>
 <span class="lineNum">      46 </span><span class="lineCov">          8 :         if( plugin.handles( initData ))</span>
 <span class="lineNum">      47 </span><span class="lineCov">          8 :             return plugin.constructor( initData );</span>
 <span class="lineNum">      48 </span>            : 
@@ -112,19 +112,19 @@
 <span class="lineNum">      50 </span>            :                                  boost::lexical_cast&lt;std::string&gt;( initData )));
 <span class="lineNum">      51 </span>            : }
 <a name="52"><span class="lineNum">      52 </span>            : </a>
-<span class="lineNum">      53 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">      54 </span><span class="lineCov">          8 : void PluginFactory&lt; PluginT, InitDataT &gt;::register_(</span>
-<span class="lineNum">      55 </span>            :     const Plugin&lt; PluginT, InitDataT &gt;&amp; plugin )
+<span class="lineNum">      53 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">      54 </span><span class="lineCov">          8 : void PluginFactory&lt; T, InitDataT &gt;::register_(</span>
+<span class="lineNum">      55 </span>            :     const Plugin&lt; T, InitDataT &gt;&amp; plugin )
 <span class="lineNum">      56 </span>            : {
 <span class="lineNum">      57 </span><span class="lineCov">          8 :     _plugins.push_back( plugin );</span>
 <span class="lineNum">      58 </span><span class="lineCov">          8 : }</span>
 <span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">      61 </span>            : bool PluginFactory&lt; PluginT, InitDataT &gt;::deregister(
-<span class="lineNum">      62 </span>            :     const Plugin&lt; PluginT, InitDataT &gt;&amp; plugin )
+<span class="lineNum">      60 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">      61 </span>            : bool PluginFactory&lt; T, InitDataT &gt;::deregister(
+<span class="lineNum">      62 </span>            :     const Plugin&lt; T, InitDataT &gt;&amp; plugin )
 <span class="lineNum">      63 </span>            : {
-<span class="lineNum">      64 </span>            :     typename Plugins::iterator i =
-<span class="lineNum">      65 </span>            :         std::find( _plugins.begin(), _plugins.end(), plugin );
+<span class="lineNum">      64 </span>            :     typename Plugins::iterator i = std::find( _plugins.begin(), _plugins.end(),
+<span class="lineNum">      65 </span>            :                                               plugin );
 <span class="lineNum">      66 </span>            :     if( i == _plugins.end( ))
 <span class="lineNum">      67 </span>            :         return false;
 <span class="lineNum">      68 </span>            : 
@@ -132,8 +132,8 @@
 <span class="lineNum">      70 </span>            :     return true;
 <span class="lineNum">      71 </span>            : }
 <a name="72"><span class="lineNum">      72 </span>            : </a>
-<span class="lineNum">      73 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">      74 </span><span class="lineCov">          8 : void PluginFactory&lt; PluginT, InitDataT &gt;::deregisterAll()</span>
+<span class="lineNum">      73 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">      74 </span><span class="lineCov">          8 : void PluginFactory&lt; T, InitDataT &gt;::deregisterAll()</span>
 <span class="lineNum">      75 </span>            : {
 <span class="lineNum">      76 </span><span class="lineCov">          8 :     _plugins.clear();</span>
 <span class="lineNum">      77 </span><span class="lineCov">          8 :     BOOST_FOREACH( typename PluginMap::value_type&amp; plugin, _libraries )</span>
@@ -141,8 +141,8 @@
 <span class="lineNum">      79 </span><span class="lineCov">          8 :     _libraries.clear();</span>
 <span class="lineNum">      80 </span><span class="lineCov">          8 : }</span>
 <span class="lineNum">      81 </span>            : 
-<span class="lineNum">      82 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">      83 </span>            : DSOs PluginFactory&lt; PluginT, InitDataT &gt;::load( const int version,
+<span class="lineNum">      82 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">      83 </span>            : DSOs PluginFactory&lt; T, InitDataT &gt;::load( const int version,
 <span class="lineNum">      84 </span>            :                                                 const Strings&amp; paths,
 <span class="lineNum">      85 </span>            :                                                 const std::string&amp; pattern )
 <span class="lineNum">      86 </span>            : {
@@ -155,8 +155,8 @@
 <span class="lineNum">      93 </span>            :     return result;
 <span class="lineNum">      94 </span>            : }
 <span class="lineNum">      95 </span>            : 
-<span class="lineNum">      96 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">      97 </span>            : DSOs PluginFactory&lt; PluginT, InitDataT &gt;::load( const int version,
+<span class="lineNum">      96 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">      97 </span>            : DSOs PluginFactory&lt; T, InitDataT &gt;::load( const int version,
 <span class="lineNum">      98 </span>            :                                                 const std::string&amp; path,
 <span class="lineNum">      99 </span>            :                                                 const std::string&amp; pattern )
 <span class="lineNum">     100 </span>            : {
@@ -165,8 +165,8 @@
 <span class="lineNum">     103 </span>            :     return loaded;
 <span class="lineNum">     104 </span>            : }
 <span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">     107 </span>            : void PluginFactory&lt; PluginT, InitDataT &gt;::_load( DSOs&amp; result,
+<span class="lineNum">     106 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">     107 </span>            : void PluginFactory&lt; T, InitDataT &gt;::_load( DSOs&amp; result,
 <span class="lineNum">     108 </span>            :                                                  const int version,
 <span class="lineNum">     109 </span>            :                                                  const std::string&amp; path,
 <span class="lineNum">     110 </span>            :                                                  const std::string&amp; pattern )
@@ -225,8 +225,8 @@
 <span class="lineNum">     163 </span>            :     }
 <span class="lineNum">     164 </span>            : }
 <span class="lineNum">     165 </span>            : 
-<span class="lineNum">     166 </span>            : template&lt; typename PluginT, typename InitDataT &gt;
-<span class="lineNum">     167 </span>            : bool PluginFactory&lt; PluginT, InitDataT &gt;::unload( DSO* dso )
+<span class="lineNum">     166 </span>            : template&lt; typename T, typename InitDataT &gt;
+<span class="lineNum">     167 </span>            : bool PluginFactory&lt; T, InitDataT &gt;::unload( DSO* dso )
 <span class="lineNum">     168 </span>            : {
 <span class="lineNum">     169 </span>            :     typename PluginMap::iterator i = _libraries.find( dso );
 <span class="lineNum">     170 </span>            :     if( i == _libraries.end( ))

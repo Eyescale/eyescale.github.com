@@ -9,7 +9,7 @@ var searchData=
   ['refptr_3c_20futureimpl_3c_20t_20_3e_20_3e',['RefPtr&lt; FutureImpl&lt; T &gt; &gt;',['../classlunchbox_1_1_ref_ptr.html',1,'lunchbox']]],
   ['refptr_3c_20futureimpl_3c_20void_20_3e_20_3e',['RefPtr&lt; FutureImpl&lt; void &gt; &gt;',['../classlunchbox_1_1_ref_ptr.html',1,'lunchbox']]],
   ['refptrhash',['RefPtrHash',['../classlunchbox_1_1_ref_ptr_hash.html',1,'lunchbox']]],
-  ['register_5f',['register_',['../classlunchbox_1_1_plugin_factory.html#a282979f1d2e1984efae6d47b88c0be60',1,'lunchbox::PluginFactory']]],
+  ['register_5f',['register_',['../classlunchbox_1_1_plugin_factory.html#a50700b75490dc21ff8cb4b7d622adf8e',1,'lunchbox::PluginFactory']]],
   ['registerrequest',['registerRequest',['../classlunchbox_1_1_request_handler.html#afdcd80fd7e29528c5105b68b093ef3e1',1,'lunchbox::RequestHandler::registerRequest(void *data=0)'],['../classlunchbox_1_1_request_handler.html#a3e2248bad96618d539e7d3a7ba42273d',1,'lunchbox::RequestHandler::registerRequest(void *data=0)']]],
   ['registertypelist',['registerTypelist',['../namespacelunchbox.html#a6df8f7a30947140b28ee3faddd241448',1,'lunchbox']]],
   ['release',['release',['../classlunchbox_1_1_pool.html#a7f0c5b7d2c434909db3f0df055a34276',1,'lunchbox::Pool']]],

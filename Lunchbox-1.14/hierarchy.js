@@ -19,7 +19,7 @@ var hierarchy =
       [ "lunchbox::PersistentMap", "classlunchbox_1_1_persistent_map.html", null ],
       [ "lunchbox::PerThread< T, D >", "classlunchbox_1_1_per_thread.html", null ],
       [ "lunchbox::PerThreadRef< T >", "classlunchbox_1_1_per_thread_ref.html", null ],
-      [ "lunchbox::PluginFactory< PluginT, InitDataT >", "classlunchbox_1_1_plugin_factory.html", null ],
+      [ "lunchbox::PluginFactory< T, InitDataT >", "classlunchbox_1_1_plugin_factory.html", null ],
       [ "lunchbox::Pool< T, locked >", "classlunchbox_1_1_pool.html", null ],
       [ "lunchbox::RequestHandler", "classlunchbox_1_1_request_handler.html", null ],
       [ "lunchbox::RNG", "classlunchbox_1_1_r_n_g.html", null ],

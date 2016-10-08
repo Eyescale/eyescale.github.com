@@ -1,13 +1,13 @@
 var classlunchbox_1_1_plugin_factory =
 [
-    [ "PluginHolder", "classlunchbox_1_1_plugin_factory.html#adb555f5142046248862eff39fb45ab8e", null ],
-    [ "Plugins", "classlunchbox_1_1_plugin_factory.html#aff5581ed4b318870bba36bfff46c22f6", null ],
-    [ "create", "classlunchbox_1_1_plugin_factory.html#a80b980190a5be5028670800f37d8359a", null ],
-    [ "deregister", "classlunchbox_1_1_plugin_factory.html#ac2f18759ea189810327e1be9a624e64b", null ],
-    [ "deregisterAll", "classlunchbox_1_1_plugin_factory.html#af29f12993e118f30c8a808a66fb018a1", null ],
-    [ "getInstance", "classlunchbox_1_1_plugin_factory.html#ac0e15aa80a8ee5475ada8a14e63ec0d7", null ],
-    [ "load", "classlunchbox_1_1_plugin_factory.html#a98ffa8135d235ffd114476e80776fe22", null ],
-    [ "load", "classlunchbox_1_1_plugin_factory.html#af7af3af4c8842a263228a6fdcd548b96", null ],
-    [ "register_", "classlunchbox_1_1_plugin_factory.html#a282979f1d2e1984efae6d47b88c0be60", null ],
-    [ "unload", "classlunchbox_1_1_plugin_factory.html#a286fed6d97527256f065cfbcf18c2954", null ]
+    [ "Plugins", "classlunchbox_1_1_plugin_factory.html#a424842a1335fea0d04a964c86976643f", null ],
+    [ "PluginT", "classlunchbox_1_1_plugin_factory.html#a14cd7c46761a8604fb1601cabd52b685", null ],
+    [ "create", "classlunchbox_1_1_plugin_factory.html#a0dad078de2f66c061755097a4223ed4d", null ],
+    [ "deregister", "classlunchbox_1_1_plugin_factory.html#af843dfc4c433dc99ddd1554e2eb8166d", null ],
+    [ "deregisterAll", "classlunchbox_1_1_plugin_factory.html#ae42aedfbe6910e7c4b217ed8189ea600", null ],
+    [ "getInstance", "classlunchbox_1_1_plugin_factory.html#ace679a6237da6f8863ed85bc6ac53515", null ],
+    [ "load", "classlunchbox_1_1_plugin_factory.html#a42ac1dcf3805fc76b0e12b69ec43e787", null ],
+    [ "load", "classlunchbox_1_1_plugin_factory.html#adbe42a84a2c8e82fda42b4e38913c6bd", null ],
+    [ "register_", "classlunchbox_1_1_plugin_factory.html#a50700b75490dc21ff8cb4b7d622adf8e", null ],
+    [ "unload", "classlunchbox_1_1_plugin_factory.html#ad4a098a07cac02fb6f6627ea8c4a9ff1", null ]
 ];

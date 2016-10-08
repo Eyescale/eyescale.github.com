@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-30 05:23:41</td>
+            <td class="headerValue">2016-10-08 05:21:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -117,12 +117,12 @@
 <span class="lineNum">      55 </span>            :  *
 <span class="lineNum">      56 </span>            :  * @version 1.11.0
 <a name="57"><span class="lineNum">      57 </span>            :  */</a>
-<span class="lineNum">      58 </span>            : template&lt; class PluginT, class InitDataT = servus::URI &gt;
+<span class="lineNum">      58 </span>            : template&lt; class T, class InitDataT = servus::URI &gt;
 <span class="lineNum">      59 </span><span class="lineCov">          2 : class PluginFactory : public boost::noncopyable</span>
 <span class="lineNum">      60 </span>            : {
 <span class="lineNum">      61 </span>            : public:
-<span class="lineNum">      62 </span>            :     typedef Plugin&lt; PluginT, InitDataT &gt; PluginHolder;
-<span class="lineNum">      63 </span>            :     typedef std::vector&lt; PluginHolder &gt; Plugins;
+<span class="lineNum">      62 </span>            :     typedef Plugin&lt; T, InitDataT &gt; PluginT;
+<span class="lineNum">      63 </span>            :     typedef std::vector&lt; PluginT &gt; Plugins;
 <span class="lineNum">      64 </span>            : 
 <span class="lineNum">      65 </span>            :     /** Get the single class instance. @version 1.11.0 */
 <span class="lineNum">      66 </span>            :     static PluginFactory&amp; getInstance();
@@ -135,13 +135,13 @@
 <span class="lineNum">      73 </span>            :      * @throws std::runtime_error if no plugin can handle the initData.
 <span class="lineNum">      74 </span>            :      * @version 1.11.0
 <span class="lineNum">      75 </span>            :      */
-<span class="lineNum">      76 </span>            :     PluginT* create( const InitDataT&amp; initData );
+<span class="lineNum">      76 </span>            :     T* create( const InitDataT&amp; initData );
 <span class="lineNum">      77 </span>            : 
 <span class="lineNum">      78 </span>            :     /** Register a plugin type. @version 1.11.0 */
-<span class="lineNum">      79 </span>            :     void register_( const Plugin&lt; PluginT, InitDataT &gt;&amp; plugin );
+<span class="lineNum">      79 </span>            :     void register_( const Plugin&lt; T, InitDataT &gt;&amp; plugin );
 <span class="lineNum">      80 </span>            : 
 <span class="lineNum">      81 </span>            :     /** Deregister a plugin type. @version 1.11.0 */
-<span class="lineNum">      82 </span>            :     bool deregister( const Plugin&lt; PluginT, InitDataT &gt;&amp; plugin );
+<span class="lineNum">      82 </span>            :     bool deregister( const Plugin&lt; T, InitDataT &gt;&amp; plugin );
 <span class="lineNum">      83 </span>            : 
 <span class="lineNum">      84 </span>            :     /** Unregister all plugin types. @version 1.11.0 */
 <span class="lineNum">      85 </span>            :     void deregisterAll();
@@ -182,7 +182,7 @@
 <span class="lineNum">     120 </span>            : private:
 <span class="lineNum">     121 </span>            : #pragma warning( disable: 4251 )
 <span class="lineNum">     122 </span>            :     Plugins _plugins;
-<span class="lineNum">     123 </span>            :     typedef boost::unordered_map&lt; DSO*, PluginHolder &gt; PluginMap;
+<span class="lineNum">     123 </span>            :     typedef boost::unordered_map&lt; DSO*, PluginT &gt; PluginMap;
 <span class="lineNum">     124 </span>            :     PluginMap _libraries;
 <span class="lineNum">     125 </span>            : #pragma warning( default: 4251 )
 <span class="lineNum">     126 </span>            : 

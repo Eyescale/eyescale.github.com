@@ -15,6 +15,6 @@ var searchData=
   ['constructor',['Constructor',['../classlunchbox_1_1_plugin.html#ae7d198d1c6c7dbd2f353ebb0e4d23dfd',1,'lunchbox::Plugin']]],
   ['constvaluefunc',['ConstValueFunc',['../namespacelunchbox.html#adaa394c020fea71cea0ab545957cb435',1,'lunchbox']]],
   ['core',['CORE',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275abdc093f548630be3a35d5f76d10bd8dc',1,'lunchbox::Thread']]],
-  ['create',['create',['../classlunchbox_1_1_memory_map.html#a68906f43c55dfd17f1dd935105313f09',1,'lunchbox::MemoryMap::create()'],['../classlunchbox_1_1_plugin_factory.html#a80b980190a5be5028670800f37d8359a',1,'lunchbox::PluginFactory::create()']]],
+  ['create',['create',['../classlunchbox_1_1_memory_map.html#a68906f43c55dfd17f1dd935105313f09',1,'lunchbox::MemoryMap::create()'],['../classlunchbox_1_1_plugin_factory.html#a0dad078de2f66c061755097a4223ed4d',1,'lunchbox::PluginFactory::create()']]],
   ['createcache',['createCache',['../classlunchbox_1_1_persistent_map.html#a4609a2fbbdf6ee19c5a2b98ff98af320',1,'lunchbox::PersistentMap']]]
 ];
