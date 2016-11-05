@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['handlesfunc',['HandlesFunc',['../classlunchbox_1_1_plugin.html#aa85c439e3431686e40a54dbc2a946b5d',1,'lunchbox::Plugin']]]
+  ['handlesfunc',['HandlesFunc',['../classlunchbox_1_1_plugin.html#a13510330061fcee2a42a3e8ecc9959c3',1,'lunchbox::Plugin']]]
 ];

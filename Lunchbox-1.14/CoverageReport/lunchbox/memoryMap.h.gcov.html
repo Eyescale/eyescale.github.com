@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-08 05:21:48</td>
+            <td class="headerValue">2016-11-05 05:22:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2009-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2009-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *
 <span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
 <span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -101,102 +101,111 @@
 <span class="lineNum">      39 </span>            :     /** Construct a new memory map. @version 1.0 */
 <span class="lineNum">      40 </span>            :     LUNCHBOX_API MemoryMap();
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span>            :     /** Construct and initialize a new, readonly memory map. @version 1.7.1 */
-<span class="lineNum">      43 </span>            :     LUNCHBOX_API explicit MemoryMap( const std::string&amp; filename );
-<span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span>            :     /** Construct and initialize a new, read-write memory map. @version 1.9.1 */
-<span class="lineNum">      46 </span>            :     LUNCHBOX_API MemoryMap( const std::string&amp; filename, const size_t size );
-<span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span>            :     /**
-<span class="lineNum">      49 </span>            :      * Destruct the memory map.
-<span class="lineNum">      50 </span>            :      *
-<span class="lineNum">      51 </span>            :      * Unmaps the file, if it is still mapped.
-<span class="lineNum">      52 </span>            :      * @sa unmap()
-<span class="lineNum">      53 </span>            :      * @version 1.0
+<span class="lineNum">      42 </span>            :     /**
+<span class="lineNum">      43 </span>            :      * Construct and initialize a new, readonly memory map.
+<span class="lineNum">      44 </span>            :      *
+<span class="lineNum">      45 </span>            :      * @throw std::runtime_error if file can't be mapped.
+<span class="lineNum">      46 </span>            :      * @version 1.7.1 */
+<span class="lineNum">      47 </span>            :     LUNCHBOX_API explicit MemoryMap( const std::string&amp; filename );
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            :     /**
+<span class="lineNum">      50 </span>            :      * Construct and initialize a new, read-write memory map.
+<span class="lineNum">      51 </span>            :      *
+<span class="lineNum">      52 </span>            :      * @throw std::runtime_error if file can't be created.
+<span class="lineNum">      53 </span>            :      * @version 1.9.1
 <span class="lineNum">      54 </span>            :      */
-<span class="lineNum">      55 </span>            :     LUNCHBOX_API ~MemoryMap();
+<span class="lineNum">      55 </span>            :     LUNCHBOX_API MemoryMap( const std::string&amp; filename, const size_t size );
 <span class="lineNum">      56 </span>            : 
 <span class="lineNum">      57 </span>            :     /**
-<span class="lineNum">      58 </span>            :      * Map a file to a memory address.
+<span class="lineNum">      58 </span>            :      * Destruct the memory map.
 <span class="lineNum">      59 </span>            :      *
-<span class="lineNum">      60 </span>            :      * The file is only mapped read-only. The file is automatically unmapped
-<span class="lineNum">      61 </span>            :      * when the memory map is deleted.
-<span class="lineNum">      62 </span>            :      *
-<span class="lineNum">      63 </span>            :      * @param filename The filename of the file to map.
-<span class="lineNum">      64 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
-<span class="lineNum">      65 </span>            :      * @version 1.0
-<span class="lineNum">      66 </span>            :      */
-<span class="lineNum">      67 </span>            :     LUNCHBOX_API const void* map( const std::string&amp; filename );
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :     /**
-<span class="lineNum">      70 </span>            :      * Remap a different file for this memory map.
+<span class="lineNum">      60 </span>            :      * Unmaps the file, if it is still mapped.
+<span class="lineNum">      61 </span>            :      * @sa unmap()
+<span class="lineNum">      62 </span>            :      * @version 1.0
+<span class="lineNum">      63 </span>            :      */
+<span class="lineNum">      64 </span>            :     LUNCHBOX_API ~MemoryMap();
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            :     /**
+<span class="lineNum">      67 </span>            :      * Map a file to a memory address.
+<span class="lineNum">      68 </span>            :      *
+<span class="lineNum">      69 </span>            :      * The file is only mapped read-only. The file is automatically unmapped
+<span class="lineNum">      70 </span>            :      * when the memory map is deleted.
 <span class="lineNum">      71 </span>            :      *
-<span class="lineNum">      72 </span>            :      * The file is only mapped read-only. An existing map is unmapped.
-<span class="lineNum">      73 </span>            :      *
-<span class="lineNum">      74 </span>            :      * @param filename The filename of the file to map.
-<span class="lineNum">      75 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
-<span class="lineNum">      76 </span>            :      * @version 1.9.1
-<span class="lineNum">      77 </span>            :      */
-<span class="lineNum">      78 </span>            :     LUNCHBOX_API const void* remap( const std::string&amp; filename );
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span>            :     /**
-<span class="lineNum">      81 </span>            :      * Create a writable file to a memory address.
+<span class="lineNum">      72 </span>            :      * @param filename The filename of the file to map.
+<span class="lineNum">      73 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
+<span class="lineNum">      74 </span>            :      * @version 1.0
+<span class="lineNum">      75 </span>            :      */
+<span class="lineNum">      76 </span>            :     LUNCHBOX_API const void* map( const std::string&amp; filename );
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            :     /**
+<span class="lineNum">      79 </span>            :      * Remap a different file for this memory map.
+<span class="lineNum">      80 </span>            :      *
+<span class="lineNum">      81 </span>            :      * The file is only mapped read-only. An existing map is unmapped.
 <span class="lineNum">      82 </span>            :      *
-<span class="lineNum">      83 </span>            :      * The file is mapped read-write. An existing file will be overwritten. The
-<span class="lineNum">      84 </span>            :      * file is automatically unmapped when the memory map is deleted.
-<span class="lineNum">      85 </span>            :      *
-<span class="lineNum">      86 </span>            :      * @param filename The filename of the file to map.
-<span class="lineNum">      87 </span>            :      * @param size this size of the file.
-<span class="lineNum">      88 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
-<span class="lineNum">      89 </span>            :      * @version 1.9.1
-<span class="lineNum">      90 </span>            :      */
-<span class="lineNum">      91 </span>            :     LUNCHBOX_API void* create( const std::string&amp; filename, const size_t size );
-<span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span>            :     /**
-<span class="lineNum">      94 </span>            :      * Recreate a different writable file for this memory map.
-<span class="lineNum">      95 </span>            :      *
-<span class="lineNum">      96 </span>            :      * The file is only mapped read-write. An existing map is unmapped.
-<span class="lineNum">      97 </span>            :      *
-<span class="lineNum">      98 </span>            :      * @param filename The filename of the file to map.
-<span class="lineNum">      99 </span>            :      * @param size this size of the file.
-<span class="lineNum">     100 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
-<span class="lineNum">     101 </span>            :      * @version 1.0
-<span class="lineNum">     102 </span>            :      */
-<span class="lineNum">     103 </span>            :     LUNCHBOX_API void* recreate( const std::string&amp; filename,
-<span class="lineNum">     104 </span>            :                                  const size_t size );
-<span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span>            :     /** Unmap the file. @version 1.0 */
-<span class="lineNum">     107 </span>            :     LUNCHBOX_API void unmap();
-<span class="lineNum">     108 </span>            : 
-<span class="lineNum">     109 </span>            :     /** @return the pointer to the memory map. @version 1.0 */
-<span class="lineNum">     110 </span>            :     LUNCHBOX_API const void* getAddress() const;
-<span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span>            :     /** @return the pointer to the memory map. @version 1.9.1 */
-<span class="lineNum">     113 </span>            :     LUNCHBOX_API void* getAddress();
-<a name="114"><span class="lineNum">     114 </span>            : </a>
-<span class="lineNum">     115 </span>            :     /** @return the pointer to the memory map. @version 1.9.1 */
-<span class="lineNum">     116 </span><span class="lineNoCov">          0 :     template&lt; class T &gt; const T* getAddress() const</span>
-<span class="lineNum">     117 </span><span class="lineNoCov">          0 :         { return static_cast&lt; const T* &gt;( getAddress( )); }</span>
-<a name="118"><span class="lineNum">     118 </span>            : </a>
-<span class="lineNum">     119 </span>            :     /** @return the pointer to the memory map. @version 1.9.1 */
-<span class="lineNum">     120 </span><span class="lineCov">          2 :     template&lt; class T &gt; T* getAddress()</span>
-<span class="lineNum">     121 </span><span class="lineCov">          2 :         { return static_cast&lt; T* &gt;( getAddress( )); }</span>
-<span class="lineNum">     122 </span>            : 
-<span class="lineNum">     123 </span>            :     /** @return the size of the memory map. @version 1.0 */
-<span class="lineNum">     124 </span>            :     LUNCHBOX_API size_t getSize() const;
-<span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span>            : private:
-<span class="lineNum">     127 </span>            :     detail::MemoryMap* const impl_;
-<span class="lineNum">     128 </span>            : };
-<span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span>            : inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const MemoryMap&amp; m )
-<span class="lineNum">     131 </span>            : {
-<span class="lineNum">     132 </span>            :     return os &lt;&lt; &quot;MemoryMap at &quot; &lt;&lt; m.getAddress() &lt;&lt; &quot; size &quot; &lt;&lt; m.getSize();
-<span class="lineNum">     133 </span>            : }
+<span class="lineNum">      83 </span>            :      * @param filename The filename of the file to map.
+<span class="lineNum">      84 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
+<span class="lineNum">      85 </span>            :      * @version 1.9.1
+<span class="lineNum">      86 </span>            :      */
+<span class="lineNum">      87 </span>            :     LUNCHBOX_API const void* remap( const std::string&amp; filename );
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            :     /**
+<span class="lineNum">      90 </span>            :      * Create a writable file to a memory address.
+<span class="lineNum">      91 </span>            :      *
+<span class="lineNum">      92 </span>            :      * The file is mapped read-write. An existing file will be overwritten. The
+<span class="lineNum">      93 </span>            :      * file is automatically unmapped when the memory map is deleted.
+<span class="lineNum">      94 </span>            :      *
+<span class="lineNum">      95 </span>            :      * @param filename The filename of the file to map.
+<span class="lineNum">      96 </span>            :      * @param size this size of the file.
+<span class="lineNum">      97 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
+<span class="lineNum">      98 </span>            :      * @version 1.9.1
+<span class="lineNum">      99 </span>            :      */
+<span class="lineNum">     100 </span>            :     LUNCHBOX_API void* create( const std::string&amp; filename, const size_t size );
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            :     /**
+<span class="lineNum">     103 </span>            :      * Recreate a different writable file for this memory map.
+<span class="lineNum">     104 </span>            :      *
+<span class="lineNum">     105 </span>            :      * The file is only mapped read-write. An existing map is unmapped.
+<span class="lineNum">     106 </span>            :      *
+<span class="lineNum">     107 </span>            :      * @param filename The filename of the file to map.
+<span class="lineNum">     108 </span>            :      * @param size this size of the file.
+<span class="lineNum">     109 </span>            :      * @return the pointer to the mapped file, or 0 upon error.
+<span class="lineNum">     110 </span>            :      * @version 1.0
+<span class="lineNum">     111 </span>            :      */
+<span class="lineNum">     112 </span>            :     LUNCHBOX_API void* recreate( const std::string&amp; filename,
+<span class="lineNum">     113 </span>            :                                  const size_t size );
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span>            :     /** Unmap the file. @version 1.0 */
+<span class="lineNum">     116 </span>            :     LUNCHBOX_API void unmap();
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :     /** @return the pointer to the memory map. @version 1.0 */
+<span class="lineNum">     119 </span>            :     LUNCHBOX_API const void* getAddress() const;
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            :     /** @return the pointer to the memory map. @version 1.9.1 */
+<span class="lineNum">     122 </span>            :     LUNCHBOX_API void* getAddress();
+<a name="123"><span class="lineNum">     123 </span>            : </a>
+<span class="lineNum">     124 </span>            :     /** @return the pointer to the memory map. @version 1.9.1 */
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 :     template&lt; class T &gt; const T* getAddress() const</span>
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :         { return static_cast&lt; const T* &gt;( getAddress( )); }</span>
+<a name="127"><span class="lineNum">     127 </span>            : </a>
+<span class="lineNum">     128 </span>            :     /** @return the pointer to the memory map. @version 1.9.1 */
+<span class="lineNum">     129 </span><span class="lineCov">          2 :     template&lt; class T &gt; T* getAddress()</span>
+<span class="lineNum">     130 </span><span class="lineCov">          2 :         { return static_cast&lt; T* &gt;( getAddress( )); }</span>
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span>            :     /** @return the size of the memory map. @version 1.0 */
+<span class="lineNum">     133 </span>            :     LUNCHBOX_API size_t getSize() const;
 <span class="lineNum">     134 </span>            : 
-<span class="lineNum">     135 </span>            : }
-<span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span>            : #endif //LUNCHBOX_MEMORYMAP_H
+<span class="lineNum">     135 </span>            : private:
+<span class="lineNum">     136 </span>            :     detail::MemoryMap* const impl_;
+<span class="lineNum">     137 </span>            : };
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            : inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const MemoryMap&amp; m )
+<span class="lineNum">     140 </span>            : {
+<span class="lineNum">     141 </span>            :     return os &lt;&lt; &quot;MemoryMap at &quot; &lt;&lt; m.getAddress() &lt;&lt; &quot; size &quot; &lt;&lt; m.getSize();
+<span class="lineNum">     142 </span>            : }
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            : }
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            : #endif //LUNCHBOX_MEMORYMAP_H
 </pre>
       </td>
     </tr>

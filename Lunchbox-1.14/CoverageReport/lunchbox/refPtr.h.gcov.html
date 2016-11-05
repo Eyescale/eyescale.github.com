@@ -31,17 +31,17 @@
             <td class="headerValue">Lunchbox</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">43</td>
-            <td class="headerCovTableEntry">44</td>
-            <td class="headerCovTableEntryHi">97.7 %</td>
+            <td class="headerCovTableEntry">31</td>
+            <td class="headerCovTableEntry">32</td>
+            <td class="headerCovTableEntryHi">96.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-08 05:21:48</td>
+            <td class="headerValue">2016-11-05 05:22:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">47</td>
-            <td class="headerCovTableEntry">47</td>
+            <td class="headerCovTableEntry">40</td>
+            <td class="headerCovTableEntry">40</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
@@ -104,14 +104,14 @@
 <span class="lineNum">      42 </span>            : 
 <a name="43"><span class="lineNum">      43 </span>            : public:</a>
 <span class="lineNum">      44 </span>            :     /** Construct a new, empty reference pointer. @version 1.0 */
-<span class="lineNum">      45 </span><span class="lineCov">         26 :     RefPtr() : _ptr( 0 ) {}</span>
+<span class="lineNum">      45 </span><span class="lineCov">         25 :     RefPtr() : _ptr( 0 ) {}</span>
 <span class="lineNum">      46 </span>            : 
 <a name="47"><span class="lineNum">      47 </span>            :     /** Construct a reference pointer from a C pointer. @version 1.0 */</a>
 <span class="lineNum">      48 </span>            :     // cppcheck-suppress noExplicitConstructor
-<span class="lineNum">      49 </span><span class="lineCov">    2000008 :     RefPtr( T* const ptr ) : _ptr( ptr ) { _ref(); }</span>
+<span class="lineNum">      49 </span><span class="lineCov">    2000007 :     RefPtr( T* const ptr ) : _ptr( ptr ) { _ref(); }</span>
 <a name="50"><span class="lineNum">      50 </span>            : </a>
 <span class="lineNum">      51 </span>            :     /** Construct a copy of a reference pointer. @version 1.0 */
-<span class="lineNum">      52 </span><span class="lineCov">    3000009 :     RefPtr( const RefPtr&amp; from ) : _ptr( from._ptr ) { _ref(); }</span>
+<span class="lineNum">      52 </span><span class="lineCov">    3000007 :     RefPtr( const RefPtr&amp; from ) : _ptr( from._ptr ) { _ref(); }</span>
 <span class="lineNum">      53 </span>            : 
 <span class="lineNum">      54 </span>            :     /**
 <span class="lineNum">      55 </span>            :      * Construct a copy of a reference pointer of a different type.
@@ -122,32 +122,32 @@
 <span class="lineNum">      60 </span>            :         : _ptr( from.get( )) { _ref(); }
 <a name="61"><span class="lineNum">      61 </span>            : </a>
 <span class="lineNum">      62 </span>            :     /** Destruct this reference pointer. @version 1.0 */
-<span class="lineNum">      63 </span><span class="lineCov">    5000043 :     ~RefPtr() { _unref(); _ptr = 0; }</span>
+<span class="lineNum">      63 </span><span class="lineCov">    5000039 :     ~RefPtr() { _unref(); _ptr = 0; }</span>
 <a name="64"><span class="lineNum">      64 </span>            : </a>
 <span class="lineNum">      65 </span>            :     /** Assign another RefPtr to this reference pointer. @version 1.0 */
-<span class="lineNum">      66 </span><span class="lineCov">    7245791 :     RefPtr&amp; operator = ( const RefPtr&amp; rhs )</span>
+<span class="lineNum">      66 </span><span class="lineCov">    6470134 :     RefPtr&amp; operator = ( const RefPtr&amp; rhs )</span>
 <span class="lineNum">      67 </span>            :     {
-<span class="lineNum">      68 </span><span class="lineCov">    7245791 :         if( _ptr == rhs._ptr )</span>
-<span class="lineNum">      69 </span><span class="lineCov">    3668605 :             return *this;</span>
+<span class="lineNum">      68 </span><span class="lineCov">    6470134 :         if( _ptr == rhs._ptr )</span>
+<span class="lineNum">      69 </span><span class="lineCov">    3254538 :             return *this;</span>
 <span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span><span class="lineCov">    3577186 :         T* tmp = _ptr;</span>
-<span class="lineNum">      72 </span><span class="lineCov">    3577186 :         _ptr = rhs._ptr;</span>
-<span class="lineNum">      73 </span><span class="lineCov">    3577186 :         _ref();</span>
-<span class="lineNum">      74 </span><span class="lineCov">    3342892 :         if( tmp ) tmp-&gt;unref( this );</span>
-<span class="lineNum">      75 </span><span class="lineCov">    4164696 :         return *this;</span>
+<span class="lineNum">      71 </span><span class="lineCov">    3215596 :         T* tmp = _ptr;</span>
+<span class="lineNum">      72 </span><span class="lineCov">    3215596 :         _ptr = rhs._ptr;</span>
+<span class="lineNum">      73 </span><span class="lineCov">    3215596 :         _ref();</span>
+<span class="lineNum">      74 </span><span class="lineCov">    3324030 :         if( tmp ) tmp-&gt;unref( this );</span>
+<span class="lineNum">      75 </span><span class="lineCov">    4034465 :         return *this;</span>
 <span class="lineNum">      76 </span>            :     }
 <a name="77"><span class="lineNum">      77 </span>            : </a>
 <span class="lineNum">      78 </span>            :     /** Assign a C pointer to this reference pointer. @version 1.0 */
-<span class="lineNum">      79 </span><span class="lineCov">    3184070 :     RefPtr&amp; operator = ( T* ptr )</span>
+<span class="lineNum">      79 </span><span class="lineCov">    3268922 :     RefPtr&amp; operator = ( T* ptr )</span>
 <span class="lineNum">      80 </span>            :     {
-<span class="lineNum">      81 </span><span class="lineCov">    3184070 :         if( _ptr == ptr )</span>
+<span class="lineNum">      81 </span><span class="lineCov">    3268922 :         if( _ptr == ptr )</span>
 <span class="lineNum">      82 </span><span class="lineNoCov">          0 :             return *this;</span>
 <span class="lineNum">      83 </span>            : 
-<span class="lineNum">      84 </span><span class="lineCov">    3184070 :         T* tmp = _ptr;</span>
-<span class="lineNum">      85 </span><span class="lineCov">    3184070 :         _ptr = ptr;</span>
-<span class="lineNum">      86 </span><span class="lineCov">    3184070 :         _ref();</span>
-<span class="lineNum">      87 </span><span class="lineCov">    3416783 :         if( tmp ) tmp-&gt;unref( this );</span>
-<span class="lineNum">      88 </span><span class="lineCov">    3779884 :         return *this;</span>
+<span class="lineNum">      84 </span><span class="lineCov">    3268922 :         T* tmp = _ptr;</span>
+<span class="lineNum">      85 </span><span class="lineCov">    3268922 :         _ptr = ptr;</span>
+<span class="lineNum">      86 </span><span class="lineCov">    3268922 :         _ref();</span>
+<span class="lineNum">      87 </span><span class="lineCov">    3604094 :         if( tmp ) tmp-&gt;unref( this );</span>
+<span class="lineNum">      88 </span><span class="lineCov">    3769223 :         return *this;</span>
 <span class="lineNum">      89 </span>            :     }
 <span class="lineNum">      90 </span>            : 
 <span class="lineNum">      91 </span>            :     /**
@@ -198,8 +198,8 @@
 <span class="lineNum">     136 </span>            :     bool operator != ( const T* ptr ) const { return ( _ptr != ptr ); }
 <a name="137"><span class="lineNum">     137 </span>            : </a>
 <span class="lineNum">     138 </span>            :     /** Access the held object. @version 1.0 */
-<span class="lineNum">     139 </span><span class="lineCov">         16 :     T*       operator-&gt;()</span>
-<a name="140"><span class="lineNum">     140 </span><span class="lineCov">         16 :     { LBASSERTINFO( _ptr, className( this )); return _ptr; }</span></a>
+<span class="lineNum">     139 </span><span class="lineCov">         12 :     T*       operator-&gt;()</span>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">         12 :     { LBASSERTINFO( _ptr, className( this )); return _ptr; }</span></a>
 <span class="lineNum">     141 </span>            :     /** Access the held object. @version 1.0 */
 <span class="lineNum">     142 </span><span class="lineCov">          3 :     const T* operator-&gt;() const</span>
 <span class="lineNum">     143 </span><span class="lineCov">          3 :     { LBASSERTINFO( _ptr, className( this )); return _ptr; }</span>
@@ -213,7 +213,7 @@
 <span class="lineNum">     151 </span>            :     /** @return the C pointer. @version 1.0 */
 <a name="152"><span class="lineNum">     152 </span><span class="lineCov">          7 :     T*       get()                { return _ptr; }</span></a>
 <span class="lineNum">     153 </span>            :     /** @return the C pointer. @version 1.0 */
-<span class="lineNum">     154 </span><span class="lineCov">          5 :     const T* get() const          { return _ptr; }</span>
+<span class="lineNum">     154 </span><span class="lineCov">          4 :     const T* get() const          { return _ptr; }</span>
 <span class="lineNum">     155 </span>            : 
 <span class="lineNum">     156 </span>            :     /** @return true if the RefPtr holds a non-0 pointer. @version 1.0 */
 <span class="lineNum">     157 </span>            :     bool isValid() const { return ( _ptr != 0 ); }
@@ -222,21 +222,21 @@
 <span class="lineNum">     160 </span>            :     T* _ptr;
 <a name="161"><span class="lineNum">     161 </span>            : </a>
 <span class="lineNum">     162 </span>            :     /** Artificially reference the held object. */
-<span class="lineNum">     163 </span><span class="lineCov">    9696301 :     void _ref()   { if(_ptr) _ptr-&gt;ref( this ); }</span>
+<span class="lineNum">     163 </span><span class="lineCov">    9362625 :     void _ref()   { if(_ptr) _ptr-&gt;ref( this ); }</span>
 <a name="164"><span class="lineNum">     164 </span>            : </a>
 <span class="lineNum">     165 </span>            :     /** Artificially dereference the held object. */
-<span class="lineNum">     166 </span><span class="lineCov">    5000043 :     void _unref()</span>
+<span class="lineNum">     166 </span><span class="lineCov">    5000039 :     void _unref()</span>
 <span class="lineNum">     167 </span>            :     {
-<span class="lineNum">     168 </span><span class="lineCov">    5000043 :         if(_ptr)</span>
+<span class="lineNum">     168 </span><span class="lineCov">    5000039 :         if(_ptr)</span>
 <span class="lineNum">     169 </span>            :         {
 <span class="lineNum">     170 </span>            : #ifdef NDEBUG
 <span class="lineNum">     171 </span>            :             _ptr-&gt;unref( this );
 <span class="lineNum">     172 </span>            : #else
-<span class="lineNum">     173 </span><span class="lineCov">    5000018 :             if( _ptr-&gt;unref( this ))</span>
-<span class="lineNum">     174 </span><span class="lineCov">    2000009 :                 _ptr = 0;</span>
+<span class="lineNum">     173 </span><span class="lineCov">    5000014 :             if( _ptr-&gt;unref( this ))</span>
+<span class="lineNum">     174 </span><span class="lineCov">    2000007 :                 _ptr = 0;</span>
 <span class="lineNum">     175 </span>            : #endif
 <span class="lineNum">     176 </span>            :         }
-<span class="lineNum">     177 </span><span class="lineCov">    5000043 :     }</span>
+<span class="lineNum">     177 </span><span class="lineCov">    5000039 :     }</span>
 <span class="lineNum">     178 </span>            : };
 <span class="lineNum">     179 </span>            : 
 <span class="lineNum">     180 </span>            : /** Print the reference pointer to the given output stream. */
@@ -262,30 +262,30 @@
 <span class="lineNum">     200 </span>            : {
 <span class="lineNum">     201 </span>            : namespace serialization
 <span class="lineNum">     202 </span>            : {
-<a name="203"><span class="lineNum">     203 </span>            : </a>
+<span class="lineNum">     203 </span>            : 
 <span class="lineNum">     204 </span>            : template&lt; class Archive, class T &gt;
-<span class="lineNum">     205 </span><span class="lineCov">          1 : inline void save( Archive&amp; ar, const lunchbox::RefPtr&lt; T &gt;&amp; t,</span>
+<span class="lineNum">     205 </span>            : inline void save( Archive&amp; ar, const lunchbox::RefPtr&lt; T &gt;&amp; t,
 <span class="lineNum">     206 </span>            :                   const unsigned int /*version*/ )
 <span class="lineNum">     207 </span>            : {
-<span class="lineNum">     208 </span><span class="lineCov">          1 :     const T* ptr = t.get();</span>
-<span class="lineNum">     209 </span><span class="lineCov">          1 :     ar &lt;&lt; ptr;</span>
-<span class="lineNum">     210 </span><span class="lineCov">          1 : }</span>
-<a name="211"><span class="lineNum">     211 </span>            : </a>
+<span class="lineNum">     208 </span>            :     const T* ptr = t.get();
+<span class="lineNum">     209 </span>            :     ar &lt;&lt; ptr;
+<span class="lineNum">     210 </span>            : }
+<span class="lineNum">     211 </span>            : 
 <span class="lineNum">     212 </span>            : template&lt; class Archive, class T &gt;
-<span class="lineNum">     213 </span><span class="lineCov">          1 : inline void load( Archive&amp; ar, lunchbox::RefPtr&lt; T &gt;&amp; t,</span>
+<span class="lineNum">     213 </span>            : inline void load( Archive&amp; ar, lunchbox::RefPtr&lt; T &gt;&amp; t,
 <span class="lineNum">     214 </span>            :                   const unsigned int /*version*/ )
 <span class="lineNum">     215 </span>            : {
-<span class="lineNum">     216 </span><span class="lineCov">          1 :     T* obj = 0;</span>
-<span class="lineNum">     217 </span><span class="lineCov">          1 :     ar &gt;&gt; obj;</span>
-<span class="lineNum">     218 </span><span class="lineCov">          1 :     t = obj;</span>
-<span class="lineNum">     219 </span><span class="lineCov">          1 : }</span>
-<a name="220"><span class="lineNum">     220 </span>            : </a>
+<span class="lineNum">     216 </span>            :     T* obj = 0;
+<span class="lineNum">     217 </span>            :     ar &gt;&gt; obj;
+<span class="lineNum">     218 </span>            :     t = obj;
+<span class="lineNum">     219 </span>            : }
+<span class="lineNum">     220 </span>            : 
 <span class="lineNum">     221 </span>            : template&lt; class Archive, class T &gt;
-<span class="lineNum">     222 </span><span class="lineCov">          2 : inline void serialize( Archive&amp; ar, lunchbox::RefPtr&lt; T &gt;&amp; t,</span>
+<span class="lineNum">     222 </span>            : inline void serialize( Archive&amp; ar, lunchbox::RefPtr&lt; T &gt;&amp; t,
 <span class="lineNum">     223 </span>            :                        const unsigned int version )
 <span class="lineNum">     224 </span>            : {
-<span class="lineNum">     225 </span><span class="lineCov">          2 :     boost::serialization::split_free( ar, t, version );</span>
-<span class="lineNum">     226 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     225 </span>            :     boost::serialization::split_free( ar, t, version );
+<span class="lineNum">     226 </span>            : }
 <span class="lineNum">     227 </span>            : 
 <span class="lineNum">     228 </span>            : }
 <span class="lineNum">     229 </span>            : }

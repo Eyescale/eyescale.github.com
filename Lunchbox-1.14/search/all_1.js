@@ -7,7 +7,7 @@ var searchData=
   ['bit_20operations_2e',['Bit Operations.',['../group__bitops.html',1,'']]],
   ['broadcast',['broadcast',['../classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb',1,'lunchbox::Condition']]],
   ['buffer',['Buffer',['../classlunchbox_1_1_buffer.html',1,'lunchbox']]],
-  ['buffer',['Buffer',['../classlunchbox_1_1_buffer.html#a88f26982ff4d1a672dcee7b53b7983f2',1,'lunchbox::Buffer::Buffer()'],['../classlunchbox_1_1_buffer.html#a32895990741832f8dbf03aa0a25ee1e4',1,'lunchbox::Buffer::Buffer(const uint64_t size)'],['../classlunchbox_1_1_buffer.html#a14904ae28b13b446a0cb084187a91493',1,'lunchbox::Buffer::Buffer(Buffer &amp;from)']]],
+  ['buffer',['Buffer',['../classlunchbox_1_1_buffer.html#a88f26982ff4d1a672dcee7b53b7983f2',1,'lunchbox::Buffer::Buffer()'],['../classlunchbox_1_1_buffer.html#a32895990741832f8dbf03aa0a25ee1e4',1,'lunchbox::Buffer::Buffer(const uint64_t size)'],['../classlunchbox_1_1_buffer.html#a3f9d0e9135dcfe97b9131b69d2d25ada',1,'lunchbox::Buffer::Buffer(const Buffer &amp;from)'],['../classlunchbox_1_1_buffer.html#a11af62b0b5ba0ea84c88715945831767',1,'lunchbox::Buffer::Buffer(Buffer &amp;&amp;from)']]],
   ['bufferb',['Bufferb',['../namespacelunchbox.html#af4d147a89a2b79db1a733c657fb9944f',1,'lunchbox']]],
   ['byteswap',['byteswap',['../group__bitops.html#ga0aaebb5bbd8362dcdaa0b0b757f815fd',1,'lunchbox']]]
 ];

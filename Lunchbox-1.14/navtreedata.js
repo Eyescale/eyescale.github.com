@@ -1,8 +1,9 @@
 var NAVTREE =
 [
   [ "Lunchbox", "index.html", [
-    [ "Changelog", "_changelog.html", [
-      [ "Known Bugs", "_changelog.html#Bugs", null ]
+    [ "Introduction", "index.html", null ],
+    [ "Changelog", "Changelog.html", [
+      [ "Known Bugs", "Changelog.html#Bugs", null ]
     ] ],
     [ "Deprecated List", "deprecated.html", null ],
     [ "Modules", "modules.html", "modules" ],
@@ -16,8 +17,8 @@ var NAVTREE =
         [ "Enumerator", "namespacemembers_eval.html", null ]
       ] ]
     ] ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
@@ -43,10 +44,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_changelog.html",
-"classlunchbox_1_1_launcher.html#ac32d9186049d3548b2b9e3ee69d069ef",
-"classlunchbox_1_1_ref_ptr.html#ac97a4cc6fe60c271d50a70ecc32fc537",
-"lunchbox_8h_source.html"
+"Changelog.html",
+"classlunchbox_1_1_l_f_vector_iterator.html#aca56247e378a1cf7381b7c237f907547",
+"classlunchbox_1_1_request_1_1_impl.html#a5f8d17de5f9eb0b1dfaed7ded068dcd4",
+"plugin_factory_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

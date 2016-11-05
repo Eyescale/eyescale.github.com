@@ -31,13 +31,13 @@
             <td class="headerValue">Lunchbox</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">38</td>
+            <td class="headerCovTableEntry">37</td>
             <td class="headerCovTableEntry">56</td>
-            <td class="headerCovTableEntryMed">67.9 %</td>
+            <td class="headerCovTableEntryMed">66.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-08 05:21:48</td>
+            <td class="headerValue">2016-11-05 05:22:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -118,12 +118,12 @@
 <span class="lineNum">      56 </span>            :     // if LB_ABORT_WAIT is set, spin forever to allow identifying and debugging
 <span class="lineNum">      57 </span>            :     // crashed nodes.
 <span class="lineNum">      58 </span><span class="lineNoCov">          0 :     if( getenv( &quot;LB_ABORT_WAIT&quot; ))</span>
-<span class="lineNum">      59 </span>            :         while( true ) ;
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         while( true ) ;</span>
 <span class="lineNum">      60 </span>            : 
 <span class="lineNum">      61 </span><span class="lineNoCov">          0 :     ::abort();</span>
 <a name="62"><span class="lineNum">      62 </span>            : }</a>
 <span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">   36848072 : void checkHeap()</span>
+<span class="lineNum">      64 </span><span class="lineCov">   37711967 : void checkHeap()</span>
 <span class="lineNum">      65 </span>            : {
 <span class="lineNum">      66 </span>            : #ifdef _MSC_VER
 <span class="lineNum">      67 </span>            :     static a_int32_t count( 0 );
@@ -135,7 +135,7 @@
 <span class="lineNum">      73 </span>            :     }
 <span class="lineNum">      74 </span>            : #else
 <span class="lineNum">      75 </span>            : #endif
-<span class="lineNum">      76 </span><span class="lineCov">   36848072 : }</span>
+<span class="lineNum">      76 </span><span class="lineCov">   37711967 : }</span>
 <span class="lineNum">      77 </span>            : 
 <a name="78"><span class="lineNum">      78 </span>            : namespace</a>
 <span class="lineNum">      79 </span>            : {
@@ -192,7 +192,7 @@
 <span class="lineNum">     130 </span><span class="lineCov">          1 :     char** names = ::backtrace_symbols( callstack, frames );</span>
 <span class="lineNum">     131 </span><span class="lineCov">          5 :     for( int i = skipFrames + 1; i &lt; frames; ++i )</span>
 <span class="lineNum">     132 </span>            :     {
-<span class="lineNum">     133 </span><span class="lineCov">          4 :         std::string name = names[ i ];</span>
+<span class="lineNum">     133 </span><span class="lineCov">          8 :         std::string name = names[ i ];</span>
 <span class="lineNum">     134 </span>            : #  ifdef __linux__
 <span class="lineNum">     135 </span><span class="lineCov">          4 :         const size_t symbolPos = name.find( &quot;(_&quot; );</span>
 <span class="lineNum">     136 </span>            : #  else
@@ -225,7 +225,7 @@
 <span class="lineNum">     163 </span>            :             else
 <span class="lineNum">     164 </span><span class="lineCov">          1 :                 os &lt;&lt; name;</span>
 <span class="lineNum">     165 </span>            :         }
-<span class="lineNum">     166 </span><span class="lineCov">          4 :     }</span>
+<span class="lineNum">     166 </span>            :     }
 <span class="lineNum">     167 </span><span class="lineCov">          1 :     os &lt;&lt; &quot;\n&quot;;</span>
 <span class="lineNum">     168 </span><span class="lineCov">          1 :     ::free( names );</span>
 <span class="lineNum">     169 </span>            : #endif
@@ -234,9 +234,9 @@
 <span class="lineNum">     172 </span>            : 
 <span class="lineNum">     173 </span><span class="lineCov">          1 : std::string backtrace( const size_t skipFrames )</span>
 <span class="lineNum">     174 </span>            : {
-<span class="lineNum">     175 </span><span class="lineCov">          1 :     std::ostringstream os;</span>
+<span class="lineNum">     175 </span><span class="lineCov">          2 :     std::ostringstream os;</span>
 <span class="lineNum">     176 </span><span class="lineCov">          1 :     backtrace_( os, skipFrames + 1/*cut self*/ );</span>
-<span class="lineNum">     177 </span><span class="lineCov">          1 :     return os.str();</span>
+<span class="lineNum">     177 </span><span class="lineCov">          2 :     return os.str();</span>
 <a name="178"><span class="lineNum">     178 </span>            : }</a>
 <span class="lineNum">     179 </span>            : 
 <span class="lineNum">     180 </span><span class="lineNoCov">          0 : std::ostream&amp; backtrace( std::ostream&amp; os )</span>
@@ -245,26 +245,26 @@
 <span class="lineNum">     183 </span><span class="lineNoCov">          0 :     return os;</span>
 <a name="184"><span class="lineNum">     184 </span>            : }</a>
 <span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span><span class="lineCov">       1668 : std::string demangleTypeID( const char* mangled )</span>
+<span class="lineNum">     186 </span><span class="lineCov">       1666 : std::string demangleTypeID( const char* mangled )</span>
 <span class="lineNum">     187 </span>            : {
 <span class="lineNum">     188 </span>            : #ifdef _WIN32
 <span class="lineNum">     189 </span>            :     return std::string( mangled );
 <span class="lineNum">     190 </span>            : #else
 <span class="lineNum">     191 </span>            :     int status;
-<span class="lineNum">     192 </span><span class="lineCov">       1668 :     char* name = abi::__cxa_demangle( mangled, 0, 0, &amp;status );</span>
-<span class="lineNum">     193 </span><span class="lineCov">       1668 :     if( !name || status != 0 )</span>
+<span class="lineNum">     192 </span><span class="lineCov">       1666 :     char* name = abi::__cxa_demangle( mangled, 0, 0, &amp;status );</span>
+<span class="lineNum">     193 </span><span class="lineCov">       1666 :     if( !name || status != 0 )</span>
 <span class="lineNum">     194 </span>            :     {
 <span class="lineNum">     195 </span><span class="lineNoCov">          0 :         free( name );</span>
 <span class="lineNum">     196 </span><span class="lineNoCov">          0 :         return mangled;</span>
 <span class="lineNum">     197 </span>            :     }
 <span class="lineNum">     198 </span>            : 
-<span class="lineNum">     199 </span><span class="lineCov">       1668 :     const std::string result = name;</span>
-<span class="lineNum">     200 </span><span class="lineCov">       1668 :     free( name );</span>
-<span class="lineNum">     201 </span><span class="lineCov">       1668 :     return result;</span>
+<span class="lineNum">     199 </span><span class="lineCov">       3332 :     const std::string result = name;</span>
+<span class="lineNum">     200 </span><span class="lineCov">       1666 :     free( name );</span>
+<span class="lineNum">     201 </span><span class="lineCov">       1666 :     return result;</span>
 <span class="lineNum">     202 </span>            : #endif
 <a name="203"><span class="lineNum">     203 </span>            : }</a>
 <span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span><span class="lineCov">          1 : std::ostream&amp; sysError( std::ostream&amp; os )</span>
+<span class="lineNum">     205 </span><span class="lineCov">          3 : std::ostream&amp; sysError( std::ostream&amp; os )</span>
 <span class="lineNum">     206 </span>            : {
 <span class="lineNum">     207 </span>            : #ifdef _WIN32
 <span class="lineNum">     208 </span>            :     const DWORD error = GetLastError();
@@ -276,7 +276,7 @@
 <span class="lineNum">     214 </span>            : 
 <span class="lineNum">     215 </span>            :     return os &lt;&lt; text &lt;&lt; &quot; (&quot; &lt;&lt; error &lt;&lt; &quot;)&quot;;
 <span class="lineNum">     216 </span>            : #else
-<span class="lineNum">     217 </span><span class="lineCov">          1 :     return os &lt;&lt; strerror( errno ) &lt;&lt; &quot; (&quot; &lt;&lt; errno &lt;&lt; &quot;)&quot;;</span>
+<span class="lineNum">     217 </span><span class="lineCov">          3 :     return os &lt;&lt; strerror( errno ) &lt;&lt; &quot; (&quot; &lt;&lt; errno &lt;&lt; &quot;)&quot;;</span>
 <span class="lineNum">     218 </span>            : #endif
 <a name="219"><span class="lineNum">     219 </span>            : }</a>
 <span class="lineNum">     220 </span>            : 
@@ -287,7 +287,7 @@
 <span class="lineNum">     225 </span><span class="lineNoCov">          0 :     return os.str();</span>
 <a name="226"><span class="lineNum">     226 </span>            : }</a>
 <span class="lineNum">     227 </span>            : 
-<span class="lineNum">     228 </span><span class="lineCov">         75 : }</span>
+<span class="lineNum">     228 </span><span class="lineCov">         72 : }</span>
 </pre>
       </td>
     </tr>

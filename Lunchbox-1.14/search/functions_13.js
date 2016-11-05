@@ -13,7 +13,6 @@ var searchData=
   ['_7ememorymap',['~MemoryMap',['../classlunchbox_1_1_memory_map.html#adc630e5f52ebe368fbc618acfdf66351',1,'lunchbox::MemoryMap']]],
   ['_7emonitor',['~Monitor',['../classlunchbox_1_1_monitor.html#ad5de0e0cafc67308ffb77db7630df952',1,'lunchbox::Monitor']]],
   ['_7emtqueue',['~MTQueue',['../classlunchbox_1_1_m_t_queue.html#a31c9359912b04c714d11737e9762563a',1,'lunchbox::MTQueue']]],
-  ['_7epersistentmap',['~PersistentMap',['../classlunchbox_1_1_persistent_map.html#a1658413c276c5f16ba59c869dd51e963',1,'lunchbox::PersistentMap']]],
   ['_7eperthread',['~PerThread',['../classlunchbox_1_1_per_thread.html#adbccd7b94bfb6aa6c51b79feb1ded1bb',1,'lunchbox::PerThread']]],
   ['_7eperthreadref',['~PerThreadRef',['../classlunchbox_1_1_per_thread_ref.html#aaf49e13efd98c4cc3b5c231c796a3b94',1,'lunchbox::PerThreadRef']]],
   ['_7epool',['~Pool',['../classlunchbox_1_1_pool.html#a06a4a67d410a662c1c20663da0a25113',1,'lunchbox::Pool']]],

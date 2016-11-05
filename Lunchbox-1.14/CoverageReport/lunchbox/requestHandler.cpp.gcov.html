@@ -31,13 +31,13 @@
             <td class="headerValue">Lunchbox</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">125</td>
+            <td class="headerCovTableEntry">124</td>
             <td class="headerCovTableEntry">139</td>
-            <td class="headerCovTableEntryHi">89.9 %</td>
+            <td class="headerCovTableEntryHi">89.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-08 05:21:48</td>
+            <td class="headerValue">2016-11-05 05:22:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">25</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *
 <span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
 <span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -126,7 +126,7 @@
 <span class="lineNum">      64 </span>            : 
 <span class="lineNum">      65 </span><span class="lineCov">          7 :     uint32_t registerRequest( void* data )</span>
 <span class="lineNum">      66 </span>            :     {
-<span class="lineNum">      67 </span><span class="lineCov">          7 :         ScopedFastWrite mutex( lock );</span>
+<span class="lineNum">      67 </span><span class="lineCov">         14 :         ScopedFastWrite mutex( lock );</span>
 <span class="lineNum">      68 </span>            : 
 <span class="lineNum">      69 </span>            :         Record* request;
 <span class="lineNum">      70 </span><span class="lineCov">          7 :         if( freeRecords.empty( ))</span>
@@ -140,7 +140,7 @@
 <span class="lineNum">      78 </span><span class="lineCov">          7 :         request-&gt;data = data;</span>
 <span class="lineNum">      79 </span><span class="lineCov">          7 :         requestID = ( requestID + 1 ) % LB_MAX_UINT32;</span>
 <span class="lineNum">      80 </span><span class="lineCov">          7 :         requests[ requestID ] = request;</span>
-<span class="lineNum">      81 </span><span class="lineCov">          7 :         return requestID;</span>
+<span class="lineNum">      81 </span><span class="lineCov">         14 :         return requestID;</span>
 <a name="82"><span class="lineNum">      82 </span>            :     }</a>
 <span class="lineNum">      83 </span>            : 
 <span class="lineNum">      84 </span><span class="lineCov">          7 :     bool waitRequest( const uint32_t requestID_, Record::Result&amp; result,</span>
@@ -150,7 +150,7 @@
 <span class="lineNum">      88 </span><span class="lineCov">          7 :         result.rUint128.high = 0;</span>
 <span class="lineNum">      89 </span><span class="lineCov">          7 :         Record* request = 0;</span>
 <span class="lineNum">      90 </span>            :         {
-<span class="lineNum">      91 </span><span class="lineCov">          7 :             ScopedFastWrite mutex( lock );</span>
+<span class="lineNum">      91 </span><span class="lineCov">         14 :             ScopedFastWrite mutex( lock );</span>
 <span class="lineNum">      92 </span><span class="lineCov">          7 :             RecordHashCIter i = requests.find( requestID_ );</span>
 <span class="lineNum">      93 </span><span class="lineCov">          7 :             if( i == requests.end( ))</span>
 <span class="lineNum">      94 </span><span class="lineNoCov">          0 :                 return false;</span>
@@ -170,10 +170,10 @@
 <span class="lineNum">     108 </span>            : 
 <span class="lineNum">     109 </span><span class="lineCov">          7 :     void unregisterRequest( const uint32_t requestID_ )</span>
 <span class="lineNum">     110 </span>            :     {
-<span class="lineNum">     111 </span><span class="lineCov">          7 :         ScopedFastWrite mutex( lock );</span>
+<span class="lineNum">     111 </span><span class="lineCov">         14 :         ScopedFastWrite mutex( lock );</span>
 <span class="lineNum">     112 </span><span class="lineCov">          7 :         RecordHash::iterator i = requests.find( requestID_ );</span>
 <span class="lineNum">     113 </span><span class="lineCov">          7 :         if( i == requests.end( ))</span>
-<span class="lineNum">     114 </span><span class="lineCov">          7 :             return;</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :             return;</span>
 <span class="lineNum">     115 </span>            : 
 <span class="lineNum">     116 </span><span class="lineCov">          7 :         Record* request = i-&gt;second;</span>
 <span class="lineNum">     117 </span><span class="lineCov">          7 :         requests.erase( i );</span>
@@ -192,9 +192,9 @@
 <span class="lineNum">     130 </span><span class="lineCov">          1 :         : _impl( new detail::RequestHandler )</span>
 <a name="131"><span class="lineNum">     131 </span><span class="lineCov">          1 : {}</span></a>
 <span class="lineNum">     132 </span>            : 
-<span class="lineNum">     133 </span><span class="lineCov">          2 : RequestHandler::~RequestHandler()</span>
+<span class="lineNum">     133 </span><span class="lineCov">          5 : RequestHandler::~RequestHandler()</span>
 <span class="lineNum">     134 </span>            : {
-<span class="lineNum">     135 </span><span class="lineCov">          5 :     while( !_impl-&gt;freeRecords.empty( ))</span>
+<span class="lineNum">     135 </span><span class="lineCov">          7 :     while( !_impl-&gt;freeRecords.empty( ))</span>
 <span class="lineNum">     136 </span>            :     {
 <span class="lineNum">     137 </span><span class="lineCov">          3 :         Record* request = _impl-&gt;freeRecords.front();</span>
 <span class="lineNum">     138 </span><span class="lineCov">          3 :         _impl-&gt;freeRecords.pop_front();</span>
@@ -265,7 +265,7 @@
 <span class="lineNum">     203 </span>            : 
 <span class="lineNum">     204 </span><span class="lineCov">          6 : void* RequestHandler::getRequestData( const uint32_t requestID )</span>
 <span class="lineNum">     205 </span>            : {
-<span class="lineNum">     206 </span><span class="lineCov">          6 :     ScopedFastWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     206 </span><span class="lineCov">         12 :     ScopedFastWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     207 </span><span class="lineCov">          6 :     RecordHashCIter i = _impl-&gt;requests.find( requestID );</span>
 <span class="lineNum">     208 </span><span class="lineCov">          6 :     if( i == _impl-&gt;requests.end( ))</span>
 <span class="lineNum">     209 </span><span class="lineNoCov">          0 :         return 0;</span>
@@ -277,7 +277,7 @@
 <span class="lineNum">     215 </span>            : {
 <span class="lineNum">     216 </span><span class="lineCov">          3 :     Record* request = 0;</span>
 <span class="lineNum">     217 </span>            :     {
-<span class="lineNum">     218 </span><span class="lineCov">          3 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     218 </span><span class="lineCov">          6 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     219 </span><span class="lineCov">          3 :         RecordHashCIter i = _impl-&gt;requests.find( requestID );</span>
 <span class="lineNum">     220 </span>            : 
 <span class="lineNum">     221 </span><span class="lineCov">          3 :         if( i != _impl-&gt;requests.end( ))</span>
@@ -294,7 +294,7 @@
 <span class="lineNum">     232 </span>            : {
 <span class="lineNum">     233 </span><span class="lineCov">          1 :     Record* request = 0;</span>
 <span class="lineNum">     234 </span>            :     {
-<span class="lineNum">     235 </span><span class="lineCov">          1 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     235 </span><span class="lineCov">          2 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     236 </span><span class="lineCov">          1 :         RecordHashCIter i = _impl-&gt;requests.find( requestID );</span>
 <span class="lineNum">     237 </span>            : 
 <span class="lineNum">     238 </span><span class="lineCov">          1 :         if( i != _impl-&gt;requests.end( ))</span>
@@ -311,7 +311,7 @@
 <span class="lineNum">     249 </span>            : {
 <span class="lineNum">     250 </span><span class="lineCov">          1 :     Record* request = 0;</span>
 <span class="lineNum">     251 </span>            :     {
-<span class="lineNum">     252 </span><span class="lineCov">          1 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     252 </span><span class="lineCov">          2 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     253 </span><span class="lineCov">          1 :         RecordHashCIter i = _impl-&gt;requests.find( requestID );</span>
 <span class="lineNum">     254 </span>            : 
 <span class="lineNum">     255 </span><span class="lineCov">          1 :         if( i != _impl-&gt;requests.end( ))</span>
@@ -329,7 +329,7 @@
 <span class="lineNum">     267 </span>            : {
 <span class="lineNum">     268 </span><span class="lineCov">          1 :     Record* request = 0;</span>
 <span class="lineNum">     269 </span>            :     {
-<span class="lineNum">     270 </span><span class="lineCov">          1 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     270 </span><span class="lineCov">          2 :         ScopedFastWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     271 </span><span class="lineCov">          1 :         RecordHashCIter i = _impl-&gt;requests.find( requestID );</span>
 <span class="lineNum">     272 </span>            : 
 <span class="lineNum">     273 </span><span class="lineCov">          1 :         if( i != _impl-&gt;requests.end( ))</span>
@@ -346,7 +346,7 @@
 <span class="lineNum">     284 </span>            : 
 <span class="lineNum">     285 </span><span class="lineCov">          1 : bool RequestHandler::isRequestReady( const uint32_t requestID ) const</span>
 <span class="lineNum">     286 </span>            : {
-<span class="lineNum">     287 </span><span class="lineCov">          1 :     ScopedFastWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     287 </span><span class="lineCov">          2 :     ScopedFastWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     288 </span><span class="lineCov">          1 :     RecordHashCIter i = _impl-&gt;requests.find( requestID );</span>
 <span class="lineNum">     289 </span><span class="lineCov">          1 :     if( i == _impl-&gt;requests.end( ))</span>
 <span class="lineNum">     290 </span><span class="lineNoCov">          0 :         return false;</span>
@@ -377,7 +377,7 @@
 <span class="lineNum">     315 </span><span class="lineNoCov">          0 :     return os &lt;&lt; *rh._impl;</span>
 <a name="316"><span class="lineNum">     316 </span>            : }</a>
 <span class="lineNum">     317 </span>            : 
-<span class="lineNum">     318 </span><span class="lineCov">         75 : }</span>
+<span class="lineNum">     318 </span><span class="lineCov">         72 : }</span>
 </pre>
       </td>
     </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-08 05:21:48</td>
+            <td class="headerValue">2016-11-05 05:22:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -101,14 +101,14 @@
 <span class="lineNum">      39 </span>            : };
 <a name="40"><span class="lineNum">      40 </span>            : }</a>
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">         25 : Lock::Lock()</span>
-<span class="lineNum">      43 </span><span class="lineCov">         25 :         : _impl ( new detail::Lock )</span>
+<span class="lineNum">      42 </span><span class="lineCov">         24 : Lock::Lock()</span>
+<span class="lineNum">      43 </span><span class="lineCov">         24 :         : _impl ( new detail::Lock )</span>
 <span class="lineNum">      44 </span>            : {
 <span class="lineNum">      45 </span>            : #ifdef _WIN32
 <span class="lineNum">      46 </span>            :     InitializeCriticalSection( &amp;_impl-&gt;cs );
 <span class="lineNum">      47 </span>            : #else
-<span class="lineNum">      48 </span><span class="lineCov">         25 :     const int error = pthread_mutex_init( &amp;_impl-&gt;mutex, 0 );</span>
-<span class="lineNum">      49 </span><span class="lineCov">         25 :     if( error )</span>
+<span class="lineNum">      48 </span><span class="lineCov">         24 :     const int error = pthread_mutex_init( &amp;_impl-&gt;mutex, 0 );</span>
+<span class="lineNum">      49 </span><span class="lineCov">         24 :     if( error )</span>
 <span class="lineNum">      50 </span>            :     {
 <span class="lineNum">      51 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error creating pthread mutex: &quot;</span>
 <span class="lineNum">      52 </span><span class="lineNoCov">          0 :                 &lt;&lt; strerror(error) &lt;&lt; std::endl;</span>
@@ -117,33 +117,33 @@
 <span class="lineNum">      55 </span>            : #endif
 <a name="56"><span class="lineNum">      56 </span>            : }</a>
 <span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">         25 : Lock::~Lock()</span>
+<span class="lineNum">      58 </span><span class="lineCov">         48 : Lock::~Lock()</span>
 <span class="lineNum">      59 </span>            : {
 <span class="lineNum">      60 </span>            : #ifdef _WIN32
 <span class="lineNum">      61 </span>            :     DeleteCriticalSection( &amp;_impl-&gt;cs ); 
 <span class="lineNum">      62 </span>            : #else
-<span class="lineNum">      63 </span><span class="lineCov">         25 :     pthread_mutex_destroy( &amp;_impl-&gt;mutex );</span>
+<span class="lineNum">      63 </span><span class="lineCov">         24 :     pthread_mutex_destroy( &amp;_impl-&gt;mutex );</span>
 <span class="lineNum">      64 </span>            : #endif
-<span class="lineNum">      65 </span><span class="lineCov">         25 :     delete _impl;</span>
-<a name="66"><span class="lineNum">      66 </span><span class="lineCov">         25 : }</span></a>
+<span class="lineNum">      65 </span><span class="lineCov">         24 :     delete _impl;</span>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">         24 : }</span></a>
 <span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span><span class="lineCov">       4996 : void Lock::set()</span>
+<span class="lineNum">      68 </span><span class="lineCov">       4990 : void Lock::set()</span>
 <span class="lineNum">      69 </span>            : {
 <span class="lineNum">      70 </span>            : #ifdef _WIN32
 <span class="lineNum">      71 </span>            :     EnterCriticalSection( &amp;_impl-&gt;cs );
 <span class="lineNum">      72 </span>            : #else
-<span class="lineNum">      73 </span><span class="lineCov">       4996 :     pthread_mutex_lock( &amp;_impl-&gt;mutex );</span>
+<span class="lineNum">      73 </span><span class="lineCov">       4990 :     pthread_mutex_lock( &amp;_impl-&gt;mutex );</span>
 <span class="lineNum">      74 </span>            : #endif
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">       4996 : }</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">       4991 : }</span></a>
 <span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span><span class="lineCov">       4996 : void Lock::unset()</span>
+<span class="lineNum">      77 </span><span class="lineCov">       4991 : void Lock::unset()</span>
 <span class="lineNum">      78 </span>            : {
 <span class="lineNum">      79 </span>            : #ifdef _WIN32
 <span class="lineNum">      80 </span>            :     LeaveCriticalSection( &amp;_impl-&gt;cs );
 <span class="lineNum">      81 </span>            : #else
-<span class="lineNum">      82 </span><span class="lineCov">       4996 :     pthread_mutex_unlock( &amp;_impl-&gt;mutex );</span>
+<span class="lineNum">      82 </span><span class="lineCov">       4991 :     pthread_mutex_unlock( &amp;_impl-&gt;mutex );</span>
 <span class="lineNum">      83 </span>            : #endif
-<a name="84"><span class="lineNum">      84 </span><span class="lineCov">       4996 : }</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">       4991 : }</span></a>
 <span class="lineNum">      85 </span>            : 
 <span class="lineNum">      86 </span><span class="lineNoCov">          0 : bool Lock::trySet()</span>
 <span class="lineNum">      87 </span>            : {
@@ -164,7 +164,7 @@
 <span class="lineNum">     102 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="103"><span class="lineNum">     103 </span>            : }</a>
 <span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineCov">         75 : }</span>
+<span class="lineNum">     105 </span><span class="lineCov">         72 : }</span>
 </pre>
       </td>
     </tr>

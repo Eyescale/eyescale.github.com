@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['unload',['unload',['../classlunchbox_1_1_plugin_factory.html#ad4a098a07cac02fb6f6627ea8c4a9ff1',1,'lunchbox::PluginFactory']]],
   ['unlock',['unlock',['../classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21',1,'lunchbox::Condition']]],
   ['unmap',['unmap',['../classlunchbox_1_1_memory_map.html#afee63b1e51c6a28d329852c507b51cdb',1,'lunchbox::MemoryMap']]],
   ['unref',['unref',['../classlunchbox_1_1_referenced.html#adfe377cef3ee7b739d2da1d1c58c2ed5',1,'lunchbox::Referenced']]],

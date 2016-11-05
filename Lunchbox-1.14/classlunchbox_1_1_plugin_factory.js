@@ -1,13 +1,12 @@
 var classlunchbox_1_1_plugin_factory =
 [
-    [ "Plugins", "classlunchbox_1_1_plugin_factory.html#a424842a1335fea0d04a964c86976643f", null ],
-    [ "PluginT", "classlunchbox_1_1_plugin_factory.html#a14cd7c46761a8604fb1601cabd52b685", null ],
-    [ "create", "classlunchbox_1_1_plugin_factory.html#a0dad078de2f66c061755097a4223ed4d", null ],
-    [ "deregister", "classlunchbox_1_1_plugin_factory.html#af843dfc4c433dc99ddd1554e2eb8166d", null ],
-    [ "deregisterAll", "classlunchbox_1_1_plugin_factory.html#ae42aedfbe6910e7c4b217ed8189ea600", null ],
-    [ "getInstance", "classlunchbox_1_1_plugin_factory.html#ace679a6237da6f8863ed85bc6ac53515", null ],
-    [ "load", "classlunchbox_1_1_plugin_factory.html#a42ac1dcf3805fc76b0e12b69ec43e787", null ],
-    [ "load", "classlunchbox_1_1_plugin_factory.html#adbe42a84a2c8e82fda42b4e38913c6bd", null ],
-    [ "register_", "classlunchbox_1_1_plugin_factory.html#a50700b75490dc21ff8cb4b7d622adf8e", null ],
-    [ "unload", "classlunchbox_1_1_plugin_factory.html#ad4a098a07cac02fb6f6627ea8c4a9ff1", null ]
+    [ "Plugins", "classlunchbox_1_1_plugin_factory.html#a6f4fced6159846365444628ef12897bf", null ],
+    [ "PluginT", "classlunchbox_1_1_plugin_factory.html#ad5230f9457a654ce0f6a259e923e26b5", null ],
+    [ "create", "classlunchbox_1_1_plugin_factory.html#a499ca7985a56eb6ea15fdceb500274ef", null ],
+    [ "deregister", "classlunchbox_1_1_plugin_factory.html#a185a04a3aebe537a34e412c8b2afa0a6", null ],
+    [ "deregisterAll", "classlunchbox_1_1_plugin_factory.html#a9f717157096a1db2edbd54f3e6c8e959", null ],
+    [ "getInstance", "classlunchbox_1_1_plugin_factory.html#a244f2f16e51f440982bfac73a1924488", null ],
+    [ "load", "classlunchbox_1_1_plugin_factory.html#aad6a018c35f7ed184d36c15973a128ef", null ],
+    [ "load", "classlunchbox_1_1_plugin_factory.html#a33b29afb992578ed5bc6640f13755057", null ],
+    [ "register_", "classlunchbox_1_1_plugin_factory.html#aeb22f285c3d690cecfc5df395a59a089", null ]
 ];

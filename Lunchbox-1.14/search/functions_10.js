@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['takevalues',['takeValues',['../classlunchbox_1_1_persistent_map.html#a3a0827c66f161288d922a9c6e45ea8cd',1,'lunchbox::PersistentMap']]],
   ['thread',['Thread',['../classlunchbox_1_1_thread.html#a2ea57807149c9cd583a5c1c140ac3cca',1,'lunchbox::Thread::Thread()'],['../classlunchbox_1_1_thread.html#a3782400e97d260ec0648c2f913243567',1,'lunchbox::Thread::Thread(const Thread &amp;from)']]],
   ['threadid',['ThreadID',['../classlunchbox_1_1_thread_i_d.html#a0402747e8780b4498a8632b0532a4d4e',1,'lunchbox::ThreadID::ThreadID()'],['../classlunchbox_1_1_thread_i_d.html#a2e9192dea62860cd76af07e318aec049',1,'lunchbox::ThreadID::ThreadID(const ThreadID &amp;from)']]],
   ['timedlock',['TimedLock',['../classlunchbox_1_1_timed_lock.html#a10514f80629e13658e402c6b4ca6a9b9',1,'lunchbox::TimedLock']]],

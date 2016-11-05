@@ -2,7 +2,8 @@ var classlunchbox_1_1_buffer =
 [
     [ "Buffer", "classlunchbox_1_1_buffer.html#a88f26982ff4d1a672dcee7b53b7983f2", null ],
     [ "Buffer", "classlunchbox_1_1_buffer.html#a32895990741832f8dbf03aa0a25ee1e4", null ],
-    [ "Buffer", "classlunchbox_1_1_buffer.html#a14904ae28b13b446a0cb084187a91493", null ],
+    [ "Buffer", "classlunchbox_1_1_buffer.html#a3f9d0e9135dcfe97b9131b69d2d25ada", null ],
+    [ "Buffer", "classlunchbox_1_1_buffer.html#a11af62b0b5ba0ea84c88715945831767", null ],
     [ "~Buffer", "classlunchbox_1_1_buffer.html#adf219be3b028ea8346fcb74ec886a343", null ],
     [ "append", "classlunchbox_1_1_buffer.html#af11b17b0addbd13ff11f1b9ff711f4aa", null ],
     [ "append", "classlunchbox_1_1_buffer.html#a74df2718b78522818bea4978a08c8589", null ],
@@ -15,6 +16,7 @@ var classlunchbox_1_1_buffer =
     [ "grow", "classlunchbox_1_1_buffer.html#ab394923fd663070ec104a642877cfaee", null ],
     [ "isEmpty", "classlunchbox_1_1_buffer.html#a3f0d8b889d50ff0ce4b668c062947a5a", null ],
     [ "operator=", "classlunchbox_1_1_buffer.html#a8abe3f8ac660f7fd1f99aae09abc4952", null ],
+    [ "operator=", "classlunchbox_1_1_buffer.html#a8882b0d79d833d68138a8fd88c7ba8e0", null ],
     [ "operator[]", "classlunchbox_1_1_buffer.html#ad1b0094394b40d20cd04ac7e87f449da", null ],
     [ "operator[]", "classlunchbox_1_1_buffer.html#a87e982d22e38bc9b707d7eef4848162c", null ],
     [ "pack", "classlunchbox_1_1_buffer.html#ad6cccc583766ed9112d28b4c8928eb14", null ],
