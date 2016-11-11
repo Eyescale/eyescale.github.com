@@ -10,7 +10,7 @@ var searchData=
   ['addcolortexture',['addColorTexture',['../classeq_1_1util_1_1_frame_buffer_object.html#ac969c742e990e9d26b483648915824a8',1,'eq::util::FrameBufferObject']]],
   ['addlistener',['addListener',['../classeq_1_1_frame.html#a9b6df51ad4d7f069dae1c408b0222340',1,'eq::Frame::addListener()'],['../classeq_1_1_frame_data.html#ab4aa76724ae68d7942b1f2d635419bf8',1,'eq::FrameData::addListener()']]],
   ['addresultimagelistener',['addResultImageListener',['../classeq_1_1_channel.html#a79b2407d0e7ed4c6ba871e68ed2b0848',1,'eq::Channel']]],
-  ['addstatistic',['addStatistic',['../classeq_1_1_config.html#acac896f5020a9b657901622772438789',1,'eq::Config']]],
+  ['addstatistic',['addStatistic',['../classeq_1_1_config.html#ab098337c93b99572071c3adcd4d95fff',1,'eq::Config']]],
   ['all',['ALL',['../classeq_1_1fabric_1_1_pixel.html#abce463ba3acd5b4f01ead8114f0e1098',1,'eq::fabric::Pixel::ALL()'],['../classeq_1_1fabric_1_1_range.html#a57fcf6b5bf2e4c6e7ff2e80412e03cb9',1,'eq::fabric::Range::ALL()']]],
   ['alphabits',['alphaBits',['../structeq_1_1fabric_1_1_drawable_config.html#ad885736c0fdacef8f54cd0655461ebcc',1,'eq::fabric::DrawableConfig']]],
   ['anaglyph',['ANAGLYPH',['../namespaceeq_1_1fabric.html#a01b6b996932dcb42ea205e657abae6b2aba42784cc4ea919ac814c9d94fbde6b1',1,'eq::fabric']]],

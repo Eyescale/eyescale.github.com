@@ -1,8 +1,9 @@
 var NAVTREE =
 [
   [ "Equalizer", "index.html", [
-    [ "Changelog", "_changelog.html", null ],
-    [ "Event Handling v2", "md__jenkins_02_workspace_oss_8_equalizer_8documentation_build_type__debug_platform_cscsviz-vm_sources_doc_feature_event2.html", null ],
+    [ "Introduction", "index.html", null ],
+    [ "Changelog", "Changelog.html", null ],
+    [ "Event Handling v2", "md__jenkins_02_workspace_oss.Equalizer.documentation_build_type_Debug_platform_cscsviz-vm_sources_doc_feature_event2.html", null ],
     [ "Deprecated List", "deprecated.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -14,8 +15,8 @@ var NAVTREE =
         [ "Enumerator", "namespacemembers_eval.html", null ]
       ] ]
     ] ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
@@ -49,8 +50,8 @@ var NAVTREEINDEX =
 "classeq_1_1fabric_1_1_view.html#a5538a14b335d3f272d2ebb6f11b5a135",
 "classeq_1_1plugin_1_1_compressor.html",
 "classeq_1_1wgl_1_1_message_pump.html",
-"eq_2server_2version_8h.html#afcd6c2c7e0239f0856a66344bbca73a4",
-"structeq_1_1fabric_1_1_axis_event.html#a5804ee1833775e4f9e4c7ddbe877e092"
+"eq_2server_2version_8h.html#a74ba2c536ebe7942a80c511e7ced293d",
+"structeq_1_1_pixel_data.html#a9149afb1c7523ee2c76ba190900f8ffa"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

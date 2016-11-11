@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">100</td>
-            <td class="headerCovTableEntry">173</td>
-            <td class="headerCovTableEntryMed">57.8 %</td>
+            <td class="headerCovTableEntry">99</td>
+            <td class="headerCovTableEntry">172</td>
+            <td class="headerCovTableEntryMed">57.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-18 05:07:24</td>
+            <td class="headerValue">2016-11-11 05:03:37</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -218,21 +218,21 @@
 <span class="lineNum">     156 </span><span class="lineCov">          5 : bool _parseArguments( const int argc, char** argv )</span>
 <span class="lineNum">     157 </span>            : {
 <span class="lineNum">     158 </span>            :     typedef stde::hash_map&lt; std::string, uint32_t &gt; Flags;
-<span class="lineNum">     159 </span><span class="lineCov">          5 :     Flags configFlags;</span>
+<span class="lineNum">     159 </span><span class="lineCov">         10 :     Flags configFlags;</span>
 <span class="lineNum">     160 </span><span class="lineCov">          5 :     configFlags[&quot;multiprocess&quot;] = fabric::ConfigParams::FLAG_MULTIPROCESS;</span>
 <span class="lineNum">     161 </span><span class="lineCov">          5 :     configFlags[&quot;multiprocess_db&quot;] = fabric::ConfigParams::FLAG_MULTIPROCESS_DB;</span>
 <span class="lineNum">     162 </span><span class="lineCov">          5 :     configFlags[&quot;ethernet&quot;] = fabric::ConfigParams::FLAG_NETWORK_ETHERNET;</span>
 <span class="lineNum">     163 </span><span class="lineCov">          5 :     configFlags[&quot;infiniband&quot;] = fabric::ConfigParams::FLAG_NETWORK_INFINIBAND;</span>
-<span class="lineNum">     164 </span><span class="lineCov">         10 :     configFlags[&quot;2D_horizontal&quot;] =</span>
-<span class="lineNum">     165 </span><span class="lineCov">          5 :         fabric::ConfigParams::FLAG_LOAD_EQ_HORIZONTAL;</span>
-<span class="lineNum">     166 </span><span class="lineCov">         10 :     configFlags[&quot;2D_vertical&quot;] =</span>
-<span class="lineNum">     167 </span><span class="lineCov">          5 :         fabric::ConfigParams::FLAG_LOAD_EQ_VERTICAL;</span>
-<span class="lineNum">     168 </span><span class="lineCov">         10 :     configFlags[&quot;2D_tiles&quot;] =</span>
-<span class="lineNum">     169 </span><span class="lineCov">          5 :         fabric::ConfigParams::FLAG_LOAD_EQ_2D;</span>
+<span class="lineNum">     164 </span><span class="lineCov">          5 :     configFlags[&quot;2D_horizontal&quot;] =</span>
+<span class="lineNum">     165 </span>            :         fabric::ConfigParams::FLAG_LOAD_EQ_HORIZONTAL;
+<span class="lineNum">     166 </span><span class="lineCov">          5 :     configFlags[&quot;2D_vertical&quot;] =</span>
+<span class="lineNum">     167 </span>            :         fabric::ConfigParams::FLAG_LOAD_EQ_VERTICAL;
+<span class="lineNum">     168 </span><span class="lineCov">          5 :     configFlags[&quot;2D_tiles&quot;] =</span>
+<span class="lineNum">     169 </span>            :         fabric::ConfigParams::FLAG_LOAD_EQ_2D;
 <span class="lineNum">     170 </span>            : 
 <span class="lineNum">     171 </span><span class="lineCov">         10 :     arg::options_description options( &quot;Equalizer library options&quot; );</span>
-<span class="lineNum">     172 </span>            :     options.add_options()
-<span class="lineNum">     173 </span><span class="lineCov">         10 :         ( EQ_HELP, &quot;Display usage information and exit&quot; )</span>
+<span class="lineNum">     172 </span><span class="lineCov">         10 :     options.add_options()</span>
+<span class="lineNum">     173 </span><span class="lineCov">          5 :         ( EQ_HELP, &quot;Display usage information and exit&quot; )</span>
 <span class="lineNum">     174 </span><span class="lineCov">          5 :         ( EQ_LOGFILE, arg::value&lt; std::string &gt;(),</span>
 <span class="lineNum">     175 </span><span class="lineCov">          5 :           &quot;Redirect log output to given file&quot; )</span>
 <span class="lineNum">     176 </span><span class="lineCov">         10 :         ( EQ_SERVER, arg::value&lt; std::string &gt;(), &quot;The server address&quot; )</span>
@@ -250,13 +250,13 @@
 <span class="lineNum">     188 </span><span class="lineCov">         10 :     arg::variables_map vm;</span>
 <span class="lineNum">     189 </span>            :     try
 <span class="lineNum">     190 </span>            :     {
-<span class="lineNum">     191 </span><span class="lineCov">          5 :         Strings args;</span>
+<span class="lineNum">     191 </span><span class="lineCov">         10 :         Strings args;</span>
 <span class="lineNum">     192 </span><span class="lineCov">          8 :         for( int i = 0; i &lt; argc; ++i )</span>
 <span class="lineNum">     193 </span>            :         {
 <span class="lineNum">     194 </span><span class="lineCov">          3 :             if( strcmp( argv[i], &quot;--&quot; ) != 0 )</span>
 <span class="lineNum">     195 </span><span class="lineCov">          3 :                 args.push_back( argv[i] );</span>
 <span class="lineNum">     196 </span>            :         }
-<span class="lineNum">     197 </span>            :         arg::store( arg::command_line_parser( args )
+<span class="lineNum">     197 </span><span class="lineCov">         10 :         arg::store( arg::command_line_parser( args )</span>
 <span class="lineNum">     198 </span><span class="lineCov">          5 :                         .options( options ).allow_unregistered().run(), vm );</span>
 <span class="lineNum">     199 </span><span class="lineCov">          5 :         arg::notify( vm );</span>
 <span class="lineNum">     200 </span>            :     }
@@ -318,7 +318,7 @@
 <span class="lineNum">     256 </span>            :         }
 <span class="lineNum">     257 </span>            :     }
 <span class="lineNum">     258 </span>            : 
-<span class="lineNum">     259 </span><span class="lineCov">         10 :     return true;</span>
+<span class="lineNum">     259 </span><span class="lineCov">          5 :     return true;</span>
 <a name="260"><span class="lineNum">     260 </span>            : }</a>
 <span class="lineNum">     261 </span>            : 
 <span class="lineNum">     262 </span><span class="lineCov">          5 : void _initPlugins()</span>

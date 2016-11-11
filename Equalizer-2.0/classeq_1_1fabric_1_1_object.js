@@ -41,5 +41,5 @@ var classeq_1_1fabric_1_1_object =
     [ "setTasks", "classeq_1_1fabric_1_1_object.html#a7f692f5dba80067d301975995a54e637", null ],
     [ "setUserData", "classeq_1_1fabric_1_1_object.html#a074a96afc7fb9e31a1d5b4368ebde972", null ],
     [ "syncChildren", "classeq_1_1fabric_1_1_object.html#ae50edd417bfb04bd5dcdc959cefa3ced", null ],
-    [ "updateEvent", "classeq_1_1fabric_1_1_object.html#aae222ade110ca1cbddf6ffe600b608ba", null ]
+    [ "updateEvent", "classeq_1_1fabric_1_1_object.html#abe6fa781ef75ccec88d4f44f03707115", null ]
 ];

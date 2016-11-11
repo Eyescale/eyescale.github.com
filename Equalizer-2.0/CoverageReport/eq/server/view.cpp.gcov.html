@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">117</td>
-            <td class="headerCovTableEntry">246</td>
+            <td class="headerCovTableEntry">118</td>
+            <td class="headerCovTableEntry">248</td>
             <td class="headerCovTableEntryMed">47.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-18 05:07:24</td>
+            <td class="headerValue">2016-11-11 05:03:37</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">19</td>
@@ -124,7 +124,7 @@
 <span class="lineNum">      62 </span><span class="lineCov">       2160 : View::~View()</span>
 <span class="lineNum">      63 </span>            : {
 <span class="lineNum">      64 </span>            :     // Use copy - Channel::unsetOutput modifies vector
-<span class="lineNum">      65 </span><span class="lineCov">        720 :     Channels channels = _channels;</span>
+<span class="lineNum">      65 </span><span class="lineCov">       1440 :     Channels channels = _channels;</span>
 <span class="lineNum">      66 </span><span class="lineCov">       2160 :     for( Channels::const_iterator i = channels.begin();</span>
 <span class="lineNum">      67 </span><span class="lineCov">       1440 :          i != channels.end(); ++i )</span>
 <span class="lineNum">      68 </span>            :     {
@@ -143,7 +143,7 @@
 <span class="lineNum">      81 </span>            : public:
 <span class="lineNum">      82 </span><span class="lineCov">          4 :     FrustumUpdater( const Channels&amp; channels, const Vector3f&amp; eye,</span>
 <span class="lineNum">      83 </span>            :                     const float ratio )
-<span class="lineNum">      84 </span>            :             : _channels( channels )
+<span class="lineNum">      84 </span><span class="lineCov">          4 :             : _channels( channels )</span>
 <span class="lineNum">      85 </span>            :             , _eye( eye )
 <a name="86"><span class="lineNum">      86 </span><span class="lineCov">          4 :             , _ratio( ratio )</span></a>
 <span class="lineNum">      87 </span><span class="lineCov">          4 :         {}</span>
@@ -158,8 +158,8 @@
 <span class="lineNum">      96 </span><span class="lineCov">          4 :             if( !compound-&gt;isDestination( ))</span>
 <span class="lineNum">      97 </span><span class="lineNoCov">          0 :                 return TRAVERSE_PRUNE; // only change destination compounds</span>
 <span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span><span class="lineCov">          4 :             if( std::find( _channels.begin(), _channels.end(), channel ) !=</span>
-<span class="lineNum">     100 </span><span class="lineCov">          4 :                 _channels.end( )) // our destination channel</span>
+<span class="lineNum">      99 </span><span class="lineCov">          8 :             if( std::find( _channels.begin(), _channels.end(), channel ) !=</span>
+<span class="lineNum">     100 </span><span class="lineCov">          8 :                 _channels.end( )) // our destination channel</span>
 <span class="lineNum">     101 </span>            :             {
 <span class="lineNum">     102 </span><span class="lineCov">          4 :                 compound-&gt;updateFrustum( _eye, _ratio );</span>
 <span class="lineNum">     103 </span>            :             }
@@ -176,7 +176,7 @@
 <a name="114"><span class="lineNum">     114 </span>            : {</a>
 <span class="lineNum">     115 </span>            : public:
 <span class="lineNum">     116 </span><span class="lineNoCov">          0 :     explicit CapabilitiesUpdater( View* view )</span>
-<span class="lineNum">     117 </span>            :         : _view( view )
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :         : _view( view )</span>
 <span class="lineNum">     118 </span><span class="lineNoCov">          0 :         , _capabilities( _view-&gt;getMaximumCapabilities( ))</span>
 <a name="119"><span class="lineNum">     119 </span><span class="lineNoCov">          0 :     {}</span></a>
 <span class="lineNum">     120 </span>            : 
@@ -276,7 +276,7 @@
 <span class="lineNum">     214 </span><span class="lineCov">       6332 : void View::setDirty( const uint64_t bits )</span>
 <span class="lineNum">     215 </span>            : {
 <span class="lineNum">     216 </span><span class="lineCov">       6332 :     if( bits == 0 || !isAttached( ))</span>
-<span class="lineNum">     217 </span><span class="lineCov">      12646 :         return;</span>
+<span class="lineNum">     217 </span><span class="lineCov">       6314 :         return;</span>
 <span class="lineNum">     218 </span>            : 
 <span class="lineNum">     219 </span><span class="lineCov">         18 :     Super::setDirty( bits );</span>
 <span class="lineNum">     220 </span><span class="lineCov">         18 :     _updateChannels();</span>
@@ -401,12 +401,12 @@
 <span class="lineNum">     339 </span>            : 
 <span class="lineNum">     340 </span><span class="lineCov">          4 :         const Segment* segment = channel-&gt;getSegment();</span>
 <span class="lineNum">     341 </span><span class="lineCov">          4 :         const uint32_t segmentEyes = segment-&gt;getEyes();</span>
-<span class="lineNum">     342 </span>            :         const uint32_t eyes = ( mode == MODE_MONO ) ?
+<span class="lineNum">     342 </span><span class="lineCov">          4 :         const uint32_t eyes = ( mode == MODE_MONO ) ?</span>
 <span class="lineNum">     343 </span><span class="lineCov">          4 :                            EYE_CYCLOP &amp; segmentEyes : EYES_STEREO &amp; segmentEyes;</span>
 <span class="lineNum">     344 </span><span class="lineCov">          4 :         if( eyes == 0 )</span>
 <span class="lineNum">     345 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">     346 </span>            : 
-<span class="lineNum">     347 </span><span class="lineCov">          4 :         ConfigDestCompoundVisitor visitor( channel, true /*activeOnly*/ );</span>
+<span class="lineNum">     347 </span><span class="lineCov">          8 :         ConfigDestCompoundVisitor visitor( channel, true /*activeOnly*/ );</span>
 <span class="lineNum">     348 </span><span class="lineCov">          4 :         config-&gt;accept( visitor );</span>
 <span class="lineNum">     349 </span>            : 
 <span class="lineNum">     350 </span><span class="lineCov">          4 :         const Compounds&amp; compounds = visitor.getResult();</span>
@@ -427,7 +427,7 @@
 <span class="lineNum">     365 </span><span class="lineCov">          2 :                                   &lt;&lt; std::endl;</span>
 <span class="lineNum">     366 </span>            :             }
 <span class="lineNum">     367 </span>            :         }
-<span class="lineNum">     368 </span><span class="lineCov">          4 :     }</span>
+<span class="lineNum">     368 </span>            :     }
 <a name="369"><span class="lineNum">     369 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">     370 </span>            : 
 <span class="lineNum">     371 </span><span class="lineNoCov">          0 : void View::activateMode( const Mode mode )</span>
@@ -462,7 +462,7 @@
 <span class="lineNum">     400 </span><span class="lineCov">          4 :     const float ratio = _computeFocusRatio( eye );</span>
 <span class="lineNum">     401 </span>            : 
 <span class="lineNum">     402 </span><span class="lineCov">          4 :     Config* config = getConfig();</span>
-<span class="lineNum">     403 </span><span class="lineCov">          4 :     FrustumUpdater updater( channels, eye, ratio );</span>
+<span class="lineNum">     403 </span><span class="lineCov">          8 :     FrustumUpdater updater( channels, eye, ratio );</span>
 <span class="lineNum">     404 </span>            : 
 <span class="lineNum">     405 </span><span class="lineCov">          4 :     config-&gt;accept( updater );</span>
 <a name="406"><span class="lineNum">     406 </span><span class="lineCov">          4 : }</span></a>

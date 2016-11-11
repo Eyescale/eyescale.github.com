@@ -7,5 +7,5 @@ var classeq_1_1_exception =
     ] ],
     [ "Exception", "classeq_1_1_exception.html#a8a9b055074699e47363ea1059d0d79b5", null ],
     [ "~Exception", "classeq_1_1_exception.html#ab66c682f41883a718babfc1dc48cbc3c", null ],
-    [ "what", "classeq_1_1_exception.html#adadd1832731e10180562208981581e92", null ]
+    [ "what", "classeq_1_1_exception.html#a2fe9b049551ea34f2f4b1b8d9e7374b5", null ]
 ];

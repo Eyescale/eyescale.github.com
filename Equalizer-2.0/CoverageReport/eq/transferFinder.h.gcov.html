@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">17</td>
-            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">18</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-18 05:07:24</td>
+            <td class="headerValue">2016-11-11 05:03:37</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -94,7 +94,7 @@
 <span class="lineNum">      32 </span><span class="lineCov">         12 :     TransferFinder( const uint32_t internal, const uint32_t external,</span>
 <span class="lineNum">      33 </span>            :                     const uint64_t caps, const float minQuality,
 <span class="lineNum">      34 </span>            :                     const bool ignoreAlpha, const GLEWContext* gl )
-<span class="lineNum">      35 </span>            :         : internal_( internal )
+<span class="lineNum">      35 </span><span class="lineCov">         12 :         : internal_( internal )</span>
 <span class="lineNum">      36 </span>            :         , external_( external )
 <span class="lineNum">      37 </span><span class="lineCov">         12 :         , caps_( caps | EQ_COMPRESSOR_TRANSFER )</span>
 <span class="lineNum">      38 </span>            :         , minQuality_( minQuality )
@@ -104,22 +104,22 @@
 <span class="lineNum">      42 </span>            : 
 <a name="43"><span class="lineNum">      43 </span><span class="lineCov">         12 :     virtual ~TransferFinder() {}</span></a>
 <span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span><span class="lineCov">        828 :     virtual fabric::VisitorResult visit( const pression::Plugin&amp; plugin,</span>
+<span class="lineNum">      45 </span><span class="lineCov">        840 :     virtual fabric::VisitorResult visit( const pression::Plugin&amp; plugin,</span>
 <span class="lineNum">      46 </span>            :                                          const EqCompressorInfo&amp; info )
 <span class="lineNum">      47 </span>            :     {
-<span class="lineNum">      48 </span><span class="lineCov">       2016 :         if(( (info.capabilities &amp; caps_) == caps_ )                &amp;&amp;</span>
+<span class="lineNum">      48 </span><span class="lineCov">       2040 :         if(( (info.capabilities &amp; caps_) == caps_ )                &amp;&amp;</span>
 <span class="lineNum">      49 </span><span class="lineCov">        720 :            ( internal_ == EQ_COMPRESSOR_DATATYPE_NONE ||</span>
 <span class="lineNum">      50 </span><span class="lineCov">        426 :              info.tokenType == internal_ )                         &amp;&amp;</span>
 <span class="lineNum">      51 </span><span class="lineCov">        132 :            ( external_ == EQ_COMPRESSOR_DATATYPE_NONE ||</span>
 <span class="lineNum">      52 </span><span class="lineCov">         78 :              info.outputTokenType == external_ )                   &amp;&amp;</span>
 <span class="lineNum">      53 </span><span class="lineCov">         24 :            ( info.quality &gt;= minQuality_ )                         &amp;&amp;</span>
-<span class="lineNum">      54 </span><span class="lineCov">         12 :            ( ignoreAlpha_ ||</span>
-<span class="lineNum">      55 </span><span class="lineCov">        864 :              !(info.capabilities &amp; EQ_COMPRESSOR_IGNORE_ALPHA ))   &amp;&amp;</span>
+<span class="lineNum">      54 </span><span class="lineCov">         24 :            ( ignoreAlpha_ ||</span>
+<span class="lineNum">      55 </span><span class="lineCov">        876 :              !(info.capabilities &amp; EQ_COMPRESSOR_IGNORE_ALPHA ))   &amp;&amp;</span>
 <span class="lineNum">      56 </span><span class="lineCov">         12 :            ( !gl_ || plugin.isCompatible( info.name, gl_ )))</span>
 <span class="lineNum">      57 </span>            :         {
 <span class="lineNum">      58 </span><span class="lineCov">         12 :             result.push_back( info );</span>
 <span class="lineNum">      59 </span>            :         }
-<span class="lineNum">      60 </span><span class="lineCov">        828 :         return fabric::TRAVERSE_CONTINUE;</span>
+<span class="lineNum">      60 </span><span class="lineCov">        840 :         return fabric::TRAVERSE_CONTINUE;</span>
 <span class="lineNum">      61 </span>            :     }
 <span class="lineNum">      62 </span>            : 
 <span class="lineNum">      63 </span>            :     EqCompressorInfos result;

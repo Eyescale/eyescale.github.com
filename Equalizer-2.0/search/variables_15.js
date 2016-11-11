@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['zaxis',['zAxis',['../structeq_1_1fabric_1_1_axis_event.html#a092e450a6996401aa87c76af3cfb1cc7',1,'eq::fabric::AxisEvent']]],
-  ['zoom',['zoom',['../classeq_1_1fabric_1_1_render_context.html#ab3a268f063c223533ee2acd337297c99',1,'eq::fabric::RenderContext::zoom()'],['../structeq_1_1_image_op.html#a81083d6db60234cf20ed0e206e4c9c96',1,'eq::ImageOp::zoom()']]],
-  ['zoomfilter',['zoomFilter',['../structeq_1_1_image_op.html#abd05560749793267b6b1d0440b4c9803',1,'eq::ImageOp']]],
-  ['zrotation',['zRotation',['../structeq_1_1fabric_1_1_axis_event.html#a5804ee1833775e4f9e4c7ddbe877e092',1,'eq::fabric::AxisEvent']]]
+  ['y',['y',['../structeq_1_1fabric_1_1_pointer_event.html#a855086b433e73e4ba001694d5c870732',1,'eq::fabric::PointerEvent::y()'],['../structeq_1_1fabric_1_1_size_event.html#a392786ed9a0ad9af6bb3b757f14f2bcf',1,'eq::fabric::SizeEvent::y()'],['../classeq_1_1fabric_1_1_viewport.html#a860e97f910f61ab3269ee4635d6f8ac7',1,'eq::fabric::Viewport::y()']]],
+  ['yaxis',['yAxis',['../structeq_1_1fabric_1_1_axis_event.html#af68653b6897a7cfea46c06f150d6a741',1,'eq::fabric::AxisEvent::yAxis()'],['../structeq_1_1fabric_1_1_pointer_event.html#a4d0086a09eec4e41ea6fa0bdf8126b66',1,'eq::fabric::PointerEvent::yAxis()']]],
+  ['yrotation',['yRotation',['../structeq_1_1fabric_1_1_axis_event.html#aa0fbe3cecc133ad0d403848e52e3eaef',1,'eq::fabric::AxisEvent']]]
 ];

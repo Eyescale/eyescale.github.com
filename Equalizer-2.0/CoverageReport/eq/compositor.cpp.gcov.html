@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">144</td>
-            <td class="headerCovTableEntry">725</td>
-            <td class="headerCovTableEntryLo">19.9 %</td>
+            <td class="headerCovTableEntry">145</td>
+            <td class="headerCovTableEntry">732</td>
+            <td class="headerCovTableEntryLo">19.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-18 05:07:24</td>
+            <td class="headerValue">2016-11-11 05:03:37</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -207,7 +207,7 @@
 <span class="lineNum">     145 </span>            :     // that we will have at least one image per frame so most likely it's worth
 <span class="lineNum">     146 </span>            :     // to wait for the images and to do a CPU-based assembly. Also test early
 <span class="lineNum">     147 </span>            :     // for unsupported decomposition modes
-<span class="lineNum">     148 </span>            :     const uint32_t desiredBuffers = blend ? Frame::BUFFER_COLOR :
+<span class="lineNum">     148 </span><span class="lineNoCov">          0 :     const uint32_t desiredBuffers = blend ? Frame::BUFFER_COLOR :</span>
 <span class="lineNum">     149 </span><span class="lineNoCov">          0 :                                     Frame::BUFFER_COLOR | Frame::BUFFER_DEPTH;</span>
 <span class="lineNum">     150 </span><span class="lineNoCov">          0 :     for( const Frame* frame : frames )</span>
 <span class="lineNum">     151 </span>            :     {
@@ -468,12 +468,12 @@
 <span class="lineNum">     406 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">     407 </span>            : 
 <span class="lineNum">     408 </span><span class="lineCov">         63 :         if( op.image-&gt;hasPixelData( Frame::BUFFER_DEPTH ))</span>
-<span class="lineNum">     409 </span>            :             _mergeDBImage( colorBuffer, depthBuffer, destPVP, op.image,
+<span class="lineNum">     409 </span><span class="lineCov">         21 :             _mergeDBImage( colorBuffer, depthBuffer, destPVP, op.image,</span>
 <span class="lineNum">     410 </span><span class="lineCov">         21 :                            op.offset );</span>
 <span class="lineNum">     411 </span><span class="lineCov">         42 :         else if( blend &amp;&amp; op.image-&gt;hasAlpha( ))</span>
 <span class="lineNum">     412 </span><span class="lineCov">         21 :             _blendImage( colorBuffer, destPVP, op.image, op.offset );</span>
 <span class="lineNum">     413 </span>            :         else
-<span class="lineNum">     414 </span>            :             _merge2DImage( colorBuffer, depthBuffer, destPVP, op.image,
+<span class="lineNum">     414 </span><span class="lineCov">         21 :             _merge2DImage( colorBuffer, depthBuffer, destPVP, op.image,</span>
 <span class="lineNum">     415 </span><span class="lineCov">         21 :                            op.offset );</span>
 <span class="lineNum">     416 </span>            :     }
 <a name="417"><span class="lineNum">     417 </span><span class="lineCov">          9 : }</span></a>
@@ -481,7 +481,7 @@
 <span class="lineNum">     419 </span><span class="lineNoCov">          0 : Vector4f _getCoords( const ImageOp&amp; op, const PixelViewport&amp; pvp )</span>
 <span class="lineNum">     420 </span>            : {
 <span class="lineNum">     421 </span><span class="lineNoCov">          0 :     const Pixel&amp; pixel = op.image-&gt;getContext().pixel;</span>
-<span class="lineNum">     422 </span>            :     return Vector4f(
+<span class="lineNum">     422 </span><span class="lineNoCov">          0 :     return Vector4f(</span>
 <span class="lineNum">     423 </span><span class="lineNoCov">          0 :         op.offset.x() + pvp.x * pixel.w + pixel.x,</span>
 <span class="lineNum">     424 </span><span class="lineNoCov">          0 :         op.offset.x() + pvp.getXEnd() * pixel.w * op.zoom.x() + pixel.x,</span>
 <span class="lineNum">     425 </span><span class="lineNoCov">          0 :         op.offset.y() + pvp.y * pixel.h + pixel.y,</span>
@@ -505,7 +505,7 @@
 <span class="lineNum">     443 </span><span class="lineNoCov">          0 :             op.image-&gt;upload( which, 0, op.offset, objects );</span>
 <span class="lineNum">     444 </span><span class="lineNoCov">          0 :             return false;</span>
 <span class="lineNum">     445 </span>            :         }
-<span class="lineNum">     446 </span>            :         util::Texture* ncTexture = objects.obtainEqTexture(
+<span class="lineNum">     446 </span><span class="lineNoCov">          0 :         util::Texture* ncTexture = objects.obtainEqTexture(</span>
 <span class="lineNum">     447 </span>            :             which == Frame::BUFFER_COLOR ? colorDBKey : depthDBKey,
 <span class="lineNum">     448 </span><span class="lineNoCov">          0 :             GL_TEXTURE_RECTANGLE_ARB );</span>
 <span class="lineNum">     449 </span><span class="lineNoCov">          0 :         texture = ncTexture;</span>
@@ -653,8 +653,8 @@
 <span class="lineNum">     591 </span><span class="lineNoCov">          0 :     };</span>
 <span class="lineNum">     592 </span>            : 
 <span class="lineNum">     593 </span>            :     const GLfloat uvs[] = { 0.0f, 0.0f,
-<span class="lineNum">     594 </span>            :                             float( pvp.w ), 0.0f,
-<span class="lineNum">     595 </span>            :                             0.0f, float( pvp.h ),
+<span class="lineNum">     594 </span><span class="lineNoCov">          0 :                             float( pvp.w ), 0.0f,</span>
+<span class="lineNum">     595 </span><span class="lineNoCov">          0 :                             0.0f, float( pvp.h ),</span>
 <span class="lineNum">     596 </span><span class="lineNoCov">          0 :                             float( pvp.w ), float( pvp.h ) };</span>
 <span class="lineNum">     597 </span>            :     const eq::Matrix4f&amp; proj =
 <span class="lineNum">     598 </span><span class="lineNoCov">          0 :         eq::Frustumf( channel-&gt;getPixelViewport().x,</span>
@@ -793,7 +793,7 @@
 <span class="lineNum">     731 </span><span class="lineNoCov">          0 :             if( subCount &gt; 0 )</span>
 <span class="lineNum">     732 </span><span class="lineNoCov">          0 :                 accum-&gt;accum();</span>
 <span class="lineNum">     733 </span><span class="lineNoCov">          0 :             count += subCount;</span>
-<span class="lineNum">     734 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     734 </span>            :         }
 <span class="lineNum">     735 </span><span class="lineNoCov">          0 :         if( count &gt; 0 )</span>
 <span class="lineNum">     736 </span><span class="lineNoCov">          0 :             accum-&gt;display();</span>
 <span class="lineNum">     737 </span><span class="lineNoCov">          0 :         return count;</span>
@@ -944,7 +944,7 @@
 <span class="lineNum">     882 </span><span class="lineNoCov">          0 :             if( subCount &gt; 0 )</span>
 <span class="lineNum">     883 </span><span class="lineNoCov">          0 :                 accum-&gt;accum();</span>
 <span class="lineNum">     884 </span><span class="lineNoCov">          0 :             count += subCount;</span>
-<span class="lineNum">     885 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     885 </span>            :         }
 <span class="lineNum">     886 </span><span class="lineNoCov">          0 :         if( count &gt; 1 )</span>
 <span class="lineNum">     887 </span><span class="lineNoCov">          0 :             accum-&gt;display();</span>
 <span class="lineNum">     888 </span><span class="lineNoCov">          0 :         return count;</span>
@@ -1063,7 +1063,7 @@
 <span class="lineNum">    1001 </span>            :     // assembles the result image. Does not support Pixel or Eye compounds.
 <span class="lineNum">    1002 </span><span class="lineNoCov">          0 :     LBVERB &lt;&lt; &quot;Sorted CPU assembly&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1003 </span>            : 
-<span class="lineNum">    1004 </span>            :     const Image* result = mergeFramesCPU( frames, blend,
+<span class="lineNum">    1004 </span><span class="lineNoCov">          0 :     const Image* result = mergeFramesCPU( frames, blend,</span>
 <span class="lineNum">    1005 </span><span class="lineNoCov">          0 :                                           channel-&gt;getConfig()-&gt;getTimeout( ));</span>
 <span class="lineNum">    1006 </span><span class="lineNoCov">          0 :     return _assembleCPUImage( result, channel );</span>
 <a name="1007"><span class="lineNum">    1007 </span>            : }</a>
@@ -1086,7 +1086,7 @@
 <span class="lineNum">    1024 </span><span class="lineCov">          9 : const Image* Compositor::mergeFramesCPU( const Frames&amp; frames, const bool blend,</span>
 <span class="lineNum">    1025 </span>            :                                          const uint32_t timeout )
 <span class="lineNum">    1026 </span>            : {
-<span class="lineNum">    1027 </span><span class="lineCov">          9 :     ImageOps ops;</span>
+<span class="lineNum">    1027 </span><span class="lineCov">         18 :     ImageOps ops;</span>
 <span class="lineNum">    1028 </span><span class="lineCov">         30 :     for( const Frame* frame : frames )</span>
 <span class="lineNum">    1029 </span>            :     {
 <span class="lineNum">    1030 </span><span class="lineCov">         21 :         frame-&gt;waitReady( timeout );</span>
@@ -1097,7 +1097,7 @@
 <span class="lineNum">    1035 </span><span class="lineCov">         63 :             ops.emplace_back( op );</span>
 <span class="lineNum">    1036 </span>            :         }
 <span class="lineNum">    1037 </span>            :     }
-<span class="lineNum">    1038 </span><span class="lineCov">          9 :     return mergeImagesCPU( ops, blend );</span>
+<span class="lineNum">    1038 </span><span class="lineCov">         18 :     return mergeImagesCPU( ops, blend );</span>
 <a name="1039"><span class="lineNum">    1039 </span>            : }</a>
 <span class="lineNum">    1040 </span>            : 
 <span class="lineNum">    1041 </span><span class="lineCov">          9 : const Image* Compositor::mergeImagesCPU( const ImageOps&amp; ops, const bool blend )</span>
@@ -1114,7 +1114,7 @@
 <span class="lineNum">    1052 </span><span class="lineCov">          9 :     uint32_t depthPixelSize = 0;</span>
 <span class="lineNum">    1053 </span>            : 
 <span class="lineNum">    1054 </span><span class="lineCov">          9 :     if( !_collectOutputData( ops, destPVP, colorInt, colorPixelSize,</span>
-<span class="lineNum">    1055 </span><span class="lineCov">          9 :                              colorExt, depthInt, depthPixelSize, depthExt ))</span>
+<span class="lineNum">    1055 </span>            :                              colorExt, depthInt, depthPixelSize, depthExt ))
 <span class="lineNum">    1056 </span>            :     {
 <span class="lineNum">    1057 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">    1058 </span>            :     }
@@ -1129,7 +1129,7 @@
 <span class="lineNum">    1067 </span>            : 
 <span class="lineNum">    1068 </span><span class="lineCov">          9 :     result-&gt;setPixelViewport( destPVP );</span>
 <span class="lineNum">    1069 </span>            : 
-<span class="lineNum">    1070 </span><span class="lineCov">          9 :     PixelData colorPixels;</span>
+<span class="lineNum">    1070 </span><span class="lineCov">         18 :     PixelData colorPixels;</span>
 <span class="lineNum">    1071 </span><span class="lineCov">          9 :     colorPixels.internalFormat = colorInt;</span>
 <span class="lineNum">    1072 </span><span class="lineCov">          9 :     colorPixels.externalFormat = colorExt;</span>
 <span class="lineNum">    1073 </span><span class="lineCov">          9 :     colorPixels.pixelSize      = colorPixelSize;</span>
@@ -1141,7 +1141,7 @@
 <span class="lineNum">    1079 </span>            :     {
 <span class="lineNum">    1080 </span><span class="lineCov">          3 :         LBASSERT( depthExt ==</span>
 <span class="lineNum">    1081 </span>            :                   EQ_COMPRESSOR_DATATYPE_DEPTH_UNSIGNED_INT );
-<span class="lineNum">    1082 </span><span class="lineCov">          3 :         PixelData depthPixels;</span>
+<span class="lineNum">    1082 </span><span class="lineCov">          6 :         PixelData depthPixels;</span>
 <span class="lineNum">    1083 </span><span class="lineCov">          3 :         depthPixels.internalFormat = depthInt;</span>
 <span class="lineNum">    1084 </span><span class="lineCov">          3 :         depthPixels.externalFormat = depthExt;</span>
 <span class="lineNum">    1085 </span><span class="lineCov">          3 :         depthPixels.pixelSize      = depthPixelSize;</span>
@@ -1377,9 +1377,9 @@
 <span class="lineNum">    1315 </span>            :     }
 <span class="lineNum">    1316 </span>            :     else
 <span class="lineNum">    1317 </span>            :     {
-<span class="lineNum">    1318 </span>            :         util::Texture* ncTextureColor = om.obtainEqTexture( colorDBKey,
+<span class="lineNum">    1318 </span><span class="lineNoCov">          0 :         util::Texture* ncTextureColor = om.obtainEqTexture( colorDBKey,</span>
 <span class="lineNum">    1319 </span><span class="lineNoCov">          0 :                                                      GL_TEXTURE_RECTANGLE_ARB );</span>
-<span class="lineNum">    1320 </span>            :         util::Texture* ncTextureDepth = om.obtainEqTexture( depthDBKey,
+<span class="lineNum">    1320 </span><span class="lineNoCov">          0 :         util::Texture* ncTextureDepth = om.obtainEqTexture( depthDBKey,</span>
 <span class="lineNum">    1321 </span><span class="lineNoCov">          0 :                                                      GL_TEXTURE_RECTANGLE_ARB );</span>
 <span class="lineNum">    1322 </span><span class="lineNoCov">          0 :         const Vector2i offset( -pvp.x, -pvp.y ); // will be applied with quad</span>
 <span class="lineNum">    1323 </span>            : 

@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">149</td>
-            <td class="headerCovTableEntry">199</td>
-            <td class="headerCovTableEntryMed">74.9 %</td>
+            <td class="headerCovTableEntry">153</td>
+            <td class="headerCovTableEntry">203</td>
+            <td class="headerCovTableEntryMed">75.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-18 05:07:24</td>
+            <td class="headerValue">2016-11-11 05:03:37</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">26</td>
@@ -97,13 +97,13 @@
 <a name="35"><span class="lineNum">      35 </span>            : {</a>
 <span class="lineNum">      36 </span>            : #define MAKE_ATTR_STRING( attr ) ( std::string(&quot;EQ_CHANNEL_&quot;) + #attr )
 <span class="lineNum">      37 </span><span class="lineCov">        140 : static std::string _iAttributeStrings[] = {</span>
-<span class="lineNum">      38 </span>            :     MAKE_ATTR_STRING( IATTR_HINT_STATISTICS ),
-<span class="lineNum">      39 </span>            :     MAKE_ATTR_STRING( IATTR_HINT_SENDTOKEN )
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">         70 : };</span></a>
+<span class="lineNum">      38 </span><span class="lineCov">        140 :     MAKE_ATTR_STRING( IATTR_HINT_STATISTICS ),</span>
+<span class="lineNum">      39 </span><span class="lineCov">        140 :     MAKE_ATTR_STRING( IATTR_HINT_SENDTOKEN )</span>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">        350 : };</span></a>
 <span class="lineNum">      41 </span>            : 
 <span class="lineNum">      42 </span><span class="lineCov">        140 : static std::string _sAttributeStrings[] = {</span>
-<span class="lineNum">      43 </span>            :     MAKE_ATTR_STRING( SATTR_DUMP_IMAGE )
-<span class="lineNum">      44 </span><span class="lineCov">         70 : };</span>
+<span class="lineNum">      43 </span><span class="lineCov">        140 :     MAKE_ATTR_STRING( SATTR_DUMP_IMAGE )</span>
+<span class="lineNum">      44 </span><span class="lineCov">        210 : };</span>
 <a name="45"><span class="lineNum">      45 </span>            : }</a>
 <span class="lineNum">      46 </span>            : 
 <span class="lineNum">      47 </span><span class="lineCov">       2461 : template&lt; class W, class C &gt; Channel&lt; W, C &gt;::Channel( W* parent )</span>
@@ -118,10 +118,10 @@
 <span class="lineNum">      56 </span>            : 
 <span class="lineNum">      57 </span><span class="lineCov">       1174 : template&lt; class W, class C &gt; Channel&lt; W, C &gt;::Channel( const Channel&amp; from )</span>
 <span class="lineNum">      58 </span>            :         : Object( from )
-<span class="lineNum">      59 </span>            :         , _window( from._window )
+<span class="lineNum">      59 </span><span class="lineCov">       1174 :         , _window( from._window )</span>
 <span class="lineNum">      60 </span>            :         , _data( from._data )
 <span class="lineNum">      61 </span>            :         , _context( &amp;_data.nativeContext )
-<span class="lineNum">      62 </span><span class="lineCov">       1174 :         , _maxSize( from._maxSize )</span>
+<span class="lineNum">      62 </span><span class="lineCov">       2348 :         , _maxSize( from._maxSize )</span>
 <span class="lineNum">      63 </span>            : {
 <span class="lineNum">      64 </span><span class="lineCov">       1174 :     _window-&gt;_addChannel( static_cast&lt; C* &gt;( this ));</span>
 <span class="lineNum">      65 </span>            : 
@@ -211,7 +211,7 @@
 <span class="lineNum">     149 </span>            :         else // consume unused data
 <span class="lineNum">     150 </span><span class="lineNoCov">          0 :             is.getRemainingBuffer( sizeof( _data.nativeContext.vp ) +</span>
 <span class="lineNum">     151 </span>            :                                    sizeof( _data.nativeContext.pvp ) +
-<span class="lineNum">     152 </span><span class="lineNoCov">          0 :                                    sizeof( _data.fixedVP ) +sizeof( _maxSize ));</span>
+<span class="lineNum">     152 </span>            :                                    sizeof( _data.fixedVP ) +sizeof( _maxSize ));
 <span class="lineNum">     153 </span>            :     }
 <span class="lineNum">     154 </span><span class="lineCov">          1 :     if( dirtyBits &amp; DIRTY_MEMBER )</span>
 <span class="lineNum">     155 </span><span class="lineCov">          1 :         is &gt;&gt; _data.nativeContext.view  &gt;&gt; _data.nativeContext.overdraw;</span>
@@ -335,7 +335,7 @@
 <span class="lineNum">     273 </span><span class="lineCov">       1196 : void Channel&lt; W, C &gt;::setViewVersion( const co::ObjectVersion&amp; view )</span>
 <span class="lineNum">     274 </span>            : {
 <span class="lineNum">     275 </span><span class="lineCov">       1196 :     if( _data.nativeContext.view == view )</span>
-<span class="lineNum">     276 </span><span class="lineCov">       2382 :         return;</span>
+<span class="lineNum">     276 </span><span class="lineCov">       1186 :         return;</span>
 <span class="lineNum">     277 </span><span class="lineCov">         10 :     LBASSERTINFO( view.identifier != 0 ||</span>
 <span class="lineNum">     278 </span>            :                   _data.nativeContext.view.version &lt;= view.version,
 <span class="lineNum">     279 </span>            :                   _data.nativeContext.view &lt;&lt; &quot; != &quot; &lt;&lt; view );
@@ -371,7 +371,7 @@
 <span class="lineNum">     309 </span><span class="lineCov">          4 : void Channel&lt; W, C &gt;::setOverdraw( const Vector4i&amp; overdraw )</span>
 <span class="lineNum">     310 </span>            : {
 <span class="lineNum">     311 </span><span class="lineCov">          4 :     if( _data.nativeContext.overdraw == overdraw )</span>
-<span class="lineNum">     312 </span><span class="lineCov">          8 :         return;</span>
+<span class="lineNum">     312 </span><span class="lineCov">          4 :         return;</span>
 <span class="lineNum">     313 </span><span class="lineNoCov">          0 :     _data.nativeContext.overdraw = overdraw;</span>
 <span class="lineNum">     314 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_MEMBER );</span>
 <span class="lineNum">     315 </span>            : }
@@ -384,7 +384,7 @@
 <span class="lineNum">     322 </span><span class="lineNoCov">          0 :     ChannelPath path( window-&gt;getPath( ));</span>
 <span class="lineNum">     323 </span>            : 
 <span class="lineNum">     324 </span><span class="lineNoCov">          0 :     const typename W::Channels&amp; channels = window-&gt;getChannels();</span>
-<span class="lineNum">     325 </span>            :     typename W::Channels::const_iterator i = std::find( channels.begin(),
+<span class="lineNum">     325 </span><span class="lineNoCov">          0 :     typename W::Channels::const_iterator i = std::find( channels.begin(),</span>
 <span class="lineNum">     326 </span><span class="lineNoCov">          0 :                                                         channels.end(), this );</span>
 <span class="lineNum">     327 </span><span class="lineNoCov">          0 :     LBASSERT( i != channels.end( ));</span>
 <span class="lineNum">     328 </span><span class="lineNoCov">          0 :     path.channelIndex = std::distance( channels.begin(), i );</span>

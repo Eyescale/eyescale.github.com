@@ -7,7 +7,7 @@ var searchData=
   ['canvases',['Canvases',['../classeq_1_1fabric_1_1_canvas.html#a6a67e9740720e6d423a7c046c6792523',1,'eq::fabric::Canvas::Canvases()'],['../classeq_1_1fabric_1_1_config.html#a7d274a34b4ea7b874af6c16b2a4054af',1,'eq::fabric::Config::Canvases()'],['../namespaceeq.html#ad6fb67248e56a637f161d71a0624337c',1,'eq::Canvases()']]],
   ['canvasesciter',['CanvasesCIter',['../namespaceeq.html#abea00811accc9c76289f81620adac4bc',1,'eq']]],
   ['canvasvisitor',['CanvasVisitor',['../namespaceeq.html#aab74463e4e7c58ef24bf15933023e69d',1,'eq']]],
-  ['changelog',['Changelog',['../_changelog.html',1,'']]],
+  ['changelog',['Changelog',['../Changelog.html',1,'']]],
   ['changemode',['changeMode',['../classeq_1_1fabric_1_1_view.html#a5538a14b335d3f272d2ebb6f11b5a135',1,'eq::fabric::View']]],
   ['channel',['Channel',['../classeq_1_1_channel.html',1,'eq']]],
   ['channel',['Channel',['../classeq_1_1fabric_1_1_channel.html',1,'eq::fabric']]],

@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">164</td>
-            <td class="headerCovTableEntry">209</td>
-            <td class="headerCovTableEntryMed">78.5 %</td>
+            <td class="headerCovTableEntry">168</td>
+            <td class="headerCovTableEntry">213</td>
+            <td class="headerCovTableEntryMed">78.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-18 05:07:24</td>
+            <td class="headerValue">2016-11-11 05:03:37</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">32</td>
@@ -100,9 +100,9 @@
 <a name="38"><span class="lineNum">      38 </span>            : </a>
 <span class="lineNum">      39 </span>            : #define MAKE_PIPE_ATTR_STRING( attr ) ( std::string(&quot;EQ_PIPE_&quot;) + #attr )
 <span class="lineNum">      40 </span><span class="lineCov">        140 : std::string _iPipeAttributeStrings[] = {</span>
-<span class="lineNum">      41 </span>            :     MAKE_PIPE_ATTR_STRING( IATTR_HINT_THREAD ),
-<span class="lineNum">      42 </span>            :     MAKE_PIPE_ATTR_STRING( IATTR_HINT_AFFINITY ),
-<span class="lineNum">      43 </span><span class="lineCov">         70 : };</span>
+<span class="lineNum">      41 </span><span class="lineCov">        140 :     MAKE_PIPE_ATTR_STRING( IATTR_HINT_THREAD ),</span>
+<span class="lineNum">      42 </span><span class="lineCov">        140 :     MAKE_PIPE_ATTR_STRING( IATTR_HINT_AFFINITY ),</span>
+<span class="lineNum">      43 </span><span class="lineCov">        350 : };</span>
 <span class="lineNum">      44 </span>            : 
 <span class="lineNum">      45 </span>            : }
 <a name="46"><span class="lineNum">      46 </span>            : </a>
@@ -121,7 +121,7 @@
 <span class="lineNum">      59 </span><span class="lineCov">       1145 : Pipe&lt; N, P, W, V &gt;::~Pipe()</span>
 <span class="lineNum">      60 </span>            : {
 <span class="lineNum">      61 </span><span class="lineCov">       1145 :     LBLOG( LOG_INIT ) &lt;&lt; &quot;Delete &quot; &lt;&lt; lunchbox::className( this ) &lt;&lt; std::endl;</span>
-<span class="lineNum">      62 </span><span class="lineCov">       3782 :     while( !_windows.empty() )</span>
+<span class="lineNum">      62 </span><span class="lineCov">       4129 :     while( !_windows.empty() )</span>
 <span class="lineNum">      63 </span>            :     {
 <span class="lineNum">      64 </span><span class="lineCov">       1492 :         W* window = _windows.back();</span>
 <span class="lineNum">      65 </span><span class="lineCov">       1492 :         _removeWindow( window );</span>
@@ -236,13 +236,13 @@
 <span class="lineNum">     174 </span><span class="lineCov">          5 : void Pipe&lt; N, P, W, V &gt;::notifyDetach()</span>
 <span class="lineNum">     175 </span>            : {
 <span class="lineNum">     176 </span><span class="lineCov">          5 :     Object::notifyDetach();</span>
-<span class="lineNum">     177 </span><span class="lineCov">         10 :     while( !_windows.empty( ))</span>
+<span class="lineNum">     177 </span><span class="lineCov">          5 :     while( !_windows.empty( ))</span>
 <span class="lineNum">     178 </span>            :     {
 <span class="lineNum">     179 </span><span class="lineCov">          4 :         W* window = _windows.back();</span>
 <span class="lineNum">     180 </span><span class="lineCov">          4 :         if( !window-&gt;isAttached()  )</span>
 <span class="lineNum">     181 </span>            :         {
 <span class="lineNum">     182 </span><span class="lineCov">          4 :             LBASSERT( isMaster( ));</span>
-<span class="lineNum">     183 </span><span class="lineCov">          9 :             return;</span>
+<span class="lineNum">     183 </span><span class="lineCov">          4 :             return;</span>
 <span class="lineNum">     184 </span>            :         }
 <span class="lineNum">     185 </span>            : 
 <span class="lineNum">     186 </span><span class="lineNoCov">          0 :         LBASSERT( !isMaster( ));</span>
@@ -332,7 +332,7 @@
 <span class="lineNum">     270 </span><span class="lineCov">         92 :     PipePath path( node-&gt;getPath( ));</span>
 <span class="lineNum">     271 </span>            : 
 <span class="lineNum">     272 </span><span class="lineCov">         92 :     const typename std::vector&lt; P* &gt;&amp; pipes = node-&gt;getPipes();</span>
-<span class="lineNum">     273 </span>            :     typename std::vector&lt; P* &gt;::const_iterator i = std::find( pipes.begin(),
+<span class="lineNum">     273 </span><span class="lineCov">        184 :     typename std::vector&lt; P* &gt;::const_iterator i = std::find( pipes.begin(),</span>
 <span class="lineNum">     274 </span>            :                                                               pipes.end(),
 <span class="lineNum">     275 </span><span class="lineCov">         92 :                                                               this );</span>
 <span class="lineNum">     276 </span><span class="lineCov">         92 :     LBASSERT( i != pipes.end( ));</span>
@@ -345,7 +345,7 @@
 <span class="lineNum">     283 </span>            :                                      const int32_t value )
 <span class="lineNum">     284 </span>            : {
 <span class="lineNum">     285 </span><span class="lineCov">       2312 :     if( _iAttributes[attr] == value )</span>
-<span class="lineNum">     286 </span><span class="lineCov">       3458 :         return;</span>
+<span class="lineNum">     286 </span><span class="lineCov">       1146 :         return;</span>
 <span class="lineNum">     287 </span>            : 
 <span class="lineNum">     288 </span><span class="lineCov">       1166 :     _iAttributes[attr] = value;</span>
 <span class="lineNum">     289 </span><span class="lineCov">       1166 :     setDirty( DIRTY_ATTRIBUTES );</span>
@@ -376,7 +376,7 @@
 <span class="lineNum">     314 </span>            : template&lt; class N, class P, class W, class V &gt;
 <span class="lineNum">     315 </span><span class="lineCov">       2985 : bool Pipe&lt; N, P, W, V &gt;::_removeWindow( W* window )</span>
 <span class="lineNum">     316 </span>            : {
-<span class="lineNum">     317 </span>            :     typename Windows::iterator i = find( _windows.begin(), _windows.end(),
+<span class="lineNum">     317 </span><span class="lineCov">       2985 :     typename Windows::iterator i = find( _windows.begin(), _windows.end(),</span>
 <span class="lineNum">     318 </span><span class="lineCov">       2985 :                                          window );</span>
 <span class="lineNum">     319 </span><span class="lineCov">       2985 :     if ( i == _windows.end( ) )</span>
 <span class="lineNum">     320 </span><span class="lineCov">       1492 :         return false;</span>
@@ -414,7 +414,7 @@
 <span class="lineNum">     352 </span><span class="lineCov">          1 : void Pipe&lt; N, P, W, V &gt;::setPixelViewport( const PixelViewport&amp; pvp )</span>
 <span class="lineNum">     353 </span>            : {
 <span class="lineNum">     354 </span><span class="lineCov">          1 :     if( pvp == _data.pvp || !pvp.hasArea( ))</span>
-<span class="lineNum">     355 </span><span class="lineCov">          2 :         return;</span>
+<span class="lineNum">     355 </span><span class="lineCov">          1 :         return;</span>
 <span class="lineNum">     356 </span>            : 
 <span class="lineNum">     357 </span><span class="lineNoCov">          0 :     _data.pvp = pvp;</span>
 <span class="lineNum">     358 </span><span class="lineNoCov">          0 :     notifyPixelViewportChanged();</span>
