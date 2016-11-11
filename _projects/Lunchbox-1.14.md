@@ -4,7 +4,7 @@ version: "1.14"
 major: 1
 minor: 14
 description: Multi-threaded C++ toolbox library for all application developers creating high-performance multi-threaded programs.
-updated: 05/11/16
+updated: 11/11/16
 homepage: https://github.com/Eyescale/Lunchbox
 repository: https://github.com/Eyescale/Lunchbox.git
 issuesurl: https://github.com/Eyescale/Lunchbox/issues
@@ -12,7 +12,7 @@ packageurl: https://launchpad.net/~eilemann/+archive/equalizer-dev
 license: LGPL
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Stefan Eilemann
+contributors: Daniel Nachbaur
 readmetype: text/x-markdown
 ---
 

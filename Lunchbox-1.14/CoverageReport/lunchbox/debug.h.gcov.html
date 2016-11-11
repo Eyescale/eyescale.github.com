@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-11-05 05:22:22</td>
+            <td class="headerValue">2016-11-11 05:21:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -213,61 +213,64 @@
 <span class="lineNum">     151 </span>            : #    define LBCHECK(x) { x; }
 <span class="lineNum">     152 </span>            : #  endif
 <span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span>            : #  define LBUNIMPLEMENTED { LBERROR &lt;&lt; &quot;Unimplemented code&quot; &lt;&lt; std::endl \
-<span class="lineNum">     155 </span>            :                                     &lt;&lt; lunchbox::forceFlush; }
-<span class="lineNum">     156 </span>            : #  define LBUNREACHABLE   { LBERROR &lt;&lt; &quot;Unreachable code&quot; &lt;&lt; std::endl  \
-<span class="lineNum">     157 </span>            :                                     &lt;&lt; lunchbox::forceFlush; }
-<span class="lineNum">     158 </span>            : #  define LBDONTCALL                                                    \
-<span class="lineNum">     159 </span>            :     { LBERROR &lt;&lt; &quot;Code is not supposed to be called in this context&quot;    \
-<span class="lineNum">     160 </span>            :               &lt;&lt; std::endl &lt;&lt; lunchbox::forceFlush; }
-<span class="lineNum">     161 </span>            : #  define LBABORT( info ) {                                         \
-<span class="lineNum">     162 </span>            :         LBERROR &lt;&lt; &quot;##### Abort: &quot; &lt;&lt; info &lt;&lt; &quot; #####&quot; &lt;&lt; std::endl \
-<span class="lineNum">     163 </span>            :                 &lt;&lt; lunchbox::forceFlush; }
-<span class="lineNum">     164 </span>            : 
-<span class="lineNum">     165 </span>            : #else // NDEBUG
+<span class="lineNum">     154 </span>            : #  define LBUNIMPLEMENTED { LBERROR &lt;&lt; &quot;Unimplemented code in &quot; &lt;&lt; __FILE__ \
+<span class="lineNum">     155 </span>            :                                     &lt;&lt; &quot;:&quot; &lt;&lt; __LINE__ &lt;&lt; std::endl     \
+<span class="lineNum">     156 </span>            :                                     &lt;&lt; lunchbox::forceFlush; }
+<span class="lineNum">     157 </span>            : #  define LBUNREACHABLE   { LBERROR &lt;&lt; &quot;Unreachable code in &quot; &lt;&lt; __FILE__ \
+<span class="lineNum">     158 </span>            :                                     &lt;&lt; &quot;:&quot; &lt;&lt; __LINE__ &lt;&lt; std::endl     \
+<span class="lineNum">     159 </span>            :                                     &lt;&lt; lunchbox::forceFlush; }
+<span class="lineNum">     160 </span>            : #  define LBDONTCALL                                                    \
+<span class="lineNum">     161 </span>            :     { LBERROR &lt;&lt; &quot;Code is not supposed to be called in this context&quot;    \
+<span class="lineNum">     162 </span>            :               &lt;&lt; std::endl &lt;&lt; lunchbox::forceFlush; }
+<span class="lineNum">     163 </span>            : #  define LBABORT( info ) {                                         \
+<span class="lineNum">     164 </span>            :         LBERROR &lt;&lt; &quot;##### Abort: &quot; &lt;&lt; info &lt;&lt; &quot; #####&quot; &lt;&lt; std::endl \
+<span class="lineNum">     165 </span>            :                 &lt;&lt; lunchbox::forceFlush; }
 <span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span>            : #  define LBASSERT(x)                                                   \
-<span class="lineNum">     168 </span>            :     {                                                                   \
-<span class="lineNum">     169 </span>            :         if( !(x) )                                                      \
-<span class="lineNum">     170 </span>            :         {                                                               \
-<span class="lineNum">     171 </span>            :             LBERROR &lt;&lt; &quot;Assert: &quot; &lt;&lt; #x &lt;&lt; &quot; &quot;;                         \
-<span class="lineNum">     172 </span>            :             lunchbox::abort();                                          \
-<span class="lineNum">     173 </span>            :         }                                                               \
-<span class="lineNum">     174 </span>            :         lunchbox::checkHeap();                                          \
-<span class="lineNum">     175 </span>            :     }
-<span class="lineNum">     176 </span>            : #  define LBASSERTINFO(x, info)                                         \
-<span class="lineNum">     177 </span>            :     {                                                                   \
-<span class="lineNum">     178 </span>            :         if( !(x) )                                                      \
-<span class="lineNum">     179 </span>            :         {                                                               \
-<span class="lineNum">     180 </span>            :             LBERROR &lt;&lt; &quot;Assert: &quot; &lt;&lt; #x &lt;&lt; &quot; [&quot; &lt;&lt; info &lt;&lt; &quot;] &quot;;        \
-<span class="lineNum">     181 </span>            :             lunchbox::abort();                                          \
-<span class="lineNum">     182 </span>            :         }                                                               \
-<span class="lineNum">     183 </span>            :         lunchbox::checkHeap();                                          \
-<span class="lineNum">     184 </span>            :     }
-<span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span>            : #  define LBUNIMPLEMENTED                                               \
-<span class="lineNum">     187 </span>            :     { LBERROR &lt;&lt; &quot;Unimplemented code in &quot; &lt;&lt; lunchbox::className( this ) \
-<span class="lineNum">     188 </span>            :               &lt;&lt; &quot; &quot;;                                                   \
-<span class="lineNum">     189 </span>            :         lunchbox::abort(); }
-<span class="lineNum">     190 </span>            : #  define LBUNREACHABLE                                                 \
-<span class="lineNum">     191 </span>            :     { LBERROR &lt;&lt; &quot;Unreachable code in &quot; &lt;&lt; lunchbox::className( this )  \
-<span class="lineNum">     192 </span>            :               &lt;&lt; &quot; &quot;;                                                   \
-<span class="lineNum">     193 </span>            :         lunchbox::abort(); }
-<span class="lineNum">     194 </span>            : #  define LBDONTCALL                                                    \
-<span class="lineNum">     195 </span>            :     { LBERROR &lt;&lt; &quot;Code is not supposed to be called in this context, type &quot; \
-<span class="lineNum">     196 </span>            :               &lt;&lt; lunchbox::className( this ) &lt;&lt; &quot; &quot; ;                   \
-<span class="lineNum">     197 </span>            :         lunchbox::abort(); }
-<span class="lineNum">     198 </span>            : 
-<span class="lineNum">     199 </span>            : #  define LBCHECK(x) { const bool eqOk = x; LBASSERTINFO( eqOk, #x ) }
-<span class="lineNum">     200 </span>            : #  define LBABORT( info ) {                                             \
-<span class="lineNum">     201 </span>            :         LBERROR &lt;&lt; &quot;Abort: &quot; &lt;&lt; info;                                   \
-<span class="lineNum">     202 </span>            :         lunchbox::abort(); }
-<span class="lineNum">     203 </span>            : #endif // NDEBUG
-<span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span>            : #define LBSAFECAST( to, in ) static_cast&lt; to &gt;( in );   \
-<span class="lineNum">     206 </span>            :     LBASSERT( in == 0 || dynamic_cast&lt; to &gt;( static_cast&lt; to &gt;( in )))
+<span class="lineNum">     167 </span>            : #else // NDEBUG
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span>            : #  define LBASSERT(x)                                                   \
+<span class="lineNum">     170 </span>            :     {                                                                   \
+<span class="lineNum">     171 </span>            :         if( !(x) )                                                      \
+<span class="lineNum">     172 </span>            :         {                                                               \
+<span class="lineNum">     173 </span>            :             LBERROR &lt;&lt; &quot;Assert: &quot; &lt;&lt; #x &lt;&lt; &quot; &quot;;                         \
+<span class="lineNum">     174 </span>            :             lunchbox::abort();                                          \
+<span class="lineNum">     175 </span>            :         }                                                               \
+<span class="lineNum">     176 </span>            :         lunchbox::checkHeap();                                          \
+<span class="lineNum">     177 </span>            :     }
+<span class="lineNum">     178 </span>            : #  define LBASSERTINFO(x, info)                                         \
+<span class="lineNum">     179 </span>            :     {                                                                   \
+<span class="lineNum">     180 </span>            :         if( !(x) )                                                      \
+<span class="lineNum">     181 </span>            :         {                                                               \
+<span class="lineNum">     182 </span>            :             LBERROR &lt;&lt; &quot;Assert: &quot; &lt;&lt; #x &lt;&lt; &quot; [&quot; &lt;&lt; info &lt;&lt; &quot;] &quot;;        \
+<span class="lineNum">     183 </span>            :             lunchbox::abort();                                          \
+<span class="lineNum">     184 </span>            :         }                                                               \
+<span class="lineNum">     185 </span>            :         lunchbox::checkHeap();                                          \
+<span class="lineNum">     186 </span>            :     }
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            : #  define LBUNIMPLEMENTED                                               \
+<span class="lineNum">     189 </span>            :     { LBERROR &lt;&lt; &quot;Unimplemented code in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot;:&quot; &lt;&lt; __LINE__ \
+<span class="lineNum">     190 </span>            :               &lt;&lt; &quot; &quot;;                                                   \
+<span class="lineNum">     191 </span>            :         lunchbox::abort(); }
+<span class="lineNum">     192 </span>            : #  define LBUNREACHABLE                                                 \
+<span class="lineNum">     193 </span>            :     { LBERROR &lt;&lt; &quot;Unreachable code in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot;:&quot; &lt;&lt; __LINE__  \
+<span class="lineNum">     194 </span>            :               &lt;&lt; lunchbox::className( this )                            \
+<span class="lineNum">     195 </span>            :               &lt;&lt; &quot; &quot;;                                                   \
+<span class="lineNum">     196 </span>            :         lunchbox::abort(); }
+<span class="lineNum">     197 </span>            : #  define LBDONTCALL                                                    \
+<span class="lineNum">     198 </span>            :     { LBERROR &lt;&lt; &quot;Code is not supposed to be called in this context, type &quot; \
+<span class="lineNum">     199 </span>            :               &lt;&lt; lunchbox::className( this ) &lt;&lt; &quot; &quot; ;                   \
+<span class="lineNum">     200 </span>            :         lunchbox::abort(); }
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span>            : #  define LBCHECK(x) { const bool eqOk = x; LBASSERTINFO( eqOk, #x ) }
+<span class="lineNum">     203 </span>            : #  define LBABORT( info ) {                                             \
+<span class="lineNum">     204 </span>            :         LBERROR &lt;&lt; &quot;Abort: &quot; &lt;&lt; info;                                   \
+<span class="lineNum">     205 </span>            :         lunchbox::abort(); }
+<span class="lineNum">     206 </span>            : #endif // NDEBUG
 <span class="lineNum">     207 </span>            : 
-<span class="lineNum">     208 </span>            : #endif //LUNCHBOX_DEBUG_H
+<span class="lineNum">     208 </span>            : #define LBSAFECAST( to, in ) static_cast&lt; to &gt;( in );   \
+<span class="lineNum">     209 </span>            :     LBASSERT( in == 0 || dynamic_cast&lt; to &gt;( static_cast&lt; to &gt;( in )))
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            : #endif //LUNCHBOX_DEBUG_H
 </pre>
       </td>
     </tr>

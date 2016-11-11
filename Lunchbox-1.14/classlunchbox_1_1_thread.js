@@ -22,5 +22,5 @@ var classlunchbox_1_1_thread =
     [ "setName", "classlunchbox_1_1_thread.html#aacc65d113f576a6743586c9f9856b195", null ],
     [ "start", "classlunchbox_1_1_thread.html#ad8afdfecfe8156fb2cef05d5e7b204ef", null ],
     [ "yield", "classlunchbox_1_1_thread.html#ad28f1c33223a919a4a46d556ebed6d3f", null ],
-    [ "lunchbox::abort", "classlunchbox_1_1_thread.html#a4cd7b0d08e132d8232c91dbbe9d1ae89", null ]
+    [ "abort", "classlunchbox_1_1_thread.html#a368af647b7e67cd0a4624ad28ab2fc85", null ]
 ];
