@@ -89,5 +89,6 @@ var compressor_types_8h =
     [ "EQ_COMPRESSOR_TRANSFER_RGBA_TO_RGB", "compressor_types_8h.html#a2726af07c45fadcc65061b11fb7f8625", null ],
     [ "EQ_COMPRESSOR_TRANSFER_RGBA_TO_RGBA", "compressor_types_8h.html#a3b94090418bb7abe63bd0c78dab53b75", null ],
     [ "EQ_COMPRESSOR_TRANSFER_RGBA_TO_RGBA_UINT_8_8_8_8_REV", "compressor_types_8h.html#abc006ab0d6b3b203db902fcb4b560ea7", null ],
-    [ "EQ_COMPRESSOR_TRANSFER_RGBA_TO_YUVA_50P", "compressor_types_8h.html#abc559ea824725ea458c520866a42b445", null ]
+    [ "EQ_COMPRESSOR_TRANSFER_RGBA_TO_YUVA_50P", "compressor_types_8h.html#abc559ea824725ea458c520866a42b445", null ],
+    [ "EQ_COMPRESSOR_ZSTD_BYTE", "compressor_types_8h.html#a83b02a093d5aa705b5f86d0d50974536", null ]
 ];

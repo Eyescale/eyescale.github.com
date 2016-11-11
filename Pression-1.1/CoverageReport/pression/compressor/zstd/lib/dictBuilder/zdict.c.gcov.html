@@ -1,0 +1,1084 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Pression - pression/compressor/zstd/lib/dictBuilder/zdict.c</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">pression/compressor/zstd/lib/dictBuilder</a> - zdict.c<span style="font-size: 80%;"> (source / <a href="zdict.c.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Pression</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">484</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-11-11 05:39:51</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /**</a>
+<span class="lineNum">       2 </span>            :  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+<span class="lineNum">       3 </span>            :  * All rights reserved.
+<span class="lineNum">       4 </span>            :  *
+<span class="lineNum">       5 </span>            :  * This source code is licensed under the BSD-style license found in the
+<span class="lineNum">       6 </span>            :  * LICENSE file in the root directory of this source tree. An additional grant
+<span class="lineNum">       7 </span>            :  * of patent rights can be found in the PATENTS file in the same directory.
+<span class="lineNum">       8 </span>            :  */
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : /*-**************************************
+<span class="lineNum">      12 </span>            : *  Tuning parameters
+<span class="lineNum">      13 </span>            : ****************************************/
+<span class="lineNum">      14 </span>            : #define ZDICT_MAX_SAMPLES_SIZE (2000U &lt;&lt; 20)
+<span class="lineNum">      15 </span>            : #define ZDICT_MIN_SAMPLES_SIZE 512
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : /*-**************************************
+<span class="lineNum">      19 </span>            : *  Compiler Options
+<span class="lineNum">      20 </span>            : ****************************************/
+<span class="lineNum">      21 </span>            : /* Unix Large Files support (&gt;4GB) */
+<span class="lineNum">      22 </span>            : #define _FILE_OFFSET_BITS 64
+<span class="lineNum">      23 </span>            : #if (defined(__sun__) &amp;&amp; (!defined(__LP64__)))   /* Sun Solaris 32-bits requires specific definitions */
+<span class="lineNum">      24 </span>            : #  define _LARGEFILE_SOURCE
+<span class="lineNum">      25 </span>            : #elif ! defined(__LP64__)                        /* No point defining Large file for 64 bit */
+<span class="lineNum">      26 </span>            : #  define _LARGEFILE64_SOURCE
+<span class="lineNum">      27 </span>            : #endif
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : /*-*************************************
+<span class="lineNum">      31 </span>            : *  Dependencies
+<span class="lineNum">      32 </span>            : ***************************************/
+<span class="lineNum">      33 </span>            : #include &lt;stdlib.h&gt;        /* malloc, free */
+<span class="lineNum">      34 </span>            : #include &lt;string.h&gt;        /* memset */
+<span class="lineNum">      35 </span>            : #include &lt;stdio.h&gt;         /* fprintf, fopen, ftello64 */
+<span class="lineNum">      36 </span>            : #include &lt;time.h&gt;          /* clock */
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : #include &quot;mem.h&quot;           /* read */
+<span class="lineNum">      39 </span>            : #include &quot;error_private.h&quot;
+<span class="lineNum">      40 </span>            : #include &quot;fse.h&quot;           /* FSE_normalizeCount, FSE_writeNCount */
+<span class="lineNum">      41 </span>            : #define HUF_STATIC_LINKING_ONLY
+<span class="lineNum">      42 </span>            : #include &quot;huf.h&quot;
+<span class="lineNum">      43 </span>            : #include &quot;zstd_internal.h&quot; /* includes zstd.h */
+<span class="lineNum">      44 </span>            : #include &quot;xxhash.h&quot;
+<span class="lineNum">      45 </span>            : #include &quot;divsufsort.h&quot;
+<span class="lineNum">      46 </span>            : #ifndef ZDICT_STATIC_LINKING_ONLY
+<span class="lineNum">      47 </span>            : #  define ZDICT_STATIC_LINKING_ONLY
+<span class="lineNum">      48 </span>            : #endif
+<span class="lineNum">      49 </span>            : #include &quot;zdict.h&quot;
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            : /*-*************************************
+<span class="lineNum">      53 </span>            : *  Constants
+<span class="lineNum">      54 </span>            : ***************************************/
+<span class="lineNum">      55 </span>            : #define KB *(1 &lt;&lt;10)
+<span class="lineNum">      56 </span>            : #define MB *(1 &lt;&lt;20)
+<span class="lineNum">      57 </span>            : #define GB *(1U&lt;&lt;30)
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            : #define DICTLISTSIZE_DEFAULT 10000
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            : #define NOISELENGTH 32
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : #define MINRATIO 4
+<span class="lineNum">      64 </span>            : static const int g_compressionLevel_default = 5;
+<span class="lineNum">      65 </span>            : static const U32 g_selectivity_default = 9;
+<span class="lineNum">      66 </span>            : static const size_t g_provision_entropySize = 200;
+<span class="lineNum">      67 </span>            : static const size_t g_min_fast_dictContent = 192;
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : /*-*************************************
+<span class="lineNum">      71 </span>            : *  Console display
+<span class="lineNum">      72 </span>            : ***************************************/
+<span class="lineNum">      73 </span>            : #define DISPLAY(...)         { fprintf(stderr, __VA_ARGS__); fflush( stderr ); }
+<a name="74"><span class="lineNum">      74 </span>            : #define DISPLAYLEVEL(l, ...) if (notificationLevel&gt;=l) { DISPLAY(__VA_ARGS__); }    /* 0 : no display;   1: errors;   2: default;  3: details;  4: debug */</a>
+<span class="lineNum">      75 </span>            : 
+<a name="76"><span class="lineNum">      76 </span><span class="lineNoCov">          0 : static clock_t ZDICT_clockSpan(clock_t nPrevious) { return clock() - nPrevious; }</span></a>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 : static void ZDICT_printHex(const void* ptr, size_t length)</span>
+<span class="lineNum">      79 </span>            : {
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     const BYTE* const b = (const BYTE*)ptr;</span>
+<span class="lineNum">      81 </span>            :     size_t u;
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     for (u=0; u&lt;length; u++) {</span>
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :         BYTE c = b[u];</span>
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :         if (c&lt;32 || c&gt;126) c = '.';   /* non-printable char */</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         DISPLAY(&quot;%c&quot;, c);</span>
+<span class="lineNum">      86 </span>            :     }
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : /*-********************************************************
+<a name="91"><span class="lineNum">      91 </span>            : *  Helper functions</a>
+<span class="lineNum">      92 </span>            : **********************************************************/
+<a name="93"><span class="lineNum">      93 </span><span class="lineNoCov">          0 : unsigned ZDICT_isError(size_t errorCode) { return ERR_isError(errorCode); }</span></a>
+<span class="lineNum">      94 </span>            : 
+<a name="95"><span class="lineNum">      95 </span><span class="lineNoCov">          0 : const char* ZDICT_getErrorName(size_t errorCode) { return ERR_getErrorName(errorCode); }</span></a>
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 : unsigned ZDICT_getDictID(const void* dictBuffer, size_t dictSize)</span>
+<span class="lineNum">      98 </span>            : {
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :     if (dictSize &lt; 8) return 0;</span>
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :     if (MEM_readLE32(dictBuffer) != ZSTD_DICT_MAGIC) return 0;</span>
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     return MEM_readLE32((const char*)dictBuffer + 4);</span>
+<span class="lineNum">     102 </span>            : }
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            : /*-********************************************************
+<a name="106"><span class="lineNum">     106 </span>            : *  Dictionary training functions</a>
+<span class="lineNum">     107 </span>            : **********************************************************/
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 : static unsigned ZDICT_NbCommonBytes (register size_t val)</span>
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :     if (MEM_isLittleEndian()) {</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :         if (MEM_64bits()) {</span>
+<span class="lineNum">     112 </span>            : #       if defined(_MSC_VER) &amp;&amp; defined(_WIN64)
+<span class="lineNum">     113 </span>            :             unsigned long r = 0;
+<span class="lineNum">     114 </span>            :             _BitScanForward64( &amp;r, (U64)val );
+<span class="lineNum">     115 </span>            :             return (unsigned)(r&gt;&gt;3);
+<span class="lineNum">     116 </span>            : #       elif defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 3)
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :             return (__builtin_ctzll((U64)val) &gt;&gt; 3);</span>
+<span class="lineNum">     118 </span>            : #       else
+<span class="lineNum">     119 </span>            :             static const int DeBruijnBytePos[64] = { 0, 0, 0, 0, 0, 1, 1, 2, 0, 3, 1, 3, 1, 4, 2, 7, 0, 2, 3, 6, 1, 5, 3, 5, 1, 3, 4, 4, 2, 5, 6, 7, 7, 0, 1, 2, 3, 3, 4, 6, 2, 6, 5, 5, 3, 4, 5, 6, 7, 1, 2, 4, 6, 4, 4, 5, 7, 2, 6, 5, 7, 6, 7, 7 };
+<span class="lineNum">     120 </span>            :             return DeBruijnBytePos[((U64)((val &amp; -(long long)val) * 0x0218A392CDABBD3FULL)) &gt;&gt; 58];
+<span class="lineNum">     121 </span>            : #       endif
+<span class="lineNum">     122 </span>            :         } else { /* 32 bits */
+<span class="lineNum">     123 </span>            : #       if defined(_MSC_VER)
+<span class="lineNum">     124 </span>            :             unsigned long r=0;
+<span class="lineNum">     125 </span>            :             _BitScanForward( &amp;r, (U32)val );
+<span class="lineNum">     126 </span>            :             return (unsigned)(r&gt;&gt;3);
+<span class="lineNum">     127 </span>            : #       elif defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 3)
+<span class="lineNum">     128 </span><span class="lineNoCov">          0 :             return (__builtin_ctz((U32)val) &gt;&gt; 3);</span>
+<span class="lineNum">     129 </span>            : #       else
+<span class="lineNum">     130 </span>            :             static const int DeBruijnBytePos[32] = { 0, 0, 3, 0, 3, 1, 3, 0, 3, 2, 2, 1, 3, 2, 0, 1, 3, 3, 1, 2, 2, 2, 2, 0, 3, 1, 2, 0, 1, 0, 1, 1 };
+<span class="lineNum">     131 </span>            :             return DeBruijnBytePos[((U32)((val &amp; -(S32)val) * 0x077CB531U)) &gt;&gt; 27];
+<span class="lineNum">     132 </span>            : #       endif
+<span class="lineNum">     133 </span>            :         }
+<span class="lineNum">     134 </span>            :     } else {  /* Big Endian CPU */
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :         if (MEM_64bits()) {</span>
+<span class="lineNum">     136 </span>            : #       if defined(_MSC_VER) &amp;&amp; defined(_WIN64)
+<span class="lineNum">     137 </span>            :             unsigned long r = 0;
+<span class="lineNum">     138 </span>            :             _BitScanReverse64( &amp;r, val );
+<span class="lineNum">     139 </span>            :             return (unsigned)(r&gt;&gt;3);
+<span class="lineNum">     140 </span>            : #       elif defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 3)
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :             return (__builtin_clzll(val) &gt;&gt; 3);</span>
+<span class="lineNum">     142 </span>            : #       else
+<span class="lineNum">     143 </span>            :             unsigned r;
+<span class="lineNum">     144 </span>            :             const unsigned n32 = sizeof(size_t)*4;   /* calculate this way due to compiler complaining in 32-bits mode */
+<span class="lineNum">     145 </span>            :             if (!(val&gt;&gt;n32)) { r=4; } else { r=0; val&gt;&gt;=n32; }
+<span class="lineNum">     146 </span>            :             if (!(val&gt;&gt;16)) { r+=2; val&gt;&gt;=8; } else { val&gt;&gt;=24; }
+<span class="lineNum">     147 </span>            :             r += (!val);
+<span class="lineNum">     148 </span>            :             return r;
+<span class="lineNum">     149 </span>            : #       endif
+<span class="lineNum">     150 </span>            :         } else { /* 32 bits */
+<span class="lineNum">     151 </span>            : #       if defined(_MSC_VER)
+<span class="lineNum">     152 </span>            :             unsigned long r = 0;
+<span class="lineNum">     153 </span>            :             _BitScanReverse( &amp;r, (unsigned long)val );
+<span class="lineNum">     154 </span>            :             return (unsigned)(r&gt;&gt;3);
+<span class="lineNum">     155 </span>            : #       elif defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 3)
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :             return (__builtin_clz((U32)val) &gt;&gt; 3);</span>
+<span class="lineNum">     157 </span>            : #       else
+<span class="lineNum">     158 </span>            :             unsigned r;
+<span class="lineNum">     159 </span>            :             if (!(val&gt;&gt;16)) { r=2; val&gt;&gt;=8; } else { r=0; val&gt;&gt;=24; }
+<span class="lineNum">     160 </span>            :             r += (!val);
+<span class="lineNum">     161 </span>            :             return r;
+<span class="lineNum">     162 </span>            : #       endif
+<span class="lineNum">     163 </span>            :     }   }
+<span class="lineNum">     164 </span>            : }
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            : /*! ZDICT_count() :
+<span class="lineNum">     168 </span>            :     Count the nb of common bytes between 2 pointers.
+<a name="169"><span class="lineNum">     169 </span>            :     Note : this function presumes end of buffer followed by noisy guard band.</a>
+<span class="lineNum">     170 </span>            : */
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 : static size_t ZDICT_count(const void* pIn, const void* pMatch)</span>
+<span class="lineNum">     172 </span>            : {
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :     const char* const pStart = (const char*)pIn;</span>
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 :     for (;;) {</span>
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :         size_t const diff = MEM_readST(pMatch) ^ MEM_readST(pIn);</span>
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :         if (!diff) {</span>
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :             pIn = (const char*)pIn+sizeof(size_t);</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :             pMatch = (const char*)pMatch+sizeof(size_t);</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :             continue;</span>
+<span class="lineNum">     180 </span>            :         }
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :         pIn = (const char*)pIn+ZDICT_NbCommonBytes(diff);</span>
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :         return (size_t)((const char*)pIn - pStart);</span>
+<span class="lineNum">     183 </span>            :     }
+<span class="lineNum">     184 </span>            : }
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span>            : typedef struct {
+<span class="lineNum">     188 </span>            :     U32 pos;
+<span class="lineNum">     189 </span>            :     U32 length;
+<span class="lineNum">     190 </span>            :     U32 savings;
+<a name="191"><span class="lineNum">     191 </span>            : } dictItem;</a>
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span><span class="lineNoCov">          0 : static void ZDICT_initDictItem(dictItem* d)</span>
+<span class="lineNum">     194 </span>            : {
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :     d-&gt;pos = 1;</span>
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :     d-&gt;length = 0;</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :     d-&gt;savings = (U32)(-1);</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            : 
+<a name="201"><span class="lineNum">     201 </span>            : #define LLIMIT 64          /* heuristic determined experimentally */</a>
+<span class="lineNum">     202 </span>            : #define MINMATCHLENGTH 7   /* heuristic determined experimentally */
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 : static dictItem ZDICT_analyzePos(</span>
+<span class="lineNum">     204 </span>            :                        BYTE* doneMarks,
+<span class="lineNum">     205 </span>            :                        const int* suffix, U32 start,
+<span class="lineNum">     206 </span>            :                        const void* buffer, U32 minRatio, U32 notificationLevel)
+<span class="lineNum">     207 </span>            : {
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     U32 lengthList[LLIMIT] = {0};</span>
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :     U32 cumulLength[LLIMIT] = {0};</span>
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :     U32 savings[LLIMIT] = {0};</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :     const BYTE* b = (const BYTE*)buffer;</span>
+<span class="lineNum">     212 </span>            :     size_t length;
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :     size_t maxLength = LLIMIT;</span>
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :     size_t pos = suffix[start];</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :     U32 end = start;</span>
+<span class="lineNum">     216 </span>            :     dictItem solution;
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            :     /* init */
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :     memset(&amp;solution, 0, sizeof(solution));</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :     doneMarks[pos] = 1;</span>
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span>            :     /* trivial repetition cases */
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :     if ( (MEM_read16(b+pos+0) == MEM_read16(b+pos+2))</span>
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :        ||(MEM_read16(b+pos+1) == MEM_read16(b+pos+3))</span>
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :        ||(MEM_read16(b+pos+2) == MEM_read16(b+pos+4)) ) {</span>
+<span class="lineNum">     226 </span>            :         /* skip and mark segment */
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :         U16 u16 = MEM_read16(b+pos+4);</span>
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :         U32 u, e = 6;</span>
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :         while (MEM_read16(b+pos+e) == u16) e+=2 ;</span>
+<span class="lineNum">     230 </span><span class="lineNoCov">          0 :         if (b[pos+e] == b[pos+e-1]) e++;</span>
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 :         for (u=1; u&lt;e; u++)</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :             doneMarks[pos+u] = 1;</span>
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 :         return solution;</span>
+<span class="lineNum">     234 </span>            :     }
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            :     /* look forward */
+<span class="lineNum">     237 </span>            :     do {
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :         end++;</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :         length = ZDICT_count(b + pos, b + suffix[end]);</span>
+<span class="lineNum">     240 </span><span class="lineNoCov">          0 :     } while (length &gt;=MINMATCHLENGTH);</span>
+<span class="lineNum">     241 </span>            : 
+<span class="lineNum">     242 </span>            :     /* look backward */
+<span class="lineNum">     243 </span>            :     do {
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         length = ZDICT_count(b + pos, b + *(suffix+start-1));</span>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         if (length &gt;=MINMATCHLENGTH) start--;</span>
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :     } while(length &gt;= MINMATCHLENGTH);</span>
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span>            :     /* exit if not found a minimum nb of repetitions */
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :     if (end-start &lt; minRatio) {</span>
+<span class="lineNum">     250 </span>            :         U32 idx;
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 :         for(idx=start; idx&lt;end; idx++)</span>
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :             doneMarks[suffix[idx]] = 1;</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :         return solution;</span>
+<span class="lineNum">     254 </span>            :     }
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            :     {   int i;
+<span class="lineNum">     257 </span>            :         U32 searchLength;
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :         U32 refinedStart = start;</span>
+<span class="lineNum">     259 </span><span class="lineNoCov">          0 :         U32 refinedEnd = end;</span>
+<span class="lineNum">     260 </span>            : 
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(4, &quot;\n&quot;);</span>
+<span class="lineNum">     262 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(4, &quot;found %3u matches of length &gt;= %i at pos %7u  &quot;, (U32)(end-start), MINMATCHLENGTH, (U32)pos);</span>
+<span class="lineNum">     263 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(4, &quot;\n&quot;);</span>
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span><span class="lineNoCov">          0 :         for (searchLength = MINMATCHLENGTH ; ; searchLength++) {</span>
+<span class="lineNum">     266 </span><span class="lineNoCov">          0 :             BYTE currentChar = 0;</span>
+<span class="lineNum">     267 </span><span class="lineNoCov">          0 :             U32 currentCount = 0;</span>
+<span class="lineNum">     268 </span><span class="lineNoCov">          0 :             U32 currentID = refinedStart;</span>
+<span class="lineNum">     269 </span>            :             U32 id;
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :             U32 selectedCount = 0;</span>
+<span class="lineNum">     271 </span><span class="lineNoCov">          0 :             U32 selectedID = currentID;</span>
+<span class="lineNum">     272 </span><span class="lineNoCov">          0 :             for (id =refinedStart; id &lt; refinedEnd; id++) {</span>
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :                 if (b[ suffix[id] + searchLength] != currentChar) {</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :                     if (currentCount &gt; selectedCount) {</span>
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :                         selectedCount = currentCount;</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :                         selectedID = currentID;</span>
+<span class="lineNum">     277 </span>            :                     }
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :                     currentID = id;</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :                     currentChar = b[ suffix[id] + searchLength];</span>
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :                     currentCount = 0;</span>
+<span class="lineNum">     281 </span>            :                 }
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 :                 currentCount ++;</span>
+<span class="lineNum">     283 </span>            :             }
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :             if (currentCount &gt; selectedCount) {  /* for last */</span>
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :                 selectedCount = currentCount;</span>
+<span class="lineNum">     286 </span><span class="lineNoCov">          0 :                 selectedID = currentID;</span>
+<span class="lineNum">     287 </span>            :             }
+<span class="lineNum">     288 </span>            : 
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :             if (selectedCount &lt; minRatio)</span>
+<span class="lineNum">     290 </span><span class="lineNoCov">          0 :                 break;</span>
+<span class="lineNum">     291 </span><span class="lineNoCov">          0 :             refinedStart = selectedID;</span>
+<span class="lineNum">     292 </span><span class="lineNoCov">          0 :             refinedEnd = refinedStart + selectedCount;</span>
+<span class="lineNum">     293 </span>            :         }
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            :         /* evaluate gain based on new ref */
+<span class="lineNum">     296 </span><span class="lineNoCov">          0 :         start = refinedStart;</span>
+<span class="lineNum">     297 </span><span class="lineNoCov">          0 :         pos = suffix[refinedStart];</span>
+<span class="lineNum">     298 </span><span class="lineNoCov">          0 :         end = start;</span>
+<span class="lineNum">     299 </span><span class="lineNoCov">          0 :         memset(lengthList, 0, sizeof(lengthList));</span>
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span>            :         /* look forward */
+<span class="lineNum">     302 </span>            :         do {
+<span class="lineNum">     303 </span><span class="lineNoCov">          0 :             end++;</span>
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :             length = ZDICT_count(b + pos, b + suffix[end]);</span>
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :             if (length &gt;= LLIMIT) length = LLIMIT-1;</span>
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 :             lengthList[length]++;</span>
+<span class="lineNum">     307 </span><span class="lineNoCov">          0 :         } while (length &gt;=MINMATCHLENGTH);</span>
+<span class="lineNum">     308 </span>            : 
+<span class="lineNum">     309 </span>            :         /* look backward */
+<span class="lineNum">     310 </span><span class="lineNoCov">          0 :                 length = MINMATCHLENGTH;</span>
+<span class="lineNum">     311 </span><span class="lineNoCov">          0 :                 while ((length &gt;= MINMATCHLENGTH) &amp; (start &gt; 0)) {</span>
+<span class="lineNum">     312 </span><span class="lineNoCov">          0 :                         length = ZDICT_count(b + pos, b + suffix[start - 1]);</span>
+<span class="lineNum">     313 </span><span class="lineNoCov">          0 :                         if (length &gt;= LLIMIT) length = LLIMIT - 1;</span>
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :                         lengthList[length]++;</span>
+<span class="lineNum">     315 </span><span class="lineNoCov">          0 :                         if (length &gt;= MINMATCHLENGTH) start--;</span>
+<span class="lineNum">     316 </span>            :                 }
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            :         /* largest useful length */
+<span class="lineNum">     319 </span><span class="lineNoCov">          0 :         memset(cumulLength, 0, sizeof(cumulLength));</span>
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 :         cumulLength[maxLength-1] = lengthList[maxLength-1];</span>
+<span class="lineNum">     321 </span><span class="lineNoCov">          0 :         for (i=(int)(maxLength-2); i&gt;=0; i--)</span>
+<span class="lineNum">     322 </span><span class="lineNoCov">          0 :             cumulLength[i] = cumulLength[i+1] + lengthList[i];</span>
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :         for (i=LLIMIT-1; i&gt;=MINMATCHLENGTH; i--) if (cumulLength[i]&gt;=minRatio) break;</span>
+<span class="lineNum">     325 </span><span class="lineNoCov">          0 :         maxLength = i;</span>
+<span class="lineNum">     326 </span>            : 
+<span class="lineNum">     327 </span>            :         /* reduce maxLength in case of final into repetitive data */
+<span class="lineNum">     328 </span><span class="lineNoCov">          0 :         {   U32 l = (U32)maxLength;</span>
+<span class="lineNum">     329 </span><span class="lineNoCov">          0 :             BYTE const c = b[pos + maxLength-1];</span>
+<span class="lineNum">     330 </span><span class="lineNoCov">          0 :             while (b[pos+l-2]==c) l--;</span>
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 :             maxLength = l;</span>
+<span class="lineNum">     332 </span>            :         }
+<span class="lineNum">     333 </span><span class="lineNoCov">          0 :         if (maxLength &lt; MINMATCHLENGTH) return solution;   /* skip : no long-enough solution */</span>
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span>            :         /* calculate savings */
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :         savings[5] = 0;</span>
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :         for (i=MINMATCHLENGTH; i&lt;=(int)maxLength; i++)</span>
+<span class="lineNum">     338 </span><span class="lineNoCov">          0 :             savings[i] = savings[i-1] + (lengthList[i] * (i-3));</span>
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(4, &quot;Selected ref at position %u, of length %u : saves %u (ratio: %.2f)  \n&quot;,</span>
+<span class="lineNum">     341 </span>            :                      (U32)pos, (U32)maxLength, savings[maxLength], (double)savings[maxLength] / maxLength);
+<span class="lineNum">     342 </span>            : 
+<span class="lineNum">     343 </span><span class="lineNoCov">          0 :         solution.pos = (U32)pos;</span>
+<span class="lineNum">     344 </span><span class="lineNoCov">          0 :         solution.length = (U32)maxLength;</span>
+<span class="lineNum">     345 </span><span class="lineNoCov">          0 :         solution.savings = savings[maxLength];</span>
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span>            :         /* mark positions done */
+<span class="lineNum">     348 </span>            :         {   U32 id;
+<span class="lineNum">     349 </span><span class="lineNoCov">          0 :             for (id=start; id&lt;end; id++) {</span>
+<span class="lineNum">     350 </span>            :                 U32 p, pEnd;
+<span class="lineNum">     351 </span><span class="lineNoCov">          0 :                 U32 const testedPos = suffix[id];</span>
+<span class="lineNum">     352 </span><span class="lineNoCov">          0 :                 if (testedPos == pos)</span>
+<span class="lineNum">     353 </span><span class="lineNoCov">          0 :                     length = solution.length;</span>
+<span class="lineNum">     354 </span>            :                 else {
+<span class="lineNum">     355 </span><span class="lineNoCov">          0 :                     length = ZDICT_count(b+pos, b+testedPos);</span>
+<span class="lineNum">     356 </span><span class="lineNoCov">          0 :                     if (length &gt; solution.length) length = solution.length;</span>
+<span class="lineNum">     357 </span>            :                 }
+<span class="lineNum">     358 </span><span class="lineNoCov">          0 :                 pEnd = (U32)(testedPos + length);</span>
+<span class="lineNum">     359 </span><span class="lineNoCov">          0 :                 for (p=testedPos; p&lt;pEnd; p++)</span>
+<span class="lineNum">     360 </span><span class="lineNoCov">          0 :                     doneMarks[p] = 1;</span>
+<span class="lineNum">     361 </span>            :     }   }   }
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span><span class="lineNoCov">          0 :     return solution;</span>
+<span class="lineNum">     364 </span>            : }
+<span class="lineNum">     365 </span>            : 
+<span class="lineNum">     366 </span>            : 
+<span class="lineNum">     367 </span>            : /*! ZDICT_checkMerge
+<span class="lineNum">     368 </span>            :     check if dictItem can be merged, do it if possible
+<a name="369"><span class="lineNum">     369 </span>            :     @return : id of destination elt, 0 if not merged</a>
+<span class="lineNum">     370 </span>            : */
+<span class="lineNum">     371 </span><span class="lineNoCov">          0 : static U32 ZDICT_checkMerge(dictItem* table, dictItem elt, U32 eltNbToSkip)</span>
+<span class="lineNum">     372 </span>            : {
+<span class="lineNum">     373 </span><span class="lineNoCov">          0 :     const U32 tableSize = table-&gt;pos;</span>
+<span class="lineNum">     374 </span><span class="lineNoCov">          0 :     const U32 max = elt.pos + (elt.length-1);</span>
+<span class="lineNum">     375 </span>            : 
+<span class="lineNum">     376 </span>            :     /* tail overlap */
+<span class="lineNum">     377 </span><span class="lineNoCov">          0 :     U32 u; for (u=1; u&lt;tableSize; u++) {</span>
+<span class="lineNum">     378 </span><span class="lineNoCov">          0 :         if (u==eltNbToSkip) continue;</span>
+<span class="lineNum">     379 </span><span class="lineNoCov">          0 :         if ((table[u].pos &gt; elt.pos) &amp;&amp; (table[u].pos &lt; max)) {  /* overlap */</span>
+<span class="lineNum">     380 </span>            :             /* append */
+<span class="lineNum">     381 </span><span class="lineNoCov">          0 :             U32 addedLength = table[u].pos - elt.pos;</span>
+<span class="lineNum">     382 </span><span class="lineNoCov">          0 :             table[u].length += addedLength;</span>
+<span class="lineNum">     383 </span><span class="lineNoCov">          0 :             table[u].pos = elt.pos;</span>
+<span class="lineNum">     384 </span><span class="lineNoCov">          0 :             table[u].savings += elt.savings * addedLength / elt.length;   /* rough approx */</span>
+<span class="lineNum">     385 </span><span class="lineNoCov">          0 :             table[u].savings += elt.length / 8;    /* rough approx */</span>
+<span class="lineNum">     386 </span><span class="lineNoCov">          0 :             elt = table[u];</span>
+<span class="lineNum">     387 </span><span class="lineNoCov">          0 :             while ((u&gt;1) &amp;&amp; (table[u-1].savings &lt; elt.savings))</span>
+<span class="lineNum">     388 </span><span class="lineNoCov">          0 :                 table[u] = table[u-1], u--;</span>
+<span class="lineNum">     389 </span><span class="lineNoCov">          0 :             table[u] = elt;</span>
+<span class="lineNum">     390 </span><span class="lineNoCov">          0 :             return u;</span>
+<span class="lineNum">     391 </span>            :     }   }
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span>            :     /* front overlap */
+<span class="lineNum">     394 </span><span class="lineNoCov">          0 :     for (u=1; u&lt;tableSize; u++) {</span>
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :         if (u==eltNbToSkip) continue;</span>
+<span class="lineNum">     396 </span><span class="lineNoCov">          0 :         if ((table[u].pos + table[u].length &gt; elt.pos) &amp;&amp; (table[u].pos &lt; elt.pos)) {  /* overlap */</span>
+<span class="lineNum">     397 </span>            :             /* append */
+<span class="lineNum">     398 </span><span class="lineNoCov">          0 :             int addedLength = (elt.pos + elt.length) - (table[u].pos + table[u].length);</span>
+<span class="lineNum">     399 </span><span class="lineNoCov">          0 :             table[u].savings += elt.length / 8;    /* rough approx */</span>
+<span class="lineNum">     400 </span><span class="lineNoCov">          0 :             if (addedLength &gt; 0) {   /* otherwise, already included */</span>
+<span class="lineNum">     401 </span><span class="lineNoCov">          0 :                 table[u].length += addedLength;</span>
+<span class="lineNum">     402 </span><span class="lineNoCov">          0 :                 table[u].savings += elt.savings * addedLength / elt.length;   /* rough approx */</span>
+<span class="lineNum">     403 </span>            :             }
+<span class="lineNum">     404 </span><span class="lineNoCov">          0 :             elt = table[u];</span>
+<span class="lineNum">     405 </span><span class="lineNoCov">          0 :             while ((u&gt;1) &amp;&amp; (table[u-1].savings &lt; elt.savings))</span>
+<span class="lineNum">     406 </span><span class="lineNoCov">          0 :                 table[u] = table[u-1], u--;</span>
+<span class="lineNum">     407 </span><span class="lineNoCov">          0 :             table[u] = elt;</span>
+<span class="lineNum">     408 </span><span class="lineNoCov">          0 :             return u;</span>
+<span class="lineNum">     409 </span>            :     }   }
+<span class="lineNum">     410 </span>            : 
+<span class="lineNum">     411 </span><span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">     412 </span>            : }
+<a name="413"><span class="lineNum">     413 </span>            : </a>
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 : static void ZDICT_removeDictItem(dictItem* table, U32 id)</span>
+<span class="lineNum">     416 </span>            : {
+<span class="lineNum">     417 </span>            :     /* convention : first element is nb of elts */
+<span class="lineNum">     418 </span><span class="lineNoCov">          0 :     U32 const max = table-&gt;pos;</span>
+<span class="lineNum">     419 </span>            :     U32 u;
+<span class="lineNum">     420 </span><span class="lineNoCov">          0 :     if (!id) return;   /* protection, should never happen */</span>
+<span class="lineNum">     421 </span><span class="lineNoCov">          0 :     for (u=id; u&lt;max-1; u++)</span>
+<span class="lineNum">     422 </span><span class="lineNoCov">          0 :         table[u] = table[u+1];</span>
+<span class="lineNum">     423 </span><span class="lineNoCov">          0 :     table-&gt;pos--;</span>
+<span class="lineNum">     424 </span>            : }
+<a name="425"><span class="lineNum">     425 </span>            : </a>
+<span class="lineNum">     426 </span>            : 
+<span class="lineNum">     427 </span><span class="lineNoCov">          0 : static void ZDICT_insertDictItem(dictItem* table, U32 maxSize, dictItem elt)</span>
+<span class="lineNum">     428 </span>            : {
+<span class="lineNum">     429 </span>            :     /* merge if possible */
+<span class="lineNum">     430 </span><span class="lineNoCov">          0 :     U32 mergeId = ZDICT_checkMerge(table, elt, 0);</span>
+<span class="lineNum">     431 </span><span class="lineNoCov">          0 :     if (mergeId) {</span>
+<span class="lineNum">     432 </span><span class="lineNoCov">          0 :         U32 newMerge = 1;</span>
+<span class="lineNum">     433 </span><span class="lineNoCov">          0 :         while (newMerge) {</span>
+<span class="lineNum">     434 </span><span class="lineNoCov">          0 :             newMerge = ZDICT_checkMerge(table, table[mergeId], mergeId);</span>
+<span class="lineNum">     435 </span><span class="lineNoCov">          0 :             if (newMerge) ZDICT_removeDictItem(table, mergeId);</span>
+<span class="lineNum">     436 </span><span class="lineNoCov">          0 :             mergeId = newMerge;</span>
+<span class="lineNum">     437 </span>            :         }
+<span class="lineNum">     438 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     439 </span>            :     }
+<span class="lineNum">     440 </span>            : 
+<span class="lineNum">     441 </span>            :     /* insert */
+<span class="lineNum">     442 </span>            :     {   U32 current;
+<span class="lineNum">     443 </span><span class="lineNoCov">          0 :         U32 nextElt = table-&gt;pos;</span>
+<span class="lineNum">     444 </span><span class="lineNoCov">          0 :         if (nextElt &gt;= maxSize) nextElt = maxSize-1;</span>
+<span class="lineNum">     445 </span><span class="lineNoCov">          0 :         current = nextElt-1;</span>
+<span class="lineNum">     446 </span><span class="lineNoCov">          0 :         while (table[current].savings &lt; elt.savings) {</span>
+<span class="lineNum">     447 </span><span class="lineNoCov">          0 :             table[current+1] = table[current];</span>
+<span class="lineNum">     448 </span><span class="lineNoCov">          0 :             current--;</span>
+<span class="lineNum">     449 </span>            :         }
+<span class="lineNum">     450 </span><span class="lineNoCov">          0 :         table[current+1] = elt;</span>
+<span class="lineNum">     451 </span><span class="lineNoCov">          0 :         table-&gt;pos = nextElt+1;</span>
+<span class="lineNum">     452 </span>            :     }
+<span class="lineNum">     453 </span>            : }
+<a name="454"><span class="lineNum">     454 </span>            : </a>
+<span class="lineNum">     455 </span>            : 
+<span class="lineNum">     456 </span><span class="lineNoCov">          0 : static U32 ZDICT_dictSize(const dictItem* dictList)</span>
+<span class="lineNum">     457 </span>            : {
+<span class="lineNum">     458 </span><span class="lineNoCov">          0 :     U32 u, dictSize = 0;</span>
+<span class="lineNum">     459 </span><span class="lineNoCov">          0 :     for (u=1; u&lt;dictList[0].pos; u++)</span>
+<span class="lineNum">     460 </span><span class="lineNoCov">          0 :         dictSize += dictList[u].length;</span>
+<span class="lineNum">     461 </span><span class="lineNoCov">          0 :     return dictSize;</span>
+<span class="lineNum">     462 </span>            : }
+<a name="463"><span class="lineNum">     463 </span>            : </a>
+<span class="lineNum">     464 </span>            : 
+<span class="lineNum">     465 </span><span class="lineNoCov">          0 : static size_t ZDICT_trainBuffer(dictItem* dictList, U32 dictListSize,</span>
+<span class="lineNum">     466 </span>            :                             const void* const buffer, size_t bufferSize,   /* buffer must end with noisy guard band */
+<span class="lineNum">     467 </span>            :                             const size_t* fileSizes, unsigned nbFiles,
+<span class="lineNum">     468 </span>            :                             U32 minRatio, U32 notificationLevel)
+<span class="lineNum">     469 </span>            : {
+<span class="lineNum">     470 </span><span class="lineNoCov">          0 :     int* const suffix0 = (int*)malloc((bufferSize+2)*sizeof(*suffix0));</span>
+<span class="lineNum">     471 </span><span class="lineNoCov">          0 :     int* const suffix = suffix0+1;</span>
+<span class="lineNum">     472 </span><span class="lineNoCov">          0 :     U32* reverseSuffix = (U32*)malloc((bufferSize)*sizeof(*reverseSuffix));</span>
+<span class="lineNum">     473 </span><span class="lineNoCov">          0 :     BYTE* doneMarks = (BYTE*)malloc((bufferSize+16)*sizeof(*doneMarks));   /* +16 for overflow security */</span>
+<span class="lineNum">     474 </span><span class="lineNoCov">          0 :     U32* filePos = (U32*)malloc(nbFiles * sizeof(*filePos));</span>
+<span class="lineNum">     475 </span><span class="lineNoCov">          0 :     size_t result = 0;</span>
+<span class="lineNum">     476 </span><span class="lineNoCov">          0 :     clock_t displayClock = 0;</span>
+<span class="lineNum">     477 </span><span class="lineNoCov">          0 :     clock_t const refreshRate = CLOCKS_PER_SEC * 3 / 10;</span>
+<span class="lineNum">     478 </span>            : 
+<span class="lineNum">     479 </span>            : #   define DISPLAYUPDATE(l, ...) if (notificationLevel&gt;=l) { \
+<span class="lineNum">     480 </span>            :             if (ZDICT_clockSpan(displayClock) &gt; refreshRate)  \
+<span class="lineNum">     481 </span>            :             { displayClock = clock(); DISPLAY(__VA_ARGS__); \
+<span class="lineNum">     482 </span>            :             if (notificationLevel&gt;=4) fflush(stdout); } }
+<span class="lineNum">     483 </span>            : 
+<span class="lineNum">     484 </span>            :     /* init */
+<span class="lineNum">     485 </span><span class="lineNoCov">          0 :     DISPLAYLEVEL(2, &quot;\r%70s\r&quot;, &quot;&quot;);   /* clean display line */</span>
+<span class="lineNum">     486 </span><span class="lineNoCov">          0 :     if (!suffix0 || !reverseSuffix || !doneMarks || !filePos) {</span>
+<span class="lineNum">     487 </span><span class="lineNoCov">          0 :         result = ERROR(memory_allocation);</span>
+<span class="lineNum">     488 </span><span class="lineNoCov">          0 :         goto _cleanup;</span>
+<span class="lineNum">     489 </span>            :     }
+<span class="lineNum">     490 </span><span class="lineNoCov">          0 :     if (minRatio &lt; MINRATIO) minRatio = MINRATIO;</span>
+<span class="lineNum">     491 </span><span class="lineNoCov">          0 :     memset(doneMarks, 0, bufferSize+16);</span>
+<span class="lineNum">     492 </span>            : 
+<span class="lineNum">     493 </span>            :     /* limit sample set size (divsufsort limitation)*/
+<span class="lineNum">     494 </span><span class="lineNoCov">          0 :     if (bufferSize &gt; ZDICT_MAX_SAMPLES_SIZE) DISPLAYLEVEL(3, &quot;sample set too large : reduced to %u MB ...\n&quot;, (U32)(ZDICT_MAX_SAMPLES_SIZE&gt;&gt;20));</span>
+<span class="lineNum">     495 </span><span class="lineNoCov">          0 :     while (bufferSize &gt; ZDICT_MAX_SAMPLES_SIZE) bufferSize -= fileSizes[--nbFiles];</span>
+<span class="lineNum">     496 </span>            : 
+<span class="lineNum">     497 </span>            :     /* sort */
+<span class="lineNum">     498 </span><span class="lineNoCov">          0 :     DISPLAYLEVEL(2, &quot;sorting %u files of total size %u MB ...\n&quot;, nbFiles, (U32)(bufferSize&gt;&gt;20));</span>
+<span class="lineNum">     499 </span><span class="lineNoCov">          0 :     {   int const divSuftSortResult = divsufsort((const unsigned char*)buffer, suffix, (int)bufferSize, 0);</span>
+<span class="lineNum">     500 </span><span class="lineNoCov">          0 :         if (divSuftSortResult != 0) { result = ERROR(GENERIC); goto _cleanup; }</span>
+<span class="lineNum">     501 </span>            :     }
+<span class="lineNum">     502 </span><span class="lineNoCov">          0 :     suffix[bufferSize] = (int)bufferSize;   /* leads into noise */</span>
+<span class="lineNum">     503 </span><span class="lineNoCov">          0 :     suffix0[0] = (int)bufferSize;           /* leads into noise */</span>
+<span class="lineNum">     504 </span>            :     /* build reverse suffix sort */
+<span class="lineNum">     505 </span>            :     {   size_t pos;
+<span class="lineNum">     506 </span><span class="lineNoCov">          0 :         for (pos=0; pos &lt; bufferSize; pos++)</span>
+<span class="lineNum">     507 </span><span class="lineNoCov">          0 :             reverseSuffix[suffix[pos]] = (U32)pos;</span>
+<span class="lineNum">     508 </span>            :         /* note filePos tracks borders between samples.
+<span class="lineNum">     509 </span>            :            It's not used at this stage, but planned to become useful in a later update */
+<span class="lineNum">     510 </span><span class="lineNoCov">          0 :         filePos[0] = 0;</span>
+<span class="lineNum">     511 </span><span class="lineNoCov">          0 :         for (pos=1; pos&lt;nbFiles; pos++)</span>
+<span class="lineNum">     512 </span><span class="lineNoCov">          0 :             filePos[pos] = (U32)(filePos[pos-1] + fileSizes[pos-1]);</span>
+<span class="lineNum">     513 </span>            :     }
+<span class="lineNum">     514 </span>            : 
+<span class="lineNum">     515 </span><span class="lineNoCov">          0 :     DISPLAYLEVEL(2, &quot;finding patterns ... \n&quot;);</span>
+<span class="lineNum">     516 </span><span class="lineNoCov">          0 :     DISPLAYLEVEL(3, &quot;minimum ratio : %u \n&quot;, minRatio);</span>
+<span class="lineNum">     517 </span>            : 
+<span class="lineNum">     518 </span><span class="lineNoCov">          0 :     {   U32 cursor; for (cursor=0; cursor &lt; bufferSize; ) {</span>
+<span class="lineNum">     519 </span>            :             dictItem solution;
+<span class="lineNum">     520 </span><span class="lineNoCov">          0 :             if (doneMarks[cursor]) { cursor++; continue; }</span>
+<span class="lineNum">     521 </span><span class="lineNoCov">          0 :             solution = ZDICT_analyzePos(doneMarks, suffix, reverseSuffix[cursor], buffer, minRatio, notificationLevel);</span>
+<span class="lineNum">     522 </span><span class="lineNoCov">          0 :             if (solution.length==0) { cursor++; continue; }</span>
+<span class="lineNum">     523 </span><span class="lineNoCov">          0 :             ZDICT_insertDictItem(dictList, dictListSize, solution);</span>
+<span class="lineNum">     524 </span><span class="lineNoCov">          0 :             cursor += solution.length;</span>
+<span class="lineNum">     525 </span><span class="lineNoCov">          0 :             DISPLAYUPDATE(2, &quot;\r%4.2f %% \r&quot;, (double)cursor / bufferSize * 100);</span>
+<span class="lineNum">     526 </span>            :     }   }
+<span class="lineNum">     527 </span>            : 
+<span class="lineNum">     528 </span>            : _cleanup:
+<span class="lineNum">     529 </span><span class="lineNoCov">          0 :     free(suffix0);</span>
+<span class="lineNum">     530 </span><span class="lineNoCov">          0 :     free(reverseSuffix);</span>
+<span class="lineNum">     531 </span><span class="lineNoCov">          0 :     free(doneMarks);</span>
+<span class="lineNum">     532 </span><span class="lineNoCov">          0 :     free(filePos);</span>
+<span class="lineNum">     533 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     534 </span>            : }
+<a name="535"><span class="lineNum">     535 </span>            : </a>
+<span class="lineNum">     536 </span>            : 
+<span class="lineNum">     537 </span><span class="lineNoCov">          0 : static void ZDICT_fillNoise(void* buffer, size_t length)</span>
+<span class="lineNum">     538 </span>            : {
+<span class="lineNum">     539 </span><span class="lineNoCov">          0 :     unsigned const prime1 = 2654435761U;</span>
+<span class="lineNum">     540 </span><span class="lineNoCov">          0 :     unsigned const prime2 = 2246822519U;</span>
+<span class="lineNum">     541 </span><span class="lineNoCov">          0 :     unsigned acc = prime1;</span>
+<span class="lineNum">     542 </span><span class="lineNoCov">          0 :     size_t p=0;;</span>
+<span class="lineNum">     543 </span><span class="lineNoCov">          0 :     for (p=0; p&lt;length; p++) {</span>
+<span class="lineNum">     544 </span><span class="lineNoCov">          0 :         acc *= prime2;</span>
+<span class="lineNum">     545 </span><span class="lineNoCov">          0 :         ((unsigned char*)buffer)[p] = (unsigned char)(acc &gt;&gt; 21);</span>
+<span class="lineNum">     546 </span>            :     }
+<span class="lineNum">     547 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     548 </span>            : 
+<span class="lineNum">     549 </span>            : 
+<span class="lineNum">     550 </span>            : typedef struct
+<span class="lineNum">     551 </span>            : {
+<span class="lineNum">     552 </span>            :     ZSTD_CCtx* ref;
+<span class="lineNum">     553 </span>            :     ZSTD_CCtx* zc;
+<span class="lineNum">     554 </span>            :     void* workPlace;   /* must be ZSTD_BLOCKSIZE_ABSOLUTEMAX allocated */
+<span class="lineNum">     555 </span>            : } EStats_ress_t;
+<span class="lineNum">     556 </span>            : 
+<a name="557"><span class="lineNum">     557 </span>            : #define MAXREPOFFSET 1024</a>
+<span class="lineNum">     558 </span>            : 
+<span class="lineNum">     559 </span><span class="lineNoCov">          0 : static void ZDICT_countEStats(EStats_ress_t esr, ZSTD_parameters params,</span>
+<span class="lineNum">     560 </span>            :                             U32* countLit, U32* offsetcodeCount, U32* matchlengthCount, U32* litlengthCount, U32* repOffsets,
+<span class="lineNum">     561 </span>            :                             const void* src, size_t srcSize, U32 notificationLevel)
+<span class="lineNum">     562 </span>            : {
+<span class="lineNum">     563 </span><span class="lineNoCov">          0 :     size_t const blockSizeMax = MIN (ZSTD_BLOCKSIZE_ABSOLUTEMAX, 1 &lt;&lt; params.cParams.windowLog);</span>
+<span class="lineNum">     564 </span>            :     size_t cSize;
+<span class="lineNum">     565 </span>            : 
+<span class="lineNum">     566 </span><span class="lineNoCov">          0 :     if (srcSize &gt; blockSizeMax) srcSize = blockSizeMax;   /* protection vs large samples */</span>
+<span class="lineNum">     567 </span><span class="lineNoCov">          0 :     {  size_t const errorCode = ZSTD_copyCCtx(esr.zc, esr.ref, 0);</span>
+<span class="lineNum">     568 </span><span class="lineNoCov">          0 :             if (ZSTD_isError(errorCode)) { DISPLAYLEVEL(1, &quot;warning : ZSTD_copyCCtx failed \n&quot;); return; }</span>
+<span class="lineNum">     569 </span>            :     }
+<span class="lineNum">     570 </span><span class="lineNoCov">          0 :     cSize = ZSTD_compressBlock(esr.zc, esr.workPlace, ZSTD_BLOCKSIZE_ABSOLUTEMAX, src, srcSize);</span>
+<span class="lineNum">     571 </span><span class="lineNoCov">          0 :     if (ZSTD_isError(cSize)) { DISPLAYLEVEL(1, &quot;warning : could not compress sample size %u \n&quot;, (U32)srcSize); return; }</span>
+<span class="lineNum">     572 </span>            : 
+<span class="lineNum">     573 </span><span class="lineNoCov">          0 :     if (cSize) {  /* if == 0; block is not compressible */</span>
+<span class="lineNum">     574 </span><span class="lineNoCov">          0 :         const seqStore_t* seqStorePtr = ZSTD_getSeqStore(esr.zc);</span>
+<span class="lineNum">     575 </span>            : 
+<span class="lineNum">     576 </span>            :         /* literals stats */
+<span class="lineNum">     577 </span>            :         {   const BYTE* bytePtr;
+<span class="lineNum">     578 </span><span class="lineNoCov">          0 :             for(bytePtr = seqStorePtr-&gt;litStart; bytePtr &lt; seqStorePtr-&gt;lit; bytePtr++)</span>
+<span class="lineNum">     579 </span><span class="lineNoCov">          0 :                 countLit[*bytePtr]++;</span>
+<span class="lineNum">     580 </span>            :         }
+<span class="lineNum">     581 </span>            : 
+<span class="lineNum">     582 </span>            :         /* seqStats */
+<span class="lineNum">     583 </span><span class="lineNoCov">          0 :         {   U32 const nbSeq = (U32)(seqStorePtr-&gt;sequences - seqStorePtr-&gt;sequencesStart);</span>
+<span class="lineNum">     584 </span><span class="lineNoCov">          0 :             ZSTD_seqToCodes(seqStorePtr);</span>
+<span class="lineNum">     585 </span>            : 
+<span class="lineNum">     586 </span><span class="lineNoCov">          0 :             {   const BYTE* codePtr = seqStorePtr-&gt;ofCode;</span>
+<span class="lineNum">     587 </span>            :                 U32 u;
+<span class="lineNum">     588 </span><span class="lineNoCov">          0 :                 for (u=0; u&lt;nbSeq; u++) offsetcodeCount[codePtr[u]]++;</span>
+<span class="lineNum">     589 </span>            :             }
+<span class="lineNum">     590 </span>            : 
+<span class="lineNum">     591 </span><span class="lineNoCov">          0 :             {   const BYTE* codePtr = seqStorePtr-&gt;mlCode;</span>
+<span class="lineNum">     592 </span>            :                 U32 u;
+<span class="lineNum">     593 </span><span class="lineNoCov">          0 :                 for (u=0; u&lt;nbSeq; u++) matchlengthCount[codePtr[u]]++;</span>
+<span class="lineNum">     594 </span>            :             }
+<span class="lineNum">     595 </span>            : 
+<span class="lineNum">     596 </span><span class="lineNoCov">          0 :             {   const BYTE* codePtr = seqStorePtr-&gt;llCode;</span>
+<span class="lineNum">     597 </span>            :                 U32 u;
+<span class="lineNum">     598 </span><span class="lineNoCov">          0 :                 for (u=0; u&lt;nbSeq; u++) litlengthCount[codePtr[u]]++;</span>
+<span class="lineNum">     599 </span>            :             }
+<span class="lineNum">     600 </span>            : 
+<span class="lineNum">     601 </span><span class="lineNoCov">          0 :             if (nbSeq &gt;= 2) { /* rep offsets */</span>
+<span class="lineNum">     602 </span><span class="lineNoCov">          0 :                 const seqDef* const seq = seqStorePtr-&gt;sequencesStart;</span>
+<span class="lineNum">     603 </span><span class="lineNoCov">          0 :                 U32 offset1 = seq[0].offset - 3;</span>
+<span class="lineNum">     604 </span><span class="lineNoCov">          0 :                 U32 offset2 = seq[1].offset - 3;</span>
+<span class="lineNum">     605 </span><span class="lineNoCov">          0 :                 if (offset1 &gt;= MAXREPOFFSET) offset1 = 0;</span>
+<span class="lineNum">     606 </span><span class="lineNoCov">          0 :                 if (offset2 &gt;= MAXREPOFFSET) offset2 = 0;</span>
+<span class="lineNum">     607 </span><span class="lineNoCov">          0 :                 repOffsets[offset1] += 3;</span>
+<span class="lineNum">     608 </span><span class="lineNoCov">          0 :                 repOffsets[offset2] += 1;</span>
+<span class="lineNum">     609 </span>            :     }   }   }
+<span class="lineNum">     610 </span>            : }
+<span class="lineNum">     611 </span>            : 
+<span class="lineNum">     612 </span>            : /*
+<span class="lineNum">     613 </span>            : static size_t ZDICT_maxSampleSize(const size_t* fileSizes, unsigned nbFiles)
+<span class="lineNum">     614 </span>            : {
+<span class="lineNum">     615 </span>            :     unsigned u;
+<span class="lineNum">     616 </span>            :     size_t max=0;
+<span class="lineNum">     617 </span>            :     for (u=0; u&lt;nbFiles; u++)
+<span class="lineNum">     618 </span>            :         if (max &lt; fileSizes[u]) max = fileSizes[u];
+<span class="lineNum">     619 </span>            :     return max;
+<span class="lineNum">     620 </span>            : }
+<a name="621"><span class="lineNum">     621 </span>            : */</a>
+<span class="lineNum">     622 </span>            : 
+<span class="lineNum">     623 </span><span class="lineNoCov">          0 : static size_t ZDICT_totalSampleSize(const size_t* fileSizes, unsigned nbFiles)</span>
+<span class="lineNum">     624 </span>            : {
+<span class="lineNum">     625 </span><span class="lineNoCov">          0 :     size_t total=0;</span>
+<span class="lineNum">     626 </span>            :     unsigned u;
+<span class="lineNum">     627 </span><span class="lineNoCov">          0 :     for (u=0; u&lt;nbFiles; u++) total += fileSizes[u];</span>
+<span class="lineNum">     628 </span><span class="lineNoCov">          0 :     return total;</span>
+<span class="lineNum">     629 </span>            : }
+<span class="lineNum">     630 </span>            : 
+<a name="631"><span class="lineNum">     631 </span>            : typedef struct { U32 offset; U32 count; } offsetCount_t;</a>
+<span class="lineNum">     632 </span>            : 
+<span class="lineNum">     633 </span><span class="lineNoCov">          0 : static void ZDICT_insertSortCount(offsetCount_t table[ZSTD_REP_NUM+1], U32 val, U32 count)</span>
+<span class="lineNum">     634 </span>            : {
+<span class="lineNum">     635 </span>            :     U32 u;
+<span class="lineNum">     636 </span><span class="lineNoCov">          0 :     table[ZSTD_REP_NUM].offset = val;</span>
+<span class="lineNum">     637 </span><span class="lineNoCov">          0 :     table[ZSTD_REP_NUM].count = count;</span>
+<span class="lineNum">     638 </span><span class="lineNoCov">          0 :     for (u=ZSTD_REP_NUM; u&gt;0; u--) {</span>
+<span class="lineNum">     639 </span>            :         offsetCount_t tmp;
+<span class="lineNum">     640 </span><span class="lineNoCov">          0 :         if (table[u-1].count &gt;= table[u].count) break;</span>
+<span class="lineNum">     641 </span><span class="lineNoCov">          0 :         tmp = table[u-1];</span>
+<span class="lineNum">     642 </span><span class="lineNoCov">          0 :         table[u-1] = table[u];</span>
+<span class="lineNum">     643 </span><span class="lineNoCov">          0 :         table[u] = tmp;</span>
+<span class="lineNum">     644 </span>            :     }
+<span class="lineNum">     645 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     646 </span>            : 
+<a name="647"><span class="lineNum">     647 </span>            : </a>
+<span class="lineNum">     648 </span>            : #define OFFCODE_MAX 30  /* only applicable to first block */
+<span class="lineNum">     649 </span><span class="lineNoCov">          0 : static size_t ZDICT_analyzeEntropy(void*  dstBuffer, size_t maxDstSize,</span>
+<span class="lineNum">     650 </span>            :                                    unsigned compressionLevel,
+<span class="lineNum">     651 </span>            :                              const void*  srcBuffer, const size_t* fileSizes, unsigned nbFiles,
+<span class="lineNum">     652 </span>            :                              const void* dictBuffer, size_t  dictBufferSize,
+<span class="lineNum">     653 </span>            :                                    unsigned notificationLevel)
+<span class="lineNum">     654 </span>            : {
+<span class="lineNum">     655 </span>            :     U32 countLit[256];
+<span class="lineNum">     656 </span><span class="lineNoCov">          0 :     HUF_CREATE_STATIC_CTABLE(hufTable, 255);</span>
+<span class="lineNum">     657 </span>            :     U32 offcodeCount[OFFCODE_MAX+1];
+<span class="lineNum">     658 </span>            :     short offcodeNCount[OFFCODE_MAX+1];
+<span class="lineNum">     659 </span><span class="lineNoCov">          0 :     U32 offcodeMax = ZSTD_highbit32((U32)(dictBufferSize + 128 KB));</span>
+<span class="lineNum">     660 </span>            :     U32 matchLengthCount[MaxML+1];
+<span class="lineNum">     661 </span>            :     short matchLengthNCount[MaxML+1];
+<span class="lineNum">     662 </span>            :     U32 litLengthCount[MaxLL+1];
+<span class="lineNum">     663 </span>            :     short litLengthNCount[MaxLL+1];
+<span class="lineNum">     664 </span>            :     U32 repOffset[MAXREPOFFSET];
+<span class="lineNum">     665 </span>            :     offsetCount_t bestRepOffset[ZSTD_REP_NUM+1];
+<span class="lineNum">     666 </span>            :     EStats_ress_t esr;
+<span class="lineNum">     667 </span>            :     ZSTD_parameters params;
+<span class="lineNum">     668 </span><span class="lineNoCov">          0 :     U32 u, huffLog = 11, Offlog = OffFSELog, mlLog = MLFSELog, llLog = LLFSELog, total;</span>
+<span class="lineNum">     669 </span><span class="lineNoCov">          0 :     size_t pos = 0, errorCode;</span>
+<span class="lineNum">     670 </span><span class="lineNoCov">          0 :     size_t eSize = 0;</span>
+<span class="lineNum">     671 </span><span class="lineNoCov">          0 :     size_t const totalSrcSize = ZDICT_totalSampleSize(fileSizes, nbFiles);</span>
+<span class="lineNum">     672 </span><span class="lineNoCov">          0 :     size_t const averageSampleSize = totalSrcSize / (nbFiles + !nbFiles);</span>
+<span class="lineNum">     673 </span><span class="lineNoCov">          0 :     BYTE* dstPtr = (BYTE*)dstBuffer;</span>
+<span class="lineNum">     674 </span>            : 
+<span class="lineNum">     675 </span>            :     /* init */
+<span class="lineNum">     676 </span><span class="lineNoCov">          0 :     esr.ref = ZSTD_createCCtx();</span>
+<span class="lineNum">     677 </span><span class="lineNoCov">          0 :     esr.zc = ZSTD_createCCtx();</span>
+<span class="lineNum">     678 </span><span class="lineNoCov">          0 :     esr.workPlace = malloc(ZSTD_BLOCKSIZE_ABSOLUTEMAX);</span>
+<span class="lineNum">     679 </span><span class="lineNoCov">          0 :     if (!esr.ref || !esr.zc || !esr.workPlace) {</span>
+<span class="lineNum">     680 </span><span class="lineNoCov">          0 :         eSize = ERROR(memory_allocation);</span>
+<span class="lineNum">     681 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(1, &quot;Not enough memory \n&quot;);</span>
+<span class="lineNum">     682 </span><span class="lineNoCov">          0 :         goto _cleanup;</span>
+<span class="lineNum">     683 </span>            :     }
+<span class="lineNum">     684 </span><span class="lineNoCov">          0 :     if (offcodeMax&gt;OFFCODE_MAX) { eSize = ERROR(dictionary_wrong); goto _cleanup; }   /* too large dictionary */</span>
+<span class="lineNum">     685 </span><span class="lineNoCov">          0 :     for (u=0; u&lt;256; u++) countLit[u]=1;   /* any character must be described */</span>
+<span class="lineNum">     686 </span><span class="lineNoCov">          0 :     for (u=0; u&lt;=offcodeMax; u++) offcodeCount[u]=1;</span>
+<span class="lineNum">     687 </span><span class="lineNoCov">          0 :     for (u=0; u&lt;=MaxML; u++) matchLengthCount[u]=1;</span>
+<span class="lineNum">     688 </span><span class="lineNoCov">          0 :     for (u=0; u&lt;=MaxLL; u++) litLengthCount[u]=1;</span>
+<span class="lineNum">     689 </span><span class="lineNoCov">          0 :     memset(repOffset, 0, sizeof(repOffset));</span>
+<span class="lineNum">     690 </span><span class="lineNoCov">          0 :     repOffset[1] = repOffset[4] = repOffset[8] = 1;</span>
+<span class="lineNum">     691 </span><span class="lineNoCov">          0 :     memset(bestRepOffset, 0, sizeof(bestRepOffset));</span>
+<span class="lineNum">     692 </span><span class="lineNoCov">          0 :     if (compressionLevel==0) compressionLevel=g_compressionLevel_default;</span>
+<span class="lineNum">     693 </span><span class="lineNoCov">          0 :     params = ZSTD_getParams(compressionLevel, averageSampleSize, dictBufferSize);</span>
+<span class="lineNum">     694 </span><span class="lineNoCov">          0 :     {   size_t const beginResult = ZSTD_compressBegin_advanced(esr.ref, dictBuffer, dictBufferSize, params, 0);</span>
+<span class="lineNum">     695 </span><span class="lineNoCov">          0 :             if (ZSTD_isError(beginResult)) {</span>
+<span class="lineNum">     696 </span><span class="lineNoCov">          0 :             eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     697 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(1, &quot;error : ZSTD_compressBegin_advanced failed \n&quot;);</span>
+<span class="lineNum">     698 </span><span class="lineNoCov">          0 :             goto _cleanup;</span>
+<span class="lineNum">     699 </span>            :     }   }
+<span class="lineNum">     700 </span>            : 
+<span class="lineNum">     701 </span>            :     /* collect stats on all files */
+<span class="lineNum">     702 </span><span class="lineNoCov">          0 :     for (u=0; u&lt;nbFiles; u++) {</span>
+<span class="lineNum">     703 </span><span class="lineNoCov">          0 :         ZDICT_countEStats(esr, params,</span>
+<span class="lineNum">     704 </span>            :                           countLit, offcodeCount, matchLengthCount, litLengthCount, repOffset,
+<span class="lineNum">     705 </span><span class="lineNoCov">          0 :                          (const char*)srcBuffer + pos, fileSizes[u],</span>
+<span class="lineNum">     706 </span>            :                           notificationLevel);
+<span class="lineNum">     707 </span><span class="lineNoCov">          0 :         pos += fileSizes[u];</span>
+<span class="lineNum">     708 </span>            :     }
+<span class="lineNum">     709 </span>            : 
+<span class="lineNum">     710 </span>            :     /* analyze */
+<span class="lineNum">     711 </span><span class="lineNoCov">          0 :     errorCode = HUF_buildCTable (hufTable, countLit, 255, huffLog);</span>
+<span class="lineNum">     712 </span><span class="lineNoCov">          0 :     if (HUF_isError(errorCode)) {</span>
+<span class="lineNum">     713 </span><span class="lineNoCov">          0 :         eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     714 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(1, &quot;HUF_buildCTable error \n&quot;);</span>
+<span class="lineNum">     715 </span><span class="lineNoCov">          0 :         goto _cleanup;</span>
+<span class="lineNum">     716 </span>            :     }
+<span class="lineNum">     717 </span><span class="lineNoCov">          0 :     huffLog = (U32)errorCode;</span>
+<span class="lineNum">     718 </span>            : 
+<span class="lineNum">     719 </span>            :     /* looking for most common first offsets */
+<span class="lineNum">     720 </span>            :     {   U32 offset;
+<span class="lineNum">     721 </span><span class="lineNoCov">          0 :         for (offset=1; offset&lt;MAXREPOFFSET; offset++)</span>
+<span class="lineNum">     722 </span><span class="lineNoCov">          0 :             ZDICT_insertSortCount(bestRepOffset, offset, repOffset[offset]);</span>
+<span class="lineNum">     723 </span>            :     }
+<span class="lineNum">     724 </span>            :     /* note : the result of this phase should be used to better appreciate the impact on statistics */
+<span class="lineNum">     725 </span>            : 
+<span class="lineNum">     726 </span><span class="lineNoCov">          0 :     total=0; for (u=0; u&lt;=offcodeMax; u++) total+=offcodeCount[u];</span>
+<span class="lineNum">     727 </span><span class="lineNoCov">          0 :     errorCode = FSE_normalizeCount(offcodeNCount, Offlog, offcodeCount, total, offcodeMax);</span>
+<span class="lineNum">     728 </span><span class="lineNoCov">          0 :     if (FSE_isError(errorCode)) {</span>
+<span class="lineNum">     729 </span><span class="lineNoCov">          0 :         eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     730 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(1, &quot;FSE_normalizeCount error with offcodeCount \n&quot;);</span>
+<span class="lineNum">     731 </span><span class="lineNoCov">          0 :         goto _cleanup;</span>
+<span class="lineNum">     732 </span>            :     }
+<span class="lineNum">     733 </span><span class="lineNoCov">          0 :     Offlog = (U32)errorCode;</span>
+<span class="lineNum">     734 </span>            : 
+<span class="lineNum">     735 </span><span class="lineNoCov">          0 :     total=0; for (u=0; u&lt;=MaxML; u++) total+=matchLengthCount[u];</span>
+<span class="lineNum">     736 </span><span class="lineNoCov">          0 :     errorCode = FSE_normalizeCount(matchLengthNCount, mlLog, matchLengthCount, total, MaxML);</span>
+<span class="lineNum">     737 </span><span class="lineNoCov">          0 :     if (FSE_isError(errorCode)) {</span>
+<span class="lineNum">     738 </span><span class="lineNoCov">          0 :         eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     739 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(1, &quot;FSE_normalizeCount error with matchLengthCount \n&quot;);</span>
+<span class="lineNum">     740 </span><span class="lineNoCov">          0 :         goto _cleanup;</span>
+<span class="lineNum">     741 </span>            :     }
+<span class="lineNum">     742 </span><span class="lineNoCov">          0 :     mlLog = (U32)errorCode;</span>
+<span class="lineNum">     743 </span>            : 
+<span class="lineNum">     744 </span><span class="lineNoCov">          0 :     total=0; for (u=0; u&lt;=MaxLL; u++) total+=litLengthCount[u];</span>
+<span class="lineNum">     745 </span><span class="lineNoCov">          0 :     errorCode = FSE_normalizeCount(litLengthNCount, llLog, litLengthCount, total, MaxLL);</span>
+<span class="lineNum">     746 </span><span class="lineNoCov">          0 :     if (FSE_isError(errorCode)) {</span>
+<span class="lineNum">     747 </span><span class="lineNoCov">          0 :         eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     748 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(1, &quot;FSE_normalizeCount error with litLengthCount \n&quot;);</span>
+<span class="lineNum">     749 </span><span class="lineNoCov">          0 :         goto _cleanup;</span>
+<span class="lineNum">     750 </span>            :     }
+<span class="lineNum">     751 </span><span class="lineNoCov">          0 :     llLog = (U32)errorCode;</span>
+<span class="lineNum">     752 </span>            : 
+<span class="lineNum">     753 </span>            :     /* write result to buffer */
+<span class="lineNum">     754 </span><span class="lineNoCov">          0 :     {   size_t const hhSize = HUF_writeCTable(dstPtr, maxDstSize, hufTable, 255, huffLog);</span>
+<span class="lineNum">     755 </span><span class="lineNoCov">          0 :         if (HUF_isError(hhSize)) {</span>
+<span class="lineNum">     756 </span><span class="lineNoCov">          0 :             eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     757 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(1, &quot;HUF_writeCTable error \n&quot;);</span>
+<span class="lineNum">     758 </span><span class="lineNoCov">          0 :             goto _cleanup;</span>
+<span class="lineNum">     759 </span>            :         }
+<span class="lineNum">     760 </span><span class="lineNoCov">          0 :         dstPtr += hhSize;</span>
+<span class="lineNum">     761 </span><span class="lineNoCov">          0 :         maxDstSize -= hhSize;</span>
+<span class="lineNum">     762 </span><span class="lineNoCov">          0 :         eSize += hhSize;</span>
+<span class="lineNum">     763 </span>            :     }
+<span class="lineNum">     764 </span>            : 
+<span class="lineNum">     765 </span><span class="lineNoCov">          0 :     {   size_t const ohSize = FSE_writeNCount(dstPtr, maxDstSize, offcodeNCount, OFFCODE_MAX, Offlog);</span>
+<span class="lineNum">     766 </span><span class="lineNoCov">          0 :         if (FSE_isError(ohSize)) {</span>
+<span class="lineNum">     767 </span><span class="lineNoCov">          0 :             eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     768 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(1, &quot;FSE_writeNCount error with offcodeNCount \n&quot;);</span>
+<span class="lineNum">     769 </span><span class="lineNoCov">          0 :             goto _cleanup;</span>
+<span class="lineNum">     770 </span>            :         }
+<span class="lineNum">     771 </span><span class="lineNoCov">          0 :         dstPtr += ohSize;</span>
+<span class="lineNum">     772 </span><span class="lineNoCov">          0 :         maxDstSize -= ohSize;</span>
+<span class="lineNum">     773 </span><span class="lineNoCov">          0 :         eSize += ohSize;</span>
+<span class="lineNum">     774 </span>            :     }
+<span class="lineNum">     775 </span>            : 
+<span class="lineNum">     776 </span><span class="lineNoCov">          0 :     {   size_t const mhSize = FSE_writeNCount(dstPtr, maxDstSize, matchLengthNCount, MaxML, mlLog);</span>
+<span class="lineNum">     777 </span><span class="lineNoCov">          0 :         if (FSE_isError(mhSize)) {</span>
+<span class="lineNum">     778 </span><span class="lineNoCov">          0 :             eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     779 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(1, &quot;FSE_writeNCount error with matchLengthNCount \n&quot;);</span>
+<span class="lineNum">     780 </span><span class="lineNoCov">          0 :             goto _cleanup;</span>
+<span class="lineNum">     781 </span>            :         }
+<span class="lineNum">     782 </span><span class="lineNoCov">          0 :         dstPtr += mhSize;</span>
+<span class="lineNum">     783 </span><span class="lineNoCov">          0 :         maxDstSize -= mhSize;</span>
+<span class="lineNum">     784 </span><span class="lineNoCov">          0 :         eSize += mhSize;</span>
+<span class="lineNum">     785 </span>            :     }
+<span class="lineNum">     786 </span>            : 
+<span class="lineNum">     787 </span><span class="lineNoCov">          0 :     {   size_t const lhSize = FSE_writeNCount(dstPtr, maxDstSize, litLengthNCount, MaxLL, llLog);</span>
+<span class="lineNum">     788 </span><span class="lineNoCov">          0 :         if (FSE_isError(lhSize)) {</span>
+<span class="lineNum">     789 </span><span class="lineNoCov">          0 :             eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     790 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(1, &quot;FSE_writeNCount error with litlengthNCount \n&quot;);</span>
+<span class="lineNum">     791 </span><span class="lineNoCov">          0 :             goto _cleanup;</span>
+<span class="lineNum">     792 </span>            :         }
+<span class="lineNum">     793 </span><span class="lineNoCov">          0 :         dstPtr += lhSize;</span>
+<span class="lineNum">     794 </span><span class="lineNoCov">          0 :         maxDstSize -= lhSize;</span>
+<span class="lineNum">     795 </span><span class="lineNoCov">          0 :         eSize += lhSize;</span>
+<span class="lineNum">     796 </span>            :     }
+<span class="lineNum">     797 </span>            : 
+<span class="lineNum">     798 </span><span class="lineNoCov">          0 :     if (maxDstSize&lt;12) {</span>
+<span class="lineNum">     799 </span><span class="lineNoCov">          0 :         eSize = ERROR(GENERIC);</span>
+<span class="lineNum">     800 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(1, &quot;not enough space to write RepOffsets \n&quot;);</span>
+<span class="lineNum">     801 </span><span class="lineNoCov">          0 :         goto _cleanup;</span>
+<span class="lineNum">     802 </span>            :     }
+<span class="lineNum">     803 </span>            : # if 0
+<span class="lineNum">     804 </span>            :     MEM_writeLE32(dstPtr+0, bestRepOffset[0].offset);
+<span class="lineNum">     805 </span>            :     MEM_writeLE32(dstPtr+4, bestRepOffset[1].offset);
+<span class="lineNum">     806 </span>            :     MEM_writeLE32(dstPtr+8, bestRepOffset[2].offset);
+<span class="lineNum">     807 </span>            : #else
+<span class="lineNum">     808 </span>            :     /* at this stage, we don't use the result of &quot;most common first offset&quot;,
+<span class="lineNum">     809 </span>            :        as the impact of statistics is not properly evaluated */
+<span class="lineNum">     810 </span><span class="lineNoCov">          0 :     MEM_writeLE32(dstPtr+0, repStartValue[0]);</span>
+<span class="lineNum">     811 </span><span class="lineNoCov">          0 :     MEM_writeLE32(dstPtr+4, repStartValue[1]);</span>
+<span class="lineNum">     812 </span><span class="lineNoCov">          0 :     MEM_writeLE32(dstPtr+8, repStartValue[2]);</span>
+<span class="lineNum">     813 </span>            : #endif
+<span class="lineNum">     814 </span><span class="lineNoCov">          0 :     dstPtr += 12;</span>
+<span class="lineNum">     815 </span><span class="lineNoCov">          0 :     eSize += 12;</span>
+<span class="lineNum">     816 </span>            : 
+<span class="lineNum">     817 </span>            : _cleanup:
+<span class="lineNum">     818 </span><span class="lineNoCov">          0 :     ZSTD_freeCCtx(esr.ref);</span>
+<span class="lineNum">     819 </span><span class="lineNoCov">          0 :     ZSTD_freeCCtx(esr.zc);</span>
+<span class="lineNum">     820 </span><span class="lineNoCov">          0 :     free(esr.workPlace);</span>
+<span class="lineNum">     821 </span>            : 
+<span class="lineNum">     822 </span><span class="lineNoCov">          0 :     return eSize;</span>
+<span class="lineNum">     823 </span>            : }
+<a name="824"><span class="lineNum">     824 </span>            : </a>
+<span class="lineNum">     825 </span>            : 
+<span class="lineNum">     826 </span><span class="lineNoCov">          0 : size_t ZDICT_addEntropyTablesFromBuffer_advanced(void* dictBuffer, size_t dictContentSize, size_t dictBufferCapacity,</span>
+<span class="lineNum">     827 </span>            :                                                  const void* samplesBuffer, const size_t* samplesSizes, unsigned nbSamples,
+<span class="lineNum">     828 </span>            :                                                  ZDICT_params_t params)
+<span class="lineNum">     829 </span>            : {
+<span class="lineNum">     830 </span>            :     size_t hSize;
+<span class="lineNum">     831 </span><span class="lineNoCov">          0 :     int const compressionLevel = (params.compressionLevel &lt;= 0) ? g_compressionLevel_default : params.compressionLevel;</span>
+<span class="lineNum">     832 </span><span class="lineNoCov">          0 :     U32 const notificationLevel = params.notificationLevel;</span>
+<span class="lineNum">     833 </span>            : 
+<span class="lineNum">     834 </span>            :     /* dictionary header */
+<span class="lineNum">     835 </span><span class="lineNoCov">          0 :     MEM_writeLE32(dictBuffer, ZSTD_DICT_MAGIC);</span>
+<span class="lineNum">     836 </span><span class="lineNoCov">          0 :     {   U64 const randomID = XXH64((char*)dictBuffer + dictBufferCapacity - dictContentSize, dictContentSize, 0);</span>
+<span class="lineNum">     837 </span><span class="lineNoCov">          0 :         U32 const compliantID = (randomID % ((1U&lt;&lt;31)-32768)) + 32768;</span>
+<span class="lineNum">     838 </span><span class="lineNoCov">          0 :         U32 const dictID = params.dictID ? params.dictID : compliantID;</span>
+<span class="lineNum">     839 </span><span class="lineNoCov">          0 :         MEM_writeLE32((char*)dictBuffer+4, dictID);</span>
+<span class="lineNum">     840 </span>            :     }
+<span class="lineNum">     841 </span><span class="lineNoCov">          0 :     hSize = 8;</span>
+<span class="lineNum">     842 </span>            : 
+<span class="lineNum">     843 </span>            :     /* entropy tables */
+<span class="lineNum">     844 </span><span class="lineNoCov">          0 :     DISPLAYLEVEL(2, &quot;\r%70s\r&quot;, &quot;&quot;);   /* clean display line */</span>
+<span class="lineNum">     845 </span><span class="lineNoCov">          0 :     DISPLAYLEVEL(2, &quot;statistics ... \n&quot;);</span>
+<span class="lineNum">     846 </span><span class="lineNoCov">          0 :     {   size_t const eSize = ZDICT_analyzeEntropy((char*)dictBuffer+hSize, dictBufferCapacity-hSize,</span>
+<span class="lineNum">     847 </span>            :                                   compressionLevel,
+<span class="lineNum">     848 </span>            :                                   samplesBuffer, samplesSizes, nbSamples,
+<span class="lineNum">     849 </span><span class="lineNoCov">          0 :                                   (char*)dictBuffer + dictBufferCapacity - dictContentSize, dictContentSize,</span>
+<span class="lineNum">     850 </span>            :                                   notificationLevel);
+<span class="lineNum">     851 </span><span class="lineNoCov">          0 :         if (ZDICT_isError(eSize)) return eSize;</span>
+<span class="lineNum">     852 </span><span class="lineNoCov">          0 :         hSize += eSize;</span>
+<span class="lineNum">     853 </span>            :     }
+<span class="lineNum">     854 </span>            : 
+<span class="lineNum">     855 </span>            : 
+<span class="lineNum">     856 </span><span class="lineNoCov">          0 :     if (hSize + dictContentSize &lt; dictBufferCapacity)</span>
+<span class="lineNum">     857 </span><span class="lineNoCov">          0 :         memmove((char*)dictBuffer + hSize, (char*)dictBuffer + dictBufferCapacity - dictContentSize, dictContentSize);</span>
+<span class="lineNum">     858 </span><span class="lineNoCov">          0 :     return MIN(dictBufferCapacity, hSize+dictContentSize);</span>
+<span class="lineNum">     859 </span>            : }
+<span class="lineNum">     860 </span>            : 
+<span class="lineNum">     861 </span>            : 
+<span class="lineNum">     862 </span>            : /*! ZDICT_trainFromBuffer_unsafe() :
+<span class="lineNum">     863 </span>            : *   Warning : `samplesBuffer` must be followed by noisy guard band.
+<a name="864"><span class="lineNum">     864 </span>            : *   @return : size of dictionary, or an error code which can be tested with ZDICT_isError()</a>
+<span class="lineNum">     865 </span>            : */
+<span class="lineNum">     866 </span><span class="lineNoCov">          0 : size_t ZDICT_trainFromBuffer_unsafe(</span>
+<span class="lineNum">     867 </span>            :                             void* dictBuffer, size_t maxDictSize,
+<span class="lineNum">     868 </span>            :                             const void* samplesBuffer, const size_t* samplesSizes, unsigned nbSamples,
+<span class="lineNum">     869 </span>            :                             ZDICT_params_t params)
+<span class="lineNum">     870 </span>            : {
+<span class="lineNum">     871 </span><span class="lineNoCov">          0 :     U32 const dictListSize = MAX(MAX(DICTLISTSIZE_DEFAULT, nbSamples), (U32)(maxDictSize/16));</span>
+<span class="lineNum">     872 </span><span class="lineNoCov">          0 :     dictItem* const dictList = (dictItem*)malloc(dictListSize * sizeof(*dictList));</span>
+<span class="lineNum">     873 </span><span class="lineNoCov">          0 :     unsigned const selectivity = params.selectivityLevel == 0 ? g_selectivity_default : params.selectivityLevel;</span>
+<span class="lineNum">     874 </span><span class="lineNoCov">          0 :     unsigned const minRep = (selectivity &gt; 30) ? MINRATIO : nbSamples &gt;&gt; selectivity;</span>
+<span class="lineNum">     875 </span><span class="lineNoCov">          0 :     size_t const targetDictSize = maxDictSize;</span>
+<span class="lineNum">     876 </span><span class="lineNoCov">          0 :     size_t const samplesBuffSize = ZDICT_totalSampleSize(samplesSizes, nbSamples);</span>
+<span class="lineNum">     877 </span><span class="lineNoCov">          0 :     size_t dictSize = 0;</span>
+<span class="lineNum">     878 </span><span class="lineNoCov">          0 :     U32 const notificationLevel = params.notificationLevel;</span>
+<span class="lineNum">     879 </span>            : 
+<span class="lineNum">     880 </span>            :     /* checks */
+<span class="lineNum">     881 </span><span class="lineNoCov">          0 :     if (!dictList) return ERROR(memory_allocation);</span>
+<span class="lineNum">     882 </span><span class="lineNoCov">          0 :     if (maxDictSize &lt;= g_provision_entropySize + g_min_fast_dictContent) { free(dictList); return ERROR(dstSize_tooSmall); }</span>
+<span class="lineNum">     883 </span><span class="lineNoCov">          0 :     if (samplesBuffSize &lt; ZDICT_MIN_SAMPLES_SIZE) { free(dictList); return 0; }   /* not enough source to create dictionary */</span>
+<span class="lineNum">     884 </span>            : 
+<span class="lineNum">     885 </span>            :     /* init */
+<span class="lineNum">     886 </span><span class="lineNoCov">          0 :     ZDICT_initDictItem(dictList);</span>
+<span class="lineNum">     887 </span>            : 
+<span class="lineNum">     888 </span>            :     /* build dictionary */
+<span class="lineNum">     889 </span><span class="lineNoCov">          0 :     ZDICT_trainBuffer(dictList, dictListSize,</span>
+<span class="lineNum">     890 </span>            :                     samplesBuffer, samplesBuffSize,
+<span class="lineNum">     891 </span>            :                     samplesSizes, nbSamples,
+<span class="lineNum">     892 </span>            :                     minRep, notificationLevel);
+<span class="lineNum">     893 </span>            : 
+<span class="lineNum">     894 </span>            :     /* display best matches */
+<span class="lineNum">     895 </span><span class="lineNoCov">          0 :     if (params.notificationLevel&gt;= 3) {</span>
+<span class="lineNum">     896 </span><span class="lineNoCov">          0 :         U32 const nb = MIN(25, dictList[0].pos);</span>
+<span class="lineNum">     897 </span><span class="lineNoCov">          0 :         U32 const dictContentSize = ZDICT_dictSize(dictList);</span>
+<span class="lineNum">     898 </span>            :         U32 u;
+<span class="lineNum">     899 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(3, &quot;\n %u segments found, of total size %u \n&quot;, dictList[0].pos, dictContentSize);</span>
+<span class="lineNum">     900 </span><span class="lineNoCov">          0 :         DISPLAYLEVEL(3, &quot;list %u best segments \n&quot;, nb);</span>
+<span class="lineNum">     901 </span><span class="lineNoCov">          0 :         for (u=1; u&lt;=nb; u++) {</span>
+<span class="lineNum">     902 </span><span class="lineNoCov">          0 :             U32 pos = dictList[u].pos;</span>
+<span class="lineNum">     903 </span><span class="lineNoCov">          0 :             U32 length = dictList[u].length;</span>
+<span class="lineNum">     904 </span><span class="lineNoCov">          0 :             U32 printedLength = MIN(40, length);</span>
+<span class="lineNum">     905 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(3, &quot;%3u:%3u bytes at pos %8u, savings %7u bytes |&quot;,</span>
+<span class="lineNum">     906 </span>            :                          u, length, pos, dictList[u].savings);
+<span class="lineNum">     907 </span><span class="lineNoCov">          0 :             ZDICT_printHex((const char*)samplesBuffer+pos, printedLength);</span>
+<span class="lineNum">     908 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(3, &quot;| \n&quot;);</span>
+<span class="lineNum">     909 </span>            :     }   }
+<span class="lineNum">     910 </span>            : 
+<span class="lineNum">     911 </span>            : 
+<span class="lineNum">     912 </span>            :     /* create dictionary */
+<span class="lineNum">     913 </span><span class="lineNoCov">          0 :     {   U32 dictContentSize = ZDICT_dictSize(dictList);</span>
+<span class="lineNum">     914 </span><span class="lineNoCov">          0 :         if (dictContentSize &lt; targetDictSize/3) {</span>
+<span class="lineNum">     915 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(2, &quot;!  warning : selected content significantly smaller than requested (%u &lt; %u) \n&quot;, dictContentSize, (U32)maxDictSize);</span>
+<span class="lineNum">     916 </span><span class="lineNoCov">          0 :             if (minRep &gt; MINRATIO) {</span>
+<span class="lineNum">     917 </span><span class="lineNoCov">          0 :                 DISPLAYLEVEL(2, &quot;!  consider increasing selectivity to produce larger dictionary (-s%u) \n&quot;, selectivity+1);</span>
+<span class="lineNum">     918 </span><span class="lineNoCov">          0 :                 DISPLAYLEVEL(2, &quot;!  note : larger dictionaries are not necessarily better, test its efficiency on samples \n&quot;);</span>
+<span class="lineNum">     919 </span>            :             }
+<span class="lineNum">     920 </span><span class="lineNoCov">          0 :             if (samplesBuffSize &lt; 10 * targetDictSize)</span>
+<span class="lineNum">     921 </span><span class="lineNoCov">          0 :                 DISPLAYLEVEL(2, &quot;!  consider increasing the number of samples (total size : %u MB)\n&quot;, (U32)(samplesBuffSize&gt;&gt;20));</span>
+<span class="lineNum">     922 </span>            :         }
+<span class="lineNum">     923 </span>            : 
+<span class="lineNum">     924 </span><span class="lineNoCov">          0 :         if ((dictContentSize &gt; targetDictSize*3) &amp;&amp; (nbSamples &gt; 2*MINRATIO) &amp;&amp; (selectivity&gt;1)) {</span>
+<span class="lineNum">     925 </span><span class="lineNoCov">          0 :             U32 proposedSelectivity = selectivity-1;</span>
+<span class="lineNum">     926 </span><span class="lineNoCov">          0 :             while ((nbSamples &gt;&gt; proposedSelectivity) &lt;= MINRATIO) { proposedSelectivity--; }</span>
+<span class="lineNum">     927 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(2, &quot;!  note : calculated dictionary significantly larger than requested (%u &gt; %u) \n&quot;, dictContentSize, (U32)maxDictSize);</span>
+<span class="lineNum">     928 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(2, &quot;!  consider increasing dictionary size, or produce denser dictionary (-s%u) \n&quot;, proposedSelectivity);</span>
+<span class="lineNum">     929 </span><span class="lineNoCov">          0 :             DISPLAYLEVEL(2, &quot;!  always test dictionary efficiency on samples \n&quot;);</span>
+<span class="lineNum">     930 </span>            :         }
+<span class="lineNum">     931 </span>            : 
+<span class="lineNum">     932 </span>            :         /* limit dictionary size */
+<span class="lineNum">     933 </span><span class="lineNoCov">          0 :         {   U32 const max = dictList-&gt;pos;   /* convention : nb of useful elts within dictList */</span>
+<span class="lineNum">     934 </span><span class="lineNoCov">          0 :             U32 currentSize = 0;</span>
+<span class="lineNum">     935 </span><span class="lineNoCov">          0 :             U32 n; for (n=1; n&lt;max; n++) {</span>
+<span class="lineNum">     936 </span><span class="lineNoCov">          0 :                 currentSize += dictList[n].length;</span>
+<span class="lineNum">     937 </span><span class="lineNoCov">          0 :                 if (currentSize &gt; targetDictSize) { currentSize -= dictList[n].length; break; }</span>
+<span class="lineNum">     938 </span>            :             }
+<span class="lineNum">     939 </span><span class="lineNoCov">          0 :             dictList-&gt;pos = n;</span>
+<span class="lineNum">     940 </span><span class="lineNoCov">          0 :             dictContentSize = currentSize;</span>
+<span class="lineNum">     941 </span>            :         }
+<span class="lineNum">     942 </span>            : 
+<span class="lineNum">     943 </span>            :         /* build dict content */
+<span class="lineNum">     944 </span>            :         {   U32 u;
+<span class="lineNum">     945 </span><span class="lineNoCov">          0 :             BYTE* ptr = (BYTE*)dictBuffer + maxDictSize;</span>
+<span class="lineNum">     946 </span><span class="lineNoCov">          0 :             for (u=1; u&lt;dictList-&gt;pos; u++) {</span>
+<span class="lineNum">     947 </span><span class="lineNoCov">          0 :                 U32 l = dictList[u].length;</span>
+<span class="lineNum">     948 </span><span class="lineNoCov">          0 :                 ptr -= l;</span>
+<span class="lineNum">     949 </span><span class="lineNoCov">          0 :                 if (ptr&lt;(BYTE*)dictBuffer) { free(dictList); return ERROR(GENERIC); }   /* should not happen */</span>
+<span class="lineNum">     950 </span><span class="lineNoCov">          0 :                 memcpy(ptr, (const char*)samplesBuffer+dictList[u].pos, l);</span>
+<span class="lineNum">     951 </span>            :         }   }
+<span class="lineNum">     952 </span>            : 
+<span class="lineNum">     953 </span><span class="lineNoCov">          0 :         dictSize = ZDICT_addEntropyTablesFromBuffer_advanced(dictBuffer, dictContentSize, maxDictSize,</span>
+<span class="lineNum">     954 </span>            :                                                              samplesBuffer, samplesSizes, nbSamples,
+<span class="lineNum">     955 </span>            :                                                              params);
+<span class="lineNum">     956 </span>            :     }
+<span class="lineNum">     957 </span>            : 
+<span class="lineNum">     958 </span>            :     /* clean up */
+<span class="lineNum">     959 </span><span class="lineNoCov">          0 :     free(dictList);</span>
+<span class="lineNum">     960 </span><span class="lineNoCov">          0 :     return dictSize;</span>
+<span class="lineNum">     961 </span>            : }
+<span class="lineNum">     962 </span>            : 
+<span class="lineNum">     963 </span>            : 
+<a name="964"><span class="lineNum">     964 </span>            : /* issue : samplesBuffer need to be followed by a noisy guard band.</a>
+<span class="lineNum">     965 </span>            : *  work around : duplicate the buffer, and add the noise */
+<span class="lineNum">     966 </span><span class="lineNoCov">          0 : size_t ZDICT_trainFromBuffer_advanced(void* dictBuffer, size_t dictBufferCapacity,</span>
+<span class="lineNum">     967 </span>            :                                       const void* samplesBuffer, const size_t* samplesSizes, unsigned nbSamples,
+<span class="lineNum">     968 </span>            :                                       ZDICT_params_t params)
+<span class="lineNum">     969 </span>            : {
+<span class="lineNum">     970 </span>            :     size_t result;
+<span class="lineNum">     971 </span>            :     void* newBuff;
+<span class="lineNum">     972 </span><span class="lineNoCov">          0 :     size_t const sBuffSize = ZDICT_totalSampleSize(samplesSizes, nbSamples);</span>
+<span class="lineNum">     973 </span><span class="lineNoCov">          0 :     if (sBuffSize &lt; ZDICT_MIN_SAMPLES_SIZE) return 0;   /* not enough content =&gt; no dictionary */</span>
+<span class="lineNum">     974 </span>            : 
+<span class="lineNum">     975 </span><span class="lineNoCov">          0 :     newBuff = malloc(sBuffSize + NOISELENGTH);</span>
+<span class="lineNum">     976 </span><span class="lineNoCov">          0 :     if (!newBuff) return ERROR(memory_allocation);</span>
+<span class="lineNum">     977 </span>            : 
+<span class="lineNum">     978 </span><span class="lineNoCov">          0 :     memcpy(newBuff, samplesBuffer, sBuffSize);</span>
+<span class="lineNum">     979 </span><span class="lineNoCov">          0 :     ZDICT_fillNoise((char*)newBuff + sBuffSize, NOISELENGTH);   /* guard band, for end of buffer condition */</span>
+<span class="lineNum">     980 </span>            : 
+<span class="lineNum">     981 </span><span class="lineNoCov">          0 :     result = ZDICT_trainFromBuffer_unsafe(</span>
+<span class="lineNum">     982 </span>            :                                         dictBuffer, dictBufferCapacity,
+<span class="lineNum">     983 </span>            :                                         newBuff, samplesSizes, nbSamples,
+<span class="lineNum">     984 </span>            :                                         params);
+<span class="lineNum">     985 </span><span class="lineNoCov">          0 :     free(newBuff);</span>
+<span class="lineNum">     986 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     987 </span>            : }
+<a name="988"><span class="lineNum">     988 </span>            : </a>
+<span class="lineNum">     989 </span>            : 
+<span class="lineNum">     990 </span><span class="lineNoCov">          0 : size_t ZDICT_trainFromBuffer(void* dictBuffer, size_t dictBufferCapacity,</span>
+<span class="lineNum">     991 </span>            :                              const void* samplesBuffer, const size_t* samplesSizes, unsigned nbSamples)
+<span class="lineNum">     992 </span>            : {
+<span class="lineNum">     993 </span>            :     ZDICT_params_t params;
+<span class="lineNum">     994 </span><span class="lineNoCov">          0 :     memset(&amp;params, 0, sizeof(params));</span>
+<span class="lineNum">     995 </span><span class="lineNoCov">          0 :     return ZDICT_trainFromBuffer_advanced(dictBuffer, dictBufferCapacity,</span>
+<span class="lineNum">     996 </span>            :                                           samplesBuffer, samplesSizes, nbSamples,
+<span class="lineNum">     997 </span>            :                                           params);
+<a name="998"><span class="lineNum">     998 </span>            : }</a>
+<span class="lineNum">     999 </span>            : 
+<span class="lineNum">    1000 </span><span class="lineNoCov">          0 : size_t ZDICT_addEntropyTablesFromBuffer(void* dictBuffer, size_t dictContentSize, size_t dictBufferCapacity,</span>
+<span class="lineNum">    1001 </span>            :                                         const void* samplesBuffer, const size_t* samplesSizes, unsigned nbSamples)
+<span class="lineNum">    1002 </span>            : {
+<span class="lineNum">    1003 </span>            :     ZDICT_params_t params;
+<span class="lineNum">    1004 </span><span class="lineNoCov">          0 :     memset(&amp;params, 0, sizeof(params));</span>
+<span class="lineNum">    1005 </span><span class="lineNoCov">          0 :     return ZDICT_addEntropyTablesFromBuffer_advanced(dictBuffer, dictContentSize, dictBufferCapacity,</span>
+<span class="lineNum">    1006 </span>            :                                                      samplesBuffer, samplesSizes, nbSamples,
+<span class="lineNum">    1007 </span>            :                                                      params);
+<span class="lineNum">    1008 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

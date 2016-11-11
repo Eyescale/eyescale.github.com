@@ -31,13 +31,13 @@
             <td class="headerValue">Pression</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">307</td>
-            <td class="headerCovTableEntry">477</td>
-            <td class="headerCovTableEntryMed">64.4 %</td>
+            <td class="headerCovTableEntry">312</td>
+            <td class="headerCovTableEntry">484</td>
+            <td class="headerCovTableEntryMed">64.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-30 05:38:30</td>
+            <td class="headerValue">2016-11-11 05:39:51</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">30</td>
@@ -107,15 +107,15 @@
 <span class="lineNum">      45 </span>            : // compression for compressible input, and more speed for incompressible
 <a name="46"><span class="lineNum">      46 </span>            : // input. Of course, it doesn't hurt if the hash function is reasonably fast</a>
 <span class="lineNum">      47 </span>            : // either, as it gets called a lot.
-<span class="lineNum">      48 </span><span class="lineCov">   31102040 : static inline uint32 HashBytes(uint32 bytes, int shift) {</span>
-<span class="lineNum">      49 </span><span class="lineCov">   31102040 :   uint32 kMul = 0x1e35a7bd;</span>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">   31102040 :   return (bytes * kMul) &gt;&gt; shift;</span></a>
+<span class="lineNum">      48 </span><span class="lineCov">  153897902 : static inline uint32 HashBytes(uint32 bytes, int shift) {</span>
+<span class="lineNum">      49 </span><span class="lineCov">  153897902 :   uint32 kMul = 0x1e35a7bd;</span>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">  153897902 :   return (bytes * kMul) &gt;&gt; shift;</span></a>
 <span class="lineNum">      51 </span>            : }
-<span class="lineNum">      52 </span><span class="lineCov">   24205456 : static inline uint32 Hash(const char* p, int shift) {</span>
-<span class="lineNum">      53 </span><span class="lineCov">   24205456 :   return HashBytes(UNALIGNED_LOAD32(p), shift);</span>
+<span class="lineNum">      52 </span><span class="lineCov">   87214056 : static inline uint32 Hash(const char* p, int shift) {</span>
+<span class="lineNum">      53 </span><span class="lineCov">   87214056 :   return HashBytes(UNALIGNED_LOAD32(p), shift);</span>
 <a name="54"><span class="lineNum">      54 </span>            : }</a>
 <span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span><span class="lineCov">       3600 : size_t MaxCompressedLength(size_t source_len) {</span>
+<span class="lineNum">      56 </span><span class="lineCov">       8336 : size_t MaxCompressedLength(size_t source_len) {</span>
 <span class="lineNum">      57 </span>            :   // Compressed data can be defined as:
 <span class="lineNum">      58 </span>            :   //    compressed := item* literal*
 <span class="lineNum">      59 </span>            :   //    item       := literal* copy
@@ -136,7 +136,7 @@
 <span class="lineNum">      74 </span>            :   // I.e., 6 bytes of input turn into 7 bytes of &quot;compressed&quot; data.
 <span class="lineNum">      75 </span>            :   //
 <span class="lineNum">      76 </span>            :   // This last factor dominates the blowup, so the final estimate is:
-<span class="lineNum">      77 </span><span class="lineCov">       3600 :   return 32 + source_len + source_len/6;</span>
+<span class="lineNum">      77 </span><span class="lineCov">       8336 :   return 32 + source_len + source_len/6;</span>
 <span class="lineNum">      78 </span>            : }
 <span class="lineNum">      79 </span>            : 
 <span class="lineNum">      80 </span>            : enum {
@@ -158,12 +158,12 @@
 <span class="lineNum">      96 </span>            : //    ababababababababababab
 <a name="97"><span class="lineNum">      97 </span>            : // Note that this does not match the semantics of either memcpy()</a>
 <span class="lineNum">      98 </span>            : // or memmove().
-<span class="lineNum">      99 </span><span class="lineCov">         22 : static inline void IncrementalCopy(const char* src, char* op, ssize_t len) {</span>
-<span class="lineNum">     100 </span><span class="lineCov">         22 :   assert(len &gt; 0);</span>
-<span class="lineNum">     101 </span><span class="lineCov">        564 :   do {</span>
-<span class="lineNum">     102 </span><span class="lineCov">        564 :     *op++ = *src++;</span>
+<span class="lineNum">      99 </span><span class="lineCov">          2 : static inline void IncrementalCopy(const char* src, char* op, ssize_t len) {</span>
+<span class="lineNum">     100 </span><span class="lineCov">          2 :   assert(len &gt; 0);</span>
+<span class="lineNum">     101 </span><span class="lineCov">         36 :   do {</span>
+<span class="lineNum">     102 </span><span class="lineCov">         36 :     *op++ = *src++;</span>
 <span class="lineNum">     103 </span>            :   } while (--len &gt; 0);
-<span class="lineNum">     104 </span><span class="lineCov">         22 : }</span>
+<span class="lineNum">     104 </span><span class="lineCov">          2 : }</span>
 <span class="lineNum">     105 </span>            : 
 <span class="lineNum">     106 </span>            : // Equivalent to IncrementalCopy except that it can write up to ten extra
 <span class="lineNum">     107 </span>            : // bytes after the end of the copy, and that it is faster.
@@ -200,30 +200,30 @@
 <span class="lineNum">     138 </span>            : 
 <a name="139"><span class="lineNum">     139 </span>            : const int kMaxIncrementCopyOverflow = 10;</a>
 <span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineCov">     445920 : inline void IncrementalCopyFastPath(const char* src, char* op, ssize_t len) {</span>
-<span class="lineNum">     142 </span><span class="lineCov">    1223326 :   while (op - src &lt; 8) {</span>
-<span class="lineNum">     143 </span><span class="lineCov">     331486 :     UnalignedCopy64(src, op);</span>
-<span class="lineNum">     144 </span><span class="lineCov">     331486 :     len -= op - src;</span>
-<span class="lineNum">     145 </span><span class="lineCov">     331486 :     op += op - src;</span>
+<span class="lineNum">     141 </span><span class="lineCov">    3734866 : inline void IncrementalCopyFastPath(const char* src, char* op, ssize_t len) {</span>
+<span class="lineNum">     142 </span><span class="lineCov">    4918190 :   while (op - src &lt; 8) {</span>
+<span class="lineNum">     143 </span><span class="lineCov">    1183324 :     UnalignedCopy64(src, op);</span>
+<span class="lineNum">     144 </span><span class="lineCov">    1183324 :     len -= op - src;</span>
+<span class="lineNum">     145 </span><span class="lineCov">    1183324 :     op += op - src;</span>
 <span class="lineNum">     146 </span>            :   }
-<span class="lineNum">     147 </span><span class="lineCov">    2456022 :   while (len &gt; 0) {</span>
-<span class="lineNum">     148 </span><span class="lineCov">    1564182 :     UnalignedCopy64(src, op);</span>
-<span class="lineNum">     149 </span><span class="lineCov">    1564182 :     src += 8;</span>
-<span class="lineNum">     150 </span><span class="lineCov">    1564182 :     op += 8;</span>
-<span class="lineNum">     151 </span><span class="lineCov">    1564182 :     len -= 8;</span>
+<span class="lineNum">     147 </span><span class="lineCov">   21508202 :   while (len &gt; 0) {</span>
+<span class="lineNum">     148 </span><span class="lineCov">    9478330 :     UnalignedCopy64(src, op);</span>
+<span class="lineNum">     149 </span><span class="lineCov">    9478330 :     src += 8;</span>
+<span class="lineNum">     150 </span><span class="lineCov">    9478330 :     op += 8;</span>
+<span class="lineNum">     151 </span><span class="lineCov">    9478330 :     len -= 8;</span>
 <span class="lineNum">     152 </span>            :   }
-<span class="lineNum">     153 </span><span class="lineCov">     445920 : }</span>
+<span class="lineNum">     153 </span><span class="lineCov">    2551542 : }</span>
 <span class="lineNum">     154 </span>            : 
 <a name="155"><span class="lineNum">     155 </span>            : }  // namespace</a>
 <span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span><span class="lineCov">    1488002 : static inline char* EmitLiteral(char* op,</span>
+<span class="lineNum">     157 </span><span class="lineCov">   10745360 : static inline char* EmitLiteral(char* op,</span>
 <span class="lineNum">     158 </span>            :                                 const char* literal,
 <span class="lineNum">     159 </span>            :                                 int len,
 <span class="lineNum">     160 </span>            :                                 bool allow_fast_path) {
-<span class="lineNum">     161 </span><span class="lineCov">    1488002 :   int n = len - 1;      // Zero-length literals are disallowed</span>
-<span class="lineNum">     162 </span><span class="lineCov">    1488002 :   if (n &lt; 60) {</span>
+<span class="lineNum">     161 </span><span class="lineCov">   10745360 :   int n = len - 1;      // Zero-length literals are disallowed</span>
+<span class="lineNum">     162 </span><span class="lineCov">   10745360 :   if (n &lt; 60) {</span>
 <span class="lineNum">     163 </span>            :     // Fits in tag byte
-<span class="lineNum">     164 </span><span class="lineCov">    1477298 :     *op++ = LITERAL | (n &lt;&lt; 2);</span>
+<span class="lineNum">     164 </span><span class="lineCov">   10683766 :     *op++ = LITERAL | (n &lt;&lt; 2);</span>
 <span class="lineNum">     165 </span>            : 
 <span class="lineNum">     166 </span>            :     // The vast majority of copies are below 16 bytes, for which a
 <span class="lineNum">     167 </span>            :     // call to memcpy is overkill. This fast path can sometimes
@@ -235,63 +235,63 @@
 <span class="lineNum">     173 </span>            :     //     if not, allow_fast_path = false.
 <span class="lineNum">     174 </span>            :     //   - The output will always have 32 spare bytes (see
 <span class="lineNum">     175 </span>            :     //     MaxCompressedLength).
-<span class="lineNum">     176 </span><span class="lineCov">    1477298 :     if (allow_fast_path &amp;&amp; len &lt;= 16) {</span>
-<span class="lineNum">     177 </span><span class="lineCov">    1445580 :       UnalignedCopy64(literal, op);</span>
-<span class="lineNum">     178 </span><span class="lineCov">    1445580 :       UnalignedCopy64(literal + 8, op + 8);</span>
-<span class="lineNum">     179 </span><span class="lineCov">    1445580 :       return op + len;</span>
+<span class="lineNum">     176 </span><span class="lineCov">   10683766 :     if (allow_fast_path &amp;&amp; len &lt;= 16) {</span>
+<span class="lineNum">     177 </span><span class="lineCov">   10531974 :       UnalignedCopy64(literal, op);</span>
+<span class="lineNum">     178 </span><span class="lineCov">   10531974 :       UnalignedCopy64(literal + 8, op + 8);</span>
+<span class="lineNum">     179 </span><span class="lineCov">   10531974 :       return op + len;</span>
 <span class="lineNum">     180 </span>            :     }
 <span class="lineNum">     181 </span>            :   } else {
 <span class="lineNum">     182 </span>            :     // Encode in upcoming bytes
-<span class="lineNum">     183 </span><span class="lineCov">      10704 :     char* base = op;</span>
-<span class="lineNum">     184 </span><span class="lineCov">      10704 :     int count = 0;</span>
-<span class="lineNum">     185 </span><span class="lineCov">      10704 :     op++;</span>
-<span class="lineNum">     186 </span><span class="lineCov">      38838 :     while (n &gt; 0) {</span>
-<span class="lineNum">     187 </span><span class="lineCov">      17430 :       *op++ = n &amp; 0xff;</span>
-<span class="lineNum">     188 </span><span class="lineCov">      17430 :       n &gt;&gt;= 8;</span>
-<span class="lineNum">     189 </span><span class="lineCov">      17430 :       count++;</span>
+<span class="lineNum">     183 </span><span class="lineCov">      61594 :     char* base = op;</span>
+<span class="lineNum">     184 </span><span class="lineCov">      61594 :     int count = 0;</span>
+<span class="lineNum">     185 </span><span class="lineCov">      61594 :     op++;</span>
+<span class="lineNum">     186 </span><span class="lineCov">     201278 :     while (n &gt; 0) {</span>
+<span class="lineNum">     187 </span><span class="lineCov">      69842 :       *op++ = n &amp; 0xff;</span>
+<span class="lineNum">     188 </span><span class="lineCov">      69842 :       n &gt;&gt;= 8;</span>
+<span class="lineNum">     189 </span><span class="lineCov">      69842 :       count++;</span>
 <span class="lineNum">     190 </span>            :     }
-<span class="lineNum">     191 </span><span class="lineCov">      10704 :     assert(count &gt;= 1);</span>
-<span class="lineNum">     192 </span><span class="lineCov">      10704 :     assert(count &lt;= 4);</span>
-<span class="lineNum">     193 </span><span class="lineCov">      10704 :     *base = LITERAL | ((59+count) &lt;&lt; 2);</span>
+<span class="lineNum">     191 </span><span class="lineCov">      61594 :     assert(count &gt;= 1);</span>
+<span class="lineNum">     192 </span><span class="lineCov">      61594 :     assert(count &lt;= 4);</span>
+<span class="lineNum">     193 </span><span class="lineCov">      61594 :     *base = LITERAL | ((59+count) &lt;&lt; 2);</span>
 <span class="lineNum">     194 </span>            :   }
-<span class="lineNum">     195 </span><span class="lineCov">      42422 :   memcpy(op, literal, len);</span>
-<span class="lineNum">     196 </span><span class="lineCov">      42422 :   return op + len;</span>
+<span class="lineNum">     195 </span><span class="lineCov">     213386 :   memcpy(op, literal, len);</span>
+<span class="lineNum">     196 </span><span class="lineCov">     213386 :   return op + len;</span>
 <a name="197"><span class="lineNum">     197 </span>            : }</a>
 <span class="lineNum">     198 </span>            : 
-<span class="lineNum">     199 </span><span class="lineCov">    2771248 : static inline char* EmitCopyLessThan64(char* op, size_t offset, int len) {</span>
-<span class="lineNum">     200 </span><span class="lineCov">    2771248 :   assert(len &lt;= 64);</span>
-<span class="lineNum">     201 </span><span class="lineCov">    2771248 :   assert(len &gt;= 4);</span>
-<span class="lineNum">     202 </span><span class="lineCov">    2771248 :   assert(offset &lt; 65536);</span>
+<span class="lineNum">     199 </span><span class="lineCov">   28367994 : static inline char* EmitCopyLessThan64(char* op, size_t offset, int len) {</span>
+<span class="lineNum">     200 </span><span class="lineCov">   28367994 :   assert(len &lt;= 64);</span>
+<span class="lineNum">     201 </span><span class="lineCov">   28367994 :   assert(len &gt;= 4);</span>
+<span class="lineNum">     202 </span><span class="lineCov">   28367994 :   assert(offset &lt; 65536);</span>
 <span class="lineNum">     203 </span>            : 
-<span class="lineNum">     204 </span><span class="lineCov">    2771248 :   if ((len &lt; 12) &amp;&amp; (offset &lt; 2048)) {</span>
-<span class="lineNum">     205 </span><span class="lineCov">    1603678 :     size_t len_minus_4 = len - 4;</span>
-<span class="lineNum">     206 </span><span class="lineCov">    1603678 :     assert(len_minus_4 &lt; 8);            // Must fit in 3 bits</span>
-<span class="lineNum">     207 </span><span class="lineCov">    1603678 :     *op++ = COPY_1_BYTE_OFFSET + ((len_minus_4) &lt;&lt; 2) + ((offset &gt;&gt; 8) &lt;&lt; 5);</span>
-<span class="lineNum">     208 </span><span class="lineCov">    1603678 :     *op++ = offset &amp; 0xff;</span>
+<span class="lineNum">     204 </span><span class="lineCov">   28367994 :   if ((len &lt; 12) &amp;&amp; (offset &lt; 2048)) {</span>
+<span class="lineNum">     205 </span><span class="lineCov">   19067958 :     size_t len_minus_4 = len - 4;</span>
+<span class="lineNum">     206 </span><span class="lineCov">   19067958 :     assert(len_minus_4 &lt; 8);            // Must fit in 3 bits</span>
+<span class="lineNum">     207 </span><span class="lineCov">   19067958 :     *op++ = COPY_1_BYTE_OFFSET + ((len_minus_4) &lt;&lt; 2) + ((offset &gt;&gt; 8) &lt;&lt; 5);</span>
+<span class="lineNum">     208 </span><span class="lineCov">   19067958 :     *op++ = offset &amp; 0xff;</span>
 <span class="lineNum">     209 </span>            :   } else {
-<span class="lineNum">     210 </span><span class="lineCov">    1167570 :     *op++ = COPY_2_BYTE_OFFSET + ((len-1) &lt;&lt; 2);</span>
-<span class="lineNum">     211 </span><span class="lineCov">    1167570 :     LittleEndian::Store16(op, offset);</span>
-<span class="lineNum">     212 </span><span class="lineCov">    1167570 :     op += 2;</span>
+<span class="lineNum">     210 </span><span class="lineCov">    9300036 :     *op++ = COPY_2_BYTE_OFFSET + ((len-1) &lt;&lt; 2);</span>
+<span class="lineNum">     211 </span><span class="lineCov">    9300036 :     LittleEndian::Store16(op, offset);</span>
+<span class="lineNum">     212 </span><span class="lineCov">    9300036 :     op += 2;</span>
 <span class="lineNum">     213 </span>            :   }
-<span class="lineNum">     214 </span><span class="lineCov">    2771248 :   return op;</span>
+<span class="lineNum">     214 </span><span class="lineCov">   28367994 :   return op;</span>
 <a name="215"><span class="lineNum">     215 </span>            : }</a>
 <span class="lineNum">     216 </span>            : 
-<span class="lineNum">     217 </span><span class="lineCov">    2706700 : static inline char* EmitCopy(char* op, size_t offset, int len) {</span>
+<span class="lineNum">     217 </span><span class="lineCov">   28357342 : static inline char* EmitCopy(char* op, size_t offset, int len) {</span>
 <span class="lineNum">     218 </span>            :   // Emit 64 byte copies but make sure to keep at least four bytes reserved
-<span class="lineNum">     219 </span><span class="lineCov">    5475198 :   while (len &gt;= 68) {</span>
-<span class="lineNum">     220 </span><span class="lineCov">      61798 :     op = EmitCopyLessThan64(op, offset, 64);</span>
-<span class="lineNum">     221 </span><span class="lineCov">      61798 :     len -= 64;</span>
+<span class="lineNum">     219 </span><span class="lineCov">   28736368 :   while (len &gt;= 68) {</span>
+<span class="lineNum">     220 </span><span class="lineCov">     379026 :     op = EmitCopyLessThan64(op, offset, 64);</span>
+<span class="lineNum">     221 </span><span class="lineCov">     379026 :     len -= 64;</span>
 <span class="lineNum">     222 </span>            :   }
 <span class="lineNum">     223 </span>            : 
 <span class="lineNum">     224 </span>            :   // Emit an extra 60 byte copy if have too much data to fit in one copy
-<span class="lineNum">     225 </span><span class="lineCov">    2706700 :   if (len &gt; 64) {</span>
-<span class="lineNum">     226 </span><span class="lineCov">       2750 :     op = EmitCopyLessThan64(op, offset, 60);</span>
-<span class="lineNum">     227 </span><span class="lineCov">       2750 :     len -= 60;</span>
+<span class="lineNum">     225 </span><span class="lineCov">   27978316 :   if (len &gt; 64) {</span>
+<span class="lineNum">     226 </span><span class="lineCov">      10652 :     op = EmitCopyLessThan64(op, offset, 60);</span>
+<span class="lineNum">     227 </span><span class="lineCov">      10652 :     len -= 60;</span>
 <span class="lineNum">     228 </span>            :   }
 <span class="lineNum">     229 </span>            : 
 <span class="lineNum">     230 </span>            :   // Emit remainder
-<span class="lineNum">     231 </span><span class="lineCov">    2706700 :   op = EmitCopyLessThan64(op, offset, len);</span>
-<span class="lineNum">     232 </span><span class="lineCov">    2706700 :   return op;</span>
+<span class="lineNum">     231 </span><span class="lineCov">   27978316 :   op = EmitCopyLessThan64(op, offset, len);</span>
+<span class="lineNum">     232 </span><span class="lineCov">   27978316 :   return op;</span>
 <span class="lineNum">     233 </span>            : }
 <a name="234"><span class="lineNum">     234 </span>            : </a>
 <span class="lineNum">     235 </span>            : 
@@ -307,30 +307,30 @@
 <span class="lineNum">     245 </span>            : }
 <a name="246"><span class="lineNum">     246 </span>            : </a>
 <span class="lineNum">     247 </span>            : namespace internal {
-<span class="lineNum">     248 </span><span class="lineCov">       3524 : uint16* WorkingMemory::GetHashTable(size_t input_size, int* table_size) {</span>
+<span class="lineNum">     248 </span><span class="lineCov">       8262 : uint16* WorkingMemory::GetHashTable(size_t input_size, int* table_size) {</span>
 <span class="lineNum">     249 </span>            :   // Use smaller hash table when input.size() is smaller, since we
 <span class="lineNum">     250 </span>            :   // fill the table, incurring O(hash table size) overhead for
 <span class="lineNum">     251 </span>            :   // compression, and if the input is short, we won't need that
 <span class="lineNum">     252 </span>            :   // many hash table entries anyway.
 <span class="lineNum">     253 </span>            :   assert(kMaxHashTableSize &gt;= 256);
-<span class="lineNum">     254 </span><span class="lineCov">       3524 :   size_t htsize = 256;</span>
-<span class="lineNum">     255 </span><span class="lineCov">      28186 :   while (htsize &lt; kMaxHashTableSize &amp;&amp; htsize &lt; input_size) {</span>
-<span class="lineNum">     256 </span><span class="lineCov">      21138 :     htsize &lt;&lt;= 1;</span>
+<span class="lineNum">     254 </span><span class="lineCov">       8262 :   size_t htsize = 256;</span>
+<span class="lineNum">     255 </span><span class="lineCov">     107358 :   while (htsize &lt; kMaxHashTableSize &amp;&amp; htsize &lt; input_size) {</span>
+<span class="lineNum">     256 </span><span class="lineCov">      49548 :     htsize &lt;&lt;= 1;</span>
 <span class="lineNum">     257 </span>            :   }
 <span class="lineNum">     258 </span>            : 
 <span class="lineNum">     259 </span>            :   uint16* table;
-<span class="lineNum">     260 </span><span class="lineCov">       3524 :   if (htsize &lt;= ARRAYSIZE(small_table_)) {</span>
-<span class="lineNum">     261 </span><span class="lineNoCov">          0 :     table = small_table_;</span>
+<span class="lineNum">     260 </span><span class="lineCov">       8262 :   if (htsize &lt;= ARRAYSIZE(small_table_)) {</span>
+<span class="lineNum">     261 </span><span class="lineCov">          2 :     table = small_table_;</span>
 <span class="lineNum">     262 </span>            :   } else {
-<span class="lineNum">     263 </span><span class="lineCov">       3524 :     if (large_table_ == NULL) {</span>
-<span class="lineNum">     264 </span><span class="lineCov">         76 :       large_table_ = new uint16[kMaxHashTableSize];</span>
+<span class="lineNum">     263 </span><span class="lineCov">       8260 :     if (large_table_ == NULL) {</span>
+<span class="lineNum">     264 </span><span class="lineCov">         72 :       large_table_ = new uint16[kMaxHashTableSize];</span>
 <span class="lineNum">     265 </span>            :     }
-<span class="lineNum">     266 </span><span class="lineCov">       3524 :     table = large_table_;</span>
+<span class="lineNum">     266 </span><span class="lineCov">       8260 :     table = large_table_;</span>
 <span class="lineNum">     267 </span>            :   }
 <span class="lineNum">     268 </span>            : 
-<span class="lineNum">     269 </span><span class="lineCov">       3524 :   *table_size = htsize;</span>
-<span class="lineNum">     270 </span><span class="lineCov">       3524 :   memset(table, 0, htsize * sizeof(*table));</span>
-<span class="lineNum">     271 </span><span class="lineCov">       3524 :   return table;</span>
+<span class="lineNum">     269 </span><span class="lineCov">       8262 :   *table_size = htsize;</span>
+<span class="lineNum">     270 </span><span class="lineCov">       8262 :   memset(table, 0, htsize * sizeof(*table));</span>
+<span class="lineNum">     271 </span><span class="lineCov">       8262 :   return table;</span>
 <span class="lineNum">     272 </span>            : }
 <span class="lineNum">     273 </span>            : }  // end namespace internal
 <span class="lineNum">     274 </span>            : 
@@ -351,14 +351,14 @@
 <span class="lineNum">     289 </span>            : 
 <a name="290"><span class="lineNum">     290 </span>            : typedef uint64 EightBytesReference;</a>
 <span class="lineNum">     291 </span>            : 
-<span class="lineNum">     292 </span><span class="lineCov">    2706228 : static inline EightBytesReference GetEightBytesAt(const char* ptr) {</span>
-<span class="lineNum">     293 </span><span class="lineCov">    2706228 :   return UNALIGNED_LOAD64(ptr);</span>
+<span class="lineNum">     292 </span><span class="lineCov">   27974764 : static inline EightBytesReference GetEightBytesAt(const char* ptr) {</span>
+<span class="lineNum">     293 </span><span class="lineCov">   27974764 :   return UNALIGNED_LOAD64(ptr);</span>
 <a name="294"><span class="lineNum">     294 </span>            : }</a>
 <span class="lineNum">     295 </span>            : 
-<span class="lineNum">     296 </span><span class="lineCov">    9602812 : static inline uint32 GetUint32AtOffset(uint64 v, int offset) {</span>
-<span class="lineNum">     297 </span><span class="lineCov">    9602812 :   assert(offset &gt;= 0);</span>
-<span class="lineNum">     298 </span><span class="lineCov">    9602812 :   assert(offset &lt;= 4);</span>
-<span class="lineNum">     299 </span><span class="lineCov">    9602812 :   return v &gt;&gt; (LittleEndian::IsLittleEndian() ? 8 * offset : 32 - 8 * offset);</span>
+<span class="lineNum">     296 </span><span class="lineCov">   94658610 : static inline uint32 GetUint32AtOffset(uint64 v, int offset) {</span>
+<span class="lineNum">     297 </span><span class="lineCov">   94658610 :   assert(offset &gt;= 0);</span>
+<span class="lineNum">     298 </span><span class="lineCov">   94658610 :   assert(offset &lt;= 4);</span>
+<span class="lineNum">     299 </span><span class="lineCov">   94658610 :   return v &gt;&gt; (LittleEndian::IsLittleEndian() ? 8 * offset : 32 - 8 * offset);</span>
 <span class="lineNum">     300 </span>            : }
 <span class="lineNum">     301 </span>            : 
 <span class="lineNum">     302 </span>            : #else
@@ -389,29 +389,29 @@
 <span class="lineNum">     327 </span>            : // Returns an &quot;end&quot; pointer into &quot;op&quot; buffer.
 <a name="328"><span class="lineNum">     328 </span>            : // &quot;end - op&quot; is the compressed size of &quot;input&quot;.</a>
 <span class="lineNum">     329 </span>            : namespace internal {
-<span class="lineNum">     330 </span><span class="lineCov">       3524 : char* CompressFragment(const char* input,</span>
+<span class="lineNum">     330 </span><span class="lineCov">       8262 : char* CompressFragment(const char* input,</span>
 <span class="lineNum">     331 </span>            :                        size_t input_size,
 <span class="lineNum">     332 </span>            :                        char* op,
 <span class="lineNum">     333 </span>            :                        uint16* table,
 <span class="lineNum">     334 </span>            :                        const int table_size) {
 <span class="lineNum">     335 </span>            :   // &quot;ip&quot; is the input pointer, and &quot;op&quot; is the output pointer.
-<span class="lineNum">     336 </span><span class="lineCov">       3524 :   const char* ip = input;</span>
-<span class="lineNum">     337 </span><span class="lineCov">       3524 :   assert(input_size &lt;= kBlockSize);</span>
-<span class="lineNum">     338 </span><span class="lineCov">       3524 :   assert((table_size &amp; (table_size - 1)) == 0); // table must be power of two</span>
-<span class="lineNum">     339 </span><span class="lineCov">       3524 :   const int shift = 32 - Bits::Log2Floor(table_size);</span>
-<span class="lineNum">     340 </span><span class="lineCov">       3524 :   assert(static_cast&lt;int&gt;(kuint32max &gt;&gt; shift) == table_size - 1);</span>
-<span class="lineNum">     341 </span><span class="lineCov">       3524 :   const char* ip_end = input + input_size;</span>
-<span class="lineNum">     342 </span><span class="lineCov">       3524 :   const char* base_ip = ip;</span>
+<span class="lineNum">     336 </span><span class="lineCov">       8262 :   const char* ip = input;</span>
+<span class="lineNum">     337 </span><span class="lineCov">       8262 :   assert(input_size &lt;= kBlockSize);</span>
+<span class="lineNum">     338 </span><span class="lineCov">       8262 :   assert((table_size &amp; (table_size - 1)) == 0); // table must be power of two</span>
+<span class="lineNum">     339 </span><span class="lineCov">       8262 :   const int shift = 32 - Bits::Log2Floor(table_size);</span>
+<span class="lineNum">     340 </span><span class="lineCov">       8262 :   assert(static_cast&lt;int&gt;(kuint32max &gt;&gt; shift) == table_size - 1);</span>
+<span class="lineNum">     341 </span><span class="lineCov">       8262 :   const char* ip_end = input + input_size;</span>
+<span class="lineNum">     342 </span><span class="lineCov">       8262 :   const char* base_ip = ip;</span>
 <span class="lineNum">     343 </span>            :   // Bytes in [next_emit, ip) will be emitted as literal bytes.  Or
 <span class="lineNum">     344 </span>            :   // [next_emit, ip_end) after the main loop.
-<span class="lineNum">     345 </span><span class="lineCov">       3524 :   const char* next_emit = ip;</span>
+<span class="lineNum">     345 </span><span class="lineCov">       8262 :   const char* next_emit = ip;</span>
 <span class="lineNum">     346 </span>            : 
-<span class="lineNum">     347 </span><span class="lineCov">       3524 :   const size_t kInputMarginBytes = 15;</span>
-<span class="lineNum">     348 </span><span class="lineCov">       3524 :   if (PREDICT_TRUE(input_size &gt;= kInputMarginBytes)) {</span>
-<span class="lineNum">     349 </span><span class="lineCov">       3524 :     const char* ip_limit = input + input_size - kInputMarginBytes;</span>
+<span class="lineNum">     347 </span><span class="lineCov">       8262 :   const size_t kInputMarginBytes = 15;</span>
+<span class="lineNum">     348 </span><span class="lineCov">       8262 :   if (PREDICT_TRUE(input_size &gt;= kInputMarginBytes)) {</span>
+<span class="lineNum">     349 </span><span class="lineCov">       8262 :     const char* ip_limit = input + input_size - kInputMarginBytes;</span>
 <span class="lineNum">     350 </span>            : 
-<span class="lineNum">     351 </span><span class="lineCov">       3524 :     for (uint32 next_hash = Hash(++ip, shift); ; ) {</span>
-<span class="lineNum">     352 </span><span class="lineCov">    1487652 :       assert(next_emit &lt; ip);</span>
+<span class="lineNum">     351 </span><span class="lineCov">       8262 :     for (uint32 next_hash = Hash(++ip, shift); ; ) {</span>
+<span class="lineNum">     352 </span><span class="lineCov">   10742580 :       assert(next_emit &lt; ip);</span>
 <span class="lineNum">     353 </span>            :       // The body of this loop calls EmitLiteral once and then EmitCopy one or
 <span class="lineNum">     354 </span>            :       // more times.  (The exception is that when we're close to exhausting
 <span class="lineNum">     355 </span>            :       // the input we goto emit_remainder.)
@@ -437,33 +437,33 @@
 <span class="lineNum">     375 </span>            :       // The &quot;skip&quot; variable keeps track of how many bytes there are since the
 <span class="lineNum">     376 </span>            :       // last match; dividing it by 32 (ie. right-shifting by five) gives the
 <span class="lineNum">     377 </span>            :       // number of bytes to move ahead for each iteration.
-<span class="lineNum">     378 </span><span class="lineCov">    1487652 :       uint32 skip = 32;</span>
+<span class="lineNum">     378 </span><span class="lineCov">   10742580 :       uint32 skip = 32;</span>
 <span class="lineNum">     379 </span>            : 
-<span class="lineNum">     380 </span><span class="lineCov">    1487652 :       const char* next_ip = ip;</span>
+<span class="lineNum">     380 </span><span class="lineCov">   10742580 :       const char* next_ip = ip;</span>
 <span class="lineNum">     381 </span>            :       const char* candidate;
-<span class="lineNum">     382 </span><span class="lineCov">   12099440 :       do {</span>
-<span class="lineNum">     383 </span><span class="lineCov">   12102492 :         ip = next_ip;</span>
-<span class="lineNum">     384 </span><span class="lineCov">   12102492 :         uint32 hash = next_hash;</span>
-<span class="lineNum">     385 </span><span class="lineCov">   12102492 :         assert(hash == Hash(ip, shift));</span>
-<span class="lineNum">     386 </span><span class="lineCov">   12102492 :         uint32 bytes_between_hash_lookups = skip++ &gt;&gt; 5;</span>
-<span class="lineNum">     387 </span><span class="lineCov">   12102492 :         next_ip = ip + bytes_between_hash_lookups;</span>
-<span class="lineNum">     388 </span><span class="lineCov">   12102492 :         if (PREDICT_FALSE(next_ip &gt; ip_limit)) {</span>
-<span class="lineNum">     389 </span><span class="lineCov">       3052 :           goto emit_remainder;</span>
+<span class="lineNum">     382 </span><span class="lineCov">   32862672 :       do {</span>
+<span class="lineNum">     383 </span><span class="lineCov">   43605252 :         ip = next_ip;</span>
+<span class="lineNum">     384 </span><span class="lineCov">   43605252 :         uint32 hash = next_hash;</span>
+<span class="lineNum">     385 </span><span class="lineCov">   43605252 :         assert(hash == Hash(ip, shift));</span>
+<span class="lineNum">     386 </span><span class="lineCov">   43605252 :         uint32 bytes_between_hash_lookups = skip++ &gt;&gt; 5;</span>
+<span class="lineNum">     387 </span><span class="lineCov">   43605252 :         next_ip = ip + bytes_between_hash_lookups;</span>
+<span class="lineNum">     388 </span><span class="lineCov">   43605252 :         if (PREDICT_FALSE(next_ip &gt; ip_limit)) {</span>
+<span class="lineNum">     389 </span><span class="lineCov">       4710 :           goto emit_remainder;</span>
 <span class="lineNum">     390 </span>            :         }
-<span class="lineNum">     391 </span><span class="lineCov">   12099440 :         next_hash = Hash(next_ip, shift);</span>
-<span class="lineNum">     392 </span><span class="lineCov">   12099440 :         candidate = base_ip + table[hash];</span>
-<span class="lineNum">     393 </span><span class="lineCov">   12099440 :         assert(candidate &gt;= base_ip);</span>
-<span class="lineNum">     394 </span><span class="lineCov">   12099440 :         assert(candidate &lt; ip);</span>
+<span class="lineNum">     391 </span><span class="lineCov">   43600542 :         next_hash = Hash(next_ip, shift);</span>
+<span class="lineNum">     392 </span><span class="lineCov">   43600542 :         candidate = base_ip + table[hash];</span>
+<span class="lineNum">     393 </span><span class="lineCov">   43600542 :         assert(candidate &gt;= base_ip);</span>
+<span class="lineNum">     394 </span><span class="lineCov">   43600542 :         assert(candidate &lt; ip);</span>
 <span class="lineNum">     395 </span>            : 
-<span class="lineNum">     396 </span><span class="lineCov">   12099440 :         table[hash] = ip - base_ip;</span>
-<span class="lineNum">     397 </span><span class="lineCov">   12099440 :       } while (PREDICT_TRUE(UNALIGNED_LOAD32(ip) !=</span>
+<span class="lineNum">     396 </span><span class="lineCov">   43600542 :         table[hash] = ip - base_ip;</span>
+<span class="lineNum">     397 </span><span class="lineCov">   43600542 :       } while (PREDICT_TRUE(UNALIGNED_LOAD32(ip) !=</span>
 <span class="lineNum">     398 </span>            :                             UNALIGNED_LOAD32(candidate)));
 <span class="lineNum">     399 </span>            : 
 <span class="lineNum">     400 </span>            :       // Step 2: A 4-byte match has been found.  We'll later see if more
 <span class="lineNum">     401 </span>            :       // than 4 bytes match.  But, prior to the match, input
 <span class="lineNum">     402 </span>            :       // bytes [next_emit, ip) are unmatched.  Emit them as &quot;literal bytes.&quot;
-<span class="lineNum">     403 </span><span class="lineCov">    1484600 :       assert(next_emit + 16 &lt;= ip_end);</span>
-<span class="lineNum">     404 </span><span class="lineCov">    1484600 :       op = EmitLiteral(op, next_emit, ip - next_emit, true);</span>
+<span class="lineNum">     403 </span><span class="lineCov">   10737870 :       assert(next_emit + 16 &lt;= ip_end);</span>
+<span class="lineNum">     404 </span><span class="lineCov">   10737870 :       op = EmitLiteral(op, next_emit, ip - next_emit, true);</span>
 <span class="lineNum">     405 </span>            : 
 <span class="lineNum">     406 </span>            :       // Step 3: Call EmitCopy, and then see if another EmitCopy could
 <span class="lineNum">     407 </span>            :       // be our next move.  Repeat until we find no match for the
@@ -474,45 +474,45 @@
 <span class="lineNum">     412 </span>            :       // by proceeding to the next iteration of the main loop.  We also can exit
 <span class="lineNum">     413 </span>            :       // this loop via goto if we get close to exhausting the input.
 <span class="lineNum">     414 </span>            :       EightBytesReference input_bytes;
-<span class="lineNum">     415 </span><span class="lineCov">    1484600 :       uint32 candidate_bytes = 0;</span>
+<span class="lineNum">     415 </span><span class="lineCov">   10737870 :       uint32 candidate_bytes = 0;</span>
 <span class="lineNum">     416 </span>            : 
-<span class="lineNum">     417 </span><span class="lineCov">    2706228 :       do {</span>
+<span class="lineNum">     417 </span><span class="lineCov">   27974764 :       do {</span>
 <span class="lineNum">     418 </span>            :         // We have a 4-byte match at ip, and no need to emit any
 <span class="lineNum">     419 </span>            :         // &quot;literal bytes&quot; prior to ip.
-<span class="lineNum">     420 </span><span class="lineCov">    2706700 :         const char* base = ip;</span>
-<span class="lineNum">     421 </span><span class="lineCov">    2706700 :         int matched = 4 + FindMatchLength(candidate + 4, ip + 4, ip_end);</span>
-<span class="lineNum">     422 </span><span class="lineCov">    2706700 :         ip += matched;</span>
-<span class="lineNum">     423 </span><span class="lineCov">    2706700 :         size_t offset = base - candidate;</span>
-<span class="lineNum">     424 </span><span class="lineCov">    2706700 :         assert(0 == memcmp(base, candidate, matched));</span>
-<span class="lineNum">     425 </span><span class="lineCov">    2706700 :         op = EmitCopy(op, offset, matched);</span>
+<span class="lineNum">     420 </span><span class="lineCov">   27978316 :         const char* base = ip;</span>
+<span class="lineNum">     421 </span><span class="lineCov">   27978316 :         int matched = 4 + FindMatchLength(candidate + 4, ip + 4, ip_end);</span>
+<span class="lineNum">     422 </span><span class="lineCov">   27978316 :         ip += matched;</span>
+<span class="lineNum">     423 </span><span class="lineCov">   27978316 :         size_t offset = base - candidate;</span>
+<span class="lineNum">     424 </span><span class="lineCov">   27978316 :         assert(0 == memcmp(base, candidate, matched));</span>
+<span class="lineNum">     425 </span><span class="lineCov">   27978316 :         op = EmitCopy(op, offset, matched);</span>
 <span class="lineNum">     426 </span>            :         // We could immediately start working at ip now, but to improve
 <span class="lineNum">     427 </span>            :         // compression we first update table[Hash(ip - 1, ...)].
-<span class="lineNum">     428 </span><span class="lineCov">    2706700 :         const char* insert_tail = ip - 1;</span>
-<span class="lineNum">     429 </span><span class="lineCov">    2706700 :         next_emit = ip;</span>
-<span class="lineNum">     430 </span><span class="lineCov">    2706700 :         if (PREDICT_FALSE(ip &gt;= ip_limit)) {</span>
-<span class="lineNum">     431 </span><span class="lineCov">        472 :           goto emit_remainder;</span>
+<span class="lineNum">     428 </span><span class="lineCov">   27978316 :         const char* insert_tail = ip - 1;</span>
+<span class="lineNum">     429 </span><span class="lineCov">   27978316 :         next_emit = ip;</span>
+<span class="lineNum">     430 </span><span class="lineCov">   27978316 :         if (PREDICT_FALSE(ip &gt;= ip_limit)) {</span>
+<span class="lineNum">     431 </span><span class="lineCov">       3552 :           goto emit_remainder;</span>
 <span class="lineNum">     432 </span>            :         }
-<span class="lineNum">     433 </span><span class="lineCov">    2706228 :         input_bytes = GetEightBytesAt(insert_tail);</span>
-<span class="lineNum">     434 </span><span class="lineCov">    2706228 :         uint32 prev_hash = HashBytes(GetUint32AtOffset(input_bytes, 0), shift);</span>
-<span class="lineNum">     435 </span><span class="lineCov">    2706228 :         table[prev_hash] = ip - base_ip - 1;</span>
-<span class="lineNum">     436 </span><span class="lineCov">    2706228 :         uint32 cur_hash = HashBytes(GetUint32AtOffset(input_bytes, 1), shift);</span>
-<span class="lineNum">     437 </span><span class="lineCov">    2706228 :         candidate = base_ip + table[cur_hash];</span>
-<span class="lineNum">     438 </span><span class="lineCov">    2706228 :         candidate_bytes = UNALIGNED_LOAD32(candidate);</span>
-<span class="lineNum">     439 </span><span class="lineCov">    2706228 :         table[cur_hash] = ip - base_ip;</span>
-<span class="lineNum">     440 </span><span class="lineCov">    2706228 :       } while (GetUint32AtOffset(input_bytes, 1) == candidate_bytes);</span>
+<span class="lineNum">     433 </span><span class="lineCov">   27974764 :         input_bytes = GetEightBytesAt(insert_tail);</span>
+<span class="lineNum">     434 </span><span class="lineCov">   27974764 :         uint32 prev_hash = HashBytes(GetUint32AtOffset(input_bytes, 0), shift);</span>
+<span class="lineNum">     435 </span><span class="lineCov">   27974764 :         table[prev_hash] = ip - base_ip - 1;</span>
+<span class="lineNum">     436 </span><span class="lineCov">   27974764 :         uint32 cur_hash = HashBytes(GetUint32AtOffset(input_bytes, 1), shift);</span>
+<span class="lineNum">     437 </span><span class="lineCov">   27974764 :         candidate = base_ip + table[cur_hash];</span>
+<span class="lineNum">     438 </span><span class="lineCov">   27974764 :         candidate_bytes = UNALIGNED_LOAD32(candidate);</span>
+<span class="lineNum">     439 </span><span class="lineCov">   27974764 :         table[cur_hash] = ip - base_ip;</span>
+<span class="lineNum">     440 </span><span class="lineCov">   27974764 :       } while (GetUint32AtOffset(input_bytes, 1) == candidate_bytes);</span>
 <span class="lineNum">     441 </span>            : 
-<span class="lineNum">     442 </span><span class="lineCov">    1484128 :       next_hash = HashBytes(GetUint32AtOffset(input_bytes, 2), shift);</span>
-<span class="lineNum">     443 </span><span class="lineCov">    1484128 :       ++ip;</span>
-<span class="lineNum">     444 </span><span class="lineCov">    1484128 :     }</span>
+<span class="lineNum">     442 </span><span class="lineCov">   10734318 :       next_hash = HashBytes(GetUint32AtOffset(input_bytes, 2), shift);</span>
+<span class="lineNum">     443 </span><span class="lineCov">   10734318 :       ++ip;</span>
+<span class="lineNum">     444 </span><span class="lineCov">   10734318 :     }</span>
 <span class="lineNum">     445 </span>            :   }
 <span class="lineNum">     446 </span>            : 
 <span class="lineNum">     447 </span>            :  emit_remainder:
 <span class="lineNum">     448 </span>            :   // Emit the remaining bytes as a literal
-<span class="lineNum">     449 </span><span class="lineCov">       3524 :   if (next_emit &lt; ip_end) {</span>
-<span class="lineNum">     450 </span><span class="lineCov">       3402 :     op = EmitLiteral(op, next_emit, ip_end - next_emit, false);</span>
+<span class="lineNum">     449 </span><span class="lineCov">       8262 :   if (next_emit &lt; ip_end) {</span>
+<span class="lineNum">     450 </span><span class="lineCov">       7490 :     op = EmitLiteral(op, next_emit, ip_end - next_emit, false);</span>
 <span class="lineNum">     451 </span>            :   }
 <span class="lineNum">     452 </span>            : 
-<span class="lineNum">     453 </span><span class="lineCov">       3524 :   return op;</span>
+<span class="lineNum">     453 </span><span class="lineCov">       8262 :   return op;</span>
 <span class="lineNum">     454 </span>            : }
 <span class="lineNum">     455 </span>            : }  // end namespace internal
 <span class="lineNum">     456 </span>            : 
@@ -732,53 +732,53 @@
 <span class="lineNum">     670 </span>            : 
 <a name="671"><span class="lineNum">     671 </span>            :  public:</a>
 <span class="lineNum">     672 </span>            :   // cppcheck-suppress uninitMemberVar
-<span class="lineNum">     673 </span><span class="lineCov">         76 :   explicit SnappyDecompressor(Source* reader)</span>
-<span class="lineNum">     674 </span>            :       : reader_(reader),
+<span class="lineNum">     673 </span><span class="lineCov">         74 :   explicit SnappyDecompressor(Source* reader)</span>
+<span class="lineNum">     674 </span><span class="lineCov">         74 :       : reader_(reader),</span>
 <span class="lineNum">     675 </span>            :         ip_(NULL),
 <span class="lineNum">     676 </span>            :         ip_limit_(NULL),
 <span class="lineNum">     677 </span>            :         peeked_(0),
-<span class="lineNum">     678 </span><span class="lineCov">         76 :         eof_(false) {</span>
-<a name="679"><span class="lineNum">     679 </span><span class="lineCov">         76 :   }</span></a>
+<span class="lineNum">     678 </span><span class="lineCov">         74 :         eof_(false) {</span>
+<a name="679"><span class="lineNum">     679 </span><span class="lineCov">         74 :   }</span></a>
 <span class="lineNum">     680 </span>            : 
-<span class="lineNum">     681 </span><span class="lineCov">         76 :   ~SnappyDecompressor() {</span>
+<span class="lineNum">     681 </span><span class="lineCov">        148 :   ~SnappyDecompressor() {</span>
 <span class="lineNum">     682 </span>            :     // Advance past any bytes we peeked at from the reader
-<span class="lineNum">     683 </span><span class="lineCov">         76 :     reader_-&gt;Skip(peeked_);</span>
-<span class="lineNum">     684 </span><span class="lineCov">         76 :   }</span>
+<span class="lineNum">     683 </span><span class="lineCov">         74 :     reader_-&gt;Skip(peeked_);</span>
+<span class="lineNum">     684 </span><span class="lineCov">         74 :   }</span>
 <a name="685"><span class="lineNum">     685 </span>            : </a>
 <span class="lineNum">     686 </span>            :   // Returns true iff we have hit the end of the input without an error.
-<span class="lineNum">     687 </span><span class="lineCov">         76 :   bool eof() const {</span>
-<span class="lineNum">     688 </span><span class="lineCov">         76 :     return eof_;</span>
+<span class="lineNum">     687 </span><span class="lineCov">         74 :   bool eof() const {</span>
+<span class="lineNum">     688 </span><span class="lineCov">         74 :     return eof_;</span>
 <span class="lineNum">     689 </span>            :   }
 <span class="lineNum">     690 </span>            : 
 <span class="lineNum">     691 </span>            :   // Read the uncompressed length stored at the start of the compressed data.
 <a name="692"><span class="lineNum">     692 </span>            :   // On succcess, stores the length in *result and returns true.</a>
 <span class="lineNum">     693 </span>            :   // On failure, returns false.
-<span class="lineNum">     694 </span><span class="lineCov">         76 :   bool ReadUncompressedLength(uint32* result) {</span>
-<span class="lineNum">     695 </span><span class="lineCov">         76 :     assert(ip_ == NULL);       // Must not have read anything yet</span>
+<span class="lineNum">     694 </span><span class="lineCov">         74 :   bool ReadUncompressedLength(uint32* result) {</span>
+<span class="lineNum">     695 </span><span class="lineCov">         74 :     assert(ip_ == NULL);       // Must not have read anything yet</span>
 <span class="lineNum">     696 </span>            :     // Length is encoded in 1..5 bytes
-<span class="lineNum">     697 </span><span class="lineCov">         76 :     *result = 0;</span>
-<span class="lineNum">     698 </span><span class="lineCov">         76 :     uint32 shift = 0;</span>
+<span class="lineNum">     697 </span><span class="lineCov">         74 :     *result = 0;</span>
+<span class="lineNum">     698 </span><span class="lineCov">         74 :     uint32 shift = 0;</span>
 <span class="lineNum">     699 </span>            :     while (true) {
-<span class="lineNum">     700 </span><span class="lineCov">        242 :       if (shift &gt;= 32) return false;</span>
+<span class="lineNum">     700 </span><span class="lineCov">        258 :       if (shift &gt;= 32) return false;</span>
 <span class="lineNum">     701 </span>            :       size_t n;
-<span class="lineNum">     702 </span><span class="lineCov">        242 :       const char* ip = reader_-&gt;Peek(&amp;n);</span>
-<span class="lineNum">     703 </span><span class="lineCov">        242 :       if (n == 0) return false;</span>
-<span class="lineNum">     704 </span><span class="lineCov">        242 :       const unsigned char c = *(reinterpret_cast&lt;const unsigned char*&gt;(ip));</span>
-<span class="lineNum">     705 </span><span class="lineCov">        242 :       reader_-&gt;Skip(1);</span>
-<span class="lineNum">     706 </span><span class="lineCov">        242 :       *result |= static_cast&lt;uint32&gt;(c &amp; 0x7f) &lt;&lt; shift;</span>
-<span class="lineNum">     707 </span><span class="lineCov">        242 :       if (c &lt; 128) {</span>
-<span class="lineNum">     708 </span><span class="lineCov">         76 :         break;</span>
+<span class="lineNum">     702 </span><span class="lineCov">        258 :       const char* ip = reader_-&gt;Peek(&amp;n);</span>
+<span class="lineNum">     703 </span><span class="lineCov">        258 :       if (n == 0) return false;</span>
+<span class="lineNum">     704 </span><span class="lineCov">        258 :       const unsigned char c = *(reinterpret_cast&lt;const unsigned char*&gt;(ip));</span>
+<span class="lineNum">     705 </span><span class="lineCov">        258 :       reader_-&gt;Skip(1);</span>
+<span class="lineNum">     706 </span><span class="lineCov">        258 :       *result |= static_cast&lt;uint32&gt;(c &amp; 0x7f) &lt;&lt; shift;</span>
+<span class="lineNum">     707 </span><span class="lineCov">        258 :       if (c &lt; 128) {</span>
+<span class="lineNum">     708 </span><span class="lineCov">         74 :         break;</span>
 <span class="lineNum">     709 </span>            :       }
-<span class="lineNum">     710 </span><span class="lineCov">        166 :       shift += 7;</span>
-<span class="lineNum">     711 </span>            :     }
-<span class="lineNum">     712 </span><span class="lineCov">        242 :     return true;</span>
+<span class="lineNum">     710 </span><span class="lineCov">        184 :       shift += 7;</span>
+<span class="lineNum">     711 </span><span class="lineCov">        184 :     }</span>
+<span class="lineNum">     712 </span><span class="lineCov">         74 :     return true;</span>
 <span class="lineNum">     713 </span>            :   }
 <span class="lineNum">     714 </span>            : 
 <span class="lineNum">     715 </span>            :   // Process the next item found in the input.
 <a name="716"><span class="lineNum">     716 </span>            :   // Returns true if successful, false on error or end of input.</a>
 <span class="lineNum">     717 </span>            :   template &lt;class Writer&gt;
-<span class="lineNum">     718 </span><span class="lineCov">         76 :   void DecompressAllTags(Writer* writer) {</span>
-<span class="lineNum">     719 </span><span class="lineCov">         76 :     const char* ip = ip_;</span>
+<span class="lineNum">     718 </span><span class="lineCov">         74 :   void DecompressAllTags(Writer* writer) {</span>
+<span class="lineNum">     719 </span><span class="lineCov">         74 :     const char* ip = ip_;</span>
 <span class="lineNum">     720 </span>            : 
 <span class="lineNum">     721 </span>            :     // We could have put this refill fragment only at the beginning of the loop.
 <span class="lineNum">     722 </span>            :     // However, duplicating it at the end of each branch gives the compiler more
@@ -791,30 +791,30 @@
 <span class="lineNum">     729 </span>            :           ip = ip_; \
 <span class="lineNum">     730 </span>            :         }
 <span class="lineNum">     731 </span>            : 
-<span class="lineNum">     732 </span><span class="lineCov">         76 :     MAYBE_REFILL();</span>
-<span class="lineNum">     733 </span><span class="lineCov">    4259174 :     for ( ;; ) {</span>
-<span class="lineNum">     734 </span><span class="lineCov">    4259250 :       const unsigned char c = *(reinterpret_cast&lt;const unsigned char*&gt;(ip++));</span>
+<span class="lineNum">     732 </span><span class="lineCov">         74 :     MAYBE_REFILL();</span>
+<span class="lineNum">     733 </span><span class="lineCov">   39113280 :     for ( ;; ) {</span>
+<span class="lineNum">     734 </span><span class="lineCov">   39113354 :       const unsigned char c = *(reinterpret_cast&lt;const unsigned char*&gt;(ip++));</span>
 <span class="lineNum">     735 </span>            : 
-<span class="lineNum">     736 </span><span class="lineCov">    4259250 :       if ((c &amp; 0x3) == LITERAL) {</span>
-<span class="lineNum">     737 </span><span class="lineCov">    1488002 :         size_t literal_length = (c &gt;&gt; 2) + 1u;</span>
-<span class="lineNum">     738 </span><span class="lineCov">    1488002 :         if (writer-&gt;TryFastAppend(ip, ip_limit_ - ip, literal_length)) {</span>
-<span class="lineNum">     739 </span><span class="lineCov">    1445880 :           assert(literal_length &lt; 61);</span>
-<span class="lineNum">     740 </span><span class="lineCov">    1445880 :           ip += literal_length;</span>
+<span class="lineNum">     736 </span><span class="lineCov">   39113354 :       if ((c &amp; 0x3) == LITERAL) {</span>
+<span class="lineNum">     737 </span><span class="lineCov">   10745360 :         size_t literal_length = (c &gt;&gt; 2) + 1u;</span>
+<span class="lineNum">     738 </span><span class="lineCov">   10745360 :         if (writer-&gt;TryFastAppend(ip, ip_limit_ - ip, literal_length)) {</span>
+<span class="lineNum">     739 </span><span class="lineCov">   10535018 :           assert(literal_length &lt; 61);</span>
+<span class="lineNum">     740 </span><span class="lineCov">   10535018 :           ip += literal_length;</span>
 <span class="lineNum">     741 </span>            :           // NOTE(user): There is no MAYBE_REFILL() here, as TryFastAppend()
 <span class="lineNum">     742 </span>            :           // will not return true unless there's already at least five spare
 <span class="lineNum">     743 </span>            :           // bytes in addition to the literal.
-<span class="lineNum">     744 </span><span class="lineCov">    1445880 :           continue;</span>
+<span class="lineNum">     744 </span><span class="lineCov">   10535018 :           continue;</span>
 <span class="lineNum">     745 </span>            :         }
-<span class="lineNum">     746 </span><span class="lineCov">      42122 :         if (PREDICT_FALSE(literal_length &gt;= 61)) {</span>
+<span class="lineNum">     746 </span><span class="lineCov">     210342 :         if (PREDICT_FALSE(literal_length &gt;= 61)) {</span>
 <span class="lineNum">     747 </span>            :           // Long literal.
-<span class="lineNum">     748 </span><span class="lineCov">      10704 :           const size_t literal_length_length = literal_length - 60;</span>
-<span class="lineNum">     749 </span><span class="lineCov">      10704 :           literal_length =</span>
-<span class="lineNum">     750 </span><span class="lineCov">      10704 :               (LittleEndian::Load32(ip) &amp; wordmask[literal_length_length]) + 1;</span>
-<span class="lineNum">     751 </span><span class="lineCov">      10704 :           ip += literal_length_length;</span>
+<span class="lineNum">     748 </span><span class="lineCov">      61594 :           const size_t literal_length_length = literal_length - 60;</span>
+<span class="lineNum">     749 </span><span class="lineCov">      61594 :           literal_length =</span>
+<span class="lineNum">     750 </span><span class="lineCov">      61594 :               (LittleEndian::Load32(ip) &amp; wordmask[literal_length_length]) + 1;</span>
+<span class="lineNum">     751 </span><span class="lineCov">      61594 :           ip += literal_length_length;</span>
 <span class="lineNum">     752 </span>            :         }
 <span class="lineNum">     753 </span>            : 
-<span class="lineNum">     754 </span><span class="lineCov">      42122 :         size_t avail = ip_limit_ - ip;</span>
-<span class="lineNum">     755 </span><span class="lineCov">      84244 :         while (avail &lt; literal_length) {</span>
+<span class="lineNum">     754 </span><span class="lineCov">     210342 :         size_t avail = ip_limit_ - ip;</span>
+<span class="lineNum">     755 </span><span class="lineCov">     210342 :         while (avail &lt; literal_length) {</span>
 <span class="lineNum">     756 </span><span class="lineNoCov">          0 :           if (!writer-&gt;Append(ip, avail)) return;</span>
 <span class="lineNum">     757 </span><span class="lineNoCov">          0 :           literal_length -= avail;</span>
 <span class="lineNum">     758 </span><span class="lineNoCov">          0 :           reader_-&gt;Skip(peeked_);</span>
@@ -825,25 +825,25 @@
 <span class="lineNum">     763 </span><span class="lineNoCov">          0 :           if (avail == 0) return;  // Premature end of input</span>
 <span class="lineNum">     764 </span><span class="lineNoCov">          0 :           ip_limit_ = ip + avail;</span>
 <span class="lineNum">     765 </span>            :         }
-<span class="lineNum">     766 </span><span class="lineCov">      42122 :         if (!writer-&gt;Append(ip, literal_length)) {</span>
+<span class="lineNum">     766 </span><span class="lineCov">     210342 :         if (!writer-&gt;Append(ip, literal_length)) {</span>
 <span class="lineNum">     767 </span><span class="lineNoCov">          0 :           return;</span>
 <span class="lineNum">     768 </span>            :         }
-<span class="lineNum">     769 </span><span class="lineCov">      42122 :         ip += literal_length;</span>
-<span class="lineNum">     770 </span><span class="lineCov">      42122 :         MAYBE_REFILL();</span>
+<span class="lineNum">     769 </span><span class="lineCov">     210342 :         ip += literal_length;</span>
+<span class="lineNum">     770 </span><span class="lineCov">     210342 :         MAYBE_REFILL();</span>
 <span class="lineNum">     771 </span>            :       } else {
-<span class="lineNum">     772 </span><span class="lineCov">    2771248 :         const uint32 entry = char_table[c];</span>
-<span class="lineNum">     773 </span><span class="lineCov">    2771248 :         const uint32 trailer = LittleEndian::Load32(ip) &amp; wordmask[entry &gt;&gt; 11];</span>
-<span class="lineNum">     774 </span><span class="lineCov">    2771248 :         const uint32 length = entry &amp; 0xff;</span>
-<span class="lineNum">     775 </span><span class="lineCov">    2771248 :         ip += entry &gt;&gt; 11;</span>
+<span class="lineNum">     772 </span><span class="lineCov">   28367994 :         const uint32 entry = char_table[c];</span>
+<span class="lineNum">     773 </span><span class="lineCov">   28367994 :         const uint32 trailer = LittleEndian::Load32(ip) &amp; wordmask[entry &gt;&gt; 11];</span>
+<span class="lineNum">     774 </span><span class="lineCov">   28367994 :         const uint32 length = entry &amp; 0xff;</span>
+<span class="lineNum">     775 </span><span class="lineCov">   28367994 :         ip += entry &gt;&gt; 11;</span>
 <span class="lineNum">     776 </span>            : 
 <span class="lineNum">     777 </span>            :         // copy_offset/256 is encoded in bits 8..10.  By just fetching
 <span class="lineNum">     778 </span>            :         // those bits, we get copy_offset (since the bit-field starts at
 <span class="lineNum">     779 </span>            :         // bit 8).
-<span class="lineNum">     780 </span><span class="lineCov">    2771248 :         const uint32 copy_offset = entry &amp; 0x700;</span>
-<span class="lineNum">     781 </span><span class="lineCov">    2771248 :         if (!writer-&gt;AppendFromSelf(copy_offset + trailer, length)) {</span>
+<span class="lineNum">     780 </span><span class="lineCov">   28367994 :         const uint32 copy_offset = entry &amp; 0x700;</span>
+<span class="lineNum">     781 </span><span class="lineCov">   28367994 :         if (!writer-&gt;AppendFromSelf(copy_offset + trailer, length)) {</span>
 <span class="lineNum">     782 </span><span class="lineNoCov">          0 :           return;</span>
 <span class="lineNum">     783 </span>            :         }
-<span class="lineNum">     784 </span><span class="lineCov">    2771248 :         MAYBE_REFILL();</span>
+<span class="lineNum">     784 </span><span class="lineCov">   28367994 :         MAYBE_REFILL();</span>
 <span class="lineNum">     785 </span>            :       }
 <span class="lineNum">     786 </span>            :     }
 <span class="lineNum">     787 </span>            : 
@@ -851,31 +851,31 @@
 <span class="lineNum">     789 </span>            :   }
 <a name="790"><span class="lineNum">     790 </span>            : };</a>
 <span class="lineNum">     791 </span>            : 
-<span class="lineNum">     792 </span><span class="lineCov">        170 : bool SnappyDecompressor::RefillTag() {</span>
-<span class="lineNum">     793 </span><span class="lineCov">        170 :   const char* ip = ip_;</span>
-<span class="lineNum">     794 </span><span class="lineCov">        170 :   if (ip == ip_limit_) {</span>
+<span class="lineNum">     792 </span><span class="lineCov">        152 : bool SnappyDecompressor::RefillTag() {</span>
+<span class="lineNum">     793 </span><span class="lineCov">        152 :   const char* ip = ip_;</span>
+<span class="lineNum">     794 </span><span class="lineCov">        152 :   if (ip == ip_limit_) {</span>
 <span class="lineNum">     795 </span>            :     // Fetch a new fragment from the reader
-<span class="lineNum">     796 </span><span class="lineCov">        152 :     reader_-&gt;Skip(peeked_);   // All peeked bytes are used up</span>
+<span class="lineNum">     796 </span><span class="lineCov">        148 :     reader_-&gt;Skip(peeked_);   // All peeked bytes are used up</span>
 <span class="lineNum">     797 </span>            :     size_t n;
-<span class="lineNum">     798 </span><span class="lineCov">        152 :     ip = reader_-&gt;Peek(&amp;n);</span>
-<span class="lineNum">     799 </span><span class="lineCov">        152 :     peeked_ = n;</span>
-<span class="lineNum">     800 </span><span class="lineCov">        152 :     if (n == 0) {</span>
-<span class="lineNum">     801 </span><span class="lineCov">         76 :       eof_ = true;</span>
-<span class="lineNum">     802 </span><span class="lineCov">         76 :       return false;</span>
+<span class="lineNum">     798 </span><span class="lineCov">        148 :     ip = reader_-&gt;Peek(&amp;n);</span>
+<span class="lineNum">     799 </span><span class="lineCov">        148 :     peeked_ = n;</span>
+<span class="lineNum">     800 </span><span class="lineCov">        148 :     if (n == 0) {</span>
+<span class="lineNum">     801 </span><span class="lineCov">         74 :       eof_ = true;</span>
+<span class="lineNum">     802 </span><span class="lineCov">         74 :       return false;</span>
 <span class="lineNum">     803 </span>            :     }
-<span class="lineNum">     804 </span><span class="lineCov">         76 :     ip_limit_ = ip + n;</span>
+<span class="lineNum">     804 </span><span class="lineCov">         74 :     ip_limit_ = ip + n;</span>
 <span class="lineNum">     805 </span>            :   }
 <span class="lineNum">     806 </span>            : 
 <span class="lineNum">     807 </span>            :   // Read the tag character
-<span class="lineNum">     808 </span><span class="lineCov">         94 :   assert(ip &lt; ip_limit_);</span>
-<span class="lineNum">     809 </span><span class="lineCov">         94 :   const unsigned char c = *(reinterpret_cast&lt;const unsigned char*&gt;(ip));</span>
-<span class="lineNum">     810 </span><span class="lineCov">         94 :   const uint32 entry = char_table[c];</span>
-<span class="lineNum">     811 </span><span class="lineCov">         94 :   const uint32 needed = (entry &gt;&gt; 11) + 1;  // +1 byte for 'c'</span>
-<span class="lineNum">     812 </span><span class="lineCov">         94 :   assert(needed &lt;= sizeof(scratch_));</span>
+<span class="lineNum">     808 </span><span class="lineCov">         78 :   assert(ip &lt; ip_limit_);</span>
+<span class="lineNum">     809 </span><span class="lineCov">         78 :   const unsigned char c = *(reinterpret_cast&lt;const unsigned char*&gt;(ip));</span>
+<span class="lineNum">     810 </span><span class="lineCov">         78 :   const uint32 entry = char_table[c];</span>
+<span class="lineNum">     811 </span><span class="lineCov">         78 :   const uint32 needed = (entry &gt;&gt; 11) + 1;  // +1 byte for 'c'</span>
+<span class="lineNum">     812 </span><span class="lineCov">         78 :   assert(needed &lt;= sizeof(scratch_));</span>
 <span class="lineNum">     813 </span>            : 
 <span class="lineNum">     814 </span>            :   // Read more bytes from reader if needed
-<span class="lineNum">     815 </span><span class="lineCov">         94 :   uint32 nbuf = ip_limit_ - ip;</span>
-<span class="lineNum">     816 </span><span class="lineCov">         94 :   if (nbuf &lt; needed) {</span>
+<span class="lineNum">     815 </span><span class="lineCov">         78 :   uint32 nbuf = ip_limit_ - ip;</span>
+<span class="lineNum">     816 </span><span class="lineCov">         78 :   if (nbuf &lt; needed) {</span>
 <span class="lineNum">     817 </span>            :     // Stitch together bytes from ip and reader to form the word
 <span class="lineNum">     818 </span>            :     // contents.  We store the needed bytes in &quot;scratch_&quot;.  They
 <span class="lineNum">     819 </span>            :     // will be consumed immediately by the caller since we do not
@@ -895,39 +895,39 @@
 <span class="lineNum">     833 </span><span class="lineNoCov">          0 :     assert(nbuf == needed);</span>
 <span class="lineNum">     834 </span><span class="lineNoCov">          0 :     ip_ = scratch_;</span>
 <span class="lineNum">     835 </span><span class="lineNoCov">          0 :     ip_limit_ = scratch_ + needed;</span>
-<span class="lineNum">     836 </span><span class="lineCov">         94 :   } else if (nbuf &lt; kMaximumTagLength) {</span>
+<span class="lineNum">     836 </span><span class="lineCov">         78 :   } else if (nbuf &lt; kMaximumTagLength) {</span>
 <span class="lineNum">     837 </span>            :     // Have enough bytes, but move into scratch_ so that we do not
 <span class="lineNum">     838 </span>            :     // read past end of input
-<span class="lineNum">     839 </span><span class="lineCov">         18 :     memmove(scratch_, ip, nbuf);</span>
-<span class="lineNum">     840 </span><span class="lineCov">         18 :     reader_-&gt;Skip(peeked_);  // All peeked bytes are used up</span>
-<span class="lineNum">     841 </span><span class="lineCov">         18 :     peeked_ = 0;</span>
-<span class="lineNum">     842 </span><span class="lineCov">         18 :     ip_ = scratch_;</span>
-<span class="lineNum">     843 </span><span class="lineCov">         18 :     ip_limit_ = scratch_ + nbuf;</span>
+<span class="lineNum">     839 </span><span class="lineCov">          4 :     memmove(scratch_, ip, nbuf);</span>
+<span class="lineNum">     840 </span><span class="lineCov">          4 :     reader_-&gt;Skip(peeked_);  // All peeked bytes are used up</span>
+<span class="lineNum">     841 </span><span class="lineCov">          4 :     peeked_ = 0;</span>
+<span class="lineNum">     842 </span><span class="lineCov">          4 :     ip_ = scratch_;</span>
+<span class="lineNum">     843 </span><span class="lineCov">          4 :     ip_limit_ = scratch_ + nbuf;</span>
 <span class="lineNum">     844 </span>            :   } else {
 <span class="lineNum">     845 </span>            :     // Pass pointer to buffer returned by reader_.
-<span class="lineNum">     846 </span><span class="lineCov">         76 :     ip_ = ip;</span>
+<span class="lineNum">     846 </span><span class="lineCov">         74 :     ip_ = ip;</span>
 <span class="lineNum">     847 </span>            :   }
-<span class="lineNum">     848 </span><span class="lineCov">         94 :   return true;</span>
+<span class="lineNum">     848 </span><span class="lineCov">         78 :   return true;</span>
 <span class="lineNum">     849 </span>            : }
 <a name="850"><span class="lineNum">     850 </span>            : </a>
 <span class="lineNum">     851 </span>            : template &lt;typename Writer&gt;
-<span class="lineNum">     852 </span><span class="lineCov">         76 : static bool InternalUncompress(Source* r, Writer* writer) {</span>
+<span class="lineNum">     852 </span><span class="lineCov">         74 : static bool InternalUncompress(Source* r, Writer* writer) {</span>
 <span class="lineNum">     853 </span>            :   // Read the uncompressed length from the front of the compressed input
-<span class="lineNum">     854 </span><span class="lineCov">         76 :   SnappyDecompressor decompressor(r);</span>
-<span class="lineNum">     855 </span><span class="lineCov">         76 :   uint32 uncompressed_len = 0;</span>
-<span class="lineNum">     856 </span><span class="lineCov">         76 :   if (!decompressor.ReadUncompressedLength(&amp;uncompressed_len)) return false;</span>
-<span class="lineNum">     857 </span><span class="lineCov">         76 :   return InternalUncompressAllTags(&amp;decompressor, writer, uncompressed_len);</span>
+<span class="lineNum">     854 </span><span class="lineCov">        148 :   SnappyDecompressor decompressor(r);</span>
+<span class="lineNum">     855 </span><span class="lineCov">         74 :   uint32 uncompressed_len = 0;</span>
+<span class="lineNum">     856 </span><span class="lineCov">         74 :   if (!decompressor.ReadUncompressedLength(&amp;uncompressed_len)) return false;</span>
+<span class="lineNum">     857 </span><span class="lineCov">         74 :   return InternalUncompressAllTags(&amp;decompressor, writer, uncompressed_len);</span>
 <span class="lineNum">     858 </span>            : }
 <a name="859"><span class="lineNum">     859 </span>            : </a>
 <span class="lineNum">     860 </span>            : template &lt;typename Writer&gt;
-<span class="lineNum">     861 </span><span class="lineCov">         76 : static bool InternalUncompressAllTags(SnappyDecompressor* decompressor,</span>
+<span class="lineNum">     861 </span><span class="lineCov">         74 : static bool InternalUncompressAllTags(SnappyDecompressor* decompressor,</span>
 <span class="lineNum">     862 </span>            :                                       Writer* writer,
 <span class="lineNum">     863 </span>            :                                       uint32 uncompressed_len) {
-<span class="lineNum">     864 </span><span class="lineCov">         76 :   writer-&gt;SetExpectedLength(uncompressed_len);</span>
+<span class="lineNum">     864 </span><span class="lineCov">         74 :   writer-&gt;SetExpectedLength(uncompressed_len);</span>
 <span class="lineNum">     865 </span>            : 
 <span class="lineNum">     866 </span>            :   // Process the entire input
-<span class="lineNum">     867 </span><span class="lineCov">         76 :   decompressor-&gt;DecompressAllTags(writer);</span>
-<span class="lineNum">     868 </span><span class="lineCov">         76 :   return (decompressor-&gt;eof() &amp;&amp; writer-&gt;CheckLength());</span>
+<span class="lineNum">     867 </span><span class="lineCov">         74 :   decompressor-&gt;DecompressAllTags(writer);</span>
+<span class="lineNum">     868 </span><span class="lineCov">         74 :   return (decompressor-&gt;eof() &amp;&amp; writer-&gt;CheckLength());</span>
 <a name="869"><span class="lineNum">     869 </span>            : }</a>
 <span class="lineNum">     870 </span>            : 
 <span class="lineNum">     871 </span><span class="lineNoCov">          0 : bool GetUncompressedLength(Source* source, uint32* result) {</span>
@@ -935,31 +935,31 @@
 <span class="lineNum">     873 </span><span class="lineNoCov">          0 :   return decompressor.ReadUncompressedLength(result);</span>
 <a name="874"><span class="lineNum">     874 </span>            : }</a>
 <span class="lineNum">     875 </span>            : 
-<span class="lineNum">     876 </span><span class="lineCov">         76 : size_t Compress(Source* reader, Sink* writer) {</span>
-<span class="lineNum">     877 </span><span class="lineCov">         76 :   size_t written = 0;</span>
-<span class="lineNum">     878 </span><span class="lineCov">         76 :   size_t N = reader-&gt;Available();</span>
+<span class="lineNum">     876 </span><span class="lineCov">         74 : size_t Compress(Source* reader, Sink* writer) {</span>
+<span class="lineNum">     877 </span><span class="lineCov">         74 :   size_t written = 0;</span>
+<span class="lineNum">     878 </span><span class="lineCov">         74 :   size_t N = reader-&gt;Available();</span>
 <span class="lineNum">     879 </span>            :   char ulength[Varint::kMax32];
-<span class="lineNum">     880 </span><span class="lineCov">         76 :   char* p = Varint::Encode32(ulength, N);</span>
-<span class="lineNum">     881 </span><span class="lineCov">         76 :   writer-&gt;Append(ulength, p-ulength);</span>
-<span class="lineNum">     882 </span><span class="lineCov">         76 :   written += (p - ulength);</span>
+<span class="lineNum">     880 </span><span class="lineCov">         74 :   char* p = Varint::Encode32(ulength, N);</span>
+<span class="lineNum">     881 </span><span class="lineCov">         74 :   writer-&gt;Append(ulength, p-ulength);</span>
+<span class="lineNum">     882 </span><span class="lineCov">         74 :   written += (p - ulength);</span>
 <span class="lineNum">     883 </span>            : 
-<span class="lineNum">     884 </span><span class="lineCov">         76 :   internal::WorkingMemory wmem;</span>
-<span class="lineNum">     885 </span><span class="lineCov">         76 :   char* scratch = NULL;</span>
-<span class="lineNum">     886 </span><span class="lineCov">         76 :   char* scratch_output = NULL;</span>
+<span class="lineNum">     884 </span><span class="lineCov">        148 :   internal::WorkingMemory wmem;</span>
+<span class="lineNum">     885 </span><span class="lineCov">         74 :   char* scratch = NULL;</span>
+<span class="lineNum">     886 </span><span class="lineCov">         74 :   char* scratch_output = NULL;</span>
 <span class="lineNum">     887 </span>            : 
-<span class="lineNum">     888 </span><span class="lineCov">       3676 :   while (N &gt; 0) {</span>
+<span class="lineNum">     888 </span><span class="lineCov">      16598 :   while (N &gt; 0) {</span>
 <span class="lineNum">     889 </span>            :     // Get next block to compress (without copying if possible)
 <span class="lineNum">     890 </span>            :     size_t fragment_size;
-<span class="lineNum">     891 </span><span class="lineCov">       3524 :     const char* fragment = reader-&gt;Peek(&amp;fragment_size);</span>
-<span class="lineNum">     892 </span><span class="lineCov">       3524 :     assert(fragment_size != 0);  // premature end of input</span>
-<span class="lineNum">     893 </span><span class="lineCov">       3524 :     const size_t num_to_read = min(N, kBlockSize);</span>
-<span class="lineNum">     894 </span><span class="lineCov">       3524 :     size_t bytes_read = fragment_size;</span>
+<span class="lineNum">     891 </span><span class="lineCov">       8262 :     const char* fragment = reader-&gt;Peek(&amp;fragment_size);</span>
+<span class="lineNum">     892 </span><span class="lineCov">       8262 :     assert(fragment_size != 0);  // premature end of input</span>
+<span class="lineNum">     893 </span><span class="lineCov">       8262 :     const size_t num_to_read = min(N, kBlockSize);</span>
+<span class="lineNum">     894 </span><span class="lineCov">       8262 :     size_t bytes_read = fragment_size;</span>
 <span class="lineNum">     895 </span>            : 
-<span class="lineNum">     896 </span><span class="lineCov">       3524 :     size_t pending_advance = 0;</span>
-<span class="lineNum">     897 </span><span class="lineCov">       3524 :     if (bytes_read &gt;= num_to_read) {</span>
+<span class="lineNum">     896 </span><span class="lineCov">       8262 :     size_t pending_advance = 0;</span>
+<span class="lineNum">     897 </span><span class="lineCov">       8262 :     if (bytes_read &gt;= num_to_read) {</span>
 <span class="lineNum">     898 </span>            :       // Buffer returned by reader is large enough
-<span class="lineNum">     899 </span><span class="lineCov">       3524 :       pending_advance = num_to_read;</span>
-<span class="lineNum">     900 </span><span class="lineCov">       3524 :       fragment_size = num_to_read;</span>
+<span class="lineNum">     899 </span><span class="lineCov">       8262 :       pending_advance = num_to_read;</span>
+<span class="lineNum">     900 </span><span class="lineCov">       8262 :       fragment_size = num_to_read;</span>
 <span class="lineNum">     901 </span>            :     } else {
 <span class="lineNum">     902 </span>            :       // Read into scratch buffer
 <span class="lineNum">     903 </span><span class="lineNoCov">          0 :       if (scratch == NULL) {</span>
@@ -982,38 +982,38 @@
 <span class="lineNum">     920 </span><span class="lineNoCov">          0 :       fragment = scratch;</span>
 <span class="lineNum">     921 </span><span class="lineNoCov">          0 :       fragment_size = num_to_read;</span>
 <span class="lineNum">     922 </span>            :     }
-<span class="lineNum">     923 </span><span class="lineCov">       3524 :     assert(fragment_size == num_to_read);</span>
+<span class="lineNum">     923 </span><span class="lineCov">       8262 :     assert(fragment_size == num_to_read);</span>
 <span class="lineNum">     924 </span>            : 
 <span class="lineNum">     925 </span>            :     // Get encoding table for compression
 <span class="lineNum">     926 </span>            :     int table_size;
-<span class="lineNum">     927 </span><span class="lineCov">       3524 :     uint16* table = wmem.GetHashTable(num_to_read, &amp;table_size);</span>
+<span class="lineNum">     927 </span><span class="lineCov">       8262 :     uint16* table = wmem.GetHashTable(num_to_read, &amp;table_size);</span>
 <span class="lineNum">     928 </span>            : 
 <span class="lineNum">     929 </span>            :     // Compress input_fragment and append to dest
-<span class="lineNum">     930 </span><span class="lineCov">       3524 :     const int max_output = MaxCompressedLength(num_to_read);</span>
+<span class="lineNum">     930 </span><span class="lineCov">       8262 :     const int max_output = MaxCompressedLength(num_to_read);</span>
 <span class="lineNum">     931 </span>            : 
 <span class="lineNum">     932 </span>            :     // Need a scratch buffer for the output, in case the byte sink doesn't
 <span class="lineNum">     933 </span>            :     // have room for us directly.
-<span class="lineNum">     934 </span><span class="lineCov">       3524 :     if (scratch_output == NULL) {</span>
-<span class="lineNum">     935 </span><span class="lineCov">         76 :       scratch_output = new char[max_output];</span>
+<span class="lineNum">     934 </span><span class="lineCov">       8262 :     if (scratch_output == NULL) {</span>
+<span class="lineNum">     935 </span><span class="lineCov">         74 :       scratch_output = new char[max_output];</span>
 <span class="lineNum">     936 </span>            :     } else {
 <span class="lineNum">     937 </span>            :       // Since we encode kBlockSize regions followed by a region
 <span class="lineNum">     938 </span>            :       // which is &lt;= kBlockSize in length, a previously allocated
 <span class="lineNum">     939 </span>            :       // scratch_output[] region is big enough for this iteration.
 <span class="lineNum">     940 </span>            :     }
-<span class="lineNum">     941 </span><span class="lineCov">       3524 :     char* dest = writer-&gt;GetAppendBuffer(max_output, scratch_output);</span>
-<span class="lineNum">     942 </span>            :     char* end = internal::CompressFragment(fragment, fragment_size,
-<span class="lineNum">     943 </span><span class="lineCov">       3524 :                                            dest, table, table_size);</span>
-<span class="lineNum">     944 </span><span class="lineCov">       3524 :     writer-&gt;Append(dest, end - dest);</span>
-<span class="lineNum">     945 </span><span class="lineCov">       3524 :     written += (end - dest);</span>
+<span class="lineNum">     941 </span><span class="lineCov">       8262 :     char* dest = writer-&gt;GetAppendBuffer(max_output, scratch_output);</span>
+<span class="lineNum">     942 </span><span class="lineCov">       8262 :     char* end = internal::CompressFragment(fragment, fragment_size,</span>
+<span class="lineNum">     943 </span><span class="lineCov">       8262 :                                            dest, table, table_size);</span>
+<span class="lineNum">     944 </span><span class="lineCov">       8262 :     writer-&gt;Append(dest, end - dest);</span>
+<span class="lineNum">     945 </span><span class="lineCov">       8262 :     written += (end - dest);</span>
 <span class="lineNum">     946 </span>            : 
-<span class="lineNum">     947 </span><span class="lineCov">       3524 :     N -= num_to_read;</span>
-<span class="lineNum">     948 </span><span class="lineCov">       3524 :     reader-&gt;Skip(pending_advance);</span>
+<span class="lineNum">     947 </span><span class="lineCov">       8262 :     N -= num_to_read;</span>
+<span class="lineNum">     948 </span><span class="lineCov">       8262 :     reader-&gt;Skip(pending_advance);</span>
 <span class="lineNum">     949 </span>            :   }
 <span class="lineNum">     950 </span>            : 
-<span class="lineNum">     951 </span><span class="lineCov">         76 :   delete[] scratch;</span>
-<span class="lineNum">     952 </span><span class="lineCov">         76 :   delete[] scratch_output;</span>
+<span class="lineNum">     951 </span><span class="lineCov">         74 :   delete[] scratch;</span>
+<span class="lineNum">     952 </span><span class="lineCov">         74 :   delete[] scratch_output;</span>
 <span class="lineNum">     953 </span>            : 
-<span class="lineNum">     954 </span><span class="lineCov">         76 :   return written;</span>
+<span class="lineNum">     954 </span><span class="lineCov">        148 :   return written;</span>
 <span class="lineNum">     955 </span>            : }
 <span class="lineNum">     956 </span>            : 
 <span class="lineNum">     957 </span>            : // -----------------------------------------------------------------------
@@ -1049,7 +1049,7 @@
 <a name="987"><span class="lineNum">     987 </span>            :   // Does not take ownership of iov. iov must be valid during the</a>
 <span class="lineNum">     988 </span>            :   // entire lifetime of the SnappyIOVecWriter.
 <span class="lineNum">     989 </span><span class="lineNoCov">          0 :   inline SnappyIOVecWriter(const struct iovec* iov, size_t iov_count)</span>
-<span class="lineNum">     990 </span>            :       : output_iov_(iov),
+<span class="lineNum">     990 </span><span class="lineNoCov">          0 :       : output_iov_(iov),</span>
 <span class="lineNum">     991 </span>            :         output_iov_count_(iov_count),
 <span class="lineNum">     992 </span>            :         curr_iov_index_(0),
 <span class="lineNum">     993 </span>            :         curr_iov_written_(0),
@@ -1151,7 +1151,7 @@
 <span class="lineNum">    1089 </span>            :       } else {
 <span class="lineNum">    1090 </span><span class="lineNoCov">          0 :         assert(curr_iov_written_ &lt;= output_iov_[curr_iov_index_].iov_len);</span>
 <span class="lineNum">    1091 </span><span class="lineNoCov">          0 :         size_t to_copy = std::min(output_iov_[curr_iov_index_].iov_len -</span>
-<span class="lineNum">    1092 </span>            :                                       curr_iov_written_,
+<span class="lineNum">    1092 </span><span class="lineNoCov">          0 :                                       curr_iov_written_,</span>
 <span class="lineNum">    1093 </span><span class="lineNoCov">          0 :                                   len);</span>
 <span class="lineNum">    1094 </span><span class="lineNoCov">          0 :         if (to_copy == 0) {</span>
 <span class="lineNum">    1095 </span>            :           // This iovec is full. Go to the next one.
@@ -1206,48 +1206,48 @@
 <span class="lineNum">    1144 </span>            :   char* op_limit_;
 <a name="1145"><span class="lineNum">    1145 </span>            : </a>
 <span class="lineNum">    1146 </span>            :  public:
-<span class="lineNum">    1147 </span><span class="lineCov">         76 :   inline explicit SnappyArrayWriter(char* dst)</span>
-<span class="lineNum">    1148 </span>            :       : base_(dst),
+<span class="lineNum">    1147 </span><span class="lineCov">         74 :   inline explicit SnappyArrayWriter(char* dst)</span>
+<span class="lineNum">    1148 </span><span class="lineCov">         74 :       : base_(dst),</span>
 <span class="lineNum">    1149 </span>            :         op_(dst),
-<span class="lineNum">    1150 </span><span class="lineCov">         76 :         op_limit_(0) {</span>
-<a name="1151"><span class="lineNum">    1151 </span><span class="lineCov">         76 :   }</span></a>
+<span class="lineNum">    1150 </span><span class="lineCov">         74 :         op_limit_(0) {</span>
+<a name="1151"><span class="lineNum">    1151 </span><span class="lineCov">         74 :   }</span></a>
 <span class="lineNum">    1152 </span>            : 
-<span class="lineNum">    1153 </span><span class="lineCov">         76 :   inline void SetExpectedLength(size_t len) {</span>
-<span class="lineNum">    1154 </span><span class="lineCov">         76 :     op_limit_ = op_ + len;</span>
-<a name="1155"><span class="lineNum">    1155 </span><span class="lineCov">         76 :   }</span></a>
+<span class="lineNum">    1153 </span><span class="lineCov">         74 :   inline void SetExpectedLength(size_t len) {</span>
+<span class="lineNum">    1154 </span><span class="lineCov">         74 :     op_limit_ = op_ + len;</span>
+<a name="1155"><span class="lineNum">    1155 </span><span class="lineCov">         74 :   }</span></a>
 <span class="lineNum">    1156 </span>            : 
-<span class="lineNum">    1157 </span><span class="lineCov">         76 :   inline bool CheckLength() const {</span>
-<span class="lineNum">    1158 </span><span class="lineCov">         76 :     return op_ == op_limit_;</span>
+<span class="lineNum">    1157 </span><span class="lineCov">         74 :   inline bool CheckLength() const {</span>
+<span class="lineNum">    1158 </span><span class="lineCov">         74 :     return op_ == op_limit_;</span>
 <a name="1159"><span class="lineNum">    1159 </span>            :   }</a>
 <span class="lineNum">    1160 </span>            : 
-<span class="lineNum">    1161 </span><span class="lineCov">      42122 :   inline bool Append(const char* ip, size_t len) {</span>
-<span class="lineNum">    1162 </span><span class="lineCov">      42122 :     char* op = op_;</span>
-<span class="lineNum">    1163 </span><span class="lineCov">      42122 :     const size_t space_left = op_limit_ - op;</span>
-<span class="lineNum">    1164 </span><span class="lineCov">      42122 :     if (space_left &lt; len) {</span>
+<span class="lineNum">    1161 </span><span class="lineCov">     210342 :   inline bool Append(const char* ip, size_t len) {</span>
+<span class="lineNum">    1162 </span><span class="lineCov">     210342 :     char* op = op_;</span>
+<span class="lineNum">    1163 </span><span class="lineCov">     210342 :     const size_t space_left = op_limit_ - op;</span>
+<span class="lineNum">    1164 </span><span class="lineCov">     210342 :     if (space_left &lt; len) {</span>
 <span class="lineNum">    1165 </span><span class="lineNoCov">          0 :       return false;</span>
 <span class="lineNum">    1166 </span>            :     }
-<span class="lineNum">    1167 </span><span class="lineCov">      42122 :     memcpy(op, ip, len);</span>
-<span class="lineNum">    1168 </span><span class="lineCov">      42122 :     op_ = op + len;</span>
-<span class="lineNum">    1169 </span><span class="lineCov">      42122 :     return true;</span>
+<span class="lineNum">    1167 </span><span class="lineCov">     210342 :     memcpy(op, ip, len);</span>
+<span class="lineNum">    1168 </span><span class="lineCov">     210342 :     op_ = op + len;</span>
+<span class="lineNum">    1169 </span><span class="lineCov">     210342 :     return true;</span>
 <a name="1170"><span class="lineNum">    1170 </span>            :   }</a>
 <span class="lineNum">    1171 </span>            : 
-<span class="lineNum">    1172 </span><span class="lineCov">    1488002 :   inline bool TryFastAppend(const char* ip, size_t available, size_t len) {</span>
-<span class="lineNum">    1173 </span><span class="lineCov">    1488002 :     char* op = op_;</span>
-<span class="lineNum">    1174 </span><span class="lineCov">    1488002 :     const size_t space_left = op_limit_ - op;</span>
-<span class="lineNum">    1175 </span><span class="lineCov">    1488002 :     if (len &lt;= 16 &amp;&amp; available &gt;= 16 + kMaximumTagLength &amp;&amp; space_left &gt;= 16) {</span>
+<span class="lineNum">    1172 </span><span class="lineCov">   10745360 :   inline bool TryFastAppend(const char* ip, size_t available, size_t len) {</span>
+<span class="lineNum">    1173 </span><span class="lineCov">   10745360 :     char* op = op_;</span>
+<span class="lineNum">    1174 </span><span class="lineCov">   10745360 :     const size_t space_left = op_limit_ - op;</span>
+<span class="lineNum">    1175 </span><span class="lineCov">   10745360 :     if (len &lt;= 16 &amp;&amp; available &gt;= 16 + kMaximumTagLength &amp;&amp; space_left &gt;= 16) {</span>
 <span class="lineNum">    1176 </span>            :       // Fast path, used for the majority (about 95%) of invocations.
-<span class="lineNum">    1177 </span><span class="lineCov">    1445880 :       UnalignedCopy64(ip, op);</span>
-<span class="lineNum">    1178 </span><span class="lineCov">    1445880 :       UnalignedCopy64(ip + 8, op + 8);</span>
-<span class="lineNum">    1179 </span><span class="lineCov">    1445880 :       op_ = op + len;</span>
-<span class="lineNum">    1180 </span><span class="lineCov">    1445880 :       return true;</span>
+<span class="lineNum">    1177 </span><span class="lineCov">   10535018 :       UnalignedCopy64(ip, op);</span>
+<span class="lineNum">    1178 </span><span class="lineCov">   10535018 :       UnalignedCopy64(ip + 8, op + 8);</span>
+<span class="lineNum">    1179 </span><span class="lineCov">   10535018 :       op_ = op + len;</span>
+<span class="lineNum">    1180 </span><span class="lineCov">   10535018 :       return true;</span>
 <span class="lineNum">    1181 </span>            :     } else {
-<span class="lineNum">    1182 </span><span class="lineCov">      42122 :       return false;</span>
+<span class="lineNum">    1182 </span><span class="lineCov">     210342 :       return false;</span>
 <span class="lineNum">    1183 </span>            :     }
 <a name="1184"><span class="lineNum">    1184 </span>            :   }</a>
 <span class="lineNum">    1185 </span>            : 
-<span class="lineNum">    1186 </span><span class="lineCov">    2771248 :   inline bool AppendFromSelf(size_t offset, size_t len) {</span>
-<span class="lineNum">    1187 </span><span class="lineCov">    2771248 :     char* op = op_;</span>
-<span class="lineNum">    1188 </span><span class="lineCov">    2771248 :     const size_t space_left = op_limit_ - op;</span>
+<span class="lineNum">    1186 </span><span class="lineCov">   28367994 :   inline bool AppendFromSelf(size_t offset, size_t len) {</span>
+<span class="lineNum">    1187 </span><span class="lineCov">   28367994 :     char* op = op_;</span>
+<span class="lineNum">    1188 </span><span class="lineCov">   28367994 :     const size_t space_left = op_limit_ - op;</span>
 <span class="lineNum">    1189 </span>            : 
 <span class="lineNum">    1190 </span>            :     // Check if we try to append from before the start of the buffer.
 <span class="lineNum">    1191 </span>            :     // Normally this would just be a check for &quot;produced &lt; offset&quot;,
@@ -1256,39 +1256,39 @@
 <span class="lineNum">    1194 </span>            :     // to a very big number. This is convenient, as offset==0 is another
 <span class="lineNum">    1195 </span>            :     // invalid case that we also want to catch, so that we do not go
 <span class="lineNum">    1196 </span>            :     // into an infinite loop.
-<span class="lineNum">    1197 </span><span class="lineCov">    2771248 :     assert(op &gt;= base_);</span>
-<span class="lineNum">    1198 </span><span class="lineCov">    2771248 :     size_t produced = op - base_;</span>
-<span class="lineNum">    1199 </span><span class="lineCov">    2771248 :     if (produced &lt;= offset - 1u) {</span>
+<span class="lineNum">    1197 </span><span class="lineCov">   28367994 :     assert(op &gt;= base_);</span>
+<span class="lineNum">    1198 </span><span class="lineCov">   28367994 :     size_t produced = op - base_;</span>
+<span class="lineNum">    1199 </span><span class="lineCov">   28367994 :     if (produced &lt;= offset - 1u) {</span>
 <span class="lineNum">    1200 </span><span class="lineNoCov">          0 :       return false;</span>
 <span class="lineNum">    1201 </span>            :     }
-<span class="lineNum">    1202 </span><span class="lineCov">    2771248 :     if (len &lt;= 16 &amp;&amp; offset &gt;= 8 &amp;&amp; space_left &gt;= 16) {</span>
+<span class="lineNum">    1202 </span><span class="lineCov">   28367994 :     if (len &lt;= 16 &amp;&amp; offset &gt;= 8 &amp;&amp; space_left &gt;= 16) {</span>
 <span class="lineNum">    1203 </span>            :       // Fast path, used for the majority (70-80%) of dynamic invocations.
-<span class="lineNum">    1204 </span><span class="lineCov">    2325306 :       UnalignedCopy64(op - offset, op);</span>
-<span class="lineNum">    1205 </span><span class="lineCov">    2325306 :       UnalignedCopy64(op - offset + 8, op + 8);</span>
+<span class="lineNum">    1204 </span><span class="lineCov">   25816450 :       UnalignedCopy64(op - offset, op);</span>
+<span class="lineNum">    1205 </span><span class="lineCov">   25816450 :       UnalignedCopy64(op - offset + 8, op + 8);</span>
 <span class="lineNum">    1206 </span>            :     } else {
-<span class="lineNum">    1207 </span><span class="lineCov">     445942 :       if (space_left &gt;= len + kMaxIncrementCopyOverflow) {</span>
-<span class="lineNum">    1208 </span><span class="lineCov">     445920 :         IncrementalCopyFastPath(op - offset, op, len);</span>
+<span class="lineNum">    1207 </span><span class="lineCov">    2551544 :       if (space_left &gt;= len + kMaxIncrementCopyOverflow) {</span>
+<span class="lineNum">    1208 </span><span class="lineCov">    2551542 :         IncrementalCopyFastPath(op - offset, op, len);</span>
 <span class="lineNum">    1209 </span>            :       } else {
-<span class="lineNum">    1210 </span><span class="lineCov">         22 :         if (space_left &lt; len) {</span>
+<span class="lineNum">    1210 </span><span class="lineCov">          2 :         if (space_left &lt; len) {</span>
 <span class="lineNum">    1211 </span><span class="lineNoCov">          0 :           return false;</span>
 <span class="lineNum">    1212 </span>            :         }
-<span class="lineNum">    1213 </span><span class="lineCov">         22 :         IncrementalCopy(op - offset, op, len);</span>
+<span class="lineNum">    1213 </span><span class="lineCov">          2 :         IncrementalCopy(op - offset, op, len);</span>
 <span class="lineNum">    1214 </span>            :       }
 <span class="lineNum">    1215 </span>            :     }
 <span class="lineNum">    1216 </span>            : 
-<span class="lineNum">    1217 </span><span class="lineCov">    2771248 :     op_ = op + len;</span>
-<span class="lineNum">    1218 </span><span class="lineCov">    2771248 :     return true;</span>
+<span class="lineNum">    1217 </span><span class="lineCov">   28367994 :     op_ = op + len;</span>
+<span class="lineNum">    1218 </span><span class="lineCov">   28367994 :     return true;</span>
 <span class="lineNum">    1219 </span>            :   }
 <a name="1220"><span class="lineNum">    1220 </span>            : };</a>
 <span class="lineNum">    1221 </span>            : 
-<span class="lineNum">    1222 </span><span class="lineCov">         76 : bool RawUncompress(const char* compressed, size_t n, char* uncompressed) {</span>
-<span class="lineNum">    1223 </span><span class="lineCov">         76 :   ByteArraySource reader(compressed, n);</span>
-<span class="lineNum">    1224 </span><span class="lineCov">         76 :   return RawUncompress(&amp;reader, uncompressed);</span>
+<span class="lineNum">    1222 </span><span class="lineCov">         74 : bool RawUncompress(const char* compressed, size_t n, char* uncompressed) {</span>
+<span class="lineNum">    1223 </span><span class="lineCov">        148 :   ByteArraySource reader(compressed, n);</span>
+<span class="lineNum">    1224 </span><span class="lineCov">        148 :   return RawUncompress(&amp;reader, uncompressed);</span>
 <a name="1225"><span class="lineNum">    1225 </span>            : }</a>
 <span class="lineNum">    1226 </span>            : 
-<span class="lineNum">    1227 </span><span class="lineCov">         76 : bool RawUncompress(Source* compressed, char* uncompressed) {</span>
-<span class="lineNum">    1228 </span><span class="lineCov">         76 :   SnappyArrayWriter output(uncompressed);</span>
-<span class="lineNum">    1229 </span><span class="lineCov">         76 :   return InternalUncompress(compressed, &amp;output);</span>
+<span class="lineNum">    1227 </span><span class="lineCov">         74 : bool RawUncompress(Source* compressed, char* uncompressed) {</span>
+<span class="lineNum">    1228 </span><span class="lineCov">         74 :   SnappyArrayWriter output(uncompressed);</span>
+<span class="lineNum">    1229 </span><span class="lineCov">         74 :   return InternalUncompress(compressed, &amp;output);</span>
 <a name="1230"><span class="lineNum">    1230 </span>            : }</a>
 <span class="lineNum">    1231 </span>            : 
 <span class="lineNum">    1232 </span><span class="lineNoCov">          0 : bool Uncompress(const char* compressed, size_t n, string* uncompressed) {</span>
@@ -1342,24 +1342,24 @@
 <span class="lineNum">    1280 </span><span class="lineNoCov">          0 :   return InternalUncompress(&amp;reader, &amp;writer);</span>
 <a name="1281"><span class="lineNum">    1281 </span>            : }</a>
 <span class="lineNum">    1282 </span>            : 
-<span class="lineNum">    1283 </span><span class="lineCov">         76 : void RawCompress(const char* input,</span>
+<span class="lineNum">    1283 </span><span class="lineCov">         74 : void RawCompress(const char* input,</span>
 <span class="lineNum">    1284 </span>            :                  size_t input_length,
 <span class="lineNum">    1285 </span>            :                  char* compressed,
 <span class="lineNum">    1286 </span>            :                  size_t* compressed_length) {
-<span class="lineNum">    1287 </span><span class="lineCov">         76 :   ByteArraySource reader(input, input_length);</span>
-<span class="lineNum">    1288 </span><span class="lineCov">        152 :   UncheckedByteArraySink writer(compressed);</span>
-<span class="lineNum">    1289 </span><span class="lineCov">         76 :   Compress(&amp;reader, &amp;writer);</span>
+<span class="lineNum">    1287 </span><span class="lineCov">        148 :   ByteArraySource reader(input, input_length);</span>
+<span class="lineNum">    1288 </span><span class="lineCov">        148 :   UncheckedByteArraySink writer(compressed);</span>
+<span class="lineNum">    1289 </span><span class="lineCov">         74 :   Compress(&amp;reader, &amp;writer);</span>
 <span class="lineNum">    1290 </span>            : 
 <span class="lineNum">    1291 </span>            :   // Compute how many bytes were added
-<span class="lineNum">    1292 </span><span class="lineCov">        152 :   *compressed_length = (writer.CurrentDestination() - compressed);</span>
-<a name="1293"><span class="lineNum">    1293 </span><span class="lineCov">         76 : }</span></a>
+<span class="lineNum">    1292 </span><span class="lineCov">         74 :   *compressed_length = (writer.CurrentDestination() - compressed);</span>
+<a name="1293"><span class="lineNum">    1293 </span><span class="lineCov">         74 : }</span></a>
 <span class="lineNum">    1294 </span>            : 
 <span class="lineNum">    1295 </span><span class="lineNoCov">          0 : size_t Compress(const char* input, size_t input_length, string* compressed) {</span>
 <span class="lineNum">    1296 </span>            :   // Pre-grow the buffer to the max length of the compressed output
 <span class="lineNum">    1297 </span><span class="lineNoCov">          0 :   compressed-&gt;resize(MaxCompressedLength(input_length));</span>
 <span class="lineNum">    1298 </span>            : 
 <span class="lineNum">    1299 </span>            :   size_t compressed_length;
-<span class="lineNum">    1300 </span>            :   RawCompress(input, input_length, string_as_array(compressed),
+<span class="lineNum">    1300 </span><span class="lineNoCov">          0 :   RawCompress(input, input_length, string_as_array(compressed),</span>
 <span class="lineNum">    1301 </span><span class="lineNoCov">          0 :               &amp;compressed_length);</span>
 <span class="lineNum">    1302 </span><span class="lineNoCov">          0 :   compressed-&gt;resize(compressed_length);</span>
 <span class="lineNum">    1303 </span><span class="lineNoCov">          0 :   return compressed_length;</span>

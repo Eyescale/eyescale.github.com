@@ -110,6 +110,7 @@ var searchData=
   ['eq_5fcompressor_5fversion_5f2',['EQ_COMPRESSOR_VERSION_2',['../plugins_2compressor_8h.html#ac88609b538391219e61844e3ecc70ce2',1,'compressor.h']]],
   ['eq_5fcompressor_5fversion_5f3',['EQ_COMPRESSOR_VERSION_3',['../plugins_2compressor_8h.html#ab04beacee20a7cf909636b812b30636e',1,'compressor.h']]],
   ['eq_5fcompressor_5fversion_5f4',['EQ_COMPRESSOR_VERSION_4',['../plugins_2compressor_8h.html#a3c26ccbaebc9e79490f1ec459051cd39',1,'compressor.h']]],
+  ['eq_5fcompressor_5fzstd_5fbyte',['EQ_COMPRESSOR_ZSTD_BYTE',['../compressor_types_8h.html#a83b02a093d5aa705b5f86d0d50974536',1,'compressorTypes.h']]],
   ['eqcompressorcompress',['EqCompressorCompress',['../plugins_2compressor_8h.html#a9b57dfdccdb79bc01a3ca7c6d6cfff1a',1,'compressor.h']]],
   ['eqcompressordecompress',['EqCompressorDecompress',['../plugins_2compressor_8h.html#a033a5642aec0832c6a603f9ed1b35520',1,'compressor.h']]],
   ['eqcompressordeletecompressor',['EqCompressorDeleteCompressor',['../plugins_2compressor_8h.html#a4af897a56b806583b5c4b093446e07c5',1,'compressor.h']]],

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-09-30 05:38:30</td>
+            <td class="headerValue">2016-11-11 05:39:51</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -101,8 +101,8 @@
 <span class="lineNum">      39 </span>            : class WorkingMemory {
 <a name="40"><span class="lineNum">      40 </span>            :  public:</a>
 <a name="41"><span class="lineNum">      41 </span>            :   // cppcheck-suppress uninitMemberVar</a>
-<span class="lineNum">      42 </span><span class="lineCov">         76 :   WorkingMemory() : large_table_(NULL) { }</span>
-<span class="lineNum">      43 </span><span class="lineCov">         76 :   ~WorkingMemory() { delete[] large_table_; }</span>
+<span class="lineNum">      42 </span><span class="lineCov">         74 :   WorkingMemory() : large_table_(NULL) { }</span>
+<span class="lineNum">      43 </span><span class="lineCov">         74 :   ~WorkingMemory() { delete[] large_table_; }</span>
 <span class="lineNum">      44 </span>            : 
 <span class="lineNum">      45 </span>            :   // Allocates and clears a hash table using memory in &quot;*this&quot;,
 <span class="lineNum">      46 </span>            :   // stores the number of buckets in &quot;*table_size&quot; and returns a pointer to
@@ -145,40 +145,40 @@
 <span class="lineNum">      83 </span>            : // Separate implementation for x86_64, for speed.  Uses the fact that
 <a name="84"><span class="lineNum">      84 </span>            : // x86_64 is little endian.</a>
 <span class="lineNum">      85 </span>            : #if defined(ARCH_K8)
-<span class="lineNum">      86 </span><span class="lineCov">    2706700 : static inline int FindMatchLength(const char* s1,</span>
+<span class="lineNum">      86 </span><span class="lineCov">   27978316 : static inline int FindMatchLength(const char* s1,</span>
 <span class="lineNum">      87 </span>            :                                   const char* s2,
 <span class="lineNum">      88 </span>            :                                   const char* s2_limit) {
-<span class="lineNum">      89 </span><span class="lineCov">    2706700 :   assert(s2_limit &gt;= s2);</span>
-<span class="lineNum">      90 </span><span class="lineCov">    2706700 :   int matched = 0;</span>
+<span class="lineNum">      89 </span><span class="lineCov">   27978316 :   assert(s2_limit &gt;= s2);</span>
+<span class="lineNum">      90 </span><span class="lineCov">   27978316 :   int matched = 0;</span>
 <span class="lineNum">      91 </span>            : 
 <span class="lineNum">      92 </span>            :   // Find out how long the match is. We loop over the data 64 bits at a
 <span class="lineNum">      93 </span>            :   // time until we find a 64-bit block that doesn't match; then we find
 <span class="lineNum">      94 </span>            :   // the first non-matching bit and use that to calculate the total
 <span class="lineNum">      95 </span>            :   // length of the match.
-<span class="lineNum">      96 </span><span class="lineCov">    6797854 :   while (PREDICT_TRUE(s2 &lt;= s2_limit - 8)) {</span>
-<span class="lineNum">      97 </span><span class="lineCov">    4091004 :     if (PREDICT_FALSE(UNALIGNED_LOAD64(s2) == UNALIGNED_LOAD64(s1 + matched))) {</span>
-<span class="lineNum">      98 </span><span class="lineCov">    1384454 :       s2 += 8;</span>
-<span class="lineNum">      99 </span><span class="lineCov">    1384454 :       matched += 8;</span>
+<span class="lineNum">      96 </span><span class="lineCov">   45869308 :   while (PREDICT_TRUE(s2 &lt;= s2_limit - 8)) {</span>
+<span class="lineNum">      97 </span><span class="lineCov">   36922836 :     if (PREDICT_FALSE(UNALIGNED_LOAD64(s2) == UNALIGNED_LOAD64(s1 + matched))) {</span>
+<span class="lineNum">      98 </span><span class="lineCov">    8945496 :       s2 += 8;</span>
+<span class="lineNum">      99 </span><span class="lineCov">    8945496 :       matched += 8;</span>
 <span class="lineNum">     100 </span>            :     } else {
 <span class="lineNum">     101 </span>            :       // On current (mid-2008) Opteron models there is a 3% more
 <span class="lineNum">     102 </span>            :       // efficient code sequence to find the first non-matching byte.
 <span class="lineNum">     103 </span>            :       // However, what follows is ~10% better on Intel Core 2 and newer,
 <span class="lineNum">     104 </span>            :       // and we expect AMD's bsf instruction to improve.
-<span class="lineNum">     105 </span><span class="lineCov">    2706550 :       uint64 x = UNALIGNED_LOAD64(s2) ^ UNALIGNED_LOAD64(s1 + matched);</span>
-<span class="lineNum">     106 </span><span class="lineCov">    2706550 :       int matching_bits = Bits::FindLSBSetNonZero64(x);</span>
-<span class="lineNum">     107 </span><span class="lineCov">    2706550 :       matched += matching_bits &gt;&gt; 3;</span>
-<span class="lineNum">     108 </span><span class="lineCov">    2706550 :       return matched;</span>
+<span class="lineNum">     105 </span><span class="lineCov">   27977340 :       uint64 x = UNALIGNED_LOAD64(s2) ^ UNALIGNED_LOAD64(s1 + matched);</span>
+<span class="lineNum">     106 </span><span class="lineCov">   27977340 :       int matching_bits = Bits::FindLSBSetNonZero64(x);</span>
+<span class="lineNum">     107 </span><span class="lineCov">   27977340 :       matched += matching_bits &gt;&gt; 3;</span>
+<span class="lineNum">     108 </span><span class="lineCov">   27977340 :       return matched;</span>
 <span class="lineNum">     109 </span>            :     }
 <span class="lineNum">     110 </span>            :   }
-<span class="lineNum">     111 </span><span class="lineCov">        750 :   while (PREDICT_TRUE(s2 &lt; s2_limit)) {</span>
-<span class="lineNum">     112 </span><span class="lineCov">        478 :     if (PREDICT_TRUE(s1[matched] == *s2)) {</span>
-<span class="lineNum">     113 </span><span class="lineCov">        450 :       ++s2;</span>
-<span class="lineNum">     114 </span><span class="lineCov">        450 :       ++matched;</span>
+<span class="lineNum">     111 </span><span class="lineCov">       7420 :   while (PREDICT_TRUE(s2 &lt; s2_limit)) {</span>
+<span class="lineNum">     112 </span><span class="lineCov">       3426 :     if (PREDICT_TRUE(s1[matched] == *s2)) {</span>
+<span class="lineNum">     113 </span><span class="lineCov">       3222 :       ++s2;</span>
+<span class="lineNum">     114 </span><span class="lineCov">       3222 :       ++matched;</span>
 <span class="lineNum">     115 </span>            :     } else {
-<span class="lineNum">     116 </span><span class="lineCov">         28 :       return matched;</span>
+<span class="lineNum">     116 </span><span class="lineCov">        204 :       return matched;</span>
 <span class="lineNum">     117 </span>            :     }
 <span class="lineNum">     118 </span>            :   }
-<span class="lineNum">     119 </span><span class="lineCov">        122 :   return matched;</span>
+<span class="lineNum">     119 </span><span class="lineCov">        772 :   return matched;</span>
 <span class="lineNum">     120 </span>            : }
 <span class="lineNum">     121 </span>            : #else
 <span class="lineNum">     122 </span>            : static inline int FindMatchLength(const char* s1,

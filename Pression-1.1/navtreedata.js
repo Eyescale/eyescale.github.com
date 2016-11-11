@@ -1,13 +1,11 @@
 var NAVTREE =
 [
   [ "Pression", "index.html", [
-    [ "Introduction", "index.html#Introduction", null ],
-    [ "Features", "index.html#Features", null ],
-    [ "Building", "index.html#Building", null ],
-    [ "Changelog", "_changelog.html", null ],
+    [ "Changelog", "Changelog.html", null ],
+    [ "Restriping the output of a compressor for storage", "md__jenkins_03_workspace_oss.Pression.documentation_build_type_Debug_platform_cscsviz-vm_sources_doc_feature_Slicer.html", "md__jenkins_03_workspace_oss.Pression.documentation_build_type_Debug_platform_cscsviz-vm_sources_doc_feature_Slicer" ],
     [ "Deprecated List", "deprecated.html", null ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
@@ -30,7 +28,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"compressor_types_8h.html#ace11a52ad2781833928cdbdf33692c8f"
+"compressor_types_8h.html#acdefb599af7363fe8667c3a7d19c14af"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

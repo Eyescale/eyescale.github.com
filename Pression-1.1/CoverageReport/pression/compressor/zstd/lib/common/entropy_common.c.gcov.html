@@ -1,0 +1,298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Pression - pression/compressor/zstd/lib/common/entropy_common.c</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">pression/compressor/zstd/lib/common</a> - entropy_common.c<span style="font-size: 80%;"> (source / <a href="entropy_common.c.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Pression</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">88</td>
+            <td class="headerCovTableEntry">103</td>
+            <td class="headerCovTableEntryHi">85.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-11-11 05:39:51</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryMed">71.4 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :    Common functions of New Generation Entropy library
+<span class="lineNum">       3 </span>            :    Copyright (C) 2016, Yann Collet.
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            :    BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       8 </span>            :    modification, are permitted provided that the following conditions are
+<span class="lineNum">       9 </span>            :    met:
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            :        * Redistributions of source code must retain the above copyright
+<span class="lineNum">      12 </span>            :    notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      13 </span>            :        * Redistributions in binary form must reproduce the above
+<span class="lineNum">      14 </span>            :    copyright notice, this list of conditions and the following disclaimer
+<span class="lineNum">      15 </span>            :    in the documentation and/or other materials provided with the
+<span class="lineNum">      16 </span>            :    distribution.
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      19 </span>            :    &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      20 </span>            :    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      21 </span>            :    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      22 </span>            :    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      23 </span>            :    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      24 </span>            :    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      25 </span>            :    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      26 </span>            :    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      27 </span>            :    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      28 </span>            :    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            :     You can contact the author at :
+<span class="lineNum">      31 </span>            :     - FSE+HUF source repository : https://github.com/Cyan4973/FiniteStateEntropy
+<span class="lineNum">      32 </span>            :     - Public forum : https://groups.google.com/forum/#!forum/lz4c
+<span class="lineNum">      33 </span>            : *************************************************************************** */
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : /* *************************************
+<span class="lineNum">      36 </span>            : *  Dependencies
+<span class="lineNum">      37 </span>            : ***************************************/
+<span class="lineNum">      38 </span>            : #include &quot;mem.h&quot;
+<span class="lineNum">      39 </span>            : #include &quot;error_private.h&quot;       /* ERR_*, ERROR */
+<span class="lineNum">      40 </span>            : #define FSE_STATIC_LINKING_ONLY  /* FSE_MIN_TABLELOG */
+<span class="lineNum">      41 </span>            : #include &quot;fse.h&quot;
+<span class="lineNum">      42 </span>            : #define HUF_STATIC_LINKING_ONLY  /* HUF_TABLELOG_ABSOLUTEMAX */
+<span class="lineNum">      43 </span>            : #include &quot;huf.h&quot;
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            : /*-****************************************
+<a name="47"><span class="lineNum">      47 </span>            : *  FSE Error Management</a>
+<span class="lineNum">      48 </span>            : ******************************************/
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">      22384 : unsigned FSE_isError(size_t code) { return ERR_isError(code); }</span></a>
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 : const char* FSE_getErrorName(size_t code) { return ERR_getErrorName(code); }</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : /* **************************************************************
+<a name="55"><span class="lineNum">      55 </span>            : *  HUF Error Management</a>
+<span class="lineNum">      56 </span>            : ****************************************************************/
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">      42800 : unsigned HUF_isError(size_t code) { return ERR_isError(code); }</span></a>
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 : const char* HUF_getErrorName(size_t code) { return ERR_getErrorName(code); }</span>
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            : /*-**************************************************************
+<a name="63"><span class="lineNum">      63 </span>            : *  FSE NCount encoding-decoding</a>
+<span class="lineNum">      64 </span>            : ****************************************************************/
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">     169268 : static short FSE_abs(short a) { return (short)(a&lt;0 ? -a : a); }</span></a>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">       8546 : size_t FSE_readNCount (short* normalizedCounter, unsigned* maxSVPtr, unsigned* tableLogPtr,</span>
+<span class="lineNum">      68 </span>            :                  const void* headerBuffer, size_t hbSize)
+<span class="lineNum">      69 </span>            : {
+<span class="lineNum">      70 </span><span class="lineCov">       8546 :     const BYTE* const istart = (const BYTE*) headerBuffer;</span>
+<span class="lineNum">      71 </span><span class="lineCov">       8546 :     const BYTE* const iend = istart + hbSize;</span>
+<span class="lineNum">      72 </span><span class="lineCov">       8546 :     const BYTE* ip = istart;</span>
+<span class="lineNum">      73 </span>            :     int nbBits;
+<span class="lineNum">      74 </span>            :     int remaining;
+<span class="lineNum">      75 </span>            :     int threshold;
+<span class="lineNum">      76 </span>            :     U32 bitStream;
+<span class="lineNum">      77 </span>            :     int bitCount;
+<span class="lineNum">      78 </span><span class="lineCov">       8546 :     unsigned charnum = 0;</span>
+<span class="lineNum">      79 </span><span class="lineCov">       8546 :     int previous0 = 0;</span>
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span><span class="lineCov">       8546 :     if (hbSize &lt; 4) return ERROR(srcSize_wrong);</span>
+<span class="lineNum">      82 </span><span class="lineCov">       8546 :     bitStream = MEM_readLE32(ip);</span>
+<span class="lineNum">      83 </span><span class="lineCov">       8546 :     nbBits = (bitStream &amp; 0xF) + FSE_MIN_TABLELOG;   /* extract tableLog */</span>
+<span class="lineNum">      84 </span><span class="lineCov">       8546 :     if (nbBits &gt; FSE_TABLELOG_ABSOLUTE_MAX) return ERROR(tableLog_tooLarge);</span>
+<span class="lineNum">      85 </span><span class="lineCov">       8546 :     bitStream &gt;&gt;= 4;</span>
+<span class="lineNum">      86 </span><span class="lineCov">       8546 :     bitCount = 4;</span>
+<span class="lineNum">      87 </span><span class="lineCov">       8546 :     *tableLogPtr = nbBits;</span>
+<span class="lineNum">      88 </span><span class="lineCov">       8546 :     remaining = (1&lt;&lt;nbBits)+1;</span>
+<span class="lineNum">      89 </span><span class="lineCov">       8546 :     threshold = 1&lt;&lt;nbBits;</span>
+<span class="lineNum">      90 </span><span class="lineCov">       8546 :     nbBits++;</span>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span><span class="lineCov">     186360 :     while ((remaining&gt;1) &amp; (charnum&lt;=*maxSVPtr)) {</span>
+<span class="lineNum">      93 </span><span class="lineCov">     169268 :         if (previous0) {</span>
+<span class="lineNum">      94 </span><span class="lineCov">      14122 :             unsigned n0 = charnum;</span>
+<span class="lineNum">      95 </span><span class="lineCov">      28262 :             while ((bitStream &amp; 0xFFFF) == 0xFFFF) {</span>
+<span class="lineNum">      96 </span><span class="lineCov">         18 :                 n0 += 24;</span>
+<span class="lineNum">      97 </span><span class="lineCov">         18 :                 if (ip &lt; iend-5) {</span>
+<span class="lineNum">      98 </span><span class="lineCov">         18 :                     ip += 2;</span>
+<span class="lineNum">      99 </span><span class="lineCov">         18 :                     bitStream = MEM_readLE32(ip) &gt;&gt; bitCount;</span>
+<span class="lineNum">     100 </span>            :                 } else {
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :                     bitStream &gt;&gt;= 16;</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :                     bitCount   += 16;</span>
+<span class="lineNum">     103 </span>            :             }   }
+<span class="lineNum">     104 </span><span class="lineCov">      29830 :             while ((bitStream &amp; 3) == 3) {</span>
+<span class="lineNum">     105 </span><span class="lineCov">       1586 :                 n0 += 3;</span>
+<span class="lineNum">     106 </span><span class="lineCov">       1586 :                 bitStream &gt;&gt;= 2;</span>
+<span class="lineNum">     107 </span><span class="lineCov">       1586 :                 bitCount += 2;</span>
+<span class="lineNum">     108 </span>            :             }
+<span class="lineNum">     109 </span><span class="lineCov">      14122 :             n0 += bitStream &amp; 3;</span>
+<span class="lineNum">     110 </span><span class="lineCov">      14122 :             bitCount += 2;</span>
+<span class="lineNum">     111 </span><span class="lineCov">      14122 :             if (n0 &gt; *maxSVPtr) return ERROR(maxSymbolValue_tooSmall);</span>
+<span class="lineNum">     112 </span><span class="lineCov">      14122 :             while (charnum &lt; n0) normalizedCounter[charnum++] = 0;</span>
+<span class="lineNum">     113 </span><span class="lineCov">      14122 :             if ((ip &lt;= iend-7) || (ip + (bitCount&gt;&gt;3) &lt;= iend-4)) {</span>
+<span class="lineNum">     114 </span><span class="lineCov">      14122 :                 ip += bitCount&gt;&gt;3;</span>
+<span class="lineNum">     115 </span><span class="lineCov">      14122 :                 bitCount &amp;= 7;</span>
+<span class="lineNum">     116 </span><span class="lineCov">      14122 :                 bitStream = MEM_readLE32(ip) &gt;&gt; bitCount;</span>
+<span class="lineNum">     117 </span>            :             } else {
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :                 bitStream &gt;&gt;= 2;</span>
+<span class="lineNum">     119 </span>            :         }   }
+<span class="lineNum">     120 </span><span class="lineCov">     169268 :         {   short const max = (short)((2*threshold-1)-remaining);</span>
+<span class="lineNum">     121 </span>            :             short count;
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span><span class="lineCov">     169268 :             if ((bitStream &amp; (threshold-1)) &lt; (U32)max) {</span>
+<span class="lineNum">     124 </span><span class="lineCov">     121076 :                 count = (short)(bitStream &amp; (threshold-1));</span>
+<span class="lineNum">     125 </span><span class="lineCov">     121076 :                 bitCount   += nbBits-1;</span>
+<span class="lineNum">     126 </span>            :             } else {
+<span class="lineNum">     127 </span><span class="lineCov">      48192 :                 count = (short)(bitStream &amp; (2*threshold-1));</span>
+<span class="lineNum">     128 </span><span class="lineCov">      48192 :                 if (count &gt;= threshold) count -= max;</span>
+<span class="lineNum">     129 </span><span class="lineCov">      48192 :                 bitCount   += nbBits;</span>
+<span class="lineNum">     130 </span>            :             }
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span><span class="lineCov">     169268 :             count--;   /* extra accuracy */</span>
+<span class="lineNum">     133 </span><span class="lineCov">     169268 :             remaining -= FSE_abs(count);</span>
+<span class="lineNum">     134 </span><span class="lineCov">     169268 :             normalizedCounter[charnum++] = count;</span>
+<span class="lineNum">     135 </span><span class="lineCov">     169268 :             previous0 = !count;</span>
+<span class="lineNum">     136 </span><span class="lineCov">     403404 :             while (remaining &lt; threshold) {</span>
+<span class="lineNum">     137 </span><span class="lineCov">      64868 :                 nbBits--;</span>
+<span class="lineNum">     138 </span><span class="lineCov">      64868 :                 threshold &gt;&gt;= 1;</span>
+<span class="lineNum">     139 </span>            :             }
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineCov">     169268 :             if ((ip &lt;= iend-7) || (ip + (bitCount&gt;&gt;3) &lt;= iend-4)) {</span>
+<span class="lineNum">     142 </span><span class="lineCov">     169268 :                 ip += bitCount&gt;&gt;3;</span>
+<span class="lineNum">     143 </span><span class="lineCov">     169268 :                 bitCount &amp;= 7;</span>
+<span class="lineNum">     144 </span>            :             } else {
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :                 bitCount -= (int)(8 * (iend - 4 - ip));</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :                 ip = iend - 4;</span>
+<span class="lineNum">     147 </span>            :             }
+<span class="lineNum">     148 </span><span class="lineCov">     169268 :             bitStream = MEM_readLE32(ip) &gt;&gt; (bitCount &amp; 31);</span>
+<span class="lineNum">     149 </span>            :     }   }   /* while ((remaining&gt;1) &amp; (charnum&lt;=*maxSVPtr)) */
+<span class="lineNum">     150 </span><span class="lineCov">       8546 :     if (remaining != 1) return ERROR(corruption_detected);</span>
+<span class="lineNum">     151 </span><span class="lineCov">       8546 :     if (bitCount &gt; 32) return ERROR(corruption_detected);</span>
+<span class="lineNum">     152 </span><span class="lineCov">       8546 :     *maxSVPtr = charnum-1;</span>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineCov">       8546 :     ip += (bitCount+7)&gt;&gt;3;</span>
+<span class="lineNum">     155 </span><span class="lineCov">       8546 :     return ip-istart;</span>
+<span class="lineNum">     156 </span>            : }
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span>            : /*! HUF_readStats() :
+<span class="lineNum">     160 </span>            :     Read compact Huffman tree, saved by HUF_writeCTable().
+<span class="lineNum">     161 </span>            :     `huffWeight` is destination buffer.
+<span class="lineNum">     162 </span>            :     @return : size read from `src` , or an error Code .
+<a name="163"><span class="lineNum">     163 </span>            :     Note : Needed by HUF_readCTable() and HUF_readDTableX?() .</a>
+<span class="lineNum">     164 </span>            : */
+<span class="lineNum">     165 </span><span class="lineCov">       2240 : size_t HUF_readStats(BYTE* huffWeight, size_t hwSize, U32* rankStats,</span>
+<span class="lineNum">     166 </span>            :                      U32* nbSymbolsPtr, U32* tableLogPtr,
+<span class="lineNum">     167 </span>            :                      const void* src, size_t srcSize)
+<span class="lineNum">     168 </span>            : {
+<span class="lineNum">     169 </span>            :     U32 weightTotal;
+<span class="lineNum">     170 </span><span class="lineCov">       2240 :     const BYTE* ip = (const BYTE*) src;</span>
+<span class="lineNum">     171 </span><span class="lineCov">       2240 :     size_t iSize = ip[0];</span>
+<span class="lineNum">     172 </span>            :     size_t oSize;
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span>            :     /* memset(huffWeight, 0, hwSize);   *//* is not necessary, even though some analyzer complain ... */
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineCov">       2240 :     if (iSize &gt;= 128) {  /* special header */</span>
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         oSize = iSize - 127;</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         iSize = ((oSize+1)/2);</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :         if (iSize+1 &gt; srcSize) return ERROR(srcSize_wrong);</span>
+<span class="lineNum">     180 </span><span class="lineNoCov">          0 :         if (oSize &gt;= hwSize) return ERROR(corruption_detected);</span>
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :         ip += 1;</span>
+<span class="lineNum">     182 </span>            :         {   U32 n;
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 :             for (n=0; n&lt;oSize; n+=2) {</span>
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :                 huffWeight[n]   = ip[n/2] &gt;&gt; 4;</span>
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :                 huffWeight[n+1] = ip[n/2] &amp; 15;</span>
+<span class="lineNum">     186 </span>            :     }   }   }
+<span class="lineNum">     187 </span>            :     else  {   /* header compressed with FSE (normal case) */
+<span class="lineNum">     188 </span><span class="lineCov">       2240 :         if (iSize+1 &gt; srcSize) return ERROR(srcSize_wrong);</span>
+<span class="lineNum">     189 </span><span class="lineCov">       2240 :         oSize = FSE_decompress(huffWeight, hwSize-1, ip+1, iSize);   /* max (hwSize-1) values decoded, as last one is implied */</span>
+<span class="lineNum">     190 </span><span class="lineCov">       2240 :         if (FSE_isError(oSize)) return oSize;</span>
+<span class="lineNum">     191 </span>            :     }
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span>            :     /* collect weight stats */
+<span class="lineNum">     194 </span><span class="lineCov">       2240 :     memset(rankStats, 0, (HUF_TABLELOG_ABSOLUTEMAX + 1) * sizeof(U32));</span>
+<span class="lineNum">     195 </span><span class="lineCov">       2240 :     weightTotal = 0;</span>
+<span class="lineNum">     196 </span><span class="lineCov">     509712 :     {   U32 n; for (n=0; n&lt;oSize; n++) {</span>
+<span class="lineNum">     197 </span><span class="lineCov">     507472 :             if (huffWeight[n] &gt;= HUF_TABLELOG_ABSOLUTEMAX) return ERROR(corruption_detected);</span>
+<span class="lineNum">     198 </span><span class="lineCov">     507472 :             rankStats[huffWeight[n]]++;</span>
+<span class="lineNum">     199 </span><span class="lineCov">     507472 :             weightTotal += (1 &lt;&lt; huffWeight[n]) &gt;&gt; 1;</span>
+<span class="lineNum">     200 </span>            :     }   }
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span>            :     /* get last non-null symbol weight (implied, total must be 2^n) */
+<span class="lineNum">     203 </span><span class="lineCov">       2240 :     {   U32 const tableLog = BIT_highbit32(weightTotal) + 1;</span>
+<span class="lineNum">     204 </span><span class="lineCov">       2240 :         if (tableLog &gt; HUF_TABLELOG_ABSOLUTEMAX) return ERROR(corruption_detected);</span>
+<span class="lineNum">     205 </span><span class="lineCov">       2240 :         *tableLogPtr = tableLog;</span>
+<span class="lineNum">     206 </span>            :         /* determine last weight */
+<span class="lineNum">     207 </span><span class="lineCov">       2240 :         {   U32 const total = 1 &lt;&lt; tableLog;</span>
+<span class="lineNum">     208 </span><span class="lineCov">       2240 :             U32 const rest = total - weightTotal;</span>
+<span class="lineNum">     209 </span><span class="lineCov">       2240 :             U32 const verif = 1 &lt;&lt; BIT_highbit32(rest);</span>
+<span class="lineNum">     210 </span><span class="lineCov">       2240 :             U32 const lastWeight = BIT_highbit32(rest) + 1;</span>
+<span class="lineNum">     211 </span><span class="lineCov">       2240 :             if (verif != rest) return ERROR(corruption_detected);    /* last value must be a clean power of 2 */</span>
+<span class="lineNum">     212 </span><span class="lineCov">       2240 :             huffWeight[oSize] = (BYTE)lastWeight;</span>
+<span class="lineNum">     213 </span><span class="lineCov">       2240 :             rankStats[lastWeight]++;</span>
+<span class="lineNum">     214 </span>            :     }   }
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span>            :     /* check tree construction validity */
+<span class="lineNum">     217 </span><span class="lineCov">       2240 :     if ((rankStats[1] &lt; 2) || (rankStats[1] &amp; 1)) return ERROR(corruption_detected);   /* by construction : at least 2 elts of rank 1, must be even */</span>
+<span class="lineNum">     218 </span>            : 
+<span class="lineNum">     219 </span>            :     /* results */
+<span class="lineNum">     220 </span><span class="lineCov">       2240 :     *nbSymbolsPtr = (U32)(oSize+1);</span>
+<span class="lineNum">     221 </span><span class="lineCov">       2240 :     return iSize+1;</span>
+<span class="lineNum">     222 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

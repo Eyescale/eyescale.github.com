@@ -109,5 +109,6 @@ var searchData=
   ['eq_5fcompressor_5fversion_5f1',['EQ_COMPRESSOR_VERSION_1',['../plugins_2compressor_8h.html#a73e3544bef283514b5404cfd8504c9b7',1,'compressor.h']]],
   ['eq_5fcompressor_5fversion_5f2',['EQ_COMPRESSOR_VERSION_2',['../plugins_2compressor_8h.html#ac88609b538391219e61844e3ecc70ce2',1,'compressor.h']]],
   ['eq_5fcompressor_5fversion_5f3',['EQ_COMPRESSOR_VERSION_3',['../plugins_2compressor_8h.html#ab04beacee20a7cf909636b812b30636e',1,'compressor.h']]],
-  ['eq_5fcompressor_5fversion_5f4',['EQ_COMPRESSOR_VERSION_4',['../plugins_2compressor_8h.html#a3c26ccbaebc9e79490f1ec459051cd39',1,'compressor.h']]]
+  ['eq_5fcompressor_5fversion_5f4',['EQ_COMPRESSOR_VERSION_4',['../plugins_2compressor_8h.html#a3c26ccbaebc9e79490f1ec459051cd39',1,'compressor.h']]],
+  ['eq_5fcompressor_5fzstd_5fbyte',['EQ_COMPRESSOR_ZSTD_BYTE',['../compressor_types_8h.html#a83b02a093d5aa705b5f86d0d50974536',1,'compressorTypes.h']]]
 ];

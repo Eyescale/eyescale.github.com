@@ -4,7 +4,7 @@ version: "1.1"
 major: 1
 minor: 1
 description: Compressor, decompressor, uploader and downloader plugins
-updated: 30/09/16
+updated: 11/11/16
 homepage: https://github.com/Eyescale/Pression
 repository: https://github.com/Eyescale/Pression.git
 issuesurl: https://github.com/Eyescale/Pression/issues
@@ -12,12 +12,12 @@ packageurl: https://launchpad.net/~eilemann/+archive/equalizer-dev
 license: LGPL
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Stefan Eilemann
+contributors: Daniel Nachbaur
 readmetype: text/x-markdown
 ---
 [TOC]
 
-# Introduction {#Introduction}
+# Introduction
 
 Welcome to Pression, a C++ library for implementing and loading
 compression and CPU-GPU data transfer plugins.
@@ -39,7 +39,7 @@ available from [Eyescale](http://www.eyescale.ch). Please contact
 [info@eyescale.ch](mailto:info@eyescale.ch?subject=Pression%20support)
 for further information.
 
-# Features {#Features}
+# Features
 
 Pression provides the following major features:
 
@@ -48,7 +48,7 @@ Pression provides the following major features:
   pression::PluginRegistry, pression::Uploader
 * Detailed @ref Changelog
 
-# Building {#Building}
+# Building
 
 Pression is a cross-platform library, designed to run on any modern
 operating system, including all Unix variants and the Windows operating
@@ -67,4 +67,16 @@ Building from source is as simple as:
     cd Pression/build
     cmake ..
     make
+
+# FAQ
+
+## On what basis where the compression parameters determined?
+
+They are relative numbers when compared to the RLE compressor and the
+data compressed. Since both change over time with new compilers, CPUs
+and tested data, they are a somewhat arbitrary snapshot. Typically, all
+compressor parameters are updated when a new plugin is added on a
+representative visualization cluster node at the time. They are
+determined by running the tests/compressor benchmark which calculates
+them.
 
