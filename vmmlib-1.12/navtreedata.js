@@ -1,11 +1,7 @@
 var NAVTREE =
 [
   [ "vmmlib", "index.html", [
-    [ "Introduction", "index.html#Introduction", null ],
-    [ "Features", "index.html#Features", null ],
-    [ "Bugs", "index.html#Bugs", null ],
-    [ "Building", "index.html#Building", null ],
-    [ "Changelog", "_changelog.html", null ],
+    [ "Changelog", "Changelog.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -14,8 +10,8 @@ var NAVTREE =
         [ "Typedefs", "namespacemembers_type.html", null ]
       ] ]
     ] ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],
@@ -31,8 +27,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_changelog.html",
-"classvmml_1_1vector.html#ac7ff9586dce90a314bbdee3f19f23f59"
+"Changelog.html",
+"classvmml_1_1vector.html#ad2dc8bb34d4caaff048d7e60c09de75a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
