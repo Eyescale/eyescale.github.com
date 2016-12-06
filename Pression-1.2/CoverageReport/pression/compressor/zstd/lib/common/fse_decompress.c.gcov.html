@@ -1,0 +1,405 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Pression - pression/compressor/zstd/lib/common/fse_decompress.c</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">pression/compressor/zstd/lib/common</a> - fse_decompress.c<span style="font-size: 80%;"> (source / <a href="fse_decompress.c.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Pression</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">83</td>
+            <td class="headerCovTableEntry">105</td>
+            <td class="headerCovTableEntryMed">79.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-12-06 05:44:58</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryMed">57.1 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* ******************************************************************</a>
+<span class="lineNum">       2 </span>            :    FSE : Finite State Entropy decoder
+<span class="lineNum">       3 </span>            :    Copyright (C) 2013-2015, Yann Collet.
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            :    BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       8 </span>            :    modification, are permitted provided that the following conditions are
+<span class="lineNum">       9 </span>            :    met:
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            :        * Redistributions of source code must retain the above copyright
+<span class="lineNum">      12 </span>            :    notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      13 </span>            :        * Redistributions in binary form must reproduce the above
+<span class="lineNum">      14 </span>            :    copyright notice, this list of conditions and the following disclaimer
+<span class="lineNum">      15 </span>            :    in the documentation and/or other materials provided with the
+<span class="lineNum">      16 </span>            :    distribution.
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      19 </span>            :    &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      20 </span>            :    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      21 </span>            :    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      22 </span>            :    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      23 </span>            :    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      24 </span>            :    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      25 </span>            :    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      26 </span>            :    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      27 </span>            :    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      28 </span>            :    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            :     You can contact the author at :
+<span class="lineNum">      31 </span>            :     - FSE source repository : https://github.com/Cyan4973/FiniteStateEntropy
+<span class="lineNum">      32 </span>            :     - Public forum : https://groups.google.com/forum/#!forum/lz4c
+<span class="lineNum">      33 </span>            : ****************************************************************** */
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : /* **************************************************************
+<span class="lineNum">      37 </span>            : *  Compiler specifics
+<span class="lineNum">      38 </span>            : ****************************************************************/
+<span class="lineNum">      39 </span>            : #ifdef _MSC_VER    /* Visual Studio */
+<span class="lineNum">      40 </span>            : #  define FORCE_INLINE static __forceinline
+<span class="lineNum">      41 </span>            : #  include &lt;intrin.h&gt;                    /* For Visual 2005 */
+<span class="lineNum">      42 </span>            : #  pragma warning(disable : 4127)        /* disable: C4127: conditional expression is constant */
+<span class="lineNum">      43 </span>            : #  pragma warning(disable : 4214)        /* disable: C4214: non-int bitfields */
+<span class="lineNum">      44 </span>            : #else
+<span class="lineNum">      45 </span>            : #  if defined (__cplusplus) || defined (__STDC_VERSION__) &amp;&amp; __STDC_VERSION__ &gt;= 199901L   /* C99 */
+<span class="lineNum">      46 </span>            : #    ifdef __GNUC__
+<span class="lineNum">      47 </span>            : #      define FORCE_INLINE static inline __attribute__((always_inline))
+<span class="lineNum">      48 </span>            : #    else
+<span class="lineNum">      49 </span>            : #      define FORCE_INLINE static inline
+<span class="lineNum">      50 </span>            : #    endif
+<span class="lineNum">      51 </span>            : #  else
+<span class="lineNum">      52 </span>            : #    define FORCE_INLINE static
+<span class="lineNum">      53 </span>            : #  endif /* __STDC_VERSION__ */
+<span class="lineNum">      54 </span>            : #endif
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            : /* **************************************************************
+<span class="lineNum">      58 </span>            : *  Includes
+<span class="lineNum">      59 </span>            : ****************************************************************/
+<span class="lineNum">      60 </span>            : #include &lt;stdlib.h&gt;     /* malloc, free, qsort */
+<span class="lineNum">      61 </span>            : #include &lt;string.h&gt;     /* memcpy, memset */
+<span class="lineNum">      62 </span>            : #include &lt;stdio.h&gt;      /* printf (debug) */
+<span class="lineNum">      63 </span>            : #include &quot;bitstream.h&quot;
+<span class="lineNum">      64 </span>            : #define FSE_STATIC_LINKING_ONLY
+<span class="lineNum">      65 </span>            : #include &quot;fse.h&quot;
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            : /* **************************************************************
+<span class="lineNum">      69 </span>            : *  Error Management
+<span class="lineNum">      70 </span>            : ****************************************************************/
+<span class="lineNum">      71 </span>            : #define FSE_isError ERR_isError
+<span class="lineNum">      72 </span>            : #define FSE_STATIC_ASSERT(c) { enum { FSE_static_assert = 1/(int)(!!(c)) }; }   /* use only *after* variable declarations */
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            : /* check and forward error code */
+<span class="lineNum">      75 </span>            : #define CHECK_F(f) { size_t const e = f; if (FSE_isError(e)) return e; }
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : /* **************************************************************
+<span class="lineNum">      79 </span>            : *  Complex types
+<span class="lineNum">      80 </span>            : ****************************************************************/
+<span class="lineNum">      81 </span>            : typedef U32 DTable_max_t[FSE_DTABLE_SIZE_U32(FSE_MAX_TABLELOG)];
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : /* **************************************************************
+<span class="lineNum">      85 </span>            : *  Templates
+<span class="lineNum">      86 </span>            : ****************************************************************/
+<span class="lineNum">      87 </span>            : /*
+<span class="lineNum">      88 </span>            :   designed to be included
+<span class="lineNum">      89 </span>            :   for type-specific functions (template emulation in C)
+<span class="lineNum">      90 </span>            :   Objective is to write these functions only once, for improved maintenance
+<span class="lineNum">      91 </span>            : */
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            : /* safety checks */
+<span class="lineNum">      94 </span>            : #ifndef FSE_FUNCTION_EXTENSION
+<span class="lineNum">      95 </span>            : #  error &quot;FSE_FUNCTION_EXTENSION must be defined&quot;
+<span class="lineNum">      96 </span>            : #endif
+<span class="lineNum">      97 </span>            : #ifndef FSE_FUNCTION_TYPE
+<span class="lineNum">      98 </span>            : #  error &quot;FSE_FUNCTION_TYPE must be defined&quot;
+<span class="lineNum">      99 </span>            : #endif
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span>            : /* Function names */
+<span class="lineNum">     102 </span>            : #define FSE_CAT(X,Y) X##Y
+<span class="lineNum">     103 </span>            : #define FSE_FUNCTION_NAME(X,Y) FSE_CAT(X,Y)
+<span class="lineNum">     104 </span>            : #define FSE_TYPE_NAME(X,Y) FSE_CAT(X,Y)
+<span class="lineNum">     105 </span>            : 
+<a name="106"><span class="lineNum">     106 </span>            : </a>
+<span class="lineNum">     107 </span>            : /* Function templates */
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 : FSE_DTable* FSE_createDTable (unsigned tableLog)</span>
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :     if (tableLog &gt; FSE_TABLELOG_ABSOLUTE_MAX) tableLog = FSE_TABLELOG_ABSOLUTE_MAX;</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     return (FSE_DTable*)malloc( FSE_DTABLE_SIZE_U32(tableLog) * sizeof (U32) );</span>
+<a name="112"><span class="lineNum">     112 </span>            : }</a>
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 : void FSE_freeDTable (FSE_DTable* dt)</span>
+<span class="lineNum">     115 </span>            : {
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :     free(dt);</span>
+<a name="117"><span class="lineNum">     117 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span><span class="lineCov">       5908 : size_t FSE_buildDTable(FSE_DTable* dt, const short* normalizedCounter, unsigned maxSymbolValue, unsigned tableLog)</span>
+<span class="lineNum">     120 </span>            : {
+<span class="lineNum">     121 </span><span class="lineCov">       5908 :     void* const tdPtr = dt+1;   /* because *dt is unsigned, 32-bits aligned on 32-bits */</span>
+<span class="lineNum">     122 </span><span class="lineCov">       5908 :     FSE_DECODE_TYPE* const tableDecode = (FSE_DECODE_TYPE*) (tdPtr);</span>
+<span class="lineNum">     123 </span>            :     U16 symbolNext[FSE_MAX_SYMBOL_VALUE+1];
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span><span class="lineCov">       5908 :     U32 const maxSV1 = maxSymbolValue + 1;</span>
+<span class="lineNum">     126 </span><span class="lineCov">       5908 :     U32 const tableSize = 1 &lt;&lt; tableLog;</span>
+<span class="lineNum">     127 </span><span class="lineCov">       5908 :     U32 highThreshold = tableSize-1;</span>
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span>            :     /* Sanity Checks */
+<span class="lineNum">     130 </span><span class="lineCov">       5908 :     if (maxSymbolValue &gt; FSE_MAX_SYMBOL_VALUE) return ERROR(maxSymbolValue_tooLarge);</span>
+<span class="lineNum">     131 </span><span class="lineCov">       5908 :     if (tableLog &gt; FSE_MAX_TABLELOG) return ERROR(tableLog_tooLarge);</span>
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            :     /* Init, lay down lowprob symbols */
+<span class="lineNum">     134 </span>            :     {   FSE_DTableHeader DTableH;
+<span class="lineNum">     135 </span><span class="lineCov">       5908 :         DTableH.tableLog = (U16)tableLog;</span>
+<span class="lineNum">     136 </span><span class="lineCov">       5908 :         DTableH.fastMode = 1;</span>
+<span class="lineNum">     137 </span><span class="lineCov">       5908 :         {   S16 const largeLimit= (S16)(1 &lt;&lt; (tableLog-1));</span>
+<span class="lineNum">     138 </span>            :             U32 s;
+<span class="lineNum">     139 </span><span class="lineCov">     124696 :             for (s=0; s&lt;maxSV1; s++) {</span>
+<span class="lineNum">     140 </span><span class="lineCov">     118788 :                 if (normalizedCounter[s]==-1) {</span>
+<span class="lineNum">     141 </span><span class="lineCov">      31200 :                     tableDecode[highThreshold--].symbol = (FSE_FUNCTION_TYPE)s;</span>
+<span class="lineNum">     142 </span><span class="lineCov">      31200 :                     symbolNext[s] = 1;</span>
+<span class="lineNum">     143 </span>            :                 } else {
+<span class="lineNum">     144 </span><span class="lineCov">      87588 :                     if (normalizedCounter[s] &gt;= largeLimit) DTableH.fastMode=0;</span>
+<span class="lineNum">     145 </span><span class="lineCov">      87588 :                     symbolNext[s] = normalizedCounter[s];</span>
+<span class="lineNum">     146 </span>            :         }   }   }
+<span class="lineNum">     147 </span><span class="lineCov">       5908 :         memcpy(dt, &amp;DTableH, sizeof(DTableH));</span>
+<span class="lineNum">     148 </span>            :     }
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            :     /* Spread symbols */
+<span class="lineNum">     151 </span><span class="lineCov">       5908 :     {   U32 const tableMask = tableSize-1;</span>
+<span class="lineNum">     152 </span><span class="lineCov">       5908 :         U32 const step = FSE_TABLESTEP(tableSize);</span>
+<span class="lineNum">     153 </span><span class="lineCov">       5908 :         U32 s, position = 0;</span>
+<span class="lineNum">     154 </span><span class="lineCov">     124696 :         for (s=0; s&lt;maxSV1; s++) {</span>
+<span class="lineNum">     155 </span>            :             int i;
+<span class="lineNum">     156 </span><span class="lineCov">    1704100 :             for (i=0; i&lt;normalizedCounter[s]; i++) {</span>
+<span class="lineNum">     157 </span><span class="lineCov">    1585312 :                 tableDecode[position].symbol = (FSE_FUNCTION_TYPE)s;</span>
+<span class="lineNum">     158 </span><span class="lineCov">    1585312 :                 position = (position + step) &amp; tableMask;</span>
+<span class="lineNum">     159 </span><span class="lineCov">    1585312 :                 while (position &gt; highThreshold) position = (position + step) &amp; tableMask;   /* lowprob area */</span>
+<span class="lineNum">     160 </span>            :         }   }
+<span class="lineNum">     161 </span><span class="lineCov">       5908 :         if (position!=0) return ERROR(GENERIC);   /* position must reach all cells once, otherwise normalizedCounter is incorrect */</span>
+<span class="lineNum">     162 </span>            :     }
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            :     /* Build Decoding table */
+<span class="lineNum">     165 </span>            :     {   U32 u;
+<span class="lineNum">     166 </span><span class="lineCov">    1622420 :         for (u=0; u&lt;tableSize; u++) {</span>
+<span class="lineNum">     167 </span><span class="lineCov">    1616512 :             FSE_FUNCTION_TYPE const symbol = (FSE_FUNCTION_TYPE)(tableDecode[u].symbol);</span>
+<span class="lineNum">     168 </span><span class="lineCov">    1616512 :             U16 nextState = symbolNext[symbol]++;</span>
+<span class="lineNum">     169 </span><span class="lineCov">    1616512 :             tableDecode[u].nbBits = (BYTE) (tableLog - BIT_highbit32 ((U32)nextState) );</span>
+<span class="lineNum">     170 </span><span class="lineCov">    1616512 :             tableDecode[u].newState = (U16) ( (nextState &lt;&lt; tableDecode[u].nbBits) - tableSize);</span>
+<span class="lineNum">     171 </span>            :     }   }
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span><span class="lineCov">       5908 :     return 0;</span>
+<span class="lineNum">     174 </span>            : }
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span>            : 
+<span class="lineNum">     177 </span>            : #ifndef FSE_COMMONDEFS_ONLY
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            : /*-*******************************************************
+<a name="180"><span class="lineNum">     180 </span>            : *  Decompression (Byte symbols)</a>
+<span class="lineNum">     181 </span>            : *********************************************************/
+<span class="lineNum">     182 </span><span class="lineCov">         16 : size_t FSE_buildDTable_rle (FSE_DTable* dt, BYTE symbolValue)</span>
+<span class="lineNum">     183 </span>            : {
+<span class="lineNum">     184 </span><span class="lineCov">         16 :     void* ptr = dt;</span>
+<span class="lineNum">     185 </span><span class="lineCov">         16 :     FSE_DTableHeader* const DTableH = (FSE_DTableHeader*)ptr;</span>
+<span class="lineNum">     186 </span><span class="lineCov">         16 :     void* dPtr = dt + 1;</span>
+<span class="lineNum">     187 </span><span class="lineCov">         16 :     FSE_decode_t* const cell = (FSE_decode_t*)dPtr;</span>
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span><span class="lineCov">         16 :     DTableH-&gt;tableLog = 0;</span>
+<span class="lineNum">     190 </span><span class="lineCov">         16 :     DTableH-&gt;fastMode = 0;</span>
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span><span class="lineCov">         16 :     cell-&gt;newState = 0;</span>
+<span class="lineNum">     193 </span><span class="lineCov">         16 :     cell-&gt;symbol = symbolValue;</span>
+<span class="lineNum">     194 </span><span class="lineCov">         16 :     cell-&gt;nbBits = 0;</span>
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span><span class="lineCov">         16 :     return 0;</span>
+<span class="lineNum">     197 </span>            : }
+<a name="198"><span class="lineNum">     198 </span>            : </a>
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 : size_t FSE_buildDTable_raw (FSE_DTable* dt, unsigned nbBits)</span>
+<span class="lineNum">     201 </span>            : {
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 :     void* ptr = dt;</span>
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :     FSE_DTableHeader* const DTableH = (FSE_DTableHeader*)ptr;</span>
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :     void* dPtr = dt + 1;</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :     FSE_decode_t* const dinfo = (FSE_decode_t*)dPtr;</span>
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :     const unsigned tableSize = 1 &lt;&lt; nbBits;</span>
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :     const unsigned tableMask = tableSize - 1;</span>
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     const unsigned maxSV1 = tableMask+1;</span>
+<span class="lineNum">     209 </span>            :     unsigned s;
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            :     /* Sanity checks */
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :     if (nbBits &lt; 1) return ERROR(GENERIC);         /* min size */</span>
+<span class="lineNum">     213 </span>            : 
+<span class="lineNum">     214 </span>            :     /* Build Decoding Table */
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :     DTableH-&gt;tableLog = (U16)nbBits;</span>
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :     DTableH-&gt;fastMode = 1;</span>
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :     for (s=0; s&lt;maxSV1; s++) {</span>
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 :         dinfo[s].newState = 0;</span>
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :         dinfo[s].symbol = (BYTE)s;</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :         dinfo[s].nbBits = (BYTE)nbBits;</span>
+<span class="lineNum">     221 </span>            :     }
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">     224 </span>            : }
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span>            : FORCE_INLINE size_t FSE_decompress_usingDTable_generic(
+<span class="lineNum">     227 </span>            :           void* dst, size_t maxDstSize,
+<span class="lineNum">     228 </span>            :     const void* cSrc, size_t cSrcSize,
+<a name="229"><span class="lineNum">     229 </span>            :     const FSE_DTable* dt, const unsigned fast)</a>
+<span class="lineNum">     230 </span>            : {
+<span class="lineNum">     231 </span><span class="lineCov">       2004 :     BYTE* const ostart = (BYTE*) dst;</span>
+<span class="lineNum">     232 </span><span class="lineCov">       2004 :     BYTE* op = ostart;</span>
+<span class="lineNum">     233 </span><span class="lineCov">       2004 :     BYTE* const omax = op + maxDstSize;</span>
+<span class="lineNum">     234 </span><span class="lineCov">       2004 :     BYTE* const olimit = omax-3;</span>
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            :     BIT_DStream_t bitD;
+<span class="lineNum">     237 </span>            :     FSE_DState_t state1;
+<span class="lineNum">     238 </span>            :     FSE_DState_t state2;
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span>            :     /* Init */
+<span class="lineNum">     241 </span><span class="lineCov">       2004 :     CHECK_F(BIT_initDStream(&amp;bitD, cSrc, cSrcSize));</span>
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineCov">       2004 :     FSE_initDState(&amp;state1, &amp;bitD, dt);</span>
+<span class="lineNum">     244 </span><span class="lineCov">       2004 :     FSE_initDState(&amp;state2, &amp;bitD, dt);</span>
+<span class="lineNum">     245 </span>            : 
+<span class="lineNum">     246 </span>            : #define FSE_GETSYMBOL(statePtr) fast ? FSE_decodeSymbolFast(statePtr, &amp;bitD) : FSE_decodeSymbol(statePtr, &amp;bitD)
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span>            :     /* 4 symbols per loop */
+<span class="lineNum">     249 </span><span class="lineCov">      94752 :     for ( ; (BIT_reloadDStream(&amp;bitD)==BIT_DStream_unfinished) &amp; (op&lt;olimit) ; op+=4) {</span>
+<span class="lineNum">     250 </span><span class="lineCov">      94752 :         op[0] = FSE_GETSYMBOL(&amp;state1);</span>
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span>            :         if (FSE_MAX_TABLELOG*2+7 &gt; sizeof(bitD.bitContainer)*8)    /* This test must be static */
+<span class="lineNum">     253 </span>            :             BIT_reloadDStream(&amp;bitD);
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span><span class="lineCov">      94752 :         op[1] = FSE_GETSYMBOL(&amp;state2);</span>
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span>            :         if (FSE_MAX_TABLELOG*4+7 &gt; sizeof(bitD.bitContainer)*8)    /* This test must be static */
+<span class="lineNum">     258 </span>            :             { if (BIT_reloadDStream(&amp;bitD) &gt; BIT_DStream_unfinished) { op+=2; break; } }
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span><span class="lineCov">      94752 :         op[2] = FSE_GETSYMBOL(&amp;state1);</span>
+<span class="lineNum">     261 </span>            : 
+<span class="lineNum">     262 </span>            :         if (FSE_MAX_TABLELOG*2+7 &gt; sizeof(bitD.bitContainer)*8)    /* This test must be static */
+<span class="lineNum">     263 </span>            :             BIT_reloadDStream(&amp;bitD);
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span><span class="lineCov">      94752 :         op[3] = FSE_GETSYMBOL(&amp;state2);</span>
+<span class="lineNum">     266 </span>            :     }
+<span class="lineNum">     267 </span>            : 
+<span class="lineNum">     268 </span>            :     /* tail */
+<span class="lineNum">     269 </span>            :     /* note : BIT_reloadDStream(&amp;bitD) &gt;= FSE_DStream_partiallyFilled; Ends at exactly BIT_DStream_completed */
+<span class="lineNum">     270 </span>            :     while (1) {
+<span class="lineNum">     271 </span><span class="lineCov">      62638 :         if (op&gt;(omax-2)) return ERROR(dstSize_tooSmall);</span>
+<span class="lineNum">     272 </span><span class="lineCov">      62638 :         *op++ = FSE_GETSYMBOL(&amp;state1);</span>
+<span class="lineNum">     273 </span><span class="lineCov">      62638 :         if (BIT_reloadDStream(&amp;bitD)==BIT_DStream_overflow) {</span>
+<span class="lineNum">     274 </span><span class="lineCov">         40 :             *op++ = FSE_GETSYMBOL(&amp;state2);</span>
+<span class="lineNum">     275 </span>            :             break;
+<span class="lineNum">     276 </span>            :         }
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineCov">      62598 :         if (op&gt;(omax-2)) return ERROR(dstSize_tooSmall);</span>
+<span class="lineNum">     279 </span><span class="lineCov">      62598 :         *op++ = FSE_GETSYMBOL(&amp;state2);</span>
+<span class="lineNum">     280 </span><span class="lineCov">      62598 :         if (BIT_reloadDStream(&amp;bitD)==BIT_DStream_overflow) {</span>
+<span class="lineNum">     281 </span><span class="lineCov">       1964 :             *op++ = FSE_GETSYMBOL(&amp;state1);</span>
+<span class="lineNum">     282 </span>            :             break;
+<span class="lineNum">     283 </span>            :     }   }
+<span class="lineNum">     284 </span>            : 
+<span class="lineNum">     285 </span><span class="lineCov">       2004 :     return op-ostart;</span>
+<span class="lineNum">     286 </span>            : }
+<span class="lineNum">     287 </span>            : 
+<span class="lineNum">     288 </span>            : 
+<span class="lineNum">     289 </span><span class="lineCov">       2004 : size_t FSE_decompress_usingDTable(void* dst, size_t originalSize,</span>
+<span class="lineNum">     290 </span>            :                             const void* cSrc, size_t cSrcSize,
+<span class="lineNum">     291 </span>            :                             const FSE_DTable* dt)
+<span class="lineNum">     292 </span>            : {
+<span class="lineNum">     293 </span><span class="lineCov">       2004 :     const void* ptr = dt;</span>
+<span class="lineNum">     294 </span><span class="lineCov">       2004 :     const FSE_DTableHeader* DTableH = (const FSE_DTableHeader*)ptr;</span>
+<span class="lineNum">     295 </span><span class="lineCov">       2004 :     const U32 fastMode = DTableH-&gt;fastMode;</span>
+<span class="lineNum">     296 </span>            : 
+<span class="lineNum">     297 </span>            :     /* select fast mode (static) */
+<span class="lineNum">     298 </span><span class="lineCov">       2920 :     if (fastMode) return FSE_decompress_usingDTable_generic(dst, originalSize, cSrc, cSrcSize, dt, 1);</span>
+<span class="lineNum">     299 </span><span class="lineCov">       1088 :     return FSE_decompress_usingDTable_generic(dst, originalSize, cSrc, cSrcSize, dt, 0);</span>
+<span class="lineNum">     300 </span>            : }
+<a name="301"><span class="lineNum">     301 </span>            : </a>
+<span class="lineNum">     302 </span>            : 
+<span class="lineNum">     303 </span><span class="lineCov">       2004 : size_t FSE_decompress(void* dst, size_t maxDstSize, const void* cSrc, size_t cSrcSize)</span>
+<span class="lineNum">     304 </span>            : {
+<span class="lineNum">     305 </span><span class="lineCov">       2004 :     const BYTE* const istart = (const BYTE*)cSrc;</span>
+<span class="lineNum">     306 </span><span class="lineCov">       2004 :     const BYTE* ip = istart;</span>
+<span class="lineNum">     307 </span>            :     short counting[FSE_MAX_SYMBOL_VALUE+1];
+<span class="lineNum">     308 </span>            :     DTable_max_t dt;   /* Static analyzer seems unable to understand this table will be properly initialized later */
+<span class="lineNum">     309 </span>            :     unsigned tableLog;
+<span class="lineNum">     310 </span><span class="lineCov">       2004 :     unsigned maxSymbolValue = FSE_MAX_SYMBOL_VALUE;</span>
+<span class="lineNum">     311 </span>            : 
+<span class="lineNum">     312 </span><span class="lineCov">       2004 :     if (cSrcSize&lt;2) return ERROR(srcSize_wrong);   /* too small input size */</span>
+<span class="lineNum">     313 </span>            : 
+<span class="lineNum">     314 </span>            :     /* normal FSE decoding mode */
+<span class="lineNum">     315 </span><span class="lineCov">       2004 :     {   size_t const NCountLength = FSE_readNCount (counting, &amp;maxSymbolValue, &amp;tableLog, istart, cSrcSize);</span>
+<span class="lineNum">     316 </span><span class="lineCov">       2004 :         if (FSE_isError(NCountLength)) return NCountLength;</span>
+<span class="lineNum">     317 </span><span class="lineCov">       2004 :         if (NCountLength &gt;= cSrcSize) return ERROR(srcSize_wrong);   /* too small input size */</span>
+<span class="lineNum">     318 </span><span class="lineCov">       2004 :         ip += NCountLength;</span>
+<span class="lineNum">     319 </span><span class="lineCov">       2004 :         cSrcSize -= NCountLength;</span>
+<span class="lineNum">     320 </span>            :     }
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span><span class="lineCov">       2004 :     CHECK_F( FSE_buildDTable (dt, counting, maxSymbolValue, tableLog) );</span>
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span><span class="lineCov">       2004 :     return FSE_decompress_usingDTable (dst, maxDstSize, ip, cSrcSize, dt);   /* always return, even if it is an error code */</span>
+<span class="lineNum">     325 </span>            : }
+<span class="lineNum">     326 </span>            : 
+<span class="lineNum">     327 </span>            : 
+<span class="lineNum">     328 </span>            : 
+<span class="lineNum">     329 </span>            : #endif   /* FSE_COMMONDEFS_ONLY */
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

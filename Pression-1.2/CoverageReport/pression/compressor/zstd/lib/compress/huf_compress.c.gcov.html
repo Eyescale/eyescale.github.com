@@ -1,0 +1,608 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Pression - pression/compressor/zstd/lib/compress/huf_compress.c</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">pression/compressor/zstd/lib/compress</a> - huf_compress.c<span style="font-size: 80%;"> (source / <a href="huf_compress.c.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Pression</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">215</td>
+            <td class="headerCovTableEntry">251</td>
+            <td class="headerCovTableEntryHi">85.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-12-06 05:44:58</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryMed">78.6 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* ******************************************************************</a>
+<span class="lineNum">       2 </span>            :    Huffman encoder, part of New Generation Entropy library
+<span class="lineNum">       3 </span>            :    Copyright (C) 2013-2016, Yann Collet.
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            :    BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       8 </span>            :    modification, are permitted provided that the following conditions are
+<span class="lineNum">       9 </span>            :    met:
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            :        * Redistributions of source code must retain the above copyright
+<span class="lineNum">      12 </span>            :    notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      13 </span>            :        * Redistributions in binary form must reproduce the above
+<span class="lineNum">      14 </span>            :    copyright notice, this list of conditions and the following disclaimer
+<span class="lineNum">      15 </span>            :    in the documentation and/or other materials provided with the
+<span class="lineNum">      16 </span>            :    distribution.
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      19 </span>            :    &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      20 </span>            :    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      21 </span>            :    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      22 </span>            :    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      23 </span>            :    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      24 </span>            :    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      25 </span>            :    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      26 </span>            :    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      27 </span>            :    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      28 </span>            :    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            :     You can contact the author at :
+<span class="lineNum">      31 </span>            :     - FSE+HUF source repository : https://github.com/Cyan4973/FiniteStateEntropy
+<span class="lineNum">      32 </span>            :     - Public forum : https://groups.google.com/forum/#!forum/lz4c
+<span class="lineNum">      33 </span>            : ****************************************************************** */
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : /* **************************************************************
+<span class="lineNum">      36 </span>            : *  Compiler specifics
+<span class="lineNum">      37 </span>            : ****************************************************************/
+<span class="lineNum">      38 </span>            : #ifdef _MSC_VER    /* Visual Studio */
+<span class="lineNum">      39 </span>            : #  pragma warning(disable : 4127)        /* disable: C4127: conditional expression is constant */
+<span class="lineNum">      40 </span>            : #endif
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : /* **************************************************************
+<span class="lineNum">      44 </span>            : *  Includes
+<span class="lineNum">      45 </span>            : ****************************************************************/
+<span class="lineNum">      46 </span>            : #include &lt;string.h&gt;     /* memcpy, memset */
+<span class="lineNum">      47 </span>            : #include &lt;stdio.h&gt;      /* printf (debug) */
+<span class="lineNum">      48 </span>            : #include &quot;bitstream.h&quot;
+<span class="lineNum">      49 </span>            : #define FSE_STATIC_LINKING_ONLY   /* FSE_optimalTableLog_internal */
+<span class="lineNum">      50 </span>            : #include &quot;fse.h&quot;        /* header compression */
+<span class="lineNum">      51 </span>            : #define HUF_STATIC_LINKING_ONLY
+<span class="lineNum">      52 </span>            : #include &quot;huf.h&quot;
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            : /* **************************************************************
+<span class="lineNum">      56 </span>            : *  Error Management
+<span class="lineNum">      57 </span>            : ****************************************************************/
+<span class="lineNum">      58 </span>            : #define HUF_STATIC_ASSERT(c) { enum { HUF_static_assert = 1/(int)(!!(c)) }; }   /* use only *after* variable declarations */
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            : /* **************************************************************
+<a name="62"><span class="lineNum">      62 </span>            : *  Utils</a>
+<span class="lineNum">      63 </span>            : ****************************************************************/
+<span class="lineNum">      64 </span><span class="lineCov">       2036 : unsigned HUF_optimalTableLog(unsigned maxTableLog, size_t srcSize, unsigned maxSymbolValue)</span>
+<span class="lineNum">      65 </span>            : {
+<span class="lineNum">      66 </span><span class="lineCov">       2036 :     return FSE_optimalTableLog_internal(maxTableLog, srcSize, maxSymbolValue, 1);</span>
+<span class="lineNum">      67 </span>            : }
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : /* *******************************************************
+<span class="lineNum">      71 </span>            : *  HUF : Huffman block compression
+<span class="lineNum">      72 </span>            : *********************************************************/
+<span class="lineNum">      73 </span>            : struct HUF_CElt_s {
+<span class="lineNum">      74 </span>            :   U16  val;
+<span class="lineNum">      75 </span>            :   BYTE nbBits;
+<span class="lineNum">      76 </span>            : };   /* typedef'd to HUF_CElt within &quot;huf.h&quot; */
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : typedef struct nodeElt_s {
+<span class="lineNum">      79 </span>            :     U32 count;
+<span class="lineNum">      80 </span>            :     U16 parent;
+<span class="lineNum">      81 </span>            :     BYTE byte;
+<span class="lineNum">      82 </span>            :     BYTE nbBits;
+<span class="lineNum">      83 </span>            : } nodeElt;
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            : /*! HUF_writeCTable() :
+<a name="86"><span class="lineNum">      86 </span>            :     `CTable` : huffman tree to save, using huf representation.</a>
+<span class="lineNum">      87 </span>            :     @return : size of saved CTable */
+<span class="lineNum">      88 </span><span class="lineCov">       2036 : size_t HUF_writeCTable (void* dst, size_t maxDstSize,</span>
+<span class="lineNum">      89 </span>            :                         const HUF_CElt* CTable, U32 maxSymbolValue, U32 huffLog)
+<span class="lineNum">      90 </span>            : {
+<span class="lineNum">      91 </span>            :     BYTE bitsToWeight[HUF_TABLELOG_MAX + 1];
+<span class="lineNum">      92 </span>            :     BYTE huffWeight[HUF_SYMBOLVALUE_MAX];
+<span class="lineNum">      93 </span><span class="lineCov">       2036 :     BYTE* op = (BYTE*)dst;</span>
+<span class="lineNum">      94 </span>            :     U32 n;
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            :      /* check conditions */
+<span class="lineNum">      97 </span><span class="lineCov">       2036 :     if (maxSymbolValue &gt; HUF_SYMBOLVALUE_MAX) return ERROR(GENERIC);</span>
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :     /* convert to weight */
+<span class="lineNum">     100 </span><span class="lineCov">       2036 :     bitsToWeight[0] = 0;</span>
+<span class="lineNum">     101 </span><span class="lineCov">      21764 :     for (n=1; n&lt;huffLog+1; n++)</span>
+<span class="lineNum">     102 </span><span class="lineCov">      19728 :         bitsToWeight[n] = (BYTE)(huffLog + 1 - n);</span>
+<span class="lineNum">     103 </span><span class="lineCov">     516440 :     for (n=0; n&lt;maxSymbolValue; n++)</span>
+<span class="lineNum">     104 </span><span class="lineCov">     514404 :         huffWeight[n] = bitsToWeight[CTable[n].nbBits];</span>
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span><span class="lineCov">       2036 :     {   size_t const size = FSE_compress(op+1, maxDstSize-1, huffWeight, maxSymbolValue);</span>
+<span class="lineNum">     107 </span><span class="lineCov">       2036 :         if (FSE_isError(size)) return size;</span>
+<span class="lineNum">     108 </span><span class="lineCov">       2036 :         if ((size&gt;1) &amp; (size &lt; maxSymbolValue/2)) {   /* FSE compressed */</span>
+<span class="lineNum">     109 </span><span class="lineCov">       2036 :             op[0] = (BYTE)size;</span>
+<span class="lineNum">     110 </span><span class="lineCov">       2036 :             return size+1;</span>
+<span class="lineNum">     111 </span>            :         }
+<span class="lineNum">     112 </span>            :     }
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :     /* raw values */
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :     if (maxSymbolValue &gt; (256-128)) return ERROR(GENERIC);   /* should not happen */</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :     if (((maxSymbolValue+1)/2) + 1 &gt; maxDstSize) return ERROR(dstSize_tooSmall);   /* not enough space within dst buffer */</span>
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :     op[0] = (BYTE)(128 /*special case*/ + (maxSymbolValue-1));</span>
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     huffWeight[maxSymbolValue] = 0;   /* to be sure it doesn't cause issue in final combination */</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     for (n=0; n&lt;maxSymbolValue; n+=2)</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         op[(n/2)+1] = (BYTE)((huffWeight[n] &lt;&lt; 4) + huffWeight[n+1]);</span>
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :     return ((maxSymbolValue+1)/2) + 1;</span>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            : }
+<a name="124"><span class="lineNum">     124 </span>            : </a>
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 : size_t HUF_readCTable (HUF_CElt* CTable, U32 maxSymbolValue, const void* src, size_t srcSize)</span>
+<span class="lineNum">     127 </span>            : {
+<span class="lineNum">     128 </span>            :     BYTE huffWeight[HUF_SYMBOLVALUE_MAX + 1];
+<span class="lineNum">     129 </span>            :     U32 rankVal[HUF_TABLELOG_ABSOLUTEMAX + 1];   /* large enough for values from 0 to 16 */
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :     U32 tableLog = 0;</span>
+<span class="lineNum">     131 </span>            :     size_t readSize;
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :     U32 nbSymbols = 0;</span>
+<span class="lineNum">     133 </span>            :     /*memset(huffWeight, 0, sizeof(huffWeight));*/   /* is not necessary, even though some analyzer complain ... */
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            :     /* get symbol weights */
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     readSize = HUF_readStats(huffWeight, HUF_SYMBOLVALUE_MAX+1, rankVal, &amp;nbSymbols, &amp;tableLog, src, srcSize);</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :     if (HUF_isError(readSize)) return readSize;</span>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            :     /* check result */
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :     if (tableLog &gt; HUF_TABLELOG_MAX) return ERROR(tableLog_tooLarge);</span>
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :     if (nbSymbols &gt; maxSymbolValue+1) return ERROR(maxSymbolValue_tooSmall);</span>
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            :     /* Prepare base value per rank */
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :     {   U32 n, nextRankStart = 0;</span>
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         for (n=1; n&lt;=tableLog; n++) {</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :             U32 current = nextRankStart;</span>
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :             nextRankStart += (rankVal[n] &lt;&lt; (n-1));</span>
+<span class="lineNum">     148 </span><span class="lineNoCov">          0 :             rankVal[n] = current;</span>
+<span class="lineNum">     149 </span>            :     }   }
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            :     /* fill nbBits */
+<span class="lineNum">     152 </span><span class="lineNoCov">          0 :     {   U32 n; for (n=0; n&lt;nbSymbols; n++) {</span>
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :             const U32 w = huffWeight[n];</span>
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :             CTable[n].nbBits = (BYTE)(tableLog + 1 - w);</span>
+<span class="lineNum">     155 </span>            :     }   }
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span>            :     /* fill val */
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :     {   U16 nbPerRank[HUF_TABLELOG_MAX+1] = {0};</span>
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :         U16 valPerRank[HUF_TABLELOG_MAX+1] = {0};</span>
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :         { U32 n; for (n=0; n&lt;nbSymbols; n++) nbPerRank[CTable[n].nbBits]++; }</span>
+<span class="lineNum">     161 </span>            :         /* determine stating value per rank */
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :         {   U16 min = 0;</span>
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :             U32 n; for (n=HUF_TABLELOG_MAX; n&gt;0; n--) {</span>
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :                 valPerRank[n] = min;      /* get starting value within each rank */</span>
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :                 min += nbPerRank[n];</span>
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :                 min &gt;&gt;= 1;</span>
+<span class="lineNum">     167 </span>            :         }   }
+<span class="lineNum">     168 </span>            :         /* assign value within rank, symbol order */
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :         { U32 n; for (n=0; n&lt;=maxSymbolValue; n++) CTable[n].val = valPerRank[CTable[n].nbBits]++; }</span>
+<span class="lineNum">     170 </span>            :     }
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :     return readSize;</span>
+<span class="lineNum">     173 </span>            : }
+<a name="174"><span class="lineNum">     174 </span>            : </a>
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineCov">       2036 : static U32 HUF_setMaxHeight(nodeElt* huffNode, U32 lastNonNull, U32 maxNbBits)</span>
+<span class="lineNum">     177 </span>            : {
+<span class="lineNum">     178 </span><span class="lineCov">       2036 :     const U32 largestBits = huffNode[lastNonNull].nbBits;</span>
+<span class="lineNum">     179 </span><span class="lineCov">       2036 :     if (largestBits &lt;= maxNbBits) return largestBits;   /* early exit : no elt &gt; maxNbBits */</span>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span>            :     /* there are several too large elements (at least &gt;= 2) */
+<span class="lineNum">     182 </span><span class="lineCov">        220 :     {   int totalCost = 0;</span>
+<span class="lineNum">     183 </span><span class="lineCov">        220 :         const U32 baseCost = 1 &lt;&lt; (largestBits - maxNbBits);</span>
+<span class="lineNum">     184 </span><span class="lineCov">        220 :         U32 n = lastNonNull;</span>
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span><span class="lineCov">       4178 :         while (huffNode[n].nbBits &gt; maxNbBits) {</span>
+<span class="lineNum">     187 </span><span class="lineCov">       3738 :             totalCost += baseCost - (1 &lt;&lt; (largestBits - huffNode[n].nbBits));</span>
+<span class="lineNum">     188 </span><span class="lineCov">       3738 :             huffNode[n].nbBits = (BYTE)maxNbBits;</span>
+<span class="lineNum">     189 </span><span class="lineCov">       3738 :             n --;</span>
+<span class="lineNum">     190 </span>            :         }  /* n stops at huffNode[n].nbBits &lt;= maxNbBits */
+<span class="lineNum">     191 </span><span class="lineCov">        220 :         while (huffNode[n].nbBits == maxNbBits) n--;   /* n end at index of smallest symbol using &lt; maxNbBits */</span>
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span>            :         /* renorm totalCost */
+<span class="lineNum">     194 </span><span class="lineCov">        220 :         totalCost &gt;&gt;= (largestBits - maxNbBits);  /* note : totalCost is necessarily a multiple of baseCost */</span>
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            :         /* repay normalized cost */
+<span class="lineNum">     197 </span><span class="lineCov">        220 :         {   U32 const noSymbol = 0xF0F0F0F0;</span>
+<span class="lineNum">     198 </span>            :             U32 rankLast[HUF_TABLELOG_MAX+2];
+<span class="lineNum">     199 </span>            :             int pos;
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            :             /* Get pos of last (smallest) symbol per rank */
+<span class="lineNum">     202 </span><span class="lineCov">        220 :             memset(rankLast, 0xF0, sizeof(rankLast));</span>
+<span class="lineNum">     203 </span><span class="lineCov">        220 :             {   U32 currentNbBits = maxNbBits;</span>
+<span class="lineNum">     204 </span><span class="lineCov">      36562 :                 for (pos=n ; pos &gt;= 0; pos--) {</span>
+<span class="lineNum">     205 </span><span class="lineCov">      36342 :                     if (huffNode[pos].nbBits &gt;= currentNbBits) continue;</span>
+<span class="lineNum">     206 </span><span class="lineCov">       1450 :                     currentNbBits = huffNode[pos].nbBits;   /* &lt; maxNbBits */</span>
+<span class="lineNum">     207 </span><span class="lineCov">       1450 :                     rankLast[maxNbBits-currentNbBits] = pos;</span>
+<span class="lineNum">     208 </span>            :             }   }
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span><span class="lineCov">        976 :             while (totalCost &gt; 0) {</span>
+<span class="lineNum">     211 </span><span class="lineCov">        536 :                 U32 nBitsToDecrease = BIT_highbit32(totalCost) + 1;</span>
+<span class="lineNum">     212 </span><span class="lineCov">        850 :                 for ( ; nBitsToDecrease &gt; 1; nBitsToDecrease--) {</span>
+<span class="lineNum">     213 </span><span class="lineCov">        658 :                     U32 highPos = rankLast[nBitsToDecrease];</span>
+<span class="lineNum">     214 </span><span class="lineCov">        658 :                     U32 lowPos = rankLast[nBitsToDecrease-1];</span>
+<span class="lineNum">     215 </span><span class="lineCov">        658 :                     if (highPos == noSymbol) continue;</span>
+<span class="lineNum">     216 </span><span class="lineCov">        622 :                     if (lowPos == noSymbol) break;</span>
+<span class="lineNum">     217 </span><span class="lineCov">        614 :                     {   U32 const highTotal = huffNode[highPos].count;</span>
+<span class="lineNum">     218 </span><span class="lineCov">        614 :                         U32 const lowTotal = 2 * huffNode[lowPos].count;</span>
+<span class="lineNum">     219 </span><span class="lineCov">        614 :                         if (highTotal &lt;= lowTotal) break;</span>
+<span class="lineNum">     220 </span>            :                 }   }
+<span class="lineNum">     221 </span>            :                 /* only triggered when no more rank 1 symbol left =&gt; find closest one (note : there is necessarily at least one !) */
+<span class="lineNum">     222 </span><span class="lineCov">       1078 :                 while ((nBitsToDecrease&lt;=HUF_TABLELOG_MAX) &amp;&amp; (rankLast[nBitsToDecrease] == noSymbol))  /* HUF_MAX_TABLELOG test just to please gcc 5+; but it should not be necessary */</span>
+<span class="lineNum">     223 </span><span class="lineCov">          6 :                     nBitsToDecrease ++;</span>
+<span class="lineNum">     224 </span><span class="lineCov">        536 :                 totalCost -= 1 &lt;&lt; (nBitsToDecrease-1);</span>
+<span class="lineNum">     225 </span><span class="lineCov">        536 :                 if (rankLast[nBitsToDecrease-1] == noSymbol)</span>
+<span class="lineNum">     226 </span><span class="lineCov">        152 :                     rankLast[nBitsToDecrease-1] = rankLast[nBitsToDecrease];   /* this rank is no longer empty */</span>
+<span class="lineNum">     227 </span><span class="lineCov">        536 :                 huffNode[rankLast[nBitsToDecrease]].nbBits ++;</span>
+<span class="lineNum">     228 </span><span class="lineCov">        536 :                 if (rankLast[nBitsToDecrease] == 0)    /* special case, reached largest symbol */</span>
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :                     rankLast[nBitsToDecrease] = noSymbol;</span>
+<span class="lineNum">     230 </span>            :                 else {
+<span class="lineNum">     231 </span><span class="lineCov">        536 :                     rankLast[nBitsToDecrease]--;</span>
+<span class="lineNum">     232 </span><span class="lineCov">        536 :                     if (huffNode[rankLast[nBitsToDecrease]].nbBits != maxNbBits-nBitsToDecrease)</span>
+<span class="lineNum">     233 </span><span class="lineCov">          8 :                         rankLast[nBitsToDecrease] = noSymbol;   /* this rank is now empty */</span>
+<span class="lineNum">     234 </span>            :             }   }   /* while (totalCost &gt; 0) */
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span><span class="lineCov">        454 :             while (totalCost &lt; 0) {  /* Sometimes, cost correction overshoot */</span>
+<span class="lineNum">     237 </span><span class="lineCov">         14 :                 if (rankLast[1] == noSymbol) {  /* special case : no rank 1 symbol (using maxNbBits-1); let's create one from largest rank 0 (using maxNbBits) */</span>
+<span class="lineNum">     238 </span><span class="lineCov">          2 :                     while (huffNode[n].nbBits == maxNbBits) n--;</span>
+<span class="lineNum">     239 </span><span class="lineCov">          2 :                     huffNode[n+1].nbBits--;</span>
+<span class="lineNum">     240 </span><span class="lineCov">          2 :                     rankLast[1] = n+1;</span>
+<span class="lineNum">     241 </span><span class="lineCov">          2 :                     totalCost++;</span>
+<span class="lineNum">     242 </span><span class="lineCov">          2 :                     continue;</span>
+<span class="lineNum">     243 </span>            :                 }
+<span class="lineNum">     244 </span><span class="lineCov">         12 :                 huffNode[ rankLast[1] + 1 ].nbBits--;</span>
+<span class="lineNum">     245 </span><span class="lineCov">         12 :                 rankLast[1]++;</span>
+<span class="lineNum">     246 </span><span class="lineCov">         12 :                 totalCost ++;</span>
+<span class="lineNum">     247 </span>            :     }   }   }   /* there are several too large elements (at least &gt;= 2) */
+<span class="lineNum">     248 </span>            : 
+<span class="lineNum">     249 </span><span class="lineCov">        220 :     return maxNbBits;</span>
+<span class="lineNum">     250 </span>            : }
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            : typedef struct {
+<span class="lineNum">     254 </span>            :     U32 base;
+<span class="lineNum">     255 </span>            :     U32 current;
+<a name="256"><span class="lineNum">     256 </span>            : } rankPos;</a>
+<span class="lineNum">     257 </span>            : 
+<span class="lineNum">     258 </span><span class="lineCov">       2036 : static void HUF_sort(nodeElt* huffNode, const U32* count, U32 maxSymbolValue)</span>
+<span class="lineNum">     259 </span>            : {
+<span class="lineNum">     260 </span>            :     rankPos rank[32];
+<span class="lineNum">     261 </span>            :     U32 n;
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span><span class="lineCov">       2036 :     memset(rank, 0, sizeof(rank));</span>
+<span class="lineNum">     264 </span><span class="lineCov">     518476 :     for (n=0; n&lt;=maxSymbolValue; n++) {</span>
+<span class="lineNum">     265 </span><span class="lineCov">     516440 :         U32 r = BIT_highbit32(count[n] + 1);</span>
+<span class="lineNum">     266 </span><span class="lineCov">     516440 :         rank[r].base ++;</span>
+<span class="lineNum">     267 </span>            :     }
+<span class="lineNum">     268 </span><span class="lineCov">       2036 :     for (n=30; n&gt;0; n--) rank[n-1].base += rank[n].base;</span>
+<span class="lineNum">     269 </span><span class="lineCov">       2036 :     for (n=0; n&lt;32; n++) rank[n].current = rank[n].base;</span>
+<span class="lineNum">     270 </span><span class="lineCov">     518476 :     for (n=0; n&lt;=maxSymbolValue; n++) {</span>
+<span class="lineNum">     271 </span><span class="lineCov">     516440 :         U32 const c = count[n];</span>
+<span class="lineNum">     272 </span><span class="lineCov">     516440 :         U32 const r = BIT_highbit32(c+1) + 1;</span>
+<span class="lineNum">     273 </span><span class="lineCov">     516440 :         U32 pos = rank[r].current++;</span>
+<span class="lineNum">     274 </span><span class="lineCov">     516440 :         while ((pos &gt; rank[r].base) &amp;&amp; (c &gt; huffNode[pos-1].count)) huffNode[pos]=huffNode[pos-1], pos--;</span>
+<span class="lineNum">     275 </span><span class="lineCov">     516440 :         huffNode[pos].count = c;</span>
+<span class="lineNum">     276 </span><span class="lineCov">     516440 :         huffNode[pos].byte  = (BYTE)n;</span>
+<span class="lineNum">     277 </span>            :     }
+<span class="lineNum">     278 </span><span class="lineCov">       2036 : }</span>
+<span class="lineNum">     279 </span>            : 
+<a name="280"><span class="lineNum">     280 </span>            : </a>
+<span class="lineNum">     281 </span>            : #define STARTNODE (HUF_SYMBOLVALUE_MAX+1)
+<span class="lineNum">     282 </span><span class="lineCov">       2036 : size_t HUF_buildCTable (HUF_CElt* tree, const U32* count, U32 maxSymbolValue, U32 maxNbBits)</span>
+<span class="lineNum">     283 </span>            : {
+<span class="lineNum">     284 </span>            :     nodeElt huffNode0[2*HUF_SYMBOLVALUE_MAX+1 +1];
+<span class="lineNum">     285 </span><span class="lineCov">       2036 :     nodeElt* huffNode = huffNode0 + 1;</span>
+<span class="lineNum">     286 </span>            :     U32 n, nonNullRank;
+<span class="lineNum">     287 </span>            :     int lowS, lowN;
+<span class="lineNum">     288 </span><span class="lineCov">       2036 :     U16 nodeNb = STARTNODE;</span>
+<span class="lineNum">     289 </span>            :     U32 nodeRoot;
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            :     /* safety checks */
+<span class="lineNum">     292 </span><span class="lineCov">       2036 :     if (maxNbBits == 0) maxNbBits = HUF_TABLELOG_DEFAULT;</span>
+<span class="lineNum">     293 </span><span class="lineCov">       2036 :     if (maxSymbolValue &gt; HUF_SYMBOLVALUE_MAX) return ERROR(GENERIC);</span>
+<span class="lineNum">     294 </span><span class="lineCov">       2036 :     memset(huffNode0, 0, sizeof(huffNode0));</span>
+<span class="lineNum">     295 </span>            : 
+<span class="lineNum">     296 </span>            :     /* sort, decreasing order */
+<span class="lineNum">     297 </span><span class="lineCov">       2036 :     HUF_sort(huffNode, count, maxSymbolValue);</span>
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span>            :     /* init for parents */
+<span class="lineNum">     300 </span><span class="lineCov">       2036 :     nonNullRank = maxSymbolValue;</span>
+<span class="lineNum">     301 </span><span class="lineCov">       2036 :     while(huffNode[nonNullRank].count == 0) nonNullRank--;</span>
+<span class="lineNum">     302 </span><span class="lineCov">       2036 :     lowS = nonNullRank; nodeRoot = nodeNb + lowS - 1; lowN = nodeNb;</span>
+<span class="lineNum">     303 </span><span class="lineCov">       2036 :     huffNode[nodeNb].count = huffNode[lowS].count + huffNode[lowS-1].count;</span>
+<span class="lineNum">     304 </span><span class="lineCov">       2036 :     huffNode[lowS].parent = huffNode[lowS-1].parent = nodeNb;</span>
+<span class="lineNum">     305 </span><span class="lineCov">       2036 :     nodeNb++; lowS-=2;</span>
+<span class="lineNum">     306 </span><span class="lineCov">       2036 :     for (n=nodeNb; n&lt;=nodeRoot; n++) huffNode[n].count = (U32)(1U&lt;&lt;30);</span>
+<span class="lineNum">     307 </span><span class="lineCov">       2036 :     huffNode0[0].count = (U32)(1U&lt;&lt;31);</span>
+<span class="lineNum">     308 </span>            : 
+<span class="lineNum">     309 </span>            :     /* create parents */
+<span class="lineNum">     310 </span><span class="lineCov">     509930 :     while (nodeNb &lt;= nodeRoot) {</span>
+<span class="lineNum">     311 </span><span class="lineCov">     505858 :         U32 n1 = (huffNode[lowS].count &lt; huffNode[lowN].count) ? lowS-- : lowN++;</span>
+<span class="lineNum">     312 </span><span class="lineCov">     505858 :         U32 n2 = (huffNode[lowS].count &lt; huffNode[lowN].count) ? lowS-- : lowN++;</span>
+<span class="lineNum">     313 </span><span class="lineCov">     505858 :         huffNode[nodeNb].count = huffNode[n1].count + huffNode[n2].count;</span>
+<span class="lineNum">     314 </span><span class="lineCov">     505858 :         huffNode[n1].parent = huffNode[n2].parent = nodeNb;</span>
+<span class="lineNum">     315 </span><span class="lineCov">     505858 :         nodeNb++;</span>
+<span class="lineNum">     316 </span>            :     }
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            :     /* distribute weights (unlimited tree height) */
+<span class="lineNum">     319 </span><span class="lineCov">       2036 :     huffNode[nodeRoot].nbBits = 0;</span>
+<span class="lineNum">     320 </span><span class="lineCov">     507894 :     for (n=nodeRoot-1; n&gt;=STARTNODE; n--)</span>
+<span class="lineNum">     321 </span><span class="lineCov">     505858 :         huffNode[n].nbBits = huffNode[ huffNode[n].parent ].nbBits + 1;</span>
+<span class="lineNum">     322 </span><span class="lineCov">     511966 :     for (n=0; n&lt;=nonNullRank; n++)</span>
+<span class="lineNum">     323 </span><span class="lineCov">     509930 :         huffNode[n].nbBits = huffNode[ huffNode[n].parent ].nbBits + 1;</span>
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span>            :     /* enforce maxTableLog */
+<span class="lineNum">     326 </span><span class="lineCov">       2036 :     maxNbBits = HUF_setMaxHeight(huffNode, nonNullRank, maxNbBits);</span>
+<span class="lineNum">     327 </span>            : 
+<span class="lineNum">     328 </span>            :     /* fill result into tree (val, nbBits) */
+<span class="lineNum">     329 </span><span class="lineCov">       2036 :     {   U16 nbPerRank[HUF_TABLELOG_MAX+1] = {0};</span>
+<span class="lineNum">     330 </span><span class="lineCov">       2036 :         U16 valPerRank[HUF_TABLELOG_MAX+1] = {0};</span>
+<span class="lineNum">     331 </span><span class="lineCov">       2036 :         if (maxNbBits &gt; HUF_TABLELOG_MAX) return ERROR(GENERIC);   /* check fit into table */</span>
+<span class="lineNum">     332 </span><span class="lineCov">     511966 :         for (n=0; n&lt;=nonNullRank; n++)</span>
+<span class="lineNum">     333 </span><span class="lineCov">     509930 :             nbPerRank[huffNode[n].nbBits]++;</span>
+<span class="lineNum">     334 </span>            :         /* determine stating value per rank */
+<span class="lineNum">     335 </span><span class="lineCov">       2036 :         {   U16 min = 0;</span>
+<span class="lineNum">     336 </span><span class="lineCov">      21764 :             for (n=maxNbBits; n&gt;0; n--) {</span>
+<span class="lineNum">     337 </span><span class="lineCov">      19728 :                 valPerRank[n] = min;      /* get starting value within each rank */</span>
+<span class="lineNum">     338 </span><span class="lineCov">      19728 :                 min += nbPerRank[n];</span>
+<span class="lineNum">     339 </span><span class="lineCov">      19728 :                 min &gt;&gt;= 1;</span>
+<span class="lineNum">     340 </span>            :         }   }
+<span class="lineNum">     341 </span><span class="lineCov">     518476 :         for (n=0; n&lt;=maxSymbolValue; n++)</span>
+<span class="lineNum">     342 </span><span class="lineCov">     516440 :             tree[huffNode[n].byte].nbBits = huffNode[n].nbBits;   /* push nbBits per symbol, symbol order */</span>
+<span class="lineNum">     343 </span><span class="lineCov">     518476 :         for (n=0; n&lt;=maxSymbolValue; n++)</span>
+<span class="lineNum">     344 </span><span class="lineCov">     516440 :             tree[n].val = valPerRank[tree[n].nbBits]++;   /* assign value within rank, symbol order */</span>
+<span class="lineNum">     345 </span>            :     }
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span><span class="lineCov">       2036 :     return maxNbBits;</span>
+<a name="348"><span class="lineNum">     348 </span>            : }</a>
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span><span class="lineCov">  139526756 : static void HUF_encodeSymbol(BIT_CStream_t* bitCPtr, U32 symbol, const HUF_CElt* CTable)</span>
+<span class="lineNum">     351 </span>            : {
+<span class="lineNum">     352 </span><span class="lineCov">  139526756 :     BIT_addBitsFast(bitCPtr, CTable[symbol].val, CTable[symbol].nbBits);</span>
+<a name="353"><span class="lineNum">     353 </span><span class="lineCov">  139526756 : }</span></a>
+<span class="lineNum">     354 </span>            : 
+<span class="lineNum">     355 </span><span class="lineNoCov">          0 : size_t HUF_compressBound(size_t size) { return HUF_COMPRESSBOUND(size); }</span>
+<span class="lineNum">     356 </span>            : 
+<span class="lineNum">     357 </span>            : #define HUF_FLUSHBITS(s)  (fast ? BIT_flushBitsFast(s) : BIT_flushBits(s))
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span>            : #define HUF_FLUSHBITS_1(stream) \
+<span class="lineNum">     360 </span>            :     if (sizeof((stream)-&gt;bitContainer)*8 &lt; HUF_TABLELOG_MAX*2+7) HUF_FLUSHBITS(stream)
+<span class="lineNum">     361 </span>            : 
+<span class="lineNum">     362 </span>            : #define HUF_FLUSHBITS_2(stream) \
+<a name="363"><span class="lineNum">     363 </span>            :     if (sizeof((stream)-&gt;bitContainer)*8 &lt; HUF_TABLELOG_MAX*4+7) HUF_FLUSHBITS(stream)</a>
+<span class="lineNum">     364 </span>            : 
+<span class="lineNum">     365 </span><span class="lineCov">       8132 : size_t HUF_compress1X_usingCTable(void* dst, size_t dstSize, const void* src, size_t srcSize, const HUF_CElt* CTable)</span>
+<span class="lineNum">     366 </span>            : {
+<span class="lineNum">     367 </span><span class="lineCov">       8132 :     const BYTE* ip = (const BYTE*) src;</span>
+<span class="lineNum">     368 </span><span class="lineCov">       8132 :     BYTE* const ostart = (BYTE*)dst;</span>
+<span class="lineNum">     369 </span><span class="lineCov">       8132 :     BYTE* const oend = ostart + dstSize;</span>
+<span class="lineNum">     370 </span><span class="lineCov">       8132 :     BYTE* op = ostart;</span>
+<span class="lineNum">     371 </span>            :     size_t n;
+<span class="lineNum">     372 </span><span class="lineCov">       8132 :     const unsigned fast = (dstSize &gt;= HUF_BLOCKBOUND(srcSize));</span>
+<span class="lineNum">     373 </span>            :     BIT_CStream_t bitC;
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span>            :     /* init */
+<span class="lineNum">     376 </span><span class="lineCov">       8132 :     if (dstSize &lt; 8) return 0;   /* not enough space to compress */</span>
+<span class="lineNum">     377 </span><span class="lineCov">       8132 :     { size_t const errorCode = BIT_initCStream(&amp;bitC, op, oend-op);</span>
+<span class="lineNum">     378 </span><span class="lineCov">       8132 :       if (HUF_isError(errorCode)) return 0; }</span>
+<span class="lineNum">     379 </span>            : 
+<span class="lineNum">     380 </span><span class="lineCov">       8132 :     n = srcSize &amp; ~3;  /* join to mod 4 */</span>
+<span class="lineNum">     381 </span><span class="lineCov">       8132 :     switch (srcSize &amp; 3)</span>
+<span class="lineNum">     382 </span>            :     {
+<span class="lineNum">     383 </span><span class="lineCov">       1542 :         case 3 : HUF_encodeSymbol(&amp;bitC, ip[n+ 2], CTable);</span>
+<span class="lineNum">     384 </span>            :                  HUF_FLUSHBITS_2(&amp;bitC);
+<span class="lineNum">     385 </span><span class="lineCov">       2862 :         case 2 : HUF_encodeSymbol(&amp;bitC, ip[n+ 1], CTable);</span>
+<span class="lineNum">     386 </span>            :                  HUF_FLUSHBITS_1(&amp;bitC);
+<span class="lineNum">     387 </span><span class="lineCov">       4344 :         case 1 : HUF_encodeSymbol(&amp;bitC, ip[n+ 0], CTable);</span>
+<span class="lineNum">     388 </span><span class="lineCov">       4344 :                  HUF_FLUSHBITS(&amp;bitC);</span>
+<span class="lineNum">     389 </span>            :         case 0 :
+<span class="lineNum">     390 </span>            :         default: ;
+<span class="lineNum">     391 </span>            :     }
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span><span class="lineCov">   34887634 :     for (; n&gt;0; n-=4) {  /* note : n&amp;3==0 at this stage */</span>
+<span class="lineNum">     394 </span><span class="lineCov">   34879502 :         HUF_encodeSymbol(&amp;bitC, ip[n- 1], CTable);</span>
+<span class="lineNum">     395 </span>            :         HUF_FLUSHBITS_1(&amp;bitC);
+<span class="lineNum">     396 </span><span class="lineCov">   34879502 :         HUF_encodeSymbol(&amp;bitC, ip[n- 2], CTable);</span>
+<span class="lineNum">     397 </span>            :         HUF_FLUSHBITS_2(&amp;bitC);
+<span class="lineNum">     398 </span><span class="lineCov">   34879502 :         HUF_encodeSymbol(&amp;bitC, ip[n- 3], CTable);</span>
+<span class="lineNum">     399 </span>            :         HUF_FLUSHBITS_1(&amp;bitC);
+<span class="lineNum">     400 </span><span class="lineCov">   34879502 :         HUF_encodeSymbol(&amp;bitC, ip[n- 4], CTable);</span>
+<span class="lineNum">     401 </span><span class="lineCov">   34879502 :         HUF_FLUSHBITS(&amp;bitC);</span>
+<span class="lineNum">     402 </span>            :     }
+<span class="lineNum">     403 </span>            : 
+<span class="lineNum">     404 </span><span class="lineCov">       8132 :     return BIT_closeCStream(&amp;bitC);</span>
+<span class="lineNum">     405 </span>            : }
+<a name="406"><span class="lineNum">     406 </span>            : </a>
+<span class="lineNum">     407 </span>            : 
+<span class="lineNum">     408 </span><span class="lineCov">       2032 : size_t HUF_compress4X_usingCTable(void* dst, size_t dstSize, const void* src, size_t srcSize, const HUF_CElt* CTable)</span>
+<span class="lineNum">     409 </span>            : {
+<span class="lineNum">     410 </span><span class="lineCov">       2032 :     size_t const segmentSize = (srcSize+3)/4;   /* first 3 segments */</span>
+<span class="lineNum">     411 </span><span class="lineCov">       2032 :     const BYTE* ip = (const BYTE*) src;</span>
+<span class="lineNum">     412 </span><span class="lineCov">       2032 :     const BYTE* const iend = ip + srcSize;</span>
+<span class="lineNum">     413 </span><span class="lineCov">       2032 :     BYTE* const ostart = (BYTE*) dst;</span>
+<span class="lineNum">     414 </span><span class="lineCov">       2032 :     BYTE* const oend = ostart + dstSize;</span>
+<span class="lineNum">     415 </span><span class="lineCov">       2032 :     BYTE* op = ostart;</span>
+<span class="lineNum">     416 </span>            : 
+<span class="lineNum">     417 </span><span class="lineCov">       2032 :     if (dstSize &lt; 6 + 1 + 1 + 1 + 8) return 0;   /* minimum space to compress successfully */</span>
+<span class="lineNum">     418 </span><span class="lineCov">       2032 :     if (srcSize &lt; 12) return 0;   /* no saving possible : too small input */</span>
+<span class="lineNum">     419 </span><span class="lineCov">       2032 :     op += 6;   /* jumpTable */</span>
+<span class="lineNum">     420 </span>            : 
+<span class="lineNum">     421 </span><span class="lineCov">       2032 :     {   size_t const cSize = HUF_compress1X_usingCTable(op, oend-op, ip, segmentSize, CTable);</span>
+<span class="lineNum">     422 </span><span class="lineCov">       2032 :         if (HUF_isError(cSize)) return cSize;</span>
+<span class="lineNum">     423 </span><span class="lineCov">       2032 :         if (cSize==0) return 0;</span>
+<span class="lineNum">     424 </span><span class="lineCov">       2032 :         MEM_writeLE16(ostart, (U16)cSize);</span>
+<span class="lineNum">     425 </span><span class="lineCov">       2032 :         op += cSize;</span>
+<span class="lineNum">     426 </span>            :     }
+<span class="lineNum">     427 </span>            : 
+<span class="lineNum">     428 </span><span class="lineCov">       2032 :     ip += segmentSize;</span>
+<span class="lineNum">     429 </span><span class="lineCov">       2032 :     {   size_t const cSize = HUF_compress1X_usingCTable(op, oend-op, ip, segmentSize, CTable);</span>
+<span class="lineNum">     430 </span><span class="lineCov">       2032 :         if (HUF_isError(cSize)) return cSize;</span>
+<span class="lineNum">     431 </span><span class="lineCov">       2032 :         if (cSize==0) return 0;</span>
+<span class="lineNum">     432 </span><span class="lineCov">       2032 :         MEM_writeLE16(ostart+2, (U16)cSize);</span>
+<span class="lineNum">     433 </span><span class="lineCov">       2032 :         op += cSize;</span>
+<span class="lineNum">     434 </span>            :     }
+<span class="lineNum">     435 </span>            : 
+<span class="lineNum">     436 </span><span class="lineCov">       2032 :     ip += segmentSize;</span>
+<span class="lineNum">     437 </span><span class="lineCov">       2032 :     {   size_t const cSize = HUF_compress1X_usingCTable(op, oend-op, ip, segmentSize, CTable);</span>
+<span class="lineNum">     438 </span><span class="lineCov">       2032 :         if (HUF_isError(cSize)) return cSize;</span>
+<span class="lineNum">     439 </span><span class="lineCov">       2032 :         if (cSize==0) return 0;</span>
+<span class="lineNum">     440 </span><span class="lineCov">       2032 :         MEM_writeLE16(ostart+4, (U16)cSize);</span>
+<span class="lineNum">     441 </span><span class="lineCov">       2032 :         op += cSize;</span>
+<span class="lineNum">     442 </span>            :     }
+<span class="lineNum">     443 </span>            : 
+<span class="lineNum">     444 </span><span class="lineCov">       2032 :     ip += segmentSize;</span>
+<span class="lineNum">     445 </span><span class="lineCov">       2032 :     {   size_t const cSize = HUF_compress1X_usingCTable(op, oend-op, ip, iend-ip, CTable);</span>
+<span class="lineNum">     446 </span><span class="lineCov">       2032 :         if (HUF_isError(cSize)) return cSize;</span>
+<span class="lineNum">     447 </span><span class="lineCov">       2032 :         if (cSize==0) return 0;</span>
+<span class="lineNum">     448 </span><span class="lineCov">       2032 :         op += cSize;</span>
+<span class="lineNum">     449 </span>            :     }
+<span class="lineNum">     450 </span>            : 
+<span class="lineNum">     451 </span><span class="lineCov">       2032 :     return op-ostart;</span>
+<span class="lineNum">     452 </span>            : }
+<a name="453"><span class="lineNum">     453 </span>            : </a>
+<span class="lineNum">     454 </span>            : 
+<span class="lineNum">     455 </span><span class="lineCov">       3326 : static size_t HUF_compress_internal (</span>
+<span class="lineNum">     456 </span>            :                 void* dst, size_t dstSize,
+<span class="lineNum">     457 </span>            :                 const void* src, size_t srcSize,
+<span class="lineNum">     458 </span>            :                 unsigned maxSymbolValue, unsigned huffLog,
+<span class="lineNum">     459 </span>            :                 unsigned singleStream)
+<span class="lineNum">     460 </span>            : {
+<span class="lineNum">     461 </span><span class="lineCov">       3326 :     BYTE* const ostart = (BYTE*)dst;</span>
+<span class="lineNum">     462 </span><span class="lineCov">       3326 :     BYTE* const oend = ostart + dstSize;</span>
+<span class="lineNum">     463 </span><span class="lineCov">       3326 :     BYTE* op = ostart;</span>
+<span class="lineNum">     464 </span>            : 
+<span class="lineNum">     465 </span>            :     U32 count[HUF_SYMBOLVALUE_MAX+1];
+<span class="lineNum">     466 </span>            :     HUF_CElt CTable[HUF_SYMBOLVALUE_MAX+1];
+<span class="lineNum">     467 </span>            : 
+<span class="lineNum">     468 </span>            :     /* checks &amp; inits */
+<span class="lineNum">     469 </span><span class="lineCov">       3326 :     if (!srcSize) return 0;  /* Uncompressed (note : 1 means rle, so first byte must be correct) */</span>
+<span class="lineNum">     470 </span><span class="lineCov">       3326 :     if (!dstSize) return 0;  /* cannot fit within dst budget */</span>
+<span class="lineNum">     471 </span><span class="lineCov">       3326 :     if (srcSize &gt; HUF_BLOCKSIZE_MAX) return ERROR(srcSize_wrong);   /* current block size limit */</span>
+<span class="lineNum">     472 </span><span class="lineCov">       3326 :     if (huffLog &gt; HUF_TABLELOG_MAX) return ERROR(tableLog_tooLarge);</span>
+<span class="lineNum">     473 </span><span class="lineCov">       3326 :     if (!maxSymbolValue) maxSymbolValue = HUF_SYMBOLVALUE_MAX;</span>
+<span class="lineNum">     474 </span><span class="lineCov">       3326 :     if (!huffLog) huffLog = HUF_TABLELOG_DEFAULT;</span>
+<span class="lineNum">     475 </span>            : 
+<span class="lineNum">     476 </span>            :     /* Scan input and build symbol stats */
+<span class="lineNum">     477 </span><span class="lineCov">       3326 :     {   size_t const largest = FSE_count (count, &amp;maxSymbolValue, (const BYTE*)src, srcSize);</span>
+<span class="lineNum">     478 </span><span class="lineCov">       3326 :         if (HUF_isError(largest)) return largest;</span>
+<span class="lineNum">     479 </span><span class="lineCov">       3326 :         if (largest == srcSize) { *ostart = ((const BYTE*)src)[0]; return 1; }   /* single symbol, rle */</span>
+<span class="lineNum">     480 </span><span class="lineCov">       3326 :         if (largest &lt;= (srcSize &gt;&gt; 7)+1) return 0;   /* Fast heuristic : not compressible enough */</span>
+<span class="lineNum">     481 </span>            :     }
+<span class="lineNum">     482 </span>            : 
+<span class="lineNum">     483 </span>            :     /* Build Huffman Tree */
+<span class="lineNum">     484 </span><span class="lineCov">       2036 :     huffLog = HUF_optimalTableLog(huffLog, srcSize, maxSymbolValue);</span>
+<span class="lineNum">     485 </span><span class="lineCov">       2036 :     {   size_t const maxBits = HUF_buildCTable (CTable, count, maxSymbolValue, huffLog);</span>
+<span class="lineNum">     486 </span><span class="lineCov">       2036 :         if (HUF_isError(maxBits)) return maxBits;</span>
+<span class="lineNum">     487 </span><span class="lineCov">       2036 :         huffLog = (U32)maxBits;</span>
+<span class="lineNum">     488 </span>            :     }
+<span class="lineNum">     489 </span>            : 
+<span class="lineNum">     490 </span>            :     /* Write table description header */
+<span class="lineNum">     491 </span><span class="lineCov">       2036 :     {   size_t const hSize = HUF_writeCTable (op, dstSize, CTable, maxSymbolValue, huffLog);</span>
+<span class="lineNum">     492 </span><span class="lineCov">       2036 :         if (HUF_isError(hSize)) return hSize;</span>
+<span class="lineNum">     493 </span><span class="lineCov">       2036 :         if (hSize + 12 &gt;= srcSize) return 0;   /* not useful to try compression */</span>
+<span class="lineNum">     494 </span><span class="lineCov">       2036 :         op += hSize;</span>
+<span class="lineNum">     495 </span>            :     }
+<span class="lineNum">     496 </span>            : 
+<span class="lineNum">     497 </span>            :     /* Compress */
+<span class="lineNum">     498 </span><span class="lineCov">       2036 :     {   size_t const cSize = (singleStream) ?</span>
+<span class="lineNum">     499 </span><span class="lineCov">       4068 :                             HUF_compress1X_usingCTable(op, oend - op, src, srcSize, CTable) :   /* single segment */</span>
+<span class="lineNum">     500 </span><span class="lineCov">       2032 :                             HUF_compress4X_usingCTable(op, oend - op, src, srcSize, CTable);</span>
+<span class="lineNum">     501 </span><span class="lineCov">       2036 :         if (HUF_isError(cSize)) return cSize;</span>
+<span class="lineNum">     502 </span><span class="lineCov">       2036 :         if (cSize==0) return 0;   /* uncompressible */</span>
+<span class="lineNum">     503 </span><span class="lineCov">       2036 :         op += cSize;</span>
+<span class="lineNum">     504 </span>            :     }
+<span class="lineNum">     505 </span>            : 
+<span class="lineNum">     506 </span>            :     /* check compressibility */
+<span class="lineNum">     507 </span><span class="lineCov">       2036 :     if ((size_t)(op-ostart) &gt;= srcSize-1)</span>
+<span class="lineNum">     508 </span><span class="lineCov">         16 :         return 0;</span>
+<span class="lineNum">     509 </span>            : 
+<span class="lineNum">     510 </span><span class="lineCov">       2020 :     return op-ostart;</span>
+<span class="lineNum">     511 </span>            : }
+<a name="512"><span class="lineNum">     512 </span>            : </a>
+<span class="lineNum">     513 </span>            : 
+<span class="lineNum">     514 </span><span class="lineCov">          4 : size_t HUF_compress1X (void* dst, size_t dstSize,</span>
+<span class="lineNum">     515 </span>            :                  const void* src, size_t srcSize,
+<span class="lineNum">     516 </span>            :                  unsigned maxSymbolValue, unsigned huffLog)
+<span class="lineNum">     517 </span>            : {
+<span class="lineNum">     518 </span><span class="lineCov">          4 :     return HUF_compress_internal(dst, dstSize, src, srcSize, maxSymbolValue, huffLog, 1);</span>
+<a name="519"><span class="lineNum">     519 </span>            : }</a>
+<span class="lineNum">     520 </span>            : 
+<span class="lineNum">     521 </span><span class="lineCov">       3322 : size_t HUF_compress2 (void* dst, size_t dstSize,</span>
+<span class="lineNum">     522 </span>            :                 const void* src, size_t srcSize,
+<span class="lineNum">     523 </span>            :                 unsigned maxSymbolValue, unsigned huffLog)
+<span class="lineNum">     524 </span>            : {
+<span class="lineNum">     525 </span><span class="lineCov">       3322 :     return HUF_compress_internal(dst, dstSize, src, srcSize, maxSymbolValue, huffLog, 0);</span>
+<span class="lineNum">     526 </span>            : }
+<a name="527"><span class="lineNum">     527 </span>            : </a>
+<span class="lineNum">     528 </span>            : 
+<span class="lineNum">     529 </span><span class="lineNoCov">          0 : size_t HUF_compress (void* dst, size_t maxDstSize, const void* src, size_t srcSize)</span>
+<span class="lineNum">     530 </span>            : {
+<span class="lineNum">     531 </span><span class="lineNoCov">          0 :     return HUF_compress2(dst, maxDstSize, src, (U32)srcSize, 255, HUF_TABLELOG_DEFAULT);</span>
+<span class="lineNum">     532 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

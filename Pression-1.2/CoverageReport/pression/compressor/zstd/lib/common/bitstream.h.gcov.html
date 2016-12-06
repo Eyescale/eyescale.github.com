@@ -1,0 +1,490 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Pression - pression/compressor/zstd/lib/common/bitstream.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">pression/compressor/zstd/lib/common</a> - bitstream.h<span style="font-size: 80%;"> (source / <a href="bitstream.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Pression</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">101</td>
+            <td class="headerCovTableEntry">101</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-12-06 05:44:58</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* ******************************************************************</a>
+<span class="lineNum">       2 </span>            :    bitstream
+<span class="lineNum">       3 </span>            :    Part of FSE library
+<span class="lineNum">       4 </span>            :    header file (to include)
+<span class="lineNum">       5 </span>            :    Copyright (C) 2013-2016, Yann Collet.
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            :    BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            :    Redistribution and use in source and binary forms, with or without
+<span class="lineNum">      10 </span>            :    modification, are permitted provided that the following conditions are
+<span class="lineNum">      11 </span>            :    met:
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            :        * Redistributions of source code must retain the above copyright
+<span class="lineNum">      14 </span>            :    notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      15 </span>            :        * Redistributions in binary form must reproduce the above
+<span class="lineNum">      16 </span>            :    copyright notice, this list of conditions and the following disclaimer
+<span class="lineNum">      17 </span>            :    in the documentation and/or other materials provided with the
+<span class="lineNum">      18 </span>            :    distribution.
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            :    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>            :    &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>            :    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>            :    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>            :    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>            :    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>            :    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>            :    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>            :    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>            :    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>            :    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            :    You can contact the author at :
+<span class="lineNum">      33 </span>            :    - Source repository : https://github.com/Cyan4973/FiniteStateEntropy
+<span class="lineNum">      34 </span>            : ****************************************************************** */
+<span class="lineNum">      35 </span>            : #ifndef BITSTREAM_H_MODULE
+<span class="lineNum">      36 </span>            : #define BITSTREAM_H_MODULE
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : #if defined (__cplusplus)
+<span class="lineNum">      39 </span>            : extern &quot;C&quot; {
+<span class="lineNum">      40 </span>            : #endif
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : /*
+<span class="lineNum">      44 </span>            : *  This API consists of small unitary functions, which must be inlined for best performance.
+<span class="lineNum">      45 </span>            : *  Since link-time-optimization is not available for all compilers,
+<span class="lineNum">      46 </span>            : *  these functions are defined into a .h to be included.
+<span class="lineNum">      47 </span>            : */
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            : /*-****************************************
+<span class="lineNum">      50 </span>            : *  Dependencies
+<span class="lineNum">      51 </span>            : ******************************************/
+<span class="lineNum">      52 </span>            : #include &quot;mem.h&quot;            /* unaligned access routines */
+<span class="lineNum">      53 </span>            : #include &quot;error_private.h&quot;  /* error codes and messages */
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            : /*=========================================
+<span class="lineNum">      57 </span>            : *  Target specific
+<span class="lineNum">      58 </span>            : =========================================*/
+<span class="lineNum">      59 </span>            : #if defined(__BMI__) &amp;&amp; defined(__GNUC__)
+<span class="lineNum">      60 </span>            : #  include &lt;immintrin.h&gt;   /* support for bextr (experimental) */
+<span class="lineNum">      61 </span>            : #endif
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            : /*-******************************************
+<span class="lineNum">      65 </span>            : *  bitStream encoding API (write forward)
+<span class="lineNum">      66 </span>            : ********************************************/
+<span class="lineNum">      67 </span>            : /* bitStream can mix input from multiple sources.
+<span class="lineNum">      68 </span>            : *  A critical property of these streams is that they encode and decode in **reverse** direction.
+<span class="lineNum">      69 </span>            : *  So the first bit sequence you add will be the last to be read, like a LIFO stack.
+<span class="lineNum">      70 </span>            : */
+<span class="lineNum">      71 </span>            : typedef struct
+<span class="lineNum">      72 </span>            : {
+<span class="lineNum">      73 </span>            :     size_t bitContainer;
+<span class="lineNum">      74 </span>            :     int    bitPos;
+<span class="lineNum">      75 </span>            :     char*  startPtr;
+<span class="lineNum">      76 </span>            :     char*  ptr;
+<span class="lineNum">      77 </span>            :     char*  endPtr;
+<span class="lineNum">      78 </span>            : } BIT_CStream_t;
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : MEM_STATIC size_t BIT_initCStream(BIT_CStream_t* bitC, void* dstBuffer, size_t dstCapacity);
+<span class="lineNum">      81 </span>            : MEM_STATIC void   BIT_addBits(BIT_CStream_t* bitC, size_t value, unsigned nbBits);
+<span class="lineNum">      82 </span>            : MEM_STATIC void   BIT_flushBits(BIT_CStream_t* bitC);
+<span class="lineNum">      83 </span>            : MEM_STATIC size_t BIT_closeCStream(BIT_CStream_t* bitC);
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            : /* Start with initCStream, providing the size of buffer to write into.
+<span class="lineNum">      86 </span>            : *  bitStream will never write outside of this buffer.
+<span class="lineNum">      87 </span>            : *  `dstCapacity` must be &gt;= sizeof(bitD-&gt;bitContainer), otherwise @return will be an error code.
+<span class="lineNum">      88 </span>            : *
+<span class="lineNum">      89 </span>            : *  bits are first added to a local register.
+<span class="lineNum">      90 </span>            : *  Local register is size_t, hence 64-bits on 64-bits systems, or 32-bits on 32-bits systems.
+<span class="lineNum">      91 </span>            : *  Writing data into memory is an explicit operation, performed by the flushBits function.
+<span class="lineNum">      92 </span>            : *  Hence keep track how many bits are potentially stored into local register to avoid register overflow.
+<span class="lineNum">      93 </span>            : *  After a flushBits, a maximum of 7 bits might still be stored into local register.
+<span class="lineNum">      94 </span>            : *
+<span class="lineNum">      95 </span>            : *  Avoid storing elements of more than 24 bits if you want compatibility with 32-bits bitstream readers.
+<span class="lineNum">      96 </span>            : *
+<span class="lineNum">      97 </span>            : *  Last operation is to close the bitStream.
+<span class="lineNum">      98 </span>            : *  The function returns the final size of CStream in bytes.
+<span class="lineNum">      99 </span>            : *  If data couldn't fit into `dstBuffer`, it will return a 0 ( == not storable)
+<span class="lineNum">     100 </span>            : */
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            : /*-********************************************
+<span class="lineNum">     104 </span>            : *  bitStream decoding API (read backward)
+<span class="lineNum">     105 </span>            : **********************************************/
+<span class="lineNum">     106 </span>            : typedef struct
+<span class="lineNum">     107 </span>            : {
+<span class="lineNum">     108 </span>            :     size_t   bitContainer;
+<span class="lineNum">     109 </span>            :     unsigned bitsConsumed;
+<span class="lineNum">     110 </span>            :     const char* ptr;
+<span class="lineNum">     111 </span>            :     const char* start;
+<span class="lineNum">     112 </span>            : } BIT_DStream_t;
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            : typedef enum { BIT_DStream_unfinished = 0,
+<span class="lineNum">     115 </span>            :                BIT_DStream_endOfBuffer = 1,
+<span class="lineNum">     116 </span>            :                BIT_DStream_completed = 2,
+<span class="lineNum">     117 </span>            :                BIT_DStream_overflow = 3 } BIT_DStream_status;  /* result of BIT_reloadDStream() */
+<span class="lineNum">     118 </span>            :                /* 1,2,4,8 would be better for bitmap combinations, but slows down performance a bit ... :( */
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            : MEM_STATIC size_t   BIT_initDStream(BIT_DStream_t* bitD, const void* srcBuffer, size_t srcSize);
+<span class="lineNum">     121 </span>            : MEM_STATIC size_t   BIT_readBits(BIT_DStream_t* bitD, unsigned nbBits);
+<span class="lineNum">     122 </span>            : MEM_STATIC BIT_DStream_status BIT_reloadDStream(BIT_DStream_t* bitD);
+<span class="lineNum">     123 </span>            : MEM_STATIC unsigned BIT_endOfDStream(const BIT_DStream_t* bitD);
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            : /* Start by invoking BIT_initDStream().
+<span class="lineNum">     127 </span>            : *  A chunk of the bitStream is then stored into a local register.
+<span class="lineNum">     128 </span>            : *  Local register size is 64-bits on 64-bits systems, 32-bits on 32-bits systems (size_t).
+<span class="lineNum">     129 </span>            : *  You can then retrieve bitFields stored into the local register, **in reverse order**.
+<span class="lineNum">     130 </span>            : *  Local register is explicitly reloaded from memory by the BIT_reloadDStream() method.
+<span class="lineNum">     131 </span>            : *  A reload guarantee a minimum of ((8*sizeof(bitD-&gt;bitContainer))-7) bits when its result is BIT_DStream_unfinished.
+<span class="lineNum">     132 </span>            : *  Otherwise, it can be less than that, so proceed accordingly.
+<span class="lineNum">     133 </span>            : *  Checking if DStream has reached its end can be performed with BIT_endOfDStream().
+<span class="lineNum">     134 </span>            : */
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            : /*-****************************************
+<span class="lineNum">     138 </span>            : *  unsafe API
+<span class="lineNum">     139 </span>            : ******************************************/
+<span class="lineNum">     140 </span>            : MEM_STATIC void BIT_addBitsFast(BIT_CStream_t* bitC, size_t value, unsigned nbBits);
+<span class="lineNum">     141 </span>            : /* faster, but works only if value is &quot;clean&quot;, meaning all high bits above nbBits are 0 */
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            : MEM_STATIC void BIT_flushBitsFast(BIT_CStream_t* bitC);
+<span class="lineNum">     144 </span>            : /* unsafe version; does not check buffer overflow */
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            : MEM_STATIC size_t BIT_readBitsFast(BIT_DStream_t* bitD, unsigned nbBits);
+<span class="lineNum">     147 </span>            : /* faster, but works only if nbBits &gt;= 1 */
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : /*-**************************************************************
+<a name="152"><span class="lineNum">     152 </span>            : *  Internal functions</a>
+<span class="lineNum">     153 </span>            : ****************************************************************/
+<span class="lineNum">     154 </span><span class="lineCov">    2773204 : MEM_STATIC unsigned BIT_highbit32 (register U32 val)</span>
+<span class="lineNum">     155 </span>            : {
+<span class="lineNum">     156 </span>            : #   if defined(_MSC_VER)   /* Visual */
+<span class="lineNum">     157 </span>            :     unsigned long r=0;
+<span class="lineNum">     158 </span>            :     _BitScanReverse ( &amp;r, val );
+<span class="lineNum">     159 </span>            :     return (unsigned) r;
+<span class="lineNum">     160 </span>            : #   elif defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 3)   /* Use GCC Intrinsic */
+<span class="lineNum">     161 </span><span class="lineCov">    2773204 :     return 31 - __builtin_clz (val);</span>
+<span class="lineNum">     162 </span>            : #   else   /* Software version */
+<span class="lineNum">     163 </span>            :     static const unsigned DeBruijnClz[32] = { 0, 9, 1, 10, 13, 21, 2, 29, 11, 14, 16, 18, 22, 25, 3, 30, 8, 12, 20, 28, 15, 17, 24, 7, 19, 27, 23, 6, 26, 5, 4, 31 };
+<span class="lineNum">     164 </span>            :     U32 v = val;
+<span class="lineNum">     165 </span>            :     v |= v &gt;&gt; 1;
+<span class="lineNum">     166 </span>            :     v |= v &gt;&gt; 2;
+<span class="lineNum">     167 </span>            :     v |= v &gt;&gt; 4;
+<span class="lineNum">     168 </span>            :     v |= v &gt;&gt; 8;
+<span class="lineNum">     169 </span>            :     v |= v &gt;&gt; 16;
+<span class="lineNum">     170 </span>            :     return DeBruijnClz[ (U32) (v * 0x07C4ACDDU) &gt;&gt; 27];
+<span class="lineNum">     171 </span>            : #   endif
+<span class="lineNum">     172 </span>            : }
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span>            : /*=====    Local Constants   =====*/
+<span class="lineNum">     175 </span>            : static const unsigned BIT_mask[] = { 0, 1, 3, 7, 0xF, 0x1F, 0x3F, 0x7F, 0xFF, 0x1FF, 0x3FF, 0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF, 0x1FFFF, 0x3FFFF, 0x7FFFF, 0xFFFFF, 0x1FFFFF, 0x3FFFFF, 0x7FFFFF,  0xFFFFFF, 0x1FFFFFF, 0x3FFFFFF };   /* up to 26 bits */
+<span class="lineNum">     176 </span>            : 
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span>            : /*-**************************************************************
+<span class="lineNum">     179 </span>            : *  bitStream encoding
+<span class="lineNum">     180 </span>            : ****************************************************************/
+<span class="lineNum">     181 </span>            : /*! BIT_initCStream() :
+<span class="lineNum">     182 </span>            :  *  `dstCapacity` must be &gt; sizeof(void*)
+<a name="183"><span class="lineNum">     183 </span>            :  *  @return : 0 if success,</a>
+<span class="lineNum">     184 </span>            :               otherwise an error code (can be tested using ERR_isError() ) */
+<span class="lineNum">     185 </span><span class="lineCov">      11576 : MEM_STATIC size_t BIT_initCStream(BIT_CStream_t* bitC, void* startPtr, size_t dstCapacity)</span>
+<span class="lineNum">     186 </span>            : {
+<span class="lineNum">     187 </span><span class="lineCov">      11576 :     bitC-&gt;bitContainer = 0;</span>
+<span class="lineNum">     188 </span><span class="lineCov">      11576 :     bitC-&gt;bitPos = 0;</span>
+<span class="lineNum">     189 </span><span class="lineCov">      11576 :     bitC-&gt;startPtr = (char*)startPtr;</span>
+<span class="lineNum">     190 </span><span class="lineCov">      11576 :     bitC-&gt;ptr = bitC-&gt;startPtr;</span>
+<span class="lineNum">     191 </span><span class="lineCov">      11576 :     bitC-&gt;endPtr = bitC-&gt;startPtr + dstCapacity - sizeof(bitC-&gt;ptr);</span>
+<span class="lineNum">     192 </span><span class="lineCov">      11576 :     if (dstCapacity &lt;= sizeof(bitC-&gt;ptr)) return ERROR(dstSize_tooSmall);</span>
+<span class="lineNum">     193 </span><span class="lineCov">      11576 :     return 0;</span>
+<span class="lineNum">     194 </span>            : }
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            : /*! BIT_addBits() :
+<a name="197"><span class="lineNum">     197 </span>            :     can add up to 26 bits into `bitC`.</a>
+<span class="lineNum">     198 </span>            :     Does not check for register overflow ! */
+<span class="lineNum">     199 </span><span class="lineCov">   67208496 : MEM_STATIC void BIT_addBits(BIT_CStream_t* bitC, size_t value, unsigned nbBits)</span>
+<span class="lineNum">     200 </span>            : {
+<span class="lineNum">     201 </span><span class="lineCov">   67208496 :     bitC-&gt;bitContainer |= (value &amp; BIT_mask[nbBits]) &lt;&lt; bitC-&gt;bitPos;</span>
+<span class="lineNum">     202 </span><span class="lineCov">   67208496 :     bitC-&gt;bitPos += nbBits;</span>
+<span class="lineNum">     203 </span><span class="lineCov">   67208496 : }</span>
+<span class="lineNum">     204 </span>            : 
+<a name="205"><span class="lineNum">     205 </span>            : /*! BIT_addBitsFast() :</a>
+<span class="lineNum">     206 </span>            :  *  works only if `value` is _clean_, meaning all high bits above nbBits are 0 */
+<span class="lineNum">     207 </span><span class="lineCov">  139538332 : MEM_STATIC void BIT_addBitsFast(BIT_CStream_t* bitC, size_t value, unsigned nbBits)</span>
+<span class="lineNum">     208 </span>            : {
+<span class="lineNum">     209 </span><span class="lineCov">  139538332 :     bitC-&gt;bitContainer |= value &lt;&lt; bitC-&gt;bitPos;</span>
+<span class="lineNum">     210 </span><span class="lineCov">  139538332 :     bitC-&gt;bitPos += nbBits;</span>
+<span class="lineNum">     211 </span><span class="lineCov">  139538332 : }</span>
+<span class="lineNum">     212 </span>            : 
+<a name="213"><span class="lineNum">     213 </span>            : /*! BIT_flushBitsFast() :</a>
+<span class="lineNum">     214 </span>            :  *  unsafe version; does not check buffer overflow */
+<span class="lineNum">     215 </span><span class="lineCov">   35012940 : MEM_STATIC void BIT_flushBitsFast(BIT_CStream_t* bitC)</span>
+<span class="lineNum">     216 </span>            : {
+<span class="lineNum">     217 </span><span class="lineCov">   35012940 :     size_t const nbBytes = bitC-&gt;bitPos &gt;&gt; 3;</span>
+<span class="lineNum">     218 </span><span class="lineCov">   35012940 :     MEM_writeLEST(bitC-&gt;ptr, bitC-&gt;bitContainer);</span>
+<span class="lineNum">     219 </span><span class="lineCov">   35012940 :     bitC-&gt;ptr += nbBytes;</span>
+<span class="lineNum">     220 </span><span class="lineCov">   35012940 :     bitC-&gt;bitPos &amp;= 7;</span>
+<span class="lineNum">     221 </span><span class="lineCov">   35012940 :     bitC-&gt;bitContainer &gt;&gt;= nbBytes*8;   /* if bitPos &gt;= sizeof(bitContainer)*8 --&gt; undefined behavior */</span>
+<span class="lineNum">     222 </span><span class="lineCov">   35012940 : }</span>
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span>            : /*! BIT_flushBits() :
+<a name="225"><span class="lineNum">     225 </span>            :  *  safe version; check for buffer overflow, and prevents it.</a>
+<span class="lineNum">     226 </span>            :  *  note : does not signal buffer overflow. This will be revealed later on using BIT_closeCStream() */
+<span class="lineNum">     227 </span><span class="lineCov">   11135682 : MEM_STATIC void BIT_flushBits(BIT_CStream_t* bitC)</span>
+<span class="lineNum">     228 </span>            : {
+<span class="lineNum">     229 </span><span class="lineCov">   11135682 :     size_t const nbBytes = bitC-&gt;bitPos &gt;&gt; 3;</span>
+<span class="lineNum">     230 </span><span class="lineCov">   11135682 :     MEM_writeLEST(bitC-&gt;ptr, bitC-&gt;bitContainer);</span>
+<span class="lineNum">     231 </span><span class="lineCov">   11135682 :     bitC-&gt;ptr += nbBytes;</span>
+<span class="lineNum">     232 </span><span class="lineCov">   11135682 :     if (bitC-&gt;ptr &gt; bitC-&gt;endPtr) bitC-&gt;ptr = bitC-&gt;endPtr;</span>
+<span class="lineNum">     233 </span><span class="lineCov">   11135682 :     bitC-&gt;bitPos &amp;= 7;</span>
+<span class="lineNum">     234 </span><span class="lineCov">   11135682 :     bitC-&gt;bitContainer &gt;&gt;= nbBytes*8;   /* if bitPos &gt;= sizeof(bitContainer)*8 --&gt; undefined behavior */</span>
+<span class="lineNum">     235 </span><span class="lineCov">   11135682 : }</span>
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span>            : /*! BIT_closeCStream() :
+<a name="238"><span class="lineNum">     238 </span>            :  *  @return : size of CStream, in bytes,</a>
+<span class="lineNum">     239 </span>            :               or 0 if it could not fit into dstBuffer */
+<span class="lineNum">     240 </span><span class="lineCov">      11576 : MEM_STATIC size_t BIT_closeCStream(BIT_CStream_t* bitC)</span>
+<span class="lineNum">     241 </span>            : {
+<span class="lineNum">     242 </span><span class="lineCov">      11576 :     BIT_addBitsFast(bitC, 1, 1);   /* endMark */</span>
+<span class="lineNum">     243 </span><span class="lineCov">      11576 :     BIT_flushBits(bitC);</span>
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span><span class="lineCov">      11576 :     if (bitC-&gt;ptr &gt;= bitC-&gt;endPtr) return 0; /* doesn't fit within authorized budget : cancel */</span>
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span><span class="lineCov">      11576 :     return (bitC-&gt;ptr - bitC-&gt;startPtr) + (bitC-&gt;bitPos &gt; 0);</span>
+<span class="lineNum">     248 </span>            : }
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span>            : 
+<span class="lineNum">     251 </span>            : /*-********************************************************
+<span class="lineNum">     252 </span>            : * bitStream decoding
+<span class="lineNum">     253 </span>            : **********************************************************/
+<span class="lineNum">     254 </span>            : /*! BIT_initDStream() :
+<span class="lineNum">     255 </span>            : *   Initialize a BIT_DStream_t.
+<span class="lineNum">     256 </span>            : *   `bitD` : a pointer to an already allocated BIT_DStream_t structure.
+<span class="lineNum">     257 </span>            : *   `srcSize` must be the *exact* size of the bitStream, in bytes.
+<a name="258"><span class="lineNum">     258 </span>            : *   @return : size of stream (== srcSize) or an errorCode if a problem is detected</a>
+<span class="lineNum">     259 </span>            : */
+<span class="lineNum">     260 </span><span class="lineCov">      11416 : MEM_STATIC size_t BIT_initDStream(BIT_DStream_t* bitD, const void* srcBuffer, size_t srcSize)</span>
+<span class="lineNum">     261 </span>            : {
+<span class="lineNum">     262 </span><span class="lineCov">      11416 :     if (srcSize &lt; 1) { memset(bitD, 0, sizeof(*bitD)); return ERROR(srcSize_wrong); }</span>
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span><span class="lineCov">      11416 :     if (srcSize &gt;=  sizeof(bitD-&gt;bitContainer)) {  /* normal case */</span>
+<span class="lineNum">     265 </span><span class="lineCov">      11366 :         bitD-&gt;start = (const char*)srcBuffer;</span>
+<span class="lineNum">     266 </span><span class="lineCov">      11366 :         bitD-&gt;ptr   = (const char*)srcBuffer + srcSize - sizeof(bitD-&gt;bitContainer);</span>
+<span class="lineNum">     267 </span><span class="lineCov">      11366 :         bitD-&gt;bitContainer = MEM_readLEST(bitD-&gt;ptr);</span>
+<span class="lineNum">     268 </span><span class="lineCov">      11366 :         { BYTE const lastByte = ((const BYTE*)srcBuffer)[srcSize-1];</span>
+<span class="lineNum">     269 </span><span class="lineCov">      11366 :           bitD-&gt;bitsConsumed = lastByte ? 8 - BIT_highbit32(lastByte) : 0;</span>
+<span class="lineNum">     270 </span><span class="lineCov">      11366 :           if (lastByte == 0) return ERROR(GENERIC); /* endMark not present */ }</span>
+<span class="lineNum">     271 </span>            :     } else {
+<span class="lineNum">     272 </span><span class="lineCov">         50 :         bitD-&gt;start = (const char*)srcBuffer;</span>
+<span class="lineNum">     273 </span><span class="lineCov">         50 :         bitD-&gt;ptr   = bitD-&gt;start;</span>
+<span class="lineNum">     274 </span><span class="lineCov">         50 :         bitD-&gt;bitContainer = *(const BYTE*)(bitD-&gt;start);</span>
+<span class="lineNum">     275 </span><span class="lineCov">         50 :         switch(srcSize)</span>
+<span class="lineNum">     276 </span>            :         {
+<span class="lineNum">     277 </span><span class="lineCov">          6 :             case 7: bitD-&gt;bitContainer += (size_t)(((const BYTE*)(srcBuffer))[6]) &lt;&lt; (sizeof(bitD-&gt;bitContainer)*8 - 16);</span>
+<span class="lineNum">     278 </span><span class="lineCov">         20 :             case 6: bitD-&gt;bitContainer += (size_t)(((const BYTE*)(srcBuffer))[5]) &lt;&lt; (sizeof(bitD-&gt;bitContainer)*8 - 24);</span>
+<span class="lineNum">     279 </span><span class="lineCov">         32 :             case 5: bitD-&gt;bitContainer += (size_t)(((const BYTE*)(srcBuffer))[4]) &lt;&lt; (sizeof(bitD-&gt;bitContainer)*8 - 32);</span>
+<span class="lineNum">     280 </span><span class="lineCov">         42 :             case 4: bitD-&gt;bitContainer += (size_t)(((const BYTE*)(srcBuffer))[3]) &lt;&lt; 24;</span>
+<span class="lineNum">     281 </span><span class="lineCov">         50 :             case 3: bitD-&gt;bitContainer += (size_t)(((const BYTE*)(srcBuffer))[2]) &lt;&lt; 16;</span>
+<span class="lineNum">     282 </span><span class="lineCov">         50 :             case 2: bitD-&gt;bitContainer += (size_t)(((const BYTE*)(srcBuffer))[1]) &lt;&lt;  8;</span>
+<span class="lineNum">     283 </span>            :             default:;
+<span class="lineNum">     284 </span>            :         }
+<span class="lineNum">     285 </span><span class="lineCov">         50 :         { BYTE const lastByte = ((const BYTE*)srcBuffer)[srcSize-1];</span>
+<span class="lineNum">     286 </span><span class="lineCov">         50 :           bitD-&gt;bitsConsumed = lastByte ? 8 - BIT_highbit32(lastByte) : 0;</span>
+<span class="lineNum">     287 </span><span class="lineCov">         50 :           if (lastByte == 0) return ERROR(GENERIC); /* endMark not present */ }</span>
+<span class="lineNum">     288 </span><span class="lineCov">         50 :         bitD-&gt;bitsConsumed += (U32)(sizeof(bitD-&gt;bitContainer) - srcSize)*8;</span>
+<span class="lineNum">     289 </span>            :     }
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span><span class="lineCov">      11416 :     return srcSize;</span>
+<span class="lineNum">     292 </span>            : }
+<span class="lineNum">     293 </span>            : 
+<span class="lineNum">     294 </span>            : MEM_STATIC size_t BIT_getUpperBits(size_t bitContainer, U32 const start)
+<span class="lineNum">     295 </span>            : {
+<span class="lineNum">     296 </span>            :     return bitContainer &gt;&gt; start;
+<span class="lineNum">     297 </span>            : }
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span>            : MEM_STATIC size_t BIT_getMiddleBits(size_t bitContainer, U32 const start, U32 const nbBits)
+<span class="lineNum">     300 </span>            : {
+<span class="lineNum">     301 </span>            : #if defined(__BMI__) &amp;&amp; defined(__GNUC__)   /* experimental */
+<span class="lineNum">     302 </span>            : #  if defined(__x86_64__)
+<span class="lineNum">     303 </span>            :     if (sizeof(bitContainer)==8)
+<span class="lineNum">     304 </span>            :         return _bextr_u64(bitContainer, start, nbBits);
+<span class="lineNum">     305 </span>            :     else
+<span class="lineNum">     306 </span>            : #  endif
+<span class="lineNum">     307 </span>            :         return _bextr_u32(bitContainer, start, nbBits);
+<span class="lineNum">     308 </span>            : #else
+<span class="lineNum">     309 </span>            :     return (bitContainer &gt;&gt; start) &amp; BIT_mask[nbBits];
+<span class="lineNum">     310 </span>            : #endif
+<span class="lineNum">     311 </span>            : }
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span>            : MEM_STATIC size_t BIT_getLowerBits(size_t bitContainer, U32 const nbBits)
+<span class="lineNum">     314 </span>            : {
+<span class="lineNum">     315 </span>            :     return bitContainer &amp; BIT_mask[nbBits];
+<span class="lineNum">     316 </span>            : }
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            : /*! BIT_lookBits() :
+<span class="lineNum">     319 </span>            :  *  Provides next n bits from local register.
+<span class="lineNum">     320 </span>            :  *  local register is not modified.
+<span class="lineNum">     321 </span>            :  *  On 32-bits, maxNbBits==24.
+<span class="lineNum">     322 </span>            :  *  On 64-bits, maxNbBits==56.
+<a name="323"><span class="lineNum">     323 </span>            :  *  @return : value extracted</a>
+<span class="lineNum">     324 </span>            :  */
+<span class="lineNum">     325 </span><span class="lineCov">   41168788 :  MEM_STATIC size_t BIT_lookBits(const BIT_DStream_t* bitD, U32 nbBits)</span>
+<span class="lineNum">     326 </span>            : {
+<span class="lineNum">     327 </span>            : #if defined(__BMI__) &amp;&amp; defined(__GNUC__)   /* experimental; fails if bitD-&gt;bitsConsumed + nbBits &gt; sizeof(bitD-&gt;bitContainer)*8 */
+<span class="lineNum">     328 </span>            :     return BIT_getMiddleBits(bitD-&gt;bitContainer, (sizeof(bitD-&gt;bitContainer)*8) - bitD-&gt;bitsConsumed - nbBits, nbBits);
+<span class="lineNum">     329 </span>            : #else
+<span class="lineNum">     330 </span><span class="lineCov">   41168788 :     U32 const bitMask = sizeof(bitD-&gt;bitContainer)*8 - 1;</span>
+<span class="lineNum">     331 </span><span class="lineCov">   41168788 :     return ((bitD-&gt;bitContainer &lt;&lt; (bitD-&gt;bitsConsumed &amp; bitMask)) &gt;&gt; 1) &gt;&gt; ((bitMask-nbBits) &amp; bitMask);</span>
+<span class="lineNum">     332 </span>            : #endif
+<span class="lineNum">     333 </span>            : }
+<span class="lineNum">     334 </span>            : 
+<a name="335"><span class="lineNum">     335 </span>            : /*! BIT_lookBitsFast() :</a>
+<span class="lineNum">     336 </span>            : *   unsafe version; only works only if nbBits &gt;= 1 */
+<span class="lineNum">     337 </span><span class="lineCov">  116526234 : MEM_STATIC size_t BIT_lookBitsFast(const BIT_DStream_t* bitD, U32 nbBits)</span>
+<span class="lineNum">     338 </span>            : {
+<span class="lineNum">     339 </span><span class="lineCov">  116526234 :     U32 const bitMask = sizeof(bitD-&gt;bitContainer)*8 - 1;</span>
+<span class="lineNum">     340 </span><span class="lineCov">  116526234 :     return (bitD-&gt;bitContainer &lt;&lt; (bitD-&gt;bitsConsumed &amp; bitMask)) &gt;&gt; (((bitMask+1)-nbBits) &amp; bitMask);</span>
+<a name="341"><span class="lineNum">     341 </span>            : }</a>
+<span class="lineNum">     342 </span>            : 
+<span class="lineNum">     343 </span><span class="lineCov">  157695022 : MEM_STATIC void BIT_skipBits(BIT_DStream_t* bitD, U32 nbBits)</span>
+<span class="lineNum">     344 </span>            : {
+<span class="lineNum">     345 </span><span class="lineCov">  157695022 :     bitD-&gt;bitsConsumed += nbBits;</span>
+<span class="lineNum">     346 </span><span class="lineCov">  157695022 : }</span>
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span>            : /*! BIT_readBits() :
+<span class="lineNum">     349 </span>            :  *  Read (consume) next n bits from local register and update.
+<span class="lineNum">     350 </span>            :  *  Pay attention to not read more than nbBits contained into local register.
+<a name="351"><span class="lineNum">     351 </span>            :  *  @return : extracted value.</a>
+<span class="lineNum">     352 </span>            :  */
+<span class="lineNum">     353 </span><span class="lineCov">   41168788 : MEM_STATIC size_t BIT_readBits(BIT_DStream_t* bitD, U32 nbBits)</span>
+<span class="lineNum">     354 </span>            : {
+<span class="lineNum">     355 </span><span class="lineCov">   41168788 :     size_t const value = BIT_lookBits(bitD, nbBits);</span>
+<span class="lineNum">     356 </span><span class="lineCov">   41168788 :     BIT_skipBits(bitD, nbBits);</span>
+<span class="lineNum">     357 </span><span class="lineCov">   41168788 :     return value;</span>
+<span class="lineNum">     358 </span>            : }
+<span class="lineNum">     359 </span>            : 
+<a name="360"><span class="lineNum">     360 </span>            : /*! BIT_readBitsFast() :</a>
+<span class="lineNum">     361 </span>            : *   unsafe version; only works only if nbBits &gt;= 1 */
+<span class="lineNum">     362 </span><span class="lineCov">     231524 : MEM_STATIC size_t BIT_readBitsFast(BIT_DStream_t* bitD, U32 nbBits)</span>
+<span class="lineNum">     363 </span>            : {
+<span class="lineNum">     364 </span><span class="lineCov">     231524 :     size_t const value = BIT_lookBitsFast(bitD, nbBits);</span>
+<span class="lineNum">     365 </span><span class="lineCov">     231524 :     BIT_skipBits(bitD, nbBits);</span>
+<span class="lineNum">     366 </span><span class="lineCov">     231524 :     return value;</span>
+<span class="lineNum">     367 </span>            : }
+<span class="lineNum">     368 </span>            : 
+<span class="lineNum">     369 </span>            : /*! BIT_reloadDStream() :
+<span class="lineNum">     370 </span>            : *   Refill `BIT_DStream_t` from src buffer previously defined (see BIT_initDStream() ).
+<span class="lineNum">     371 </span>            : *   This function is safe, it guarantees it will not read beyond src buffer.
+<a name="372"><span class="lineNum">     372 </span>            : *   @return : status of `BIT_DStream_t` internal register.</a>
+<span class="lineNum">     373 </span>            :               if status == unfinished, internal register is filled with &gt;= (sizeof(bitD-&gt;bitContainer)*8 - 7) bits */
+<span class="lineNum">     374 </span><span class="lineCov">   40433060 : MEM_STATIC BIT_DStream_status BIT_reloadDStream(BIT_DStream_t* bitD)</span>
+<span class="lineNum">     375 </span>            : {
+<span class="lineNum">     376 </span><span class="lineCov">   40433060 :         if (bitD-&gt;bitsConsumed &gt; (sizeof(bitD-&gt;bitContainer)*8))  /* should not happen =&gt; corruption detected */</span>
+<span class="lineNum">     377 </span><span class="lineCov">       3412 :                 return BIT_DStream_overflow;</span>
+<span class="lineNum">     378 </span>            : 
+<span class="lineNum">     379 </span><span class="lineCov">   40429648 :     if (bitD-&gt;ptr &gt;= bitD-&gt;start + sizeof(bitD-&gt;bitContainer)) {</span>
+<span class="lineNum">     380 </span><span class="lineCov">   40245276 :         bitD-&gt;ptr -= bitD-&gt;bitsConsumed &gt;&gt; 3;</span>
+<span class="lineNum">     381 </span><span class="lineCov">   40245276 :         bitD-&gt;bitsConsumed &amp;= 7;</span>
+<span class="lineNum">     382 </span><span class="lineCov">   40245276 :         bitD-&gt;bitContainer = MEM_readLEST(bitD-&gt;ptr);</span>
+<span class="lineNum">     383 </span><span class="lineCov">   40245276 :         return BIT_DStream_unfinished;</span>
+<span class="lineNum">     384 </span>            :     }
+<span class="lineNum">     385 </span><span class="lineCov">     184372 :     if (bitD-&gt;ptr == bitD-&gt;start) {</span>
+<span class="lineNum">     386 </span><span class="lineCov">     145900 :         if (bitD-&gt;bitsConsumed &lt; sizeof(bitD-&gt;bitContainer)*8) return BIT_DStream_endOfBuffer;</span>
+<span class="lineNum">     387 </span><span class="lineCov">       6394 :         return BIT_DStream_completed;</span>
+<span class="lineNum">     388 </span>            :     }
+<span class="lineNum">     389 </span><span class="lineCov">      38472 :     {   U32 nbBytes = bitD-&gt;bitsConsumed &gt;&gt; 3;</span>
+<span class="lineNum">     390 </span><span class="lineCov">      38472 :         BIT_DStream_status result = BIT_DStream_unfinished;</span>
+<span class="lineNum">     391 </span><span class="lineCov">      38472 :         if (bitD-&gt;ptr - nbBytes &lt; bitD-&gt;start) {</span>
+<span class="lineNum">     392 </span><span class="lineCov">       6430 :             nbBytes = (U32)(bitD-&gt;ptr - bitD-&gt;start);  /* ptr &gt; start */</span>
+<span class="lineNum">     393 </span><span class="lineCov">       6430 :             result = BIT_DStream_endOfBuffer;</span>
+<span class="lineNum">     394 </span>            :         }
+<span class="lineNum">     395 </span><span class="lineCov">      38472 :         bitD-&gt;ptr -= nbBytes;</span>
+<span class="lineNum">     396 </span><span class="lineCov">      38472 :         bitD-&gt;bitsConsumed -= nbBytes*8;</span>
+<span class="lineNum">     397 </span><span class="lineCov">      38472 :         bitD-&gt;bitContainer = MEM_readLEST(bitD-&gt;ptr);   /* reminder : srcSize &gt; sizeof(bitD) */</span>
+<span class="lineNum">     398 </span><span class="lineCov">      38472 :         return result;</span>
+<span class="lineNum">     399 </span>            :     }
+<span class="lineNum">     400 </span>            : }
+<span class="lineNum">     401 </span>            : 
+<span class="lineNum">     402 </span>            : /*! BIT_endOfDStream() :
+<a name="403"><span class="lineNum">     403 </span>            : *   @return Tells if DStream has exactly reached its end (all bits consumed).</a>
+<span class="lineNum">     404 </span>            : */
+<span class="lineNum">     405 </span><span class="lineCov">       8004 : MEM_STATIC unsigned BIT_endOfDStream(const BIT_DStream_t* DStream)</span>
+<span class="lineNum">     406 </span>            : {
+<span class="lineNum">     407 </span><span class="lineCov">       8004 :     return ((DStream-&gt;ptr == DStream-&gt;start) &amp;&amp; (DStream-&gt;bitsConsumed == sizeof(DStream-&gt;bitContainer)*8));</span>
+<span class="lineNum">     408 </span>            : }
+<span class="lineNum">     409 </span>            : 
+<span class="lineNum">     410 </span>            : #if defined (__cplusplus)
+<span class="lineNum">     411 </span>            : }
+<span class="lineNum">     412 </span>            : #endif
+<span class="lineNum">     413 </span>            : 
+<span class="lineNum">     414 </span>            : #endif /* BITSTREAM_H_MODULE */
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

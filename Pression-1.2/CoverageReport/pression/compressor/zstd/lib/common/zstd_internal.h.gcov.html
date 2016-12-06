@@ -1,0 +1,333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Pression - pression/compressor/zstd/lib/common/zstd_internal.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">pression/compressor/zstd/lib/common</a> - zstd_internal.h<span style="font-size: 80%;"> (source / <a href="zstd_internal.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Pression</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-12-06 05:44:58</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /**</a>
+<span class="lineNum">       2 </span>            :  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+<span class="lineNum">       3 </span>            :  * All rights reserved.
+<span class="lineNum">       4 </span>            :  *
+<span class="lineNum">       5 </span>            :  * This source code is licensed under the BSD-style license found in the
+<span class="lineNum">       6 </span>            :  * LICENSE file in the root directory of this source tree. An additional grant
+<span class="lineNum">       7 </span>            :  * of patent rights can be found in the PATENTS file in the same directory.
+<span class="lineNum">       8 </span>            :  */
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef ZSTD_CCOMMON_H_MODULE
+<span class="lineNum">      11 </span>            : #define ZSTD_CCOMMON_H_MODULE
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : /*-*******************************************************
+<span class="lineNum">      14 </span>            : *  Compiler specifics
+<span class="lineNum">      15 </span>            : *********************************************************/
+<span class="lineNum">      16 </span>            : #ifdef _MSC_VER    /* Visual Studio */
+<span class="lineNum">      17 </span>            : #  define FORCE_INLINE static __forceinline
+<span class="lineNum">      18 </span>            : #  include &lt;intrin.h&gt;                    /* For Visual 2005 */
+<span class="lineNum">      19 </span>            : #  pragma warning(disable : 4127)        /* disable: C4127: conditional expression is constant */
+<span class="lineNum">      20 </span>            : #  pragma warning(disable : 4324)        /* disable: C4324: padded structure */
+<span class="lineNum">      21 </span>            : #  pragma warning(disable : 4100)        /* disable: C4100: unreferenced formal parameter */
+<span class="lineNum">      22 </span>            : #else
+<span class="lineNum">      23 </span>            : #  if defined (__cplusplus) || defined (__STDC_VERSION__) &amp;&amp; __STDC_VERSION__ &gt;= 199901L   /* C99 */
+<span class="lineNum">      24 </span>            : #    ifdef __GNUC__
+<span class="lineNum">      25 </span>            : #      define FORCE_INLINE static inline __attribute__((always_inline))
+<span class="lineNum">      26 </span>            : #    else
+<span class="lineNum">      27 </span>            : #      define FORCE_INLINE static inline
+<span class="lineNum">      28 </span>            : #    endif
+<span class="lineNum">      29 </span>            : #  else
+<span class="lineNum">      30 </span>            : #    define FORCE_INLINE static
+<span class="lineNum">      31 </span>            : #  endif /* __STDC_VERSION__ */
+<span class="lineNum">      32 </span>            : #endif
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : /*-*************************************
+<span class="lineNum">      36 </span>            : *  Dependencies
+<span class="lineNum">      37 </span>            : ***************************************/
+<span class="lineNum">      38 </span>            : #include &quot;mem.h&quot;
+<span class="lineNum">      39 </span>            : #include &quot;error_private.h&quot;
+<span class="lineNum">      40 </span>            : #define ZSTD_STATIC_LINKING_ONLY
+<span class="lineNum">      41 </span>            : #include &quot;zstd.h&quot;
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            : /*-*************************************
+<span class="lineNum">      45 </span>            : *  shared macros
+<span class="lineNum">      46 </span>            : ***************************************/
+<span class="lineNum">      47 </span>            : #define MIN(a,b) ((a)&lt;(b) ? (a) : (b))
+<span class="lineNum">      48 </span>            : #define MAX(a,b) ((a)&gt;(b) ? (a) : (b))
+<span class="lineNum">      49 </span>            : #define CHECK_F(f) { size_t const errcod = f; if (ERR_isError(errcod)) return errcod; }  /* check and Forward error code */
+<span class="lineNum">      50 </span>            : #define CHECK_E(f, e) { size_t const errcod = f; if (ERR_isError(errcod)) return ERROR(e); }  /* check and send Error code */
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            : /*-*************************************
+<span class="lineNum">      54 </span>            : *  Common constants
+<span class="lineNum">      55 </span>            : ***************************************/
+<span class="lineNum">      56 </span>            : #define ZSTD_OPT_NUM    (1&lt;&lt;12)
+<span class="lineNum">      57 </span>            : #define ZSTD_DICT_MAGIC  0xEC30A437   /* v0.7+ */
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            : #define ZSTD_REP_NUM      3                 /* number of repcodes */
+<span class="lineNum">      60 </span>            : #define ZSTD_REP_CHECK    (ZSTD_REP_NUM)    /* number of repcodes to check by the optimal parser */
+<span class="lineNum">      61 </span>            : #define ZSTD_REP_MOVE     (ZSTD_REP_NUM-1)
+<span class="lineNum">      62 </span>            : #define ZSTD_REP_MOVE_OPT (ZSTD_REP_NUM)
+<span class="lineNum">      63 </span>            : static const U32 repStartValue[ZSTD_REP_NUM] = { 1, 4, 8 };
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            : #define KB *(1 &lt;&lt;10)
+<span class="lineNum">      66 </span>            : #define MB *(1 &lt;&lt;20)
+<span class="lineNum">      67 </span>            : #define GB *(1U&lt;&lt;30)
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : #define BIT7 128
+<span class="lineNum">      70 </span>            : #define BIT6  64
+<span class="lineNum">      71 </span>            : #define BIT5  32
+<span class="lineNum">      72 </span>            : #define BIT4  16
+<span class="lineNum">      73 </span>            : #define BIT1   2
+<span class="lineNum">      74 </span>            : #define BIT0   1
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            : #define ZSTD_WINDOWLOG_ABSOLUTEMIN 10
+<span class="lineNum">      77 </span>            : static const size_t ZSTD_fcs_fieldSize[4] = { 0, 2, 4, 8 };
+<span class="lineNum">      78 </span>            : static const size_t ZSTD_did_fieldSize[4] = { 0, 1, 2, 4 };
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : #define ZSTD_BLOCKHEADERSIZE 3   /* C standard doesn't allow `static const` variable to be init using another `static const` variable */
+<span class="lineNum">      81 </span>            : static const size_t ZSTD_blockHeaderSize = ZSTD_BLOCKHEADERSIZE;
+<span class="lineNum">      82 </span>            : typedef enum { bt_raw, bt_rle, bt_compressed, bt_reserved } blockType_e;
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : #define MIN_SEQUENCES_SIZE 1 /* nbSeq==0 */
+<span class="lineNum">      85 </span>            : #define MIN_CBLOCK_SIZE (1 /*litCSize*/ + 1 /* RLE or RAW */ + MIN_SEQUENCES_SIZE /* nbSeq==0 */)   /* for a non-null block */
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            : #define HufLog 12
+<span class="lineNum">      88 </span>            : typedef enum { set_basic, set_rle, set_compressed, set_repeat } symbolEncodingType_e;
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : #define LONGNBSEQ 0x7F00
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            : #define MINMATCH 3
+<span class="lineNum">      93 </span>            : #define EQUAL_READ32 4
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span>            : #define Litbits  8
+<span class="lineNum">      96 </span>            : #define MaxLit ((1&lt;&lt;Litbits) - 1)
+<span class="lineNum">      97 </span>            : #define MaxML  52
+<span class="lineNum">      98 </span>            : #define MaxLL  35
+<span class="lineNum">      99 </span>            : #define MaxOff 28
+<span class="lineNum">     100 </span>            : #define MaxSeq MAX(MaxLL, MaxML)   /* Assumption : MaxOff &lt; MaxLL,MaxML */
+<span class="lineNum">     101 </span>            : #define MLFSELog    9
+<span class="lineNum">     102 </span>            : #define LLFSELog    9
+<span class="lineNum">     103 </span>            : #define OffFSELog   8
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            : static const U32 LL_bits[MaxLL+1] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+<span class="lineNum">     106 </span>            :                                       1, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7, 8, 9,10,11,12,
+<span class="lineNum">     107 </span>            :                                      13,14,15,16 };
+<span class="lineNum">     108 </span>            : static const S16 LL_defaultNorm[MaxLL+1] = { 4, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1,
+<span class="lineNum">     109 </span>            :                                              2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 1, 1, 1, 1, 1,
+<span class="lineNum">     110 </span>            :                                             -1,-1,-1,-1 };
+<span class="lineNum">     111 </span>            : #define LL_DEFAULTNORMLOG 6  /* for static allocation */
+<span class="lineNum">     112 </span>            : static const U32 LL_defaultNormLog = LL_DEFAULTNORMLOG;
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            : static const U32 ML_bits[MaxML+1] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+<span class="lineNum">     115 </span>            :                                       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+<span class="lineNum">     116 </span>            :                                       1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 7, 8, 9,10,11,
+<span class="lineNum">     117 </span>            :                                      12,13,14,15,16 };
+<span class="lineNum">     118 </span>            : static const S16 ML_defaultNorm[MaxML+1] = { 1, 4, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1,
+<span class="lineNum">     119 </span>            :                                              1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+<span class="lineNum">     120 </span>            :                                              1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,-1,-1,
+<span class="lineNum">     121 </span>            :                                             -1,-1,-1,-1,-1 };
+<span class="lineNum">     122 </span>            : #define ML_DEFAULTNORMLOG 6  /* for static allocation */
+<span class="lineNum">     123 </span>            : static const U32 ML_defaultNormLog = ML_DEFAULTNORMLOG;
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            : static const S16 OF_defaultNorm[MaxOff+1] = { 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1,
+<span class="lineNum">     126 </span>            :                                               1, 1, 1, 1, 1, 1, 1, 1,-1,-1,-1,-1,-1 };
+<span class="lineNum">     127 </span>            : #define OF_DEFAULTNORMLOG 5  /* for static allocation */
+<span class="lineNum">     128 </span>            : static const U32 OF_defaultNormLog = OF_DEFAULTNORMLOG;
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : /*-*******************************************
+<a name="132"><span class="lineNum">     132 </span>            : *  Shared functions to include for inlining</a>
+<span class="lineNum">     133 </span>            : *********************************************/
+<span class="lineNum">     134 </span><span class="lineCov">   54354406 : static void ZSTD_copy8(void* dst, const void* src) { memcpy(dst, src, 8); }</span>
+<span class="lineNum">     135 </span>            : #define COPY8(d,s) { ZSTD_copy8(d,s); d+=8; s+=8; }
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            : /*! ZSTD_wildcopy() :
+<a name="138"><span class="lineNum">     138 </span>            : *   custom version of memcpy(), can copy up to 7 bytes too many (8 bytes if length==0) */</a>
+<span class="lineNum">     139 </span>            : #define WILDCOPY_OVERLENGTH 8
+<span class="lineNum">     140 </span><span class="lineCov">   22838136 : MEM_STATIC void ZSTD_wildcopy(void* dst, const void* src, size_t length)</span>
+<span class="lineNum">     141 </span>            : {
+<span class="lineNum">     142 </span><span class="lineCov">   22838136 :     const BYTE* ip = (const BYTE*)src;</span>
+<span class="lineNum">     143 </span><span class="lineCov">   22838136 :     BYTE* op = (BYTE*)dst;</span>
+<span class="lineNum">     144 </span><span class="lineCov">   22838136 :     BYTE* const oend = op + length;</span>
+<span class="lineNum">     145 </span>            :     do
+<span class="lineNum">     146 </span><span class="lineCov">   32197558 :         COPY8(op, ip)</span>
+<span class="lineNum">     147 </span><span class="lineCov">   32197558 :     while (op &lt; oend);</span>
+<span class="lineNum">     148 </span><span class="lineCov">   22838136 : }</span>
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            : MEM_STATIC void ZSTD_wildcopy_e(void* dst, const void* src, void* dstEnd)   /* should be faster for decoding, but strangely, not verified on all platform */
+<span class="lineNum">     151 </span>            : {
+<span class="lineNum">     152 </span>            :     const BYTE* ip = (const BYTE*)src;
+<span class="lineNum">     153 </span>            :     BYTE* op = (BYTE*)dst;
+<span class="lineNum">     154 </span>            :     BYTE* const oend = (BYTE*)dstEnd;
+<span class="lineNum">     155 </span>            :     do
+<span class="lineNum">     156 </span>            :         COPY8(op, ip)
+<span class="lineNum">     157 </span>            :     while (op &lt; oend);
+<span class="lineNum">     158 </span>            : }
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            : /*-*******************************************
+<span class="lineNum">     162 </span>            : *  Private interfaces
+<span class="lineNum">     163 </span>            : *********************************************/
+<span class="lineNum">     164 </span>            : typedef struct ZSTD_stats_s ZSTD_stats_t;
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span>            : typedef struct {
+<span class="lineNum">     167 </span>            :     U32 off;
+<span class="lineNum">     168 </span>            :     U32 len;
+<span class="lineNum">     169 </span>            : } ZSTD_match_t;
+<span class="lineNum">     170 </span>            : 
+<span class="lineNum">     171 </span>            : typedef struct {
+<span class="lineNum">     172 </span>            :     U32 price;
+<span class="lineNum">     173 </span>            :     U32 off;
+<span class="lineNum">     174 </span>            :     U32 mlen;
+<span class="lineNum">     175 </span>            :     U32 litlen;
+<span class="lineNum">     176 </span>            :     U32 rep[ZSTD_REP_NUM];
+<span class="lineNum">     177 </span>            : } ZSTD_optimal_t;
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span>            : typedef struct seqDef_s {
+<span class="lineNum">     181 </span>            :     U32 offset;
+<span class="lineNum">     182 </span>            :     U16 litLength;
+<span class="lineNum">     183 </span>            :     U16 matchLength;
+<span class="lineNum">     184 </span>            : } seqDef;
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span>            : typedef struct {
+<span class="lineNum">     188 </span>            :     seqDef* sequencesStart;
+<span class="lineNum">     189 </span>            :     seqDef* sequences;
+<span class="lineNum">     190 </span>            :     BYTE* litStart;
+<span class="lineNum">     191 </span>            :     BYTE* lit;
+<span class="lineNum">     192 </span>            :     BYTE* llCode;
+<span class="lineNum">     193 </span>            :     BYTE* mlCode;
+<span class="lineNum">     194 </span>            :     BYTE* ofCode;
+<span class="lineNum">     195 </span>            :     U32   longLengthID;   /* 0 == no longLength; 1 == Lit.longLength; 2 == Match.longLength; */
+<span class="lineNum">     196 </span>            :     U32   longLengthPos;
+<span class="lineNum">     197 </span>            :     /* opt */
+<span class="lineNum">     198 </span>            :     ZSTD_optimal_t* priceTable;
+<span class="lineNum">     199 </span>            :     ZSTD_match_t* matchTable;
+<span class="lineNum">     200 </span>            :     U32* matchLengthFreq;
+<span class="lineNum">     201 </span>            :     U32* litLengthFreq;
+<span class="lineNum">     202 </span>            :     U32* litFreq;
+<span class="lineNum">     203 </span>            :     U32* offCodeFreq;
+<span class="lineNum">     204 </span>            :     U32  matchLengthSum;
+<span class="lineNum">     205 </span>            :     U32  matchSum;
+<span class="lineNum">     206 </span>            :     U32  litLengthSum;
+<span class="lineNum">     207 </span>            :     U32  litSum;
+<span class="lineNum">     208 </span>            :     U32  offCodeSum;
+<span class="lineNum">     209 </span>            :     U32  log2matchLengthSum;
+<span class="lineNum">     210 </span>            :     U32  log2matchSum;
+<span class="lineNum">     211 </span>            :     U32  log2litLengthSum;
+<span class="lineNum">     212 </span>            :     U32  log2litSum;
+<span class="lineNum">     213 </span>            :     U32  log2offCodeSum;
+<span class="lineNum">     214 </span>            :     U32  factor;
+<span class="lineNum">     215 </span>            :     U32  cachedPrice;
+<span class="lineNum">     216 </span>            :     U32  cachedLitLength;
+<span class="lineNum">     217 </span>            :     const BYTE* cachedLiterals;
+<span class="lineNum">     218 </span>            : } seqStore_t;
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            : const seqStore_t* ZSTD_getSeqStore(const ZSTD_CCtx* ctx);
+<span class="lineNum">     221 </span>            : void ZSTD_seqToCodes(const seqStore_t* seqStorePtr);
+<span class="lineNum">     222 </span>            : int ZSTD_isSkipFrame(ZSTD_DCtx* dctx);
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span>            : /* custom memory allocation functions */
+<span class="lineNum">     225 </span>            : void* ZSTD_defaultAllocFunction(void* opaque, size_t size);
+<span class="lineNum">     226 </span>            : void ZSTD_defaultFreeFunction(void* opaque, void* address);
+<span class="lineNum">     227 </span>            : static const ZSTD_customMem defaultCustomMem = { ZSTD_defaultAllocFunction, ZSTD_defaultFreeFunction, NULL };
+<span class="lineNum">     228 </span>            : void* ZSTD_malloc(size_t size, ZSTD_customMem customMem);
+<span class="lineNum">     229 </span>            : void ZSTD_free(void* ptr, ZSTD_customMem customMem);
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span>            : 
+<a name="232"><span class="lineNum">     232 </span>            : /*======  common function  ======*/</a>
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span><span class="lineCov">   11170878 : MEM_STATIC U32 ZSTD_highbit32(U32 val)</span>
+<span class="lineNum">     235 </span>            : {
+<span class="lineNum">     236 </span>            : #   if defined(_MSC_VER)   /* Visual */
+<span class="lineNum">     237 </span>            :     unsigned long r=0;
+<span class="lineNum">     238 </span>            :     _BitScanReverse(&amp;r, val);
+<span class="lineNum">     239 </span>            :     return (unsigned)r;
+<span class="lineNum">     240 </span>            : #   elif defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 3)   /* GCC Intrinsic */
+<span class="lineNum">     241 </span><span class="lineCov">   11170878 :     return 31 - __builtin_clz(val);</span>
+<span class="lineNum">     242 </span>            : #   else   /* Software version */
+<span class="lineNum">     243 </span>            :     static const int DeBruijnClz[32] = { 0, 9, 1, 10, 13, 21, 2, 29, 11, 14, 16, 18, 22, 25, 3, 30, 8, 12, 20, 28, 15, 17, 24, 7, 19, 27, 23, 6, 26, 5, 4, 31 };
+<span class="lineNum">     244 </span>            :     U32 v = val;
+<span class="lineNum">     245 </span>            :     int r;
+<span class="lineNum">     246 </span>            :     v |= v &gt;&gt; 1;
+<span class="lineNum">     247 </span>            :     v |= v &gt;&gt; 2;
+<span class="lineNum">     248 </span>            :     v |= v &gt;&gt; 4;
+<span class="lineNum">     249 </span>            :     v |= v &gt;&gt; 8;
+<span class="lineNum">     250 </span>            :     v |= v &gt;&gt; 16;
+<span class="lineNum">     251 </span>            :     r = DeBruijnClz[(U32)(v * 0x07C4ACDDU) &gt;&gt; 27];
+<span class="lineNum">     252 </span>            :     return r;
+<span class="lineNum">     253 </span>            : #   endif
+<span class="lineNum">     254 </span>            : }
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span>            : #endif   /* ZSTD_CCOMMON_H_MODULE */
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
