@@ -4,7 +4,7 @@ version: "2.0"
 major: 2
 minor: 0
 description: Parallel Rendering Framework
-updated: 11/11/16
+updated: 10/12/16
 homepage: https://github.com/Eyescale/Equalizer
 repository: https://github.com/Eyescale/Equalizer.git
 issuesurl: https://github.com/Eyescale/Equalizer/issues
@@ -12,7 +12,7 @@ packageurl:
 license: LGPL;BSD
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Daniel Nachbaur
+contributors: Stefan Eilemann
 readmetype: text/x-markdown
 ---
 # Introduction
@@ -73,23 +73,24 @@ fixed and open bugs, and to report new bugs.
 
 # Building from source
 
-Equalizer is a cross-platform library, designed to run on any modern operating
-system, including all Unix variants and the Windows operating system. Equalizer
-requires at least [OpenGL 1.1](http://www.opengl.org), but uses newer OpenGL
-features when available. Equalizer uses CMake to create a platform-specific
-build environment. The following platforms and build environments are tested:
+Equalizer is a cross-platform library, designed to run on any modern
+operating system, including all Unix variants and the Windows operating
+system. Equalizer requires at least [OpenGL 1.1](http://www.opengl.org),
+but uses newer OpenGL features when available. It requires a C++11
+compiler and uses CMake to create a platform-specific build
+environment. The following platforms and build environments are tested:
 
-* Linux: Ubuntu 14.04, RHEL 6.6 (Makefile, Ninja)
+* Linux: Ubuntu 16.04, RHEL 6.8 (Makefile, Ninja)
 * Windows: 7 (Visual Studio 2012)
-* Mac OS X: 10.8 (Makefile, Ninja)
+* Mac OS X: 10.9 (Makefile, Ninja)
 
 ## Linux, Mac OS X
 
     git clone https://github.com/Eyescale/Equalizer.git
     mkdir Equalizer/build
     cd Equalizer/build
-    cmake  -DINSTALL_PACKAGES=1 ..
-    make
+    cmake -GNinja ..
+    ninja
 
 ## Windows
 

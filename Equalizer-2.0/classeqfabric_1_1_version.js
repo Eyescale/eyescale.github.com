@@ -7,5 +7,7 @@ var classeqfabric_1_1_version =
     [ "getPatch", "classeqfabric_1_1_version.html#ac2fb7329699f404eacdd4765dfc035c8", null ],
     [ "getRevision", "classeqfabric_1_1_version.html#a3de5c7d9c45cf9b749cc6ea641923f7b", null ],
     [ "getRevString", "classeqfabric_1_1_version.html#afb4187ef2e40d95f3f9d2ed371264bf6", null ],
-    [ "getString", "classeqfabric_1_1_version.html#a83f27e47b9bf85ba7b878af053df84b0", null ]
+    [ "getSchema", "classeqfabric_1_1_version.html#aa5ab31d26f886bbba80d997e226edc92", null ],
+    [ "getString", "classeqfabric_1_1_version.html#a83f27e47b9bf85ba7b878af053df84b0", null ],
+    [ "toJSON", "classeqfabric_1_1_version.html#a6d4d431cd0ef3d4823ca0578d703d377", null ]
 ];
