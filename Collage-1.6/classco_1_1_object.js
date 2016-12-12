@@ -25,7 +25,7 @@ var classco_1_1_object =
     [ "getInstanceID", "classco_1_1_object.html#a1d4338b755c88d0671cdc9c37366c175", null ],
     [ "getLocalNode", "classco_1_1_object.html#a69f8361420c74729d2cbe503b392eaee", null ],
     [ "getMasterInstanceID", "classco_1_1_object.html#a061341a60ec4fbc35c85d0804f3ecced", null ],
-    [ "getMasterNode", "classco_1_1_object.html#a80c64e9e2e6f6eba3d2be935abfff92d", null ],
+    [ "getMasterNode", "classco_1_1_object.html#afb6fcebd284a1cd47db94cf95b6fbebd", null ],
     [ "getMaxVersions", "classco_1_1_object.html#af66156904486a0e3df1ede99591f11a7", null ],
     [ "getVersion", "classco_1_1_object.html#a00a8f6a69e9599371bb2105ea3f82fe0", null ],
     [ "isAttached", "classco_1_1_object.html#aecac4323c819cf3e9f6c74fcf6377429", null ],

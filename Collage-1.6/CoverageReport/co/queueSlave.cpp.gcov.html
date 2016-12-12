@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">38</td>
             <td class="headerCovTableEntry">43</td>
-            <td class="headerCovTableEntryHi">88.4 %</td>
+            <td class="headerCovTableEntry">48</td>
+            <td class="headerCovTableEntryHi">89.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -100,11 +100,11 @@
 <a name="38"><span class="lineNum">      38 </span>            : {</a>
 <span class="lineNum">      39 </span>            : public:
 <span class="lineNum">      40 </span><span class="lineCov">          1 :     QueueSlave( const uint32_t mark, const uint32_t amount)</span>
-<span class="lineNum">      41 </span>            :         : masterInstanceID( CO_INSTANCE_ALL )
-<span class="lineNum">      42 </span>            :         , prefetchMark( mark == LB_UNDEFINED_UINT32 ?
+<span class="lineNum">      41 </span><span class="lineCov">          1 :         : masterInstanceID( CO_INSTANCE_ALL )</span>
+<span class="lineNum">      42 </span><span class="lineCov">          2 :         , prefetchMark( mark == LB_UNDEFINED_UINT32 ?</span>
 <span class="lineNum">      43 </span><span class="lineCov">          1 :                     Global::getIAttribute( Global::IATTR_TILE_QUEUE_MIN_SIZE ) :</span>
 <span class="lineNum">      44 </span>            :                         mark )
-<span class="lineNum">      45 </span>            :         , prefetchAmount( amount == LB_UNDEFINED_UINT32 ?
+<span class="lineNum">      45 </span><span class="lineCov">          2 :         , prefetchAmount( amount == LB_UNDEFINED_UINT32 ?</span>
 <span class="lineNum">      46 </span><span class="lineCov">          1 :                       Global::getIAttribute( Global::IATTR_TILE_QUEUE_REFILL ) :</span>
 <span class="lineNum">      47 </span><span class="lineCov">          3 :                           amount )</span>
 <span class="lineNum">      48 </span><span class="lineCov">          1 :     {}</span>
@@ -119,7 +119,7 @@
 <a name="57"><span class="lineNum">      57 </span>            : }</a>
 <span class="lineNum">      58 </span>            : 
 <span class="lineNum">      59 </span><span class="lineCov">          1 : QueueSlave::QueueSlave( const uint32_t prefetchMark,</span>
-<span class="lineNum">      60 </span>            :                         const uint32_t prefetchAmount )
+<span class="lineNum">      60 </span><span class="lineCov">          1 :                         const uint32_t prefetchAmount )</span>
 <span class="lineNum">      61 </span><span class="lineCov">          1 :         : _impl( new detail::QueueSlave( prefetchMark, prefetchAmount ))</span>
 <a name="62"><span class="lineNum">      62 </span><span class="lineCov">          1 : {}</span></a>
 <span class="lineNum">      63 </span>            : 
@@ -142,7 +142,7 @@
 <span class="lineNum">      80 </span>            : 
 <span class="lineNum">      81 </span><span class="lineCov">          1 :     LBASSERT( masterNodeID != 0 );</span>
 <span class="lineNum">      82 </span><span class="lineCov">          1 :     LBASSERT( !_impl-&gt;master );</span>
-<span class="lineNum">      83 </span><span class="lineCov">          1 :     LocalNodePtr localNode = getLocalNode();</span>
+<span class="lineNum">      83 </span><span class="lineCov">          2 :     LocalNodePtr localNode = getLocalNode();</span>
 <span class="lineNum">      84 </span><span class="lineCov">          1 :     _impl-&gt;master = localNode-&gt;connect( masterNodeID );</span>
 <a name="85"><span class="lineNum">      85 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">      86 </span>            : 
@@ -156,8 +156,8 @@
 <span class="lineNum">      94 </span><span class="lineCov">          5 :         const size_t queueSize = _impl-&gt;queue.getSize();</span>
 <span class="lineNum">      95 </span><span class="lineCov">          5 :         if( queueSize &lt;= _impl-&gt;prefetchMark )</span>
 <span class="lineNum">      96 </span>            :         {
-<span class="lineNum">      97 </span>            :             send( _impl-&gt;master, CMD_QUEUE_GET_ITEM, _impl-&gt;masterInstanceID )
-<span class="lineNum">      98 </span><span class="lineCov">          5 :                     &lt;&lt; _impl-&gt;prefetchAmount &lt;&lt; getInstanceID() &lt;&lt; request;</span>
+<span class="lineNum">      97 </span><span class="lineCov">         10 :             send( _impl-&gt;master, CMD_QUEUE_GET_ITEM, _impl-&gt;masterInstanceID )</span>
+<span class="lineNum">      98 </span><span class="lineCov">         15 :                     &lt;&lt; _impl-&gt;prefetchAmount &lt;&lt; getInstanceID() &lt;&lt; request;</span>
 <span class="lineNum">      99 </span>            :         }
 <span class="lineNum">     100 </span>            : 
 <span class="lineNum">     101 </span><span class="lineCov">          5 :         ObjectICommand cmd( _impl-&gt;queue.pop( timeout ));</span>

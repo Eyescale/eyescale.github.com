@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">19</td>
-            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntry">20</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -110,23 +110,23 @@
 <span class="lineNum">      48 </span>            :     BufferPool( size_t buffer_size );
 <a name="49"><span class="lineNum">      49 </span>            :     ~BufferPool( );</a>
 <a name="50"><span class="lineNum">      50 </span>            : </a>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">     618703 :     ibv_mr *getMR( ) const { return _mr; }</span></a>
-<span class="lineNum">      52 </span><span class="lineCov">     570446 :     size_t getBufferSize( ) const { return _buffer_size; }</span>
-<span class="lineNum">      53 </span><span class="lineCov">     618673 :     void *getBuffer( )</span>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">     588563 :     ibv_mr *getMR( ) const { return _mr; }</span></a>
+<span class="lineNum">      52 </span><span class="lineCov">     543090 :     size_t getBufferSize( ) const { return _buffer_size; }</span>
+<span class="lineNum">      53 </span><span class="lineCov">     588521 :     void *getBuffer( )</span>
 <span class="lineNum">      54 </span>            :     {
-<span class="lineNum">      55 </span><span class="lineCov">     618673 :         lunchbox::ScopedWrite mutex( _buffer_lock );</span>
+<span class="lineNum">      55 </span><span class="lineCov">    1177063 :         lunchbox::ScopedWrite mutex( _buffer_lock );</span>
 <span class="lineNum">      56 </span>            : 
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     618698 :         return (void *)( (uintptr_t)_buffer + ( _ring.get( ) * _buffer_size ));</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">    1177133 :         return (void *)( (uintptr_t)_buffer + ( _ring.get( ) * _buffer_size ));</span></a>
 <span class="lineNum">      58 </span>            :     }
-<span class="lineNum">      59 </span><span class="lineCov">     616664 :     void freeBuffer( void *buf )</span>
+<span class="lineNum">      59 </span><span class="lineCov">     586515 :     void freeBuffer( void *buf )</span>
 <span class="lineNum">      60 </span>            :     {
-<span class="lineNum">      61 </span><span class="lineCov">     616664 :         lunchbox::ScopedWrite mutex( _buffer_lock );</span>
+<span class="lineNum">      61 </span><span class="lineCov">    1173000 :         lunchbox::ScopedWrite mutex( _buffer_lock );</span>
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">     616665 :         ::memset( buf, 0xff, _buffer_size ); // Paranoid</span>
+<span class="lineNum">      63 </span><span class="lineCov">     586516 :         ::memset( buf, 0xff, _buffer_size ); // Paranoid</span>
 <span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span><span class="lineCov">     616665 :         _ring.put((uint32_t)(( (uintptr_t)buf - (uintptr_t)_buffer ) /</span>
-<span class="lineNum">      66 </span><span class="lineCov">     616665 :             _buffer_size ));</span>
-<span class="lineNum">      67 </span><span class="lineCov">     616665 :     }</span>
+<span class="lineNum">      65 </span><span class="lineCov">    1759517 :         _ring.put((uint32_t)(( (uintptr_t)buf - (uintptr_t)_buffer ) /</span>
+<span class="lineNum">      66 </span><span class="lineCov">    1173032 :             _buffer_size ));</span>
+<span class="lineNum">      67 </span><span class="lineCov">     586492 :     }</span>
 <span class="lineNum">      68 </span>            : 
 <span class="lineNum">      69 </span>            :     void clear( );
 <span class="lineNum">      70 </span>            :     bool resize( ibv_pd *pd, uint32_t num_bufs );
@@ -150,9 +150,9 @@
 <span class="lineNum">      88 </span>            :     RingBuffer( int access = 0 );
 <a name="89"><span class="lineNum">      89 </span>            :     ~RingBuffer( );</a>
 <a name="90"><span class="lineNum">      90 </span>            : </a>
-<a name="91"><span class="lineNum">      91 </span><span class="lineCov">     520203 :     ibv_mr *getMR( ) const { return _mr; }</span></a>
-<span class="lineNum">      92 </span><span class="lineCov">     873607 :     size_t getSize( ) const { return _size; }</span>
-<span class="lineNum">      93 </span><span class="lineCov">    1879650 :     void *getBase( ) const { return _map; }</span>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">     495638 :     ibv_mr *getMR( ) const { return _mr; }</span></a>
+<span class="lineNum">      92 </span><span class="lineCov">     764686 :     size_t getSize( ) const { return _size; }</span>
+<span class="lineNum">      93 </span><span class="lineCov">    1727386 :     void *getBase( ) const { return _map; }</span>
 <span class="lineNum">      94 </span>            : 
 <span class="lineNum">      95 </span>            :     void clear( );
 <span class="lineNum">      96 </span>            :     bool resize( ibv_pd *pd, size_t size );
@@ -422,7 +422,7 @@
 <a name="360"><span class="lineNum">     360 </span>            :     struct stats</a>
 <span class="lineNum">     361 </span>            :     {
 <span class="lineNum">     362 </span><span class="lineCov">          6 :         stats( )</span>
-<span class="lineNum">     363 </span>            :             : reads( 0ULL )
+<span class="lineNum">     363 </span><span class="lineCov">          6 :             : reads( 0ULL )</span>
 <span class="lineNum">     364 </span>            :             , buffer_empty( 0ULL )
 <span class="lineNum">     365 </span>            :             , no_credits_fc( 0ULL )
 <span class="lineNum">     366 </span>            :             , writes( 0ULL )

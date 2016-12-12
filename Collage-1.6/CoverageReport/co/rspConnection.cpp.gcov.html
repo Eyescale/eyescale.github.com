@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntry">900</td>
+            <td class="headerCovTableEntry">906</td>
             <td class="headerCovTableEntryLo">0.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -143,7 +143,7 @@
 <span class="lineNum">      81 </span>            :     , _idAccepted( false )
 <span class="lineNum">      82 </span><span class="lineNoCov">          0 :     , _mtu( Global::getIAttribute( Global::IATTR_UDP_MTU ))</span>
 <span class="lineNum">      83 </span><span class="lineNoCov">          0 :     , _ackFreq( Global::getIAttribute( Global::IATTR_RSP_ACK_FREQUENCY ))</span>
-<span class="lineNum">      84 </span>            :     , _payloadSize( _mtu - sizeof( DatagramData ))
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     , _payloadSize( _mtu - sizeof( DatagramData ))</span>
 <span class="lineNum">      85 </span>            :     , _timeouts( 0 )
 <span class="lineNum">      86 </span><span class="lineNoCov">          0 :     , _event( new EventConnection )</span>
 <span class="lineNum">      87 </span>            :     , _read( 0 )
@@ -156,7 +156,7 @@
 <span class="lineNum">      94 </span>            :     , _thread( 0 )
 <span class="lineNum">      95 </span><span class="lineNoCov">          0 :     , _acked( std::numeric_limits&lt; uint16_t &gt;::max( ))</span>
 <span class="lineNum">      96 </span>            :     , _threadBuffers( Global::getIAttribute( Global::IATTR_RSP_NUM_BUFFERS))
-<span class="lineNum">      97 </span>            :     , _recvBuffer( _mtu )
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :     , _recvBuffer( _mtu )</span>
 <span class="lineNum">      98 </span>            :     , _readBuffer( 0 )
 <span class="lineNum">      99 </span>            :     , _readBufferPos( 0 )
 <span class="lineNum">     100 </span>            :     , _sequence( 0 )
@@ -226,7 +226,7 @@
 <span class="lineNum">     164 </span><span class="lineNoCov">          0 :             lunchbox::ScopedWrite mutexChild( child-&gt;_mutexEvent );</span>
 <span class="lineNum">     165 </span><span class="lineNoCov">          0 :             child-&gt;_appBuffers.push( 0 );</span>
 <span class="lineNum">     166 </span><span class="lineNoCov">          0 :             child-&gt;_event-&gt;set();</span>
-<span class="lineNum">     167 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     167 </span>            :         }
 <span class="lineNum">     168 </span>            : 
 <span class="lineNum">     169 </span><span class="lineNoCov">          0 :         _children.clear();</span>
 <span class="lineNum">     170 </span><span class="lineNoCov">          0 :         _newChildren.clear();</span>
@@ -291,8 +291,8 @@
 <span class="lineNum">     229 </span><span class="lineNoCov">          0 :                                               description-&gt;port );</span>
 <span class="lineNum">     230 </span><span class="lineNoCov">          0 :         const std::string&amp; port = std::to_string( unsigned( description-&gt;port));</span>
 <span class="lineNum">     231 </span><span class="lineNoCov">          0 :         ip::udp::resolver resolver( _ioService );</span>
-<span class="lineNum">     232 </span>            :         const ip::udp::resolver::query queryHN( ip::udp::v4(),
-<span class="lineNum">     233 </span><span class="lineNoCov">          0 :                                                 description-&gt;getHostname(),</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :         const ip::udp::resolver::query queryHN( ip::udp::v4(),</span>
+<span class="lineNum">     233 </span>            :                                                 description-&gt;getHostname(),
 <span class="lineNum">     234 </span><span class="lineNoCov">          0 :                                                 port );</span>
 <span class="lineNum">     235 </span><span class="lineNoCov">          0 :         const ip::udp::resolver::iterator hostname = resolver.resolve( queryHN);</span>
 <span class="lineNum">     236 </span>            : 
@@ -309,16 +309,16 @@
 <span class="lineNum">     247 </span>            : 
 <span class="lineNum">     248 </span><span class="lineNoCov">          0 :         _read-&gt;set_option( ip::udp::socket::reuse_address( true ));</span>
 <span class="lineNum">     249 </span><span class="lineNoCov">          0 :         _write-&gt;set_option( ip::udp::socket::reuse_address( true ));</span>
-<span class="lineNum">     250 </span>            :         _read-&gt;set_option( ip::udp::socket::receive_buffer_size(
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :         _read-&gt;set_option( ip::udp::socket::receive_buffer_size(</span>
 <span class="lineNum">     251 </span><span class="lineNoCov">          0 :                        Global::getIAttribute( Global::IATTR_UDP_BUFFER_SIZE )));</span>
-<span class="lineNum">     252 </span>            :         _write-&gt;set_option( ip::udp::socket::send_buffer_size(
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :         _write-&gt;set_option( ip::udp::socket::send_buffer_size(</span>
 <span class="lineNum">     253 </span><span class="lineNoCov">          0 :                        Global::getIAttribute( Global::IATTR_UDP_BUFFER_SIZE )));</span>
 <span class="lineNum">     254 </span>            : 
 <span class="lineNum">     255 </span><span class="lineNoCov">          0 :         _read-&gt;bind( readEndpoint );</span>
 <span class="lineNum">     256 </span><span class="lineNoCov">          0 :         description-&gt;port = _read-&gt;local_endpoint().port();</span>
 <span class="lineNum">     257 </span>            : 
-<span class="lineNum">     258 </span>            :         const ip::udp::resolver::query queryIF( ip::udp::v4(),
-<span class="lineNum">     259 </span><span class="lineNoCov">          0 :                                                 description-&gt;getInterface(),</span>
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :         const ip::udp::resolver::query queryIF( ip::udp::v4(),</span>
+<span class="lineNum">     259 </span>            :                                                 description-&gt;getInterface(),
 <span class="lineNum">     260 </span><span class="lineNoCov">          0 :                                                 &quot;0&quot; );</span>
 <span class="lineNum">     261 </span>            :         const ip::udp::resolver::iterator interfaceIP =
 <span class="lineNum">     262 </span><span class="lineNoCov">          0 :             resolver.resolve( queryIF );</span>
@@ -329,14 +329,14 @@
 <span class="lineNum">     267 </span><span class="lineNoCov">          0 :         const ip::address ifAddr( ip::udp::endpoint( *interfaceIP ).address( ));</span>
 <span class="lineNum">     268 </span><span class="lineNoCov">          0 :         LBDEBUG &lt;&lt; &quot;Joining &quot; &lt;&lt; mcAddr &lt;&lt; &quot; on &quot; &lt;&lt; ifAddr &lt;&lt; std::endl;</span>
 <span class="lineNum">     269 </span>            : 
-<span class="lineNum">     270 </span>            :         _read-&gt;set_option( ip::multicast::join_group( mcAddr.to_v4(),
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :         _read-&gt;set_option( ip::multicast::join_group( mcAddr.to_v4(),</span>
 <span class="lineNum">     271 </span><span class="lineNoCov">          0 :                                                       ifAddr.to_v4( )));</span>
 <span class="lineNum">     272 </span><span class="lineNoCov">          0 :         _write-&gt;set_option( ip::multicast::outbound_interface( ifAddr.to_v4()));</span>
 <span class="lineNum">     273 </span>            : #ifdef SO_BINDTODEVICE // https://github.com/Eyescale/Collage/issues/16
 <span class="lineNum">     274 </span><span class="lineNoCov">          0 :         const std::string&amp; ifIP = ifAddr.to_string();</span>
-<span class="lineNum">     275 </span>            :         ::setsockopt( _write-&gt;native(), SOL_SOCKET, SO_BINDTODEVICE,
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :         ::setsockopt( _write-&gt;native(), SOL_SOCKET, SO_BINDTODEVICE,</span>
 <span class="lineNum">     276 </span><span class="lineNoCov">          0 :                       ifIP.c_str(), ifIP.size() + 1 );</span>
-<span class="lineNum">     277 </span>            :         ::setsockopt( _read-&gt;native(), SOL_SOCKET, SO_BINDTODEVICE,
+<span class="lineNum">     277 </span><span class="lineNoCov">          0 :         ::setsockopt( _read-&gt;native(), SOL_SOCKET, SO_BINDTODEVICE,</span>
 <span class="lineNum">     278 </span><span class="lineNoCov">          0 :                       ifIP.c_str(), ifIP.size() + 1 );</span>
 <span class="lineNum">     279 </span>            : #endif
 <span class="lineNum">     280 </span>            : 
@@ -422,7 +422,7 @@
 <span class="lineNum">     360 </span><span class="lineNoCov">          0 :             if( !_readBuffer )</span>
 <span class="lineNum">     361 </span>            :             {
 <span class="lineNum">     362 </span><span class="lineNoCov">          0 :                 close();</span>
-<span class="lineNum">     363 </span>            :                 return (bytes == bytesLeft) ?
+<span class="lineNum">     363 </span><span class="lineNoCov">          0 :                 return (bytes == bytesLeft) ?</span>
 <span class="lineNum">     364 </span><span class="lineNoCov">          0 :                     -1 : static_cast&lt; int64_t &gt;( bytes - bytesLeft );</span>
 <span class="lineNum">     365 </span>            :             }
 <span class="lineNum">     366 </span>            :         }
@@ -565,7 +565,7 @@
 <span class="lineNum">     503 </span><span class="lineNoCov">          0 :                 all = false;</span>
 <span class="lineNum">     504 </span><span class="lineNoCov">          0 :                 break;</span>
 <span class="lineNum">     505 </span>            :             }
-<span class="lineNum">     506 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     506 </span>            :         }
 <span class="lineNum">     507 </span>            : 
 <span class="lineNum">     508 </span>            :         // if all connections failed we probably got disconnected -&gt; close and
 <span class="lineNum">     509 </span>            :         // exit else close all failed child connections
@@ -580,7 +580,7 @@
 <span class="lineNum">     518 </span><span class="lineNoCov">          0 :                 RSPConnectionPtr child = *i;</span>
 <span class="lineNum">     519 </span><span class="lineNoCov">          0 :                 child-&gt;_setState( STATE_CLOSING );</span>
 <span class="lineNum">     520 </span><span class="lineNoCov">          0 :                 child-&gt;_appBuffers.push( 0 ); // unlock read func</span>
-<span class="lineNum">     521 </span><span class="lineNoCov">          0 :             }</span>
+<span class="lineNum">     521 </span>            :             }
 <span class="lineNum">     522 </span>            : 
 <span class="lineNum">     523 </span><span class="lineNoCov">          0 :             _clearWriteQueues();</span>
 <span class="lineNum">     524 </span><span class="lineNoCov">          0 :             _ioService.stop();</span>
@@ -602,7 +602,7 @@
 <span class="lineNum">     540 </span><span class="lineNoCov">          0 :                 child-&gt;_acked = _sequence - wb;</span>
 <span class="lineNum">     541 </span><span class="lineNoCov">          0 :                 ++i;</span>
 <span class="lineNum">     542 </span>            :             }
-<span class="lineNum">     543 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     543 </span>            :         }
 <span class="lineNum">     544 </span>            : 
 <span class="lineNum">     545 </span><span class="lineNoCov">          0 :         _timeouts = 0;</span>
 <span class="lineNum">     546 </span>            :     }
@@ -656,14 +656,14 @@
 <span class="lineNum">     594 </span>            : {
 <span class="lineNum">     595 </span><span class="lineNoCov">          0 :     LBASSERT( timeOut &gt;= 0 );</span>
 <span class="lineNum">     596 </span><span class="lineNoCov">          0 :     _timeout.expires_from_now( boost::posix_time::milliseconds( timeOut ));</span>
-<span class="lineNum">     597 </span>            :     _timeout.async_wait( boost::bind( &amp;RSPConnection::_handleTimeout, this,
+<span class="lineNum">     597 </span><span class="lineNoCov">          0 :     _timeout.async_wait( boost::bind( &amp;RSPConnection::_handleTimeout, this,</span>
 <span class="lineNum">     598 </span><span class="lineNoCov">          0 :                                       boost::asio::placeholders::error ));</span>
 <a name="599"><span class="lineNum">     599 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     600 </span>            : 
 <span class="lineNum">     601 </span><span class="lineNoCov">          0 : void RSPConnection::_postWakeup()</span>
 <span class="lineNum">     602 </span>            : {
 <span class="lineNum">     603 </span><span class="lineNoCov">          0 :     _wakeup.expires_from_now( boost::posix_time::milliseconds( 0 ));</span>
-<span class="lineNum">     604 </span>            :     _wakeup.async_wait( boost::bind( &amp;RSPConnection::_handleTimeout, this,
+<span class="lineNum">     604 </span><span class="lineNoCov">          0 :     _wakeup.async_wait( boost::bind( &amp;RSPConnection::_handleTimeout, this,</span>
 <span class="lineNum">     605 </span><span class="lineNoCov">          0 :                                      boost::asio::placeholders::error ));</span>
 <a name="606"><span class="lineNum">     606 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     607 </span>            : 
@@ -817,12 +817,12 @@
 <span class="lineNum">     755 </span><span class="lineNoCov">          0 :     ConstConnectionDescriptionPtr description = getDescription();</span>
 <span class="lineNum">     756 </span><span class="lineNoCov">          0 :     if( _sendRate &lt; description-&gt;bandwidth )</span>
 <span class="lineNum">     757 </span>            :     {
-<span class="lineNum">     758 </span>            :         _sendRate += int64_t(
+<span class="lineNum">     758 </span><span class="lineNoCov">          0 :         _sendRate += int64_t(</span>
 <span class="lineNum">     759 </span><span class="lineNoCov">          0 :             float( Global::getIAttribute( Global::IATTR_RSP_ERROR_UPSCALE )) *</span>
 <span class="lineNum">     760 </span><span class="lineNoCov">          0 :             float( description-&gt;bandwidth ) * .001f );</span>
 <span class="lineNum">     761 </span><span class="lineNoCov">          0 :         LBLOG( LOG_RSP ) &lt;&lt; &quot;speeding up to &quot; &lt;&lt; _sendRate &lt;&lt; &quot; KB/s&quot;</span>
 <span class="lineNum">     762 </span><span class="lineNoCov">          0 :                          &lt;&lt; std::endl;</span>
-<span class="lineNum">     763 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     763 </span>            :     }
 <a name="764"><span class="lineNum">     764 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     765 </span>            : 
 <span class="lineNum">     766 </span><span class="lineNoCov">          0 : void RSPConnection::_repeatData()</span>
@@ -1108,9 +1108,9 @@
 <span class="lineNum">    1046 </span>            : 
 <span class="lineNum">    1047 </span><span class="lineNoCov">          0 : void RSPConnection::_asyncReceiveFrom()</span>
 <span class="lineNum">    1048 </span>            : {
-<span class="lineNum">    1049 </span>            :     _read-&gt;async_receive_from(
+<span class="lineNum">    1049 </span><span class="lineNoCov">          0 :     _read-&gt;async_receive_from(</span>
 <span class="lineNum">    1050 </span><span class="lineNoCov">          0 :         boost::asio::buffer( _recvBuffer.getData(), _mtu ), _readAddr,</span>
-<span class="lineNum">    1051 </span>            :         boost::bind( &amp;RSPConnection::_handlePacket, this,
+<span class="lineNum">    1051 </span><span class="lineNoCov">          0 :         boost::bind( &amp;RSPConnection::_handlePacket, this,</span>
 <span class="lineNum">    1052 </span>            :                      boost::asio::placeholders::error,
 <span class="lineNum">    1053 </span><span class="lineNoCov">          0 :                      boost::asio::placeholders::bytes_transferred ));</span>
 <a name="1054"><span class="lineNum">    1054 </span><span class="lineNoCov">          0 : }</span></a>
@@ -1334,7 +1334,7 @@
 <span class="lineNum">    1272 </span><span class="lineNoCov">          0 :         const uint16_t distance = child-&gt;_acked - acked;</span>
 <span class="lineNum">    1273 </span><span class="lineNoCov">          0 :         if( distance &gt; _numBuffers )</span>
 <span class="lineNum">    1274 </span><span class="lineNoCov">          0 :             acked = child-&gt;_acked;</span>
-<span class="lineNum">    1275 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">    1275 </span>            :     }
 <span class="lineNum">    1276 </span>            : 
 <span class="lineNum">    1277 </span><span class="lineNoCov">          0 :     RSPConnectionPtr selfChild = _findConnection( _id );</span>
 <span class="lineNum">    1278 </span><span class="lineNoCov">          0 :     const uint16_t distance = acked - selfChild-&gt;_acked;</span>
@@ -1428,7 +1428,7 @@
 <span class="lineNum">    1366 </span>            :     {
 <span class="lineNum">    1367 </span><span class="lineNoCov">          0 :         const float delta = float( lost ) * .001f *</span>
 <span class="lineNum">    1368 </span><span class="lineNoCov">          0 :                      Global::getIAttribute( Global::IATTR_RSP_ERROR_DOWNSCALE );</span>
-<span class="lineNum">    1369 </span><span class="lineNoCov">          0 :         const float maxDelta = .01f *</span>
+<span class="lineNum">    1369 </span>            :         const float maxDelta = .01f *
 <span class="lineNum">    1370 </span><span class="lineNoCov">          0 :             float( Global::getIAttribute( Global::IATTR_RSP_ERROR_MAXSCALE ));</span>
 <span class="lineNum">    1371 </span><span class="lineNoCov">          0 :         const float downScale = LB_MIN( delta, maxDelta );</span>
 <span class="lineNum">    1372 </span><span class="lineNoCov">          0 :         _sendRate -= 1 + int64_t( _sendRate * downScale );</span>
@@ -1623,7 +1623,7 @@
 <span class="lineNum">    1561 </span><span class="lineNoCov">          0 :             child-&gt;_event-&gt;set();</span>
 <span class="lineNum">    1562 </span><span class="lineNoCov">          0 :             break;</span>
 <span class="lineNum">    1563 </span>            :         }
-<span class="lineNum">    1564 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">    1564 </span>            :     }
 <span class="lineNum">    1565 </span>            : 
 <span class="lineNum">    1566 </span><span class="lineNoCov">          0 :     _sendCountNode();</span>
 <a name="1567"><span class="lineNum">    1567 </span>            : }</a>
@@ -1702,7 +1702,7 @@
 <span class="lineNum">    1640 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">    1641 </span>            : 
 <span class="lineNum">    1642 </span><span class="lineNoCov">          0 :     LBLOG( LOG_RSP ) &lt;&lt; _children.size() &lt;&lt; &quot; nodes&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1643 </span>            :     DatagramNode count = { COUNTNODE, CO_RSP_PROTOCOL_VERSION, _id,
+<span class="lineNum">    1643 </span><span class="lineNoCov">          0 :     DatagramNode count = { COUNTNODE, CO_RSP_PROTOCOL_VERSION, _id,</span>
 <span class="lineNum">    1644 </span><span class="lineNoCov">          0 :                            uint16_t( _children.size( )) };</span>
 <span class="lineNum">    1645 </span><span class="lineNoCov">          0 :     count.byteswap();</span>
 <span class="lineNum">    1646 </span><span class="lineNoCov">          0 :     _write-&gt;send( boost::asio::buffer( &amp;count, sizeof( count )) );</span>

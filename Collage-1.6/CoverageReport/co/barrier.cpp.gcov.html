@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">131</td>
-            <td class="headerCovTableEntry">160</td>
-            <td class="headerCovTableEntryHi">81.9 %</td>
+            <td class="headerCovTableEntry">136</td>
+            <td class="headerCovTableEntry">165</td>
+            <td class="headerCovTableEntryHi">82.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">23</td>
@@ -124,7 +124,7 @@
 <a name="62"><span class="lineNum">      62 </span>            : public:</a>
 <span class="lineNum">      63 </span><span class="lineCov">         26 :     Barrier() : height( 0 ) {}</span>
 <span class="lineNum">      64 </span><span class="lineCov">          5 :     Barrier( const uint128_t&amp; masterID_, const uint32_t height_ )</span>
-<span class="lineNum">      65 </span>            :         : masterID( masterID_ )
+<span class="lineNum">      65 </span><span class="lineCov">          5 :         : masterID( masterID_ )</span>
 <span class="lineNum">      66 </span><span class="lineCov">          5 :         , height( height_ )</span>
 <span class="lineNum">      67 </span><span class="lineCov">          5 :     {}</span>
 <span class="lineNum">      68 </span>            : 
@@ -148,7 +148,7 @@
 <a name="86"><span class="lineNum">      86 </span>            : typedef CommandFunc&lt;Barrier&gt; CmdFunc;</a>
 <span class="lineNum">      87 </span>            : 
 <span class="lineNum">      88 </span><span class="lineCov">          5 : Barrier::Barrier( LocalNodePtr localNode, const uint128_t&amp; masterNodeID,</span>
-<span class="lineNum">      89 </span>            :                   const uint32_t height )
+<span class="lineNum">      89 </span><span class="lineCov">          5 :                   const uint32_t height )</span>
 <span class="lineNum">      90 </span><span class="lineCov">          5 :     : _impl( new detail::Barrier( masterNodeID.isUUID() ?</span>
 <span class="lineNum">      91 </span><span class="lineNoCov">          0 :                                   masterNodeID : localNode-&gt;getNodeID(),</span>
 <span class="lineNum">      92 </span><span class="lineCov">         10 :                                   height ))</span>
@@ -164,7 +164,7 @@
 <span class="lineNum">     102 </span>            : 
 <span class="lineNum">     103 </span><span class="lineCov">         90 : Barrier::~Barrier()</span>
 <span class="lineNum">     104 </span>            : {
-<span class="lineNum">     105 </span><span class="lineCov">         31 :     LocalNodePtr localNode = getLocalNode();</span>
+<span class="lineNum">     105 </span><span class="lineCov">         62 :     LocalNodePtr localNode = getLocalNode();</span>
 <span class="lineNum">     106 </span><span class="lineCov">         31 :     if( localNode )</span>
 <span class="lineNum">     107 </span><span class="lineCov">          1 :         localNode-&gt;releaseObject( this );</span>
 <span class="lineNum">     108 </span>            : 
@@ -215,13 +215,13 @@
 <span class="lineNum">     153 </span>            : {
 <span class="lineNum">     154 </span><span class="lineCov">         31 :     Object::attach( id, instanceID );</span>
 <span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span><span class="lineCov">         31 :     LocalNodePtr node = getLocalNode();</span>
+<span class="lineNum">     156 </span><span class="lineCov">         62 :     LocalNodePtr node = getLocalNode();</span>
 <span class="lineNum">     157 </span><span class="lineCov">         31 :     CommandQueue* queue = node-&gt;getCommandThreadQueue();</span>
 <span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span>            :     registerCommand( CMD_BARRIER_ENTER,
-<span class="lineNum">     160 </span><span class="lineCov">         31 :                      CmdFunc( this, &amp;Barrier::_cmdEnter ), queue );</span>
-<span class="lineNum">     161 </span>            :     registerCommand( CMD_BARRIER_ENTER_REPLY,
-<span class="lineNum">     162 </span><span class="lineCov">         31 :                      CmdFunc( this, &amp;Barrier::_cmdEnterReply ), queue );</span>
+<span class="lineNum">     159 </span><span class="lineCov">         31 :     registerCommand( CMD_BARRIER_ENTER,</span>
+<span class="lineNum">     160 </span><span class="lineCov">         62 :                      CmdFunc( this, &amp;Barrier::_cmdEnter ), queue );</span>
+<span class="lineNum">     161 </span><span class="lineCov">         31 :     registerCommand( CMD_BARRIER_ENTER_REPLY,</span>
+<span class="lineNum">     162 </span><span class="lineCov">         62 :                      CmdFunc( this, &amp;Barrier::_cmdEnterReply ), queue );</span>
 <span class="lineNum">     163 </span>            : 
 <span class="lineNum">     164 </span>            : #ifdef COLLAGE_V1_API
 <span class="lineNum">     165 </span><span class="lineCov">         31 :     if( _impl-&gt;masterID == NodeID( ))</span>
@@ -241,7 +241,7 @@
 <span class="lineNum">     179 </span>            : 
 <span class="lineNum">     180 </span><span class="lineCov">        352 :     if( !_impl-&gt;master )</span>
 <span class="lineNum">     181 </span>            :     {
-<span class="lineNum">     182 </span><span class="lineCov">         33 :         LocalNodePtr localNode = getLocalNode();</span>
+<span class="lineNum">     182 </span><span class="lineCov">         66 :         LocalNodePtr localNode = getLocalNode();</span>
 <span class="lineNum">     183 </span><span class="lineCov">         33 :         _impl-&gt;master = localNode-&gt;connect( _impl-&gt;masterID );</span>
 <span class="lineNum">     184 </span>            :     }
 <span class="lineNum">     185 </span>            : 
@@ -259,8 +259,8 @@
 <span class="lineNum">     197 </span>            : 
 <span class="lineNum">     198 </span><span class="lineCov">        352 :     const uint32_t leaveVal = _impl-&gt;incarnation.get() + 1;</span>
 <span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span>            :     send( _impl-&gt;master, CMD_BARRIER_ENTER )
-<span class="lineNum">     201 </span><span class="lineCov">        352 :         &lt;&lt; getVersion() &lt;&lt; leaveVal - 1 &lt;&lt; timeout;</span>
+<span class="lineNum">     200 </span><span class="lineCov">        702 :     send( _impl-&gt;master, CMD_BARRIER_ENTER )</span>
+<span class="lineNum">     201 </span><span class="lineCov">       1056 :         &lt;&lt; getVersion() &lt;&lt; leaveVal - 1 &lt;&lt; timeout;</span>
 <span class="lineNum">     202 </span>            : 
 <span class="lineNum">     203 </span><span class="lineCov">        352 :     if( timeout == LB_TIMEOUT_INDEFINITE )</span>
 <span class="lineNum">     204 </span><span class="lineCov">        305 :         _impl-&gt;incarnation.waitEQ( leaveVal );</span>
@@ -278,7 +278,7 @@
 <span class="lineNum">     216 </span><span class="lineCov">        352 :     LBASSERTINFO( !_impl-&gt;master || _impl-&gt;master == getLocalNode(),</span>
 <span class="lineNum">     217 </span>            :                   _impl-&gt;master );
 <span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineCov">        352 :     ObjectICommand command( cmd );</span>
+<span class="lineNum">     219 </span><span class="lineCov">        704 :     ObjectICommand command( cmd );</span>
 <span class="lineNum">     220 </span><span class="lineCov">        352 :     const uint128_t version = command.get&lt; uint128_t &gt;();</span>
 <span class="lineNum">     221 </span><span class="lineCov">        352 :     const uint32_t incarnation = command.get&lt; uint32_t &gt;();</span>
 <span class="lineNum">     222 </span><span class="lineCov">        352 :     const uint32_t timeout = command.get&lt; uint32_t &gt;();</span>
@@ -417,7 +417,7 @@
 <span class="lineNum">     355 </span>            : 
 <span class="lineNum">     356 </span><span class="lineCov">         31 : bool Barrier::_cmdEnterReply( ICommand&amp; cmd )</span>
 <span class="lineNum">     357 </span>            : {
-<span class="lineNum">     358 </span><span class="lineCov">         31 :     ObjectICommand command( cmd );</span>
+<span class="lineNum">     358 </span><span class="lineCov">         62 :     ObjectICommand command( cmd );</span>
 <span class="lineNum">     359 </span><span class="lineCov">         31 :     LB_TS_THREAD( _thread );</span>
 <span class="lineNum">     360 </span><span class="lineCov">         31 :     LBLOG( LOG_BARRIER ) &lt;&lt; &quot;Got ok, unlock local user(s)&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     361 </span><span class="lineCov">         31 :     const uint128_t version = command.get&lt; uint128_t &gt;();</span>
@@ -425,7 +425,7 @@
 <span class="lineNum">     363 </span><span class="lineCov">         31 :     if( version == getVersion( ))</span>
 <span class="lineNum">     364 </span><span class="lineCov">         31 :         ++_impl-&gt;incarnation;</span>
 <span class="lineNum">     365 </span>            : 
-<span class="lineNum">     366 </span><span class="lineCov">         31 :     return true;</span>
+<span class="lineNum">     366 </span><span class="lineCov">         62 :     return true;</span>
 <a name="367"><span class="lineNum">     367 </span>            : }</a>
 <span class="lineNum">     368 </span>            : 
 <span class="lineNum">     369 </span><span class="lineCov">         66 : }</span>

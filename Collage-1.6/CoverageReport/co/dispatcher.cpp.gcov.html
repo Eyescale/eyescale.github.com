@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">8</td>
@@ -111,7 +111,7 @@
 <span class="lineNum">      49 </span><span class="lineNoCov">          0 :         : _impl( new detail::Dispatcher )</span>
 <a name="50"><span class="lineNum">      50 </span><span class="lineNoCov">          0 : {}</span></a>
 <span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">        336 : Dispatcher::~Dispatcher()</span>
+<span class="lineNum">      52 </span><span class="lineCov">        672 : Dispatcher::~Dispatcher()</span>
 <span class="lineNum">      53 </span>            : {
 <span class="lineNum">      54 </span><span class="lineCov">        336 :     delete _impl;</span>
 <span class="lineNum">      55 </span><span class="lineCov">        336 : }</span>
@@ -126,7 +126,7 @@
 <span class="lineNum">      64 </span>            : 
 <span class="lineNum">      65 </span><span class="lineCov">       2708 :     if( _impl-&gt;fTable.size() &lt;= command )</span>
 <span class="lineNum">      66 </span>            :     {
-<span class="lineNum">      67 </span><span class="lineCov">       4428 :         while( _impl-&gt;fTable.size() &lt; command )</span>
+<span class="lineNum">      67 </span><span class="lineCov">       4701 :         while( _impl-&gt;fTable.size() &lt; command )</span>
 <span class="lineNum">      68 </span>            :         {
 <span class="lineNum">      69 </span><span class="lineCov">       1658 :             _impl-&gt;fTable.push_back( Func( this, &amp;Dispatcher::_cmdUnknown ));</span>
 <span class="lineNum">      70 </span><span class="lineCov">       1658 :             _impl-&gt;qTable.push_back( 0 );</span>
@@ -145,16 +145,16 @@
 <span class="lineNum">      83 </span><span class="lineCov">       2708 : }</span>
 <a name="84"><span class="lineNum">      84 </span>            : </a>
 <span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span><span class="lineCov">     721727 : bool Dispatcher::dispatchCommand( ICommand&amp; command )</span>
+<span class="lineNum">      86 </span><span class="lineCov">     726355 : bool Dispatcher::dispatchCommand( ICommand&amp; command )</span>
 <span class="lineNum">      87 </span>            : {
-<span class="lineNum">      88 </span><span class="lineCov">     721727 :     LBASSERT( command.isValid( ));</span>
+<span class="lineNum">      88 </span><span class="lineCov">     726355 :     LBASSERT( command.isValid( ));</span>
 <span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span><span class="lineCov">    1443454 :     LBVERB &lt;&lt; &quot;dispatch &quot; &lt;&lt; command &lt;&lt; &quot; on &quot; &lt;&lt; lunchbox::className( this )</span>
-<span class="lineNum">      91 </span><span class="lineCov">    2165181 :            &lt;&lt; std::endl;</span>
+<span class="lineNum">      90 </span><span class="lineCov">    1452710 :     LBVERB &lt;&lt; &quot;dispatch &quot; &lt;&lt; command &lt;&lt; &quot; on &quot; &lt;&lt; lunchbox::className( this )</span>
+<span class="lineNum">      91 </span><span class="lineCov">    2179065 :            &lt;&lt; std::endl;</span>
 <span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span><span class="lineCov">     721727 :     const uint32_t which = command.getCommand();</span>
+<span class="lineNum">      93 </span><span class="lineCov">     726355 :     const uint32_t which = command.getCommand();</span>
 <span class="lineNum">      94 </span>            : #ifndef NDEBUG
-<span class="lineNum">      95 </span><span class="lineCov">     721727 :     if( which &gt;= _impl-&gt;qTable.size( ))</span>
+<span class="lineNum">      95 </span><span class="lineCov">     726355 :     if( which &gt;= _impl-&gt;qTable.size( ))</span>
 <span class="lineNum">      96 </span>            :     {
 <span class="lineNum">      97 </span><span class="lineNoCov">          0 :         LBABORT( &quot;ICommand &quot; &lt;&lt; command</span>
 <span class="lineNum">      98 </span>            :                  &lt;&lt; &quot; higher than number of registered command handlers (&quot;
@@ -164,12 +164,12 @@
 <span class="lineNum">     102 </span>            :     }
 <span class="lineNum">     103 </span>            : #endif
 <span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineCov">     721727 :     CommandQueue* queue = _impl-&gt;qTable[ which ];</span>
-<span class="lineNum">     106 </span><span class="lineCov">     721727 :     if( queue )</span>
+<span class="lineNum">     105 </span><span class="lineCov">     726355 :     CommandQueue* queue = _impl-&gt;qTable[ which ];</span>
+<span class="lineNum">     106 </span><span class="lineCov">     726355 :     if( queue )</span>
 <span class="lineNum">     107 </span>            :     {
-<span class="lineNum">     108 </span><span class="lineCov">     701105 :         command.setDispatchFunction( _impl-&gt;fTable[ which ] );</span>
-<span class="lineNum">     109 </span><span class="lineCov">     701105 :         queue-&gt;push( command );</span>
-<span class="lineNum">     110 </span><span class="lineCov">     701105 :         return true;</span>
+<span class="lineNum">     108 </span><span class="lineCov">     705733 :         command.setDispatchFunction( _impl-&gt;fTable[ which ] );</span>
+<span class="lineNum">     109 </span><span class="lineCov">     705733 :         queue-&gt;push( command );</span>
+<span class="lineNum">     110 </span><span class="lineCov">     705733 :         return true;</span>
 <span class="lineNum">     111 </span>            :     }
 <span class="lineNum">     112 </span>            :     // else
 <span class="lineNum">     113 </span>            : 

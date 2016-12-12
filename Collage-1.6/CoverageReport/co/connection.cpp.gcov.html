@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">149</td>
-            <td class="headerCovTableEntry">181</td>
-            <td class="headerCovTableEntryHi">82.3 %</td>
+            <td class="headerCovTableEntry">150</td>
+            <td class="headerCovTableEntry">185</td>
+            <td class="headerCovTableEntryHi">81.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">23</td>
@@ -130,14 +130,14 @@
 <a name="68"><span class="lineNum">      68 </span>            :     uint64_t inBytes; //!&lt; Statistic: read bytes</a>
 <span class="lineNum">      69 </span>            : 
 <span class="lineNum">      70 </span><span class="lineCov">        429 :     Connection()</span>
-<span class="lineNum">      71 </span>            :             : state( co::Connection::STATE_CLOSED )
+<span class="lineNum">      71 </span><span class="lineCov">        429 :             : state( co::Connection::STATE_CLOSED )</span>
 <span class="lineNum">      72 </span><span class="lineCov">        429 :             , description( new ConnectionDescription )</span>
 <span class="lineNum">      73 </span>            :             , bytes( 0 )
 <span class="lineNum">      74 </span>            :             , outBytes( 0 )
 <span class="lineNum">      75 </span><span class="lineCov">        858 :             , inBytes( 0 )</span>
 <span class="lineNum">      76 </span>            :     {
-<span class="lineNum">      77 </span><span class="lineCov">        429 :         description-&gt;type = CONNECTIONTYPE_NONE;</span>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">        429 :     }</span></a>
+<span class="lineNum">      77 </span><span class="lineCov">        428 :         description-&gt;type = CONNECTIONTYPE_NONE;</span>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">        428 :     }</span></a>
 <span class="lineNum">      79 </span>            : 
 <span class="lineNum">      80 </span><span class="lineCov">        421 :     ~Connection()</span>
 <span class="lineNum">      81 </span><span class="lineCov">        421 :     {</span>
@@ -151,20 +151,20 @@
 <span class="lineNum">      89 </span>            : 
 <span class="lineNum">      90 </span><span class="lineCov">       1127 :     void fireStateChanged( co::Connection* connection )</span>
 <span class="lineNum">      91 </span>            :     {
-<span class="lineNum">      92 </span><span class="lineCov">       3513 :         for( ConnectionListeners::const_iterator i= listeners.begin();</span>
-<span class="lineNum">      93 </span><span class="lineCov">       2342 :              i != listeners.end(); ++i )</span>
+<span class="lineNum">      92 </span><span class="lineCov">       3511 :         for( ConnectionListeners::const_iterator i= listeners.begin();</span>
+<span class="lineNum">      93 </span><span class="lineCov">       2340 :              i != listeners.end(); ++i )</span>
 <span class="lineNum">      94 </span>            :         {
 <span class="lineNum">      95 </span><span class="lineCov">         44 :             (*i)-&gt;notifyStateChanged( connection );</span>
 <span class="lineNum">      96 </span>            :         }
-<span class="lineNum">      97 </span><span class="lineCov">       1127 :     }</span>
+<span class="lineNum">      97 </span><span class="lineCov">       1126 :     }</span>
 <span class="lineNum">      98 </span>            : };
 <a name="99"><span class="lineNum">      99 </span>            : }</a>
 <span class="lineNum">     100 </span>            : 
 <span class="lineNum">     101 </span><span class="lineCov">        429 : Connection::Connection()</span>
 <span class="lineNum">     102 </span><span class="lineCov">        429 :         : _impl( new detail::Connection )</span>
 <span class="lineNum">     103 </span>            : {
-<span class="lineNum">     104 </span><span class="lineCov">        429 :     LBVERB &lt;&lt; &quot;New Connection @&quot; &lt;&lt; (void*)this &lt;&lt; std::endl;</span>
-<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        429 : }</span></a>
+<span class="lineNum">     104 </span><span class="lineCov">        428 :     LBVERB &lt;&lt; &quot;New Connection @&quot; &lt;&lt; (void*)this &lt;&lt; std::endl;</span>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        428 : }</span></a>
 <span class="lineNum">     106 </span>            : 
 <span class="lineNum">     107 </span><span class="lineCov">        842 : Connection::~Connection()</span>
 <span class="lineNum">     108 </span>            : {
@@ -188,7 +188,7 @@
 <span class="lineNum">     126 </span>            : 
 <span class="lineNum">     127 </span><span class="lineCov">        106 : ConnectionPtr Connection::create( ConnectionDescriptionPtr description )</span>
 <span class="lineNum">     128 </span>            : {
-<span class="lineNum">     129 </span><span class="lineCov">        106 :     ConnectionPtr connection;</span>
+<span class="lineNum">     129 </span><span class="lineCov">        212 :     ConnectionPtr connection;</span>
 <span class="lineNum">     130 </span><span class="lineCov">        106 :     switch( description-&gt;type )</span>
 <span class="lineNum">     131 </span>            :     {
 <span class="lineNum">     132 </span>            :         case CONNECTIONTYPE_TCPIP:
@@ -233,9 +233,9 @@
 <span class="lineNum">     171 </span><span class="lineCov">        105 :     return connection;</span>
 <a name="172"><span class="lineNum">     172 </span>            : }</a>
 <span class="lineNum">     173 </span>            : 
-<span class="lineNum">     174 </span><span class="lineCov">    4190379 : Connection::State Connection::getState() const</span>
+<span class="lineNum">     174 </span><span class="lineCov">    3370547 : Connection::State Connection::getState() const</span>
 <span class="lineNum">     175 </span>            : {
-<span class="lineNum">     176 </span><span class="lineCov">    4190379 :     return _impl-&gt;state;</span>
+<span class="lineNum">     176 </span><span class="lineCov">    3370547 :     return _impl-&gt;state;</span>
 <a name="177"><span class="lineNum">     177 </span>            : }</a>
 <span class="lineNum">     178 </span>            : 
 <span class="lineNum">     179 </span><span class="lineCov">        105 : void Connection::_setDescription( ConnectionDescriptionPtr description )</span>
@@ -250,7 +250,7 @@
 <span class="lineNum">     188 </span><span class="lineCov">       1181 : void Connection::_setState( const State state )</span>
 <span class="lineNum">     189 </span>            : {
 <span class="lineNum">     190 </span><span class="lineCov">       1181 :     if( _impl-&gt;state == state )</span>
-<span class="lineNum">     191 </span><span class="lineCov">       1235 :         return;</span>
+<span class="lineNum">     191 </span><span class="lineCov">         54 :         return;</span>
 <span class="lineNum">     192 </span><span class="lineCov">       1127 :     _impl-&gt;state = state;</span>
 <span class="lineNum">     193 </span><span class="lineCov">       1127 :     _impl-&gt;fireStateChanged( this );</span>
 <a name="194"><span class="lineNum">     194 </span>            : }</a>
@@ -272,8 +272,8 @@
 <span class="lineNum">     210 </span>            : 
 <span class="lineNum">     211 </span><span class="lineCov">        174 : void Connection::removeListener( ConnectionListener* listener )</span>
 <span class="lineNum">     212 </span>            : {
-<span class="lineNum">     213 </span>            :     ConnectionListeners::iterator i = find( _impl-&gt;listeners.begin(),
-<span class="lineNum">     214 </span><span class="lineCov">        174 :                                             _impl-&gt;listeners.end(), listener );</span>
+<span class="lineNum">     213 </span><span class="lineCov">        174 :     ConnectionListeners::iterator i = find( _impl-&gt;listeners.begin(),</span>
+<span class="lineNum">     214 </span><span class="lineCov">        348 :                                             _impl-&gt;listeners.end(), listener );</span>
 <span class="lineNum">     215 </span><span class="lineCov">        174 :     if( i != _impl-&gt;listeners.end( ))</span>
 <span class="lineNum">     216 </span><span class="lineCov">        174 :         _impl-&gt;listeners.erase( i );</span>
 <span class="lineNum">     217 </span><span class="lineCov">        174 : }</span>
@@ -281,51 +281,51 @@
 <span class="lineNum">     219 </span>            : //----------------------------------------------------------------------
 <a name="220"><span class="lineNum">     220 </span>            : // read</a>
 <span class="lineNum">     221 </span>            : //----------------------------------------------------------------------
-<span class="lineNum">     222 </span><span class="lineCov">    3113970 : void Connection::recvNB( BufferPtr buffer, const uint64_t bytes )</span>
+<span class="lineNum">     222 </span><span class="lineCov">    2319585 : void Connection::recvNB( BufferPtr buffer, const uint64_t bytes )</span>
 <span class="lineNum">     223 </span>            : {
-<span class="lineNum">     224 </span><span class="lineCov">    3113970 :     LBASSERT( !_impl-&gt;buffer );</span>
-<span class="lineNum">     225 </span><span class="lineCov">    3113970 :     LBASSERT( _impl-&gt;bytes == 0 );</span>
-<span class="lineNum">     226 </span><span class="lineCov">    3113970 :     LBASSERT( buffer );</span>
-<span class="lineNum">     227 </span><span class="lineCov">    3113970 :     LBASSERT( bytes &gt; 0 );</span>
-<span class="lineNum">     228 </span><span class="lineCov">    3113970 :     LBASSERTINFO( bytes &lt; LB_BIT48,</span>
+<span class="lineNum">     224 </span><span class="lineCov">    2319585 :     LBASSERT( !_impl-&gt;buffer );</span>
+<span class="lineNum">     225 </span><span class="lineCov">    2319585 :     LBASSERT( _impl-&gt;bytes == 0 );</span>
+<span class="lineNum">     226 </span><span class="lineCov">    2319585 :     LBASSERT( buffer );</span>
+<span class="lineNum">     227 </span><span class="lineCov">    2319585 :     LBASSERT( bytes &gt; 0 );</span>
+<span class="lineNum">     228 </span><span class="lineCov">    2319585 :     LBASSERTINFO( bytes &lt; LB_BIT48,</span>
 <span class="lineNum">     229 </span>            :                   &quot;Out-of-sync network stream: read size &quot; &lt;&lt; bytes &lt;&lt; &quot;?&quot; );
 <span class="lineNum">     230 </span>            : 
-<span class="lineNum">     231 </span><span class="lineCov">    3113970 :     _impl-&gt;buffer = buffer;</span>
-<span class="lineNum">     232 </span><span class="lineCov">    3113970 :     _impl-&gt;bytes = bytes;</span>
-<span class="lineNum">     233 </span><span class="lineCov">    3113970 :     buffer-&gt;reserve( buffer-&gt;getSize() + bytes );</span>
-<span class="lineNum">     234 </span><span class="lineCov">    3113970 :     readNB( buffer-&gt;getData() + buffer-&gt;getSize(), bytes );</span>
-<a name="235"><span class="lineNum">     235 </span><span class="lineCov">    3113970 : }</span></a>
+<span class="lineNum">     231 </span><span class="lineCov">    2319585 :     _impl-&gt;buffer = buffer;</span>
+<span class="lineNum">     232 </span><span class="lineCov">    2319585 :     _impl-&gt;bytes = bytes;</span>
+<span class="lineNum">     233 </span><span class="lineCov">    2319585 :     buffer-&gt;reserve( buffer-&gt;getSize() + bytes );</span>
+<span class="lineNum">     234 </span><span class="lineCov">    2319585 :     readNB( buffer-&gt;getData() + buffer-&gt;getSize(), bytes );</span>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">    2319585 : }</span></a>
 <span class="lineNum">     236 </span>            : 
-<span class="lineNum">     237 </span><span class="lineCov">    3113852 : bool Connection::recvSync( BufferPtr&amp; outBuffer, const bool block )</span>
+<span class="lineNum">     237 </span><span class="lineCov">    2319467 : bool Connection::recvSync( BufferPtr&amp; outBuffer, const bool block )</span>
 <span class="lineNum">     238 </span>            : {
-<span class="lineNum">     239 </span><span class="lineCov">    3113852 :     LBASSERTINFO( _impl-&gt;buffer,</span>
+<span class="lineNum">     239 </span><span class="lineCov">    2319467 :     LBASSERTINFO( _impl-&gt;buffer,</span>
 <span class="lineNum">     240 </span>            :                   &quot;No pending receive on &quot; &lt;&lt; getDescription()-&gt;toString( ));
 <span class="lineNum">     241 </span>            : 
 <span class="lineNum">     242 </span>            :     // reset async IO data
-<span class="lineNum">     243 </span><span class="lineCov">    3113852 :     outBuffer = _impl-&gt;buffer;</span>
-<span class="lineNum">     244 </span><span class="lineCov">    3113852 :     const uint64_t bytes = _impl-&gt;bytes;</span>
-<span class="lineNum">     245 </span><span class="lineCov">    3113852 :     _impl-&gt;buffer = 0;</span>
-<span class="lineNum">     246 </span><span class="lineCov">    3113852 :     _impl-&gt;bytes = 0;</span>
+<span class="lineNum">     243 </span><span class="lineCov">    2319467 :     outBuffer = _impl-&gt;buffer;</span>
+<span class="lineNum">     244 </span><span class="lineCov">    2319467 :     const uint64_t bytes = _impl-&gt;bytes;</span>
+<span class="lineNum">     245 </span><span class="lineCov">    2319467 :     _impl-&gt;buffer = 0;</span>
+<span class="lineNum">     246 </span><span class="lineCov">    2319467 :     _impl-&gt;bytes = 0;</span>
 <span class="lineNum">     247 </span>            : 
-<span class="lineNum">     248 </span><span class="lineCov">    3113852 :     if( _impl-&gt;state != STATE_CONNECTED || !outBuffer || bytes == 0 )</span>
+<span class="lineNum">     248 </span><span class="lineCov">    2319467 :     if( _impl-&gt;state != STATE_CONNECTED || !outBuffer || bytes == 0 )</span>
 <span class="lineNum">     249 </span><span class="lineCov">         34 :         return false;</span>
-<span class="lineNum">     250 </span><span class="lineCov">    3113818 :     LBASSERTINFO( bytes &lt; LB_BIT48,</span>
+<span class="lineNum">     250 </span><span class="lineCov">    2319433 :     LBASSERTINFO( bytes &lt; LB_BIT48,</span>
 <span class="lineNum">     251 </span>            :                   &quot;Out-of-sync network stream: read size &quot; &lt;&lt; bytes &lt;&lt; &quot;?&quot; );
 <span class="lineNum">     252 </span>            : #ifdef STATISTICS
-<span class="lineNum">     253 </span><span class="lineCov">    3113818 :     _impl-&gt;inBytes += bytes;</span>
+<span class="lineNum">     253 </span><span class="lineCov">    2319433 :     _impl-&gt;inBytes += bytes;</span>
 <span class="lineNum">     254 </span>            : #endif
 <span class="lineNum">     255 </span>            : 
 <span class="lineNum">     256 </span>            :     // 'Iterators' for receive loop
-<span class="lineNum">     257 </span><span class="lineCov">    3113818 :     uint8_t* ptr = outBuffer-&gt;getData() + outBuffer-&gt;getSize();</span>
-<span class="lineNum">     258 </span><span class="lineCov">    3113818 :     uint64_t bytesLeft = bytes;</span>
-<span class="lineNum">     259 </span><span class="lineCov">    3113818 :     int64_t got = readSync( ptr, bytesLeft, block );</span>
+<span class="lineNum">     257 </span><span class="lineCov">    2319433 :     uint8_t* ptr = outBuffer-&gt;getData() + outBuffer-&gt;getSize();</span>
+<span class="lineNum">     258 </span><span class="lineCov">    2319433 :     uint64_t bytesLeft = bytes;</span>
+<span class="lineNum">     259 </span><span class="lineCov">    2319433 :     int64_t got = readSync( ptr, bytesLeft, block );</span>
 <span class="lineNum">     260 </span>            : 
 <span class="lineNum">     261 </span>            :     // WAR: fluke notification: On Win32, we get occasionally a data
 <span class="lineNum">     262 </span>            :     // notification and then deadlock when reading from the connection. The
 <span class="lineNum">     263 </span>            :     // callee (Node::handleData) will flag the first read, the underlying
 <span class="lineNum">     264 </span>            :     // SocketConnection will not block and we will restore the AIO operation if
 <span class="lineNum">     265 </span>            :     // no data was present.
-<span class="lineNum">     266 </span><span class="lineCov">    3113818 :     if( got == READ_TIMEOUT )</span>
+<span class="lineNum">     266 </span><span class="lineCov">    2319433 :     if( got == READ_TIMEOUT )</span>
 <span class="lineNum">     267 </span>            :     {
 <span class="lineNum">     268 </span><span class="lineNoCov">          0 :         _impl-&gt;buffer = outBuffer;</span>
 <span class="lineNum">     269 </span><span class="lineNoCov">          0 :         _impl-&gt;bytes = bytes;</span>
@@ -336,7 +336,7 @@
 <span class="lineNum">     274 </span>            :     // From here on, receive loop until all data read or error
 <span class="lineNum">     275 </span>            :     while( true )
 <span class="lineNum">     276 </span>            :     {
-<span class="lineNum">     277 </span><span class="lineCov">    3405672 :         if( got &lt; 0 ) // error</span>
+<span class="lineNum">     277 </span><span class="lineCov">    2619170 :         if( got &lt; 0 ) // error</span>
 <span class="lineNum">     278 </span>            :         {
 <span class="lineNum">     279 </span><span class="lineCov">         40 :             const uint64_t read = bytes - bytesLeft;</span>
 <span class="lineNum">     280 </span><span class="lineCov">         40 :             outBuffer-&gt;resize( outBuffer-&gt;getSize() + read );</span>
@@ -347,7 +347,7 @@
 <span class="lineNum">     285 </span><span class="lineNoCov">          0 :                         &lt;&lt; _impl-&gt;description &lt;&lt; std::endl;</span>
 <span class="lineNum">     286 </span><span class="lineCov">         40 :             return false;</span>
 <span class="lineNum">     287 </span>            :         }
-<span class="lineNum">     288 </span><span class="lineCov">    3405632 :         else if( got == 0 )</span>
+<span class="lineNum">     288 </span><span class="lineCov">    2619130 :         else if( got == 0 )</span>
 <span class="lineNum">     289 </span>            :         {
 <span class="lineNum">     290 </span>            :             // ConnectionSet::select may report data on an 'empty' connection.
 <span class="lineNum">     291 </span>            :             // If we have nothing read so far, we have hit this case.
@@ -355,33 +355,33 @@
 <span class="lineNum">     293 </span><span class="lineNoCov">          0 :                 return false;</span>
 <span class="lineNum">     294 </span><span class="lineNoCov">          0 :             LBVERB &lt;&lt; &quot;Zero bytes read&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     295 </span>            :         }
-<span class="lineNum">     296 </span><span class="lineCov">    3405632 :         if( bytesLeft &gt; static_cast&lt; uint64_t &gt;( got )) // partial read</span>
+<span class="lineNum">     296 </span><span class="lineCov">    2619130 :         if( bytesLeft &gt; static_cast&lt; uint64_t &gt;( got )) // partial read</span>
 <span class="lineNum">     297 </span>            :         {
-<span class="lineNum">     298 </span><span class="lineCov">     291854 :             ptr += got;</span>
-<span class="lineNum">     299 </span><span class="lineCov">     291854 :             bytesLeft -= got;</span>
+<span class="lineNum">     298 </span><span class="lineCov">     299737 :             ptr += got;</span>
+<span class="lineNum">     299 </span><span class="lineCov">     299737 :             bytesLeft -= got;</span>
 <span class="lineNum">     300 </span>            : 
-<span class="lineNum">     301 </span><span class="lineCov">     291854 :             readNB( ptr, bytesLeft );</span>
-<span class="lineNum">     302 </span><span class="lineCov">     291854 :             got = readSync( ptr, bytesLeft, true );</span>
-<span class="lineNum">     303 </span><span class="lineCov">     291854 :             continue;</span>
+<span class="lineNum">     301 </span><span class="lineCov">     299737 :             readNB( ptr, bytesLeft );</span>
+<span class="lineNum">     302 </span><span class="lineCov">     299737 :             got = readSync( ptr, bytesLeft, true );</span>
+<span class="lineNum">     303 </span><span class="lineCov">     299737 :             continue;</span>
 <span class="lineNum">     304 </span>            :         }
 <span class="lineNum">     305 </span>            : 
 <span class="lineNum">     306 </span>            :         // read done
-<span class="lineNum">     307 </span><span class="lineCov">    3113778 :         LBASSERTINFO( static_cast&lt; uint64_t &gt;( got ) == bytesLeft,</span>
+<span class="lineNum">     307 </span><span class="lineCov">    2319393 :         LBASSERTINFO( static_cast&lt; uint64_t &gt;( got ) == bytesLeft,</span>
 <span class="lineNum">     308 </span>            :                       got &lt;&lt; &quot; != &quot; &lt;&lt; bytesLeft );
 <span class="lineNum">     309 </span>            : 
-<span class="lineNum">     310 </span><span class="lineCov">    3113778 :         outBuffer-&gt;resize( outBuffer-&gt;getSize() + bytes );</span>
+<span class="lineNum">     310 </span><span class="lineCov">    2319393 :         outBuffer-&gt;resize( outBuffer-&gt;getSize() + bytes );</span>
 <span class="lineNum">     311 </span>            : #ifndef NDEBUG
-<span class="lineNum">     312 </span><span class="lineCov">    3113778 :         if( bytes &lt;= 1024 &amp;&amp; ( lunchbox::Log::topics &amp; LOG_PACKETS ))</span>
+<span class="lineNum">     312 </span><span class="lineCov">    2319393 :         if( bytes &lt;= 1024 &amp;&amp; ( lunchbox::Log::topics &amp; LOG_PACKETS ))</span>
 <span class="lineNum">     313 </span>            :         {
 <span class="lineNum">     314 </span><span class="lineNoCov">          0 :             ptr -= (bytes - bytesLeft); // rewind</span>
 <span class="lineNum">     315 </span><span class="lineNoCov">          0 :             LBINFO &lt;&lt; &quot;recv:&quot; &lt;&lt; lunchbox::format( ptr, bytes ) &lt;&lt; std::endl;</span>
 <span class="lineNum">     316 </span>            :         }
 <span class="lineNum">     317 </span>            : #endif
-<span class="lineNum">     318 </span><span class="lineCov">    3113778 :         return true;</span>
-<span class="lineNum">     319 </span>            :     }
+<span class="lineNum">     318 </span><span class="lineCov">    2319393 :         return true;</span>
+<span class="lineNum">     319 </span><span class="lineCov">     299737 :     }</span>
 <span class="lineNum">     320 </span>            : 
 <span class="lineNum">     321 </span>            :     LBUNREACHABLE;
-<span class="lineNum">     322 </span><span class="lineCov">     291854 :     return true;</span>
+<span class="lineNum">     322 </span>            :     return true;
 <a name="323"><span class="lineNum">     323 </span>            : }</a>
 <span class="lineNum">     324 </span>            : 
 <span class="lineNum">     325 </span><span class="lineCov">        224 : BufferPtr Connection::resetRecvData()</span>
@@ -395,48 +395,48 @@
 <span class="lineNum">     333 </span>            : //----------------------------------------------------------------------
 <a name="334"><span class="lineNum">     334 </span>            : // write</a>
 <span class="lineNum">     335 </span>            : //----------------------------------------------------------------------
-<span class="lineNum">     336 </span><span class="lineCov">    3364100 : bool Connection::send( const void* buffer, const uint64_t bytes,</span>
+<span class="lineNum">     336 </span><span class="lineCov">    2570303 : bool Connection::send( const void* buffer, const uint64_t bytes,</span>
 <span class="lineNum">     337 </span>            :                        const bool isLocked )
 <span class="lineNum">     338 </span>            : {
 <span class="lineNum">     339 </span>            : #ifdef STATISTICS
-<span class="lineNum">     340 </span><span class="lineCov">    3364100 :     _impl-&gt;outBytes += bytes;</span>
+<span class="lineNum">     340 </span><span class="lineCov">    2570303 :     _impl-&gt;outBytes += bytes;</span>
 <span class="lineNum">     341 </span>            : #endif
-<span class="lineNum">     342 </span><span class="lineCov">    3364100 :     LBASSERT( bytes &gt; 0 );</span>
-<span class="lineNum">     343 </span><span class="lineCov">    3361353 :     if( bytes == 0 )</span>
+<span class="lineNum">     342 </span><span class="lineCov">    2570303 :     LBASSERT( bytes &gt; 0 );</span>
+<span class="lineNum">     343 </span><span class="lineCov">    2568852 :     if( bytes == 0 )</span>
 <span class="lineNum">     344 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     345 </span>            : 
-<span class="lineNum">     346 </span><span class="lineCov">    3361353 :     const uint8_t* ptr = static_cast&lt; const uint8_t* &gt;( buffer );</span>
+<span class="lineNum">     346 </span><span class="lineCov">    2568852 :     const uint8_t* ptr = static_cast&lt; const uint8_t* &gt;( buffer );</span>
 <span class="lineNum">     347 </span>            : 
 <span class="lineNum">     348 </span>            :     // possible OPT: We need to lock here to guarantee an atomic transmission of
 <span class="lineNum">     349 </span>            :     // the buffer. Possible improvements are:
 <span class="lineNum">     350 </span>            :     // 1) Disassemble buffer into 'small enough' pieces and use a header to
 <span class="lineNum">     351 </span>            :     //    reassemble correctly on the other side (aka reliable UDP)
 <span class="lineNum">     352 </span>            :     // 2) Introduce a send thread with a thread-safe task queue
-<span class="lineNum">     353 </span><span class="lineCov">    3361353 :     lunchbox::ScopedMutex&lt;&gt; mutex( isLocked ? 0 : &amp;_impl-&gt;sendLock );</span>
+<span class="lineNum">     353 </span><span class="lineCov">    5137700 :     lunchbox::ScopedMutex&lt;&gt; mutex( isLocked ? 0 : &amp;_impl-&gt;sendLock );</span>
 <span class="lineNum">     354 </span>            : 
 <span class="lineNum">     355 </span>            : #ifndef NDEBUG
-<span class="lineNum">     356 </span><span class="lineCov">    3365862 :     if( bytes &lt;= 1024 &amp;&amp; ( lunchbox::Log::topics &amp; LOG_PACKETS ))</span>
+<span class="lineNum">     356 </span><span class="lineCov">    2571562 :     if( bytes &lt;= 1024 &amp;&amp; ( lunchbox::Log::topics &amp; LOG_PACKETS ))</span>
 <span class="lineNum">     357 </span><span class="lineNoCov">          0 :         LBINFO &lt;&lt; &quot;send:&quot; &lt;&lt; lunchbox::format( ptr, bytes ) &lt;&lt; std::endl;</span>
 <span class="lineNum">     358 </span>            : #endif
 <span class="lineNum">     359 </span>            : 
-<span class="lineNum">     360 </span><span class="lineCov">    3365862 :     uint64_t bytesLeft = bytes;</span>
-<span class="lineNum">     361 </span><span class="lineCov">   10125355 :     while( bytesLeft )</span>
+<span class="lineNum">     360 </span><span class="lineCov">    2571562 :     uint64_t bytesLeft = bytes;</span>
+<span class="lineNum">     361 </span><span class="lineCov">    7761052 :     while( bytesLeft )</span>
 <span class="lineNum">     362 </span>            :     {
 <span class="lineNum">     363 </span>            :         try
 <span class="lineNum">     364 </span>            :         {
-<span class="lineNum">     365 </span><span class="lineCov">    3397849 :             const int64_t wrote = this-&gt;write( ptr, bytesLeft );</span>
-<span class="lineNum">     366 </span><span class="lineCov">    3393631 :             if( wrote == -1 ) // error</span>
+<span class="lineNum">     365 </span><span class="lineCov">    2597459 :             const int64_t wrote = this-&gt;write( ptr, bytesLeft );</span>
+<span class="lineNum">     366 </span><span class="lineCov">    2594745 :             if( wrote == -1 ) // error</span>
 <span class="lineNum">     367 </span>            :             {
 <span class="lineNum">     368 </span><span class="lineNoCov">          0 :                 LBERROR &lt;&lt; &quot;Error during write after &quot; &lt;&lt; bytes - bytesLeft</span>
 <span class="lineNum">     369 </span><span class="lineNoCov">          0 :                         &lt;&lt; &quot; bytes, closing connection&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     370 </span><span class="lineNoCov">          0 :                 close();</span>
 <span class="lineNum">     371 </span><span class="lineNoCov">          0 :                 return false;</span>
 <span class="lineNum">     372 </span>            :             }
-<span class="lineNum">     373 </span><span class="lineCov">    3393631 :             else if( wrote == 0 )</span>
+<span class="lineNum">     373 </span><span class="lineCov">    2594745 :             else if( wrote == 0 )</span>
 <span class="lineNum">     374 </span><span class="lineNoCov">          0 :                 LBINFO &lt;&lt; &quot;Zero bytes write&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     375 </span>            : 
-<span class="lineNum">     376 </span><span class="lineCov">    3393631 :             bytesLeft -= wrote;</span>
-<span class="lineNum">     377 </span><span class="lineCov">    3393631 :             ptr += wrote;</span>
+<span class="lineNum">     376 </span><span class="lineCov">    2594745 :             bytesLeft -= wrote;</span>
+<span class="lineNum">     377 </span><span class="lineCov">    2594745 :             ptr += wrote;</span>
 <span class="lineNum">     378 </span>            :         }
 <span class="lineNum">     379 </span><span class="lineNoCov">          0 :         catch( const co::Exception&amp; e )</span>
 <span class="lineNum">     380 </span>            :         {
@@ -447,7 +447,7 @@
 <span class="lineNum">     385 </span>            :         }
 <span class="lineNum">     386 </span>            : 
 <span class="lineNum">     387 </span>            :     }
-<span class="lineNum">     388 </span><span class="lineCov">    3361644 :     return true;</span>
+<span class="lineNum">     388 </span><span class="lineCov">    2568848 :     return true;</span>
 <a name="389"><span class="lineNum">     389 </span>            : }</a>
 <span class="lineNum">     390 </span>            : 
 <span class="lineNum">     391 </span><span class="lineCov">        166 : bool Connection::isMulticast() const</span>
@@ -468,19 +468,19 @@
 <span class="lineNum">     406 </span><span class="lineCov">        502 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Connection&amp; connection )</span>
 <span class="lineNum">     407 </span>            : {
 <span class="lineNum">     408 </span><span class="lineCov">        502 :     const Connection::State state = connection.getState();</span>
-<span class="lineNum">     409 </span><span class="lineCov">        502 :     ConstConnectionDescriptionPtr desc = connection.getDescription();</span>
+<span class="lineNum">     409 </span><span class="lineCov">       1004 :     ConstConnectionDescriptionPtr desc = connection.getDescription();</span>
 <span class="lineNum">     410 </span>            : 
 <span class="lineNum">     411 </span><span class="lineCov">       1004 :     os &lt;&lt; lunchbox::className( connection ) &lt;&lt; &quot; &quot; &lt;&lt; (void*)&amp;connection</span>
-<span class="lineNum">     412 </span><span class="lineCov">        502 :        &lt;&lt; &quot; state &quot; &lt;&lt; ( state == Connection::STATE_CLOSED     ? &quot;closed&quot; :</span>
-<span class="lineNum">     413 </span>            :                          state == Connection::STATE_CONNECTING ? &quot;connecting&quot; :
-<span class="lineNum">     414 </span>            :                          state == Connection::STATE_CONNECTED  ? &quot;connected&quot; :
-<span class="lineNum">     415 </span>            :                          state == Connection::STATE_LISTENING  ? &quot;listening&quot; :
+<span class="lineNum">     412 </span>            :        &lt;&lt; &quot; state &quot; &lt;&lt; ( state == Connection::STATE_CLOSED     ? &quot;closed&quot; :
+<span class="lineNum">     413 </span><span class="lineNoCov">          0 :                          state == Connection::STATE_CONNECTING ? &quot;connecting&quot; :</span>
+<span class="lineNum">     414 </span><span class="lineNoCov">          0 :                          state == Connection::STATE_CONNECTED  ? &quot;connected&quot; :</span>
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 :                          state == Connection::STATE_LISTENING  ? &quot;listening&quot; :</span>
 <span class="lineNum">     416 </span>            :                          state == Connection::STATE_CLOSING    ? &quot;closing&quot; :
 <span class="lineNum">     417 </span><span class="lineCov">       1004 :                          &quot;UNKNOWN&quot; );</span>
 <span class="lineNum">     418 </span><span class="lineCov">        502 :     if( desc.isValid( ))</span>
 <span class="lineNum">     419 </span><span class="lineCov">        502 :         os &lt;&lt; &quot; description &quot; &lt;&lt; desc-&gt;toString();</span>
 <span class="lineNum">     420 </span>            : 
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">        502 :     return os;</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">       1004 :     return os;</span></a>
 <span class="lineNum">     422 </span>            : }
 <span class="lineNum">     423 </span><span class="lineCov">         66 : }</span>
 </pre>

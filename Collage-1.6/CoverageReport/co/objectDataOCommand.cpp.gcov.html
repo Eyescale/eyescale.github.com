@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">35</td>
-            <td class="headerCovTableEntry">41</td>
-            <td class="headerCovTableEntryHi">85.4 %</td>
+            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryHi">81.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -97,7 +97,7 @@
 <span class="lineNum">      35 </span>            : public:
 <span class="lineNum">      36 </span><span class="lineCov">        170 :     ObjectDataOCommand( co::DataOStream* stream_, const void* data_,</span>
 <span class="lineNum">      37 </span>            :                         const uint64_t size_ )
-<span class="lineNum">      38 </span>            :         : data( data_ )
+<span class="lineNum">      38 </span><span class="lineCov">        170 :         : data( data_ )</span>
 <span class="lineNum">      39 </span>            :         , size( 0 )
 <span class="lineNum">      40 </span><span class="lineCov">        170 :         , stream( stream_ )</span>
 <span class="lineNum">      41 </span>            :     {
@@ -110,8 +110,8 @@
 <a name="48"><span class="lineNum">      48 </span><span class="lineCov">        170 :     }</span></a>
 <span class="lineNum">      49 </span>            : 
 <span class="lineNum">      50 </span><span class="lineNoCov">          0 :     ObjectDataOCommand( const ObjectDataOCommand&amp; rhs )</span>
-<span class="lineNum">      51 </span>            :         : data( rhs.data )
-<span class="lineNum">      52 </span>            :         , size( rhs.size )
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :         : data( rhs.data )</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :         , size( rhs.size )</span>
 <span class="lineNum">      53 </span><span class="lineNoCov">          0 :         , stream( rhs.stream )</span>
 <span class="lineNum">      54 </span><span class="lineNoCov">          0 :     {}</span>
 <span class="lineNum">      55 </span>            : 
@@ -131,7 +131,7 @@
 <span class="lineNum">      69 </span>            :                                         const void* data,
 <span class="lineNum">      70 </span>            :                                         const uint64_t size,
 <span class="lineNum">      71 </span>            :                                         const bool isLast,
-<span class="lineNum">      72 </span>            :                                         DataOStream* stream )
+<span class="lineNum">      72 </span><span class="lineCov">        170 :                                         DataOStream* stream )</span>
 <span class="lineNum">      73 </span>            :     : ObjectOCommand( receivers, cmd, type, id, instanceID )
 <span class="lineNum">      74 </span><span class="lineCov">        170 :     , _impl( new detail::ObjectDataOCommand( stream, data, size ))</span>
 <span class="lineNum">      75 </span>            : {
@@ -165,9 +165,9 @@
 <span class="lineNum">     103 </span><span class="lineCov">        330 :         for( ConnectionsCIter i = connections.begin(); i != connections.end();</span>
 <span class="lineNum">     104 </span>            :              ++i )
 <span class="lineNum">     105 </span>            :         {
-<span class="lineNum">     106 </span><span class="lineCov">        165 :             ConnectionPtr conn = *i;</span>
+<span class="lineNum">     106 </span><span class="lineCov">        330 :             ConnectionPtr conn = *i;</span>
 <span class="lineNum">     107 </span><span class="lineCov">        165 :             _impl-&gt;stream-&gt;sendBody( conn, _impl-&gt;data, _impl-&gt;size );</span>
-<span class="lineNum">     108 </span><span class="lineCov">        165 :         }</span>
+<span class="lineNum">     108 </span>            :         }
 <span class="lineNum">     109 </span>            :     }
 <span class="lineNum">     110 </span>            : 
 <span class="lineNum">     111 </span><span class="lineCov">        170 :     delete _impl;</span>
@@ -180,9 +180,9 @@
 <span class="lineNum">     118 </span><span class="lineCov">          1 :     uint8_t* bytes = outBuffer.getData();</span>
 <span class="lineNum">     119 </span><span class="lineCov">          1 :     reinterpret_cast&lt; uint64_t* &gt;( bytes )[ 0 ] = outBuffer.getSize();</span>
 <span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span><span class="lineCov">          1 :     BufferPtr inBuffer = node-&gt;allocBuffer( outBuffer.getSize( ));</span>
+<span class="lineNum">     121 </span><span class="lineCov">          2 :     BufferPtr inBuffer = node-&gt;allocBuffer( outBuffer.getSize( ));</span>
 <span class="lineNum">     122 </span><span class="lineCov">          1 :     inBuffer-&gt;swap( outBuffer );</span>
-<span class="lineNum">     123 </span><span class="lineCov">          1 :     return ObjectDataICommand( node, node, inBuffer, false );</span>
+<span class="lineNum">     123 </span><span class="lineCov">          2 :     return ObjectDataICommand( node, node, inBuffer, false );</span>
 <a name="124"><span class="lineNum">     124 </span>            : }</a>
 <span class="lineNum">     125 </span>            : 
 <span class="lineNum">     126 </span><span class="lineCov">         66 : }</span>

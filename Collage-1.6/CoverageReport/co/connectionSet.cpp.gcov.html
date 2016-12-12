@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">147</td>
-            <td class="headerCovTableEntry">175</td>
-            <td class="headerCovTableEntryHi">84.0 %</td>
+            <td class="headerCovTableEntry">184</td>
+            <td class="headerCovTableEntryMed">79.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">23</td>
@@ -210,7 +210,7 @@
 <a name="148"><span class="lineNum">     148 </span>            :     bool dirty;</a>
 <span class="lineNum">     149 </span>            : 
 <span class="lineNum">     150 </span><span class="lineCov">         56 :     ConnectionSet()</span>
-<span class="lineNum">     151 </span><span class="lineCov">         56 :            : selfConnection( new EventConnection )</span>
+<span class="lineNum">     151 </span><span class="lineCov">        112 :            : selfConnection( new EventConnection )</span>
 <span class="lineNum">     152 </span>            : #ifdef _WIN32
 <span class="lineNum">     153 </span>            :            , thread( 0 )
 <span class="lineNum">     154 </span>            : #endif
@@ -233,7 +233,7 @@
 <span class="lineNum">     171 </span><span class="lineCov">        447 :     void setDirty()</span>
 <span class="lineNum">     172 </span>            :     {
 <span class="lineNum">     173 </span><span class="lineCov">        447 :         if( dirty )</span>
-<span class="lineNum">     174 </span><span class="lineCov">        700 :             return;</span>
+<span class="lineNum">     174 </span><span class="lineCov">        253 :             return;</span>
 <span class="lineNum">     175 </span>            : 
 <span class="lineNum">     176 </span><span class="lineCov">        194 :         LBVERB &lt;&lt; &quot;FD set modified, restarting select&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     177 </span><span class="lineCov">        194 :         dirty = true;</span>
@@ -249,7 +249,7 @@
 <span class="lineNum">     187 </span>            : 
 <span class="lineNum">     188 </span><span class="lineCov">         56 : ConnectionSet::ConnectionSet()</span>
 <a name="189"><span class="lineNum">     189 </span><span class="lineCov">         56 :         : _impl( new detail::ConnectionSet )</span></a>
-<span class="lineNum">     190 </span><span class="lineCov">         56 : {}</span>
+<span class="lineNum">     190 </span><span class="lineCov">         55 : {}</span>
 <span class="lineNum">     191 </span><span class="lineCov">        108 : ConnectionSet::~ConnectionSet()</span>
 <span class="lineNum">     192 </span>            : {
 <span class="lineNum">     193 </span><span class="lineCov">         54 :     _clear();</span>
@@ -258,14 +258,14 @@
 <span class="lineNum">     196 </span>            : 
 <span class="lineNum">     197 </span><span class="lineCov">         49 : size_t ConnectionSet::getSize() const</span>
 <span class="lineNum">     198 </span>            : {
-<span class="lineNum">     199 </span><span class="lineCov">         49 :     lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
-<span class="lineNum">     200 </span><span class="lineCov">         49 :     return _impl-&gt;allConnections.size();</span>
+<span class="lineNum">     199 </span><span class="lineCov">         98 :     lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     200 </span><span class="lineCov">         98 :     return _impl-&gt;allConnections.size();</span>
 <a name="201"><span class="lineNum">     201 </span>            : }</a>
 <span class="lineNum">     202 </span>            : 
 <span class="lineNum">     203 </span><span class="lineCov">         53 : bool ConnectionSet::isEmpty() const</span>
 <span class="lineNum">     204 </span>            : {
-<span class="lineNum">     205 </span><span class="lineCov">         53 :     lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
-<span class="lineNum">     206 </span><span class="lineCov">         53 :     return _impl-&gt;allConnections.empty();</span>
+<span class="lineNum">     205 </span><span class="lineCov">        106 :     lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     206 </span><span class="lineCov">        106 :     return _impl-&gt;allConnections.empty();</span>
 <a name="207"><span class="lineNum">     207 </span>            : }</a>
 <span class="lineNum">     208 </span>            : 
 <span class="lineNum">     209 </span><span class="lineCov">         99 : const Connections&amp; ConnectionSet::getConnections() const</span>
@@ -298,7 +298,7 @@
 <span class="lineNum">     236 </span><span class="lineCov">        175 :     LBASSERT( connection-&gt;isConnected() || connection-&gt;isListening( ));</span>
 <span class="lineNum">     237 </span>            : 
 <span class="lineNum">     238 </span>            :     {
-<span class="lineNum">     239 </span><span class="lineCov">        175 :         lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     239 </span><span class="lineCov">        350 :         lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     240 </span><span class="lineCov">        175 :         _impl-&gt;allConnections.push_back( connection );</span>
 <span class="lineNum">     241 </span>            : 
 <span class="lineNum">     242 </span>            : #ifdef _WIN32
@@ -346,9 +346,9 @@
 <span class="lineNum">     284 </span><span class="lineCov">        234 : bool ConnectionSet::removeConnection( ConnectionPtr connection )</span>
 <span class="lineNum">     285 </span>            : {
 <span class="lineNum">     286 </span>            :     {
-<span class="lineNum">     287 </span><span class="lineCov">        234 :         lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
+<span class="lineNum">     287 </span><span class="lineCov">        408 :         lunchbox::ScopedWrite mutex( _impl-&gt;lock );</span>
 <span class="lineNum">     288 </span><span class="lineCov">        234 :         ConnectionsIter i = lunchbox::find( _impl-&gt;allConnections, connection );</span>
-<span class="lineNum">     289 </span><span class="lineCov">        234 :         if( i == _impl-&gt;allConnections.end( ))</span>
+<span class="lineNum">     289 </span><span class="lineCov">        233 :         if( i == _impl-&gt;allConnections.end( ))</span>
 <span class="lineNum">     290 </span><span class="lineCov">         60 :             return false;</span>
 <span class="lineNum">     291 </span>            : 
 <span class="lineNum">     292 </span><span class="lineCov">        174 :         if( _impl-&gt;connection == connection )</span>
@@ -429,7 +429,7 @@
 <span class="lineNum">     367 </span>            : 
 <span class="lineNum">     368 </span><span class="lineCov">     307114 : ConnectionSet::Event ConnectionSet::select( const uint32_t timeout )</span>
 <span class="lineNum">     369 </span>            : {
-<span class="lineNum">     370 </span><span class="lineCov">     307114 :     LB_TS_SCOPED( _selectThread );</span>
+<span class="lineNum">     370 </span><span class="lineCov">     614227 :     LB_TS_SCOPED( _selectThread );</span>
 <span class="lineNum">     371 </span>            : 
 <span class="lineNum">     372 </span>            :     while( true )
 <span class="lineNum">     373 </span>            :     {
@@ -446,11 +446,11 @@
 <span class="lineNum">     384 </span>            :         {
 <span class="lineNum">     385 </span><span class="lineCov">     306919 :             const Event event = _getSelectResult( 0 );</span>
 <span class="lineNum">     386 </span><span class="lineCov">     306919 :             if( event != EVENT_NONE )</span>
-<span class="lineNum">     387 </span><span class="lineCov">     211285 :                 return event;</span>
+<span class="lineNum">     387 </span><span class="lineCov">     211263 :                 return event;</span>
 <span class="lineNum">     388 </span>            :         }
 <span class="lineNum">     389 </span>            : #endif
 <span class="lineNum">     390 </span>            : 
-<span class="lineNum">     391 </span><span class="lineCov">      95829 :         if( !_setupFDSet( ))</span>
+<span class="lineNum">     391 </span><span class="lineCov">      95851 :         if( !_setupFDSet( ))</span>
 <span class="lineNum">     392 </span><span class="lineCov">         34 :             return EVENT_INVALID_HANDLE;</span>
 <span class="lineNum">     393 </span>            : 
 <span class="lineNum">     394 </span>            :         // poll for a result
@@ -460,12 +460,12 @@
 <span class="lineNum">     398 </span>            :                                                     _impl-&gt;fdSet.getData(),
 <span class="lineNum">     399 </span>            :                                                     FALSE, timeout, TRUE );
 <span class="lineNum">     400 </span>            : #else
-<span class="lineNum">     401 </span>            :         const int pollTimeout = timeout == LB_TIMEOUT_INDEFINITE ?
-<span class="lineNum">     402 </span><span class="lineCov">      95795 :                                 -1 : int( timeout );</span>
-<span class="lineNum">     403 </span>            :         const int ret = ::poll( _impl-&gt;fdSet.getData(), _impl-&gt;fdSet.getSize(),
-<span class="lineNum">     404 </span><span class="lineCov">      95795 :                                 pollTimeout );</span>
+<span class="lineNum">     401 </span><span class="lineCov">      95817 :         const int pollTimeout = timeout == LB_TIMEOUT_INDEFINITE ?</span>
+<span class="lineNum">     402 </span><span class="lineCov">      95817 :                                 -1 : int( timeout );</span>
+<span class="lineNum">     403 </span><span class="lineCov">      95817 :         const int ret = ::poll( _impl-&gt;fdSet.getData(), _impl-&gt;fdSet.getSize(),</span>
+<span class="lineNum">     404 </span><span class="lineCov">      95817 :                                 pollTimeout );</span>
 <span class="lineNum">     405 </span>            : #endif
-<span class="lineNum">     406 </span><span class="lineCov">      95794 :         switch( ret )</span>
+<span class="lineNum">     406 </span><span class="lineCov">      95816 :         switch( ret )</span>
 <span class="lineNum">     407 </span>            :         {
 <span class="lineNum">     408 </span>            :             case SELECT_TIMEOUT:
 <span class="lineNum">     409 </span><span class="lineNoCov">          0 :                 return EVENT_TIMEOUT;</span>
@@ -493,29 +493,29 @@
 <span class="lineNum">     431 </span>            : 
 <span class="lineNum">     432 </span>            :             default: // SUCCESS
 <span class="lineNum">     433 </span>            :             {
-<span class="lineNum">     434 </span><span class="lineCov">      95794 :                 const Event event = _getSelectResult( ret );</span>
-<span class="lineNum">     435 </span><span class="lineCov">      95794 :                 if( event == EVENT_NONE )</span>
+<span class="lineNum">     434 </span><span class="lineCov">      95816 :                 const Event event = _getSelectResult( ret );</span>
+<span class="lineNum">     435 </span><span class="lineCov">      95816 :                 if( event == EVENT_NONE )</span>
 <span class="lineNum">     436 </span><span class="lineNoCov">          0 :                      break;</span>
-<span class="lineNum">     437 </span><span class="lineCov">      95794 :                 return event;</span>
+<span class="lineNum">     437 </span><span class="lineCov">      95816 :                 return event;</span>
 <span class="lineNum">     438 </span>            :             }
 <span class="lineNum">     439 </span>            :         }
-<span class="lineNum">     440 </span><span class="lineCov">     307113 :     }</span>
+<span class="lineNum">     440 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     441 </span>            : }
 <a name="442"><span class="lineNum">     442 </span>            : </a>
 <span class="lineNum">     443 </span>            : 
-<span class="lineNum">     444 </span><span class="lineCov">     402713 : ConnectionSet::Event ConnectionSet::_getSelectResult( const uint32_t index )</span>
+<span class="lineNum">     444 </span><span class="lineCov">     402735 : ConnectionSet::Event ConnectionSet::_getSelectResult( const uint32_t index )</span>
 <span class="lineNum">     445 </span>            : {
-<span class="lineNum">     446 </span><span class="lineCov">     402713 :     const Event event = _parseSelect( index );</span>
-<span class="lineNum">     447 </span><span class="lineCov">     402713 :     if( _impl-&gt;connection == _impl-&gt;selfConnection.get( ))</span>
+<span class="lineNum">     446 </span><span class="lineCov">     402735 :     const Event event = _parseSelect( index );</span>
+<span class="lineNum">     447 </span><span class="lineCov">     402734 :     if( _impl-&gt;connection == _impl-&gt;selfConnection.get( ))</span>
 <span class="lineNum">     448 </span>            :     {
 <span class="lineNum">     449 </span><span class="lineCov">        306 :         _impl-&gt;connection = 0;</span>
 <span class="lineNum">     450 </span><span class="lineCov">        306 :         _impl-&gt;selfConnection-&gt;reset();</span>
 <span class="lineNum">     451 </span><span class="lineCov">        306 :         return EVENT_INTERRUPT;</span>
 <span class="lineNum">     452 </span>            :     }
-<span class="lineNum">     453 </span><span class="lineCov">     402407 :     if( event == EVENT_DATA &amp;&amp; _impl-&gt;connection-&gt;isListening( ))</span>
+<span class="lineNum">     453 </span><span class="lineCov">     402429 :     if( event == EVENT_DATA &amp;&amp; _impl-&gt;connection-&gt;isListening( ))</span>
 <span class="lineNum">     454 </span><span class="lineCov">         34 :         return EVENT_CONNECT;</span>
 <span class="lineNum">     455 </span>            : 
-<span class="lineNum">     456 </span><span class="lineCov">     402373 :     return event;</span>
+<span class="lineNum">     456 </span><span class="lineCov">     402395 :     return event;</span>
 <span class="lineNum">     457 </span>            : }
 <span class="lineNum">     458 </span>            : 
 <span class="lineNum">     459 </span>            : #ifdef _WIN32
@@ -549,13 +549,13 @@
 <span class="lineNum">     487 </span>            :     return EVENT_DATA;
 <a name="488"><span class="lineNum">     488 </span>            : }</a>
 <span class="lineNum">     489 </span>            : #else // _WIN32
-<span class="lineNum">     490 </span><span class="lineCov">     402713 : ConnectionSet::Event ConnectionSet::_parseSelect( const uint32_t )</span>
+<span class="lineNum">     490 </span><span class="lineCov">     402735 : ConnectionSet::Event ConnectionSet::_parseSelect( const uint32_t )</span>
 <span class="lineNum">     491 </span>            : {
-<span class="lineNum">     492 </span><span class="lineCov">    2456262 :     for( size_t i = 0; i &lt; _impl-&gt;fdSet.getSize(); ++i )</span>
+<span class="lineNum">     492 </span><span class="lineCov">    2456363 :     for( size_t i = 0; i &lt; _impl-&gt;fdSet.getSize(); ++i )</span>
 <span class="lineNum">     493 </span>            :     {
-<span class="lineNum">     494 </span><span class="lineCov">    2360628 :         pollfd&amp; pollFD = _impl-&gt;fdSet[i];</span>
-<span class="lineNum">     495 </span><span class="lineCov">    2360628 :         if( pollFD.revents == 0 )</span>
-<span class="lineNum">     496 </span><span class="lineCov">    2053549 :             continue;</span>
+<span class="lineNum">     494 </span><span class="lineCov">    2360707 :         pollfd&amp; pollFD = _impl-&gt;fdSet[i];</span>
+<span class="lineNum">     495 </span><span class="lineCov">    2360707 :         if( pollFD.revents == 0 )</span>
+<span class="lineNum">     496 </span><span class="lineCov">    2053628 :             continue;</span>
 <span class="lineNum">     497 </span>            : 
 <span class="lineNum">     498 </span><span class="lineCov">     307079 :         const int pollEvents = pollFD.revents;</span>
 <span class="lineNum">     499 </span><span class="lineCov">     307079 :         pollFD.revents = 0;</span>
@@ -588,20 +588,20 @@
 <span class="lineNum">     526 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Unhandled poll event(s): &quot; &lt;&lt; pollEvents &lt;&lt; std::endl;</span>
 <span class="lineNum">     527 </span><span class="lineNoCov">          0 :         ::abort();</span>
 <span class="lineNum">     528 </span>            :     }
-<span class="lineNum">     529 </span><span class="lineCov">      95634 :     return EVENT_NONE;</span>
+<span class="lineNum">     529 </span><span class="lineCov">      95656 :     return EVENT_NONE;</span>
 <span class="lineNum">     530 </span>            : }
 <a name="531"><span class="lineNum">     531 </span>            : #endif // else not _WIN32</a>
 <span class="lineNum">     532 </span>            : 
-<span class="lineNum">     533 </span><span class="lineCov">      95829 : bool ConnectionSet::_setupFDSet()</span>
+<span class="lineNum">     533 </span><span class="lineCov">      95851 : bool ConnectionSet::_setupFDSet()</span>
 <span class="lineNum">     534 </span>            : {
-<span class="lineNum">     535 </span><span class="lineCov">      95829 :     if( !_impl-&gt;dirty )</span>
+<span class="lineNum">     535 </span><span class="lineCov">      95851 :     if( !_impl-&gt;dirty )</span>
 <span class="lineNum">     536 </span>            :     {
 <span class="lineNum">     537 </span>            : #ifndef _WIN32
 <span class="lineNum">     538 </span>            :         // TODO: verify that poll() really modifies _fdSet, and remove the copy
 <span class="lineNum">     539 </span>            :         // if it doesn't. The man page seems to hint that poll changes fds.
-<span class="lineNum">     540 </span><span class="lineCov">      95634 :         _impl-&gt;fdSet = _impl-&gt;fdSetCopy;</span>
+<span class="lineNum">     540 </span><span class="lineCov">      95656 :         _impl-&gt;fdSet = _impl-&gt;fdSetCopy;</span>
 <span class="lineNum">     541 </span>            : #endif
-<span class="lineNum">     542 </span><span class="lineCov">      95634 :         return true;</span>
+<span class="lineNum">     542 </span><span class="lineCov">      95656 :         return true;</span>
 <span class="lineNum">     543 </span>            :     }
 <span class="lineNum">     544 </span>            : 
 <span class="lineNum">     545 </span><span class="lineCov">        195 :     _impl-&gt;dirty = false;</span>
@@ -669,29 +669,29 @@
 <span class="lineNum">     607 </span><span class="lineCov">        195 :     _impl-&gt;fdSetResult.append( result );</span>
 <span class="lineNum">     608 </span>            : 
 <span class="lineNum">     609 </span>            :     // add regular connections
-<span class="lineNum">     610 </span><span class="lineCov">        195 :     _impl-&gt;lock.set();</span>
+<span class="lineNum">     610 </span><span class="lineCov">        194 :     _impl-&gt;lock.set();</span>
 <span class="lineNum">     611 </span><span class="lineCov">        837 :     for( ConnectionPtr connection : _impl-&gt;allConnections )</span>
 <span class="lineNum">     612 </span>            :     {
 <span class="lineNum">     613 </span><span class="lineCov">        676 :         fd.fd = connection-&gt;getNotifier();</span>
 <span class="lineNum">     614 </span>            : 
-<span class="lineNum">     615 </span><span class="lineCov">        676 :         if( fd.fd &lt;= 0 )</span>
+<span class="lineNum">     615 </span><span class="lineCov">        675 :         if( fd.fd &lt;= 0 )</span>
 <span class="lineNum">     616 </span>            :         {
 <span class="lineNum">     617 </span><span class="lineCov">        136 :             LBINFO &lt;&lt; &quot;Cannot select connection &quot; &lt;&lt; connection</span>
-<span class="lineNum">     618 </span><span class="lineCov">        136 :                    &lt;&lt; &quot;, connection &quot; &lt;&lt; lunchbox::className( connection.get( ))</span>
+<span class="lineNum">     618 </span><span class="lineCov">        102 :                    &lt;&lt; &quot;, connection &quot; &lt;&lt; lunchbox::className( connection.get( ))</span>
 <span class="lineNum">     619 </span><span class="lineCov">        136 :                    &lt;&lt; &quot; doesn't have a file descriptor&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     620 </span><span class="lineCov">         34 :             _impl-&gt;connection = connection;</span>
 <span class="lineNum">     621 </span><span class="lineCov">         34 :             _impl-&gt;lock.unset();</span>
 <span class="lineNum">     622 </span><span class="lineCov">         34 :             return false;</span>
 <span class="lineNum">     623 </span>            :         }
 <span class="lineNum">     624 </span>            : 
-<span class="lineNum">     625 </span><span class="lineCov">       1284 :         LBVERB &lt;&lt; &quot;Listening on &quot; &lt;&lt; lunchbox::className( connection.get( ))</span>
-<span class="lineNum">     626 </span><span class="lineCov">       1926 :                &lt;&lt; std::endl;</span>
+<span class="lineNum">     625 </span><span class="lineCov">       1282 :         LBVERB &lt;&lt; &quot;Listening on &quot; &lt;&lt; lunchbox::className( connection.get( ))</span>
+<span class="lineNum">     626 </span><span class="lineCov">       1922 :                &lt;&lt; std::endl;</span>
 <span class="lineNum">     627 </span>            : 
-<span class="lineNum">     628 </span><span class="lineCov">        642 :         _impl-&gt;fdSet.append( fd );</span>
+<span class="lineNum">     628 </span><span class="lineCov">        641 :         _impl-&gt;fdSet.append( fd );</span>
 <span class="lineNum">     629 </span>            : 
 <span class="lineNum">     630 </span><span class="lineCov">        642 :         result.connection = connection.get();</span>
 <span class="lineNum">     631 </span><span class="lineCov">        642 :         _impl-&gt;fdSetResult.append( result );</span>
-<span class="lineNum">     632 </span><span class="lineCov">        642 :     }</span>
+<span class="lineNum">     632 </span>            :     }
 <span class="lineNum">     633 </span><span class="lineCov">        161 :     _impl-&gt;lock.unset();</span>
 <span class="lineNum">     634 </span><span class="lineCov">        161 :     _impl-&gt;fdSetCopy = _impl-&gt;fdSet;</span>
 <span class="lineNum">     635 </span>            : #endif
@@ -718,14 +718,14 @@
 <span class="lineNum">     656 </span><span class="lineNoCov">          0 :         return os &lt;&lt; &quot;unknown (&quot; &lt;&lt; unsigned( event ) &lt;&lt; ')';</span>
 <span class="lineNum">     657 </span>            : 
 <span class="lineNum">     658 </span>            :     return os &lt;&lt; ( event == ConnectionSet::EVENT_NONE ? &quot;none&quot; :
-<span class="lineNum">     659 </span>            :                    event == ConnectionSet::EVENT_CONNECT ? &quot;connect&quot; :
-<span class="lineNum">     660 </span>            :                    event == ConnectionSet::EVENT_DISCONNECT ? &quot;disconnect&quot; :
-<span class="lineNum">     661 </span>            :                    event == ConnectionSet::EVENT_DATA ? &quot;data&quot; :
-<span class="lineNum">     662 </span>            :                    event == ConnectionSet::EVENT_TIMEOUT ? &quot;timeout&quot; :
-<span class="lineNum">     663 </span>            :                    event == ConnectionSet::EVENT_INTERRUPT ? &quot;interrupted&quot; :
-<span class="lineNum">     664 </span>            :                    event == ConnectionSet::EVENT_ERROR ? &quot;error&quot; :
-<span class="lineNum">     665 </span>            :                    event == ConnectionSet::EVENT_SELECT_ERROR ? &quot;select error&quot; :
-<span class="lineNum">     666 </span>            :                    event == ConnectionSet::EVENT_INVALID_HANDLE ?
+<span class="lineNum">     659 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_CONNECT ? &quot;connect&quot; :</span>
+<span class="lineNum">     660 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_DISCONNECT ? &quot;disconnect&quot; :</span>
+<span class="lineNum">     661 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_DATA ? &quot;data&quot; :</span>
+<span class="lineNum">     662 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_TIMEOUT ? &quot;timeout&quot; :</span>
+<span class="lineNum">     663 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_INTERRUPT ? &quot;interrupted&quot; :</span>
+<span class="lineNum">     664 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_ERROR ? &quot;error&quot; :</span>
+<span class="lineNum">     665 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_SELECT_ERROR ? &quot;select error&quot; :</span>
+<span class="lineNum">     666 </span><span class="lineNoCov">          0 :                    event == ConnectionSet::EVENT_INVALID_HANDLE ?</span>
 <span class="lineNum">     667 </span><span class="lineNoCov">          0 :                    &quot;invalid handle&quot; : &quot;ERROR&quot; );</span>
 <a name="668"><span class="lineNum">     668 </span>            : }</a>
 <span class="lineNum">     669 </span>            : 

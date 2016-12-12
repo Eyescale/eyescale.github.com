@@ -8,5 +8,5 @@ var classco_1_1_exception =
     [ "Exception", "classco_1_1_exception.html#a2685c68d527852dc9b78dbf592ea39e8", null ],
     [ "~Exception", "classco_1_1_exception.html#a23be275a48dee16a2dcb90dfcda4a782", null ],
     [ "getType", "classco_1_1_exception.html#a54614917d402585194278828dd3a79a5", null ],
-    [ "what", "classco_1_1_exception.html#a0fa77f8d61ea8e6788409a042d0568bc", null ]
+    [ "what", "classco_1_1_exception.html#a798c3d4cda6b34e026baa6c0ef51eb18", null ]
 ];

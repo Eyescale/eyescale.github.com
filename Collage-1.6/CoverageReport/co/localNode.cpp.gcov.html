@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">585</td>
-            <td class="headerCovTableEntry">1171</td>
-            <td class="headerCovTableEntryMed">50.0 %</td>
+            <td class="headerCovTableEntry">606</td>
+            <td class="headerCovTableEntry">1195</td>
+            <td class="headerCovTableEntryMed">50.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">75</td>
@@ -156,7 +156,7 @@
 <span class="lineNum">      94 </span>            :     {
 <span class="lineNum">      95 </span><span class="lineCov">         50 :         const int32_t threadID = ++_threadIDs - 1;</span>
 <span class="lineNum">      96 </span><span class="lineCov">        100 :         setName( std::string( &quot;Rcv&quot; ) +</span>
-<span class="lineNum">      97 </span><span class="lineCov">         50 :                  boost::lexical_cast&lt; std::string &gt;( threadID ));</span>
+<span class="lineNum">      97 </span><span class="lineCov">        150 :                  boost::lexical_cast&lt; std::string &gt;( threadID ));</span>
 <span class="lineNum">      98 </span><span class="lineCov">         50 :         return _localNode-&gt;_startCommandThread( threadID );</span>
 <a name="99"><span class="lineNum">      99 </span>            :     }</a>
 <span class="lineNum">     100 </span>            : 
@@ -170,7 +170,7 @@
 <a name="108"><span class="lineNum">     108 </span>            : {</a>
 <span class="lineNum">     109 </span>            : public:
 <span class="lineNum">     110 </span><span class="lineCov">         55 :     explicit CommandThread( co::LocalNode* localNode )</span>
-<span class="lineNum">     111 </span>            :         : Worker( Global::getCommandQueueLimit( ))
+<span class="lineNum">     111 </span><span class="lineCov">         55 :         : Worker( Global::getCommandQueueLimit( ))</span>
 <span class="lineNum">     112 </span>            :         , threadID( 0 )
 <span class="lineNum">     113 </span><span class="lineCov">         55 :         , _localNode( localNode )</span>
 <span class="lineNum">     114 </span><span class="lineCov">         55 :     {}</span>
@@ -181,12 +181,12 @@
 <span class="lineNum">     119 </span><span class="lineCov">         50 :     bool init() override</span>
 <span class="lineNum">     120 </span>            :     {
 <span class="lineNum">     121 </span><span class="lineCov">        100 :         setName( std::string( &quot;Cmd&quot; ) +</span>
-<span class="lineNum">     122 </span><span class="lineCov">         50 :                  boost::lexical_cast&lt; std::string &gt;( threadID ));</span>
+<span class="lineNum">     122 </span><span class="lineCov">        150 :                  boost::lexical_cast&lt; std::string &gt;( threadID ));</span>
 <span class="lineNum">     123 </span><span class="lineCov">         50 :         return true;</span>
 <a name="124"><span class="lineNum">     124 </span>            :     }</a>
 <a name="125"><span class="lineNum">     125 </span>            : </a>
-<span class="lineNum">     126 </span><span class="lineCov">     103338 :     bool stopRunning() override { return _localNode-&gt;isClosed(); }</span>
-<span class="lineNum">     127 </span><span class="lineCov">      51620 :     bool notifyIdle() override { return _localNode-&gt;_notifyCommandThreadIdle();}</span>
+<span class="lineNum">     126 </span><span class="lineCov">     103312 :     bool stopRunning() override { return _localNode-&gt;isClosed(); }</span>
+<span class="lineNum">     127 </span><span class="lineCov">      51592 :     bool notifyIdle() override { return _localNode-&gt;_notifyCommandThreadIdle();}</span>
 <span class="lineNum">     128 </span>            : 
 <span class="lineNum">     129 </span>            : private:
 <span class="lineNum">     130 </span>            :     co::LocalNode* const _localNode;
@@ -196,7 +196,7 @@
 <a name="134"><span class="lineNum">     134 </span>            : {</a>
 <span class="lineNum">     135 </span>            : public:
 <span class="lineNum">     136 </span><span class="lineCov">         55 :     LocalNode()</span>
-<span class="lineNum">     137 </span>            :         : smallBuffers( 200 )
+<span class="lineNum">     137 </span><span class="lineCov">         55 :         : smallBuffers( 200 )</span>
 <span class="lineNum">     138 </span>            :         , bigBuffers( 20 )
 <span class="lineNum">     139 </span>            :         , sendToken( true )
 <span class="lineNum">     140 </span>            :         , lastSendToken( 0 )
@@ -283,54 +283,54 @@
 <span class="lineNum">     221 </span><span class="lineCov">         55 :     _impl-&gt;objectStore = new ObjectStore( this, _impl-&gt;counters );</span>
 <span class="lineNum">     222 </span>            : 
 <span class="lineNum">     223 </span><span class="lineCov">         55 :     CommandQueue* queue = getCommandThreadQueue();</span>
-<span class="lineNum">     224 </span>            :     registerCommand( CMD_NODE_CONNECT,
-<span class="lineNum">     225 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdConnect ), 0 );</span>
-<span class="lineNum">     226 </span>            :     registerCommand( CMD_NODE_CONNECT_BE,
-<span class="lineNum">     227 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdConnect ), 0 );</span>
-<span class="lineNum">     228 </span>            :     registerCommand( CMD_NODE_CONNECT_REPLY,
-<span class="lineNum">     229 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdConnectReply ), 0 );</span>
-<span class="lineNum">     230 </span>            :     registerCommand( CMD_NODE_CONNECT_REPLY_BE,
-<span class="lineNum">     231 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdConnectReply ), 0 );</span>
-<span class="lineNum">     232 </span>            :     registerCommand( CMD_NODE_ID,
-<span class="lineNum">     233 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdID ), 0 );</span>
-<span class="lineNum">     234 </span>            :     registerCommand( CMD_NODE_ID_BE,
-<span class="lineNum">     235 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdID ), 0 );</span>
-<span class="lineNum">     236 </span>            :     registerCommand( CMD_NODE_ACK_REQUEST,
-<span class="lineNum">     237 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdAckRequest ), 0 );</span>
-<span class="lineNum">     238 </span>            :     registerCommand( CMD_NODE_STOP_RCV,
-<span class="lineNum">     239 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdStopRcv ), 0 );</span>
-<span class="lineNum">     240 </span>            :     registerCommand( CMD_NODE_STOP_CMD,
-<span class="lineNum">     241 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdStopCmd ), queue );</span>
-<span class="lineNum">     242 </span>            :     registerCommand( CMD_NODE_SET_AFFINITY_RCV,
-<span class="lineNum">     243 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdSetAffinity ), 0 );</span>
-<span class="lineNum">     244 </span>            :     registerCommand( CMD_NODE_SET_AFFINITY_CMD,
-<span class="lineNum">     245 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdSetAffinity ), queue );</span>
-<span class="lineNum">     246 </span>            :     registerCommand( CMD_NODE_CONNECT_ACK,
-<span class="lineNum">     247 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdConnectAck ), 0 );</span>
-<span class="lineNum">     248 </span>            :     registerCommand( CMD_NODE_DISCONNECT,
-<span class="lineNum">     249 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdDisconnect ), 0 );</span>
-<span class="lineNum">     250 </span>            :     registerCommand( CMD_NODE_GET_NODE_DATA,
-<span class="lineNum">     251 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdGetNodeData ), queue );</span>
-<span class="lineNum">     252 </span>            :     registerCommand( CMD_NODE_GET_NODE_DATA_REPLY,
-<span class="lineNum">     253 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdGetNodeDataReply ), 0 );</span>
-<span class="lineNum">     254 </span>            :     registerCommand( CMD_NODE_ACQUIRE_SEND_TOKEN,
-<span class="lineNum">     255 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdAcquireSendToken ), queue );</span>
-<span class="lineNum">     256 </span>            :     registerCommand( CMD_NODE_ACQUIRE_SEND_TOKEN_REPLY,
-<span class="lineNum">     257 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdAcquireSendTokenReply ), 0);</span>
-<span class="lineNum">     258 </span>            :     registerCommand( CMD_NODE_RELEASE_SEND_TOKEN,
-<span class="lineNum">     259 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdReleaseSendToken ), queue );</span>
-<span class="lineNum">     260 </span>            :     registerCommand( CMD_NODE_ADD_LISTENER,
-<span class="lineNum">     261 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdAddListener ), 0 );</span>
-<span class="lineNum">     262 </span>            :     registerCommand( CMD_NODE_REMOVE_LISTENER,
-<span class="lineNum">     263 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdRemoveListener ), 0 );</span>
-<span class="lineNum">     264 </span>            :     registerCommand( CMD_NODE_PING,
-<span class="lineNum">     265 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdPing ), queue );</span>
-<span class="lineNum">     266 </span>            :     registerCommand( CMD_NODE_PING_REPLY,
-<span class="lineNum">     267 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdDiscard ), 0 );</span>
-<span class="lineNum">     268 </span>            :     registerCommand( CMD_NODE_COMMAND,
-<span class="lineNum">     269 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdCommand ), 0 );</span>
-<span class="lineNum">     270 </span>            :     registerCommand( CMD_NODE_ADD_CONNECTION,
-<span class="lineNum">     271 </span><span class="lineCov">         55 :                      CmdFunc( this, &amp;LocalNode::_cmdAddConnection ), 0 );</span>
+<span class="lineNum">     224 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_CONNECT,</span>
+<span class="lineNum">     225 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdConnect ), 0 );</span>
+<span class="lineNum">     226 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_CONNECT_BE,</span>
+<span class="lineNum">     227 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdConnect ), 0 );</span>
+<span class="lineNum">     228 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_CONNECT_REPLY,</span>
+<span class="lineNum">     229 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdConnectReply ), 0 );</span>
+<span class="lineNum">     230 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_CONNECT_REPLY_BE,</span>
+<span class="lineNum">     231 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdConnectReply ), 0 );</span>
+<span class="lineNum">     232 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_ID,</span>
+<span class="lineNum">     233 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdID ), 0 );</span>
+<span class="lineNum">     234 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_ID_BE,</span>
+<span class="lineNum">     235 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdID ), 0 );</span>
+<span class="lineNum">     236 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_ACK_REQUEST,</span>
+<span class="lineNum">     237 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdAckRequest ), 0 );</span>
+<span class="lineNum">     238 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_STOP_RCV,</span>
+<span class="lineNum">     239 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdStopRcv ), 0 );</span>
+<span class="lineNum">     240 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_STOP_CMD,</span>
+<span class="lineNum">     241 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdStopCmd ), queue );</span>
+<span class="lineNum">     242 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_SET_AFFINITY_RCV,</span>
+<span class="lineNum">     243 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdSetAffinity ), 0 );</span>
+<span class="lineNum">     244 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_SET_AFFINITY_CMD,</span>
+<span class="lineNum">     245 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdSetAffinity ), queue );</span>
+<span class="lineNum">     246 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_CONNECT_ACK,</span>
+<span class="lineNum">     247 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdConnectAck ), 0 );</span>
+<span class="lineNum">     248 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_DISCONNECT,</span>
+<span class="lineNum">     249 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdDisconnect ), 0 );</span>
+<span class="lineNum">     250 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_GET_NODE_DATA,</span>
+<span class="lineNum">     251 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdGetNodeData ), queue );</span>
+<span class="lineNum">     252 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_GET_NODE_DATA_REPLY,</span>
+<span class="lineNum">     253 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdGetNodeDataReply ), 0 );</span>
+<span class="lineNum">     254 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_ACQUIRE_SEND_TOKEN,</span>
+<span class="lineNum">     255 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdAcquireSendToken ), queue );</span>
+<span class="lineNum">     256 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_ACQUIRE_SEND_TOKEN_REPLY,</span>
+<span class="lineNum">     257 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdAcquireSendTokenReply ), 0);</span>
+<span class="lineNum">     258 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_RELEASE_SEND_TOKEN,</span>
+<span class="lineNum">     259 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdReleaseSendToken ), queue );</span>
+<span class="lineNum">     260 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_ADD_LISTENER,</span>
+<span class="lineNum">     261 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdAddListener ), 0 );</span>
+<span class="lineNum">     262 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_REMOVE_LISTENER,</span>
+<span class="lineNum">     263 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdRemoveListener ), 0 );</span>
+<span class="lineNum">     264 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_PING,</span>
+<span class="lineNum">     265 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdPing ), queue );</span>
+<span class="lineNum">     266 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_PING_REPLY,</span>
+<span class="lineNum">     267 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdDiscard ), 0 );</span>
+<span class="lineNum">     268 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_COMMAND,</span>
+<span class="lineNum">     269 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdCommand ), 0 );</span>
+<span class="lineNum">     270 </span><span class="lineCov">         55 :     registerCommand( CMD_NODE_ADD_CONNECTION,</span>
+<span class="lineNum">     271 </span><span class="lineCov">        110 :                      CmdFunc( this, &amp;LocalNode::_cmdAddConnection ), 0 );</span>
 <a name="272"><span class="lineNum">     272 </span><span class="lineCov">         55 : }</span></a>
 <span class="lineNum">     273 </span>            : 
 <span class="lineNum">     274 </span><span class="lineCov">        148 : LocalNode::~LocalNode( )</span>
@@ -341,7 +341,7 @@
 <span class="lineNum">     279 </span>            : 
 <span class="lineNum">     280 </span><span class="lineCov">          1 : bool LocalNode::initLocal( const int argc, char** argv )</span>
 <span class="lineNum">     281 </span>            : {
-<span class="lineNum">     282 </span><span class="lineCov">          1 :     std::string setupOpts;</span>
+<span class="lineNum">     282 </span><span class="lineCov">          2 :     std::string setupOpts;</span>
 <span class="lineNum">     283 </span><span class="lineCov">          1 :     _impl-&gt;args.clear();</span>
 <span class="lineNum">     284 </span>            : 
 <span class="lineNum">     285 </span>            :     // We do not use getopt_long because it really does not work due to the
@@ -425,11 +425,11 @@
 <span class="lineNum">     363 </span><span class="lineCov">         50 :     if( !isClosed() || !_connectSelf( ))</span>
 <span class="lineNum">     364 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     365 </span>            : 
-<span class="lineNum">     366 </span><span class="lineCov">         50 :     const ConnectionDescriptions&amp; descriptions = getConnectionDescriptions();</span>
+<span class="lineNum">     366 </span><span class="lineCov">        100 :     const ConnectionDescriptions&amp; descriptions = getConnectionDescriptions();</span>
 <span class="lineNum">     367 </span><span class="lineCov">        291 :     for( ConnectionDescriptionsCIter i = descriptions.begin();</span>
 <span class="lineNum">     368 </span><span class="lineCov">        194 :          i != descriptions.end(); ++i )</span>
 <span class="lineNum">     369 </span>            :     {
-<span class="lineNum">     370 </span><span class="lineCov">         47 :         ConnectionDescriptionPtr description = *i;</span>
+<span class="lineNum">     370 </span><span class="lineCov">         94 :         ConnectionDescriptionPtr description = *i;</span>
 <span class="lineNum">     371 </span><span class="lineCov">         94 :         ConnectionPtr connection = Connection::create( description );</span>
 <span class="lineNum">     372 </span>            : 
 <span class="lineNum">     373 </span><span class="lineCov">         47 :         if( !connection || !connection-&gt;listen( ))</span>
@@ -448,7 +448,7 @@
 <span class="lineNum">     386 </span>            : 
 <span class="lineNum">     387 </span><span class="lineCov">         94 :         LBVERB &lt;&lt; &quot;Added node &quot; &lt;&lt; getNodeID() &lt;&lt; &quot; using &quot; &lt;&lt; connection</span>
 <span class="lineNum">     388 </span><span class="lineCov">        141 :                &lt;&lt; std::endl;</span>
-<span class="lineNum">     389 </span><span class="lineCov">         47 :     }</span>
+<span class="lineNum">     389 </span>            :     }
 <span class="lineNum">     390 </span>            : 
 <span class="lineNum">     391 </span><span class="lineCov">        100 :     LBVERB &lt;&lt; lunchbox::className(this) &lt;&lt; &quot; start command and receiver thread &quot;</span>
 <span class="lineNum">     392 </span><span class="lineCov">        150 :            &lt;&lt; std::endl;</span>
@@ -527,7 +527,7 @@
 <span class="lineNum">     465 </span>            :     // my handler
 <span class="lineNum">     466 </span><span class="lineNoCov">          0 :     const Nodes&amp; nodes = getNodes();</span>
 <span class="lineNum">     467 </span><span class="lineNoCov">          0 :     for( NodePtr node : nodes )</span>
-<span class="lineNum">     468 </span>            :         node-&gt;send( CMD_NODE_ADD_LISTENER )
+<span class="lineNum">     468 </span><span class="lineNoCov">          0 :         node-&gt;send( CMD_NODE_ADD_LISTENER )</span>
 <span class="lineNum">     469 </span><span class="lineNoCov">          0 :             &lt;&lt; (uint64_t)(connection.get( ))</span>
 <span class="lineNum">     470 </span><span class="lineNoCov">          0 :             &lt;&lt; connection-&gt;getDescription()-&gt;toString();</span>
 <a name="471"><span class="lineNum">     471 </span>            : }</a>
@@ -539,7 +539,7 @@
 <span class="lineNum">     477 </span>            :     {
 <span class="lineNum">     478 </span><span class="lineNoCov">          0 :         ConnectionPtr connection = *i;</span>
 <span class="lineNum">     479 </span><span class="lineNoCov">          0 :         requests.push_back( _removeListener( connection ));</span>
-<span class="lineNum">     480 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     480 </span>            :     }
 <a name="481"><span class="lineNum">     481 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     482 </span>            : 
 <span class="lineNum">     483 </span><span class="lineNoCov">          0 : lunchbox::Request&lt; void &gt; LocalNode::_removeListener( ConnectionPtr conn )</span>
@@ -552,7 +552,7 @@
 <span class="lineNum">     490 </span>            : 
 <span class="lineNum">     491 </span><span class="lineNoCov">          0 :     const Nodes&amp; nodes = getNodes();</span>
 <span class="lineNum">     492 </span><span class="lineNoCov">          0 :     for( NodePtr node : nodes )</span>
-<span class="lineNum">     493 </span>            :         node-&gt;send( CMD_NODE_REMOVE_LISTENER )
+<span class="lineNum">     493 </span><span class="lineNoCov">          0 :         node-&gt;send( CMD_NODE_REMOVE_LISTENER )</span>
 <span class="lineNum">     494 </span><span class="lineNoCov">          0 :             &lt;&lt; request &lt;&lt; conn.get() &lt;&lt; conn-&gt;getDescription()-&gt;toString();</span>
 <span class="lineNum">     495 </span><span class="lineNoCov">          0 :     return request;</span>
 <a name="496"><span class="lineNum">     496 </span>            : }</a>
@@ -562,10 +562,10 @@
 <span class="lineNum">     500 </span><span class="lineCov">        152 :     if( _impl-&gt;receiverThread-&gt;isRunning() &amp;&amp; !_impl-&gt;inReceiverThread( ))</span>
 <span class="lineNum">     501 </span>            :     {
 <span class="lineNum">     502 </span><span class="lineCov">         34 :         addConnection( connection );</span>
-<span class="lineNum">     503 </span><span class="lineCov">        186 :         return;</span>
+<span class="lineNum">     503 </span><span class="lineCov">         34 :         return;</span>
 <span class="lineNum">     504 </span>            :     }
 <span class="lineNum">     505 </span>            : 
-<span class="lineNum">     506 </span><span class="lineCov">        118 :     BufferPtr buffer = _impl-&gt;smallBuffers.alloc( COMMAND_ALLOCSIZE );</span>
+<span class="lineNum">     506 </span><span class="lineCov">        236 :     BufferPtr buffer = _impl-&gt;smallBuffers.alloc( COMMAND_ALLOCSIZE );</span>
 <span class="lineNum">     507 </span><span class="lineCov">        118 :     connection-&gt;recvNB( buffer, COMMAND_MINSIZE );</span>
 <span class="lineNum">     508 </span><span class="lineCov">        118 :     _impl-&gt;incoming.addConnection( connection );</span>
 <a name="509"><span class="lineNum">     509 </span>            : }</a>
@@ -592,9 +592,9 @@
 <span class="lineNum">     530 </span><span class="lineCov">        288 :     for( ConnectionNodeHashCIter i = _impl-&gt;connectionNodes.begin();</span>
 <span class="lineNum">     531 </span><span class="lineCov">        192 :          i != _impl-&gt;connectionNodes.end(); ++i )</span>
 <span class="lineNum">     532 </span>            :     {
-<span class="lineNum">     533 </span><span class="lineCov">         47 :         NodePtr node = i-&gt;second;</span>
+<span class="lineNum">     533 </span><span class="lineCov">         94 :         NodePtr node = i-&gt;second;</span>
 <span class="lineNum">     534 </span><span class="lineCov">         47 :         LBDEBUG &lt;&lt; &quot;    &quot; &lt;&lt; i-&gt;first &lt;&lt; &quot; : &quot; &lt;&lt; node &lt;&lt; std::endl;</span>
-<span class="lineNum">     535 </span><span class="lineCov">         47 :     }</span>
+<span class="lineNum">     535 </span>            :     }
 <span class="lineNum">     536 </span>            : #endif
 <span class="lineNum">     537 </span>            : 
 <span class="lineNum">     538 </span><span class="lineCov">         49 :     _impl-&gt;connectionNodes.clear();</span>
@@ -606,9 +606,9 @@
 <span class="lineNum">     544 </span>            : #ifndef NDEBUG
 <span class="lineNum">     545 </span><span class="lineCov">         51 :     for( NodeHashCIter i = _impl-&gt;nodes-&gt;begin(); i != _impl-&gt;nodes-&gt;end(); ++i)</span>
 <span class="lineNum">     546 </span>            :     {
-<span class="lineNum">     547 </span><span class="lineCov">          2 :         NodePtr node = i-&gt;second;</span>
+<span class="lineNum">     547 </span><span class="lineCov">          4 :         NodePtr node = i-&gt;second;</span>
 <span class="lineNum">     548 </span><span class="lineCov">          2 :         LBDEBUG &lt;&lt; &quot;    &quot; &lt;&lt; node &lt;&lt; std::endl;</span>
-<span class="lineNum">     549 </span><span class="lineCov">          2 :     }</span>
+<span class="lineNum">     549 </span>            :     }
 <span class="lineNum">     550 </span>            : #endif
 <span class="lineNum">     551 </span>            : 
 <span class="lineNum">     552 </span><span class="lineCov">         49 :     _impl-&gt;nodes-&gt;clear();</span>
@@ -616,7 +616,7 @@
 <span class="lineNum">     554 </span>            : 
 <span class="lineNum">     555 </span><span class="lineCov">        115 : void LocalNode::_closeNode( NodePtr node )</span>
 <span class="lineNum">     556 </span>            : {
-<span class="lineNum">     557 </span><span class="lineCov">        115 :     ConnectionPtr connection = node-&gt;getConnection();</span>
+<span class="lineNum">     557 </span><span class="lineCov">        230 :     ConnectionPtr connection = node-&gt;getConnection();</span>
 <span class="lineNum">     558 </span><span class="lineCov">        230 :     ConnectionPtr mcConnection = node-&gt;_getMulticast();</span>
 <span class="lineNum">     559 </span>            : 
 <span class="lineNum">     560 </span><span class="lineCov">        115 :     node-&gt;_disconnect();</span>
@@ -641,13 +641,13 @@
 <span class="lineNum">     579 </span><span class="lineCov">        230 :     lunchbox::ScopedFastWrite mutex( _impl-&gt;nodes );</span>
 <span class="lineNum">     580 </span><span class="lineCov">        115 :     _impl-&gt;nodes-&gt;erase( node-&gt;getNodeID( ));</span>
 <span class="lineNum">     581 </span><span class="lineCov">        115 :     notifyDisconnect( node );</span>
-<span class="lineNum">     582 </span><span class="lineCov">        230 :     LBDEBUG &lt;&lt; node &lt;&lt; &quot; disconnected from &quot; &lt;&lt; *this &lt;&lt; std::endl;</span>
+<span class="lineNum">     582 </span><span class="lineCov">        115 :     LBDEBUG &lt;&lt; node &lt;&lt; &quot; disconnected from &quot; &lt;&lt; *this &lt;&lt; std::endl;</span>
 <a name="583"><span class="lineNum">     583 </span><span class="lineCov">        115 : }</span></a>
 <span class="lineNum">     584 </span>            : 
 <span class="lineNum">     585 </span><span class="lineCov">         50 : bool LocalNode::_connectSelf()</span>
 <span class="lineNum">     586 </span>            : {
 <span class="lineNum">     587 </span>            :     // setup local connection to myself
-<span class="lineNum">     588 </span><span class="lineCov">         50 :     PipeConnectionPtr connection = new PipeConnection;</span>
+<span class="lineNum">     588 </span><span class="lineCov">        100 :     PipeConnectionPtr connection = new PipeConnection;</span>
 <span class="lineNum">     589 </span><span class="lineCov">         50 :     if( !connection-&gt;connect( ))</span>
 <span class="lineNum">     590 </span>            :     {
 <span class="lineNum">     591 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Could not create local connection to receiver thread.&quot;</span>
@@ -681,7 +681,7 @@
 <span class="lineNum">     619 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     620 </span>            : 
 <span class="lineNum">     621 </span><span class="lineCov">          8 :     LBASSERT( !inCommandThread( ));</span>
-<span class="lineNum">     622 </span><span class="lineCov">          8 :     lunchbox::Request&lt; void &gt; request = registerRequest&lt; void &gt;( node.get( ));</span>
+<span class="lineNum">     622 </span><span class="lineCov">         16 :     lunchbox::Request&lt; void &gt; request = registerRequest&lt; void &gt;( node.get( ));</span>
 <span class="lineNum">     623 </span><span class="lineCov">          8 :     send( CMD_NODE_DISCONNECT ) &lt;&lt; request;</span>
 <span class="lineNum">     624 </span>            : 
 <span class="lineNum">     625 </span><span class="lineCov">          8 :     request.wait();</span>
@@ -692,7 +692,7 @@
 <span class="lineNum">     630 </span><span class="lineCov">      20001 : void LocalNode::ackRequest( NodePtr node, const uint32_t requestID )</span>
 <span class="lineNum">     631 </span>            : {
 <span class="lineNum">     632 </span><span class="lineCov">      20001 :     if( requestID == LB_UNDEFINED_UINT32 ) // no need to ack operation</span>
-<span class="lineNum">     633 </span><span class="lineCov">      20001 :         return;</span>
+<span class="lineNum">     633 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     634 </span>            : 
 <span class="lineNum">     635 </span><span class="lineCov">      20001 :     if( node == this ) // OPT</span>
 <span class="lineNum">     636 </span><span class="lineNoCov">          0 :         serveRequest( requestID );</span>
@@ -722,7 +722,7 @@
 <span class="lineNum">     660 </span><span class="lineNoCov">          0 :             node-&gt;send( CMD_NODE_PING );</span>
 <span class="lineNum">     661 </span><span class="lineNoCov">          0 :             pinged = true;</span>
 <span class="lineNum">     662 </span>            :         }
-<span class="lineNum">     663 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     663 </span>            :     }
 <span class="lineNum">     664 </span><span class="lineNoCov">          0 :     return pinged;</span>
 <span class="lineNum">     665 </span>            : }
 <span class="lineNum">     666 </span>            : 
@@ -762,11 +762,11 @@
 <span class="lineNum">     700 </span><span class="lineCov">         40 : f_bool_t LocalNode::mapObject( Object* object, const uint128_t&amp; id,</span>
 <span class="lineNum">     701 </span>            :                                NodePtr master, const uint128_t&amp; version )
 <span class="lineNum">     702 </span>            : {
-<span class="lineNum">     703 </span>            :     const uint32_t request = _impl-&gt;objectStore-&gt;mapNB( object, id, version,
+<span class="lineNum">     703 </span><span class="lineCov">         80 :     const uint32_t request = _impl-&gt;objectStore-&gt;mapNB( object, id, version,</span>
 <span class="lineNum">     704 </span><span class="lineCov">         40 :                                                         master );</span>
 <span class="lineNum">     705 </span>            :     const FuturebImpl::Func&amp; func = boost::bind( &amp;ObjectStore::mapSync,
-<span class="lineNum">     706 </span><span class="lineCov">         40 :                                                  _impl-&gt;objectStore, request );</span>
-<span class="lineNum">     707 </span><span class="lineCov">         40 :     return f_bool_t( new FuturebImpl( func ));</span>
+<span class="lineNum">     706 </span><span class="lineCov">         80 :                                                  _impl-&gt;objectStore, request );</span>
+<span class="lineNum">     707 </span><span class="lineCov">         80 :     return f_bool_t( new FuturebImpl( func ));</span>
 <a name="708"><span class="lineNum">     708 </span>            : }</a>
 <span class="lineNum">     709 </span>            : 
 <span class="lineNum">     710 </span><span class="lineNoCov">          0 : uint32_t LocalNode::mapObjectNB( Object* object, const uint128_t&amp; id,</span>
@@ -831,7 +831,7 @@
 <span class="lineNum">     769 </span>            :                                         const CommandHandler&amp; func,
 <span class="lineNum">     770 </span>            :                                         CommandQueue* queue )
 <span class="lineNum">     771 </span>            : {
-<span class="lineNum">     772 </span><span class="lineCov">          2 :     lunchbox::ScopedFastWrite mutex( _impl-&gt;commandHandlers );</span>
+<span class="lineNum">     772 </span><span class="lineCov">          4 :     lunchbox::ScopedFastWrite mutex( _impl-&gt;commandHandlers );</span>
 <span class="lineNum">     773 </span><span class="lineCov">          2 :     if( _impl-&gt;commandHandlers-&gt;find(command) != _impl-&gt;commandHandlers-&gt;end( ))</span>
 <span class="lineNum">     774 </span>            :     {
 <span class="lineNum">     775 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Already got a registered handler for custom command &quot;</span>
@@ -839,8 +839,8 @@
 <span class="lineNum">     777 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     778 </span>            :     }
 <span class="lineNum">     779 </span>            : 
-<span class="lineNum">     780 </span>            :     _impl-&gt;commandHandlers-&gt;insert( std::make_pair( command,
-<span class="lineNum">     781 </span><span class="lineCov">          2 :                                                 std::make_pair( func, queue )));</span>
+<span class="lineNum">     780 </span><span class="lineCov">          4 :     _impl-&gt;commandHandlers-&gt;insert( std::make_pair( command,</span>
+<span class="lineNum">     781 </span><span class="lineCov">          6 :                                                 std::make_pair( func, queue )));</span>
 <span class="lineNum">     782 </span><span class="lineCov">          2 :     return true;</span>
 <a name="783"><span class="lineNum">     783 </span>            : }</a>
 <span class="lineNum">     784 </span>            : 
@@ -891,7 +891,7 @@
 <span class="lineNum">     829 </span><span class="lineCov">         73 : NodePtr LocalNode::connect( const NodeID&amp; nodeID )</span>
 <span class="lineNum">     830 </span>            : {
 <span class="lineNum">     831 </span><span class="lineCov">         73 :     LBASSERT( nodeID != 0 );</span>
-<span class="lineNum">     832 </span><span class="lineCov">         73 :     LBASSERT( isListening( ));</span>
+<span class="lineNum">     832 </span><span class="lineCov">         74 :     LBASSERT( isListening( ));</span>
 <span class="lineNum">     833 </span>            : 
 <span class="lineNum">     834 </span>            :     // Make sure that only one connection request based on the node identifier
 <span class="lineNum">     835 </span>            :     // is pending at a given time. Otherwise a node with the same id might be
@@ -899,14 +899,14 @@
 <span class="lineNum">     837 </span>            :     // mutex is to register connecting nodes with this local node, and handle
 <span class="lineNum">     838 </span>            :     // all cases correctly, which is far more complex. Node connections only
 <span class="lineNum">     839 </span>            :     // happen a lot during initialization, and are therefore not time-critical.
-<span class="lineNum">     840 </span><span class="lineCov">         74 :     lunchbox::ScopedWrite mutex( _impl-&gt;connectLock );</span>
+<span class="lineNum">     840 </span><span class="lineCov">        148 :     lunchbox::ScopedWrite mutex( _impl-&gt;connectLock );</span>
 <span class="lineNum">     841 </span>            : 
 <span class="lineNum">     842 </span><span class="lineCov">        148 :     Nodes nodes = getNodes();</span>
 <span class="lineNum">     843 </span><span class="lineCov">         77 :     for( NodePtr peer : nodes )</span>
 <span class="lineNum">     844 </span>            :     {
 <span class="lineNum">     845 </span><span class="lineCov">         77 :         if( peer-&gt;getNodeID() == nodeID &amp;&amp; peer-&gt;isReachable( )) // early out</span>
 <span class="lineNum">     846 </span><span class="lineCov">         74 :             return peer;</span>
-<span class="lineNum">     847 </span><span class="lineCov">          3 :     }</span>
+<span class="lineNum">     847 </span>            :     }
 <span class="lineNum">     848 </span>            : 
 <span class="lineNum">     849 </span><span class="lineNoCov">          0 :     LBDEBUG &lt;&lt; &quot;Connecting node &quot; &lt;&lt; nodeID &lt;&lt; std::endl;</span>
 <span class="lineNum">     850 </span><span class="lineNoCov">          0 :     for( NodePtr peer : nodes )</span>
@@ -914,7 +914,7 @@
 <span class="lineNum">     852 </span><span class="lineNoCov">          0 :         NodePtr node = _connect( nodeID, peer );</span>
 <span class="lineNum">     853 </span><span class="lineNoCov">          0 :         if( node )</span>
 <span class="lineNum">     854 </span><span class="lineNoCov">          0 :             return node;</span>
-<span class="lineNum">     855 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     855 </span>            :     }
 <span class="lineNum">     856 </span>            :     {
 <span class="lineNum">     857 </span><span class="lineNoCov">          0 :         NodePtr node = _connectFromZeroconf( nodeID );</span>
 <span class="lineNum">     858 </span><span class="lineNoCov">          0 :         if( node )</span>
@@ -927,7 +927,7 @@
 <span class="lineNum">     865 </span><span class="lineNoCov">          0 :             return node;</span>
 <span class="lineNum">     866 </span>            : 
 <span class="lineNum">     867 </span><span class="lineNoCov">          0 :     LBWARN &lt;&lt; &quot;Node &quot; &lt;&lt; nodeID &lt;&lt; &quot; connection failed&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     868 </span><span class="lineCov">         74 :     return 0;</span>
+<span class="lineNum">     868 </span><span class="lineNoCov">          0 :     return 0;</span>
 <a name="869"><span class="lineNum">     869 </span>            : }</a>
 <span class="lineNum">     870 </span>            : 
 <span class="lineNum">     871 </span><span class="lineNoCov">          0 : NodePtr LocalNode::_connect( const NodeID&amp; nodeID, NodePtr peer )</span>
@@ -989,7 +989,7 @@
 <span class="lineNum">     927 </span><span class="lineNoCov">          0 :         NodeHash::const_iterator i = _impl-&gt;nodes-&gt;find( nodeID );</span>
 <span class="lineNum">     928 </span><span class="lineNoCov">          0 :         if( i != _impl-&gt;nodes-&gt;end( ))</span>
 <span class="lineNum">     929 </span><span class="lineNoCov">          0 :             node = i-&gt;second;</span>
-<span class="lineNum">     930 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     930 </span>            :     }
 <span class="lineNum">     931 </span>            : 
 <span class="lineNum">     932 </span><span class="lineNoCov">          0 :     return node-&gt;isReachable() ? node : 0;</span>
 <a name="933"><span class="lineNum">     933 </span>            : }</a>
@@ -1022,7 +1022,7 @@
 <span class="lineNum">     960 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">     961 </span>            :         }
 <span class="lineNum">     962 </span>            : 
-<span class="lineNum">     963 </span>            :         const std::string&amp; numStr = _impl-&gt;service-&gt;get( instance,
+<span class="lineNum">     963 </span><span class="lineNoCov">          0 :         const std::string&amp; numStr = _impl-&gt;service-&gt;get( instance,</span>
 <span class="lineNum">     964 </span><span class="lineNoCov">          0 :                                                          &quot;co_numPorts&quot; );</span>
 <span class="lineNum">     965 </span><span class="lineNoCov">          0 :         uint32_t num = 0;</span>
 <span class="lineNum">     966 </span>            : 
@@ -1041,18 +1041,18 @@
 <span class="lineNum">     979 </span><span class="lineNoCov">          0 :             LBCHECK( desc-&gt;fromString( descStr ));</span>
 <span class="lineNum">     980 </span><span class="lineNoCov">          0 :             LBASSERT( descStr.empty( ));</span>
 <span class="lineNum">     981 </span><span class="lineNoCov">          0 :             node-&gt;addConnectionDescription( desc );</span>
-<span class="lineNum">     982 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     982 </span>            :         }
 <span class="lineNum">     983 </span><span class="lineNoCov">          0 :         mutex.leave();</span>
 <span class="lineNum">     984 </span><span class="lineNoCov">          0 :         if( _connect( node ))</span>
 <span class="lineNum">     985 </span><span class="lineNoCov">          0 :             return node;</span>
-<span class="lineNum">     986 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     986 </span>            :     }
 <span class="lineNum">     987 </span><span class="lineNoCov">          0 :     return 0;</span>
 <a name="988"><span class="lineNum">     988 </span>            : }</a>
 <span class="lineNum">     989 </span>            : 
 <span class="lineNum">     990 </span><span class="lineCov">         34 : bool LocalNode::connect( NodePtr node )</span>
 <span class="lineNum">     991 </span>            : {
-<span class="lineNum">     992 </span><span class="lineCov">         34 :     lunchbox::ScopedWrite mutex( _impl-&gt;connectLock );</span>
-<span class="lineNum">     993 </span><span class="lineCov">         34 :     return ( _connect( node ) == CONNECT_OK );</span>
+<span class="lineNum">     992 </span><span class="lineCov">         68 :     lunchbox::ScopedWrite mutex( _impl-&gt;connectLock );</span>
+<span class="lineNum">     993 </span><span class="lineCov">         68 :     return ( _connect( node ) == CONNECT_OK );</span>
 <a name="994"><span class="lineNum">     994 </span>            : }</a>
 <span class="lineNum">     995 </span>            : 
 <span class="lineNum">     996 </span><span class="lineCov">         34 : uint32_t LocalNode::_connect( NodePtr node )</span>
@@ -1065,7 +1065,7 @@
 <span class="lineNum">    1003 </span><span class="lineCov">         34 :     LBDEBUG &lt;&lt; &quot;Connecting &quot; &lt;&lt; node &lt;&lt; std::endl;</span>
 <span class="lineNum">    1004 </span>            : 
 <span class="lineNum">    1005 </span>            :     // try connecting using the given descriptions
-<span class="lineNum">    1006 </span><span class="lineCov">         34 :     const ConnectionDescriptions&amp; cds = node-&gt;getConnectionDescriptions();</span>
+<span class="lineNum">    1006 </span><span class="lineCov">         68 :     const ConnectionDescriptions&amp; cds = node-&gt;getConnectionDescriptions();</span>
 <span class="lineNum">    1007 </span><span class="lineCov">        102 :     for( ConnectionDescriptionsCIter i = cds.begin();</span>
 <span class="lineNum">    1008 </span><span class="lineCov">         68 :         i != cds.end(); ++i )</span>
 <span class="lineNum">    1009 </span>            :     {
@@ -1078,7 +1078,7 @@
 <span class="lineNum">    1016 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">    1017 </span>            : 
 <span class="lineNum">    1018 </span><span class="lineCov">         34 :         return _connect( node, connection );</span>
-<span class="lineNum">    1019 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">    1019 </span>            :     }
 <span class="lineNum">    1020 </span>            : 
 <span class="lineNum">    1021 </span><span class="lineNoCov">          0 :     LBDEBUG &lt;&lt; &quot;Node &quot; &lt;&lt; node</span>
 <span class="lineNum">    1022 </span><span class="lineNoCov">          0 :            &lt;&lt; &quot; unreachable, all connections failed to connect&quot; &lt;&lt;std::endl;</span>
@@ -1104,15 +1104,15 @@
 <span class="lineNum">    1042 </span><span class="lineCov">         34 :     _addConnection( connection );</span>
 <span class="lineNum">    1043 </span>            : 
 <span class="lineNum">    1044 </span>            :     // send connect command to peer
-<span class="lineNum">    1045 </span><span class="lineCov">         34 :     lunchbox::Request&lt; bool &gt; request = registerRequest&lt; bool &gt;( node.get( ));</span>
+<span class="lineNum">    1045 </span><span class="lineCov">         68 :     lunchbox::Request&lt; bool &gt; request = registerRequest&lt; bool &gt;( node.get( ));</span>
 <span class="lineNum">    1046 </span>            : #ifdef COLLAGE_BIGENDIAN
 <span class="lineNum">    1047 </span>            :     uint32_t cmd = CMD_NODE_CONNECT_BE;
 <span class="lineNum">    1048 </span>            :     lunchbox::byteswap( cmd );
 <span class="lineNum">    1049 </span>            : #else
 <span class="lineNum">    1050 </span><span class="lineCov">         34 :     const uint32_t cmd = CMD_NODE_CONNECT;</span>
 <span class="lineNum">    1051 </span>            : #endif
-<span class="lineNum">    1052 </span>            :     OCommand( Connections( 1, connection ), cmd )
-<span class="lineNum">    1053 </span><span class="lineCov">         34 :         &lt;&lt; getNodeID() &lt;&lt; request &lt;&lt; getType() &lt;&lt; serialize();</span>
+<span class="lineNum">    1052 </span><span class="lineCov">         68 :     OCommand( Connections( 1, connection ), cmd )</span>
+<span class="lineNum">    1053 </span><span class="lineCov">        102 :         &lt;&lt; getNodeID() &lt;&lt; request &lt;&lt; getType() &lt;&lt; serialize();</span>
 <span class="lineNum">    1054 </span>            : 
 <span class="lineNum">    1055 </span><span class="lineCov">         34 :     bool connected = false;</span>
 <span class="lineNum">    1056 </span>            :     try
@@ -1154,7 +1154,7 @@
 <span class="lineNum">    1092 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">    1093 </span>            :     }
 <span class="lineNum">    1094 </span>            : 
-<span class="lineNum">    1095 </span><span class="lineCov">         40 :     NodePtr master = connect( masterNodeID );</span>
+<span class="lineNum">    1095 </span><span class="lineCov">         80 :     NodePtr master = connect( masterNodeID );</span>
 <span class="lineNum">    1096 </span><span class="lineCov">         40 :     if( master &amp;&amp; !master-&gt;isClosed( ))</span>
 <span class="lineNum">    1097 </span><span class="lineCov">         40 :         return master;</span>
 <span class="lineNum">    1098 </span>            : 
@@ -1176,7 +1176,7 @@
 <span class="lineNum">    1114 </span><span class="lineNoCov">          0 :         co::Global::toString() + quote;</span>
 <span class="lineNum">    1115 </span>            : 
 <span class="lineNum">    1116 </span><span class="lineNoCov">          0 :     for( size_t percentPos = command.find( '%' );</span>
-<span class="lineNum">    1117 </span>            :          percentPos != std::string::npos;
+<span class="lineNum">    1117 </span><span class="lineNoCov">          0 :          percentPos != std::string::npos;</span>
 <span class="lineNum">    1118 </span><span class="lineNoCov">          0 :          percentPos = command.find( '%', percentPos + 1 ))</span>
 <span class="lineNum">    1119 </span>            :     {
 <span class="lineNum">    1120 </span><span class="lineNoCov">          0 :         std::string replacement;</span>
@@ -1212,7 +1212,7 @@
 <span class="lineNum">    1150 </span>            : 
 <span class="lineNum">    1151 </span><span class="lineNoCov">          0 :         cmd += command.substr( lastPos, percentPos - lastPos ) + replacement;</span>
 <span class="lineNum">    1152 </span><span class="lineNoCov">          0 :         lastPos = percentPos + 2;</span>
-<span class="lineNum">    1153 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">    1153 </span>            :     }
 <span class="lineNum">    1154 </span>            : 
 <span class="lineNum">    1155 </span><span class="lineNoCov">          0 :     cmd += command.substr( lastPos ) + launchOptions;</span>
 <span class="lineNum">    1156 </span>            : 
@@ -1304,10 +1304,10 @@
 <span class="lineNum">    1242 </span><span class="lineCov">        228 :     lunchbox::ScopedFastRead mutex( _impl-&gt;nodes );</span>
 <span class="lineNum">    1243 </span><span class="lineCov">        334 :     for( NodeHashCIter i = _impl-&gt;nodes-&gt;begin(); i != _impl-&gt;nodes-&gt;end(); ++i)</span>
 <span class="lineNum">    1244 </span>            :     {
-<span class="lineNum">    1245 </span><span class="lineCov">        220 :         NodePtr node = i-&gt;second;</span>
+<span class="lineNum">    1245 </span><span class="lineCov">        440 :         NodePtr node = i-&gt;second;</span>
 <span class="lineNum">    1246 </span><span class="lineCov">        220 :         if( node-&gt;isReachable() &amp;&amp; ( addSelf || node != this ))</span>
 <span class="lineNum">    1247 </span><span class="lineCov">        220 :             nodes.push_back( i-&gt;second );</span>
-<span class="lineNum">    1248 </span><span class="lineCov">        220 :     }</span>
+<span class="lineNum">    1248 </span>            :     }
 <span class="lineNum">    1249 </span><span class="lineCov">        228 :     return nodes;</span>
 <a name="1250"><span class="lineNum">    1250 </span>            : }</a>
 <span class="lineNum">    1251 </span>            : 
@@ -1350,7 +1350,7 @@
 <span class="lineNum">    1288 </span><span class="lineCov">         50 :     _initService();</span>
 <span class="lineNum">    1289 </span>            : 
 <span class="lineNum">    1290 </span><span class="lineCov">         50 :     int nErrors = 0;</span>
-<span class="lineNum">    1291 </span><span class="lineCov">      72653 :     while( isListening( ))</span>
+<span class="lineNum">    1291 </span><span class="lineCov">     145156 :     while( isListening( ))</span>
 <span class="lineNum">    1292 </span>            :     {
 <span class="lineNum">    1293 </span><span class="lineCov">      72554 :         const ConnectionSet::Event result = _impl-&gt;incoming.select();</span>
 <span class="lineNum">    1294 </span><span class="lineCov">      72553 :         switch( result )</span>
@@ -1410,7 +1410,7 @@
 <span class="lineNum">    1348 </span><span class="lineCov">         49 :     _impl-&gt;pendingCommands.clear();</span>
 <span class="lineNum">    1349 </span><span class="lineCov">         49 :     LBCHECK( _impl-&gt;commandThread-&gt;join( ));</span>
 <span class="lineNum">    1350 </span>            : 
-<span class="lineNum">    1351 </span><span class="lineCov">         49 :     ConnectionPtr connection = getConnection();</span>
+<span class="lineNum">    1351 </span><span class="lineCov">         98 :     ConnectionPtr connection = getConnection();</span>
 <span class="lineNum">    1352 </span><span class="lineCov">         98 :     PipeConnectionPtr pipe = LBSAFECAST( PipeConnection*, connection.get( ));</span>
 <span class="lineNum">    1353 </span><span class="lineCov">         49 :     connection = pipe-&gt;getSibling();</span>
 <span class="lineNum">    1354 </span><span class="lineCov">         49 :     _removeConnection( connection );</span>
@@ -1418,15 +1418,15 @@
 <span class="lineNum">    1356 </span><span class="lineCov">         49 :     _disconnect();</span>
 <span class="lineNum">    1357 </span>            : 
 <span class="lineNum">    1358 </span><span class="lineCov">         49 :     const Connections&amp; connections = _impl-&gt;incoming.getConnections();</span>
-<span class="lineNum">    1359 </span><span class="lineCov">        171 :     while( !connections.empty( ))</span>
+<span class="lineNum">    1359 </span><span class="lineCov">        195 :     while( !connections.empty( ))</span>
 <span class="lineNum">    1360 </span>            :     {
 <span class="lineNum">    1361 </span><span class="lineCov">         73 :         connection = connections.back();</span>
-<span class="lineNum">    1362 </span><span class="lineCov">         73 :         NodePtr node = _impl-&gt;connectionNodes[ connection ];</span>
+<span class="lineNum">    1362 </span><span class="lineCov">        146 :         NodePtr node = _impl-&gt;connectionNodes[ connection ];</span>
 <span class="lineNum">    1363 </span>            : 
 <span class="lineNum">    1364 </span><span class="lineCov">         73 :         if( node )</span>
 <span class="lineNum">    1365 </span><span class="lineCov">         73 :             _closeNode( node );</span>
 <span class="lineNum">    1366 </span><span class="lineCov">         73 :         _removeConnection( connection );</span>
-<span class="lineNum">    1367 </span><span class="lineCov">         73 :     }</span>
+<span class="lineNum">    1367 </span>            :     }
 <span class="lineNum">    1368 </span>            : 
 <span class="lineNum">    1369 </span><span class="lineCov">         49 :     _impl-&gt;objectStore-&gt;clear();</span>
 <span class="lineNum">    1370 </span><span class="lineCov">         49 :     _impl-&gt;pendingCommands.clear();</span>
@@ -1434,37 +1434,37 @@
 <span class="lineNum">    1372 </span><span class="lineCov">         49 :     _impl-&gt;bigBuffers.flush();</span>
 <span class="lineNum">    1373 </span>            : 
 <span class="lineNum">    1374 </span><span class="lineCov">        245 :     LBDEBUG &lt;&lt; &quot;Leaving receiver thread of &quot; &lt;&lt; lunchbox::className( this )</span>
-<span class="lineNum">    1375 </span><span class="lineCov">        245 :            &lt;&lt; std::endl;</span>
+<span class="lineNum">    1375 </span><span class="lineCov">        196 :            &lt;&lt; std::endl;</span>
 <a name="1376"><span class="lineNum">    1376 </span><span class="lineCov">         49 : }</span></a>
 <span class="lineNum">    1377 </span>            : 
 <span class="lineNum">    1378 </span><span class="lineCov">         34 : void LocalNode::_handleConnect()</span>
 <span class="lineNum">    1379 </span>            : {
-<span class="lineNum">    1380 </span><span class="lineCov">         34 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
+<span class="lineNum">    1380 </span><span class="lineCov">         68 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
 <span class="lineNum">    1381 </span><span class="lineCov">         68 :     ConnectionPtr newConn = connection-&gt;acceptSync();</span>
 <span class="lineNum">    1382 </span><span class="lineCov">         34 :     connection-&gt;acceptNB();</span>
 <span class="lineNum">    1383 </span>            : 
 <span class="lineNum">    1384 </span><span class="lineCov">         34 :     if( newConn )</span>
 <span class="lineNum">    1385 </span><span class="lineCov">         34 :         _addConnection( newConn );</span>
 <span class="lineNum">    1386 </span>            :     else
-<span class="lineNum">    1387 </span><span class="lineCov">         34 :         LBINFO &lt;&lt; &quot;Received connect event, but accept() failed&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1387 </span><span class="lineNoCov">          0 :         LBINFO &lt;&lt; &quot;Received connect event, but accept() failed&quot; &lt;&lt; std::endl;</span>
 <a name="1388"><span class="lineNum">    1388 </span><span class="lineCov">         34 : }</span></a>
 <span class="lineNum">    1389 </span>            : 
 <span class="lineNum">    1390 </span><span class="lineCov">         34 : void LocalNode::_handleDisconnect()</span>
 <span class="lineNum">    1391 </span>            : {
 <span class="lineNum">    1392 </span><span class="lineCov">         34 :     while( _handleData( )) ; // read remaining data off connection</span>
 <span class="lineNum">    1393 </span>            : 
-<span class="lineNum">    1394 </span><span class="lineCov">         34 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
+<span class="lineNum">    1394 </span><span class="lineCov">         68 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
 <span class="lineNum">    1395 </span><span class="lineCov">         34 :     ConnectionNodeHash::iterator i = _impl-&gt;connectionNodes.find( connection );</span>
 <span class="lineNum">    1396 </span>            : 
 <span class="lineNum">    1397 </span><span class="lineCov">         34 :     if( i != _impl-&gt;connectionNodes.end( ))</span>
 <span class="lineNum">    1398 </span>            :     {
-<span class="lineNum">    1399 </span><span class="lineCov">         34 :         NodePtr node = i-&gt;second;</span>
+<span class="lineNum">    1399 </span><span class="lineCov">         68 :         NodePtr node = i-&gt;second;</span>
 <span class="lineNum">    1400 </span>            : 
 <span class="lineNum">    1401 </span><span class="lineCov">         34 :         node-&gt;ref(); // extend lifetime to give cmd handler a chance</span>
 <span class="lineNum">    1402 </span>            : 
 <span class="lineNum">    1403 </span>            :         // local command dispatching
-<span class="lineNum">    1404 </span>            :         OCommand( this, this, CMD_NODE_REMOVE_NODE )
-<span class="lineNum">    1405 </span><span class="lineCov">         34 :                 &lt;&lt; node.get() &lt;&lt; uint32_t( LB_UNDEFINED_UINT32 );</span>
+<span class="lineNum">    1404 </span><span class="lineCov">         68 :         OCommand( this, this, CMD_NODE_REMOVE_NODE )</span>
+<span class="lineNum">    1405 </span><span class="lineCov">        102 :                 &lt;&lt; node.get() &lt;&lt; uint32_t( LB_UNDEFINED_UINT32 );</span>
 <span class="lineNum">    1406 </span>            : 
 <span class="lineNum">    1407 </span><span class="lineCov">         34 :         if( node-&gt;getConnection() == connection )</span>
 <span class="lineNum">    1408 </span><span class="lineCov">         34 :             _closeNode( node );</span>
@@ -1480,7 +1480,7 @@
 <span class="lineNum">    1418 </span><span class="lineCov">      72213 :     _impl-&gt;smallBuffers.compact();</span>
 <span class="lineNum">    1419 </span><span class="lineCov">      72213 :     _impl-&gt;bigBuffers.compact();</span>
 <span class="lineNum">    1420 </span>            : 
-<span class="lineNum">    1421 </span><span class="lineCov">      72213 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
+<span class="lineNum">    1421 </span><span class="lineCov">     144426 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
 <span class="lineNum">    1422 </span><span class="lineCov">      72213 :     LBASSERT( connection );</span>
 <span class="lineNum">    1423 </span>            : 
 <span class="lineNum">    1424 </span><span class="lineCov">     144426 :     BufferPtr buffer = _readHead( connection );</span>
@@ -1492,22 +1492,22 @@
 <span class="lineNum">    1430 </span><span class="lineCov">      72145 :     LBASSERT( gotCommand );</span>
 <span class="lineNum">    1431 </span>            : 
 <span class="lineNum">    1432 </span>            :     // start next receive
-<span class="lineNum">    1433 </span><span class="lineCov">     144290 :     BufferPtr nextBuffer = _impl-&gt;smallBuffers.alloc( COMMAND_ALLOCSIZE );</span>
+<span class="lineNum">    1433 </span><span class="lineCov">     144289 :     BufferPtr nextBuffer = _impl-&gt;smallBuffers.alloc( COMMAND_ALLOCSIZE );</span>
 <span class="lineNum">    1434 </span><span class="lineCov">      72145 :     connection-&gt;recvNB( nextBuffer, COMMAND_MINSIZE );</span>
 <span class="lineNum">    1435 </span>            : 
 <span class="lineNum">    1436 </span><span class="lineCov">      72145 :     if( gotCommand )</span>
 <span class="lineNum">    1437 </span>            :     {
 <span class="lineNum">    1438 </span><span class="lineCov">      72145 :         _dispatchCommand( command );</span>
-<span class="lineNum">    1439 </span><span class="lineCov">      72145 :         return true;</span>
+<span class="lineNum">    1439 </span><span class="lineCov">      72144 :         return true;</span>
 <span class="lineNum">    1440 </span>            :     }
 <span class="lineNum">    1441 </span>            : 
 <span class="lineNum">    1442 </span><span class="lineNoCov">          0 :     LBERROR &lt;&lt; &quot;Incomplete command read: &quot; &lt;&lt; command &lt;&lt; std::endl;</span>
-<span class="lineNum">    1443 </span><span class="lineCov">      72213 :     return false;</span>
+<span class="lineNum">    1443 </span><span class="lineNoCov">          0 :     return false;</span>
 <a name="1444"><span class="lineNum">    1444 </span>            : }</a>
 <span class="lineNum">    1445 </span>            : 
 <span class="lineNum">    1446 </span><span class="lineCov">      72213 : BufferPtr LocalNode::_readHead( ConnectionPtr connection )</span>
 <span class="lineNum">    1447 </span>            : {
-<span class="lineNum">    1448 </span><span class="lineCov">      72213 :     BufferPtr buffer;</span>
+<span class="lineNum">    1448 </span><span class="lineCov">     144426 :     BufferPtr buffer;</span>
 <span class="lineNum">    1449 </span><span class="lineCov">      72213 :     const bool gotSize = connection-&gt;recvSync( buffer, false );</span>
 <span class="lineNum">    1450 </span>            : 
 <span class="lineNum">    1451 </span><span class="lineCov">      72213 :     if( !buffer ) // fluke signal</span>
@@ -1530,7 +1530,7 @@
 <span class="lineNum">    1468 </span><span class="lineCov">      72145 : ICommand LocalNode::_setupCommand( ConnectionPtr connection,</span>
 <span class="lineNum">    1469 </span>            :                                    ConstBufferPtr buffer )
 <span class="lineNum">    1470 </span>            : {
-<span class="lineNum">    1471 </span><span class="lineCov">      72145 :     NodePtr node;</span>
+<span class="lineNum">    1471 </span><span class="lineCov">     144290 :     NodePtr node;</span>
 <span class="lineNum">    1472 </span><span class="lineCov">      72145 :     ConnectionNodeHashCIter i = _impl-&gt;connectionNodes.find( connection );</span>
 <span class="lineNum">    1473 </span><span class="lineCov">      72145 :     if( i != _impl-&gt;connectionNodes.end( ))</span>
 <span class="lineNum">    1474 </span><span class="lineCov">      72077 :         node = i-&gt;second;</span>
@@ -1577,7 +1577,7 @@
 <span class="lineNum">    1515 </span>            :     }
 <span class="lineNum">    1516 </span>            : 
 <span class="lineNum">    1517 </span><span class="lineCov">         68 :     command.setCommand( cmd ); // reset correctly swapped version</span>
-<span class="lineNum">    1518 </span><span class="lineCov">      72213 :     return command;</span>
+<span class="lineNum">    1518 </span><span class="lineCov">         68 :     return command;</span>
 <a name="1519"><span class="lineNum">    1519 </span>            : }</a>
 <span class="lineNum">    1520 </span>            : 
 <span class="lineNum">    1521 </span><span class="lineCov">      72145 : bool LocalNode::_readTail( ICommand&amp; command, BufferPtr buffer,</span>
@@ -1610,7 +1610,7 @@
 <span class="lineNum">    1548 </span>            : {
 <span class="lineNum">    1549 </span><span class="lineCov">         35 :     LBASSERT( _impl-&gt;receiverThread-&gt;isStopped() || _impl-&gt;inReceiverThread( ));</span>
 <span class="lineNum">    1550 </span>            :     BufferPtr buffer = size &gt; COMMAND_ALLOCSIZE ?
-<span class="lineNum">    1551 </span>            :         _impl-&gt;bigBuffers.alloc( size ) :
+<span class="lineNum">    1551 </span><span class="lineNoCov">          0 :         _impl-&gt;bigBuffers.alloc( size ) :</span>
 <span class="lineNum">    1552 </span><span class="lineCov">         35 :         _impl-&gt;smallBuffers.alloc( COMMAND_ALLOCSIZE );</span>
 <span class="lineNum">    1553 </span><span class="lineCov">         35 :     return buffer;</span>
 <a name="1554"><span class="lineNum">    1554 </span>            : }</a>
@@ -1652,7 +1652,7 @@
 <span class="lineNum">    1590 </span><span class="lineCov">      72500 : void LocalNode::_redispatchCommands()</span>
 <span class="lineNum">    1591 </span>            : {
 <span class="lineNum">    1592 </span><span class="lineCov">      72500 :     bool changes = true;</span>
-<span class="lineNum">    1593 </span><span class="lineCov">     145000 :     while( changes &amp;&amp; !_impl-&gt;pendingCommands.empty( ))</span>
+<span class="lineNum">    1593 </span><span class="lineCov">      72500 :     while( changes &amp;&amp; !_impl-&gt;pendingCommands.empty( ))</span>
 <span class="lineNum">    1594 </span>            :     {
 <span class="lineNum">    1595 </span><span class="lineNoCov">          0 :         changes = false;</span>
 <span class="lineNum">    1596 </span>            : 
@@ -1681,12 +1681,12 @@
 <span class="lineNum">    1619 </span>            : 
 <span class="lineNum">    1620 </span><span class="lineCov">         50 : void LocalNode::_initService()</span>
 <span class="lineNum">    1621 </span>            : {
-<span class="lineNum">    1622 </span><span class="lineCov">         50 :     LB_TS_SCOPED( _rcvThread );</span>
+<span class="lineNum">    1622 </span><span class="lineCov">         97 :     LB_TS_SCOPED( _rcvThread );</span>
 <span class="lineNum">    1623 </span><span class="lineCov">         50 :     _impl-&gt;service-&gt;withdraw(); // go silent during k/v update</span>
 <span class="lineNum">    1624 </span>            : 
 <span class="lineNum">    1625 </span><span class="lineCov">         97 :     const ConnectionDescriptions&amp; descs = getConnectionDescriptions();</span>
 <span class="lineNum">    1626 </span><span class="lineCov">         50 :     if( descs.empty( ))</span>
-<span class="lineNum">    1627 </span><span class="lineCov">         53 :         return;</span>
+<span class="lineNum">    1627 </span><span class="lineCov">          3 :         return;</span>
 <span class="lineNum">    1628 </span>            : 
 <span class="lineNum">    1629 </span><span class="lineCov">         94 :     std::ostringstream out;</span>
 <span class="lineNum">    1630 </span><span class="lineCov">         47 :     out &lt;&lt; getType();</span>
@@ -1698,13 +1698,13 @@
 <span class="lineNum">    1636 </span>            : 
 <span class="lineNum">    1637 </span><span class="lineCov">         94 :     for( ConnectionDescriptionsCIter i = descs.begin(); i != descs.end(); ++i )</span>
 <span class="lineNum">    1638 </span>            :     {
-<span class="lineNum">    1639 </span><span class="lineCov">         47 :         ConnectionDescriptionPtr desc = *i;</span>
+<span class="lineNum">    1639 </span><span class="lineCov">         94 :         ConnectionDescriptionPtr desc = *i;</span>
 <span class="lineNum">    1640 </span><span class="lineCov">         47 :         out.str(&quot;&quot;);</span>
 <span class="lineNum">    1641 </span><span class="lineCov">         47 :         out &lt;&lt; &quot;co_port&quot; &lt;&lt; i - descs.begin();</span>
 <span class="lineNum">    1642 </span><span class="lineCov">         47 :         _impl-&gt;service-&gt;set( out.str(), desc-&gt;toString( ));</span>
-<span class="lineNum">    1643 </span><span class="lineCov">         47 :     }</span>
+<span class="lineNum">    1643 </span>            :     }
 <span class="lineNum">    1644 </span>            : 
-<span class="lineNum">    1645 </span><span class="lineCov">         94 :     _impl-&gt;service-&gt;announce( descs.front()-&gt;port, getNodeID().getString( ));</span>
+<span class="lineNum">    1645 </span><span class="lineCov">         47 :     _impl-&gt;service-&gt;announce( descs.front()-&gt;port, getNodeID().getString( ));</span>
 <a name="1646"><span class="lineNum">    1646 </span>            : }</a>
 <span class="lineNum">    1647 </span>            : 
 <span class="lineNum">    1648 </span><span class="lineCov">         49 : void LocalNode::_exitService()</span>
@@ -1714,24 +1714,24 @@
 <span class="lineNum">    1652 </span>            : 
 <span class="lineNum">    1653 </span><span class="lineCov">          1 : Zeroconf LocalNode::getZeroconf()</span>
 <span class="lineNum">    1654 </span>            : {
-<span class="lineNum">    1655 </span><span class="lineCov">          1 :     lunchbox::ScopedWrite mutex( _impl-&gt;service );</span>
+<span class="lineNum">    1655 </span><span class="lineCov">          2 :     lunchbox::ScopedWrite mutex( _impl-&gt;service );</span>
 <span class="lineNum">    1656 </span><span class="lineCov">          1 :     _impl-&gt;service-&gt;discover( servus::Servus::IF_ALL, 500 );</span>
-<span class="lineNum">    1657 </span><span class="lineCov">          1 :     return Zeroconf( _impl-&gt;service.data );</span>
+<span class="lineNum">    1657 </span><span class="lineCov">          2 :     return Zeroconf( _impl-&gt;service.data );</span>
 <span class="lineNum">    1658 </span>            : }
 <span class="lineNum">    1659 </span>            : 
 <span class="lineNum">    1660 </span>            : 
 <span class="lineNum">    1661 </span>            : //----------------------------------------------------------------------
 <a name="1662"><span class="lineNum">    1662 </span>            : // command thread functions</a>
 <span class="lineNum">    1663 </span>            : //----------------------------------------------------------------------
-<span class="lineNum">    1664 </span><span class="lineCov">         50 : bool LocalNode::_startCommandThread( const int32_t threadID )</span>
+<span class="lineNum">    1664 </span><span class="lineCov">         49 : bool LocalNode::_startCommandThread( const int32_t threadID )</span>
 <span class="lineNum">    1665 </span>            : {
-<span class="lineNum">    1666 </span><span class="lineCov">         50 :     _impl-&gt;commandThread-&gt;threadID = threadID;</span>
-<span class="lineNum">    1667 </span><span class="lineCov">         50 :     return _impl-&gt;commandThread-&gt;start();</span>
+<span class="lineNum">    1666 </span><span class="lineCov">         49 :     _impl-&gt;commandThread-&gt;threadID = threadID;</span>
+<span class="lineNum">    1667 </span><span class="lineCov">         49 :     return _impl-&gt;commandThread-&gt;start();</span>
 <a name="1668"><span class="lineNum">    1668 </span>            : }</a>
 <span class="lineNum">    1669 </span>            : 
-<span class="lineNum">    1670 </span><span class="lineCov">      51620 : bool LocalNode::_notifyCommandThreadIdle()</span>
+<span class="lineNum">    1670 </span><span class="lineCov">      51592 : bool LocalNode::_notifyCommandThreadIdle()</span>
 <span class="lineNum">    1671 </span>            : {
-<span class="lineNum">    1672 </span><span class="lineCov">      51620 :     return _impl-&gt;objectStore-&gt;notifyCommandThreadIdle();</span>
+<span class="lineNum">    1672 </span><span class="lineCov">      51592 :     return _impl-&gt;objectStore-&gt;notifyCommandThreadIdle();</span>
 <a name="1673"><span class="lineNum">    1673 </span>            : }</a>
 <span class="lineNum">    1674 </span>            : 
 <span class="lineNum">    1675 </span><span class="lineCov">      20001 : bool LocalNode::_cmdAckRequest( ICommand&amp; command )</span>
@@ -1781,7 +1781,7 @@
 <span class="lineNum">    1719 </span><span class="lineCov">         34 :     const NodeID&amp; nodeID = command.get&lt; NodeID &gt;();</span>
 <span class="lineNum">    1720 </span><span class="lineCov">         34 :     const uint32_t requestID = command.get&lt; uint32_t &gt;();</span>
 <span class="lineNum">    1721 </span><span class="lineCov">         34 :     const uint32_t nodeType = command.get&lt; uint32_t &gt;();</span>
-<span class="lineNum">    1722 </span><span class="lineCov">         34 :     std::string data = command.get&lt; std::string &gt;();</span>
+<span class="lineNum">    1722 </span><span class="lineCov">         68 :     std::string data = command.get&lt; std::string &gt;();</span>
 <span class="lineNum">    1723 </span>            : 
 <span class="lineNum">    1724 </span><span class="lineCov">         34 :     LBVERB &lt;&lt; &quot;handle connect &quot; &lt;&lt; command &lt;&lt; &quot; req &quot; &lt;&lt; requestID &lt;&lt; &quot; type &quot;</span>
 <span class="lineNum">    1725 </span><span class="lineCov">         34 :            &lt;&lt; nodeType &lt;&lt; &quot; data &quot; &lt;&lt; data &lt;&lt; std::endl;</span>
@@ -1813,7 +1813,7 @@
 <span class="lineNum">    1751 </span><span class="lineNoCov">          0 :                    &lt;&lt; std::endl;</span>
 <span class="lineNum">    1752 </span>            : 
 <span class="lineNum">    1753 </span>            :             // refuse connection
-<span class="lineNum">    1754 </span>            :             OCommand( Connections( 1, connection ), cmd )
+<span class="lineNum">    1754 </span><span class="lineNoCov">          0 :             OCommand( Connections( 1, connection ), cmd )</span>
 <span class="lineNum">    1755 </span><span class="lineNoCov">          0 :                 &lt;&lt; NodeID() &lt;&lt; requestID;</span>
 <span class="lineNum">    1756 </span>            : 
 <span class="lineNum">    1757 </span>            :             // NOTE: There is no close() here. The reply command above has to be
@@ -1849,16 +1849,16 @@
 <span class="lineNum">    1787 </span>            : 
 <span class="lineNum">    1788 </span><span class="lineCov">         34 :     _impl-&gt;connectionNodes[ connection ] = peer;</span>
 <span class="lineNum">    1789 </span>            :     {
-<span class="lineNum">    1790 </span><span class="lineCov">         34 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;nodes );</span>
+<span class="lineNum">    1790 </span><span class="lineCov">         68 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;nodes );</span>
 <span class="lineNum">    1791 </span><span class="lineCov">         34 :         _impl-&gt;nodes.data[ peer-&gt;getNodeID() ] = peer;</span>
 <span class="lineNum">    1792 </span>            :     }
 <span class="lineNum">    1793 </span><span class="lineCov">         34 :     LBVERB &lt;&lt; &quot;Added node &quot; &lt;&lt; nodeID &lt;&lt; std::endl;</span>
 <span class="lineNum">    1794 </span>            : 
 <span class="lineNum">    1795 </span>            :     // send our information as reply
-<span class="lineNum">    1796 </span>            :     OCommand( Connections( 1, connection ), cmd )
-<span class="lineNum">    1797 </span><span class="lineCov">         34 :         &lt;&lt; getNodeID() &lt;&lt; requestID &lt;&lt; getType() &lt;&lt; serialize();</span>
+<span class="lineNum">    1796 </span><span class="lineCov">         68 :     OCommand( Connections( 1, connection ), cmd )</span>
+<span class="lineNum">    1797 </span><span class="lineCov">        102 :         &lt;&lt; getNodeID() &lt;&lt; requestID &lt;&lt; getType() &lt;&lt; serialize();</span>
 <span class="lineNum">    1798 </span>            : 
-<span class="lineNum">    1799 </span><span class="lineCov">         68 :     return true;</span>
+<span class="lineNum">    1799 </span><span class="lineCov">         34 :     return true;</span>
 <a name="1800"><span class="lineNum">    1800 </span>            : }</a>
 <span class="lineNum">    1801 </span>            : 
 <span class="lineNum">    1802 </span><span class="lineCov">         34 : bool LocalNode::_cmdConnectReply( ICommand&amp; command )</span>
@@ -1866,7 +1866,7 @@
 <span class="lineNum">    1804 </span><span class="lineCov">         34 :     LBASSERT( !command.getRemoteNode( ));</span>
 <span class="lineNum">    1805 </span><span class="lineCov">         34 :     LBASSERT( _impl-&gt;inReceiverThread( ));</span>
 <span class="lineNum">    1806 </span>            : 
-<span class="lineNum">    1807 </span><span class="lineCov">         34 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
+<span class="lineNum">    1807 </span><span class="lineCov">         68 :     ConnectionPtr connection = _impl-&gt;incoming.getConnection();</span>
 <span class="lineNum">    1808 </span><span class="lineCov">         34 :     LBASSERT( _impl-&gt;connectionNodes.find( connection ) ==</span>
 <span class="lineNum">    1809 </span>            :               _impl-&gt;connectionNodes.end( ));
 <span class="lineNum">    1810 </span>            : 
@@ -1939,7 +1939,7 @@
 <span class="lineNum">    1877 </span><span class="lineCov">         34 :     peer-&gt;_connect( connection );</span>
 <span class="lineNum">    1878 </span><span class="lineCov">         34 :     _impl-&gt;connectionNodes[ connection ] = peer;</span>
 <span class="lineNum">    1879 </span>            :     {
-<span class="lineNum">    1880 </span><span class="lineCov">         34 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;nodes );</span>
+<span class="lineNum">    1880 </span><span class="lineCov">         68 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;nodes );</span>
 <span class="lineNum">    1881 </span><span class="lineCov">         34 :         _impl-&gt;nodes.data[ peer-&gt;getNodeID() ] = peer;</span>
 <span class="lineNum">    1882 </span>            :     }
 <span class="lineNum">    1883 </span><span class="lineCov">         34 :     _connectMulticast( peer );</span>
@@ -1948,12 +1948,12 @@
 <span class="lineNum">    1886 </span><span class="lineCov">         34 :     serveRequest( requestID, true );</span>
 <span class="lineNum">    1887 </span>            : 
 <span class="lineNum">    1888 </span><span class="lineCov">         34 :     notifyConnect( peer );</span>
-<span class="lineNum">    1889 </span><span class="lineCov">         68 :     return true;</span>
+<span class="lineNum">    1889 </span><span class="lineCov">         34 :     return true;</span>
 <a name="1890"><span class="lineNum">    1890 </span>            : }</a>
 <span class="lineNum">    1891 </span>            : 
 <span class="lineNum">    1892 </span><span class="lineCov">         34 : bool LocalNode::_cmdConnectAck( ICommand&amp; command )</span>
 <span class="lineNum">    1893 </span>            : {
-<span class="lineNum">    1894 </span><span class="lineCov">         34 :     NodePtr node = command.getRemoteNode();</span>
+<span class="lineNum">    1894 </span><span class="lineCov">         68 :     NodePtr node = command.getRemoteNode();</span>
 <span class="lineNum">    1895 </span><span class="lineCov">         34 :     LBASSERT( node );</span>
 <span class="lineNum">    1896 </span><span class="lineCov">         34 :     LBASSERT( _impl-&gt;inReceiverThread( ));</span>
 <span class="lineNum">    1897 </span><span class="lineCov">         34 :     LBVERB &lt;&lt; &quot;handle connect ack&quot; &lt;&lt; std::endl;</span>
@@ -1961,7 +1961,7 @@
 <span class="lineNum">    1899 </span><span class="lineCov">         34 :     node-&gt;_connect( _impl-&gt;incoming.getConnection( ));</span>
 <span class="lineNum">    1900 </span><span class="lineCov">         34 :     _connectMulticast( node );</span>
 <span class="lineNum">    1901 </span><span class="lineCov">         34 :     notifyConnect( node );</span>
-<span class="lineNum">    1902 </span><span class="lineCov">         34 :     return true;</span>
+<span class="lineNum">    1902 </span><span class="lineCov">         68 :     return true;</span>
 <a name="1903"><span class="lineNum">    1903 </span>            : }</a>
 <span class="lineNum">    1904 </span>            : 
 <span class="lineNum">    1905 </span><span class="lineNoCov">          0 : bool LocalNode::_cmdID( ICommand&amp; command )</span>
@@ -2030,13 +2030,13 @@
 <span class="lineNum">    1968 </span>            : 
 <span class="lineNum">    1969 </span><span class="lineCov">          8 :     const uint32_t requestID = command.get&lt; uint32_t &gt;();</span>
 <span class="lineNum">    1970 </span>            : 
-<span class="lineNum">    1971 </span><span class="lineCov">          8 :     NodePtr node = static_cast&lt;Node*&gt;( getRequestData( requestID ));</span>
+<span class="lineNum">    1971 </span><span class="lineCov">         16 :     NodePtr node = static_cast&lt;Node*&gt;( getRequestData( requestID ));</span>
 <span class="lineNum">    1972 </span><span class="lineCov">          8 :     LBASSERT( node );</span>
 <span class="lineNum">    1973 </span>            : 
 <span class="lineNum">    1974 </span><span class="lineCov">          8 :     _closeNode( node );</span>
 <span class="lineNum">    1975 </span><span class="lineCov">          8 :     LBASSERT( node-&gt;isClosed( ));</span>
 <span class="lineNum">    1976 </span><span class="lineCov">          8 :     serveRequest( requestID );</span>
-<span class="lineNum">    1977 </span><span class="lineCov">          8 :     return true;</span>
+<span class="lineNum">    1977 </span><span class="lineCov">         16 :     return true;</span>
 <a name="1978"><span class="lineNum">    1978 </span>            : }</a>
 <span class="lineNum">    1979 </span>            : 
 <span class="lineNum">    1980 </span><span class="lineNoCov">          0 : bool LocalNode::_cmdGetNodeData( ICommand&amp; command )</span>
@@ -2060,7 +2060,7 @@
 <span class="lineNum">    1998 </span><span class="lineNoCov">          0 :                &lt;&lt; toNode &lt;&lt; std::endl;</span>
 <span class="lineNum">    1999 </span>            :     }
 <span class="lineNum">    2000 </span>            : 
-<span class="lineNum">    2001 </span>            :     toNode-&gt;send( CMD_NODE_GET_NODE_DATA_REPLY )
+<span class="lineNum">    2001 </span><span class="lineNoCov">          0 :     toNode-&gt;send( CMD_NODE_GET_NODE_DATA_REPLY )</span>
 <span class="lineNum">    2002 </span><span class="lineNoCov">          0 :         &lt;&lt; nodeID &lt;&lt; requestID &lt;&lt; nodeType &lt;&lt; nodeData;</span>
 <span class="lineNum">    2003 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="2004"><span class="lineNum">    2004 </span>            : }</a>
@@ -2235,9 +2235,9 @@
 <span class="lineNum">    2173 </span><span class="lineCov">          2 : bool LocalNode::_cmdCommand( ICommand&amp; command )</span>
 <span class="lineNum">    2174 </span>            : {
 <span class="lineNum">    2175 </span><span class="lineCov">          2 :     const uint128_t&amp; commandID = command.get&lt; uint128_t &gt;();</span>
-<span class="lineNum">    2176 </span><span class="lineCov">          2 :     CommandHandler func;</span>
+<span class="lineNum">    2176 </span><span class="lineCov">          4 :     CommandHandler func;</span>
 <span class="lineNum">    2177 </span>            :     {
-<span class="lineNum">    2178 </span><span class="lineCov">          2 :         lunchbox::ScopedFastRead mutex( _impl-&gt;commandHandlers );</span>
+<span class="lineNum">    2178 </span><span class="lineCov">          3 :         lunchbox::ScopedFastRead mutex( _impl-&gt;commandHandlers );</span>
 <span class="lineNum">    2179 </span><span class="lineCov">          2 :         CommandHashCIter i = _impl-&gt;commandHandlers-&gt;find( commandID );</span>
 <span class="lineNum">    2180 </span><span class="lineCov">          2 :         if( i == _impl-&gt;commandHandlers-&gt;end( ))</span>
 <span class="lineNum">    2181 </span><span class="lineNoCov">          0 :             return false;</span>
@@ -2245,7 +2245,7 @@
 <span class="lineNum">    2183 </span><span class="lineCov">          2 :         CommandQueue* queue = i-&gt;second.second;</span>
 <span class="lineNum">    2184 </span><span class="lineCov">          2 :         if( queue )</span>
 <span class="lineNum">    2185 </span>            :         {
-<span class="lineNum">    2186 </span>            :             command.setDispatchFunction( CmdFunc( this,
+<span class="lineNum">    2186 </span><span class="lineCov">          2 :             command.setDispatchFunction( CmdFunc( this,</span>
 <span class="lineNum">    2187 </span><span class="lineCov">          1 :                                                 &amp;LocalNode::_cmdCommandAsync ));</span>
 <span class="lineNum">    2188 </span><span class="lineCov">          1 :             queue-&gt;push( command );</span>
 <span class="lineNum">    2189 </span><span class="lineCov">          1 :             return true;</span>
@@ -2256,15 +2256,15 @@
 <span class="lineNum">    2194 </span>            :     }
 <span class="lineNum">    2195 </span>            : 
 <span class="lineNum">    2196 </span><span class="lineCov">          2 :     CustomICommand customCmd( command );</span>
-<span class="lineNum">    2197 </span><span class="lineCov">          3 :     return func( customCmd );</span>
+<span class="lineNum">    2197 </span><span class="lineCov">          1 :     return func( customCmd );</span>
 <a name="2198"><span class="lineNum">    2198 </span>            : }</a>
 <span class="lineNum">    2199 </span>            : 
 <span class="lineNum">    2200 </span><span class="lineCov">          1 : bool LocalNode::_cmdCommandAsync( ICommand&amp; command )</span>
 <span class="lineNum">    2201 </span>            : {
 <span class="lineNum">    2202 </span><span class="lineCov">          1 :     const uint128_t&amp; commandID = command.get&lt; uint128_t &gt;();</span>
-<span class="lineNum">    2203 </span><span class="lineCov">          1 :     CommandHandler func;</span>
+<span class="lineNum">    2203 </span><span class="lineCov">          2 :     CommandHandler func;</span>
 <span class="lineNum">    2204 </span>            :     {
-<span class="lineNum">    2205 </span><span class="lineCov">          1 :         lunchbox::ScopedFastRead mutex( _impl-&gt;commandHandlers );</span>
+<span class="lineNum">    2205 </span><span class="lineCov">          2 :         lunchbox::ScopedFastRead mutex( _impl-&gt;commandHandlers );</span>
 <span class="lineNum">    2206 </span><span class="lineCov">          1 :         CommandHashCIter i = _impl-&gt;commandHandlers-&gt;find( commandID );</span>
 <span class="lineNum">    2207 </span><span class="lineCov">          1 :         LBASSERT( i != _impl-&gt;commandHandlers-&gt;end( ));</span>
 <span class="lineNum">    2208 </span><span class="lineCov">          1 :         if( i ==  _impl-&gt;commandHandlers-&gt;end( ))</span>
@@ -2272,17 +2272,17 @@
 <span class="lineNum">    2210 </span><span class="lineCov">          1 :         func = i-&gt;second.first;</span>
 <span class="lineNum">    2211 </span>            :     }
 <span class="lineNum">    2212 </span><span class="lineCov">          2 :     CustomICommand customCmd( command );</span>
-<span class="lineNum">    2213 </span><span class="lineCov">          2 :     return func( customCmd );</span>
+<span class="lineNum">    2213 </span><span class="lineCov">          1 :     return func( customCmd );</span>
 <a name="2214"><span class="lineNum">    2214 </span>            : }</a>
 <span class="lineNum">    2215 </span>            : 
 <span class="lineNum">    2216 </span><span class="lineCov">         34 : bool LocalNode::_cmdAddConnection( ICommand&amp; command )</span>
 <span class="lineNum">    2217 </span>            : {
 <span class="lineNum">    2218 </span><span class="lineCov">         34 :     LBASSERT( _impl-&gt;inReceiverThread( ));</span>
 <span class="lineNum">    2219 </span>            : 
-<span class="lineNum">    2220 </span><span class="lineCov">         34 :     ConnectionPtr connection = command.get&lt; ConnectionPtr &gt;();</span>
+<span class="lineNum">    2220 </span><span class="lineCov">         68 :     ConnectionPtr connection = command.get&lt; ConnectionPtr &gt;();</span>
 <span class="lineNum">    2221 </span><span class="lineCov">         34 :     _addConnection( connection );</span>
 <span class="lineNum">    2222 </span><span class="lineCov">         34 :     connection-&gt;unref(); // ref'd by _addConnection</span>
-<span class="lineNum">    2223 </span><span class="lineCov">         34 :     return true;</span>
+<span class="lineNum">    2223 </span><span class="lineCov">         68 :     return true;</span>
 <a name="2224"><span class="lineNum">    2224 </span>            : }</a>
 <span class="lineNum">    2225 </span>            : 
 <span class="lineNum">    2226 </span><span class="lineCov">         66 : }</span>

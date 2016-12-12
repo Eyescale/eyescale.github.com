@@ -25,7 +25,7 @@ var classco_1_1_connection =
     [ "create", "classco_1_1_connection.html#a079921c90daaadb631f0a3d1f79c4b25", null ],
     [ "finish", "classco_1_1_connection.html#a7746a82ab57b42edbee5f98add491120", null ],
     [ "getDescription", "classco_1_1_connection.html#a9b669260fb092d33412109651fdb5ed9", null ],
-    [ "getNotifier", "classco_1_1_connection.html#a55c29bda54df50cb4bac0ce35b08db61", null ],
+    [ "getNotifier", "classco_1_1_connection.html#a2fac03f6e4e2b5bf174649363cfd0c94", null ],
     [ "getState", "classco_1_1_connection.html#aa4d5009d685ba606f8c998d758e75b09", null ],
     [ "isClosed", "classco_1_1_connection.html#ae8aa84a77b1b7288d686b4b4a58bc611", null ],
     [ "isClosing", "classco_1_1_connection.html#aac76acc298b444b75085dcd4b67fa6b0", null ],

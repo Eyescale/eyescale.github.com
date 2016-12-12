@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">52</td>
-            <td class="headerCovTableEntry">52</td>
+            <td class="headerCovTableEntry">55</td>
+            <td class="headerCovTableEntry">55</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">17</td>
@@ -61,9 +61,9 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2011-2014, Stefan Eilemann &lt;eile@eyescale.ch&gt;
-<span class="lineNum">       3 </span>            :  *                    2011, Carsten Rohn &lt;carsten.rohn@rtt.ag&gt;
-<span class="lineNum">       4 </span>            :  *               2011-2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2011-2016, Stefan Eilemann &lt;eile@eyescale.ch&gt;
+<span class="lineNum">       3 </span>            :  *                          Carsten Rohn &lt;carsten.rohn@rtt.ag&gt;
+<span class="lineNum">       4 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *
 <span class="lineNum">       6 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
 <span class="lineNum">       7 </span>            :  *
@@ -101,8 +101,8 @@
 <span class="lineNum">      39 </span>            : class ItemBuffer : public lunchbox::Bufferb, public lunchbox::Referenced
 <a name="40"><span class="lineNum">      40 </span>            : {</a>
 <span class="lineNum">      41 </span>            : public:
-<span class="lineNum">      42 </span><span class="lineCov">          4 :     explicit ItemBuffer( lunchbox::Bufferb&amp; from )</span>
-<span class="lineNum">      43 </span>            :         : lunchbox::Bufferb( from )
+<span class="lineNum">      42 </span><span class="lineCov">          4 :     explicit ItemBuffer( lunchbox::Bufferb&amp;&amp; from )</span>
+<span class="lineNum">      43 </span><span class="lineCov">          4 :         : lunchbox::Bufferb( std::move( from ))</span>
 <span class="lineNum">      44 </span><span class="lineCov">          4 :         , lunchbox::Referenced()</span>
 <a name="45"><span class="lineNum">      45 </span><span class="lineCov">          4 :     {}</span></a>
 <span class="lineNum">      46 </span>            : 
@@ -115,14 +115,14 @@
 <a name="53"><span class="lineNum">      53 </span>            : {</a>
 <span class="lineNum">      54 </span>            : public:
 <span class="lineNum">      55 </span><span class="lineCov">          1 :     explicit QueueMaster( const co::QueueMaster&amp; parent )</span>
-<span class="lineNum">      56 </span>            :         : co::Dispatcher()
+<span class="lineNum">      56 </span><span class="lineCov">          1 :         : co::Dispatcher()</span>
 <span class="lineNum">      57 </span><span class="lineCov">          1 :         , _parent( parent )</span>
 <span class="lineNum">      58 </span><span class="lineCov">          1 :     {}</span>
 <a name="59"><span class="lineNum">      59 </span>            : </a>
 <span class="lineNum">      60 </span>            :     /** The command handler functions. */
 <span class="lineNum">      61 </span><span class="lineCov">          5 :     bool cmdGetItem( co::ICommand&amp; comd )</span>
 <span class="lineNum">      62 </span>            :     {
-<span class="lineNum">      63 </span><span class="lineCov">          5 :         co::ObjectICommand command( comd );</span>
+<span class="lineNum">      63 </span><span class="lineCov">         10 :         co::ObjectICommand command( comd );</span>
 <span class="lineNum">      64 </span>            : 
 <span class="lineNum">      65 </span><span class="lineCov">          5 :         const uint32_t itemsRequested = command.get&lt; uint32_t &gt;();</span>
 <span class="lineNum">      66 </span><span class="lineCov">          5 :         const uint32_t slaveInstanceID = command.get&lt; uint32_t &gt;();</span>
@@ -137,16 +137,16 @@
 <span class="lineNum">      75 </span>            :         {
 <span class="lineNum">      76 </span>            :             co::ObjectOCommand cmd( connections, CMD_QUEUE_ITEM,
 <span class="lineNum">      77 </span><span class="lineCov">          4 :                                     COMMANDTYPE_OBJECT, _parent.getID(),</span>
-<span class="lineNum">      78 </span><span class="lineCov">          4 :                                     slaveInstanceID );</span>
+<span class="lineNum">      78 </span><span class="lineCov">          8 :                                     slaveInstanceID );</span>
 <span class="lineNum">      79 </span>            : 
 <span class="lineNum">      80 </span><span class="lineCov">          8 :             const ItemBufferPtr item = *i;</span>
 <span class="lineNum">      81 </span><span class="lineCov">          4 :             if( !item-&gt;isEmpty( ))</span>
 <span class="lineNum">      82 </span><span class="lineCov">          3 :                 cmd &lt;&lt; Array&lt; const void &gt;( item-&gt;getData(), item-&gt;getSize( ));</span>
-<span class="lineNum">      83 </span><span class="lineCov">          4 :         }</span>
+<span class="lineNum">      83 </span>            :         }
 <span class="lineNum">      84 </span>            : 
 <span class="lineNum">      85 </span><span class="lineCov">          5 :         if( itemsRequested &gt; items.size( ))</span>
-<span class="lineNum">      86 </span>            :             co::ObjectOCommand( connections, CMD_QUEUE_EMPTY,
-<span class="lineNum">      87 </span><span class="lineCov">          1 :                                 COMMANDTYPE_OBJECT, command.getObjectID(),</span>
+<span class="lineNum">      86 </span><span class="lineCov">          2 :             co::ObjectOCommand( connections, CMD_QUEUE_EMPTY,</span>
+<span class="lineNum">      87 </span>            :                                 COMMANDTYPE_OBJECT, command.getObjectID(),
 <span class="lineNum">      88 </span><span class="lineCov">          1 :                                 slaveInstanceID ) &lt;&lt; requestID;</span>
 <span class="lineNum">      89 </span><span class="lineCov">         10 :         return true;</span>
 <span class="lineNum">      90 </span>            :     }
@@ -179,9 +179,9 @@
 <span class="lineNum">     117 </span><span class="lineCov">          1 :     Object::attach( id, instanceID );</span>
 <span class="lineNum">     118 </span>            : 
 <span class="lineNum">     119 </span><span class="lineCov">          1 :     CommandQueue* queue = getLocalNode()-&gt;getCommandThreadQueue();</span>
-<span class="lineNum">     120 </span>            :     registerCommand( CMD_QUEUE_GET_ITEM,
-<span class="lineNum">     121 </span>            :                      CommandFunc&lt; detail::QueueMaster &gt;(
-<span class="lineNum">     122 </span><span class="lineCov">          1 :                          _impl, &amp;detail::QueueMaster::cmdGetItem ), queue );</span>
+<span class="lineNum">     120 </span><span class="lineCov">          1 :     registerCommand( CMD_QUEUE_GET_ITEM,</span>
+<span class="lineNum">     121 </span><span class="lineCov">          3 :                      CommandFunc&lt; detail::QueueMaster &gt;(</span>
+<span class="lineNum">     122 </span><span class="lineCov">          2 :                          _impl, &amp;detail::QueueMaster::cmdGetItem ), queue );</span>
 <a name="123"><span class="lineNum">     123 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">     124 </span>            : 
 <span class="lineNum">     125 </span><span class="lineCov">          1 : void QueueMaster::clear()</span>
@@ -201,11 +201,12 @@
 <span class="lineNum">     139 </span>            : 
 <span class="lineNum">     140 </span><span class="lineCov">          4 : void QueueMaster::_addItem( QueueItem&amp; item )</span>
 <span class="lineNum">     141 </span>            : {
-<span class="lineNum">     142 </span><span class="lineCov">          4 :     detail::ItemBufferPtr newBuffer = new detail::ItemBuffer( item.getBuffer());</span>
-<span class="lineNum">     143 </span><span class="lineCov">          4 :     _impl-&gt;queue.push( newBuffer );</span>
-<a name="144"><span class="lineNum">     144 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span><span class="lineCov">         66 : } // co</span>
+<span class="lineNum">     142 </span>            :     detail::ItemBufferPtr newBuffer = new detail::ItemBuffer(
+<span class="lineNum">     143 </span><span class="lineCov">          8 :         std::move( item.getBuffer( )));</span>
+<span class="lineNum">     144 </span><span class="lineCov">          4 :     _impl-&gt;queue.push( newBuffer );</span>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

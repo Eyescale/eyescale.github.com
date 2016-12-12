@@ -6,7 +6,7 @@ var classco_1_1_barrier =
     [ "applyInstanceData", "classco_1_1_barrier.html#a42e764b13a37408be51149e8bc2fd28e", null ],
     [ "attach", "classco_1_1_barrier.html#a04cb373b054e5b8360bb87b8c028bb28", null ],
     [ "enter", "classco_1_1_barrier.html#adc3480ec8578311e19b8e24b24cb6d50", null ],
-    [ "getChangeType", "classco_1_1_barrier.html#a77d78a41efff758f6c13e1f243810cad", null ],
+    [ "getChangeType", "classco_1_1_barrier.html#abab5aae07bfb4c3e187c8fd9c8e963a4", null ],
     [ "getHeight", "classco_1_1_barrier.html#abd6f00d2ba8edda8b27e882d72a5c90a", null ],
     [ "getInstanceData", "classco_1_1_barrier.html#a53ad1190edb1139261a4dc9cd582494d", null ],
     [ "increase", "classco_1_1_barrier.html#aef620e87b9a238834c48e9e07d21bd8e", null ],

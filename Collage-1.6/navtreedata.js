@@ -1,10 +1,8 @@
 var NAVTREE =
 [
   [ "Collage", "index.html", [
-    [ "Introduction", "index.html#Introduction", null ],
-    [ "Features", "index.html#Features", null ],
-    [ "Building", "index.html#Building", null ],
-    [ "Changelog", "_changelog.html", null ],
+    [ "Introduction", "index.html", null ],
+    [ "Changelog", "Changelog.html", null ],
     [ "Deprecated List", "deprecated.html", null ],
     [ "Preprocessor Definitions", "define.html", null ],
     [ "Namespaces", null, [
@@ -17,8 +15,8 @@ var NAVTREE =
         [ "Enumerator", "namespacemembers_eval.html", null ]
       ] ]
     ] ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
@@ -42,9 +40,9 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_changelog.html",
+"Changelog.html",
 "classco_1_1_data_o_stream.html#abbe64aeb56843c78188ddfc08a76b19d",
-"classco_1_1_object.html#aaae58400a7f8d052bfa2b5392a5fbfe8a1d04014bda7a3e83400026ab55fbf9cc",
+"classco_1_1_object.html#aaae58400a7f8d052bfa2b5392a5fbfe8abffa92dfe324266d5363ea52e6d28eff",
 "queue_master_8h_source.html"
 ];
 

@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">149</td>
-            <td class="headerCovTableEntry">264</td>
-            <td class="headerCovTableEntryMed">56.4 %</td>
+            <td class="headerCovTableEntry">147</td>
+            <td class="headerCovTableEntry">262</td>
+            <td class="headerCovTableEntryMed">56.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-10-04 01:19:52</td>
+            <td class="headerValue">2016-12-12 01:22:04</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">35</td>
@@ -158,7 +158,7 @@
 <a name="96"><span class="lineNum">      96 </span>            :     bool bigEndian;</a>
 <span class="lineNum">      97 </span>            : 
 <span class="lineNum">      98 </span><span class="lineCov">        123 :     explicit Node( const uint32_t type_ )</span>
-<span class="lineNum">      99 </span>            :         : id( lunchbox::make_UUID( ))
+<span class="lineNum">      99 </span><span class="lineCov">        123 :         : id( lunchbox::make_UUID( ))</span>
 <span class="lineNum">     100 </span>            :         , type( type_ )
 <span class="lineNum">     101 </span>            :         , state( STATE_CLOSED )
 <span class="lineNum">     102 </span>            :         , lastReceive ( 0 )
@@ -200,8 +200,8 @@
 <span class="lineNum">     138 </span>            : 
 <span class="lineNum">     139 </span><span class="lineCov">        638 : ConnectionDescriptions Node::getConnectionDescriptions() const</span>
 <span class="lineNum">     140 </span>            : {
-<span class="lineNum">     141 </span><span class="lineCov">        638 :     lunchbox::ScopedFastRead mutex( _impl-&gt;connectionDescriptions );</span>
-<span class="lineNum">     142 </span><span class="lineCov">        638 :     return _impl-&gt;connectionDescriptions.data;</span>
+<span class="lineNum">     141 </span><span class="lineCov">       1276 :     lunchbox::ScopedFastRead mutex( _impl-&gt;connectionDescriptions );</span>
+<span class="lineNum">     142 </span><span class="lineCov">       1276 :     return _impl-&gt;connectionDescriptions.data;</span>
 <a name="143"><span class="lineNum">     143 </span>            : }</a>
 <span class="lineNum">     144 </span>            : 
 <span class="lineNum">     145 </span><span class="lineCov">        233 : ConnectionPtr Node::getMulticast()</span>
@@ -209,7 +209,7 @@
 <span class="lineNum">     147 </span><span class="lineCov">        233 :     if( !isReachable( ))</span>
 <span class="lineNum">     148 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span><span class="lineCov">        233 :     ConnectionPtr connection = _impl-&gt;outMulticast.data;</span>
+<span class="lineNum">     150 </span><span class="lineCov">        466 :     ConnectionPtr connection = _impl-&gt;outMulticast.data;</span>
 <span class="lineNum">     151 </span><span class="lineCov">        233 :     if( connection &amp;&amp; !connection-&gt;isClosed( ))</span>
 <span class="lineNum">     152 </span><span class="lineNoCov">          0 :         return connection;</span>
 <span class="lineNum">     153 </span>            : 
@@ -231,24 +231,24 @@
 <span class="lineNum">     169 </span>            : #else
 <span class="lineNum">     170 </span><span class="lineNoCov">          0 :     const uint32_t cmd = CMD_NODE_ID;</span>
 <span class="lineNum">     171 </span>            : #endif
-<span class="lineNum">     172 </span>            :     OCommand( Connections( 1, data.connection ), cmd )
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :     OCommand( Connections( 1, data.connection ), cmd )</span>
 <span class="lineNum">     173 </span><span class="lineNoCov">          0 :         &lt;&lt; node-&gt;getNodeID() &lt;&lt; getType() &lt;&lt; node-&gt;serialize();</span>
 <span class="lineNum">     174 </span>            : 
 <span class="lineNum">     175 </span><span class="lineNoCov">          0 :     _impl-&gt;outMulticast.data = data.connection;</span>
-<span class="lineNum">     176 </span><span class="lineCov">        233 :     return data.connection;</span>
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :     return data.connection;</span>
 <a name="177"><span class="lineNum">     177 </span>            : }</a>
 <span class="lineNum">     178 </span>            : 
 <span class="lineNum">     179 </span><span class="lineCov">         81 : void Node::addConnectionDescription( ConnectionDescriptionPtr cd )</span>
 <span class="lineNum">     180 </span>            : {
 <span class="lineNum">     181 </span><span class="lineCov">         81 :     LBASSERTINFO( isClosed(), *this );</span>
 <span class="lineNum">     182 </span><span class="lineCov">         81 :     if( !isClosed( ))</span>
-<span class="lineNum">     183 </span><span class="lineCov">         81 :         return;</span>
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     184 </span><span class="lineCov">         81 :     _addConnectionDescription( cd );</span>
 <a name="185"><span class="lineNum">     185 </span>            : }</a>
 <span class="lineNum">     186 </span>            : 
 <span class="lineNum">     187 </span><span class="lineCov">         81 : void Node::_addConnectionDescription( ConnectionDescriptionPtr cd )</span>
 <span class="lineNum">     188 </span>            : {
-<span class="lineNum">     189 </span><span class="lineCov">         81 :     lunchbox::ScopedFastWrite mutex( _impl-&gt;connectionDescriptions );</span>
+<span class="lineNum">     189 </span><span class="lineCov">        162 :     lunchbox::ScopedFastWrite mutex( _impl-&gt;connectionDescriptions );</span>
 <span class="lineNum">     190 </span><span class="lineCov">         81 :     _impl-&gt;connectionDescriptions-&gt;push_back( cd );</span>
 <a name="191"><span class="lineNum">     191 </span><span class="lineCov">         81 : }</span></a>
 <span class="lineNum">     192 </span>            : 
@@ -279,15 +279,15 @@
 <span class="lineNum">     217 </span>            : 
 <span class="lineNum">     218 </span><span class="lineCov">         68 : std::string Node::serialize() const</span>
 <span class="lineNum">     219 </span>            : {
-<span class="lineNum">     220 </span><span class="lineCov">         68 :     std::ostringstream data;</span>
+<span class="lineNum">     220 </span><span class="lineCov">        136 :     std::ostringstream data;</span>
 <span class="lineNum">     221 </span><span class="lineCov">         68 :     data &lt;&lt; Version::getMajor() &lt;&lt; CO_SEPARATOR &lt;&lt; Version::getMinor()</span>
 <span class="lineNum">     222 </span><span class="lineCov">        136 :          &lt;&lt; CO_SEPARATOR &lt;&lt; _impl-&gt;id &lt;&lt; CO_SEPARATOR &lt;&lt; _impl-&gt;bigEndian</span>
 <span class="lineNum">     223 </span><span class="lineCov">         68 :          &lt;&lt; CO_SEPARATOR;</span>
 <span class="lineNum">     224 </span>            :     {
-<span class="lineNum">     225 </span><span class="lineCov">         68 :         lunchbox::ScopedFastRead mutex( _impl-&gt;connectionDescriptions );</span>
+<span class="lineNum">     225 </span><span class="lineCov">        136 :         lunchbox::ScopedFastRead mutex( _impl-&gt;connectionDescriptions );</span>
 <span class="lineNum">     226 </span><span class="lineCov">         68 :         data &lt;&lt; co::serialize( _impl-&gt;connectionDescriptions.data );</span>
 <span class="lineNum">     227 </span>            :     }
-<span class="lineNum">     228 </span><span class="lineCov">         68 :     return data.str();</span>
+<span class="lineNum">     228 </span><span class="lineCov">        136 :     return data.str();</span>
 <a name="229"><span class="lineNum">     229 </span>            : }</a>
 <span class="lineNum">     230 </span>            : 
 <span class="lineNum">     231 </span><span class="lineCov">         68 : bool Node::deserialize( std::string&amp; data )</span>
@@ -303,7 +303,7 @@
 <span class="lineNum">     241 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     242 </span>            :     }
 <span class="lineNum">     243 </span>            : 
-<span class="lineNum">     244 </span><span class="lineCov">         68 :     std::istringstream is( data.substr( 0, nextPos ));</span>
+<span class="lineNum">     244 </span><span class="lineCov">        136 :     std::istringstream is( data.substr( 0, nextPos ));</span>
 <span class="lineNum">     245 </span><span class="lineCov">         68 :     data = data.substr( nextPos + 1 );</span>
 <span class="lineNum">     246 </span><span class="lineCov">         68 :     is &gt;&gt; major;</span>
 <span class="lineNum">     247 </span>            : 
@@ -354,7 +354,7 @@
 <span class="lineNum">     292 </span>            :     // Connections data
 <span class="lineNum">     293 </span><span class="lineCov">        136 :     lunchbox::ScopedFastWrite mutex( _impl-&gt;connectionDescriptions );</span>
 <span class="lineNum">     294 </span><span class="lineCov">         68 :     _impl-&gt;connectionDescriptions-&gt;clear();</span>
-<span class="lineNum">     295 </span><span class="lineCov">        136 :     return co::deserialize( data, _impl-&gt;connectionDescriptions.data );</span>
+<span class="lineNum">     295 </span><span class="lineCov">         68 :     return co::deserialize( data, _impl-&gt;connectionDescriptions.data );</span>
 <a name="296"><span class="lineNum">     296 </span>            : }</a>
 <span class="lineNum">     297 </span>            : 
 <span class="lineNum">     298 </span><span class="lineCov">      72077 : bool Node::isBigEndian() const</span>
@@ -362,9 +362,9 @@
 <span class="lineNum">     300 </span><span class="lineCov">      72077 :     return _impl-&gt;bigEndian;</span>
 <a name="301"><span class="lineNum">     301 </span>            : }</a>
 <span class="lineNum">     302 </span>            : 
-<span class="lineNum">     303 </span><span class="lineCov">       1343 : bool Node::isReachable() const</span>
+<span class="lineNum">     303 </span><span class="lineCov">       1342 : bool Node::isReachable() const</span>
 <span class="lineNum">     304 </span>            : {
-<span class="lineNum">     305 </span><span class="lineCov">       1343 :     return isListening() || isConnected();</span>
+<span class="lineNum">     305 </span><span class="lineCov">       1342 :     return isListening() || isConnected();</span>
 <a name="306"><span class="lineNum">     306 </span>            : }</a>
 <span class="lineNum">     307 </span>            : 
 <span class="lineNum">     308 </span><span class="lineCov">        646 : bool Node::isConnected() const</span>
@@ -372,9 +372,9 @@
 <span class="lineNum">     310 </span><span class="lineCov">        646 :     return _impl-&gt;state == STATE_CONNECTED;</span>
 <a name="311"><span class="lineNum">     311 </span>            : }</a>
 <span class="lineNum">     312 </span>            : 
-<span class="lineNum">     313 </span><span class="lineCov">     175185 : bool Node::isClosed() const</span>
+<span class="lineNum">     313 </span><span class="lineCov">     175167 : bool Node::isClosed() const</span>
 <span class="lineNum">     314 </span>            : {
-<span class="lineNum">     315 </span><span class="lineCov">     175185 :     return _impl-&gt;state == STATE_CLOSED;</span>
+<span class="lineNum">     315 </span><span class="lineCov">     175167 :     return _impl-&gt;state == STATE_CLOSED;</span>
 <a name="316"><span class="lineNum">     316 </span>            : }</a>
 <span class="lineNum">     317 </span>            : 
 <span class="lineNum">     318 </span><span class="lineCov">         49 : bool Node::isClosing() const</span>
@@ -382,20 +382,20 @@
 <span class="lineNum">     320 </span><span class="lineCov">         49 :     return _impl-&gt;state == STATE_CLOSING;</span>
 <a name="321"><span class="lineNum">     321 </span>            : }</a>
 <span class="lineNum">     322 </span>            : 
-<span class="lineNum">     323 </span><span class="lineCov">      74327 : bool Node::isListening() const</span>
+<span class="lineNum">     323 </span><span class="lineCov">      74329 : bool Node::isListening() const</span>
 <span class="lineNum">     324 </span>            : {
-<span class="lineNum">     325 </span><span class="lineCov">      74327 :     return _impl-&gt;state == STATE_LISTENING;</span>
+<span class="lineNum">     325 </span><span class="lineCov">      74329 :     return _impl-&gt;state == STATE_LISTENING;</span>
 <a name="326"><span class="lineNum">     326 </span>            : }</a>
 <span class="lineNum">     327 </span>            : 
 <span class="lineNum">     328 </span><span class="lineCov">        754 : ConnectionPtr Node::getConnection( const bool preferMulticast )</span>
 <span class="lineNum">     329 </span>            : {
-<span class="lineNum">     330 </span><span class="lineCov">        754 :     ConnectionPtr multicast = preferMulticast ? getMulticast() : 0;</span>
-<span class="lineNum">     331 </span><span class="lineCov">        754 :     return multicast ? multicast : _impl-&gt;outgoing;</span>
+<span class="lineNum">     330 </span><span class="lineCov">       1508 :     ConnectionPtr multicast = preferMulticast ? getMulticast() : 0;</span>
+<span class="lineNum">     331 </span><span class="lineCov">       1508 :     return multicast ? multicast : _impl-&gt;outgoing;</span>
 <a name="332"><span class="lineNum">     332 </span>            : }</a>
 <span class="lineNum">     333 </span>            : 
 <span class="lineNum">     334 </span><span class="lineCov">      71476 : ConnectionPtr Node::_getConnection( const bool preferMulticast )</span>
 <span class="lineNum">     335 </span>            : {
-<span class="lineNum">     336 </span><span class="lineCov">      71476 :     ConnectionPtr multicast = preferMulticast ? getMulticast() : 0;</span>
+<span class="lineNum">     336 </span><span class="lineCov">     142952 :     ConnectionPtr multicast = preferMulticast ? getMulticast() : 0;</span>
 <span class="lineNum">     337 </span><span class="lineCov">      71476 :     if( !isClosed( ))</span>
 <span class="lineNum">     338 </span><span class="lineCov">      71476 :         return multicast ? multicast : _impl-&gt;outgoing;</span>
 <span class="lineNum">     339 </span><span class="lineNoCov">          0 :     LBUNREACHABLE;</span>
@@ -433,21 +433,21 @@
 <span class="lineNum">     371 </span>            : 
 <span class="lineNum">     372 </span><span class="lineCov">      71474 : OCommand Node::send( const uint32_t cmd, const bool multicast )</span>
 <span class="lineNum">     373 </span>            : {
-<span class="lineNum">     374 </span><span class="lineCov">      71474 :     ConnectionPtr connection = _getConnection( multicast );</span>
+<span class="lineNum">     374 </span><span class="lineCov">     142948 :     ConnectionPtr connection = _getConnection( multicast );</span>
 <span class="lineNum">     375 </span><span class="lineCov">      71474 :     LBASSERT( connection );</span>
-<span class="lineNum">     376 </span><span class="lineCov">      71474 :     return OCommand( Connections( 1, connection ), cmd, COMMANDTYPE_NODE );</span>
+<span class="lineNum">     376 </span><span class="lineCov">     142948 :     return OCommand( Connections( 1, connection ), cmd, COMMANDTYPE_NODE );</span>
 <a name="377"><span class="lineNum">     377 </span>            : }</a>
 <span class="lineNum">     378 </span>            : 
 <span class="lineNum">     379 </span><span class="lineCov">          2 : CustomOCommand Node::send( const uint128_t&amp; commandID, const bool multicast )</span>
 <span class="lineNum">     380 </span>            : {
-<span class="lineNum">     381 </span><span class="lineCov">          2 :     ConnectionPtr connection = _getConnection( multicast );</span>
+<span class="lineNum">     381 </span><span class="lineCov">          4 :     ConnectionPtr connection = _getConnection( multicast );</span>
 <span class="lineNum">     382 </span><span class="lineCov">          2 :     LBASSERT( connection );</span>
-<span class="lineNum">     383 </span><span class="lineCov">          2 :     return CustomOCommand( Connections( 1, connection ), commandID );</span>
+<span class="lineNum">     383 </span><span class="lineCov">          4 :     return CustomOCommand( Connections( 1, connection ), commandID );</span>
 <a name="384"><span class="lineNum">     384 </span>            : }</a>
 <span class="lineNum">     385 </span>            : 
-<span class="lineNum">     386 </span><span class="lineCov">     185300 : const NodeID&amp; Node::getNodeID() const</span>
+<span class="lineNum">     386 </span><span class="lineCov">     203761 : const NodeID&amp; Node::getNodeID() const</span>
 <span class="lineNum">     387 </span>            : {
-<span class="lineNum">     388 </span><span class="lineCov">     185300 :     return _impl-&gt;id;</span>
+<span class="lineNum">     388 </span><span class="lineCov">     203761 :     return _impl-&gt;id;</span>
 <a name="389"><span class="lineNum">     389 </span>            : }</a>
 <span class="lineNum">     390 </span>            : 
 <span class="lineNum">     391 </span><span class="lineNoCov">          0 : int64_t Node::getLastReceiveTime() const</span>
@@ -487,16 +487,16 @@
 <span class="lineNum">     425 </span><span class="lineNoCov">          0 :             _impl-&gt;multicasts.erase( j );</span>
 <span class="lineNum">     426 </span><span class="lineNoCov">          0 :             return;</span>
 <span class="lineNum">     427 </span>            :         }
-<span class="lineNum">     428 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     428 </span>            :     }
 <a name="429"><span class="lineNum">     429 </span>            : }</a>
 <span class="lineNum">     430 </span>            : 
 <span class="lineNum">     431 </span><span class="lineCov">         68 : void Node::_connectMulticast( NodePtr node )</span>
 <span class="lineNum">     432 </span>            : {
-<span class="lineNum">     433 </span><span class="lineCov">         68 :     lunchbox::ScopedMutex&lt;&gt; mutex( _impl-&gt;outMulticast );</span>
+<span class="lineNum">     433 </span><span class="lineCov">        136 :     lunchbox::ScopedMutex&lt;&gt; mutex( _impl-&gt;outMulticast );</span>
 <span class="lineNum">     434 </span>            : 
 <span class="lineNum">     435 </span><span class="lineCov">         68 :     if( node-&gt;_impl-&gt;outMulticast.data.isValid( ))</span>
 <span class="lineNum">     436 </span>            :         // multicast already connected by previous _cmdID
-<span class="lineNum">     437 </span><span class="lineCov">         68 :         return;</span>
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     438 </span>            : 
 <span class="lineNum">     439 </span>            :     // Search if the connected node is in the same multicast group as we are
 <span class="lineNum">     440 </span><span class="lineCov">        136 :     const ConnectionDescriptions&amp; descriptions = getConnectionDescriptions();</span>
@@ -539,9 +539,9 @@
 <span class="lineNum">     477 </span><span class="lineNoCov">          0 :                 node-&gt;_impl-&gt;multicasts.push_back( data );</span>
 <span class="lineNum">     478 </span><span class="lineNoCov">          0 :                 LBDEBUG &lt;&lt; &quot;Adding &quot; &lt;&lt; dataDesc &lt;&lt; &quot; as multicast group for &quot;</span>
 <span class="lineNum">     479 </span><span class="lineNoCov">          0 :                         &lt;&lt; node-&gt;getNodeID() &lt;&lt; std::endl;</span>
-<span class="lineNum">     480 </span><span class="lineNoCov">          0 :             }</span>
-<span class="lineNum">     481 </span><span class="lineNoCov">          0 :         }</span>
-<span class="lineNum">     482 </span><span class="lineCov">         68 :     }</span>
+<span class="lineNum">     480 </span>            :             }
+<span class="lineNum">     481 </span>            :         }
+<span class="lineNum">     482 </span>            :     }
 <a name="483"><span class="lineNum">     483 </span>            : }</a>
 <span class="lineNum">     484 </span>            : 
 <span class="lineNum">     485 </span><span class="lineNoCov">          0 : void Node::_connectMulticast( NodePtr node, ConnectionPtr connection )</span>
@@ -577,7 +577,7 @@
 <span class="lineNum">     515 </span><span class="lineNoCov">          0 :         node-&gt;_impl-&gt;outMulticast.data = connection;</span>
 <span class="lineNum">     516 </span><span class="lineNoCov">          0 :         if( i != node-&gt;_impl-&gt;multicasts.end( ))</span>
 <span class="lineNum">     517 </span><span class="lineNoCov">          0 :             node-&gt;_impl-&gt;multicasts.erase( i );</span>
-<span class="lineNum">     518 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     518 </span>            :     }
 <a name="519"><span class="lineNum">     519 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     520 </span>            : 
 <span class="lineNum">     521 </span><span class="lineCov">         50 : void Node::_setListening()</span>
@@ -617,18 +617,18 @@
 <span class="lineNum">     555 </span><span class="lineCov">        435 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const State state )</span>
 <span class="lineNum">     556 </span>            : {
 <span class="lineNum">     557 </span>            :     os &lt;&lt; ( state == STATE_CLOSED ? &quot;closed&quot; :
-<span class="lineNum">     558 </span>            :             state == STATE_CONNECTED ? &quot;connected&quot; :
-<span class="lineNum">     559 </span><span class="lineCov">        435 :             state == STATE_LISTENING ? &quot;listening&quot; : &quot;ERROR&quot; );</span>
+<span class="lineNum">     558 </span><span class="lineCov">        290 :             state == STATE_CONNECTED ? &quot;connected&quot; :</span>
+<span class="lineNum">     559 </span><span class="lineCov">        725 :             state == STATE_LISTENING ? &quot;listening&quot; : &quot;ERROR&quot; );</span>
 <span class="lineNum">     560 </span><span class="lineCov">        435 :     return os;</span>
 <a name="561"><span class="lineNum">     561 </span>            : }</a>
 <span class="lineNum">     562 </span>            : 
 <span class="lineNum">     563 </span><span class="lineCov">        435 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Node&amp; node )</span>
 <span class="lineNum">     564 </span>            : {
 <span class="lineNum">     565 </span><span class="lineCov">        435 :     os &lt;&lt; &quot;node &quot; &lt;&lt; node.getNodeID() &lt;&lt; &quot; &quot; &lt;&lt; node._impl-&gt;state;</span>
-<span class="lineNum">     566 </span><span class="lineCov">        435 :     const ConnectionDescriptions&amp; descs = node.getConnectionDescriptions();</span>
+<span class="lineNum">     566 </span><span class="lineCov">        870 :     const ConnectionDescriptions&amp; descs = node.getConnectionDescriptions();</span>
 <span class="lineNum">     567 </span><span class="lineCov">        862 :     for( ConnectionDescriptionsCIter i = descs.begin(); i != descs.end(); ++i )</span>
 <span class="lineNum">     568 </span><span class="lineCov">        427 :         os &lt;&lt; &quot;, &quot; &lt;&lt; (*i)-&gt;toString();</span>
-<span class="lineNum">     569 </span><span class="lineCov">        435 :     return os;</span>
+<span class="lineNum">     569 </span><span class="lineCov">        870 :     return os;</span>
 <a name="570"><span class="lineNum">     570 </span>            : }</a>
 <span class="lineNum">     571 </span>            : 
 <span class="lineNum">     572 </span><span class="lineCov">         66 : }</span>

@@ -4,7 +4,7 @@ version: "1.6"
 major: 1
 minor: 6
 description: High-performance C++ library for developing object-oriented distributed applications.
-updated: 04/10/16
+updated: 12/12/16
 homepage: https://github.com/Eyescale/Collage
 repository: https://github.com/Eyescale/Collage.git
 issuesurl: https://github.com/Eyescale/Collage/issues
@@ -12,15 +12,13 @@ packageurl:
 license: LGPL
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Stefan Eilemann
+contributors: Daniel Nachbaur
 readmetype: text/x-markdown
 ---
-[TOC]
-
-# Introduction {#Introduction}
+# Introduction
 
 Collage is a cross-platform C++ library for building heterogenous, distributed
-applications. Among other things, it is the cluster backend for the [Equalizer
+applications. Among others, it is the cluster backend for the [Equalizer
 parallel rendering framework](https://github.com/Eyescale/Equalizer). Collage
 provides an abstraction of different network connections, peer-to-peer
 messaging, node discovery, synchronization and high-performance,
@@ -45,7 +43,7 @@ available from [Eyescale](http://www.eyescale.ch). Please contact
 [info@eyescale.ch](mailto:info@eyescale.ch?subject=Collage%20support)
 for further information.
 
-# Features {#Features}
+# Features
 
 Collage provides different levels of abstraction to facilitate the
 development distributed applications:
@@ -60,22 +58,23 @@ development distributed applications:
   distribution for C++ objects based on delta serialization.
 * Detailed @ref Changelog
 
-# Building {#Building}
+# Building
 
-Collage is a cross-platform library, designed to run on any modern operating
-system, including all Unix variants and the Windows operating system. Collage
-uses CMake to create a platform-specific build environment. The following
-platforms and build environments are tested:
+Collage is a cross-platform library, designed to run on any modern
+operating system, including all Unix variants and the Windows operating
+system. It requires a C++11 compiler and uses CMake to create a
+platform-specific build environment. The following platforms and build
+environments are tested:
 
-* Linux: Ubuntu 14.04, RHEL 6.6 (Makefile, Ninja)
+* Linux: Ubuntu 16.04, RHEL 6.8 (Makefile, Ninja)
 * Windows: 7 (Visual Studio 2012)
-* Mac OS X: 10.8 (Makefile, Ninja)
+* Mac OS X: 10.9 (Makefile, Ninja)
 
 Building from source is as simple as:
 
     git clone https://github.com/Eyescale/Collage.git
     mkdir Collage/build
     cd Collage/build
-    cmake ..
-    make
+    cmake -GNinja ..
+    ninja
 
