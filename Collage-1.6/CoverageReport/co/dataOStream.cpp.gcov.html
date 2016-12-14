@@ -31,18 +31,18 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">142</td>
-            <td class="headerCovTableEntry">230</td>
-            <td class="headerCovTableEntryMed">61.7 %</td>
+            <td class="headerCovTableEntry">209</td>
+            <td class="headerCovTableEntry">239</td>
+            <td class="headerCovTableEntryHi">87.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">29</td>
-            <td class="headerCovTableEntry">36</td>
-            <td class="headerCovTableEntryHi">80.6 %</td>
+            <td class="headerCovTableEntry">33</td>
+            <td class="headerCovTableEntry">37</td>
+            <td class="headerCovTableEntryHi">89.2 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2015, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -93,475 +93,489 @@
 <span class="lineNum">      31 </span>            : #include &quot;types.h&quot;
 <span class="lineNum">      32 </span>            : 
 <span class="lineNum">      33 </span>            : #include &lt;lunchbox/clock.h&gt;
-<span class="lineNum">      34 </span>            : #include &lt;pression/compressor.h&gt;
-<span class="lineNum">      35 </span>            : #include &lt;pression/compressorResult.h&gt;
-<span class="lineNum">      36 </span>            : #include &lt;pression/plugins/compressor.h&gt;
-<span class="lineNum">      37 </span>            : 
-<span class="lineNum">      38 </span>            : #include  &lt;boost/foreach.hpp&gt;
-<span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span>            : namespace co
-<span class="lineNum">      41 </span>            : {
-<span class="lineNum">      42 </span>            : namespace
-<span class="lineNum">      43 </span>            : {
-<a name="44"><span class="lineNum">      44 </span>            : #define CO_INSTRUMENT_DATAOSTREAM</a>
-<span class="lineNum">      45 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">      46 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytes;</span>
-<span class="lineNum">      47 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesIn;</span>
-<span class="lineNum">      48 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesOut;</span>
-<span class="lineNum">      49 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesSaved;</span>
-<span class="lineNum">      50 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesSent;</span>
-<span class="lineNum">      51 </span><span class="lineCov">         22 : lunchbox::a_ssize_t compressionTime;</span>
-<span class="lineNum">      52 </span><span class="lineCov">         22 : lunchbox::a_ssize_t compressionRuns;</span>
-<span class="lineNum">      53 </span>            : #endif
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span>            : enum CompressorState
-<span class="lineNum">      56 </span>            : {
-<span class="lineNum">      57 </span>            :     STATE_UNCOMPRESSED,
-<span class="lineNum">      58 </span>            :     STATE_PARTIAL,
-<span class="lineNum">      59 </span>            :     STATE_COMPLETE,
-<span class="lineNum">      60 </span>            :     STATE_UNCOMPRESSIBLE
-<span class="lineNum">      61 </span>            : };
-<span class="lineNum">      62 </span>            : }
-<span class="lineNum">      63 </span>            : 
-<a name="64"><span class="lineNum">      64 </span>            : namespace detail</a>
-<span class="lineNum">      65 </span>            : {
-<span class="lineNum">      66 </span><span class="lineCov">      72365 : class DataOStream</span>
-<span class="lineNum">      67 </span>            : {
-<span class="lineNum">      68 </span>            : public:
-<span class="lineNum">      69 </span>            :     CompressorState state;
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span>            :     /** The buffer used for saving and buffering */
-<span class="lineNum">      72 </span>            :     lunchbox::Bufferb buffer;
-<span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span>            :     /** The start position of the buffering, always 0 if !_save */
-<span class="lineNum">      75 </span>            :     uint64_t bufferStart;
-<span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span>            :     /** The uncompressed size of a completely compressed buffer. */
-<span class="lineNum">      78 </span>            :     uint64_t dataSize;
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span>            :     /** The compressed size, 0 for uncompressed or uncompressable data. */
-<span class="lineNum">      81 </span>            :     uint64_t compressedDataSize;
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span>            :     /** Locked connections to the receivers, if _enabled */
-<span class="lineNum">      84 </span>            :     Connections connections;
-<span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span>            :     /** The compressor instance. */
-<span class="lineNum">      87 </span>            :     pression::Compressor compressor;
-<span class="lineNum">      88 </span>            : 
-<span class="lineNum">      89 </span>            :     /** The output stream is enabled for writing */
-<span class="lineNum">      90 </span>            :     bool enabled;
-<span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span>            :     /** Some data has been sent since it was enabled */
-<span class="lineNum">      93 </span>            :     bool dataSent;
-<span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span>            :     /** Save all sent data */
-<a name="96"><span class="lineNum">      96 </span>            :     bool save;</a>
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span><span class="lineCov">      72364 :     DataOStream()</span>
-<span class="lineNum">      99 </span><span class="lineCov">      72364 :         : state( STATE_UNCOMPRESSED )</span>
-<span class="lineNum">     100 </span>            :         , bufferStart( 0 )
-<span class="lineNum">     101 </span>            :         , dataSize( 0 )
-<span class="lineNum">     102 </span>            :         , compressedDataSize( 0 )
-<span class="lineNum">     103 </span>            :         , enabled( false )
-<span class="lineNum">     104 </span>            :         , dataSent( false )
-<span class="lineNum">     105 </span><span class="lineCov">      72364 :         , save( false )</span>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">      72365 :     {}</span></a>
-<span class="lineNum">     107 </span>            : 
-<span class="lineNum">     108 </span><span class="lineNoCov">          0 :     DataOStream( const DataOStream&amp; rhs )</span>
-<span class="lineNum">     109 </span><span class="lineNoCov">          0 :         : state( rhs.state )</span>
-<span class="lineNum">     110 </span><span class="lineNoCov">          0 :         , bufferStart( rhs.bufferStart )</span>
-<span class="lineNum">     111 </span><span class="lineNoCov">          0 :         , dataSize( rhs.dataSize )</span>
-<span class="lineNum">     112 </span><span class="lineNoCov">          0 :         , compressedDataSize( rhs.compressedDataSize )</span>
-<span class="lineNum">     113 </span><span class="lineNoCov">          0 :         , enabled( rhs.enabled )</span>
-<span class="lineNum">     114 </span><span class="lineNoCov">          0 :         , dataSent( rhs.dataSent )</span>
-<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         , save( rhs.save )</span>
-<a name="116"><span class="lineNum">     116 </span><span class="lineNoCov">          0 :     {}</span></a>
-<span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span><span class="lineCov">        495 :     uint32_t getCompressor() const</span>
-<span class="lineNum">     119 </span>            :     {
-<span class="lineNum">     120 </span><span class="lineCov">        495 :         if( state == STATE_UNCOMPRESSED || state == STATE_UNCOMPRESSIBLE )</span>
-<span class="lineNum">     121 </span><span class="lineCov">        495 :             return EQ_COMPRESSOR_NONE;</span>
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         return compressor.getInfo().name;</span>
-<a name="123"><span class="lineNum">     123 </span>            :     }</a>
-<span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span><span class="lineCov">        165 :     uint32_t getNumChunks() const</span>
-<span class="lineNum">     126 </span>            :     {
-<span class="lineNum">     127 </span><span class="lineCov">        165 :         if( state == STATE_UNCOMPRESSED || state == STATE_UNCOMPRESSIBLE )</span>
-<span class="lineNum">     128 </span><span class="lineCov">        165 :             return 1;</span>
-<span class="lineNum">     129 </span><span class="lineNoCov">          0 :         return uint32_t( compressor.getResult().chunks.size( ));</span>
-<span class="lineNum">     130 </span>            :     }
-<span class="lineNum">     131 </span>            : 
-<a name="132"><span class="lineNum">     132 </span>            : </a>
-<span class="lineNum">     133 </span>            :     /** Compress data and update the compressor state. */
-<span class="lineNum">     134 </span><span class="lineCov">      72306 :     void compress( void* src, const uint64_t size, const CompressorState result)</span>
-<span class="lineNum">     135 </span>            :     {
-<span class="lineNum">     136 </span><span class="lineCov">      72306 :         if( state == result || state == STATE_UNCOMPRESSIBLE )</span>
-<span class="lineNum">     137 </span><span class="lineCov">      72312 :             return;</span>
-<span class="lineNum">     138 </span>            :         const uint64_t threshold =
-<span class="lineNum">     139 </span><span class="lineCov">      72306 :            uint64_t( Global::getIAttribute( Global::IATTR_OBJECT_COMPRESSION ));</span>
-<span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineCov">      72306 :         if( !compressor.isGood() || size &lt;= threshold )</span>
-<span class="lineNum">     142 </span>            :         {
-<span class="lineNum">     143 </span><span class="lineCov">      72312 :             state = STATE_UNCOMPRESSED;</span>
-<span class="lineNum">     144 </span><span class="lineCov">      72312 :             return;</span>
-<span class="lineNum">     145 </span>            :         }
-<span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span><span class="lineNoCov">          0 :         const uint64_t inDims[2] = { 0, size };</span>
-<span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">     150 </span><span class="lineNoCov">          0 :         lunchbox::Clock clock;</span>
-<span class="lineNum">     151 </span>            : #endif
-<span class="lineNum">     152 </span><span class="lineNoCov">          0 :         compressor.compress( src, inDims );</span>
-<span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span>            :         const pression::CompressorResult &amp;compressorResult =
-<span class="lineNum">     155 </span><span class="lineNoCov">          0 :             compressor.getResult();</span>
-<span class="lineNum">     156 </span><span class="lineNoCov">          0 :         LBASSERT( !compressorResult.chunks.empty() );</span>
-<span class="lineNum">     157 </span><span class="lineNoCov">          0 :         compressedDataSize = compressorResult.getSize();</span>
-<span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">     160 </span><span class="lineNoCov">          0 :         compressionTime += size_t( clock.getTimef() * 1000.f );</span>
-<span class="lineNum">     161 </span><span class="lineNoCov">          0 :         nBytesIn += size;</span>
-<span class="lineNum">     162 </span><span class="lineNoCov">          0 :         nBytesOut += compressedDataSize;</span>
-<span class="lineNum">     163 </span><span class="lineNoCov">          0 :         ++compressionRuns;</span>
-<span class="lineNum">     164 </span>            : #endif
-<span class="lineNum">     165 </span>            : 
-<span class="lineNum">     166 </span><span class="lineNoCov">          0 :         if( compressedDataSize &gt;= size )</span>
-<span class="lineNum">     167 </span>            :         {
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 :             state = STATE_UNCOMPRESSIBLE;</span>
-<span class="lineNum">     169 </span>            : #ifndef CO_AGGRESSIVE_CACHING
-<span class="lineNum">     170 </span><span class="lineNoCov">          0 :             compressor.realloc();</span>
-<span class="lineNum">     171 </span>            : 
-<span class="lineNum">     172 </span><span class="lineNoCov">          0 :             if( result == STATE_COMPLETE )</span>
-<span class="lineNum">     173 </span><span class="lineNoCov">          0 :                 buffer.pack();</span>
-<span class="lineNum">     174 </span>            : #endif
-<span class="lineNum">     175 </span><span class="lineNoCov">          0 :             return;</span>
-<span class="lineNum">     176 </span>            :         }
-<span class="lineNum">     177 </span>            : 
-<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         state = result;</span>
-<span class="lineNum">     179 </span>            : #ifndef CO_AGGRESSIVE_CACHING
-<span class="lineNum">     180 </span><span class="lineNoCov">          0 :         if( result == STATE_COMPLETE )</span>
-<span class="lineNum">     181 </span>            :         {
-<span class="lineNum">     182 </span><span class="lineNoCov">          0 :             LBASSERT( buffer.getSize() == dataSize );</span>
-<span class="lineNum">     183 </span><span class="lineNoCov">          0 :             buffer.clear();</span>
-<span class="lineNum">     184 </span>            :         }
-<span class="lineNum">     185 </span>            : #endif
-<span class="lineNum">     186 </span>            :     }
-<span class="lineNum">     187 </span>            : };
-<a name="188"><span class="lineNum">     188 </span>            : }</a>
-<span class="lineNum">     189 </span>            : 
-<span class="lineNum">     190 </span><span class="lineCov">      72364 : DataOStream::DataOStream()</span>
-<span class="lineNum">     191 </span><span class="lineCov">      72364 :     : _impl( new detail::DataOStream )</span>
-<a name="192"><span class="lineNum">     192 </span><span class="lineCov">      72365 : {}</span></a>
-<span class="lineNum">     193 </span>            : 
-<span class="lineNum">     194 </span><span class="lineNoCov">          0 : DataOStream::DataOStream( DataOStream&amp; rhs )</span>
-<span class="lineNum">     195 </span>            :     : boost::noncopyable()
-<span class="lineNum">     196 </span><span class="lineNoCov">          0 :     , _impl( new detail::DataOStream( *rhs._impl ))</span>
-<span class="lineNum">     197 </span>            : {
-<span class="lineNum">     198 </span><span class="lineNoCov">          0 :     _setupConnections( rhs.getConnections( ));</span>
-<span class="lineNum">     199 </span><span class="lineNoCov">          0 :     getBuffer().swap( rhs.getBuffer( ));</span>
-<span class="lineNum">     200 </span>            : 
-<span class="lineNum">     201 </span>            :     // disable send of rhs
-<span class="lineNum">     202 </span><span class="lineNoCov">          0 :     rhs._setupConnections( Connections( ));</span>
-<span class="lineNum">     203 </span><span class="lineNoCov">          0 :     rhs.disable();</span>
-<a name="204"><span class="lineNum">     204 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     205 </span>            : 
-<span class="lineNum">     206 </span><span class="lineCov">     144730 : DataOStream::~DataOStream()</span>
-<span class="lineNum">     207 </span>            : {
-<span class="lineNum">     208 </span>            :     // Can't call disable() from destructor since it uses virtual functions
-<span class="lineNum">     209 </span><span class="lineCov">      72365 :     LBASSERT( !_impl-&gt;enabled );</span>
-<span class="lineNum">     210 </span><span class="lineCov">      72365 :     delete _impl;</span>
-<a name="211"><span class="lineNum">     211 </span><span class="lineCov">      72365 : }</span></a>
-<span class="lineNum">     212 </span>            : 
-<span class="lineNum">     213 </span><span class="lineCov">        178 : void DataOStream::_initCompressor( const uint32_t name )</span>
-<span class="lineNum">     214 </span>            : {
-<span class="lineNum">     215 </span><span class="lineCov">        178 :     LBCHECK( _impl-&gt;compressor.setup( Global::getPluginRegistry(), name ));</span>
-<span class="lineNum">     216 </span><span class="lineCov">        177 :     LB_TS_RESET( _impl-&gt;compressor._thread );</span>
-<a name="217"><span class="lineNum">     217 </span><span class="lineCov">        178 : }</span></a>
-<span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineCov">      72426 : void DataOStream::_enable()</span>
-<span class="lineNum">     220 </span>            : {
-<span class="lineNum">     221 </span><span class="lineCov">      72426 :     LBASSERT( !_impl-&gt;enabled );</span>
-<span class="lineNum">     222 </span><span class="lineCov">      72423 :     LBASSERT( _impl-&gt;save || !_impl-&gt;connections.empty( ));</span>
-<span class="lineNum">     223 </span><span class="lineCov">      72423 :     _impl-&gt;state = STATE_UNCOMPRESSED;</span>
-<span class="lineNum">     224 </span><span class="lineCov">      72423 :     _impl-&gt;bufferStart = 0;</span>
-<span class="lineNum">     225 </span><span class="lineCov">      72423 :     _impl-&gt;dataSent    = false;</span>
-<span class="lineNum">     226 </span><span class="lineCov">      72423 :     _impl-&gt;dataSize    = 0;</span>
-<span class="lineNum">     227 </span><span class="lineCov">      72423 :     _impl-&gt;enabled     = true;</span>
-<span class="lineNum">     228 </span><span class="lineCov">      72423 :     _impl-&gt;buffer.setSize( 0 );</span>
-<span class="lineNum">     229 </span>            : #ifdef CO_AGGRESSIVE_CACHING
-<span class="lineNum">     230 </span>            :     _impl-&gt;buffer.reserve( COMMAND_ALLOCSIZE );
-<span class="lineNum">     231 </span>            : #else
-<span class="lineNum">     232 </span><span class="lineCov">      72422 :     _impl-&gt;buffer.reserve( COMMAND_MINSIZE );</span>
-<span class="lineNum">     233 </span>            : #endif
-<a name="234"><span class="lineNum">     234 </span><span class="lineCov">      72426 : }</span></a>
-<span class="lineNum">     235 </span>            : 
-<span class="lineNum">     236 </span><span class="lineCov">        236 : void DataOStream::_setupConnections( const Nodes&amp; receivers )</span>
-<span class="lineNum">     237 </span>            : {
-<span class="lineNum">     238 </span><span class="lineCov">        236 :     _impl-&gt;connections = gatherConnections( receivers );</span>
-<a name="239"><span class="lineNum">     239 </span><span class="lineCov">        236 : }</span></a>
-<span class="lineNum">     240 </span>            : 
-<span class="lineNum">     241 </span><span class="lineCov">      72148 : void DataOStream::_setupConnections( const Connections&amp; connections )</span>
-<span class="lineNum">     242 </span>            : {
-<span class="lineNum">     243 </span><span class="lineCov">      72148 :     _impl-&gt;connections = connections;</span>
-<a name="244"><span class="lineNum">     244 </span><span class="lineCov">      72148 : }</span></a>
-<span class="lineNum">     245 </span>            : 
-<span class="lineNum">     246 </span><span class="lineCov">         38 : void DataOStream::_setupConnection( NodePtr node, const bool useMulticast )</span>
-<span class="lineNum">     247 </span>            : {
-<span class="lineNum">     248 </span><span class="lineCov">         38 :     LBASSERT( _impl-&gt;connections.empty( ));</span>
-<span class="lineNum">     249 </span><span class="lineCov">         38 :     _impl-&gt;connections.push_back( node-&gt;getConnection( useMulticast ));</span>
-<a name="250"><span class="lineNum">     250 </span><span class="lineCov">         38 : }</span></a>
+<span class="lineNum">      34 </span>            : #include &lt;pression/data/Compressor.h&gt;
+<span class="lineNum">      35 </span>            : #include &lt;pression/data/CompressorInfo.h&gt;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : namespace co
+<span class="lineNum">      38 </span>            : {
+<span class="lineNum">      39 </span>            : namespace
+<span class="lineNum">      40 </span>            : {
+<a name="41"><span class="lineNum">      41 </span>            : #define CO_INSTRUMENT_DATAOSTREAM</a>
+<span class="lineNum">      42 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
+<span class="lineNum">      43 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytes;</span>
+<span class="lineNum">      44 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesIn;</span>
+<span class="lineNum">      45 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesOut;</span>
+<span class="lineNum">      46 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesSaved;</span>
+<span class="lineNum">      47 </span><span class="lineCov">         22 : lunchbox::a_ssize_t nBytesSent;</span>
+<span class="lineNum">      48 </span><span class="lineCov">         22 : lunchbox::a_ssize_t compressionTime;</span>
+<span class="lineNum">      49 </span><span class="lineCov">         22 : lunchbox::a_ssize_t compressionRuns;</span>
+<span class="lineNum">      50 </span>            : #endif
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            : enum CompressorState
+<span class="lineNum">      53 </span>            : {
+<span class="lineNum">      54 </span>            :     STATE_UNCOMPRESSED,
+<span class="lineNum">      55 </span>            :     STATE_PARTIAL,
+<span class="lineNum">      56 </span>            :     STATE_COMPLETE,
+<span class="lineNum">      57 </span>            :     STATE_UNCOMPRESSIBLE
+<span class="lineNum">      58 </span>            : };
+<span class="lineNum">      59 </span>            : }
+<span class="lineNum">      60 </span>            : 
+<a name="61"><span class="lineNum">      61 </span>            : namespace detail</a>
+<span class="lineNum">      62 </span>            : {
+<span class="lineNum">      63 </span><span class="lineCov">      72365 : class DataOStream</span>
+<span class="lineNum">      64 </span>            : {
+<span class="lineNum">      65 </span>            : public:
+<span class="lineNum">      66 </span>            :     /** The buffer used for saving and buffering */
+<span class="lineNum">      67 </span>            :     lunchbox::Bufferb buffer;
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :     /** The start position of the buffering, always 0 if !_save */
+<span class="lineNum">      70 </span>            :     uint64_t bufferStart;
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :     /** The uncompressed size of a completely compressed buffer. */
+<span class="lineNum">      73 </span>            :     uint64_t dataSize;
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :     /** The compressed size, 0 for uncompressed or uncompressable data. */
+<span class="lineNum">      76 </span>            :     uint64_t compressedDataSize;
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            :     /** Locked connections to the receivers, if _enabled */
+<span class="lineNum">      79 </span>            :     Connections connections;
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :     CompressorState state; //!&lt; State of compression
+<span class="lineNum">      82 </span>            :     CompressorPtr compressor; //!&lt; The compressor instance.
+<span class="lineNum">      83 </span>            :     CompressorInfo compressorInfo; //!&lt; Information on the compr.
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            :     /** The output stream is enabled for writing */
+<span class="lineNum">      86 </span>            :     bool enabled;
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     /** Some data has been sent since it was enabled */
+<span class="lineNum">      89 </span>            :     bool dataSent;
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            :     /** Save all sent data */
+<a name="92"><span class="lineNum">      92 </span>            :     bool save;</a>
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span><span class="lineCov">      72363 :     DataOStream()</span>
+<span class="lineNum">      95 </span><span class="lineCov">      72363 :         : bufferStart( 0 )</span>
+<span class="lineNum">      96 </span>            :         , dataSize( 0 )
+<span class="lineNum">      97 </span>            :         , compressedDataSize( 0 )
+<span class="lineNum">      98 </span>            :         , state( STATE_UNCOMPRESSED )
+<span class="lineNum">      99 </span>            :         , enabled( false )
+<span class="lineNum">     100 </span>            :         , dataSent( false )
+<span class="lineNum">     101 </span><span class="lineCov">      72363 :         , save( false )</span>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">      72360 :     {}</span></a>
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :     DataOStream( const DataOStream&amp; rhs )</span>
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :         : bufferStart( rhs.bufferStart )</span>
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :         , dataSize( rhs.dataSize )</span>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :         , compressedDataSize( rhs.compressedDataSize )</span>
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :         , state( rhs.state )</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :         , enabled( rhs.enabled )</span>
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :         , dataSent( rhs.dataSent )</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :         , save( rhs.save )</span>
+<a name="112"><span class="lineNum">     112 </span><span class="lineNoCov">          0 :     {}</span></a>
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span><span class="lineCov">        330 :     std::string getCompressorName() const</span>
+<span class="lineNum">     115 </span>            :     {
+<span class="lineNum">     116 </span><span class="lineCov">        346 :         if( state == STATE_UNCOMPRESSED || state == STATE_UNCOMPRESSIBLE ||</span>
+<span class="lineNum">     117 </span><span class="lineCov">         16 :             !compressor )</span>
+<span class="lineNum">     118 </span>            :         {
+<span class="lineNum">     119 </span><span class="lineCov">        314 :             return std::string();</span>
+<span class="lineNum">     120 </span>            :         }
+<span class="lineNum">     121 </span><span class="lineCov">         16 :         return compressorInfo.name;</span>
+<a name="122"><span class="lineNum">     122 </span>            :     }</a>
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span><span class="lineCov">         10 :     bool initCompressor()</span>
+<span class="lineNum">     125 </span>            :     {
+<span class="lineNum">     126 </span><span class="lineCov">         10 :         if( compressorInfo.name.empty( ))</span>
+<span class="lineNum">     127 </span><span class="lineCov">          2 :             return false;</span>
+<span class="lineNum">     128 </span><span class="lineCov">          8 :         if( compressor )</span>
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :             return true;</span>
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span><span class="lineCov">          8 :         compressor.reset( compressorInfo.create( ));</span>
+<span class="lineNum">     132 </span><span class="lineCov">          8 :         LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;Allocated &quot; &lt;&lt; compressorInfo.name &lt;&lt;std::endl;</span>
+<span class="lineNum">     133 </span><span class="lineCov">          8 :         return compressor != nullptr;</span>
+<a name="134"><span class="lineNum">     134 </span>            :     }</a>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">        173 :     uint32_t getNumChunks() const</span>
+<span class="lineNum">     137 </span>            :     {
+<span class="lineNum">     138 </span><span class="lineCov">        189 :         if( state == STATE_UNCOMPRESSED || state == STATE_UNCOMPRESSIBLE ||</span>
+<span class="lineNum">     139 </span><span class="lineCov">         16 :             !compressor )</span>
+<span class="lineNum">     140 </span>            :         {
+<span class="lineNum">     141 </span><span class="lineCov">        157 :             return 1;</span>
+<span class="lineNum">     142 </span>            :         }
+<span class="lineNum">     143 </span><span class="lineCov">         16 :         return uint32_t(compressor-&gt;getCompressedData().size( ));</span>
+<span class="lineNum">     144 </span>            :     }
+<a name="145"><span class="lineNum">     145 </span>            : </a>
+<span class="lineNum">     146 </span>            :     /** Compress data and update the compressor state. */
+<span class="lineNum">     147 </span><span class="lineCov">      72306 :     void compress( const uint8_t* src, const uint64_t size,</span>
+<span class="lineNum">     148 </span>            :                    const CompressorState result )
+<span class="lineNum">     149 </span>            :     {
+<span class="lineNum">     150 </span><span class="lineCov">      72306 :         if( state == result || state == STATE_UNCOMPRESSIBLE )</span>
+<span class="lineNum">     151 </span><span class="lineCov">      72297 :             return;</span>
+<span class="lineNum">     152 </span>            :         const uint64_t threshold =
+<span class="lineNum">     153 </span><span class="lineCov">      72306 :            uint64_t( Global::getIAttribute( Global::IATTR_OBJECT_COMPRESSION ));</span>
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span><span class="lineCov">      72305 :         if( size &lt;= threshold || !initCompressor( ))</span>
+<span class="lineNum">     156 </span>            :         {
+<span class="lineNum">     157 </span><span class="lineCov">      72297 :             state = STATE_UNCOMPRESSED;</span>
+<span class="lineNum">     158 </span><span class="lineCov">      72297 :             return;</span>
+<span class="lineNum">     159 </span>            :         }
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
+<span class="lineNum">     162 </span><span class="lineCov">         16 :         lunchbox::Clock clock;</span>
+<span class="lineNum">     163 </span>            : #endif
+<span class="lineNum">     164 </span><span class="lineCov">          8 :         const auto&amp; output = compressor-&gt;compress( src, size );</span>
+<span class="lineNum">     165 </span><span class="lineCov">          8 :         LBASSERT( !output.empty( ));</span>
+<span class="lineNum">     166 </span><span class="lineCov">          8 :         compressedDataSize = pression::data::getDataSize( output );</span>
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
+<span class="lineNum">     169 </span><span class="lineCov">          8 :         compressionTime += size_t( clock.getTimef() * 1000.f );</span>
+<span class="lineNum">     170 </span><span class="lineCov">          8 :         nBytesIn += size;</span>
+<span class="lineNum">     171 </span><span class="lineCov">          8 :         nBytesOut += compressedDataSize;</span>
+<span class="lineNum">     172 </span><span class="lineCov">          8 :         ++compressionRuns;</span>
+<span class="lineNum">     173 </span>            : #endif
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">          8 :         if( compressedDataSize &gt;= size )</span>
+<span class="lineNum">     176 </span>            :         {
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :             state = STATE_UNCOMPRESSIBLE;</span>
+<span class="lineNum">     178 </span>            : #ifndef CO_AGGRESSIVE_CACHING
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :             compressor.reset( compressorInfo.create( ));</span>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :             if( result == STATE_COMPLETE )</span>
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :                 buffer.pack();</span>
+<span class="lineNum">     183 </span>            : #endif
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     185 </span>            :         }
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span><span class="lineCov">          8 :         state = result;</span>
+<span class="lineNum">     188 </span>            : #ifndef CO_AGGRESSIVE_CACHING
+<span class="lineNum">     189 </span><span class="lineCov">          8 :         if( result == STATE_COMPLETE )</span>
+<span class="lineNum">     190 </span>            :         {
+<span class="lineNum">     191 </span><span class="lineCov">          2 :             LBASSERT( buffer.getSize() == dataSize );</span>
+<span class="lineNum">     192 </span><span class="lineCov">          2 :             buffer.clear();</span>
+<span class="lineNum">     193 </span>            :         }
+<span class="lineNum">     194 </span>            : #endif
+<span class="lineNum">     195 </span>            :     }
+<span class="lineNum">     196 </span>            : };
+<a name="197"><span class="lineNum">     197 </span>            : }</a>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineCov">      72365 : DataOStream::DataOStream()</span>
+<span class="lineNum">     200 </span><span class="lineCov">      72365 :     : _impl( new detail::DataOStream )</span>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">      72360 : {}</span></a>
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 : DataOStream::DataOStream( DataOStream&amp; rhs )</span>
+<span class="lineNum">     204 </span>            :     : boost::noncopyable()
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :     , _impl( new detail::DataOStream( *rhs._impl ))</span>
+<span class="lineNum">     206 </span>            : {
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :     _setupConnections( rhs.getConnections( ));</span>
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     getBuffer().swap( rhs.getBuffer( ));</span>
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span>            :     // disable send of rhs
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :     rhs._setupConnections( Connections( ));</span>
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :     rhs.disable();</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span><span class="lineCov">     144729 : DataOStream::~DataOStream()</span>
+<span class="lineNum">     216 </span>            : {
+<span class="lineNum">     217 </span>            :     // Can't call disable() from destructor since it uses virtual functions
+<span class="lineNum">     218 </span><span class="lineCov">      72365 :     LBASSERT( !_impl-&gt;enabled );</span>
+<span class="lineNum">     219 </span><span class="lineCov">      72365 :     delete _impl;</span>
+<a name="220"><span class="lineNum">     220 </span><span class="lineCov">      72364 : }</span></a>
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span><span class="lineCov">        178 : void DataOStream::_setCompressor( const CompressorInfo&amp; info )</span>
+<span class="lineNum">     223 </span>            : {
+<span class="lineNum">     224 </span><span class="lineCov">        178 :     if( info == _impl-&gt;compressorInfo )</span>
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     226 </span><span class="lineCov">        178 :     _impl-&gt;compressorInfo = info;</span>
+<span class="lineNum">     227 </span><span class="lineCov">        178 :     _impl-&gt;compressor.reset( nullptr );</span>
+<a name="228"><span class="lineNum">     228 </span>            : }</a>
+<span class="lineNum">     229 </span>            : 
+<span class="lineNum">     230 </span><span class="lineCov">      72425 : void DataOStream::_enable()</span>
+<span class="lineNum">     231 </span>            : {
+<span class="lineNum">     232 </span><span class="lineCov">      72425 :     LBASSERT( !_impl-&gt;enabled );</span>
+<span class="lineNum">     233 </span><span class="lineCov">      72423 :     LBASSERT( _impl-&gt;save || !_impl-&gt;connections.empty( ));</span>
+<span class="lineNum">     234 </span><span class="lineCov">      72424 :     _impl-&gt;state = STATE_UNCOMPRESSED;</span>
+<span class="lineNum">     235 </span><span class="lineCov">      72424 :     _impl-&gt;bufferStart = 0;</span>
+<span class="lineNum">     236 </span><span class="lineCov">      72424 :     _impl-&gt;dataSent    = false;</span>
+<span class="lineNum">     237 </span><span class="lineCov">      72424 :     _impl-&gt;dataSize    = 0;</span>
+<span class="lineNum">     238 </span><span class="lineCov">      72424 :     _impl-&gt;enabled     = true;</span>
+<span class="lineNum">     239 </span><span class="lineCov">      72424 :     _impl-&gt;buffer.setSize( 0 );</span>
+<span class="lineNum">     240 </span>            : #ifdef CO_AGGRESSIVE_CACHING
+<span class="lineNum">     241 </span>            :     _impl-&gt;buffer.reserve( COMMAND_ALLOCSIZE );
+<span class="lineNum">     242 </span>            : #else
+<span class="lineNum">     243 </span><span class="lineCov">      72420 :     _impl-&gt;buffer.reserve( COMMAND_MINSIZE );</span>
+<span class="lineNum">     244 </span>            : #endif
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">      72426 : }</span></a>
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span><span class="lineCov">        236 : void DataOStream::_setupConnections( const Nodes&amp; receivers )</span>
+<span class="lineNum">     248 </span>            : {
+<span class="lineNum">     249 </span><span class="lineCov">        236 :     _impl-&gt;connections = gatherConnections( receivers );</span>
+<a name="250"><span class="lineNum">     250 </span><span class="lineCov">        236 : }</span></a>
 <span class="lineNum">     251 </span>            : 
-<span class="lineNum">     252 </span><span class="lineCov">          1 : void DataOStream::_setupConnection( ConnectionPtr connection )</span>
+<span class="lineNum">     252 </span><span class="lineCov">      72147 : void DataOStream::_setupConnections( const Connections&amp; connections )</span>
 <span class="lineNum">     253 </span>            : {
-<span class="lineNum">     254 </span><span class="lineCov">          1 :     _impl-&gt;connections.push_back( connection );</span>
-<a name="255"><span class="lineNum">     255 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     254 </span><span class="lineCov">      72147 :     _impl-&gt;connections = connections;</span>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">      72146 : }</span></a>
 <span class="lineNum">     256 </span>            : 
-<span class="lineNum">     257 </span><span class="lineCov">         33 : void DataOStream::_resend()</span>
+<span class="lineNum">     257 </span><span class="lineCov">         38 : void DataOStream::_setupConnection( NodePtr node, const bool useMulticast )</span>
 <span class="lineNum">     258 </span>            : {
-<span class="lineNum">     259 </span><span class="lineCov">         33 :     LBASSERT( !_impl-&gt;enabled );</span>
-<span class="lineNum">     260 </span><span class="lineCov">         33 :     LBASSERT( !_impl-&gt;connections.empty( ));</span>
-<span class="lineNum">     261 </span><span class="lineCov">         33 :     LBASSERT( _impl-&gt;save );</span>
+<span class="lineNum">     259 </span><span class="lineCov">         38 :     LBASSERT( _impl-&gt;connections.empty( ));</span>
+<span class="lineNum">     260 </span><span class="lineCov">         38 :     _impl-&gt;connections.push_back( node-&gt;getConnection( useMulticast ));</span>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">         38 : }</span></a>
 <span class="lineNum">     262 </span>            : 
-<span class="lineNum">     263 </span><span class="lineCov">         33 :     _impl-&gt;compress( _impl-&gt;buffer.getData(), _impl-&gt;dataSize, STATE_COMPLETE );</span>
-<span class="lineNum">     264 </span><span class="lineCov">         33 :     sendData( _impl-&gt;buffer.getData(), _impl-&gt;dataSize, true );</span>
-<a name="265"><span class="lineNum">     265 </span><span class="lineCov">         33 : }</span></a>
-<span class="lineNum">     266 </span>            : 
-<span class="lineNum">     267 </span><span class="lineCov">         33 : void DataOStream::_clearConnections()</span>
-<span class="lineNum">     268 </span>            : {
-<span class="lineNum">     269 </span><span class="lineCov">         33 :     _impl-&gt;connections.clear();</span>
-<a name="270"><span class="lineNum">     270 </span><span class="lineCov">         33 : }</span></a>
-<span class="lineNum">     271 </span>            : 
-<span class="lineNum">     272 </span><span class="lineCov">      72263 : void DataOStream::disable()</span>
-<span class="lineNum">     273 </span>            : {
-<span class="lineNum">     274 </span><span class="lineCov">      72263 :     if( !_impl-&gt;enabled )</span>
-<span class="lineNum">     275 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     276 </span>            : 
-<span class="lineNum">     277 </span><span class="lineCov">      72263 :     _impl-&gt;dataSize = _impl-&gt;buffer.getSize();</span>
-<span class="lineNum">     278 </span><span class="lineCov">      72263 :     _impl-&gt;dataSent = _impl-&gt;dataSize &gt; 0;</span>
-<span class="lineNum">     279 </span>            : 
-<span class="lineNum">     280 </span><span class="lineCov">      72263 :     if( _impl-&gt;dataSent &amp;&amp; !_impl-&gt;connections.empty( ))</span>
-<span class="lineNum">     281 </span>            :     {
-<span class="lineNum">     282 </span><span class="lineCov">      72100 :         void* ptr = _impl-&gt;buffer.getData() + _impl-&gt;bufferStart;</span>
-<span class="lineNum">     283 </span><span class="lineCov">      72100 :         const uint64_t size = _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart;</span>
-<span class="lineNum">     284 </span>            : 
-<span class="lineNum">     285 </span><span class="lineCov">      72100 :         if( size == 0 &amp;&amp; _impl-&gt;state == STATE_PARTIAL )</span>
-<span class="lineNum">     286 </span>            :         {
-<span class="lineNum">     287 </span>            :             // OPT: all data has been sent in one compressed chunk
-<span class="lineNum">     288 </span><span class="lineNoCov">          0 :             _impl-&gt;state = STATE_COMPLETE;</span>
-<span class="lineNum">     289 </span>            : #ifndef CO_AGGRESSIVE_CACHING
-<span class="lineNum">     290 </span><span class="lineNoCov">          0 :             _impl-&gt;buffer.clear();</span>
-<span class="lineNum">     291 </span>            : #endif
-<span class="lineNum">     292 </span>            :         }
-<span class="lineNum">     293 </span>            :         else
-<span class="lineNum">     294 </span>            :         {
-<span class="lineNum">     295 </span><span class="lineCov">      72100 :             _impl-&gt;state = STATE_UNCOMPRESSED;</span>
-<span class="lineNum">     296 </span><span class="lineCov">      72100 :             const CompressorState state = _impl-&gt;bufferStart == 0 ?</span>
-<span class="lineNum">     297 </span><span class="lineCov">      72100 :                                               STATE_COMPLETE : STATE_PARTIAL;</span>
-<span class="lineNum">     298 </span><span class="lineCov">      72100 :             _impl-&gt;compress( ptr, size, state );</span>
-<span class="lineNum">     299 </span>            :         }
-<span class="lineNum">     300 </span>            : 
-<span class="lineNum">     301 </span><span class="lineCov">      72107 :         sendData( ptr, size, true ); // always send to finalize istream</span>
-<span class="lineNum">     302 </span>            :     }
-<span class="lineNum">     303 </span>            : 
-<span class="lineNum">     304 </span>            : #ifndef CO_AGGRESSIVE_CACHING
-<span class="lineNum">     305 </span><span class="lineCov">      72263 :     if( !_impl-&gt;save )</span>
-<span class="lineNum">     306 </span><span class="lineCov">        121 :         _impl-&gt;buffer.clear();</span>
-<span class="lineNum">     307 </span>            : #endif
-<span class="lineNum">     308 </span><span class="lineCov">      72263 :     _impl-&gt;enabled = false;</span>
-<span class="lineNum">     309 </span><span class="lineCov">      72263 :     _impl-&gt;connections.clear();</span>
-<a name="310"><span class="lineNum">     310 </span>            : }</a>
+<span class="lineNum">     263 </span><span class="lineCov">          1 : void DataOStream::_setupConnection( ConnectionPtr connection )</span>
+<span class="lineNum">     264 </span>            : {
+<span class="lineNum">     265 </span><span class="lineCov">          1 :     _impl-&gt;connections.push_back( connection );</span>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     267 </span>            : 
+<span class="lineNum">     268 </span><span class="lineCov">         33 : void DataOStream::_resend()</span>
+<span class="lineNum">     269 </span>            : {
+<span class="lineNum">     270 </span><span class="lineCov">         33 :     LBASSERT( !_impl-&gt;enabled );</span>
+<span class="lineNum">     271 </span><span class="lineCov">         33 :     LBASSERT( !_impl-&gt;connections.empty( ));</span>
+<span class="lineNum">     272 </span><span class="lineCov">         33 :     LBASSERT( _impl-&gt;save );</span>
+<span class="lineNum">     273 </span>            : 
+<span class="lineNum">     274 </span><span class="lineCov">         33 :     _impl-&gt;compress( _impl-&gt;buffer.getData(), _impl-&gt;dataSize, STATE_COMPLETE );</span>
+<span class="lineNum">     275 </span><span class="lineCov">         33 :     sendData( _impl-&gt;buffer.getData(), _impl-&gt;dataSize, true );</span>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">         33 : }</span></a>
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineCov">         33 : void DataOStream::_clearConnections()</span>
+<span class="lineNum">     279 </span>            : {
+<span class="lineNum">     280 </span><span class="lineCov">         33 :     _impl-&gt;connections.clear();</span>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">         33 : }</span></a>
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span><span class="lineCov">      72263 : void DataOStream::disable()</span>
+<span class="lineNum">     284 </span>            : {
+<span class="lineNum">     285 </span><span class="lineCov">      72263 :     if( !_impl-&gt;enabled )</span>
+<span class="lineNum">     286 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     287 </span>            : 
+<span class="lineNum">     288 </span><span class="lineCov">      72263 :     _impl-&gt;dataSize = _impl-&gt;buffer.getSize();</span>
+<span class="lineNum">     289 </span><span class="lineCov">      72262 :     _impl-&gt;dataSent = _impl-&gt;dataSize &gt; 0;</span>
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span><span class="lineCov">      72262 :     if( _impl-&gt;dataSent &amp;&amp; !_impl-&gt;connections.empty( ))</span>
+<span class="lineNum">     292 </span>            :     {
+<span class="lineNum">     293 </span><span class="lineCov">      72099 :         const uint8_t* ptr = _impl-&gt;buffer.getData() + _impl-&gt;bufferStart;</span>
+<span class="lineNum">     294 </span><span class="lineCov">      72099 :         const uint64_t size = _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart;</span>
+<span class="lineNum">     295 </span>            : 
+<span class="lineNum">     296 </span><span class="lineCov">      72099 :         if( size == 0 &amp;&amp; _impl-&gt;state == STATE_PARTIAL )</span>
+<span class="lineNum">     297 </span>            :         {
+<span class="lineNum">     298 </span>            :             // OPT: all data has been sent in one compressed chunk
+<span class="lineNum">     299 </span><span class="lineNoCov">          0 :             _impl-&gt;state = STATE_COMPLETE;</span>
+<span class="lineNum">     300 </span>            : #ifndef CO_AGGRESSIVE_CACHING
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 :             _impl-&gt;buffer.clear();</span>
+<span class="lineNum">     302 </span>            : #endif
+<span class="lineNum">     303 </span>            :         }
+<span class="lineNum">     304 </span>            :         else
+<span class="lineNum">     305 </span>            :         {
+<span class="lineNum">     306 </span><span class="lineCov">      72099 :             _impl-&gt;state = STATE_UNCOMPRESSED;</span>
+<span class="lineNum">     307 </span><span class="lineCov">      72099 :             const CompressorState state = _impl-&gt;bufferStart == 0 ?</span>
+<span class="lineNum">     308 </span><span class="lineCov">      72099 :                                               STATE_COMPLETE : STATE_PARTIAL;</span>
+<span class="lineNum">     309 </span><span class="lineCov">      72099 :             _impl-&gt;compress( ptr, size, state );</span>
+<span class="lineNum">     310 </span>            :         }
 <span class="lineNum">     311 </span>            : 
-<span class="lineNum">     312 </span><span class="lineCov">      72307 : void DataOStream::enableSave()</span>
-<span class="lineNum">     313 </span>            : {
-<span class="lineNum">     314 </span><span class="lineCov">      72307 :     LBASSERTINFO( !_impl-&gt;enabled ||</span>
-<span class="lineNum">     315 </span>            :                   ( !_impl-&gt;dataSent &amp;&amp; _impl-&gt;buffer.getSize() == 0 ),
-<span class="lineNum">     316 </span>            :                   &quot;Can't enable saving after data has been written&quot; );
-<span class="lineNum">     317 </span><span class="lineCov">      72306 :     _impl-&gt;save = true;</span>
-<a name="318"><span class="lineNum">     318 </span><span class="lineCov">      72306 : }</span></a>
-<span class="lineNum">     319 </span>            : 
-<span class="lineNum">     320 </span><span class="lineNoCov">          0 : void DataOStream::disableSave()</span>
-<span class="lineNum">     321 </span>            : {
-<span class="lineNum">     322 </span><span class="lineNoCov">          0 :     LBASSERTINFO( !_impl-&gt;enabled ||</span>
-<span class="lineNum">     323 </span>            :                   (!_impl-&gt;dataSent &amp;&amp; _impl-&gt;buffer.getSize() == 0 ),
-<span class="lineNum">     324 </span>            :                   &quot;Can't disable saving after data has been written&quot; );
-<span class="lineNum">     325 </span><span class="lineNoCov">          0 :     _impl-&gt;save = false;</span>
-<a name="326"><span class="lineNum">     326 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     327 </span>            : 
-<span class="lineNum">     328 </span><span class="lineCov">        224 : bool DataOStream::hasSentData() const</span>
-<span class="lineNum">     329 </span>            : {
-<span class="lineNum">     330 </span><span class="lineCov">        224 :     return _impl-&gt;dataSent;</span>
-<a name="331"><span class="lineNum">     331 </span>            : }</a>
-<span class="lineNum">     332 </span>            : 
-<span class="lineNum">     333 </span><span class="lineCov">     314245 : void DataOStream::_write( const void* data, uint64_t size )</span>
-<span class="lineNum">     334 </span>            : {
-<span class="lineNum">     335 </span><span class="lineCov">     314245 :     LBASSERT( _impl-&gt;enabled );</span>
-<span class="lineNum">     336 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">     337 </span><span class="lineCov">     314200 :     nBytes += size;</span>
-<span class="lineNum">     338 </span>            : #endif
-<span class="lineNum">     339 </span>            : 
-<span class="lineNum">     340 </span><span class="lineCov">     628824 :     if( _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart &gt;</span>
-<span class="lineNum">     341 </span><span class="lineCov">     314406 :         Global::getObjectBufferSize( ))</span>
-<span class="lineNum">     342 </span>            :     {
-<span class="lineNum">     343 </span><span class="lineCov">          9 :         flush( false );</span>
-<span class="lineNum">     344 </span>            :     }
-<span class="lineNum">     345 </span><span class="lineCov">     314397 :     _impl-&gt;buffer.append( static_cast&lt; const uint8_t* &gt;( data ), size );</span>
-<a name="346"><span class="lineNum">     346 </span><span class="lineCov">     314319 : }</span></a>
-<span class="lineNum">     347 </span>            : 
-<span class="lineNum">     348 </span><span class="lineCov">        174 : void DataOStream::flush( const bool last )</span>
-<span class="lineNum">     349 </span>            : {
-<span class="lineNum">     350 </span><span class="lineCov">        174 :     LBASSERT( _impl-&gt;enabled );</span>
-<span class="lineNum">     351 </span><span class="lineCov">        174 :     if( !_impl-&gt;connections.empty( ))</span>
-<span class="lineNum">     352 </span>            :     {
-<span class="lineNum">     353 </span><span class="lineCov">        172 :         void* ptr = _impl-&gt;buffer.getData() + _impl-&gt;bufferStart;</span>
-<span class="lineNum">     354 </span><span class="lineCov">        172 :         const uint64_t size = _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart;</span>
-<span class="lineNum">     355 </span>            : 
-<span class="lineNum">     356 </span><span class="lineCov">        172 :         _impl-&gt;state = STATE_UNCOMPRESSED;</span>
-<span class="lineNum">     357 </span><span class="lineCov">        172 :         _impl-&gt;compress( ptr, size, STATE_PARTIAL );</span>
-<span class="lineNum">     358 </span><span class="lineCov">        172 :         sendData( ptr, size, last );</span>
-<span class="lineNum">     359 </span>            :     }
-<span class="lineNum">     360 </span><span class="lineCov">        174 :     _impl-&gt;dataSent = true;</span>
-<span class="lineNum">     361 </span><span class="lineCov">        174 :     _resetBuffer();</span>
-<a name="362"><span class="lineNum">     362 </span><span class="lineCov">        174 : }</span></a>
-<span class="lineNum">     363 </span>            : 
-<span class="lineNum">     364 </span><span class="lineCov">        390 : void DataOStream::reset()</span>
-<span class="lineNum">     365 </span>            : {
-<span class="lineNum">     366 </span><span class="lineCov">        390 :     _resetBuffer();</span>
-<span class="lineNum">     367 </span><span class="lineCov">        390 :     _impl-&gt;enabled = false;</span>
-<span class="lineNum">     368 </span><span class="lineCov">        390 :     _impl-&gt;connections.clear();</span>
-<a name="369"><span class="lineNum">     369 </span><span class="lineCov">        390 : }</span></a>
-<span class="lineNum">     370 </span>            : 
-<span class="lineNum">     371 </span><span class="lineCov">      72792 : const Connections&amp; DataOStream::getConnections() const</span>
-<span class="lineNum">     372 </span>            : {
-<span class="lineNum">     373 </span><span class="lineCov">      72792 :     return _impl-&gt;connections;</span>
-<a name="374"><span class="lineNum">     374 </span>            : }</a>
-<span class="lineNum">     375 </span>            : 
-<span class="lineNum">     376 </span><span class="lineCov">        564 : void DataOStream::_resetBuffer()</span>
-<span class="lineNum">     377 </span>            : {
-<span class="lineNum">     378 </span><span class="lineCov">        564 :     _impl-&gt;state = STATE_UNCOMPRESSED;</span>
-<span class="lineNum">     379 </span><span class="lineCov">        564 :     if( _impl-&gt;save )</span>
-<span class="lineNum">     380 </span><span class="lineCov">        332 :         _impl-&gt;bufferStart = _impl-&gt;buffer.getSize();</span>
-<span class="lineNum">     381 </span>            :     else
-<span class="lineNum">     382 </span>            :     {
-<span class="lineNum">     383 </span><span class="lineCov">        232 :         _impl-&gt;bufferStart = 0;</span>
-<span class="lineNum">     384 </span><span class="lineCov">        232 :         _impl-&gt;buffer.setSize( 0 );</span>
-<span class="lineNum">     385 </span>            :     }
-<a name="386"><span class="lineNum">     386 </span><span class="lineCov">        564 : }</span></a>
-<span class="lineNum">     387 </span>            : 
-<span class="lineNum">     388 </span><span class="lineNoCov">          0 : uint64_t DataOStream::_getCompressedData( void** chunks, uint64_t* chunkSizes )</span>
-<span class="lineNum">     389 </span>            :     const
-<span class="lineNum">     390 </span>            : {
-<span class="lineNum">     391 </span><span class="lineNoCov">          0 :     LBASSERT( _impl-&gt;state != STATE_UNCOMPRESSED &amp;&amp;</span>
-<span class="lineNum">     392 </span>            :               _impl-&gt;state != STATE_UNCOMPRESSIBLE );
-<span class="lineNum">     393 </span>            : 
-<span class="lineNum">     394 </span><span class="lineNoCov">          0 :     const pression::CompressorResult &amp;result = _impl-&gt;compressor.getResult();</span>
-<span class="lineNum">     395 </span><span class="lineNoCov">          0 :     LBASSERT( !result.chunks.empty() );</span>
-<span class="lineNum">     396 </span><span class="lineNoCov">          0 :     size_t totalDataSize = 0;</span>
-<span class="lineNum">     397 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i != result.chunks.size(); ++i )</span>
-<span class="lineNum">     398 </span>            :     {
-<span class="lineNum">     399 </span><span class="lineNoCov">          0 :         chunks[i] = result.chunks[i].data;</span>
-<span class="lineNum">     400 </span><span class="lineNoCov">          0 :         const size_t dataSize = result.chunks[i].getNumBytes();</span>
-<span class="lineNum">     401 </span><span class="lineNoCov">          0 :         chunkSizes[i] = dataSize;</span>
-<span class="lineNum">     402 </span><span class="lineNoCov">          0 :         totalDataSize += dataSize;</span>
-<span class="lineNum">     403 </span>            :     }
-<span class="lineNum">     404 </span>            : 
-<span class="lineNum">     405 </span><span class="lineNoCov">          0 :     LBASSERT( totalDataSize == result.getSize( ));</span>
-<span class="lineNum">     406 </span><span class="lineNoCov">          0 :     return totalDataSize;</span>
-<a name="407"><span class="lineNum">     407 </span>            : }</a>
-<span class="lineNum">     408 </span>            : 
-<span class="lineNum">     409 </span><span class="lineCov">     288774 : lunchbox::Bufferb&amp; DataOStream::getBuffer()</span>
-<span class="lineNum">     410 </span>            : {
-<span class="lineNum">     411 </span><span class="lineCov">     288774 :     return _impl-&gt;buffer;</span>
-<a name="412"><span class="lineNum">     412 </span>            : }</a>
-<span class="lineNum">     413 </span>            : 
-<span class="lineNum">     414 </span><span class="lineCov">        165 : DataOStream&amp; DataOStream::streamDataHeader( DataOStream&amp; os )</span>
-<span class="lineNum">     415 </span>            : {
-<span class="lineNum">     416 </span><span class="lineCov">        165 :     os &lt;&lt; _impl-&gt;getCompressor() &lt;&lt; _impl-&gt;getNumChunks();</span>
-<span class="lineNum">     417 </span><span class="lineCov">        165 :     return os;</span>
-<a name="418"><span class="lineNum">     418 </span>            : }</a>
-<span class="lineNum">     419 </span>            : 
-<span class="lineNum">     420 </span><span class="lineCov">        165 : void DataOStream::sendBody( ConnectionPtr connection, const void* data,</span>
-<span class="lineNum">     421 </span>            :                             const uint64_t size )
+<span class="lineNum">     312 </span><span class="lineCov">      72100 :         sendData( ptr, size, true ); // always send to finalize istream</span>
+<span class="lineNum">     313 </span>            :     }
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span>            : #ifndef CO_AGGRESSIVE_CACHING
+<span class="lineNum">     316 </span><span class="lineCov">      72262 :     if( !_impl-&gt;save )</span>
+<span class="lineNum">     317 </span><span class="lineCov">        121 :         _impl-&gt;buffer.clear();</span>
+<span class="lineNum">     318 </span>            : #endif
+<span class="lineNum">     319 </span><span class="lineCov">      72262 :     _impl-&gt;enabled = false;</span>
+<span class="lineNum">     320 </span><span class="lineCov">      72262 :     _impl-&gt;connections.clear();</span>
+<a name="321"><span class="lineNum">     321 </span>            : }</a>
+<span class="lineNum">     322 </span>            : 
+<span class="lineNum">     323 </span><span class="lineCov">      72305 : void DataOStream::enableSave()</span>
+<span class="lineNum">     324 </span>            : {
+<span class="lineNum">     325 </span><span class="lineCov">      72305 :     LBASSERTINFO( !_impl-&gt;enabled ||</span>
+<span class="lineNum">     326 </span>            :                   ( !_impl-&gt;dataSent &amp;&amp; _impl-&gt;buffer.getSize() == 0 ),
+<span class="lineNum">     327 </span>            :                   &quot;Can't enable saving after data has been written&quot; );
+<span class="lineNum">     328 </span><span class="lineCov">      72305 :     _impl-&gt;save = true;</span>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">      72305 : }</span></a>
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 : void DataOStream::disableSave()</span>
+<span class="lineNum">     332 </span>            : {
+<span class="lineNum">     333 </span><span class="lineNoCov">          0 :     LBASSERTINFO( !_impl-&gt;enabled ||</span>
+<span class="lineNum">     334 </span>            :                   (!_impl-&gt;dataSent &amp;&amp; _impl-&gt;buffer.getSize() == 0 ),
+<span class="lineNum">     335 </span>            :                   &quot;Can't disable saving after data has been written&quot; );
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :     _impl-&gt;save = false;</span>
+<a name="337"><span class="lineNum">     337 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     338 </span>            : 
+<span class="lineNum">     339 </span><span class="lineCov">        224 : bool DataOStream::hasSentData() const</span>
+<span class="lineNum">     340 </span>            : {
+<span class="lineNum">     341 </span><span class="lineCov">        224 :     return _impl-&gt;dataSent;</span>
+<a name="342"><span class="lineNum">     342 </span>            : }</a>
+<span class="lineNum">     343 </span>            : 
+<span class="lineNum">     344 </span><span class="lineCov">     314293 : void DataOStream::_write( const void* data, uint64_t size )</span>
+<span class="lineNum">     345 </span>            : {
+<span class="lineNum">     346 </span><span class="lineCov">     314293 :     LBASSERT( _impl-&gt;enabled );</span>
+<span class="lineNum">     347 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
+<span class="lineNum">     348 </span><span class="lineCov">     314258 :     nBytes += size;</span>
+<span class="lineNum">     349 </span>            : #endif
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span><span class="lineCov">     628847 :     if( _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart &gt;</span>
+<span class="lineNum">     352 </span><span class="lineCov">     314424 :         Global::getObjectBufferSize( ))</span>
+<span class="lineNum">     353 </span>            :     {
+<span class="lineNum">     354 </span><span class="lineCov">          9 :         flush( false );</span>
+<span class="lineNum">     355 </span>            :     }
+<span class="lineNum">     356 </span><span class="lineCov">     314412 :     _impl-&gt;buffer.append( static_cast&lt; const uint8_t* &gt;( data ), size );</span>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">     314334 : }</span></a>
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span><span class="lineCov">        174 : void DataOStream::flush( const bool last )</span>
+<span class="lineNum">     360 </span>            : {
+<span class="lineNum">     361 </span><span class="lineCov">        174 :     LBASSERT( _impl-&gt;enabled );</span>
+<span class="lineNum">     362 </span><span class="lineCov">        174 :     if( !_impl-&gt;connections.empty( ))</span>
+<span class="lineNum">     363 </span>            :     {
+<span class="lineNum">     364 </span><span class="lineCov">        172 :         const uint8_t* ptr = _impl-&gt;buffer.getData() + _impl-&gt;bufferStart;</span>
+<span class="lineNum">     365 </span><span class="lineCov">        172 :         const uint64_t size = _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart;</span>
+<span class="lineNum">     366 </span>            : 
+<span class="lineNum">     367 </span><span class="lineCov">        172 :         _impl-&gt;state = STATE_UNCOMPRESSED;</span>
+<span class="lineNum">     368 </span><span class="lineCov">        172 :         _impl-&gt;compress( ptr, size, STATE_PARTIAL );</span>
+<span class="lineNum">     369 </span><span class="lineCov">        172 :         sendData( ptr, size, last );</span>
+<span class="lineNum">     370 </span>            :     }
+<span class="lineNum">     371 </span><span class="lineCov">        174 :     _impl-&gt;dataSent = true;</span>
+<span class="lineNum">     372 </span><span class="lineCov">        174 :     _resetBuffer();</span>
+<a name="373"><span class="lineNum">     373 </span><span class="lineCov">        174 : }</span></a>
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span><span class="lineCov">        390 : void DataOStream::reset()</span>
+<span class="lineNum">     376 </span>            : {
+<span class="lineNum">     377 </span><span class="lineCov">        390 :     _resetBuffer();</span>
+<span class="lineNum">     378 </span><span class="lineCov">        390 :     _impl-&gt;enabled = false;</span>
+<span class="lineNum">     379 </span><span class="lineCov">        390 :     _impl-&gt;connections.clear();</span>
+<a name="380"><span class="lineNum">     380 </span><span class="lineCov">        390 : }</span></a>
+<span class="lineNum">     381 </span>            : 
+<span class="lineNum">     382 </span><span class="lineCov">      72787 : const Connections&amp; DataOStream::getConnections() const</span>
+<span class="lineNum">     383 </span>            : {
+<span class="lineNum">     384 </span><span class="lineCov">      72787 :     return _impl-&gt;connections;</span>
+<a name="385"><span class="lineNum">     385 </span>            : }</a>
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span><span class="lineCov">        564 : void DataOStream::_resetBuffer()</span>
+<span class="lineNum">     388 </span>            : {
+<span class="lineNum">     389 </span><span class="lineCov">        564 :     _impl-&gt;state = STATE_UNCOMPRESSED;</span>
+<span class="lineNum">     390 </span><span class="lineCov">        564 :     if( _impl-&gt;save )</span>
+<span class="lineNum">     391 </span><span class="lineCov">        332 :         _impl-&gt;bufferStart = _impl-&gt;buffer.getSize();</span>
+<span class="lineNum">     392 </span>            :     else
+<span class="lineNum">     393 </span>            :     {
+<span class="lineNum">     394 </span><span class="lineCov">        232 :         _impl-&gt;bufferStart = 0;</span>
+<span class="lineNum">     395 </span><span class="lineCov">        232 :         _impl-&gt;buffer.setSize( 0 );</span>
+<span class="lineNum">     396 </span>            :     }
+<a name="397"><span class="lineNum">     397 </span><span class="lineCov">        564 : }</span></a>
+<span class="lineNum">     398 </span>            : 
+<span class="lineNum">     399 </span><span class="lineCov">          8 : uint64_t DataOStream::_getCompressedData( const uint8_t** chunks,</span>
+<span class="lineNum">     400 </span>            :                                           uint64_t* chunkSizes )
+<span class="lineNum">     401 </span>            :     const
+<span class="lineNum">     402 </span>            : {
+<span class="lineNum">     403 </span><span class="lineCov">          8 :     LBASSERT( _impl-&gt;state != STATE_UNCOMPRESSED &amp;&amp;</span>
+<span class="lineNum">     404 </span>            :               _impl-&gt;state != STATE_UNCOMPRESSIBLE &amp;&amp; _impl-&gt;compressor );
+<span class="lineNum">     405 </span>            : 
+<span class="lineNum">     406 </span><span class="lineCov">          8 :     const auto&amp; result = _impl-&gt;compressor-&gt;getCompressedData();</span>
+<span class="lineNum">     407 </span><span class="lineCov">          8 :     LBASSERT( !result.empty() );</span>
+<span class="lineNum">     408 </span><span class="lineCov">          8 :     size_t totalDataSize = 0;</span>
+<span class="lineNum">     409 </span><span class="lineCov">         16 :     for( size_t i = 0; i != result.size(); ++i )</span>
+<span class="lineNum">     410 </span>            :     {
+<span class="lineNum">     411 </span><span class="lineCov">          8 :         chunks[i] = result[i].getData();</span>
+<span class="lineNum">     412 </span><span class="lineCov">          8 :         const size_t dataSize = result[i].getSize();</span>
+<span class="lineNum">     413 </span><span class="lineCov">          8 :         chunkSizes[i] = dataSize;</span>
+<span class="lineNum">     414 </span><span class="lineCov">          8 :         totalDataSize += dataSize;</span>
+<span class="lineNum">     415 </span>            :     }
+<span class="lineNum">     416 </span>            : 
+<span class="lineNum">     417 </span><span class="lineCov">          8 :     LBASSERT( totalDataSize == pression::data::getDataSize( result ));</span>
+<span class="lineNum">     418 </span><span class="lineCov">          8 :     return totalDataSize;</span>
+<a name="419"><span class="lineNum">     419 </span>            : }</a>
+<span class="lineNum">     420 </span>            : 
+<span class="lineNum">     421 </span><span class="lineCov">     288734 : lunchbox::Bufferb&amp; DataOStream::getBuffer()</span>
 <span class="lineNum">     422 </span>            : {
-<span class="lineNum">     423 </span>            : 
-<span class="lineNum">     424 </span><span class="lineCov">        165 :     const uint32_t compressor = _impl-&gt;getCompressor();</span>
-<span class="lineNum">     425 </span><span class="lineCov">        165 :     if( compressor == EQ_COMPRESSOR_NONE )</span>
-<span class="lineNum">     426 </span>            :     {
-<span class="lineNum">     427 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">     428 </span><span class="lineCov">        165 :         nBytesSent += size;</span>
-<span class="lineNum">     429 </span>            : #endif
-<span class="lineNum">     430 </span><span class="lineCov">        165 :         if( size &gt; 0 )</span>
-<span class="lineNum">     431 </span><span class="lineCov">        165 :             LBCHECK( connection-&gt;send( data, size, true ));</span>
-<span class="lineNum">     432 </span><span class="lineCov">        165 :         return;</span>
-<span class="lineNum">     433 </span>            :     }
+<span class="lineNum">     423 </span><span class="lineCov">     288734 :     return _impl-&gt;buffer;</span>
+<a name="424"><span class="lineNum">     424 </span>            : }</a>
+<span class="lineNum">     425 </span>            : 
+<span class="lineNum">     426 </span><span class="lineCov">        165 : DataOStream&amp; DataOStream::streamDataHeader( DataOStream&amp; os )</span>
+<span class="lineNum">     427 </span>            : {
+<span class="lineNum">     428 </span><span class="lineCov">        165 :     return os &lt;&lt; _impl-&gt;getCompressorName() &lt;&lt; _impl-&gt;getNumChunks();</span>
+<a name="429"><span class="lineNum">     429 </span>            : }</a>
+<span class="lineNum">     430 </span>            : 
+<span class="lineNum">     431 </span><span class="lineCov">        165 : void DataOStream::sendBody( ConnectionPtr connection, const void* data,</span>
+<span class="lineNum">     432 </span>            :                             const uint64_t size )
+<span class="lineNum">     433 </span>            : {
 <span class="lineNum">     434 </span>            : 
-<span class="lineNum">     435 </span><span class="lineNoCov">          0 :     const size_t nChunks = _impl-&gt;compressor.getResult().chunks.size();</span>
-<span class="lineNum">     436 </span>            :     uint64_t* chunkSizes = static_cast&lt; uint64_t* &gt;
-<span class="lineNum">     437 </span><span class="lineNoCov">          0 :                                ( alloca (nChunks * sizeof( uint64_t )));</span>
-<span class="lineNum">     438 </span>            :     void** chunks = static_cast&lt; void ** &gt;
-<span class="lineNum">     439 </span><span class="lineNoCov">          0 :                                   ( alloca( nChunks * sizeof( void* )));</span>
-<span class="lineNum">     440 </span>            : 
-<span class="lineNum">     441 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">     442 </span><span class="lineNoCov">          0 :     const uint64_t compressedSize = _getCompressedData( chunks, chunkSizes );</span>
-<span class="lineNum">     443 </span><span class="lineNoCov">          0 :     if( _impl-&gt;state == STATE_COMPLETE )</span>
-<span class="lineNum">     444 </span>            :     {
-<span class="lineNum">     445 </span><span class="lineNoCov">          0 :         nBytesSent += _impl-&gt;dataSize;</span>
-<span class="lineNum">     446 </span><span class="lineNoCov">          0 :         nBytesSaved += _impl-&gt;dataSize - compressedSize;</span>
-<span class="lineNum">     447 </span>            :     }
-<span class="lineNum">     448 </span>            :     else
-<span class="lineNum">     449 </span>            :     {
-<span class="lineNum">     450 </span><span class="lineNoCov">          0 :         nBytesSent += _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart;</span>
-<span class="lineNum">     451 </span><span class="lineNoCov">          0 :         nBytesSaved += _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart -</span>
-<span class="lineNum">     452 </span><span class="lineNoCov">          0 :                        compressedSize;</span>
-<span class="lineNum">     453 </span>            :     }
-<span class="lineNum">     454 </span>            : 
-<span class="lineNum">     455 </span>            : #else
-<span class="lineNum">     456 </span>            :     _getCompressedData( chunks, chunkSizes );
-<span class="lineNum">     457 </span>            : #endif
-<span class="lineNum">     458 </span>            : 
-<span class="lineNum">     459 </span><span class="lineNoCov">          0 :     for( size_t j = 0; j &lt; nChunks; ++j )</span>
+<span class="lineNum">     435 </span><span class="lineCov">        173 :     const auto&amp; compressorName = _impl-&gt;getCompressorName();</span>
+<span class="lineNum">     436 </span><span class="lineCov">        165 :     if( compressorName.empty( ))</span>
+<span class="lineNum">     437 </span>            :     {
+<span class="lineNum">     438 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
+<span class="lineNum">     439 </span><span class="lineCov">        157 :         nBytesSent += size;</span>
+<span class="lineNum">     440 </span>            : #endif
+<span class="lineNum">     441 </span><span class="lineCov">        157 :         if( size &gt; 0 )</span>
+<span class="lineNum">     442 </span><span class="lineCov">        157 :             LBCHECK( connection-&gt;send( data, size, true ));</span>
+<span class="lineNum">     443 </span><span class="lineCov">        157 :         return;</span>
+<span class="lineNum">     444 </span>            :     }
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span><span class="lineCov">          8 :     const size_t nChunks = _impl-&gt;compressor-&gt;getCompressedData().size();</span>
+<span class="lineNum">     447 </span>            :     uint64_t* chunkSizes = static_cast&lt; uint64_t* &gt;
+<span class="lineNum">     448 </span><span class="lineCov">          8 :                                ( alloca (nChunks * sizeof( uint64_t )));</span>
+<span class="lineNum">     449 </span>            :     const uint8_t** chunks = static_cast&lt; const uint8_t ** &gt;
+<span class="lineNum">     450 </span><span class="lineCov">          8 :                                   ( alloca( nChunks * sizeof( void* )));</span>
+<span class="lineNum">     451 </span>            : 
+<span class="lineNum">     452 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
+<span class="lineNum">     453 </span><span class="lineCov">          8 :     const uint64_t compressedSize = _getCompressedData( chunks, chunkSizes );</span>
+<span class="lineNum">     454 </span><span class="lineCov">          8 :     if( _impl-&gt;state == STATE_COMPLETE )</span>
+<span class="lineNum">     455 </span>            :     {
+<span class="lineNum">     456 </span><span class="lineCov">          2 :         nBytesSent += _impl-&gt;dataSize;</span>
+<span class="lineNum">     457 </span><span class="lineCov">          2 :         nBytesSaved += _impl-&gt;dataSize - compressedSize;</span>
+<span class="lineNum">     458 </span>            :     }
+<span class="lineNum">     459 </span>            :     else
 <span class="lineNum">     460 </span>            :     {
-<span class="lineNum">     461 </span><span class="lineNoCov">          0 :         LBCHECK( connection-&gt;send( &amp;chunkSizes[j], sizeof( uint64_t ), true ));</span>
-<span class="lineNum">     462 </span><span class="lineNoCov">          0 :         LBCHECK( connection-&gt;send( chunks[j], chunkSizes[j], true ));</span>
-<span class="lineNum">     463 </span>            :     }
-<a name="464"><span class="lineNum">     464 </span>            : }</a>
+<span class="lineNum">     461 </span><span class="lineCov">          6 :         nBytesSent += _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart;</span>
+<span class="lineNum">     462 </span><span class="lineCov">          6 :         nBytesSaved += _impl-&gt;buffer.getSize() - _impl-&gt;bufferStart -</span>
+<span class="lineNum">     463 </span><span class="lineCov">          6 :                        compressedSize;</span>
+<span class="lineNum">     464 </span>            :     }
 <span class="lineNum">     465 </span>            : 
-<span class="lineNum">     466 </span><span class="lineCov">        165 : uint64_t DataOStream::getCompressedDataSize() const</span>
-<span class="lineNum">     467 </span>            : {
-<span class="lineNum">     468 </span><span class="lineCov">        165 :     if( _impl-&gt;getCompressor() == EQ_COMPRESSOR_NONE )</span>
-<span class="lineNum">     469 </span><span class="lineCov">        165 :         return 0;</span>
-<span class="lineNum">     470 </span><span class="lineNoCov">          0 :     return _impl-&gt;compressedDataSize</span>
-<span class="lineNum">     471 </span><span class="lineNoCov">          0 :             + _impl-&gt;getNumChunks() * sizeof( uint64_t );</span>
-<a name="472"><span class="lineNum">     472 </span>            : }</a>
-<span class="lineNum">     473 </span>            : 
-<span class="lineNum">     474 </span><span class="lineNoCov">          0 : std::ostream&amp; DataOStream::printStatistics( std::ostream&amp; os )</span>
-<span class="lineNum">     475 </span>            : {
-<span class="lineNum">     476 </span>            :     os &lt;&lt; &quot;DataOStream &quot;
-<span class="lineNum">     477 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">     478 </span><span class="lineNoCov">          0 :        &lt;&lt; &quot;compressed &quot; &lt;&lt; nBytesIn &lt;&lt; &quot; -&gt; &quot; &lt;&lt; nBytesOut &lt;&lt; &quot; of &quot; &lt;&lt; nBytes</span>
-<span class="lineNum">     479 </span><span class="lineNoCov">          0 :        &lt;&lt; &quot; in &quot; &lt;&lt; compressionTime/1000 &lt;&lt; &quot;ms/&quot; &lt;&lt; compressionRuns</span>
-<span class="lineNum">     480 </span><span class="lineNoCov">          0 :        &lt;&lt; &quot; runs, saved &quot; &lt;&lt; nBytesSaved &lt;&lt; &quot; of &quot; &lt;&lt; nBytesSent</span>
-<span class="lineNum">     481 </span><span class="lineNoCov">          0 :        &lt;&lt; &quot; brutto sent (&quot;</span>
-<span class="lineNum">     482 </span><span class="lineNoCov">          0 :        &lt;&lt; double( nBytesSaved ) / double( nBytesSent ) * 100. &lt;&lt; &quot;%)&quot;;</span>
-<span class="lineNum">     483 </span>            : #else
-<span class="lineNum">     484 </span>            :        &lt;&lt; &quot;without statistics enabled&quot;
-<span class="lineNum">     485 </span>            : #endif
-<span class="lineNum">     486 </span><span class="lineNoCov">          0 :     return os;</span>
-<a name="487"><span class="lineNum">     487 </span>            : }</a>
-<span class="lineNum">     488 </span>            : 
-<span class="lineNum">     489 </span><span class="lineNoCov">          0 : void DataOStream::clearStatistics()</span>
-<span class="lineNum">     490 </span>            : {
+<span class="lineNum">     466 </span>            : #else
+<span class="lineNum">     467 </span>            :     _getCompressedData( chunks, chunkSizes );
+<span class="lineNum">     468 </span>            : #endif
+<span class="lineNum">     469 </span>            : 
+<span class="lineNum">     470 </span><span class="lineCov">         16 :     for( size_t j = 0; j &lt; nChunks; ++j )</span>
+<span class="lineNum">     471 </span>            :     {
+<span class="lineNum">     472 </span><span class="lineCov">          8 :         LBCHECK( connection-&gt;send( &amp;chunkSizes[j], sizeof( uint64_t ), true ));</span>
+<span class="lineNum">     473 </span><span class="lineCov">          8 :         LBCHECK( connection-&gt;send( chunks[j], chunkSizes[j], true ));</span>
+<span class="lineNum">     474 </span>            :     }
+<a name="475"><span class="lineNum">     475 </span>            : }</a>
+<span class="lineNum">     476 </span>            : 
+<span class="lineNum">     477 </span><span class="lineCov">        165 : uint64_t DataOStream::getCompressedDataSize() const</span>
+<span class="lineNum">     478 </span>            : {
+<span class="lineNum">     479 </span><span class="lineCov">        338 :     if( _impl-&gt;state == STATE_UNCOMPRESSED ||</span>
+<span class="lineNum">     480 </span><span class="lineCov">        173 :         _impl-&gt;state == STATE_UNCOMPRESSIBLE || !_impl-&gt;compressor )</span>
+<span class="lineNum">     481 </span>            :     {
+<span class="lineNum">     482 </span><span class="lineCov">        157 :         return 0;</span>
+<span class="lineNum">     483 </span>            :     }
+<span class="lineNum">     484 </span><span class="lineCov">          8 :     return _impl-&gt;compressedDataSize +</span>
+<span class="lineNum">     485 </span><span class="lineCov">          8 :            _impl-&gt;getNumChunks() * sizeof( uint64_t );</span>
+<a name="486"><span class="lineNum">     486 </span>            : }</a>
+<span class="lineNum">     487 </span>            : 
+<span class="lineNum">     488 </span><span class="lineCov">         21 : std::ostream&amp; DataOStream::printStatistics( std::ostream&amp; os )</span>
+<span class="lineNum">     489 </span>            : {
+<span class="lineNum">     490 </span>            :     return os &lt;&lt; &quot;DataOStream &quot;
 <span class="lineNum">     491 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
-<span class="lineNum">     492 </span><span class="lineNoCov">          0 :     nBytes = 0;</span>
-<span class="lineNum">     493 </span><span class="lineNoCov">          0 :     nBytesIn = 0;</span>
-<span class="lineNum">     494 </span><span class="lineNoCov">          0 :     nBytesOut = 0;</span>
-<span class="lineNum">     495 </span><span class="lineNoCov">          0 :     nBytesSaved = 0;</span>
-<span class="lineNum">     496 </span><span class="lineNoCov">          0 :     nBytesSent = 0;</span>
-<span class="lineNum">     497 </span><span class="lineNoCov">          0 :     compressionTime = 0;</span>
-<span class="lineNum">     498 </span><span class="lineNoCov">          0 :     compressionRuns = 0;</span>
-<span class="lineNum">     499 </span>            : #endif
-<a name="500"><span class="lineNum">     500 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     501 </span>            : 
-<span class="lineNum">     502 </span><span class="lineCov">         66 : }</span>
+<span class="lineNum">     492 </span><span class="lineCov">         21 :               &lt;&lt; &quot;compressed &quot; &lt;&lt; nBytesIn &lt;&lt; &quot; -&gt; &quot; &lt;&lt; nBytesOut &lt;&lt; &quot; of &quot;</span>
+<span class="lineNum">     493 </span><span class="lineCov">         42 :               &lt;&lt; nBytes &lt;&lt; &quot; @ &quot;</span>
+<span class="lineNum">     494 </span><span class="lineCov">         21 :               &lt;&lt; int( float( nBytesIn )/1.024f/1.024f/compressionTime + .5f )</span>
+<span class="lineNum">     495 </span><span class="lineCov">         63 :               &lt;&lt; &quot; MB/s &quot; &lt;&lt; compressionRuns &lt;&lt; &quot; runs, saved &quot; &lt;&lt; nBytesSaved</span>
+<span class="lineNum">     496 </span><span class="lineCov">         42 :               &lt;&lt; &quot; of &quot; &lt;&lt; nBytesSent &lt;&lt; &quot; brutto sent (&quot;</span>
+<span class="lineNum">     497 </span><span class="lineCov">         42 :               &lt;&lt; double( nBytesSaved ) / double( nBytesSent ) * 100. &lt;&lt; &quot;%)&quot;;</span>
+<span class="lineNum">     498 </span>            : #else
+<span class="lineNum">     499 </span>            :               &lt;&lt; &quot;without statistics enabled&quot;;
+<span class="lineNum">     500 </span>            : #endif
+<a name="501"><span class="lineNum">     501 </span>            : }</a>
+<span class="lineNum">     502 </span>            : 
+<span class="lineNum">     503 </span><span class="lineCov">         21 : void DataOStream::clearStatistics()</span>
+<span class="lineNum">     504 </span>            : {
+<span class="lineNum">     505 </span>            : #ifdef CO_INSTRUMENT_DATAOSTREAM
+<span class="lineNum">     506 </span><span class="lineCov">         21 :     nBytes = 0;</span>
+<span class="lineNum">     507 </span><span class="lineCov">         21 :     nBytesIn = 0;</span>
+<span class="lineNum">     508 </span><span class="lineCov">         21 :     nBytesOut = 0;</span>
+<span class="lineNum">     509 </span><span class="lineCov">         21 :     nBytesSaved = 0;</span>
+<span class="lineNum">     510 </span><span class="lineCov">         21 :     nBytesSent = 0;</span>
+<span class="lineNum">     511 </span><span class="lineCov">         21 :     compressionTime = 0;</span>
+<span class="lineNum">     512 </span><span class="lineCov">         21 :     compressionRuns = 0;</span>
+<span class="lineNum">     513 </span>            : #endif
+<a name="514"><span class="lineNum">     514 </span><span class="lineCov">         21 : }</span></a>
+<span class="lineNum">     515 </span>            : 
+<span class="lineNum">     516 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

@@ -14,7 +14,7 @@ var classco_1_1_object =
     [ "applyInstanceData", "classco_1_1_object.html#a819a60e41207987c9be512c8910e24cd", null ],
     [ "applyMapData", "classco_1_1_object.html#a4f7f9f3515f8a46a271c5e52a0c24481", null ],
     [ "attach", "classco_1_1_object.html#add2e3744d5c0a569d43a12971f5e72b8", null ],
-    [ "chooseCompressor", "classco_1_1_object.html#ac5c35d27fb9c4149924abefca4a610f2", null ],
+    [ "chooseCompressor", "classco_1_1_object.html#a15e036ed4f28d3409c9f869b26cc94e3", null ],
     [ "commit", "classco_1_1_object.html#a26fdea3d3f02b204b3d129a429412445", null ],
     [ "detach", "classco_1_1_object.html#ad6671491af33756e8d069db3231c374d", null ],
     [ "getAutoObsolete", "classco_1_1_object.html#aa0abbb623bfad9d2f3e0b3d72ccbbba6", null ],

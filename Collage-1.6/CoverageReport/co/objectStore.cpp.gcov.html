@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">42</td>
@@ -700,11 +700,11 @@
 <span class="lineNum">     638 </span><span class="lineCov">         21 :     object-&gt;notifyDetached();</span>
 <a name="639"><span class="lineNum">     639 </span>            : }</a>
 <span class="lineNum">     640 </span>            : 
-<span class="lineNum">     641 </span><span class="lineCov">      51592 : bool ObjectStore::notifyCommandThreadIdle()</span>
+<span class="lineNum">     641 </span><span class="lineCov">      51574 : bool ObjectStore::notifyCommandThreadIdle()</span>
 <span class="lineNum">     642 </span>            : {
-<span class="lineNum">     643 </span><span class="lineCov">      51592 :     LB_TS_THREAD( _commandThread );</span>
-<span class="lineNum">     644 </span><span class="lineCov">      51592 :     if( _sendQueue.empty( ))</span>
-<span class="lineNum">     645 </span><span class="lineCov">      51591 :         return false;</span>
+<span class="lineNum">     643 </span><span class="lineCov">      51574 :     LB_TS_THREAD( _commandThread );</span>
+<span class="lineNum">     644 </span><span class="lineCov">      51574 :     if( _sendQueue.empty( ))</span>
+<span class="lineNum">     645 </span><span class="lineCov">      51574 :         return false;</span>
 <span class="lineNum">     646 </span>            : 
 <span class="lineNum">     647 </span><span class="lineNoCov">          0 :     LBASSERT( _sendOnRegister &gt; 0 );</span>
 <span class="lineNum">     648 </span><span class="lineNoCov">          0 :     SendQueueItem&amp; item = _sendQueue.front();</span>
@@ -742,15 +742,15 @@
 <span class="lineNum">     680 </span>            : 
 <span class="lineNum">     681 </span><span class="lineCov">        547 :     ObjectsHash::const_iterator i = _objects-&gt;find( id );</span>
 <span class="lineNum">     682 </span>            : 
-<span class="lineNum">     683 </span><span class="lineCov">        547 :     if( i == _objects-&gt;end( ))</span>
+<span class="lineNum">     683 </span><span class="lineCov">        546 :     if( i == _objects-&gt;end( ))</span>
 <span class="lineNum">     684 </span>            :         // When the instance ID is set to none, we only care about the command
 <span class="lineNum">     685 </span>            :         // when we have an object of the given ID (multicast)
 <span class="lineNum">     686 </span><span class="lineNoCov">          0 :         return ( instanceID == CO_INSTANCE_NONE );</span>
 <span class="lineNum">     687 </span>            : 
-<span class="lineNum">     688 </span><span class="lineCov">        547 :     const Objects&amp; objects = i-&gt;second;</span>
-<span class="lineNum">     689 </span><span class="lineCov">        547 :     LBASSERTINFO( !objects.empty(), command );</span>
+<span class="lineNum">     688 </span><span class="lineCov">        546 :     const Objects&amp; objects = i-&gt;second;</span>
+<span class="lineNum">     689 </span><span class="lineCov">        546 :     LBASSERTINFO( !objects.empty(), command );</span>
 <span class="lineNum">     690 </span>            : 
-<span class="lineNum">     691 </span><span class="lineCov">        547 :     if( instanceID &lt;= CO_INSTANCE_MAX )</span>
+<span class="lineNum">     691 </span><span class="lineCov">        546 :     if( instanceID &lt;= CO_INSTANCE_MAX )</span>
 <span class="lineNum">     692 </span>            :     {
 <span class="lineNum">     693 </span><span class="lineCov">         60 :         for( Objects::const_iterator j = objects.begin(); j!=objects.end(); ++j)</span>
 <span class="lineNum">     694 </span>            :         {
@@ -767,9 +767,9 @@
 <span class="lineNum">     705 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     706 </span>            :     }
 <span class="lineNum">     707 </span>            : 
-<span class="lineNum">     708 </span><span class="lineCov">        493 :     Objects::const_iterator j = objects.begin();</span>
-<span class="lineNum">     709 </span><span class="lineCov">        493 :     Object* object = *j;</span>
-<span class="lineNum">     710 </span><span class="lineCov">        493 :     LBCHECK( object-&gt;dispatchCommand( command ));</span>
+<span class="lineNum">     708 </span><span class="lineCov">        492 :     Objects::const_iterator j = objects.begin();</span>
+<span class="lineNum">     709 </span><span class="lineCov">        492 :     Object* object = *j;</span>
+<span class="lineNum">     710 </span><span class="lineCov">        492 :     LBCHECK( object-&gt;dispatchCommand( command ));</span>
 <span class="lineNum">     711 </span>            : 
 <span class="lineNum">     712 </span><span class="lineCov">        493 :     for( ++j; j != objects.end(); ++j )</span>
 <span class="lineNum">     713 </span>            :     {
@@ -994,8 +994,8 @@
 <span class="lineNum">     932 </span><span class="lineCov">         42 :     LBASSERT( object );</span>
 <span class="lineNum">     933 </span><span class="lineCov">         42 :     LBASSERT( !object-&gt;isMaster( ));</span>
 <span class="lineNum">     934 </span>            : 
-<span class="lineNum">     935 </span><span class="lineCov">         84 :     object-&gt;setupChangeManager( Object::ChangeType( changeType ), false,</span>
-<span class="lineNum">     936 </span><span class="lineCov">         84 :                                 _localNode, masterInstanceID );</span>
+<span class="lineNum">     935 </span><span class="lineCov">         84 :     object-&gt;setupChangeManager( changeType, false, _localNode,</span>
+<span class="lineNum">     936 </span><span class="lineCov">         42 :                                 masterInstanceID );</span>
 <span class="lineNum">     937 </span><span class="lineCov">         42 :     _attach( object, objectID, instanceID );</span>
 <span class="lineNum">     938 </span><span class="lineCov">         42 :     return true;</span>
 <a name="939"><span class="lineNum">     939 </span>            : }</a>
@@ -1258,31 +1258,31 @@
 <span class="lineNum">    1196 </span>            : 
 <span class="lineNum">    1197 </span><span class="lineCov">         57 :     switch( cmd )</span>
 <span class="lineNum">    1198 </span>            :     {
-<span class="lineNum">    1199 </span>            :       case CMD_NODE_OBJECT_INSTANCE:
+<span class="lineNum">    1199 </span>            :     case CMD_NODE_OBJECT_INSTANCE:
 <span class="lineNum">    1200 </span><span class="lineNoCov">          0 :         LBASSERT( nodeID == 0 );</span>
 <span class="lineNum">    1201 </span><span class="lineNoCov">          0 :         LBASSERT( command.getInstanceID() == CO_INSTANCE_NONE );</span>
 <span class="lineNum">    1202 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">    1203 </span>            : 
-<span class="lineNum">    1204 </span>            :       case CMD_NODE_OBJECT_INSTANCE_MAP:
+<span class="lineNum">    1204 </span>            :     case CMD_NODE_OBJECT_INSTANCE_MAP:
 <span class="lineNum">    1205 </span><span class="lineCov">         38 :         if( nodeID != _localNode-&gt;getNodeID( )) // not for me</span>
 <span class="lineNum">    1206 </span><span class="lineNoCov">          0 :             return true;</span>
 <span class="lineNum">    1207 </span>            : 
 <span class="lineNum">    1208 </span><span class="lineCov">         38 :         LBASSERT( command.getInstanceID() &lt;= CO_INSTANCE_MAX );</span>
 <span class="lineNum">    1209 </span><span class="lineCov">         38 :         return dispatchObjectCommand( command );</span>
 <span class="lineNum">    1210 </span>            : 
-<span class="lineNum">    1211 </span>            :       case CMD_NODE_OBJECT_INSTANCE_COMMIT:
+<span class="lineNum">    1211 </span>            :     case CMD_NODE_OBJECT_INSTANCE_COMMIT:
 <span class="lineNum">    1212 </span><span class="lineCov">          4 :         LBASSERT( nodeID == 0 );</span>
 <span class="lineNum">    1213 </span><span class="lineCov">          4 :         LBASSERT( command.getInstanceID() == CO_INSTANCE_NONE );</span>
 <span class="lineNum">    1214 </span><span class="lineCov">          4 :         return dispatchObjectCommand( command );</span>
 <span class="lineNum">    1215 </span>            : 
-<span class="lineNum">    1216 </span>            :       case CMD_NODE_OBJECT_INSTANCE_PUSH:
+<span class="lineNum">    1216 </span>            :     case CMD_NODE_OBJECT_INSTANCE_PUSH:
 <span class="lineNum">    1217 </span><span class="lineCov">          7 :         LBASSERT( nodeID == 0 );</span>
 <span class="lineNum">    1218 </span><span class="lineCov">          7 :         LBASSERT( command.getInstanceID() == CO_INSTANCE_NONE );</span>
 <span class="lineNum">    1219 </span><span class="lineCov">          7 :         _pushData.addDataCommand( command.getObjectID(), command );</span>
 <span class="lineNum">    1220 </span><span class="lineCov">          7 :         return true;</span>
 <span class="lineNum">    1221 </span>            : 
-<span class="lineNum">    1222 </span>            :       case CMD_NODE_OBJECT_INSTANCE_SYNC:
-<span class="lineNum">    1223 </span>            :       {
+<span class="lineNum">    1222 </span>            :     case CMD_NODE_OBJECT_INSTANCE_SYNC:
+<span class="lineNum">    1223 </span>            :     {
 <span class="lineNum">    1224 </span><span class="lineCov">          8 :         if( nodeID != _localNode-&gt;getNodeID( )) // not for me</span>
 <span class="lineNum">    1225 </span><span class="lineNoCov">          0 :             return true;</span>
 <span class="lineNum">    1226 </span>            : 
@@ -1293,9 +1293,9 @@
 <span class="lineNum">    1231 </span><span class="lineCov">          8 :         ObjectDataIStream* is = LBSAFECAST( ObjectDataIStream*, data );</span>
 <span class="lineNum">    1232 </span><span class="lineCov">          8 :         is-&gt;addDataCommand( command );</span>
 <span class="lineNum">    1233 </span><span class="lineCov">          8 :         return true;</span>
-<span class="lineNum">    1234 </span>            :       }
+<span class="lineNum">    1234 </span>            :     }
 <span class="lineNum">    1235 </span>            : 
-<span class="lineNum">    1236 </span>            :       default:
+<span class="lineNum">    1236 </span>            :     default:
 <span class="lineNum">    1237 </span><span class="lineNoCov">          0 :         LBUNREACHABLE;</span>
 <span class="lineNum">    1238 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1239 </span>            :     }

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">11</td>
@@ -61,8 +61,8 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
-<span class="lineNum">       3 </span>            :  *                    2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
 <span class="lineNum">       6 </span>            :  *
@@ -85,177 +85,178 @@
 <span class="lineNum">      23 </span>            : #include &quot;commands.h&quot;
 <span class="lineNum">      24 </span>            : #include &quot;objectCommand.h&quot;
 <span class="lineNum">      25 </span>            : #include &quot;objectDataICommand.h&quot;
-<span class="lineNum">      26 </span>            : 
-<a name="27"><span class="lineNum">      27 </span>            : namespace co</a>
-<span class="lineNum">      28 </span>            : {
-<span class="lineNum">      29 </span><span class="lineCov">     202335 : ObjectDataIStream::ObjectDataIStream()</span>
-<span class="lineNum">      30 </span><span class="lineCov">     202335 :     : DataIStream( false )</span>
-<span class="lineNum">      31 </span>            : {
-<span class="lineNum">      32 </span><span class="lineCov">     202335 :     _reset();</span>
-<a name="33"><span class="lineNum">      33 </span><span class="lineCov">     202335 : }</span></a>
-<span class="lineNum">      34 </span>            : 
-<span class="lineNum">      35 </span><span class="lineNoCov">          0 : ObjectDataIStream::ObjectDataIStream( const ObjectDataIStream&amp; rhs )</span>
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :     : DataIStream( rhs )</span>
-<span class="lineNum">      37 </span>            : {
-<span class="lineNum">      38 </span><span class="lineNoCov">          0 :     *this = rhs;</span>
-<a name="39"><span class="lineNum">      39 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 : ObjectDataIStream&amp; ObjectDataIStream::operator = ( const ObjectDataIStream&amp; rhs)</span>
-<span class="lineNum">      42 </span>            : {
-<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     if( this != &amp;rhs )</span>
-<span class="lineNum">      44 </span>            :     {
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 :         DataIStream::operator = ( rhs );</span>
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :         _commands = rhs._commands;</span>
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :         _version = rhs._version;</span>
-<span class="lineNum">      48 </span>            :     }
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     return *this;</span>
-<a name="50"><span class="lineNum">      50 </span>            : }</a>
-<span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">     607005 : ObjectDataIStream::~ObjectDataIStream()</span>
-<span class="lineNum">      53 </span>            : {
-<span class="lineNum">      54 </span><span class="lineCov">     202335 :     _reset();</span>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">     404670 : }</span></a>
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 : void ObjectDataIStream::reset()</span>
-<span class="lineNum">      58 </span>            : {
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 :     DataIStream::reset();</span>
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :     _reset();</span>
-<a name="61"><span class="lineNum">      61 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">     404670 : void ObjectDataIStream::_reset()</span>
-<span class="lineNum">      64 </span>            : {
-<span class="lineNum">      65 </span><span class="lineCov">     404670 :     _usedCommand.clear();</span>
-<span class="lineNum">      66 </span><span class="lineCov">     404670 :     _commands.clear();</span>
-<span class="lineNum">      67 </span><span class="lineCov">     404670 :     _version = VERSION_INVALID;</span>
-<a name="68"><span class="lineNum">      68 </span><span class="lineCov">     404670 : }</span></a>
-<span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span><span class="lineCov">     202345 : void ObjectDataIStream::addDataCommand( ObjectDataICommand command )</span>
-<span class="lineNum">      71 </span>            : {
-<span class="lineNum">      72 </span><span class="lineCov">     202345 :     LB_TS_THREAD( _thread );</span>
-<span class="lineNum">      73 </span><span class="lineCov">     202345 :     LBASSERT( !isReady( ));</span>
-<span class="lineNum">      74 </span>            : 
-<span class="lineNum">      75 </span>            : #ifndef NDEBUG
-<span class="lineNum">      76 </span><span class="lineCov">     202345 :     const uint128_t&amp; version = command.getVersion();</span>
-<span class="lineNum">      77 </span><span class="lineCov">     202345 :     const uint32_t sequence = command.getSequence();</span>
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineCov">     202345 :     if( _commands.empty( ))</span>
-<span class="lineNum">      80 </span>            :     {
-<span class="lineNum">      81 </span><span class="lineCov">     202335 :         LBASSERTINFO( sequence == 0, sequence &lt;&lt; &quot; in &quot; &lt;&lt; command );</span>
-<span class="lineNum">      82 </span>            :     }
-<span class="lineNum">      83 </span>            :     else
-<span class="lineNum">      84 </span>            :     {
-<span class="lineNum">      85 </span><span class="lineCov">         20 :         ObjectDataICommand previous( _commands.back() );</span>
-<span class="lineNum">      86 </span><span class="lineCov">         10 :         const uint128_t&amp; previousVersion = previous.getVersion();</span>
-<span class="lineNum">      87 </span><span class="lineCov">         10 :         const uint32_t previousSequence = previous.getSequence();</span>
-<span class="lineNum">      88 </span><span class="lineCov">         10 :         LBASSERTINFO( sequence == previousSequence+1,</span>
-<span class="lineNum">      89 </span>            :                       sequence &lt;&lt; &quot;, &quot; &lt;&lt; previousSequence );
-<span class="lineNum">      90 </span><span class="lineCov">         10 :         LBASSERT( version == previousVersion );</span>
-<span class="lineNum">      91 </span>            :     }
-<span class="lineNum">      92 </span>            : #endif
-<span class="lineNum">      93 </span>            : 
-<span class="lineNum">      94 </span><span class="lineCov">     202345 :     _commands.push_back( command );</span>
-<span class="lineNum">      95 </span><span class="lineCov">     202345 :     if( command.isLast( ))</span>
-<span class="lineNum">      96 </span><span class="lineCov">     202335 :         _setReady();</span>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">     202345 : }</span></a>
-<span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span><span class="lineCov">        152 : bool ObjectDataIStream::hasInstanceData() const</span>
-<span class="lineNum">     100 </span>            : {
-<span class="lineNum">     101 </span><span class="lineCov">        152 :     if( !_usedCommand.isValid() &amp;&amp; _commands.empty( ))</span>
-<span class="lineNum">     102 </span>            :     {
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         LBUNREACHABLE;</span>
-<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     105 </span>            :     }
-<span class="lineNum">     106 </span>            : 
-<span class="lineNum">     107 </span><span class="lineCov">        304 :     const ICommand&amp; command = _usedCommand.isValid() ? _usedCommand :</span>
-<span class="lineNum">     108 </span><span class="lineCov">        304 :                                                       _commands.front();</span>
-<span class="lineNum">     109 </span><span class="lineCov">        152 :     return( command.getCommand() == CMD_OBJECT_INSTANCE );</span>
-<a name="110"><span class="lineNum">     110 </span>            : }</a>
-<span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span><span class="lineNoCov">          0 : NodePtr ObjectDataIStream::getRemoteNode() const</span>
-<span class="lineNum">     113 </span>            : {
-<span class="lineNum">     114 </span><span class="lineNoCov">          0 :     if( !_usedCommand.isValid() &amp;&amp; _commands.empty( ))</span>
-<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     116 </span>            : 
-<span class="lineNum">     117 </span><span class="lineNoCov">          0 :     const ICommand&amp; command = _usedCommand.isValid() ? _usedCommand :</span>
-<span class="lineNum">     118 </span><span class="lineNoCov">          0 :                                                       _commands.front();</span>
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     return command.getRemoteNode();</span>
-<a name="120"><span class="lineNum">     120 </span>            : }</a>
-<span class="lineNum">     121 </span>            : 
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 : LocalNodePtr ObjectDataIStream::getLocalNode() const</span>
-<span class="lineNum">     123 </span>            : {
-<span class="lineNum">     124 </span><span class="lineNoCov">          0 :     if( !_usedCommand.isValid() &amp;&amp; _commands.empty( ))</span>
-<span class="lineNum">     125 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span><span class="lineNoCov">          0 :     const ICommand&amp; command = _usedCommand.isValid() ? _usedCommand :</span>
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :                                                       _commands.front();</span>
-<span class="lineNum">     129 </span><span class="lineNoCov">          0 :     return command.getLocalNode();</span>
-<a name="130"><span class="lineNum">     130 </span>            : }</a>
-<span class="lineNum">     131 </span>            : 
-<span class="lineNum">     132 </span><span class="lineCov">     606522 : size_t ObjectDataIStream::getDataSize() const</span>
-<span class="lineNum">     133 </span>            : {
-<span class="lineNum">     134 </span><span class="lineCov">     606522 :     size_t size = 0;</span>
-<span class="lineNum">     135 </span>            :     typedef CommandDeque::const_iterator CommandDequeCIter;
-<span class="lineNum">     136 </span><span class="lineCov">    1213056 :     for( CommandDequeCIter i = _commands.begin(); i != _commands.end(); ++i )</span>
-<span class="lineNum">     137 </span>            :     {
-<span class="lineNum">     138 </span><span class="lineCov">     606534 :         const ICommand&amp; command = *i;</span>
-<span class="lineNum">     139 </span><span class="lineCov">     606534 :         size += command.getSize();</span>
-<span class="lineNum">     140 </span>            :     }
-<span class="lineNum">     141 </span><span class="lineCov">     606522 :     return size;</span>
-<a name="142"><span class="lineNum">     142 </span>            : }</a>
-<span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineCov">     202347 : uint128_t ObjectDataIStream::getPendingVersion() const</span>
-<span class="lineNum">     145 </span>            : {
-<span class="lineNum">     146 </span><span class="lineCov">     202347 :     if( _commands.empty( ))</span>
-<span class="lineNum">     147 </span><span class="lineNoCov">          0 :         return VERSION_INVALID;</span>
-<span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span><span class="lineCov">     404694 :     const ObjectDataICommand&amp; cmd( _commands.back( ));</span>
-<span class="lineNum">     150 </span><span class="lineCov">     202347 :     return cmd.getVersion();</span>
-<a name="151"><span class="lineNum">     151 </span>            : }</a>
-<span class="lineNum">     152 </span>            : 
-<span class="lineNum">     153 </span><span class="lineCov">        328 : bool ObjectDataIStream::getNextBuffer( uint32_t&amp; compressor, uint32_t&amp; nChunks,</span>
-<span class="lineNum">     154 </span>            :                                        const void** chunkData, uint64_t&amp; size )
-<span class="lineNum">     155 </span>            : {
-<span class="lineNum">     156 </span><span class="lineCov">        328 :     if( _commands.empty( ))</span>
-<span class="lineNum">     157 </span>            :     {
-<span class="lineNum">     158 </span><span class="lineCov">        161 :         _usedCommand.clear();</span>
-<span class="lineNum">     159 </span><span class="lineCov">        161 :         return false;</span>
-<span class="lineNum">     160 </span>            :     }
-<span class="lineNum">     161 </span>            : 
-<span class="lineNum">     162 </span><span class="lineCov">        167 :     _usedCommand = _commands.front();</span>
-<span class="lineNum">     163 </span><span class="lineCov">        167 :     _commands.pop_front();</span>
-<span class="lineNum">     164 </span><span class="lineCov">        167 :     if( !_usedCommand.isValid( ))</span>
-<span class="lineNum">     165 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span><span class="lineCov">        167 :     LBASSERT( _usedCommand.getCommand() == CMD_OBJECT_INSTANCE ||</span>
-<span class="lineNum">     168 </span>            :               _usedCommand.getCommand() == CMD_OBJECT_DELTA ||
-<span class="lineNum">     169 </span>            :               _usedCommand.getCommand() == CMD_OBJECT_SLAVE_DELTA );
-<span class="lineNum">     170 </span>            : 
-<span class="lineNum">     171 </span><span class="lineCov">        334 :     ObjectDataICommand command( _usedCommand );</span>
-<span class="lineNum">     172 </span><span class="lineCov">        167 :     const uint64_t dataSize = command.getDataSize();</span>
-<span class="lineNum">     173 </span>            : 
-<span class="lineNum">     174 </span><span class="lineCov">        167 :     if( dataSize == 0 ) // empty command</span>
-<span class="lineNum">     175 </span><span class="lineCov">          4 :         return getNextBuffer( compressor, nChunks, chunkData, size );</span>
-<span class="lineNum">     176 </span>            : 
-<span class="lineNum">     177 </span><span class="lineCov">        163 :     size = dataSize;</span>
-<span class="lineNum">     178 </span><span class="lineCov">        163 :     compressor = command.getCompressor();</span>
-<span class="lineNum">     179 </span><span class="lineCov">        163 :     nChunks = command.getChunks();</span>
-<span class="lineNum">     180 </span><span class="lineCov">        163 :     switch( command.getCommand( ))</span>
-<span class="lineNum">     181 </span>            :     {
-<span class="lineNum">     182 </span>            :       case CMD_OBJECT_INSTANCE:
-<span class="lineNum">     183 </span><span class="lineCov">         57 :         command.get&lt; NodeID &gt;();    // nodeID</span>
-<span class="lineNum">     184 </span><span class="lineCov">         57 :         command.get&lt; uint32_t &gt;();  // instanceID</span>
-<span class="lineNum">     185 </span><span class="lineCov">         57 :         break;</span>
-<span class="lineNum">     186 </span>            :       case CMD_OBJECT_SLAVE_DELTA:
-<span class="lineNum">     187 </span><span class="lineNoCov">          0 :         command.get&lt; uint128_t &gt;(); // commit UUID</span>
-<span class="lineNum">     188 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     189 </span>            :     }
-<span class="lineNum">     190 </span><span class="lineCov">        163 :     *chunkData = command.getRemainingBuffer( command.getRemainingBufferSize( ));</span>
-<span class="lineNum">     191 </span>            : 
-<span class="lineNum">     192 </span><span class="lineCov">        163 :     setSwapping( command.isSwapping( ));</span>
-<span class="lineNum">     193 </span><span class="lineCov">        163 :     return true;</span>
-<a name="194"><span class="lineNum">     194 </span>            : }</a>
-<span class="lineNum">     195 </span>            : 
-<span class="lineNum">     196 </span><span class="lineCov">         66 : }</span>
+<span class="lineNum">      26 </span>            : #include &lt;pression/data/CompressorInfo.h&gt;
+<span class="lineNum">      27 </span>            : 
+<a name="28"><span class="lineNum">      28 </span>            : namespace co</a>
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span><span class="lineCov">     197442 : ObjectDataIStream::ObjectDataIStream()</span>
+<span class="lineNum">      31 </span><span class="lineCov">     197442 :     : DataIStream( false )</span>
+<span class="lineNum">      32 </span>            : {
+<span class="lineNum">      33 </span><span class="lineCov">     197442 :     _reset();</span>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">     197442 : }</span></a>
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 : ObjectDataIStream::ObjectDataIStream( const ObjectDataIStream&amp; rhs )</span>
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :     : DataIStream( rhs )</span>
+<span class="lineNum">      38 </span>            : {
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :     *this = rhs;</span>
+<a name="40"><span class="lineNum">      40 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 : ObjectDataIStream&amp; ObjectDataIStream::operator = ( const ObjectDataIStream&amp; rhs)</span>
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     if( this != &amp;rhs )</span>
+<span class="lineNum">      45 </span>            :     {
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :         DataIStream::operator = ( rhs );</span>
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :         _commands = rhs._commands;</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :         _version = rhs._version;</span>
+<span class="lineNum">      49 </span>            :     }
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     return *this;</span>
+<a name="51"><span class="lineNum">      51 </span>            : }</a>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">     592326 : ObjectDataIStream::~ObjectDataIStream()</span>
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span><span class="lineCov">     197442 :     _reset();</span>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">     394884 : }</span></a>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 : void ObjectDataIStream::reset()</span>
+<span class="lineNum">      59 </span>            : {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :     DataIStream::reset();</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     _reset();</span>
+<a name="62"><span class="lineNum">      62 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span><span class="lineCov">     394884 : void ObjectDataIStream::_reset()</span>
+<span class="lineNum">      65 </span>            : {
+<span class="lineNum">      66 </span><span class="lineCov">     394884 :     _usedCommand.clear();</span>
+<span class="lineNum">      67 </span><span class="lineCov">     394884 :     _commands.clear();</span>
+<span class="lineNum">      68 </span><span class="lineCov">     394884 :     _version = VERSION_INVALID;</span>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">     394884 : }</span></a>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineCov">     197452 : void ObjectDataIStream::addDataCommand( ObjectDataICommand command )</span>
+<span class="lineNum">      72 </span>            : {
+<span class="lineNum">      73 </span><span class="lineCov">     197452 :     LB_TS_THREAD( _thread );</span>
+<span class="lineNum">      74 </span><span class="lineCov">     197452 :     LBASSERT( !isReady( ));</span>
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            : #ifndef NDEBUG
+<span class="lineNum">      77 </span><span class="lineCov">     197452 :     const uint128_t&amp; version = command.getVersion();</span>
+<span class="lineNum">      78 </span><span class="lineCov">     197452 :     const uint32_t sequence = command.getSequence();</span>
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span><span class="lineCov">     197452 :     if( _commands.empty( ))</span>
+<span class="lineNum">      81 </span>            :     {
+<span class="lineNum">      82 </span><span class="lineCov">     197442 :         LBASSERTINFO( sequence == 0, sequence &lt;&lt; &quot; in &quot; &lt;&lt; command );</span>
+<span class="lineNum">      83 </span>            :     }
+<span class="lineNum">      84 </span>            :     else
+<span class="lineNum">      85 </span>            :     {
+<span class="lineNum">      86 </span><span class="lineCov">         20 :         ObjectDataICommand previous( _commands.back() );</span>
+<span class="lineNum">      87 </span><span class="lineCov">         10 :         const uint128_t&amp; previousVersion = previous.getVersion();</span>
+<span class="lineNum">      88 </span><span class="lineCov">         10 :         const uint32_t previousSequence = previous.getSequence();</span>
+<span class="lineNum">      89 </span><span class="lineCov">         10 :         LBASSERTINFO( sequence == previousSequence+1,</span>
+<span class="lineNum">      90 </span>            :                       sequence &lt;&lt; &quot;, &quot; &lt;&lt; previousSequence );
+<span class="lineNum">      91 </span><span class="lineCov">         10 :         LBASSERT( version == previousVersion );</span>
+<span class="lineNum">      92 </span>            :     }
+<span class="lineNum">      93 </span>            : #endif
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineCov">     197452 :     _commands.push_back( command );</span>
+<span class="lineNum">      96 </span><span class="lineCov">     197452 :     if( command.isLast( ))</span>
+<span class="lineNum">      97 </span><span class="lineCov">     197442 :         _setReady();</span>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">     197452 : }</span></a>
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span><span class="lineCov">        152 : bool ObjectDataIStream::hasInstanceData() const</span>
+<span class="lineNum">     101 </span>            : {
+<span class="lineNum">     102 </span><span class="lineCov">        152 :     if( !_usedCommand.isValid() &amp;&amp; _commands.empty( ))</span>
+<span class="lineNum">     103 </span>            :     {
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         LBUNREACHABLE;</span>
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     106 </span>            :     }
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span><span class="lineCov">        304 :     const ICommand&amp; command = _usedCommand.isValid() ? _usedCommand :</span>
+<span class="lineNum">     109 </span><span class="lineCov">        304 :                                                       _commands.front();</span>
+<span class="lineNum">     110 </span><span class="lineCov">        152 :     return( command.getCommand() == CMD_OBJECT_INSTANCE );</span>
+<a name="111"><span class="lineNum">     111 </span>            : }</a>
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 : NodePtr ObjectDataIStream::getRemoteNode() const</span>
+<span class="lineNum">     114 </span>            : {
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :     if( !_usedCommand.isValid() &amp;&amp; _commands.empty( ))</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     const ICommand&amp; command = _usedCommand.isValid() ? _usedCommand :</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :                                                       _commands.front();</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     return command.getRemoteNode();</span>
+<a name="121"><span class="lineNum">     121 </span>            : }</a>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 : LocalNodePtr ObjectDataIStream::getLocalNode() const</span>
+<span class="lineNum">     124 </span>            : {
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 :     if( !_usedCommand.isValid() &amp;&amp; _commands.empty( ))</span>
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     const ICommand&amp; command = _usedCommand.isValid() ? _usedCommand :</span>
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :                                                       _commands.front();</span>
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :     return command.getLocalNode();</span>
+<a name="131"><span class="lineNum">     131 </span>            : }</a>
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span><span class="lineCov">     591843 : size_t ObjectDataIStream::getDataSize() const</span>
+<span class="lineNum">     134 </span>            : {
+<span class="lineNum">     135 </span><span class="lineCov">     591843 :     size_t size = 0;</span>
+<span class="lineNum">     136 </span>            :     typedef CommandDeque::const_iterator CommandDequeCIter;
+<span class="lineNum">     137 </span><span class="lineCov">    1183698 :     for( CommandDequeCIter i = _commands.begin(); i != _commands.end(); ++i )</span>
+<span class="lineNum">     138 </span>            :     {
+<span class="lineNum">     139 </span><span class="lineCov">     591855 :         const ICommand&amp; command = *i;</span>
+<span class="lineNum">     140 </span><span class="lineCov">     591855 :         size += command.getSize();</span>
+<span class="lineNum">     141 </span>            :     }
+<span class="lineNum">     142 </span><span class="lineCov">     591843 :     return size;</span>
+<a name="143"><span class="lineNum">     143 </span>            : }</a>
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span><span class="lineCov">     197454 : uint128_t ObjectDataIStream::getPendingVersion() const</span>
+<span class="lineNum">     146 </span>            : {
+<span class="lineNum">     147 </span><span class="lineCov">     197454 :     if( _commands.empty( ))</span>
+<span class="lineNum">     148 </span><span class="lineNoCov">          0 :         return VERSION_INVALID;</span>
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span><span class="lineCov">     394908 :     const ObjectDataICommand&amp; cmd( _commands.back( ));</span>
+<span class="lineNum">     151 </span><span class="lineCov">     197454 :     return cmd.getVersion();</span>
+<a name="152"><span class="lineNum">     152 </span>            : }</a>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineCov">        328 : bool ObjectDataIStream::getNextBuffer( CompressorInfo&amp; info, uint32_t&amp; nChunks,</span>
+<span class="lineNum">     155 </span>            :                                        const void*&amp; chunkData, uint64_t&amp; size )
+<span class="lineNum">     156 </span>            : {
+<span class="lineNum">     157 </span><span class="lineCov">        328 :     if( _commands.empty( ))</span>
+<span class="lineNum">     158 </span>            :     {
+<span class="lineNum">     159 </span><span class="lineCov">        161 :         _usedCommand.clear();</span>
+<span class="lineNum">     160 </span><span class="lineCov">        161 :         return false;</span>
+<span class="lineNum">     161 </span>            :     }
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span><span class="lineCov">        167 :     _usedCommand = _commands.front();</span>
+<span class="lineNum">     164 </span><span class="lineCov">        167 :     _commands.pop_front();</span>
+<span class="lineNum">     165 </span><span class="lineCov">        167 :     if( !_usedCommand.isValid( ))</span>
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span><span class="lineCov">        167 :     LBASSERT( _usedCommand.getCommand() == CMD_OBJECT_INSTANCE ||</span>
+<span class="lineNum">     169 </span>            :               _usedCommand.getCommand() == CMD_OBJECT_DELTA ||
+<span class="lineNum">     170 </span>            :               _usedCommand.getCommand() == CMD_OBJECT_SLAVE_DELTA );
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span><span class="lineCov">        334 :     ObjectDataICommand command( _usedCommand );</span>
+<span class="lineNum">     173 </span><span class="lineCov">        167 :     const uint64_t dataSize = command.getDataSize();</span>
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">        167 :     if( dataSize == 0 ) // empty command</span>
+<span class="lineNum">     176 </span><span class="lineCov">          4 :         return getNextBuffer( info, nChunks, chunkData, size );</span>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span><span class="lineCov">        163 :     size = dataSize;</span>
+<span class="lineNum">     179 </span><span class="lineCov">        163 :     info = command.getCompressorInfo();</span>
+<span class="lineNum">     180 </span><span class="lineCov">        163 :     nChunks = command.getChunks();</span>
+<span class="lineNum">     181 </span><span class="lineCov">        163 :     switch( command.getCommand( ))</span>
+<span class="lineNum">     182 </span>            :     {
+<span class="lineNum">     183 </span>            :     case CMD_OBJECT_INSTANCE:
+<span class="lineNum">     184 </span><span class="lineCov">         57 :         command.get&lt; NodeID &gt;();    // nodeID</span>
+<span class="lineNum">     185 </span><span class="lineCov">         57 :         command.get&lt; uint32_t &gt;();  // instanceID</span>
+<span class="lineNum">     186 </span><span class="lineCov">         57 :         break;</span>
+<span class="lineNum">     187 </span>            :     case CMD_OBJECT_SLAVE_DELTA:
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :         command.get&lt; uint128_t &gt;(); // commit UUID</span>
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     190 </span>            :     }
+<span class="lineNum">     191 </span><span class="lineCov">        163 :     chunkData = command.getRemainingBuffer( command.getRemainingBufferSize( ));</span>
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span><span class="lineCov">        163 :     setSwapping( command.isSwapping( ));</span>
+<span class="lineNum">     194 </span><span class="lineCov">        163 :     return true;</span>
+<a name="195"><span class="lineNum">     195 </span>            : }</a>
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

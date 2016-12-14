@@ -7,7 +7,7 @@ var searchData=
   ['sendtoken',['SendToken',['../classco_1_1_local_node.html#a4582e6c731d1a34236cf0e55c0507c17',1,'co::LocalNode']]],
   ['serializable',['Serializable',['../classco_1_1_serializable.html',1,'co']]],
   ['serializable',['Serializable',['../classco_1_1_serializable.html#a7874cfdd6d94e2636c39b90e3faca0d8',1,'co::Serializable::Serializable()'],['../classco_1_1_serializable.html#aa20f8eadfd785a4bf8c774459f73a194',1,'co::Serializable::Serializable(const Serializable &amp;)']]],
-  ['serialize',['serialize',['../classco_1_1_connection_description.html#a4dee15a967f96b59f23e122ba32a7eb5',1,'co::ConnectionDescription::serialize()'],['../classco_1_1_object_map.html#af04ce0f364039c27fe0c6819de544a36',1,'co::ObjectMap::serialize()'],['../classco_1_1_serializable.html#a1a769d13db52754bebdd91edad008a82',1,'co::Serializable::serialize()'],['../namespaceco.html#a3e7ec22e94baf2866b4fe2ffa2ed33ed',1,'co::serialize()']]],
+  ['serialize',['serialize',['../classco_1_1_connection_description.html#a4dee15a967f96b59f23e122ba32a7eb5',1,'co::ConnectionDescription::serialize()'],['../classco_1_1_object_map.html#af04ce0f364039c27fe0c6819de544a36',1,'co::ObjectMap::serialize()'],['../classco_1_1_serializable.html#aacd8b78599bc2a371481894fba994d51',1,'co::Serializable::serialize()'],['../namespaceco.html#a3e7ec22e94baf2866b4fe2ffa2ed33ed',1,'co::serialize()']]],
   ['set',['set',['../classco_1_1_zeroconf.html#a253559f4f7796dd7054beba882abbca9',1,'co::Zeroconf']]],
   ['setaffinity',['setAffinity',['../classco_1_1_local_node.html#a5cac69b3dac9b129603f48d1c60443bc',1,'co::LocalNode']]],
   ['setautoobsolete',['setAutoObsolete',['../classco_1_1_object.html#aebcd51f44793e5e17ea2fd03a629661a',1,'co::Object']]],

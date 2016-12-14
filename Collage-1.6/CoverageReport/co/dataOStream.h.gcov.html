@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">40</td>
-            <td class="headerCovTableEntry">43</td>
-            <td class="headerCovTableEntryHi">93.0 %</td>
+            <td class="headerCovTableEntry">38</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntryHi">92.7 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -141,8 +141,8 @@
 <span class="lineNum">      79 </span>            :     /** @name Data output */
 <a name="80"><span class="lineNum">      80 </span>            :     //@{</a>
 <span class="lineNum">      81 </span>            :     /** Write a plain data item by copying it to the stream. @version 1.0 */
-<span class="lineNum">      82 </span><span class="lineCov">     292166 :     template&lt; class T &gt; DataOStream&amp; operator &lt;&lt; ( const T&amp; value )</span>
-<span class="lineNum">      83 </span><span class="lineCov">     292166 :         { _write( value, boost::has_trivial_copy&lt; T &gt;( )); return *this; }</span>
+<span class="lineNum">      82 </span><span class="lineCov">     291991 :     template&lt; class T &gt; DataOStream&amp; operator &lt;&lt; ( const T&amp; value )</span>
+<span class="lineNum">      83 </span><span class="lineCov">     291991 :         { _write( value, boost::has_trivial_copy&lt; T &gt;( )); return *this; }</span>
 <a name="84"><span class="lineNum">      84 </span>            : </a>
 <span class="lineNum">      85 </span>            :     /** Write a C array. @version 1.0 */
 <span class="lineNum">      86 </span><span class="lineCov">         19 :     template&lt; class T &gt; DataOStream&amp; operator &lt;&lt; ( const Array&lt; T &gt; array )</span>
@@ -206,7 +206,7 @@
 <span class="lineNum">     144 </span>            :     CO_API lunchbox::Bufferb&amp; getBuffer();
 <span class="lineNum">     145 </span>            : 
 <span class="lineNum">     146 </span>            :     /** @internal Initialize the given compressor. */
-<span class="lineNum">     147 </span>            :     void _initCompressor( const uint32_t compressor );
+<span class="lineNum">     147 </span>            :     void _setCompressor( const pression::data::CompressorInfo&amp; info );
 <span class="lineNum">     148 </span>            : 
 <span class="lineNum">     149 </span>            :     /** @internal Enable output. */
 <span class="lineNum">     150 </span>            :     CO_API void _enable();
@@ -247,7 +247,7 @@
 <span class="lineNum">     185 </span>            :     detail::DataOStream* const _impl;
 <span class="lineNum">     186 </span>            : 
 <span class="lineNum">     187 </span>            :     /** Collect compressed data. */
-<span class="lineNum">     188 </span>            :     CO_API uint64_t _getCompressedData( void** chunks,
+<span class="lineNum">     188 </span>            :     CO_API uint64_t _getCompressedData( const uint8_t** chunks,
 <span class="lineNum">     189 </span>            :                                         uint64_t* chunkSizes ) const;
 <span class="lineNum">     190 </span>            : 
 <span class="lineNum">     191 </span>            :     /** Write a number of bytes from data into the stream. */
@@ -271,38 +271,41 @@
 <span class="lineNum">     209 </span>            :     }
 <a name="210"><span class="lineNum">     210 </span>            : </a>
 <span class="lineNum">     211 </span>            :     /** Write a plain data item. */
-<span class="lineNum">     212 </span><span class="lineCov">     292171 :     template&lt; class T &gt; void _write( const T&amp; value, const boost::true_type&amp; )</span>
-<span class="lineNum">     213 </span><span class="lineCov">     292171 :         { _write( &amp;value, sizeof( value )); }</span>
+<span class="lineNum">     212 </span><span class="lineCov">     291987 :     template&lt; class T &gt; void _write( const T&amp; value, const boost::true_type&amp; )</span>
+<span class="lineNum">     213 </span><span class="lineCov">     291987 :         { _write( &amp;value, sizeof( value )); }</span>
 <span class="lineNum">     214 </span>            : 
 <span class="lineNum">     215 </span>            :     /** Write a non-plain data item. */
 <span class="lineNum">     216 </span>            :     template&lt; class T &gt; void _write( const T&amp; value, const boost::false_type&amp; )
-<span class="lineNum">     217 </span>            :     { _writeSerializable( value, boost::is_base_of&lt; servus::Serializable, T &gt;());}
-<span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span>            :     /** Write a serializable object. */
-<span class="lineNum">     220 </span>            :     template&lt; class T&gt;
-<span class="lineNum">     221 </span>            :     void _writeSerializable( const T&amp; value, const boost::true_type&amp; );
-<span class="lineNum">     222 </span>            : 
-<a name="223"><span class="lineNum">     223 </span>            :     /** Write an Array of POD data */</a>
-<span class="lineNum">     224 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     225 </span><span class="lineCov">          1 :     void _writeArray( const Array&lt; T &gt; array, const boost::true_type&amp; )</span>
-<span class="lineNum">     226 </span><span class="lineCov">          1 :     { _write( array.data, array.getNumBytes( )); }</span>
-<span class="lineNum">     227 </span>            : 
-<a name="228"><span class="lineNum">     228 </span>            :     /** Write an Array of non-POD data */</a>
-<span class="lineNum">     229 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     230 </span><span class="lineCov">          1 :     void _writeArray( const Array&lt; T &gt; array, const boost::false_type&amp; )</span>
-<span class="lineNum">     231 </span>            :     {
-<span class="lineNum">     232 </span><span class="lineCov">          3 :         for( size_t i = 0; i &lt; array.num; ++i )</span>
-<span class="lineNum">     233 </span><span class="lineCov">          2 :             *this &lt;&lt; array.data[ i ];</span>
-<span class="lineNum">     234 </span><span class="lineCov">          1 :     }</span>
-<span class="lineNum">     235 </span>            : 
-<span class="lineNum">     236 </span>            :     /** Send the trailing data (command) to the receivers */
-<span class="lineNum">     237 </span>            :     void _sendFooter( const void* buffer, const uint64_t size );
-<span class="lineNum">     238 </span>            : };
-<span class="lineNum">     239 </span>            : }
-<span class="lineNum">     240 </span>            : 
-<span class="lineNum">     241 </span>            : #include &quot;dataOStream.ipp&quot; // template implementation
-<span class="lineNum">     242 </span>            : 
-<span class="lineNum">     243 </span>            : #endif //CO_DATAOSTREAM_H
+<span class="lineNum">     217 </span>            :     {
+<span class="lineNum">     218 </span>            :         _writeSerializable( value,
+<span class="lineNum">     219 </span>            :                             boost::is_base_of&lt; servus::Serializable, T &gt;( ));
+<span class="lineNum">     220 </span>            :     }
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span>            :     /** Write a serializable object. */
+<span class="lineNum">     223 </span>            :     template&lt; class T&gt;
+<span class="lineNum">     224 </span>            :     void _writeSerializable( const T&amp; value, const boost::true_type&amp; );
+<span class="lineNum">     225 </span>            : 
+<a name="226"><span class="lineNum">     226 </span>            :     /** Write an Array of POD data */</a>
+<span class="lineNum">     227 </span>            :     template&lt; class T &gt;
+<span class="lineNum">     228 </span><span class="lineCov">          1 :     void _writeArray( const Array&lt; T &gt; array, const boost::true_type&amp; )</span>
+<span class="lineNum">     229 </span><span class="lineCov">          1 :         { _write( array.data, array.getNumBytes( )); }</span>
+<span class="lineNum">     230 </span>            : 
+<a name="231"><span class="lineNum">     231 </span>            :     /** Write an Array of non-POD data */</a>
+<span class="lineNum">     232 </span>            :     template&lt; class T &gt;
+<span class="lineNum">     233 </span><span class="lineCov">          1 :     void _writeArray( const Array&lt; T &gt; array, const boost::false_type&amp; )</span>
+<span class="lineNum">     234 </span>            :     {
+<span class="lineNum">     235 </span><span class="lineCov">          3 :         for( size_t i = 0; i &lt; array.num; ++i )</span>
+<span class="lineNum">     236 </span><span class="lineCov">          2 :             *this &lt;&lt; array.data[ i ];</span>
+<span class="lineNum">     237 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span>            :     /** Send the trailing data (command) to the receivers */
+<span class="lineNum">     240 </span>            :     void _sendFooter( const void* buffer, const uint64_t size );
+<span class="lineNum">     241 </span>            : };
+<span class="lineNum">     242 </span>            : }
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span>            : #include &quot;dataOStream.ipp&quot; // template implementation
+<span class="lineNum">     245 </span>            : 
+<span class="lineNum">     246 </span>            : #endif //CO_DATAOSTREAM_H
 </pre>
       </td>
     </tr>

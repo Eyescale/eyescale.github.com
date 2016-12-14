@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">21</td>
-            <td class="headerCovTableEntry">27</td>
-            <td class="headerCovTableEntryMed">77.8 %</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntryMed">72.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">5</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *
 <span class="lineNum">       4 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -81,13 +81,13 @@
 <span class="lineNum">      19 </span>            : 
 <span class="lineNum">      20 </span>            : #include &quot;init.h&quot;
 <span class="lineNum">      21 </span>            : 
-<span class="lineNum">      22 </span>            : #include &quot;global.h&quot;
-<span class="lineNum">      23 </span>            : #include &quot;node.h&quot;
-<span class="lineNum">      24 </span>            : #include &quot;socketConnection.h&quot;
-<span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span>            : #include &lt;lunchbox/init.h&gt;
-<span class="lineNum">      27 </span>            : #include &lt;lunchbox/os.h&gt;
-<span class="lineNum">      28 </span>            : #include &lt;pression/pluginRegistry.h&gt;
+<span class="lineNum">      22 </span>            : #include &quot;dataOStream.h&quot;
+<span class="lineNum">      23 </span>            : #include &quot;global.h&quot;
+<span class="lineNum">      24 </span>            : #include &quot;node.h&quot;
+<span class="lineNum">      25 </span>            : #include &quot;socketConnection.h&quot;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : #include &lt;lunchbox/init.h&gt;
+<span class="lineNum">      28 </span>            : #include &lt;lunchbox/os.h&gt;
 <span class="lineNum">      29 </span>            : 
 <span class="lineNum">      30 </span>            : namespace co
 <span class="lineNum">      31 </span>            : {
@@ -114,50 +114,41 @@
 <span class="lineNum">      52 </span><span class="lineCov">         21 :     if( !lunchbox::init( argc, argv ))</span>
 <span class="lineNum">      53 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span>            :     // init all available plugins
-<span class="lineNum">      56 </span><span class="lineCov">         21 :     pression::PluginRegistry&amp; plugins = Global::getPluginRegistry();</span>
-<span class="lineNum">      57 </span><span class="lineCov">         21 :     plugins.addLunchboxPlugins();</span>
-<span class="lineNum">      58 </span><span class="lineCov">         21 :     plugins.addDirectory( &quot;/opt/local/lib&quot; ); // MacPorts</span>
-<span class="lineNum">      59 </span><span class="lineCov">         21 :     plugins.addDirectory( &quot;/usr/local/lib&quot; ); // Homebrew</span>
-<span class="lineNum">      60 </span><span class="lineCov">         21 :     plugins.init();</span>
-<span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            : #ifdef _WIN32
-<span class="lineNum">      63 </span>            :     WORD    wsVersion = MAKEWORD( 2, 0 );
-<span class="lineNum">      64 </span>            :     WSADATA wsData;
-<span class="lineNum">      65 </span>            :     if( WSAStartup( wsVersion, &amp;wsData ) != 0 )
-<span class="lineNum">      66 </span>            :     {
-<span class="lineNum">      67 </span>            :         LBERROR &lt;&lt; &quot;Initialization of Windows Sockets failed&quot;
-<span class="lineNum">      68 </span>            :                 &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;
-<span class="lineNum">      69 </span>            :         return false;
-<span class="lineNum">      70 </span>            :     }
-<span class="lineNum">      71 </span>            : #endif
-<span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span><span class="lineCov">         21 :     return true;</span>
-<a name="74"><span class="lineNum">      74 </span>            : }</a>
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">         21 : bool exit()</span>
-<span class="lineNum">      77 </span>            : {
-<span class="lineNum">      78 </span><span class="lineCov">         21 :     if( --_initialized &gt; 0 ) // not last</span>
-<span class="lineNum">      79 </span><span class="lineNoCov">          0 :         return true;</span>
-<span class="lineNum">      80 </span><span class="lineCov">         21 :     LBASSERT( _initialized == 0 );</span>
-<span class="lineNum">      81 </span>            : 
-<span class="lineNum">      82 </span>            : #ifdef _WIN32
-<span class="lineNum">      83 </span>            :     if( WSACleanup() != 0 )
-<span class="lineNum">      84 </span>            :     {
-<span class="lineNum">      85 </span>            :         LBERROR &lt;&lt; &quot;Cleanup of Windows Sockets failed&quot;
-<span class="lineNum">      86 </span>            :                 &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;
-<span class="lineNum">      87 </span>            :         return false;
-<span class="lineNum">      88 </span>            :     }
-<span class="lineNum">      89 </span>            : #endif
-<span class="lineNum">      90 </span>            : 
-<span class="lineNum">      91 </span>            :     // de-initialize registered plugins
-<span class="lineNum">      92 </span><span class="lineCov">         21 :     pression::PluginRegistry&amp; plugins = Global::getPluginRegistry();</span>
-<span class="lineNum">      93 </span><span class="lineCov">         21 :     plugins.exit();</span>
-<span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span><span class="lineCov">         21 :     return lunchbox::exit();</span>
-<a name="96"><span class="lineNum">      96 </span>            : }</a>
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span><span class="lineCov">         66 : }</span>
+<span class="lineNum">      55 </span>            : #ifdef _WIN32
+<span class="lineNum">      56 </span>            :     WORD    wsVersion = MAKEWORD( 2, 0 );
+<span class="lineNum">      57 </span>            :     WSADATA wsData;
+<span class="lineNum">      58 </span>            :     if( WSAStartup( wsVersion, &amp;wsData ) != 0 )
+<span class="lineNum">      59 </span>            :     {
+<span class="lineNum">      60 </span>            :         LBERROR &lt;&lt; &quot;Initialization of Windows Sockets failed&quot;
+<span class="lineNum">      61 </span>            :                 &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;
+<span class="lineNum">      62 </span>            :         return false;
+<span class="lineNum">      63 </span>            :     }
+<span class="lineNum">      64 </span>            : #endif
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineCov">         21 :     return true;</span>
+<a name="67"><span class="lineNum">      67 </span>            : }</a>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span><span class="lineCov">         21 : bool exit()</span>
+<span class="lineNum">      70 </span>            : {
+<span class="lineNum">      71 </span><span class="lineCov">         21 :     if( --_initialized &gt; 0 ) // not last</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">      73 </span><span class="lineCov">         21 :     LBASSERT( _initialized == 0 );</span>
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            : #ifdef _WIN32
+<span class="lineNum">      76 </span>            :     if( WSACleanup() != 0 )
+<span class="lineNum">      77 </span>            :     {
+<span class="lineNum">      78 </span>            :         LBERROR &lt;&lt; &quot;Cleanup of Windows Sockets failed&quot;
+<span class="lineNum">      79 </span>            :                 &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;
+<span class="lineNum">      80 </span>            :         return false;
+<span class="lineNum">      81 </span>            :     }
+<span class="lineNum">      82 </span>            : #endif
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineCov">         21 :     LBDEBUG &lt;&lt; DataOStream::printStatistics &lt;&lt; std::endl;</span>
+<span class="lineNum">      85 </span><span class="lineCov">         21 :     DataOStream::clearStatistics();</span>
+<span class="lineNum">      86 </span><span class="lineCov">         21 :     return lunchbox::exit();</span>
+<a name="87"><span class="lineNum">      87 </span>            : }</a>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

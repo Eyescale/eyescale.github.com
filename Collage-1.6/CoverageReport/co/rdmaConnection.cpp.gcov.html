@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">64</td>
@@ -573,37 +573,37 @@
 <span class="lineNum">     511 </span><span class="lineCov">          2 :     return newConnection;</span>
 <a name="512"><span class="lineNum">     512 </span>            : }</a>
 <span class="lineNum">     513 </span>            : 
-<a name="514"><span class="lineNum">     514 </span><span class="lineCov">     469708 : void RDMAConnection::readNB( void*, const uint64_t ) { /* NOP */ }</span></a>
+<a name="514"><span class="lineNum">     514 </span><span class="lineCov">     442791 : void RDMAConnection::readNB( void*, const uint64_t ) { /* NOP */ }</span></a>
 <span class="lineNum">     515 </span>            : 
-<span class="lineNum">     516 </span><span class="lineCov">     469708 : int64_t RDMAConnection::readSync( void* buffer, const uint64_t bytes,</span>
+<span class="lineNum">     516 </span><span class="lineCov">     442791 : int64_t RDMAConnection::readSync( void* buffer, const uint64_t bytes,</span>
 <span class="lineNum">     517 </span>            :         const bool block )
 <span class="lineNum">     518 </span>            : {
-<span class="lineNum">     519 </span><span class="lineCov">     939416 :     lunchbox::Clock clock;</span>
-<span class="lineNum">     520 </span><span class="lineCov">     469708 :     const int64_t start = clock.getTime64( );</span>
-<span class="lineNum">     521 </span><span class="lineCov">     469708 :     const uint32_t timeout = Global::getTimeout( );</span>
-<span class="lineNum">     522 </span><span class="lineCov">     469708 :     eventset events;</span>
-<span class="lineNum">     523 </span><span class="lineCov">     469708 :     uint64_t available_bytes = 0ULL;</span>
-<span class="lineNum">     524 </span><span class="lineCov">     469708 :     uint32_t bytes_taken = 0UL;</span>
-<span class="lineNum">     525 </span><span class="lineCov">     469708 :     bool extra_event = false;</span>
+<span class="lineNum">     519 </span><span class="lineCov">     885582 :     lunchbox::Clock clock;</span>
+<span class="lineNum">     520 </span><span class="lineCov">     442791 :     const int64_t start = clock.getTime64( );</span>
+<span class="lineNum">     521 </span><span class="lineCov">     442791 :     const uint32_t timeout = Global::getTimeout( );</span>
+<span class="lineNum">     522 </span><span class="lineCov">     442791 :     eventset events;</span>
+<span class="lineNum">     523 </span><span class="lineCov">     442791 :     uint64_t available_bytes = 0ULL;</span>
+<span class="lineNum">     524 </span><span class="lineCov">     442791 :     uint32_t bytes_taken = 0UL;</span>
+<span class="lineNum">     525 </span><span class="lineCov">     442791 :     bool extra_event = false;</span>
 <span class="lineNum">     526 </span>            : 
-<span class="lineNum">     527 </span><span class="lineCov">     469708 :     if( !isConnected() )</span>
+<span class="lineNum">     527 </span><span class="lineCov">     442791 :     if( !isConnected() )</span>
 <span class="lineNum">     528 </span><span class="lineNoCov">          0 :         goto err;</span>
 <span class="lineNum">     529 </span>            : 
 <span class="lineNum">     530 </span>            : //    LBWARN &lt;&lt; (void *)this &lt;&lt; std::dec &lt;&lt; &quot;.read(&quot; &lt;&lt; bytes &lt;&lt; &quot;)&quot;
 <span class="lineNum">     531 </span>            : //       &lt;&lt; std::endl;
 <span class="lineNum">     532 </span>            : 
-<span class="lineNum">     533 </span><span class="lineCov">     469708 :     _stats.reads++;</span>
+<span class="lineNum">     533 </span><span class="lineCov">     442791 :     _stats.reads++;</span>
 <span class="lineNum">     534 </span>            : 
 <span class="lineNum">     535 </span>            : retry:
-<span class="lineNum">     536 </span><span class="lineCov">     497107 :     if( !_checkDisconnected( events ))</span>
+<span class="lineNum">     536 </span><span class="lineCov">     465106 :     if( !_checkDisconnected( events ))</span>
 <span class="lineNum">     537 </span>            :     {
 <span class="lineNum">     538 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while checking event state.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     539 </span><span class="lineNoCov">          0 :         goto err;</span>
 <span class="lineNum">     540 </span>            :     }
 <span class="lineNum">     541 </span>            : 
-<span class="lineNum">     542 </span><span class="lineCov">     497107 :     if( events.test( CQ_EVENT ))</span>
+<span class="lineNum">     542 </span><span class="lineCov">     465106 :     if( events.test( CQ_EVENT ))</span>
 <span class="lineNum">     543 </span>            :     {
-<span class="lineNum">     544 </span><span class="lineCov">      79526 :         if( !_rearmCQ( ))</span>
+<span class="lineNum">     544 </span><span class="lineCov">      87131 :         if( !_rearmCQ( ))</span>
 <span class="lineNum">     545 </span>            :         {
 <span class="lineNum">     546 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Error while rearming receive channel.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     547 </span><span class="lineNoCov">          0 :             goto err;</span>
@@ -611,15 +611,15 @@
 <span class="lineNum">     549 </span>            :     }
 <span class="lineNum">     550 </span>            : 
 <span class="lineNum">     551 </span>            :     // Modifies _sourceptr.TAIL, _sinkptr.HEAD &amp; _rptr.TAIL
-<span class="lineNum">     552 </span><span class="lineCov">     497107 :     if( !_checkCQ( events.test( CQ_EVENT )))</span>
+<span class="lineNum">     552 </span><span class="lineCov">     465106 :     if( !_checkCQ( events.test( CQ_EVENT )))</span>
 <span class="lineNum">     553 </span>            :     {
 <span class="lineNum">     554 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while polling completion queues.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     555 </span><span class="lineNoCov">          0 :         goto err;</span>
 <span class="lineNum">     556 </span>            :     }
 <span class="lineNum">     557 </span>            : 
-<span class="lineNum">     558 </span><span class="lineCov">     497107 :     LBASSERT( _fcredits &gt;= 0L );</span>
+<span class="lineNum">     558 </span><span class="lineCov">     465106 :     LBASSERT( _fcredits &gt;= 0L );</span>
 <span class="lineNum">     559 </span>            : 
-<span class="lineNum">     560 </span><span class="lineCov">     497107 :     if( _established &amp;&amp; _needFC( ) &amp;&amp; ( 0L == _fcredits ))</span>
+<span class="lineNum">     560 </span><span class="lineCov">     465106 :     if( _established &amp;&amp; _needFC( ) &amp;&amp; ( 0L == _fcredits ))</span>
 <span class="lineNum">     561 </span>            :     {
 <span class="lineNum">     562 </span><span class="lineNoCov">          0 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
 <span class="lineNum">     563 </span>            :         {
@@ -638,24 +638,24 @@
 <span class="lineNum">     576 </span>            : 
 <span class="lineNum">     577 </span>            :     // &quot;Note that an extra event may be triggered without having a
 <span class="lineNum">     578 </span>            :     // corresponding completion entry in the CQ.&quot; (per ibv_get_cq_event(3))
-<span class="lineNum">     579 </span><span class="lineCov">     497107 :     if( _established &amp;&amp; !events.test( BUF_EVENT ))</span>
+<span class="lineNum">     579 </span><span class="lineCov">     465106 :     if( _established &amp;&amp; !events.test( BUF_EVENT ))</span>
 <span class="lineNum">     580 </span>            :     {
 <span class="lineNum">     581 </span>            :         // Special case: If LocalNode is reading the length part of a message
 <span class="lineNum">     582 </span>            :         // it will ignore this zero return and restart the select.
-<span class="lineNum">     583 </span><span class="lineCov">      27399 :         if( extra_event &amp;&amp; !block )</span>
+<span class="lineNum">     583 </span><span class="lineCov">      22315 :         if( extra_event &amp;&amp; !block )</span>
 <span class="lineNum">     584 </span>            :         {
 <span class="lineNum">     585 </span><span class="lineNoCov">          0 :             _updateNotifier();</span>
 <span class="lineNum">     586 </span><span class="lineNoCov">          0 :             return 0LL;</span>
 <span class="lineNum">     587 </span>            :         }
 <span class="lineNum">     588 </span>            : 
-<span class="lineNum">     589 </span><span class="lineCov">      27399 :         extra_event = true;</span>
-<span class="lineNum">     590 </span><span class="lineCov">      27399 :         goto retry;</span>
+<span class="lineNum">     589 </span><span class="lineCov">      22315 :         extra_event = true;</span>
+<span class="lineNum">     590 </span><span class="lineCov">      22315 :         goto retry;</span>
 <span class="lineNum">     591 </span>            :     }
 <span class="lineNum">     592 </span>            : 
-<span class="lineNum">     593 </span><span class="lineCov">     469708 :     if( events.test( BUF_EVENT ))</span>
+<span class="lineNum">     593 </span><span class="lineCov">     442791 :     if( events.test( BUF_EVENT ))</span>
 <span class="lineNum">     594 </span>            :     {
-<span class="lineNum">     595 </span><span class="lineCov">     469706 :         available_bytes = _getAvailableBytes( );</span>
-<span class="lineNum">     596 </span><span class="lineCov">     469706 :         if( 0ULL == available_bytes )</span>
+<span class="lineNum">     595 </span><span class="lineCov">     442789 :         available_bytes = _getAvailableBytes( );</span>
+<span class="lineNum">     596 </span><span class="lineCov">     442789 :         if( 0ULL == available_bytes )</span>
 <span class="lineNum">     597 </span>            :         {
 <span class="lineNum">     598 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Error while reading from event fd.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     599 </span><span class="lineNoCov">          0 :             goto err;</span>
@@ -663,9 +663,9 @@
 <span class="lineNum">     601 </span>            :     }
 <span class="lineNum">     602 </span>            : 
 <span class="lineNum">     603 </span>            :     // Modifies _sinkptr.TAIL
-<span class="lineNum">     604 </span><span class="lineCov">     469708 :     bytes_taken = _drain( buffer, bytes );</span>
+<span class="lineNum">     604 </span><span class="lineCov">     442791 :     bytes_taken = _drain( buffer, bytes );</span>
 <span class="lineNum">     605 </span>            : 
-<span class="lineNum">     606 </span><span class="lineCov">     469708 :     if( 0UL == bytes_taken )</span>
+<span class="lineNum">     606 </span><span class="lineCov">     442791 :     if( 0UL == bytes_taken )</span>
 <span class="lineNum">     607 </span>            :     {
 <span class="lineNum">     608 </span><span class="lineCov">          2 :         if( _sinkptr.isEmpty( ) &amp;&amp; !_established )</span>
 <span class="lineNum">     609 </span>            :         {
@@ -690,23 +690,23 @@
 <span class="lineNum">     628 </span>            :     }
 <span class="lineNum">     629 </span>            : 
 <span class="lineNum">     630 </span>            :     // Put back what wasn't taken (ensure the master notifier stays &quot;hot&quot;).
-<span class="lineNum">     631 </span><span class="lineCov">     469706 :     if( available_bytes &gt; bytes_taken )</span>
-<span class="lineNum">     632 </span><span class="lineCov">     443699 :         _incrAvailableBytes( available_bytes - bytes_taken );</span>
+<span class="lineNum">     631 </span><span class="lineCov">     442789 :     if( available_bytes &gt; bytes_taken )</span>
+<span class="lineNum">     632 </span><span class="lineCov">     422144 :         _incrAvailableBytes( available_bytes - bytes_taken );</span>
 <span class="lineNum">     633 </span>            : #ifdef _WIN32
 <span class="lineNum">     634 </span>            :     else
 <span class="lineNum">     635 </span>            :         _updateNotifier();
 <span class="lineNum">     636 </span>            : #endif
 <span class="lineNum">     637 </span>            : 
-<span class="lineNum">     638 </span><span class="lineCov">     469706 :     _readBytes += bytes_taken;</span>
+<span class="lineNum">     638 </span><span class="lineCov">     442789 :     _readBytes += bytes_taken;</span>
 <span class="lineNum">     639 </span>            : 
-<span class="lineNum">     640 </span><span class="lineCov">     469706 :     if( _established &amp;&amp; _needFC( ) &amp;&amp; !_postFC( ))</span>
+<span class="lineNum">     640 </span><span class="lineCov">     442789 :     if( _established &amp;&amp; _needFC( ) &amp;&amp; !_postFC( ))</span>
 <span class="lineNum">     641 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Error while posting flow control message.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     642 </span>            : 
 <span class="lineNum">     643 </span>            : //    LBWARN &lt;&lt; (void *)this &lt;&lt; std::dec &lt;&lt; &quot;.read(&quot; &lt;&lt; bytes &lt;&lt; &quot;)&quot;
 <span class="lineNum">     644 </span>            : //       &lt;&lt; &quot; took &quot; &lt;&lt; bytes_taken &lt;&lt; &quot; bytes&quot;
 <span class="lineNum">     645 </span>            : //       &lt;&lt; &quot; (&quot; &lt;&lt; _sinkptr.available( ) &lt;&lt; &quot; still available)&quot; &lt;&lt; std::endl;
 <span class="lineNum">     646 </span>            : 
-<span class="lineNum">     647 </span><span class="lineCov">     469706 :     return bytes_taken;</span>
+<span class="lineNum">     647 </span><span class="lineCov">     442789 :     return bytes_taken;</span>
 <span class="lineNum">     648 </span>            : 
 <span class="lineNum">     649 </span>            : err:
 <span class="lineNum">     650 </span><span class="lineCov">          2 :     close( );</span>
@@ -714,50 +714,50 @@
 <span class="lineNum">     652 </span><span class="lineCov">          2 :     return -1LL;</span>
 <a name="653"><span class="lineNum">     653 </span>            : }</a>
 <span class="lineNum">     654 </span>            : 
-<span class="lineNum">     655 </span><span class="lineCov">     495634 : int64_t RDMAConnection::write( const void* buffer, const uint64_t bytes )</span>
+<span class="lineNum">     655 </span><span class="lineCov">     464638 : int64_t RDMAConnection::write( const void* buffer, const uint64_t bytes )</span>
 <span class="lineNum">     656 </span>            : {
-<span class="lineNum">     657 </span><span class="lineCov">     991268 :     lunchbox::Clock clock;</span>
-<span class="lineNum">     658 </span><span class="lineCov">     495634 :     const int64_t start = clock.getTime64( );</span>
-<span class="lineNum">     659 </span><span class="lineCov">     495634 :     const uint32_t timeout = Global::getTimeout( );</span>
-<span class="lineNum">     660 </span><span class="lineCov">     495634 :     eventset events;</span>
-<span class="lineNum">     661 </span><span class="lineCov">     495634 :     const uint32_t can_put = std::min( bytes, MAX_BS );</span>
+<span class="lineNum">     657 </span><span class="lineCov">     929276 :     lunchbox::Clock clock;</span>
+<span class="lineNum">     658 </span><span class="lineCov">     464638 :     const int64_t start = clock.getTime64( );</span>
+<span class="lineNum">     659 </span><span class="lineCov">     464638 :     const uint32_t timeout = Global::getTimeout( );</span>
+<span class="lineNum">     660 </span><span class="lineCov">     464638 :     eventset events;</span>
+<span class="lineNum">     661 </span><span class="lineCov">     464638 :     const uint32_t can_put = std::min( bytes, MAX_BS );</span>
 <span class="lineNum">     662 </span>            :     uint32_t bytes_put;
 <span class="lineNum">     663 </span>            : 
-<span class="lineNum">     664 </span><span class="lineCov">     495634 :     if( !isConnected() )</span>
+<span class="lineNum">     664 </span><span class="lineCov">     464638 :     if( !isConnected() )</span>
 <span class="lineNum">     665 </span><span class="lineNoCov">          0 :         goto err;</span>
 <span class="lineNum">     666 </span>            : 
 <span class="lineNum">     667 </span>            : //    LBWARN &lt;&lt; (void *)this &lt;&lt; std::dec &lt;&lt; &quot;.write(&quot; &lt;&lt; bytes &lt;&lt; &quot;)&quot;
 <span class="lineNum">     668 </span>            : //        &lt;&lt; std::endl;
 <span class="lineNum">     669 </span>            : 
-<span class="lineNum">     670 </span><span class="lineCov">     495634 :     _stats.writes++;</span>
+<span class="lineNum">     670 </span><span class="lineCov">     464638 :     _stats.writes++;</span>
 <span class="lineNum">     671 </span>            : 
 <span class="lineNum">     672 </span>            : retry:
-<span class="lineNum">     673 </span><span class="lineCov">     764745 :     if( !_checkDisconnected( events ))</span>
+<span class="lineNum">     673 </span><span class="lineCov">     787118 :     if( !_checkDisconnected( events ))</span>
 <span class="lineNum">     674 </span>            :     {
 <span class="lineNum">     675 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while checking connection state.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     676 </span><span class="lineNoCov">          0 :         goto err;</span>
 <span class="lineNum">     677 </span>            :     }
 <span class="lineNum">     678 </span>            : 
-<span class="lineNum">     679 </span><span class="lineCov">     764745 :     if( !_established )</span>
+<span class="lineNum">     679 </span><span class="lineCov">     787118 :     if( !_established )</span>
 <span class="lineNum">     680 </span>            :     {
 <span class="lineNum">     681 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Disconnected in write.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     682 </span><span class="lineNoCov">          0 :         goto err;</span>
 <span class="lineNum">     683 </span>            :     }
 <span class="lineNum">     684 </span>            : 
 <span class="lineNum">     685 </span>            :     // Modifies _sourceptr.TAIL, _sinkptr.HEAD &amp; _rptr.TAIL
-<span class="lineNum">     686 </span><span class="lineCov">     764745 :     if( !_checkCQ( false ))</span>
+<span class="lineNum">     686 </span><span class="lineCov">     787118 :     if( !_checkCQ( false ))</span>
 <span class="lineNum">     687 </span>            :     {
 <span class="lineNum">     688 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while polling completion queues.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     689 </span><span class="lineNoCov">          0 :         goto err;</span>
 <span class="lineNum">     690 </span>            :     }
 <span class="lineNum">     691 </span>            : 
-<span class="lineNum">     692 </span><span class="lineCov">     764745 :     LBASSERT( _wcredits &gt;= 0L );</span>
+<span class="lineNum">     692 </span><span class="lineCov">     787118 :     LBASSERT( _wcredits &gt;= 0L );</span>
 <span class="lineNum">     693 </span>            : 
-<span class="lineNum">     694 </span><span class="lineCov">     764745 :     if( 0L == _wcredits )</span>
+<span class="lineNum">     694 </span><span class="lineCov">     787118 :     if( 0L == _wcredits )</span>
 <span class="lineNum">     695 </span>            :     {
-<span class="lineNum">     696 </span><span class="lineCov">         71 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
+<span class="lineNum">     696 </span><span class="lineCov">         19 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
 <span class="lineNum">     697 </span>            :         {
-<span class="lineNum">     698 </span><span class="lineCov">         71 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
+<span class="lineNum">     698 </span><span class="lineCov">         19 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
 <span class="lineNum">     699 </span>            :             {
 <span class="lineNum">     700 </span><span class="lineNoCov">          0 :                 LBERROR &lt;&lt; &quot;Timed out trying to acquire credit.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     701 </span><span class="lineNoCov">          0 :                 goto err;</span>
@@ -765,19 +765,19 @@
 <span class="lineNum">     703 </span>            :         }
 <span class="lineNum">     704 </span>            : 
 <span class="lineNum">     705 </span>            :         //LBWARN &lt;&lt; &quot;No credits for RDMA.&quot; &lt;&lt; std::endl;
-<span class="lineNum">     706 </span><span class="lineCov">         71 :         lunchbox::Thread::yield( );</span>
-<span class="lineNum">     707 </span><span class="lineCov">         71 :         _stats.no_credits_rdma++;</span>
-<span class="lineNum">     708 </span><span class="lineCov">         71 :         goto retry;</span>
+<span class="lineNum">     706 </span><span class="lineCov">         19 :         lunchbox::Thread::yield( );</span>
+<span class="lineNum">     707 </span><span class="lineCov">         19 :         _stats.no_credits_rdma++;</span>
+<span class="lineNum">     708 </span><span class="lineCov">         19 :         goto retry;</span>
 <span class="lineNum">     709 </span>            :     }
 <span class="lineNum">     710 </span>            : 
 <span class="lineNum">     711 </span>            :     // Modifies _sourceptr.HEAD
-<span class="lineNum">     712 </span><span class="lineCov">     764674 :     bytes_put = _fill( buffer, can_put );</span>
+<span class="lineNum">     712 </span><span class="lineCov">     787099 :     bytes_put = _fill( buffer, can_put );</span>
 <span class="lineNum">     713 </span>            : 
-<span class="lineNum">     714 </span><span class="lineCov">     764674 :     if( 0UL == bytes_put )</span>
+<span class="lineNum">     714 </span><span class="lineCov">     787099 :     if( 0UL == bytes_put )</span>
 <span class="lineNum">     715 </span>            :     {
-<span class="lineNum">     716 </span><span class="lineCov">     269040 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
+<span class="lineNum">     716 </span><span class="lineCov">     322461 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
 <span class="lineNum">     717 </span>            :         {
-<span class="lineNum">     718 </span><span class="lineCov">     269040 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
+<span class="lineNum">     718 </span><span class="lineCov">     322461 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
 <span class="lineNum">     719 </span>            :             {
 <span class="lineNum">     720 </span><span class="lineNoCov">          0 :                 LBERROR &lt;&lt; &quot;Timed out trying to fill buffer.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     721 </span><span class="lineNoCov">          0 :                 goto err;</span>
@@ -785,14 +785,14 @@
 <span class="lineNum">     723 </span>            :         }
 <span class="lineNum">     724 </span>            : 
 <span class="lineNum">     725 </span>            :         //LBWARN &lt;&lt; &quot;Source buffer full.&quot; &lt;&lt; std::endl;
-<span class="lineNum">     726 </span><span class="lineCov">     269040 :         lunchbox::Thread::yield( );</span>
-<span class="lineNum">     727 </span><span class="lineCov">     269040 :         if( _sourceptr.isFull( ) || _rptr.isFull( ))</span>
-<span class="lineNum">     728 </span><span class="lineCov">     269040 :             _stats.buffer_full++;</span>
-<span class="lineNum">     729 </span><span class="lineCov">     269040 :         goto retry;</span>
+<span class="lineNum">     726 </span><span class="lineCov">     322461 :         lunchbox::Thread::yield( );</span>
+<span class="lineNum">     727 </span><span class="lineCov">     322461 :         if( _sourceptr.isFull( ) || _rptr.isFull( ))</span>
+<span class="lineNum">     728 </span><span class="lineCov">     322461 :             _stats.buffer_full++;</span>
+<span class="lineNum">     729 </span><span class="lineCov">     322461 :         goto retry;</span>
 <span class="lineNum">     730 </span>            :     }
 <span class="lineNum">     731 </span>            : 
 <span class="lineNum">     732 </span>            :     // Modifies _sourceptr.MIDDLE &amp; _rptr.HEAD
-<span class="lineNum">     733 </span><span class="lineCov">     495634 :     if( !_postRDMAWrite( ))</span>
+<span class="lineNum">     733 </span><span class="lineCov">     464638 :     if( !_postRDMAWrite( ))</span>
 <span class="lineNum">     734 </span>            :     {
 <span class="lineNum">     735 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while posting RDMA write.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     736 </span><span class="lineNoCov">          0 :         goto err;</span>
@@ -801,7 +801,7 @@
 <span class="lineNum">     739 </span>            : //    LBWARN &lt;&lt; (void *)this &lt;&lt; std::dec &lt;&lt; &quot;.write(&quot; &lt;&lt; bytes &lt;&lt; &quot;)&quot;
 <span class="lineNum">     740 </span>            : //       &lt;&lt; &quot; put &quot; &lt;&lt; bytes_put &lt;&lt; &quot; bytes&quot; &lt;&lt; std::endl;
 <span class="lineNum">     741 </span>            : 
-<span class="lineNum">     742 </span><span class="lineCov">     495634 :     return bytes_put;</span>
+<span class="lineNum">     742 </span><span class="lineCov">     464638 :     return bytes_put;</span>
 <span class="lineNum">     743 </span>            : 
 <span class="lineNum">     744 </span>            : err:
 <span class="lineNum">     745 </span><span class="lineNoCov">          0 :     return -1LL;</span>
@@ -1588,7 +1588,7 @@
 <span class="lineNum">    1526 </span>            : }
 <a name="1527"><span class="lineNum">    1527 </span>            : </a>
 <span class="lineNum">    1528 </span>            : /* inline */
-<span class="lineNum">    1529 </span><span class="lineCov">     966811 : bool RDMAConnection::_needFC( )</span>
+<span class="lineNum">    1529 </span><span class="lineCov">     907893 : bool RDMAConnection::_needFC( )</span>
 <span class="lineNum">    1530 </span>            : {
 <span class="lineNum">    1531 </span>            :     bool bytesAvail;
 <span class="lineNum">    1532 </span>            : #ifdef _WIN32
@@ -1596,66 +1596,66 @@
 <span class="lineNum">    1534 </span>            :     bytesAvail = ( _availBytes != 0 );
 <span class="lineNum">    1535 </span>            : #else
 <span class="lineNum">    1536 </span>            :     pollfd pfd;
-<span class="lineNum">    1537 </span><span class="lineCov">     966811 :     pfd.fd = _pipe_fd[0];</span>
-<span class="lineNum">    1538 </span><span class="lineCov">     966811 :     pfd.events = EPOLLIN;</span>
-<span class="lineNum">    1539 </span><span class="lineCov">     966811 :     pfd.revents = 0;</span>
-<span class="lineNum">    1540 </span><span class="lineCov">     966811 :     int ret = poll( &amp;pfd, 1, 0 );</span>
-<span class="lineNum">    1541 </span><span class="lineCov">     966811 :     if ( ret == -1 )</span>
+<span class="lineNum">    1537 </span><span class="lineCov">     907893 :     pfd.fd = _pipe_fd[0];</span>
+<span class="lineNum">    1538 </span><span class="lineCov">     907893 :     pfd.events = EPOLLIN;</span>
+<span class="lineNum">    1539 </span><span class="lineCov">     907893 :     pfd.revents = 0;</span>
+<span class="lineNum">    1540 </span><span class="lineCov">     907893 :     int ret = poll( &amp;pfd, 1, 0 );</span>
+<span class="lineNum">    1541 </span><span class="lineCov">     907893 :     if ( ret == -1 )</span>
 <span class="lineNum">    1542 </span>            :     {
 <span class="lineNum">    1543 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;poll: &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1544 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">    1545 </span>            :     }
-<span class="lineNum">    1546 </span><span class="lineCov">     966811 :     bytesAvail = ret != 0;</span>
+<span class="lineNum">    1546 </span><span class="lineCov">     907893 :     bytesAvail = ret != 0;</span>
 <span class="lineNum">    1547 </span>            : #endif
-<span class="lineNum">    1548 </span><span class="lineCov">     966811 :     return ( !bytesAvail || (uint32_t)_writes &gt;= FC_MESSAGE_FREQUENCY );</span>
+<span class="lineNum">    1548 </span><span class="lineCov">     907893 :     return ( !bytesAvail || (uint32_t)_writes &gt;= FC_MESSAGE_FREQUENCY );</span>
 <a name="1549"><span class="lineNum">    1549 </span>            : }</a>
 <span class="lineNum">    1550 </span>            : 
-<span class="lineNum">    1551 </span><span class="lineCov">     214301 : bool RDMAConnection::_postReceives( const uint32_t count )</span>
+<span class="lineNum">    1551 </span><span class="lineCov">     231901 : bool RDMAConnection::_postReceives( const uint32_t count )</span>
 <span class="lineNum">    1552 </span>            : {
-<span class="lineNum">    1553 </span><span class="lineCov">     214301 :     LBASSERT( NULL != _cm_id-&gt;qp );</span>
-<span class="lineNum">    1554 </span><span class="lineCov">     214304 :     LBASSERT( count &gt; 0UL );</span>
+<span class="lineNum">    1553 </span><span class="lineCov">     231901 :     LBASSERT( NULL != _cm_id-&gt;qp );</span>
+<span class="lineNum">    1554 </span><span class="lineCov">     231902 :     LBASSERT( count &gt; 0UL );</span>
 <span class="lineNum">    1555 </span>            : 
-<span class="lineNum">    1556 </span><span class="lineCov">     214301 :     ibv_sge* sge = new ibv_sge[count];</span>
-<span class="lineNum">    1557 </span><span class="lineCov">     214312 :     ibv_recv_wr* wrs = new ibv_recv_wr[count];</span>
+<span class="lineNum">    1556 </span><span class="lineCov">     231902 :     ibv_sge* sge = new ibv_sge[count];</span>
+<span class="lineNum">    1557 </span><span class="lineCov">     231906 :     ibv_recv_wr* wrs = new ibv_recv_wr[count];</span>
 <span class="lineNum">    1558 </span>            : 
-<span class="lineNum">    1559 </span><span class="lineCov">     757373 :     for( uint32_t i = 0UL; i != count; i++ )</span>
+<span class="lineNum">    1559 </span><span class="lineCov">     749514 :     for( uint32_t i = 0UL; i != count; i++ )</span>
 <span class="lineNum">    1560 </span>            :     {
-<span class="lineNum">    1561 </span><span class="lineCov">     543049 :         sge[i].addr = (uint64_t)(uintptr_t)_msgbuf.getBuffer( );</span>
-<span class="lineNum">    1562 </span><span class="lineCov">     543090 :         sge[i].length = uint32_t( _msgbuf.getBufferSize( ));</span>
-<span class="lineNum">    1563 </span><span class="lineCov">     543090 :         sge[i].lkey = _msgbuf.getMR( )-&gt;lkey;</span>
+<span class="lineNum">    1561 </span><span class="lineCov">     517609 :         sge[i].addr = (uint64_t)(uintptr_t)_msgbuf.getBuffer( );</span>
+<span class="lineNum">    1562 </span><span class="lineCov">     517614 :         sge[i].length = uint32_t( _msgbuf.getBufferSize( ));</span>
+<span class="lineNum">    1563 </span><span class="lineCov">     517614 :         sge[i].lkey = _msgbuf.getMR( )-&gt;lkey;</span>
 <span class="lineNum">    1564 </span>            : 
-<span class="lineNum">    1565 </span><span class="lineCov">     543090 :         wrs[i].wr_id = sge[i].addr;</span>
-<span class="lineNum">    1566 </span><span class="lineCov">     543090 :         wrs[i].next = &amp;wrs[i + 1];</span>
-<span class="lineNum">    1567 </span><span class="lineCov">     543090 :         wrs[i].sg_list = &amp;sge[i];</span>
-<span class="lineNum">    1568 </span><span class="lineCov">     543090 :         wrs[i].num_sge = 1;</span>
+<span class="lineNum">    1565 </span><span class="lineCov">     517614 :         wrs[i].wr_id = sge[i].addr;</span>
+<span class="lineNum">    1566 </span><span class="lineCov">     517614 :         wrs[i].next = &amp;wrs[i + 1];</span>
+<span class="lineNum">    1567 </span><span class="lineCov">     517614 :         wrs[i].sg_list = &amp;sge[i];</span>
+<span class="lineNum">    1568 </span><span class="lineCov">     517614 :         wrs[i].num_sge = 1;</span>
 <span class="lineNum">    1569 </span>            :     }
-<span class="lineNum">    1570 </span><span class="lineCov">     214324 :     wrs[count - 1].next = NULL;</span>
+<span class="lineNum">    1570 </span><span class="lineCov">     231905 :     wrs[count - 1].next = NULL;</span>
 <span class="lineNum">    1571 </span>            : 
 <span class="lineNum">    1572 </span>            :     struct ibv_recv_wr *bad_wr;
 <span class="lineNum">    1573 </span>            :     const bool error =
-<span class="lineNum">    1574 </span><span class="lineCov">     214324 :         ::rdma_seterrno( ::ibv_post_recv( _cm_id-&gt;qp, wrs, &amp;bad_wr ));</span>
+<span class="lineNum">    1574 </span><span class="lineCov">     231905 :         ::rdma_seterrno( ::ibv_post_recv( _cm_id-&gt;qp, wrs, &amp;bad_wr ));</span>
 <span class="lineNum">    1575 </span>            : 
-<span class="lineNum">    1576 </span><span class="lineCov">     214315 :     delete[] sge;</span>
-<span class="lineNum">    1577 </span><span class="lineCov">     214312 :     delete[] wrs;</span>
+<span class="lineNum">    1576 </span><span class="lineCov">     231904 :     delete[] sge;</span>
+<span class="lineNum">    1577 </span><span class="lineCov">     231904 :     delete[] wrs;</span>
 <span class="lineNum">    1578 </span>            : 
-<span class="lineNum">    1579 </span><span class="lineCov">     214302 :     if( error )</span>
+<span class="lineNum">    1579 </span><span class="lineCov">     231904 :     if( error )</span>
 <span class="lineNum">    1580 </span>            :     {
 <span class="lineNum">    1581 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;ibv_post_recv : &quot;  &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1582 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1583 </span>            :     }
 <span class="lineNum">    1584 </span>            : 
-<span class="lineNum">    1585 </span><span class="lineCov">     214302 :     return true;</span>
+<span class="lineNum">    1585 </span><span class="lineCov">     231904 :     return true;</span>
 <span class="lineNum">    1586 </span>            : }
 <a name="1587"><span class="lineNum">    1587 </span>            : </a>
 <span class="lineNum">    1588 </span>            : /* inline */
-<span class="lineNum">    1589 </span><span class="lineCov">     495634 : void RDMAConnection::_recvRDMAWrite( const uint32_t imm_data )</span>
+<span class="lineNum">    1589 </span><span class="lineCov">     464638 : void RDMAConnection::_recvRDMAWrite( const uint32_t imm_data )</span>
 <span class="lineNum">    1590 </span>            : {
 <span class="lineNum">    1591 </span>            :     union
 <span class="lineNum">    1592 </span>            :     {
 <span class="lineNum">    1593 </span>            :         uint32_t val;
 <span class="lineNum">    1594 </span>            :         RDMAFCImm fc;
 <span class="lineNum">    1595 </span>            :     } x;
-<span class="lineNum">    1596 </span><span class="lineCov">     495634 :     x.val = ntohl( imm_data );</span>
+<span class="lineNum">    1596 </span><span class="lineCov">     464638 :     x.val = ntohl( imm_data );</span>
 <span class="lineNum">    1597 </span>            : 
 <span class="lineNum">    1598 </span>            :     // Analysis:
 <span class="lineNum">    1599 </span>            :     //
@@ -1663,17 +1663,17 @@
 <span class="lineNum">    1601 </span>            :     // value here would at worst only result in us reading arbitrary regions
 <span class="lineNum">    1602 </span>            :     // from our sink buffer, not segfaulting.  If the other side wanted us to
 <span class="lineNum">    1603 </span>            :     // reread a previous message it should just resend it!
-<span class="lineNum">    1604 </span><span class="lineCov">     495634 :     _sinkptr.incrHead( x.fc.bytes_sent );</span>
-<span class="lineNum">    1605 </span><span class="lineCov">     495634 :     _incrAvailableBytes( x.fc.bytes_sent );</span>
+<span class="lineNum">    1604 </span><span class="lineCov">     464638 :     _sinkptr.incrHead( x.fc.bytes_sent );</span>
+<span class="lineNum">    1605 </span><span class="lineCov">     464638 :     _incrAvailableBytes( x.fc.bytes_sent );</span>
 <span class="lineNum">    1606 </span>            : 
-<span class="lineNum">    1607 </span><span class="lineCov">     495634 :     _fcredits += x.fc.fcs_received;</span>
-<span class="lineNum">    1608 </span><span class="lineCov">     495634 :     LBASSERTINFO( _fcredits &lt;= _depth, _fcredits &lt;&lt; &quot; &gt; &quot; &lt;&lt; _depth );</span>
+<span class="lineNum">    1607 </span><span class="lineCov">     464638 :     _fcredits += x.fc.fcs_received;</span>
+<span class="lineNum">    1608 </span><span class="lineCov">     464638 :     LBASSERTINFO( _fcredits &lt;= _depth, _fcredits &lt;&lt; &quot; &gt; &quot; &lt;&lt; _depth );</span>
 <span class="lineNum">    1609 </span>            : 
-<span class="lineNum">    1610 </span><span class="lineCov">     495634 :     _writes++;</span>
-<span class="lineNum">    1611 </span><span class="lineCov">     495634 : }</span>
+<span class="lineNum">    1610 </span><span class="lineCov">     464638 :     _writes++;</span>
+<span class="lineNum">    1611 </span><span class="lineCov">     464638 : }</span>
 <a name="1612"><span class="lineNum">    1612 </span>            : </a>
 <span class="lineNum">    1613 </span>            : /* inline */
-<span class="lineNum">    1614 </span><span class="lineCov">     495634 : uint32_t RDMAConnection::_makeImm( const uint32_t b )</span>
+<span class="lineNum">    1614 </span><span class="lineCov">     464638 : uint32_t RDMAConnection::_makeImm( const uint32_t b )</span>
 <span class="lineNum">    1615 </span>            : {
 <span class="lineNum">    1616 </span>            :     union
 <span class="lineNum">    1617 </span>            :     {
@@ -1681,79 +1681,79 @@
 <span class="lineNum">    1619 </span>            :         RDMAFCImm fc;
 <span class="lineNum">    1620 </span>            :     } x;
 <span class="lineNum">    1621 </span>            : 
-<span class="lineNum">    1622 </span><span class="lineCov">     495634 :     x.fc.fcs_received = std::min( MAX_FC, static_cast&lt; uint16_t &gt;( _fcs ));</span>
-<span class="lineNum">    1623 </span><span class="lineCov">     495634 :     _fcs -= x.fc.fcs_received;</span>
-<span class="lineNum">    1624 </span><span class="lineCov">     495634 :     LBASSERT( _fcs &gt;= 0 );</span>
+<span class="lineNum">    1622 </span><span class="lineCov">     464638 :     x.fc.fcs_received = std::min( MAX_FC, static_cast&lt; uint16_t &gt;( _fcs ));</span>
+<span class="lineNum">    1623 </span><span class="lineCov">     464638 :     _fcs -= x.fc.fcs_received;</span>
+<span class="lineNum">    1624 </span><span class="lineCov">     464638 :     LBASSERT( _fcs &gt;= 0 );</span>
 <span class="lineNum">    1625 </span>            : 
-<span class="lineNum">    1626 </span><span class="lineCov">     495634 :     LBASSERT( b &lt;= MAX_BS );</span>
-<span class="lineNum">    1627 </span><span class="lineCov">     495634 :     x.fc.bytes_sent = b;</span>
+<span class="lineNum">    1626 </span><span class="lineCov">     464638 :     LBASSERT( b &lt;= MAX_BS );</span>
+<span class="lineNum">    1627 </span><span class="lineCov">     464638 :     x.fc.bytes_sent = b;</span>
 <span class="lineNum">    1628 </span>            : 
-<span class="lineNum">    1629 </span><span class="lineCov">     495634 :     return htonl( x.val );</span>
+<span class="lineNum">    1629 </span><span class="lineCov">     464638 :     return htonl( x.val );</span>
 <a name="1630"><span class="lineNum">    1630 </span>            : }</a>
 <span class="lineNum">    1631 </span>            : 
-<span class="lineNum">    1632 </span><span class="lineCov">     495634 : bool RDMAConnection::_postRDMAWrite( )</span>
+<span class="lineNum">    1632 </span><span class="lineCov">     464638 : bool RDMAConnection::_postRDMAWrite( )</span>
 <span class="lineNum">    1633 </span>            : {
 <span class="lineNum">    1634 </span>            :     struct ibv_sge sge;
 <span class="lineNum">    1635 </span>            :     struct ibv_send_wr wr;
 <span class="lineNum">    1636 </span>            : 
-<span class="lineNum">    1637 </span><span class="lineCov">     991268 :     sge.addr = (uint64_t)( (uintptr_t)_sourcebuf.getBase( ) +</span>
-<span class="lineNum">    1638 </span><span class="lineCov">     495634 :         _sourceptr.ptr( _sourceptr.MIDDLE ));</span>
-<span class="lineNum">    1639 </span><span class="lineCov">     495634 :     sge.length = (uint64_t)_sourceptr.available( _sourceptr.HEAD,</span>
+<span class="lineNum">    1637 </span><span class="lineCov">     929276 :     sge.addr = (uint64_t)( (uintptr_t)_sourcebuf.getBase( ) +</span>
+<span class="lineNum">    1638 </span><span class="lineCov">     464638 :         _sourceptr.ptr( _sourceptr.MIDDLE ));</span>
+<span class="lineNum">    1639 </span><span class="lineCov">     464638 :     sge.length = (uint64_t)_sourceptr.available( _sourceptr.HEAD,</span>
 <span class="lineNum">    1640 </span>            :         _sourceptr.MIDDLE );
-<span class="lineNum">    1641 </span><span class="lineCov">     495634 :     sge.lkey = _sourcebuf.getMR( )-&gt;lkey;</span>
-<span class="lineNum">    1642 </span><span class="lineCov">     495634 :     _sourceptr.incr( _sourceptr.MIDDLE, (uint32_t)sge.length );</span>
+<span class="lineNum">    1641 </span><span class="lineCov">     464638 :     sge.lkey = _sourcebuf.getMR( )-&gt;lkey;</span>
+<span class="lineNum">    1642 </span><span class="lineCov">     464638 :     _sourceptr.incr( _sourceptr.MIDDLE, (uint32_t)sge.length );</span>
 <span class="lineNum">    1643 </span>            : 
-<span class="lineNum">    1644 </span><span class="lineCov">     495634 :     wr.wr_id = (uint64_t)sge.length;</span>
-<span class="lineNum">    1645 </span><span class="lineCov">     495634 :     wr.next = NULL;</span>
-<span class="lineNum">    1646 </span><span class="lineCov">     495634 :     wr.sg_list = &amp;sge;</span>
-<span class="lineNum">    1647 </span><span class="lineCov">     495634 :     wr.num_sge = 1;</span>
-<span class="lineNum">    1648 </span><span class="lineCov">     495634 :     wr.opcode = IBV_WR_RDMA_WRITE_WITH_IMM;</span>
-<span class="lineNum">    1649 </span><span class="lineCov">     495634 :     wr.send_flags = IBV_SEND_SOLICITED; // Important!</span>
-<span class="lineNum">    1650 </span><span class="lineCov">     495634 :     wr.imm_data = _makeImm( (uint32_t)sge.length );</span>
-<span class="lineNum">    1651 </span><span class="lineCov">     495634 :     wr.wr.rdma.rkey = _rkey;</span>
-<span class="lineNum">    1652 </span><span class="lineCov">     991268 :     wr.wr.rdma.remote_addr = (uint64_t)( (uintptr_t)_rbase +</span>
-<span class="lineNum">    1653 </span><span class="lineCov">     495634 :         _rptr.ptr( _rptr.HEAD ));</span>
-<span class="lineNum">    1654 </span><span class="lineCov">     495634 :     _rptr.incrHead( (uint32_t)sge.length );</span>
+<span class="lineNum">    1644 </span><span class="lineCov">     464638 :     wr.wr_id = (uint64_t)sge.length;</span>
+<span class="lineNum">    1645 </span><span class="lineCov">     464638 :     wr.next = NULL;</span>
+<span class="lineNum">    1646 </span><span class="lineCov">     464638 :     wr.sg_list = &amp;sge;</span>
+<span class="lineNum">    1647 </span><span class="lineCov">     464638 :     wr.num_sge = 1;</span>
+<span class="lineNum">    1648 </span><span class="lineCov">     464638 :     wr.opcode = IBV_WR_RDMA_WRITE_WITH_IMM;</span>
+<span class="lineNum">    1649 </span><span class="lineCov">     464638 :     wr.send_flags = IBV_SEND_SOLICITED; // Important!</span>
+<span class="lineNum">    1650 </span><span class="lineCov">     464638 :     wr.imm_data = _makeImm( (uint32_t)sge.length );</span>
+<span class="lineNum">    1651 </span><span class="lineCov">     464638 :     wr.wr.rdma.rkey = _rkey;</span>
+<span class="lineNum">    1652 </span><span class="lineCov">     929276 :     wr.wr.rdma.remote_addr = (uint64_t)( (uintptr_t)_rbase +</span>
+<span class="lineNum">    1653 </span><span class="lineCov">     464638 :         _rptr.ptr( _rptr.HEAD ));</span>
+<span class="lineNum">    1654 </span><span class="lineCov">     464638 :     _rptr.incrHead( (uint32_t)sge.length );</span>
 <span class="lineNum">    1655 </span>            : 
-<span class="lineNum">    1656 </span><span class="lineCov">     495634 :     _wcredits--;</span>
-<span class="lineNum">    1657 </span><span class="lineCov">     495634 :     LBASSERT( _wcredits &gt;= 0L );</span>
+<span class="lineNum">    1656 </span><span class="lineCov">     464638 :     _wcredits--;</span>
+<span class="lineNum">    1657 </span><span class="lineCov">     464638 :     LBASSERT( _wcredits &gt;= 0L );</span>
 <span class="lineNum">    1658 </span>            : 
 <span class="lineNum">    1659 </span>            :     struct ibv_send_wr *bad_wr;
-<span class="lineNum">    1660 </span><span class="lineCov">     495634 :     if( ::rdma_seterrno( ::ibv_post_send( _cm_id-&gt;qp, &amp;wr, &amp;bad_wr )))</span>
+<span class="lineNum">    1660 </span><span class="lineCov">     464638 :     if( ::rdma_seterrno( ::ibv_post_send( _cm_id-&gt;qp, &amp;wr, &amp;bad_wr )))</span>
 <span class="lineNum">    1661 </span>            :     {
 <span class="lineNum">    1662 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;ibv_post_send : &quot;  &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1663 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1664 </span>            :     }
 <span class="lineNum">    1665 </span>            : 
-<span class="lineNum">    1666 </span><span class="lineCov">     495634 :     return true;</span>
+<span class="lineNum">    1666 </span><span class="lineCov">     464638 :     return true;</span>
 <a name="1667"><span class="lineNum">    1667 </span>            : }</a>
 <span class="lineNum">    1668 </span>            : 
-<span class="lineNum">    1669 </span><span class="lineCov">      45477 : bool RDMAConnection::_postMessage( const RDMAMessage &amp;message )</span>
+<span class="lineNum">    1669 </span><span class="lineCov">      50998 : bool RDMAConnection::_postMessage( const RDMAMessage &amp;message )</span>
 <span class="lineNum">    1670 </span>            : {
-<span class="lineNum">    1671 </span><span class="lineCov">      45477 :     _fcredits--;</span>
-<span class="lineNum">    1672 </span><span class="lineCov">      45477 :     LBASSERT( _fcredits &gt;= 0L );</span>
+<span class="lineNum">    1671 </span><span class="lineCov">      50998 :     _fcredits--;</span>
+<span class="lineNum">    1672 </span><span class="lineCov">      50998 :     LBASSERT( _fcredits &gt;= 0L );</span>
 <span class="lineNum">    1673 </span>            : 
-<span class="lineNum">    1674 </span><span class="lineCov">      90954 :     if( ::rdma_post_send( _cm_id, (void *)&amp;message, (void *)&amp;message,</span>
-<span class="lineNum">    1675 </span><span class="lineCov">      45477 :             offsetof( RDMAMessage, payload ) + message.length, _msgbuf.getMR( ),</span>
+<span class="lineNum">    1674 </span><span class="lineCov">     101996 :     if( ::rdma_post_send( _cm_id, (void *)&amp;message, (void *)&amp;message,</span>
+<span class="lineNum">    1675 </span><span class="lineCov">      50998 :             offsetof( RDMAMessage, payload ) + message.length, _msgbuf.getMR( ),</span>
 <span class="lineNum">    1676 </span>            :             0 ))
 <span class="lineNum">    1677 </span>            :     {
 <span class="lineNum">    1678 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;rdma_post_send : &quot;  &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1679 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1680 </span>            :     }
 <span class="lineNum">    1681 </span>            : 
-<span class="lineNum">    1682 </span><span class="lineCov">      45477 :     return true;</span>
+<span class="lineNum">    1682 </span><span class="lineCov">      50998 :     return true;</span>
 <a name="1683"><span class="lineNum">    1683 </span>            : }</a>
 <span class="lineNum">    1684 </span>            : 
-<span class="lineNum">    1685 </span><span class="lineCov">      45408 : void RDMAConnection::_recvMessage( const RDMAMessage &amp;message )</span>
+<span class="lineNum">    1685 </span><span class="lineCov">      50929 : void RDMAConnection::_recvMessage( const RDMAMessage &amp;message )</span>
 <span class="lineNum">    1686 </span>            : {
-<span class="lineNum">    1687 </span><span class="lineCov">      45408 :     switch( message.opcode )</span>
+<span class="lineNum">    1687 </span><span class="lineCov">      50929 :     switch( message.opcode )</span>
 <span class="lineNum">    1688 </span>            :     {
 <span class="lineNum">    1689 </span>            :         case FC:
-<span class="lineNum">    1690 </span><span class="lineCov">      45404 :             if( sizeof(struct RDMAFCPayload) == (size_t)message.length )</span>
-<span class="lineNum">    1691 </span><span class="lineCov">      45404 :                 _recvFC( message.payload.fc );</span>
+<span class="lineNum">    1690 </span><span class="lineCov">      50925 :             if( sizeof(struct RDMAFCPayload) == (size_t)message.length )</span>
+<span class="lineNum">    1691 </span><span class="lineCov">      50925 :                 _recvFC( message.payload.fc );</span>
 <span class="lineNum">    1692 </span>            :             else
 <span class="lineNum">    1693 </span><span class="lineNoCov">          0 :                 LBWARN &lt;&lt; &quot;Invalid flow control message received!&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1694 </span><span class="lineCov">      45404 :             break;</span>
+<span class="lineNum">    1694 </span><span class="lineCov">      50925 :             break;</span>
 <span class="lineNum">    1695 </span>            :         case SETUP:
 <span class="lineNum">    1696 </span><span class="lineCov">          4 :             if( sizeof(struct RDMASetupPayload) == (size_t)message.length )</span>
 <span class="lineNum">    1697 </span><span class="lineCov">          4 :                 _recvSetup( message.payload.setup );</span>
@@ -1764,10 +1764,10 @@
 <span class="lineNum">    1702 </span><span class="lineNoCov">          0 :             LBWARN &lt;&lt; &quot;Invalid message received: &quot;</span>
 <span class="lineNum">    1703 </span><span class="lineNoCov">          0 :                 &lt;&lt; std::hex &lt;&lt; (int)message.opcode &lt;&lt; std::dec &lt;&lt; std::endl;</span>
 <span class="lineNum">    1704 </span>            :     }
-<span class="lineNum">    1705 </span><span class="lineCov">      45408 : }</span>
+<span class="lineNum">    1705 </span><span class="lineCov">      50929 : }</span>
 <a name="1706"><span class="lineNum">    1706 </span>            : </a>
 <span class="lineNum">    1707 </span>            : /* inline */
-<span class="lineNum">    1708 </span><span class="lineCov">      45404 : void RDMAConnection::_recvFC( const RDMAFCPayload &amp;fc )</span>
+<span class="lineNum">    1708 </span><span class="lineCov">      50925 : void RDMAConnection::_recvFC( const RDMAFCPayload &amp;fc )</span>
 <span class="lineNum">    1709 </span>            : {
 <span class="lineNum">    1710 </span>            :     // Analysis:
 <span class="lineNum">    1711 </span>            :     //
@@ -1777,29 +1777,29 @@
 <span class="lineNum">    1715 </span>            :     // control over those ring pointers.  Worst case, we'd and up writing to
 <span class="lineNum">    1716 </span>            :     // arbitrary regions of the remote buffer, since this ring pointer is
 <span class="lineNum">    1717 </span>            :     // circular as well.
-<span class="lineNum">    1718 </span><span class="lineCov">      45404 :     _rptr.incrTail( fc.bytes_received );</span>
+<span class="lineNum">    1718 </span><span class="lineCov">      50925 :     _rptr.incrTail( fc.bytes_received );</span>
 <span class="lineNum">    1719 </span>            : 
-<span class="lineNum">    1720 </span><span class="lineCov">      45404 :     _wcredits += fc.writes_received;</span>
-<span class="lineNum">    1721 </span><span class="lineCov">      45404 :     LBASSERTINFO( _wcredits &lt;= _depth, _wcredits &lt;&lt; &quot; &gt; &quot; &lt;&lt; _depth );</span>
+<span class="lineNum">    1720 </span><span class="lineCov">      50925 :     _wcredits += fc.writes_received;</span>
+<span class="lineNum">    1721 </span><span class="lineCov">      50925 :     LBASSERTINFO( _wcredits &lt;= _depth, _wcredits &lt;&lt; &quot; &gt; &quot; &lt;&lt; _depth );</span>
 <span class="lineNum">    1722 </span>            : 
-<span class="lineNum">    1723 </span><span class="lineCov">      45404 :     _fcs++;</span>
-<a name="1724"><span class="lineNum">    1724 </span><span class="lineCov">      45404 : }</span></a>
+<span class="lineNum">    1723 </span><span class="lineCov">      50925 :     _fcs++;</span>
+<a name="1724"><span class="lineNum">    1724 </span><span class="lineCov">      50925 : }</span></a>
 <span class="lineNum">    1725 </span>            : 
-<span class="lineNum">    1726 </span><span class="lineCov">      45473 : bool RDMAConnection::_postFC()</span>
+<span class="lineNum">    1726 </span><span class="lineCov">      50994 : bool RDMAConnection::_postFC()</span>
 <span class="lineNum">    1727 </span>            : {
 <span class="lineNum">    1728 </span>            :     RDMAMessage &amp;message =
-<span class="lineNum">    1729 </span><span class="lineCov">      45473 :         *reinterpret_cast&lt; RDMAMessage * &gt;( _msgbuf.getBuffer( ));</span>
+<span class="lineNum">    1729 </span><span class="lineCov">      50994 :         *reinterpret_cast&lt; RDMAMessage * &gt;( _msgbuf.getBuffer( ));</span>
 <span class="lineNum">    1730 </span>            : 
-<span class="lineNum">    1731 </span><span class="lineCov">      45473 :     message.opcode = FC;</span>
-<span class="lineNum">    1732 </span><span class="lineCov">      45473 :     message.length = (uint8_t)sizeof(struct RDMAFCPayload);</span>
+<span class="lineNum">    1731 </span><span class="lineCov">      50994 :     message.opcode = FC;</span>
+<span class="lineNum">    1732 </span><span class="lineCov">      50994 :     message.length = (uint8_t)sizeof(struct RDMAFCPayload);</span>
 <span class="lineNum">    1733 </span>            : 
-<span class="lineNum">    1734 </span><span class="lineCov">      45473 :     message.payload.fc.bytes_received = _readBytes;</span>
-<span class="lineNum">    1735 </span><span class="lineCov">      45473 :     message.payload.fc.writes_received = _writes;</span>
-<span class="lineNum">    1736 </span><span class="lineCov">      45473 :     _writes -= message.payload.fc.writes_received;</span>
-<span class="lineNum">    1737 </span><span class="lineCov">      45473 :     _readBytes = 0;</span>
+<span class="lineNum">    1734 </span><span class="lineCov">      50994 :     message.payload.fc.bytes_received = _readBytes;</span>
+<span class="lineNum">    1735 </span><span class="lineCov">      50994 :     message.payload.fc.writes_received = _writes;</span>
+<span class="lineNum">    1736 </span><span class="lineCov">      50994 :     _writes -= message.payload.fc.writes_received;</span>
+<span class="lineNum">    1737 </span><span class="lineCov">      50994 :     _readBytes = 0;</span>
 <span class="lineNum">    1738 </span>            : 
-<span class="lineNum">    1739 </span><span class="lineCov">      45473 :     LBASSERT( _writes &gt;= 0 );</span>
-<span class="lineNum">    1740 </span><span class="lineCov">      45473 :     return _postMessage( message );</span>
+<span class="lineNum">    1739 </span><span class="lineCov">      50994 :     LBASSERT( _writes &gt;= 0 );</span>
+<span class="lineNum">    1740 </span><span class="lineCov">      50994 :     return _postMessage( message );</span>
 <a name="1741"><span class="lineNum">    1741 </span>            : }</a>
 <span class="lineNum">    1742 </span>            : 
 <span class="lineNum">    1743 </span><span class="lineCov">          4 : void RDMAConnection::_recvSetup( const RDMASetupPayload &amp;setup )</span>
@@ -1840,37 +1840,37 @@
 <span class="lineNum">    1778 </span><span class="lineCov">          4 :     eventset events;</span>
 <span class="lineNum">    1779 </span>            : 
 <span class="lineNum">    1780 </span>            : retry:
-<span class="lineNum">    1781 </span><span class="lineCov">         34 :     if( !_checkDisconnected( events ))</span>
+<span class="lineNum">    1781 </span><span class="lineCov">         70 :     if( !_checkDisconnected( events ))</span>
 <span class="lineNum">    1782 </span>            :     {
 <span class="lineNum">    1783 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while checking event state.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1784 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1785 </span>            :     }
 <span class="lineNum">    1786 </span>            : 
-<span class="lineNum">    1787 </span><span class="lineCov">         34 :     if( !_established )</span>
+<span class="lineNum">    1787 </span><span class="lineCov">         70 :     if( !_established )</span>
 <span class="lineNum">    1788 </span>            :     {
 <span class="lineNum">    1789 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Disconnected while waiting for setup message.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1790 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1791 </span>            :     }
 <span class="lineNum">    1792 </span>            : 
-<span class="lineNum">    1793 </span><span class="lineCov">         34 :     if( !_checkCQ( true ))</span>
+<span class="lineNum">    1793 </span><span class="lineCov">         70 :     if( !_checkCQ( true ))</span>
 <span class="lineNum">    1794 </span>            :     {
 <span class="lineNum">    1795 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while polling receive completion queue.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1796 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1797 </span>            :     }
 <span class="lineNum">    1798 </span>            : 
-<span class="lineNum">    1799 </span><span class="lineCov">         34 :     if( 0ULL == _rkey )</span>
+<span class="lineNum">    1799 </span><span class="lineCov">         70 :     if( 0ULL == _rkey )</span>
 <span class="lineNum">    1800 </span>            :     {
-<span class="lineNum">    1801 </span><span class="lineCov">         30 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
+<span class="lineNum">    1801 </span><span class="lineCov">         66 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
 <span class="lineNum">    1802 </span>            :         {
-<span class="lineNum">    1803 </span><span class="lineCov">         30 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
+<span class="lineNum">    1803 </span><span class="lineCov">         66 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
 <span class="lineNum">    1804 </span>            :             {
 <span class="lineNum">    1805 </span><span class="lineNoCov">          0 :                 LBERROR &lt;&lt; &quot;Timed out waiting for setup message.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1806 </span><span class="lineNoCov">          0 :                 return false;</span>
 <span class="lineNum">    1807 </span>            :             }
 <span class="lineNum">    1808 </span>            :         }
 <span class="lineNum">    1809 </span>            : 
-<span class="lineNum">    1810 </span><span class="lineCov">         30 :         lunchbox::Thread::yield( );</span>
-<span class="lineNum">    1811 </span><span class="lineCov">         30 :         goto retry;</span>
+<span class="lineNum">    1810 </span><span class="lineCov">         66 :         lunchbox::Thread::yield( );</span>
+<span class="lineNum">    1811 </span><span class="lineCov">         66 :         goto retry;</span>
 <span class="lineNum">    1812 </span>            :     }
 <span class="lineNum">    1813 </span>            : 
 <span class="lineNum">    1814 </span><span class="lineCov">          4 :     return true;</span>
@@ -1909,9 +1909,9 @@
 <span class="lineNum">    1847 </span>            : #endif
 <a name="1848"><span class="lineNum">    1848 </span><span class="lineCov">          6 : }</span></a>
 <span class="lineNum">    1849 </span>            : 
-<span class="lineNum">    1850 </span><span class="lineCov">    1354176 : bool RDMAConnection::_checkEvents( eventset &amp;events )</span>
+<span class="lineNum">    1850 </span><span class="lineCov">    1338718 : bool RDMAConnection::_checkEvents( eventset &amp;events )</span>
 <span class="lineNum">    1851 </span>            : {
-<span class="lineNum">    1852 </span><span class="lineCov">    1354176 :     events.reset( );</span>
+<span class="lineNum">    1852 </span><span class="lineCov">    1338718 :     events.reset( );</span>
 <span class="lineNum">    1853 </span>            : 
 <span class="lineNum">    1854 </span>            : #ifdef _WIN32
 <span class="lineNum">    1855 </span>            :     lunchbox::ScopedFastRead mutex( _eventLock );
@@ -1926,41 +1926,41 @@
 <span class="lineNum">    1864 </span>            : #else
 <span class="lineNum">    1865 </span>            :     struct epoll_event evts[3];
 <span class="lineNum">    1866 </span>            : 
-<span class="lineNum">    1867 </span><span class="lineCov">    1354142 :     int nfds = TEMP_FAILURE_RETRY( ::epoll_wait( _notifier, evts, 3, 0 ));</span>
-<span class="lineNum">    1868 </span><span class="lineCov">    1352320 :     if( nfds &lt; 0 )</span>
+<span class="lineNum">    1867 </span><span class="lineCov">    1338573 :     int nfds = TEMP_FAILURE_RETRY( ::epoll_wait( _notifier, evts, 3, 0 ));</span>
+<span class="lineNum">    1868 </span><span class="lineCov">    1335287 :     if( nfds &lt; 0 )</span>
 <span class="lineNum">    1869 </span>            :     {
 <span class="lineNum">    1870 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;epoll_wait : &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1871 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1872 </span>            :     }
 <span class="lineNum">    1873 </span>            : 
-<span class="lineNum">    1874 </span><span class="lineCov">    1901571 :     for( int i = 0; i &lt; nfds; i++ )</span>
+<span class="lineNum">    1874 </span><span class="lineCov">    1865258 :     for( int i = 0; i &lt; nfds; i++ )</span>
 <span class="lineNum">    1875 </span>            :     {
-<span class="lineNum">    1876 </span><span class="lineCov">     549244 :         const int fd = evts[i].data.fd;</span>
-<span class="lineNum">    1877 </span><span class="lineCov">     549244 :         if(( _pipe_fd[0] &gt;= 0 ) &amp;&amp; ( fd == _pipe_fd[0] ))</span>
-<span class="lineNum">    1878 </span><span class="lineCov">     469706 :             events.set( BUF_EVENT );</span>
-<span class="lineNum">    1879 </span><span class="lineCov">      79538 :         else if( _cc &amp;&amp; ( fd == _cc-&gt;fd ))</span>
-<span class="lineNum">    1880 </span><span class="lineCov">      79526 :             events.set( CQ_EVENT );</span>
+<span class="lineNum">    1876 </span><span class="lineCov">     529932 :         const int fd = evts[i].data.fd;</span>
+<span class="lineNum">    1877 </span><span class="lineCov">     529932 :         if(( _pipe_fd[0] &gt;= 0 ) &amp;&amp; ( fd == _pipe_fd[0] ))</span>
+<span class="lineNum">    1878 </span><span class="lineCov">     442789 :             events.set( BUF_EVENT );</span>
+<span class="lineNum">    1879 </span><span class="lineCov">      87143 :         else if( _cc &amp;&amp; ( fd == _cc-&gt;fd ))</span>
+<span class="lineNum">    1880 </span><span class="lineCov">      87131 :             events.set( CQ_EVENT );</span>
 <span class="lineNum">    1881 </span><span class="lineCov">         12 :         else if( _cm &amp;&amp; ( fd == _cm-&gt;fd ))</span>
 <span class="lineNum">    1882 </span><span class="lineCov">         12 :             events.set( CM_EVENT );</span>
 <span class="lineNum">    1883 </span>            :         else
 <span class="lineNum">    1884 </span><span class="lineNoCov">          0 :             LBUNREACHABLE;</span>
 <span class="lineNum">    1885 </span>            :     }
 <span class="lineNum">    1886 </span>            : 
-<span class="lineNum">    1887 </span><span class="lineCov">    1352327 :     return true;</span>
+<span class="lineNum">    1887 </span><span class="lineCov">    1335326 :     return true;</span>
 <span class="lineNum">    1888 </span>            : #endif
 <a name="1889"><span class="lineNum">    1889 </span>            : }</a>
 <span class="lineNum">    1890 </span>            : 
-<span class="lineNum">    1891 </span><span class="lineCov">    1259949 : bool RDMAConnection::_checkDisconnected( eventset &amp;events )</span>
+<span class="lineNum">    1891 </span><span class="lineCov">    1250666 : bool RDMAConnection::_checkDisconnected( eventset &amp;events )</span>
 <span class="lineNum">    1892 </span>            : {
-<span class="lineNum">    1893 </span><span class="lineCov">    2518148 :     lunchbox::ScopedWrite poll_mutex( _poll_lock );</span>
+<span class="lineNum">    1893 </span><span class="lineCov">    2498300 :     lunchbox::ScopedWrite poll_mutex( _poll_lock );</span>
 <span class="lineNum">    1894 </span>            : 
-<span class="lineNum">    1895 </span><span class="lineCov">    1261819 :     if( !_checkEvents( events ))</span>
+<span class="lineNum">    1895 </span><span class="lineCov">    1252069 :     if( !_checkEvents( events ))</span>
 <span class="lineNum">    1896 </span>            :     {
 <span class="lineNum">    1897 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while checking event state.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1898 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1899 </span>            :     }
 <span class="lineNum">    1900 </span>            : 
-<span class="lineNum">    1901 </span><span class="lineCov">    1258177 :     if( events.test( CM_EVENT ))</span>
+<span class="lineNum">    1901 </span><span class="lineCov">    1247736 :     if( events.test( CM_EVENT ))</span>
 <span class="lineNum">    1902 </span>            :     {
 <span class="lineNum">    1903 </span><span class="lineCov">          2 :         if( !_doCMEvent( RDMA_CM_EVENT_DISCONNECTED ))</span>
 <span class="lineNum">    1904 </span>            :         {
@@ -1971,7 +1971,7 @@
 <span class="lineNum">    1909 </span><span class="lineCov">          2 :         LBASSERT( !_established );</span>
 <span class="lineNum">    1910 </span>            :     }
 <span class="lineNum">    1911 </span>            : 
-<span class="lineNum">    1912 </span><span class="lineCov">    1258199 :     return true;</span>
+<span class="lineNum">    1912 </span><span class="lineCov">    1247634 :     return true;</span>
 <a name="1913"><span class="lineNum">    1913 </span>            : }</a>
 <span class="lineNum">    1914 </span>            : 
 <span class="lineNum">    1915 </span><span class="lineCov">          4 : bool RDMAConnection::_createBytesAvailableFD( )</span>
@@ -1999,59 +1999,59 @@
 <span class="lineNum">    1937 </span><span class="lineCov">          4 :     return true;</span>
 <a name="1938"><span class="lineNum">    1938 </span>            : }</a>
 <span class="lineNum">    1939 </span>            : 
-<span class="lineNum">    1940 </span><span class="lineCov">     939333 : bool RDMAConnection::_incrAvailableBytes( const uint64_t b )</span>
+<span class="lineNum">    1940 </span><span class="lineCov">     886782 : bool RDMAConnection::_incrAvailableBytes( const uint64_t b )</span>
 <span class="lineNum">    1941 </span>            : {
 <span class="lineNum">    1942 </span>            : #ifdef _WIN32
 <span class="lineNum">    1943 </span>            :     lunchbox::ScopedFastWrite mutex( _eventLock );
 <span class="lineNum">    1944 </span>            :     _availBytes += b;
 <span class="lineNum">    1945 </span>            :     ::SetEvent( _notifier );
 <span class="lineNum">    1946 </span>            : #else
-<span class="lineNum">    1947 </span><span class="lineCov">     939333 :     if( ::write( _pipe_fd[1], (const void *)&amp;b, sizeof(b) ) != sizeof(b) )</span>
+<span class="lineNum">    1947 </span><span class="lineCov">     886782 :     if( ::write( _pipe_fd[1], (const void *)&amp;b, sizeof(b) ) != sizeof(b) )</span>
 <span class="lineNum">    1948 </span>            :     {
 <span class="lineNum">    1949 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;write : &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1950 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    1951 </span>            :     }
 <span class="lineNum">    1952 </span>            : #endif
-<span class="lineNum">    1953 </span><span class="lineCov">     939333 :     return true;</span>
+<span class="lineNum">    1953 </span><span class="lineCov">     886782 :     return true;</span>
 <a name="1954"><span class="lineNum">    1954 </span>            : }</a>
 <span class="lineNum">    1955 </span>            : 
-<span class="lineNum">    1956 </span><span class="lineCov">     469706 : uint64_t RDMAConnection::_getAvailableBytes( )</span>
+<span class="lineNum">    1956 </span><span class="lineCov">     442789 : uint64_t RDMAConnection::_getAvailableBytes( )</span>
 <span class="lineNum">    1957 </span>            : {
-<span class="lineNum">    1958 </span><span class="lineCov">     469706 :     uint64_t available_bytes = 0;</span>
+<span class="lineNum">    1958 </span><span class="lineCov">     442789 :     uint64_t available_bytes = 0;</span>
 <span class="lineNum">    1959 </span>            : #ifdef _WIN32
 <span class="lineNum">    1960 </span>            :     lunchbox::ScopedFastWrite mutex( _eventLock );
 <span class="lineNum">    1961 </span>            :     available_bytes = static_cast&lt;uint64_t&gt;( _availBytes );
 <span class="lineNum">    1962 </span>            :     _availBytes = 0;
 <span class="lineNum">    1963 </span>            :     return available_bytes;
 <span class="lineNum">    1964 </span>            : #else
-<span class="lineNum">    1965 </span><span class="lineCov">     469706 :     uint64_t currBytes = 0;</span>
+<span class="lineNum">    1965 </span><span class="lineCov">     442789 :     uint64_t currBytes = 0;</span>
 <span class="lineNum">    1966 </span>            :     ssize_t count;
 <span class="lineNum">    1967 </span>            :     pollfd pfd;
-<span class="lineNum">    1968 </span><span class="lineCov">     469706 :     pfd.fd = _pipe_fd[0];</span>
-<span class="lineNum">    1969 </span><span class="lineCov">     469706 :     pfd.events = EPOLLIN;</span>
+<span class="lineNum">    1968 </span><span class="lineCov">     442789 :     pfd.fd = _pipe_fd[0];</span>
+<span class="lineNum">    1969 </span><span class="lineCov">     442789 :     pfd.events = EPOLLIN;</span>
 <span class="lineNum">    1970 </span>            : 
-<span class="lineNum">    1971 </span><span class="lineCov">     469627 :     do</span>
+<span class="lineNum">    1971 </span><span class="lineCov">     443993 :     do</span>
 <span class="lineNum">    1972 </span>            :     {
-<span class="lineNum">    1973 </span><span class="lineCov">     939333 :         count = ::read( _pipe_fd[0], (void *)&amp;currBytes, sizeof( currBytes ));</span>
-<span class="lineNum">    1974 </span><span class="lineCov">     939333 :         if ( count &gt; 0 &amp;&amp; count &lt; (ssize_t)sizeof( currBytes ) )</span>
+<span class="lineNum">    1973 </span><span class="lineCov">     886782 :         count = ::read( _pipe_fd[0], (void *)&amp;currBytes, sizeof( currBytes ));</span>
+<span class="lineNum">    1974 </span><span class="lineCov">     886782 :         if ( count &gt; 0 &amp;&amp; count &lt; (ssize_t)sizeof( currBytes ) )</span>
 <span class="lineNum">    1975 </span><span class="lineNoCov">          0 :             return 0ULL;</span>
-<span class="lineNum">    1976 </span><span class="lineCov">     939333 :         available_bytes += currBytes;</span>
-<span class="lineNum">    1977 </span><span class="lineCov">     939333 :         pfd.revents = 0;</span>
-<span class="lineNum">    1978 </span><span class="lineCov">     939333 :         if ( ::poll( &amp;pfd, 1, 0 ) == -1 )</span>
+<span class="lineNum">    1976 </span><span class="lineCov">     886782 :         available_bytes += currBytes;</span>
+<span class="lineNum">    1977 </span><span class="lineCov">     886782 :         pfd.revents = 0;</span>
+<span class="lineNum">    1978 </span><span class="lineCov">     886782 :         if ( ::poll( &amp;pfd, 1, 0 ) == -1 )</span>
 <span class="lineNum">    1979 </span>            :         {
 <span class="lineNum">    1980 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;poll : &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1981 </span><span class="lineNoCov">          0 :             return 0ULL;</span>
 <span class="lineNum">    1982 </span>            :         }
-<span class="lineNum">    1983 </span><span class="lineCov">     939333 :     } while ( pfd.revents &gt; 0 );</span>
+<span class="lineNum">    1983 </span><span class="lineCov">     886782 :     } while ( pfd.revents &gt; 0 );</span>
 <span class="lineNum">    1984 </span>            : 
-<span class="lineNum">    1985 </span><span class="lineCov">     469706 :     if ( count == -1 )</span>
+<span class="lineNum">    1985 </span><span class="lineCov">     442789 :     if ( count == -1 )</span>
 <span class="lineNum">    1986 </span>            :     {
 <span class="lineNum">    1987 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;read : &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    1988 </span><span class="lineNoCov">          0 :         return 0ULL;</span>
 <span class="lineNum">    1989 </span>            :     }
 <span class="lineNum">    1990 </span>            : 
-<span class="lineNum">    1991 </span><span class="lineCov">     469706 :     LBASSERT( available_bytes &gt; 0ULL );</span>
-<span class="lineNum">    1992 </span><span class="lineCov">     469706 :     return available_bytes;</span>
+<span class="lineNum">    1991 </span><span class="lineCov">     442789 :     LBASSERT( available_bytes &gt; 0ULL );</span>
+<span class="lineNum">    1992 </span><span class="lineCov">     442789 :     return available_bytes;</span>
 <span class="lineNum">    1993 </span>            : #endif
 <a name="1994"><span class="lineNum">    1994 </span>            : }</a>
 <span class="lineNum">    1995 </span>            : 
@@ -2064,13 +2064,13 @@
 <span class="lineNum">    2002 </span><span class="lineCov">         10 :     eventset events;</span>
 <span class="lineNum">    2003 </span>            : 
 <span class="lineNum">    2004 </span>            : retry:
-<span class="lineNum">    2005 </span><span class="lineCov">      92352 :     if( !_checkEvents( events ))</span>
+<span class="lineNum">    2005 </span><span class="lineCov">      86683 :     if( !_checkEvents( events ))</span>
 <span class="lineNum">    2006 </span>            :     {
 <span class="lineNum">    2007 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Error while checking event state.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    2008 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    2009 </span>            :     }
 <span class="lineNum">    2010 </span>            : 
-<span class="lineNum">    2011 </span><span class="lineCov">      92355 :     if( events.test( CM_EVENT ))</span>
+<span class="lineNum">    2011 </span><span class="lineCov">      86700 :     if( events.test( CM_EVENT ))</span>
 <span class="lineNum">    2012 </span>            :     {
 <span class="lineNum">    2013 </span><span class="lineCov">         10 :         done = _doCMEvent( expected );</span>
 <span class="lineNum">    2014 </span><span class="lineCov">         10 :         if( !done )</span>
@@ -2080,19 +2080,19 @@
 <span class="lineNum">    2018 </span>            :         }
 <span class="lineNum">    2019 </span>            :     }
 <span class="lineNum">    2020 </span>            : 
-<span class="lineNum">    2021 </span><span class="lineCov">      92353 :     if( !done )</span>
+<span class="lineNum">    2021 </span><span class="lineCov">      86690 :     if( !done )</span>
 <span class="lineNum">    2022 </span>            :     {
-<span class="lineNum">    2023 </span><span class="lineCov">      92343 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
+<span class="lineNum">    2023 </span><span class="lineCov">      86680 :         if( LB_TIMEOUT_INDEFINITE != timeout )</span>
 <span class="lineNum">    2024 </span>            :         {
-<span class="lineNum">    2025 </span><span class="lineCov">      92343 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
+<span class="lineNum">    2025 </span><span class="lineCov">      86680 :             if(( clock.getTime64( ) - start ) &gt; timeout )</span>
 <span class="lineNum">    2026 </span>            :             {
 <span class="lineNum">    2027 </span><span class="lineNoCov">          0 :                 LBERROR &lt;&lt; &quot;Timed out waiting for setup message.&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    2028 </span><span class="lineNoCov">          0 :                 return false;</span>
 <span class="lineNum">    2029 </span>            :             }
 <span class="lineNum">    2030 </span>            :         }
 <span class="lineNum">    2031 </span>            : 
-<span class="lineNum">    2032 </span><span class="lineCov">      92344 :         lunchbox::Thread::yield( );</span>
-<span class="lineNum">    2033 </span><span class="lineCov">      92342 :         goto retry;</span>
+<span class="lineNum">    2032 </span><span class="lineCov">      86685 :         lunchbox::Thread::yield( );</span>
+<span class="lineNum">    2033 </span><span class="lineCov">      86673 :         goto retry;</span>
 <span class="lineNum">    2034 </span>            :     }
 <span class="lineNum">    2035 </span>            : 
 <span class="lineNum">    2036 </span><span class="lineCov">         10 :     return true;</span>
@@ -2169,7 +2169,7 @@
 <span class="lineNum">    2107 </span><span class="lineCov">         12 :     return ok;</span>
 <a name="2108"><span class="lineNum">    2108 </span>            : }</a>
 <span class="lineNum">    2109 </span>            : 
-<span class="lineNum">    2110 </span><span class="lineCov">      79526 : bool RDMAConnection::_rearmCQ( )</span>
+<span class="lineNum">    2110 </span><span class="lineCov">      87131 : bool RDMAConnection::_rearmCQ( )</span>
 <span class="lineNum">    2111 </span>            : {
 <span class="lineNum">    2112 </span>            :     struct ibv_cq *ev_cq;
 <span class="lineNum">    2113 </span>            :     void *ev_ctx;
@@ -2177,55 +2177,55 @@
 <span class="lineNum">    2115 </span>            : #ifdef _WIN32
 <span class="lineNum">    2116 </span>            :     lunchbox::ScopedFastWrite mutex( _eventLock );
 <span class="lineNum">    2117 </span>            : #endif
-<span class="lineNum">    2118 </span><span class="lineCov">      79526 :     if( ::ibv_get_cq_event( _cc, &amp;ev_cq, &amp;ev_ctx ))</span>
+<span class="lineNum">    2118 </span><span class="lineCov">      87131 :     if( ::ibv_get_cq_event( _cc, &amp;ev_cq, &amp;ev_ctx ))</span>
 <span class="lineNum">    2119 </span>            :     {
 <span class="lineNum">    2120 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;ibv_get_cq_event : &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    2121 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    2122 </span>            :     }
 <span class="lineNum">    2123 </span>            : 
 <span class="lineNum">    2124 </span>            :     // http://lists.openfabrics.org/pipermail/general/2008-November/055237.html
-<span class="lineNum">    2125 </span><span class="lineCov">      79526 :     _completions++;</span>
-<span class="lineNum">    2126 </span><span class="lineCov">      79526 :     if( std::numeric_limits&lt; unsigned int &gt;::max( ) == _completions )</span>
+<span class="lineNum">    2125 </span><span class="lineCov">      87131 :     _completions++;</span>
+<span class="lineNum">    2126 </span><span class="lineCov">      87131 :     if( std::numeric_limits&lt; unsigned int &gt;::max( ) == _completions )</span>
 <span class="lineNum">    2127 </span>            :     {
 <span class="lineNum">    2128 </span><span class="lineNoCov">          0 :         ::ibv_ack_cq_events( _cq, _completions );</span>
 <span class="lineNum">    2129 </span><span class="lineNoCov">          0 :         _completions = 0U;</span>
 <span class="lineNum">    2130 </span>            :     }
 <span class="lineNum">    2131 </span>            : 
 <span class="lineNum">    2132 </span>            :     // Solicited only!
-<span class="lineNum">    2133 </span><span class="lineCov">      79526 :     if( ::rdma_seterrno( ::ibv_req_notify_cq( _cq, 1 )))</span>
+<span class="lineNum">    2133 </span><span class="lineCov">      87131 :     if( ::rdma_seterrno( ::ibv_req_notify_cq( _cq, 1 )))</span>
 <span class="lineNum">    2134 </span>            :     {
 <span class="lineNum">    2135 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;ibv_req_notify_cq : &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    2136 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    2137 </span>            :     }
 <span class="lineNum">    2138 </span>            : 
-<span class="lineNum">    2139 </span><span class="lineCov">      79526 :     return true;</span>
+<span class="lineNum">    2139 </span><span class="lineCov">      87131 :     return true;</span>
 <a name="2140"><span class="lineNum">    2140 </span>            : }</a>
 <span class="lineNum">    2141 </span>            : 
-<span class="lineNum">    2142 </span><span class="lineCov">    1259511 : bool RDMAConnection::_checkCQ( bool drain )</span>
+<span class="lineNum">    2142 </span><span class="lineCov">    1249873 : bool RDMAConnection::_checkCQ( bool drain )</span>
 <span class="lineNum">    2143 </span>            : {
 <span class="lineNum">    2144 </span>            :     uint32_t num_recvs;
 <span class="lineNum">    2145 </span>            :     int count;
 <span class="lineNum">    2146 </span>            : 
-<span class="lineNum">    2147 </span><span class="lineCov">    2520672 :     lunchbox::ScopedWrite poll_mutex( _poll_lock );</span>
+<span class="lineNum">    2147 </span><span class="lineCov">    2501158 :     lunchbox::ScopedWrite poll_mutex( _poll_lock );</span>
 <span class="lineNum">    2148 </span>            : 
-<span class="lineNum">    2149 </span><span class="lineCov">    1261810 :     if( NULL == _cq )</span>
+<span class="lineNum">    2149 </span><span class="lineCov">    1252187 :     if( NULL == _cq )</span>
 <span class="lineNum">    2150 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">    2151 </span>            : 
 <span class="lineNum">    2152 </span>            : repoll:
 <span class="lineNum">    2153 </span>            :     /* CHECK RECEIVE COMPLETIONS */
-<span class="lineNum">    2154 </span><span class="lineCov">    1433898 :     count = ::ibv_poll_cq( _cq, _depth, _wcs );</span>
-<span class="lineNum">    2155 </span><span class="lineCov">    1429043 :     if( count &lt; 0 )</span>
+<span class="lineNum">    2154 </span><span class="lineCov">    1436006 :     count = ::ibv_poll_cq( _cq, _depth, _wcs );</span>
+<span class="lineNum">    2155 </span><span class="lineCov">    1430009 :     if( count &lt; 0 )</span>
 <span class="lineNum">    2156 </span>            :     {
 <span class="lineNum">    2157 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;ibv_poll_cq : &quot; &lt;&lt; lunchbox::sysError &lt;&lt; std::endl;</span>
 <span class="lineNum">    2158 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    2159 </span>            :     }
 <span class="lineNum">    2160 </span>            : 
-<span class="lineNum">    2161 </span><span class="lineCov">    1429043 :     num_recvs = 0UL;</span>
-<span class="lineNum">    2162 </span><span class="lineCov">    2498949 :     for( int i = 0; i != count ; i++ )</span>
+<span class="lineNum">    2161 </span><span class="lineCov">    1430009 :     num_recvs = 0UL;</span>
+<span class="lineNum">    2162 </span><span class="lineCov">    2454701 :     for( int i = 0; i != count ; i++ )</span>
 <span class="lineNum">    2163 </span>            :     {
-<span class="lineNum">    2164 </span><span class="lineCov">    1065690 :         struct ibv_wc &amp;wc = _wcs[i];</span>
+<span class="lineNum">    2164 </span><span class="lineCov">    1019599 :         struct ibv_wc &amp;wc = _wcs[i];</span>
 <span class="lineNum">    2165 </span>            : 
-<span class="lineNum">    2166 </span><span class="lineCov">    1065690 :         if( IBV_WC_SUCCESS != wc.status )</span>
+<span class="lineNum">    2166 </span><span class="lineCov">    1019599 :         if( IBV_WC_SUCCESS != wc.status )</span>
 <span class="lineNum">    2167 </span>            :         {
 <span class="lineNum">    2168 </span>            :             // Non-fatal.
 <span class="lineNum">    2169 </span><span class="lineNoCov">          0 :             if( IBV_WC_WR_FLUSH_ERR == wc.status )</span>
@@ -2242,7 +2242,7 @@
 <span class="lineNum">    2180 </span><span class="lineNoCov">          0 :             return false;</span>
 <span class="lineNum">    2181 </span>            :         }
 <span class="lineNum">    2182 </span>            : 
-<span class="lineNum">    2183 </span><span class="lineCov">    1065690 :         LBASSERT( IBV_WC_SUCCESS == wc.status );</span>
+<span class="lineNum">    2183 </span><span class="lineCov">    1019599 :         LBASSERT( IBV_WC_SUCCESS == wc.status );</span>
 <span class="lineNum">    2184 </span>            : 
 <span class="lineNum">    2185 </span>            : #ifdef _WIN32 //----------------------------------------------------------------
 <span class="lineNum">    2186 </span>            :         // WINDOWS IBV API WORKAROUND.
@@ -2251,57 +2251,57 @@
 <span class="lineNum">    2189 </span>            :             wc.opcode = IBV_WC_RECV_RDMA_WITH_IMM;
 <span class="lineNum">    2190 </span>            : #endif //-----------------------------------------------------------------------
 <span class="lineNum">    2191 </span>            : 
-<span class="lineNum">    2192 </span><span class="lineCov">    1082039 :         if( IBV_WC_RECV_RDMA_WITH_IMM == wc.opcode )</span>
-<span class="lineNum">    2193 </span><span class="lineCov">     495634 :             _recvRDMAWrite( wc.imm_data );</span>
-<span class="lineNum">    2194 </span><span class="lineCov">     586405 :         else if( IBV_WC_RECV == wc.opcode )</span>
-<span class="lineNum">    2195 </span><span class="lineCov">      45408 :             _recvMessage( *reinterpret_cast&lt; RDMAMessage * &gt;( wc.wr_id ));</span>
-<span class="lineNum">    2196 </span><span class="lineCov">     540997 :         else if( IBV_WC_SEND == wc.opcode )</span>
-<span class="lineNum">    2197 </span><span class="lineCov">      45477 :             _msgbuf.freeBuffer( (void *)(uintptr_t)wc.wr_id );</span>
-<span class="lineNum">    2198 </span><span class="lineCov">     495520 :         else if( IBV_WC_RDMA_WRITE == wc.opcode )</span>
-<span class="lineNum">    2199 </span><span class="lineCov">     495520 :             _sourceptr.incrTail( (uint32_t)wc.wr_id );</span>
+<span class="lineNum">    2192 </span><span class="lineCov">    1031087 :         if( IBV_WC_RECV_RDMA_WITH_IMM == wc.opcode )</span>
+<span class="lineNum">    2193 </span><span class="lineCov">     464638 :             _recvRDMAWrite( wc.imm_data );</span>
+<span class="lineNum">    2194 </span><span class="lineCov">     566449 :         else if( IBV_WC_RECV == wc.opcode )</span>
+<span class="lineNum">    2195 </span><span class="lineCov">      50929 :             _recvMessage( *reinterpret_cast&lt; RDMAMessage * &gt;( wc.wr_id ));</span>
+<span class="lineNum">    2196 </span><span class="lineCov">     515520 :         else if( IBV_WC_SEND == wc.opcode )</span>
+<span class="lineNum">    2197 </span><span class="lineCov">      50998 :             _msgbuf.freeBuffer( (void *)(uintptr_t)wc.wr_id );</span>
+<span class="lineNum">    2198 </span><span class="lineCov">     464522 :         else if( IBV_WC_RDMA_WRITE == wc.opcode )</span>
+<span class="lineNum">    2199 </span><span class="lineCov">     464522 :             _sourceptr.incrTail( (uint32_t)wc.wr_id );</span>
 <span class="lineNum">    2200 </span>            :         else
 <span class="lineNum">    2201 </span><span class="lineNoCov">          0 :             LBUNREACHABLE;</span>
 <span class="lineNum">    2202 </span>            : 
-<span class="lineNum">    2203 </span><span class="lineCov">    1069916 :         if( IBV_WC_RECV &amp; wc.opcode )</span>
+<span class="lineNum">    2203 </span><span class="lineCov">    1024692 :         if( IBV_WC_RECV &amp; wc.opcode )</span>
 <span class="lineNum">    2204 </span>            :         {
-<span class="lineNum">    2205 </span><span class="lineCov">     541040 :             _msgbuf.freeBuffer( (void *)(uintptr_t)wc.wr_id );</span>
+<span class="lineNum">    2205 </span><span class="lineCov">     515567 :             _msgbuf.freeBuffer( (void *)(uintptr_t)wc.wr_id );</span>
 <span class="lineNum">    2206 </span>            :             // All receive completions need to be reposted.
-<span class="lineNum">    2207 </span><span class="lineCov">     541030 :             num_recvs++;</span>
+<span class="lineNum">    2207 </span><span class="lineCov">     515567 :             num_recvs++;</span>
 <span class="lineNum">    2208 </span>            :         }
 <span class="lineNum">    2209 </span>            :     }
 <span class="lineNum">    2210 </span>            : 
-<span class="lineNum">    2211 </span><span class="lineCov">    1433259 :     if(( num_recvs &gt; 0UL ) &amp;&amp; !_postReceives( num_recvs ))</span>
+<span class="lineNum">    2211 </span><span class="lineCov">    1435102 :     if(( num_recvs &gt; 0UL ) &amp;&amp; !_postReceives( num_recvs ))</span>
 <span class="lineNum">    2212 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">    2213 </span>            : 
-<span class="lineNum">    2214 </span><span class="lineCov">    1433249 :     if( drain &amp;&amp; ( count &gt; 0 ))</span>
-<span class="lineNum">    2215 </span><span class="lineCov">     172088 :         goto repoll;</span>
+<span class="lineNum">    2214 </span><span class="lineCov">    1435104 :     if( drain &amp;&amp; ( count &gt; 0 ))</span>
+<span class="lineNum">    2215 </span><span class="lineCov">     183819 :         goto repoll;</span>
 <span class="lineNum">    2216 </span>            : 
-<span class="lineNum">    2217 </span><span class="lineCov">    1261161 :     return true;</span>
+<span class="lineNum">    2217 </span><span class="lineCov">    1251285 :     return true;</span>
 <span class="lineNum">    2218 </span>            : }
 <a name="2219"><span class="lineNum">    2219 </span>            : </a>
 <span class="lineNum">    2220 </span>            : /* inline */
-<span class="lineNum">    2221 </span><span class="lineCov">     469708 : uint32_t RDMAConnection::_drain( void *buffer, const uint32_t bytes )</span>
+<span class="lineNum">    2221 </span><span class="lineCov">     442791 : uint32_t RDMAConnection::_drain( void *buffer, const uint32_t bytes )</span>
 <span class="lineNum">    2222 </span>            : {
-<span class="lineNum">    2223 </span><span class="lineCov">     469708 :     const uint32_t b = std::min( bytes, _sinkptr.available( ));</span>
-<span class="lineNum">    2224 </span><span class="lineCov">     939416 :     ::memcpy( buffer, (const void *)((uintptr_t)_sinkbuf.getBase( ) +</span>
-<span class="lineNum">    2225 </span><span class="lineCov">     939416 :         _sinkptr.tail( )), b );</span>
-<span class="lineNum">    2226 </span><span class="lineCov">     469708 :     _sinkptr.incrTail( b );</span>
-<span class="lineNum">    2227 </span><span class="lineCov">     469708 :     return b;</span>
+<span class="lineNum">    2223 </span><span class="lineCov">     442791 :     const uint32_t b = std::min( bytes, _sinkptr.available( ));</span>
+<span class="lineNum">    2224 </span><span class="lineCov">     885582 :     ::memcpy( buffer, (const void *)((uintptr_t)_sinkbuf.getBase( ) +</span>
+<span class="lineNum">    2225 </span><span class="lineCov">     885582 :         _sinkptr.tail( )), b );</span>
+<span class="lineNum">    2226 </span><span class="lineCov">     442791 :     _sinkptr.incrTail( b );</span>
+<span class="lineNum">    2227 </span><span class="lineCov">     442791 :     return b;</span>
 <span class="lineNum">    2228 </span>            : }
 <a name="2229"><span class="lineNum">    2229 </span>            : </a>
 <span class="lineNum">    2230 </span>            : /* inline */
-<span class="lineNum">    2231 </span><span class="lineCov">     764674 : uint32_t RDMAConnection::_fill( const void *buffer, const uint32_t bytes )</span>
+<span class="lineNum">    2231 </span><span class="lineCov">     787099 : uint32_t RDMAConnection::_fill( const void *buffer, const uint32_t bytes )</span>
 <span class="lineNum">    2232 </span>            : {
-<span class="lineNum">    2233 </span><span class="lineCov">    2294022 :     uint32_t b = std::min( bytes, std::min( _sourceptr.negAvailable( ),</span>
-<span class="lineNum">    2234 </span><span class="lineCov">    3058696 :         _rptr.negAvailable( )));</span>
+<span class="lineNum">    2233 </span><span class="lineCov">    2361297 :     uint32_t b = std::min( bytes, std::min( _sourceptr.negAvailable( ),</span>
+<span class="lineNum">    2234 </span><span class="lineCov">    3148396 :         _rptr.negAvailable( )));</span>
 <span class="lineNum">    2235 </span>            : #ifndef WRAP
-<span class="lineNum">    2236 </span><span class="lineCov">    2294022 :     b = std::min( b, (uint32_t)(_sourcebuf.getSize() -</span>
-<span class="lineNum">    2237 </span><span class="lineCov">    1529348 :                                             _sourceptr.ptr( _sourceptr.HEAD )));</span>
+<span class="lineNum">    2236 </span><span class="lineCov">    2361297 :     b = std::min( b, (uint32_t)(_sourcebuf.getSize() -</span>
+<span class="lineNum">    2237 </span><span class="lineCov">    1574198 :                                             _sourceptr.ptr( _sourceptr.HEAD )));</span>
 <span class="lineNum">    2238 </span>            : #endif
-<span class="lineNum">    2239 </span><span class="lineCov">    1529348 :     ::memcpy( (void *)((uintptr_t)_sourcebuf.getBase( ) +</span>
-<span class="lineNum">    2240 </span><span class="lineCov">    1529348 :         _sourceptr.ptr( _sourceptr.HEAD )), buffer, b );</span>
-<span class="lineNum">    2241 </span><span class="lineCov">     764674 :     _sourceptr.incrHead( b );</span>
-<span class="lineNum">    2242 </span><span class="lineCov">     764674 :     return b;</span>
+<span class="lineNum">    2239 </span><span class="lineCov">    1574198 :     ::memcpy( (void *)((uintptr_t)_sourcebuf.getBase( ) +</span>
+<span class="lineNum">    2240 </span><span class="lineCov">    1574198 :         _sourceptr.ptr( _sourceptr.HEAD )), buffer, b );</span>
+<span class="lineNum">    2241 </span><span class="lineCov">     787099 :     _sourceptr.incrHead( b );</span>
+<span class="lineNum">    2242 </span><span class="lineCov">     787099 :     return b;</span>
 <a name="2243"><span class="lineNum">    2243 </span>            : }</a>
 <span class="lineNum">    2244 </span>            : 
 <span class="lineNum">    2245 </span><span class="lineNoCov">          0 : Connection::Notifier RDMAConnection::getNotifier() const</span>

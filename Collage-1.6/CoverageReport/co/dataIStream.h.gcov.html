@@ -32,17 +32,17 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">22</td>
-            <td class="headerCovTableEntry">26</td>
-            <td class="headerCovTableEntryHi">84.6 %</td>
+            <td class="headerCovTableEntry">27</td>
+            <td class="headerCovTableEntryHi">81.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">57</td>
-            <td class="headerCovTableEntry">76</td>
-            <td class="headerCovTableEntryMed">75.0 %</td>
+            <td class="headerCovTableEntry">79</td>
+            <td class="headerCovTableEntryMed">72.2 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -122,8 +122,8 @@
 <span class="lineNum">      60 </span><span class="lineCov">      83895 :         { T value; *this &gt;&gt; value; return value; }</span>
 <a name="61"><span class="lineNum">      61 </span>            : </a>
 <span class="lineNum">      62 </span>            :     /** Read a plain data item. @version 1.0 */
-<span class="lineNum">      63 </span><span class="lineCov">    3694571 :     template&lt; class T &gt; DataIStream&amp; operator &gt;&gt; ( T&amp; value )</span>
-<span class="lineNum">      64 </span><span class="lineCov">    3694571 :         { _read( value, boost::has_trivial_copy&lt; T &gt;( )); return *this; }</span>
+<span class="lineNum">      63 </span><span class="lineCov">    3602338 :     template&lt; class T &gt; DataIStream&amp; operator &gt;&gt; ( T&amp; value )</span>
+<span class="lineNum">      64 </span><span class="lineCov">    3602338 :         { _read( value, boost::has_trivial_copy&lt; T &gt;( )); return *this; }</span>
 <a name="65"><span class="lineNum">      65 </span>            : </a>
 <span class="lineNum">      66 </span>            :     /** Read a C array. @version 1.0 */
 <span class="lineNum">      67 </span><span class="lineCov">         18 :     template&lt; class T &gt; DataIStream&amp; operator &gt;&gt; ( Array&lt; T &gt; array )</span>
@@ -230,8 +230,8 @@
 <span class="lineNum">     168 </span>            :     explicit DataIStream( const DataIStream&amp; );
 <span class="lineNum">     169 </span>            :     CO_API virtual ~DataIStream();
 <span class="lineNum">     170 </span>            : 
-<span class="lineNum">     171 </span>            :     virtual bool getNextBuffer( uint32_t&amp; compressor, uint32_t&amp; nChunks,
-<span class="lineNum">     172 </span>            :                                 const void** chunkData, uint64_t&amp; size )=0;
+<span class="lineNum">     171 </span>            :     virtual bool getNextBuffer( CompressorInfo&amp; info, uint32_t&amp; nChunks,
+<span class="lineNum">     172 </span>            :                                 const void*&amp; chunkData, uint64_t&amp; size ) = 0;
 <span class="lineNum">     173 </span>            :     //@}
 <span class="lineNum">     174 </span>            : 
 <span class="lineNum">     175 </span>            : private:
@@ -247,60 +247,59 @@
 <span class="lineNum">     185 </span>            :     CO_API bool _checkBuffer();
 <span class="lineNum">     186 </span>            :     CO_API void _reset();
 <span class="lineNum">     187 </span>            : 
-<span class="lineNum">     188 </span>            :     const uint8_t* _decompress( const void* data, const uint32_t name,
-<span class="lineNum">     189 </span>            :                                 const uint32_t nChunks,
-<span class="lineNum">     190 </span>            :                                 const uint64_t dataSize );
-<span class="lineNum">     191 </span>            : 
-<a name="192"><span class="lineNum">     192 </span>            :     /** Read a vector of trivial data. */</a>
-<span class="lineNum">     193 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     194 </span><span class="lineCov">          4 :     DataIStream&amp; _readFlatVector ( std::vector&lt; T &gt;&amp; value )</span>
-<span class="lineNum">     195 </span>            :     {
-<span class="lineNum">     196 </span><span class="lineCov">          4 :         uint64_t nElems = 0;</span>
-<span class="lineNum">     197 </span><span class="lineCov">          4 :         *this &gt;&gt; nElems;</span>
-<span class="lineNum">     198 </span><span class="lineCov">          4 :         LBASSERTINFO( nElems &lt; LB_BIT48,</span>
-<span class="lineNum">     199 </span>            :                       &quot;Out-of-sync DataIStream: &quot; &lt;&lt; nElems &lt;&lt; &quot; elements?&quot; );
-<span class="lineNum">     200 </span><span class="lineCov">          4 :         value.resize( size_t( nElems ));</span>
-<span class="lineNum">     201 </span><span class="lineCov">          4 :         if( nElems &gt; 0 )</span>
-<span class="lineNum">     202 </span><span class="lineCov">          4 :             *this &gt;&gt; Array&lt; T &gt;( &amp;value.front(), nElems );</span>
-<span class="lineNum">     203 </span><span class="lineCov">          4 :         return *this;</span>
-<span class="lineNum">     204 </span>            :     }
-<a name="205"><span class="lineNum">     205 </span>            : </a>
-<span class="lineNum">     206 </span>            :     /** Byte-swap a plain data item. */
-<span class="lineNum">     207 </span><span class="lineCov">    3694570 :     template&lt; class T &gt; void _swap( T&amp; value ) const</span>
-<span class="lineNum">     208 </span><span class="lineCov">    3694570 :         { if( isSwapping( )) swap( value ); }</span>
-<a name="209"><span class="lineNum">     209 </span>            : </a>
-<span class="lineNum">     210 </span>            :     /** Read a plain data item. */
-<span class="lineNum">     211 </span><span class="lineCov">    3694571 :     template&lt; class T &gt; void _read( T&amp; value, const boost::true_type&amp; )</span>
-<span class="lineNum">     212 </span><span class="lineCov">    3694571 :         { _read( &amp;value, sizeof( value )); _swap( value ); }</span>
-<span class="lineNum">     213 </span>            : 
-<span class="lineNum">     214 </span>            :     /** Read a non-plain data item. */
-<span class="lineNum">     215 </span>            :     template&lt; class T &gt; void _read( T&amp; value, const boost::false_type&amp; )
-<span class="lineNum">     216 </span>            :     { _readSerializable( value, boost::is_base_of&lt; servus::Serializable, T &gt;( ));}
-<span class="lineNum">     217 </span>            : 
-<span class="lineNum">     218 </span>            :     /** Read a serializable object. */
-<span class="lineNum">     219 </span>            :     template&lt; class T &gt; void _readSerializable(T&amp; value, const boost::true_type&amp;);
-<span class="lineNum">     220 </span>            : 
-<span class="lineNum">     221 </span>            :     /** Read an Array of POD data */
-<span class="lineNum">     222 </span>            :     template&lt; class T &gt; void _readArray( Array&lt; T &gt;, const boost::true_type&amp; );
-<span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span>            :     /** Read an Array of non-POD data */
-<span class="lineNum">     225 </span>            :     template&lt; class T &gt; void _readArray( Array&lt; T &gt;, const boost::false_type&amp; );
-<a name="226"><span class="lineNum">     226 </span>            : </a>
-<span class="lineNum">     227 </span>            :     /** Byte-swap a C array. @version 1.0 */
-<span class="lineNum">     228 </span><span class="lineCov">          5 :     template&lt; class T &gt; void _swap( Array&lt; T &gt; array ) const</span>
-<span class="lineNum">     229 </span>            :     {
-<span class="lineNum">     230 </span><span class="lineCov">          5 :         if( !isSwapping( ))</span>
-<span class="lineNum">     231 </span><span class="lineCov">          5 :             return;</span>
-<span class="lineNum">     232 </span>            : #pragma omp parallel for
-<span class="lineNum">     233 </span><span class="lineNoCov">          0 :         for( ssize_t i = 0; i &lt; ssize_t( array.num ); ++i )</span>
-<span class="lineNum">     234 </span><span class="lineNoCov">          0 :             swap( array.data[i] );</span>
-<span class="lineNum">     235 </span>            :     }
-<span class="lineNum">     236 </span>            : };
-<span class="lineNum">     237 </span>            : }
-<span class="lineNum">     238 </span>            : 
-<span class="lineNum">     239 </span>            : #include &quot;dataIStream.ipp&quot; // template implementation
-<span class="lineNum">     240 </span>            : 
-<span class="lineNum">     241 </span>            : #endif //CO_DATAISTREAM_H
+<span class="lineNum">     188 </span>            :     const uint8_t* _decompress( const void* data, const CompressorInfo&amp; info,
+<span class="lineNum">     189 </span>            :                                 uint32_t nChunks, uint64_t dataSize );
+<span class="lineNum">     190 </span>            : 
+<a name="191"><span class="lineNum">     191 </span>            :     /** Read a vector of trivial data. */</a>
+<span class="lineNum">     192 </span>            :     template&lt; class T &gt;
+<span class="lineNum">     193 </span><span class="lineCov">          4 :     DataIStream&amp; _readFlatVector ( std::vector&lt; T &gt;&amp; value )</span>
+<span class="lineNum">     194 </span>            :     {
+<span class="lineNum">     195 </span><span class="lineCov">          4 :         uint64_t nElems = 0;</span>
+<span class="lineNum">     196 </span><span class="lineCov">          4 :         *this &gt;&gt; nElems;</span>
+<span class="lineNum">     197 </span><span class="lineCov">          4 :         LBASSERTINFO( nElems &lt; LB_BIT48,</span>
+<span class="lineNum">     198 </span>            :                       &quot;Out-of-sync DataIStream: &quot; &lt;&lt; nElems &lt;&lt; &quot; elements?&quot; );
+<span class="lineNum">     199 </span><span class="lineCov">          4 :         value.resize( size_t( nElems ));</span>
+<span class="lineNum">     200 </span><span class="lineCov">          4 :         if( nElems &gt; 0 )</span>
+<span class="lineNum">     201 </span><span class="lineCov">          4 :             *this &gt;&gt; Array&lt; T &gt;( &amp;value.front(), nElems );</span>
+<span class="lineNum">     202 </span><span class="lineCov">          4 :         return *this;</span>
+<span class="lineNum">     203 </span>            :     }
+<a name="204"><span class="lineNum">     204 </span>            : </a>
+<span class="lineNum">     205 </span>            :     /** Byte-swap a plain data item. */
+<span class="lineNum">     206 </span><span class="lineCov">    3602338 :     template&lt; class T &gt; void _swap( T&amp; value ) const</span>
+<span class="lineNum">     207 </span><span class="lineCov">    3602338 :         { if( isSwapping( )) swap( value ); }</span>
+<a name="208"><span class="lineNum">     208 </span>            : </a>
+<span class="lineNum">     209 </span>            :     /** Read a plain data item. */
+<span class="lineNum">     210 </span><span class="lineCov">    3602338 :     template&lt; class T &gt; void _read( T&amp; value, const boost::true_type&amp; )</span>
+<span class="lineNum">     211 </span><span class="lineCov">    3602338 :         { _read( &amp;value, sizeof( value )); _swap( value ); }</span>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            :     /** Read a non-plain data item. */
+<span class="lineNum">     214 </span>            :     template&lt; class T &gt; void _read( T&amp; value, const boost::false_type&amp; )
+<span class="lineNum">     215 </span>            :     { _readSerializable( value, boost::is_base_of&lt; servus::Serializable, T &gt;( ));}
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span>            :     /** Read a serializable object. */
+<span class="lineNum">     218 </span>            :     template&lt; class T &gt; void _readSerializable(T&amp; value, const boost::true_type&amp;);
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            :     /** Read an Array of POD data */
+<span class="lineNum">     221 </span>            :     template&lt; class T &gt; void _readArray( Array&lt; T &gt;, const boost::true_type&amp; );
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span>            :     /** Read an Array of non-POD data */
+<span class="lineNum">     224 </span>            :     template&lt; class T &gt; void _readArray( Array&lt; T &gt;, const boost::false_type&amp; );
+<a name="225"><span class="lineNum">     225 </span>            : </a>
+<span class="lineNum">     226 </span>            :     /** Byte-swap a C array. @version 1.0 */
+<span class="lineNum">     227 </span><span class="lineCov">          5 :     template&lt; class T &gt; void _swap( Array&lt; T &gt; array ) const</span>
+<span class="lineNum">     228 </span>            :     {
+<a name="229"><span class="lineNum">     229 </span><span class="lineCov">          5 :         if( !isSwapping( ))</span></a>
+<span class="lineNum">     230 </span><span class="lineCov">          5 :             return;</span>
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 : #pragma omp parallel for</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :         for( ssize_t i = 0; i &lt; ssize_t( array.num ); ++i )</span>
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 :             swap( array.data[i] );</span>
+<span class="lineNum">     234 </span>            :     }
+<span class="lineNum">     235 </span>            : };
+<span class="lineNum">     236 </span>            : }
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span>            : #include &quot;dataIStream.ipp&quot; // template implementation
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span>            : #endif //CO_DATAISTREAM_H
 </pre>
       </td>
     </tr>

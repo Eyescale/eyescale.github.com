@@ -31,18 +31,18 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">38</td>
-            <td class="headerCovTableEntry">44</td>
-            <td class="headerCovTableEntryHi">86.4 %</td>
+            <td class="headerCovTableEntry">39</td>
+            <td class="headerCovTableEntry">45</td>
+            <td class="headerCovTableEntryHi">86.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">14</td>
             <td class="headerCovTableEntry">16</td>
-            <td class="headerCovTableEntryHi">87.5 %</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntryHi">88.9 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -61,8 +61,8 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
-<span class="lineNum">       3 </span>            :  *               2012-2013, Stefan.Eilemann@epfl.ch
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2012-2016, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       3 </span>            :  *                          Stefan.Eilemann@epfl.ch
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
 <span class="lineNum">       6 </span>            :  *
@@ -83,44 +83,44 @@
 <span class="lineNum">      21 </span>            : #include &quot;objectDataICommand.h&quot;
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            : #include &quot;buffer.h&quot;
-<span class="lineNum">      24 </span>            : #include &lt;pression/plugins/compressorTypes.h&gt;
-<span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span>            : namespace co
-<span class="lineNum">      27 </span>            : {
-<span class="lineNum">      28 </span>            : namespace detail
-<span class="lineNum">      29 </span>            : {
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span>            : class ObjectDataICommand
-<a name="32"><span class="lineNum">      32 </span>            : {</a>
-<span class="lineNum">      33 </span>            : public:
-<span class="lineNum">      34 </span><span class="lineCov">     404925 :     ObjectDataICommand()</span>
-<span class="lineNum">      35 </span><span class="lineCov">     404925 :         : version( 0, 0 )</span>
-<span class="lineNum">      36 </span>            :         , datasize( 0 )
-<span class="lineNum">      37 </span>            :         , sequence( 0 )
-<span class="lineNum">      38 </span>            :         , compressor( EQ_COMPRESSOR_NONE )
+<span class="lineNum">      24 </span>            : #include &lt;pression/data/CompressorInfo.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;pression/data/Registry.h&gt;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : namespace co
+<span class="lineNum">      28 </span>            : {
+<span class="lineNum">      29 </span>            : namespace detail
+<a name="30"><span class="lineNum">      30 </span>            : {</a>
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span><span class="lineCov">     395443 : class ObjectDataICommand</span>
+<a name="33"><span class="lineNum">      33 </span>            : {</a>
+<span class="lineNum">      34 </span>            : public:
+<span class="lineNum">      35 </span><span class="lineCov">     395139 :     ObjectDataICommand()</span>
+<span class="lineNum">      36 </span><span class="lineCov">     395139 :         : version( 0, 0 )</span>
+<span class="lineNum">      37 </span>            :         , datasize( 0 )
+<span class="lineNum">      38 </span>            :         , sequence( 0 )
 <span class="lineNum">      39 </span>            :         , chunks( 1 )
-<span class="lineNum">      40 </span><span class="lineCov">     404925 :         , isLast( false )</span>
-<span class="lineNum">      41 </span><span class="lineCov">     404925 :     {}</span>
+<span class="lineNum">      40 </span><span class="lineCov">     395139 :         , isLast( false )</span>
+<span class="lineNum">      41 </span><span class="lineCov">     395139 :     {}</span>
 <span class="lineNum">      42 </span>            : 
 <span class="lineNum">      43 </span>            :     uint128_t version;
 <span class="lineNum">      44 </span>            :     uint64_t datasize;
 <span class="lineNum">      45 </span>            :     uint32_t sequence;
-<span class="lineNum">      46 </span>            :     uint32_t compressor;
+<span class="lineNum">      46 </span>            :     std::string compressorName;
 <span class="lineNum">      47 </span>            :     uint32_t chunks;
 <span class="lineNum">      48 </span>            :     bool isLast;
 <span class="lineNum">      49 </span>            : };
 <span class="lineNum">      50 </span>            : 
 <a name="51"><span class="lineNum">      51 </span>            : }</a>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">     404922 : ObjectDataICommand::ObjectDataICommand( const ICommand&amp; command )</span>
+<span class="lineNum">      53 </span><span class="lineCov">     395136 : ObjectDataICommand::ObjectDataICommand( const ICommand&amp; command )</span>
 <span class="lineNum">      54 </span>            :     : ObjectICommand( command )
-<span class="lineNum">      55 </span><span class="lineCov">     404922 :     , _impl( new detail::ObjectDataICommand )</span>
+<span class="lineNum">      55 </span><span class="lineCov">     395136 :     , _impl( new detail::ObjectDataICommand )</span>
 <span class="lineNum">      56 </span>            : {
-<span class="lineNum">      57 </span><span class="lineCov">     404922 :     _init();</span>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">     404922 : }</span></a>
+<span class="lineNum">      57 </span><span class="lineCov">     395136 :     _init();</span>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">     395136 : }</span></a>
 <span class="lineNum">      59 </span>            : 
 <span class="lineNum">      60 </span><span class="lineCov">          3 : ObjectDataICommand::ObjectDataICommand( LocalNodePtr local, NodePtr remote,</span>
-<span class="lineNum">      61 </span><span class="lineCov">          3 :                                       ConstBufferPtr buffer, const bool swap_ )</span>
+<span class="lineNum">      61 </span><span class="lineCov">          3 :                                         ConstBufferPtr buffer, const bool swap_)</span>
 <span class="lineNum">      62 </span>            :     : ObjectICommand( local, remote, buffer, swap_ )
 <span class="lineNum">      63 </span><span class="lineCov">          3 :     , _impl( new detail::ObjectDataICommand )</span>
 <span class="lineNum">      64 </span>            : {
@@ -135,26 +135,26 @@
 <span class="lineNum">      73 </span><span class="lineCov">        152 :     _init();</span>
 <a name="74"><span class="lineNum">      74 </span><span class="lineCov">        152 : }</span></a>
 <span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">     405077 : void ObjectDataICommand::_init()</span>
+<span class="lineNum">      76 </span><span class="lineCov">     395291 : void ObjectDataICommand::_init()</span>
 <span class="lineNum">      77 </span>            : {
-<span class="lineNum">      78 </span><span class="lineCov">     405077 :     if( isValid( ))</span>
-<span class="lineNum">      79 </span><span class="lineCov">     405077 :         *this &gt;&gt; _impl-&gt;version &gt;&gt; _impl-&gt;datasize &gt;&gt; _impl-&gt;sequence</span>
-<span class="lineNum">      80 </span><span class="lineCov">     810154 :               &gt;&gt; _impl-&gt;isLast &gt;&gt; _impl-&gt;compressor &gt;&gt; _impl-&gt;chunks;</span>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">     405077 : }</span></a>
+<span class="lineNum">      78 </span><span class="lineCov">     395291 :     if( isValid( ))</span>
+<span class="lineNum">      79 </span><span class="lineCov">     395291 :         *this &gt;&gt; _impl-&gt;version &gt;&gt; _impl-&gt;datasize &gt;&gt; _impl-&gt;sequence</span>
+<span class="lineNum">      80 </span><span class="lineCov">     790582 :               &gt;&gt; _impl-&gt;isLast &gt;&gt; _impl-&gt;compressorName &gt;&gt; _impl-&gt;chunks;</span>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">     395291 : }</span></a>
 <span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span><span class="lineCov">     810154 : ObjectDataICommand::~ObjectDataICommand()</span>
+<span class="lineNum">      83 </span><span class="lineCov">     790582 : ObjectDataICommand::~ObjectDataICommand()</span>
 <span class="lineNum">      84 </span>            : {
-<span class="lineNum">      85 </span><span class="lineCov">     405077 :     delete _impl;</span>
-<a name="86"><span class="lineNum">      86 </span><span class="lineCov">     405077 : }</span></a>
+<span class="lineNum">      85 </span><span class="lineCov">     395291 :     delete _impl;</span>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">     395291 : }</span></a>
 <span class="lineNum">      87 </span>            : 
-<span class="lineNum">      88 </span><span class="lineCov">     404759 : uint128_t ObjectDataICommand::getVersion() const</span>
+<span class="lineNum">      88 </span><span class="lineCov">     394973 : uint128_t ObjectDataICommand::getVersion() const</span>
 <span class="lineNum">      89 </span>            : {
-<span class="lineNum">      90 </span><span class="lineCov">     404759 :     return _impl-&gt;version;</span>
+<span class="lineNum">      90 </span><span class="lineCov">     394973 :     return _impl-&gt;version;</span>
 <a name="91"><span class="lineNum">      91 </span>            : }</a>
 <span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span><span class="lineCov">     202355 : uint32_t ObjectDataICommand::getSequence() const</span>
+<span class="lineNum">      93 </span><span class="lineCov">     197462 : uint32_t ObjectDataICommand::getSequence() const</span>
 <span class="lineNum">      94 </span>            : {
-<span class="lineNum">      95 </span><span class="lineCov">     202355 :     return _impl-&gt;sequence;</span>
+<span class="lineNum">      95 </span><span class="lineCov">     197462 :     return _impl-&gt;sequence;</span>
 <a name="96"><span class="lineNum">      96 </span>            : }</a>
 <span class="lineNum">      97 </span>            : 
 <span class="lineNum">      98 </span><span class="lineCov">        169 : uint64_t ObjectDataICommand::getDataSize() const</span>
@@ -162,9 +162,9 @@
 <span class="lineNum">     100 </span><span class="lineCov">        169 :     return _impl-&gt;datasize;</span>
 <a name="101"><span class="lineNum">     101 </span>            : }</a>
 <span class="lineNum">     102 </span>            : 
-<span class="lineNum">     103 </span><span class="lineCov">        165 : uint32_t ObjectDataICommand::getCompressor() const</span>
+<span class="lineNum">     103 </span><span class="lineCov">        165 : CompressorInfo ObjectDataICommand::getCompressorInfo() const</span>
 <span class="lineNum">     104 </span>            : {
-<span class="lineNum">     105 </span><span class="lineCov">        165 :     return _impl-&gt;compressor;</span>
+<span class="lineNum">     105 </span><span class="lineCov">        165 :     return pression::data::Registry::getInstance().find( _impl-&gt;compressorName);</span>
 <a name="106"><span class="lineNum">     106 </span>            : }</a>
 <span class="lineNum">     107 </span>            : 
 <span class="lineNum">     108 </span><span class="lineCov">        165 : uint32_t ObjectDataICommand::getChunks() const</span>
@@ -172,9 +172,9 @@
 <span class="lineNum">     110 </span><span class="lineCov">        165 :     return _impl-&gt;chunks;</span>
 <a name="111"><span class="lineNum">     111 </span>            : }</a>
 <span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span><span class="lineCov">     202348 : bool ObjectDataICommand::isLast() const</span>
+<span class="lineNum">     113 </span><span class="lineCov">     197455 : bool ObjectDataICommand::isLast() const</span>
 <span class="lineNum">     114 </span>            : {
-<span class="lineNum">     115 </span><span class="lineCov">     202348 :     return _impl-&gt;isLast;</span>
+<span class="lineNum">     115 </span><span class="lineCov">     197455 :     return _impl-&gt;isLast;</span>
 <a name="116"><span class="lineNum">     116 </span>            : }</a>
 <span class="lineNum">     117 </span>            : 
 <span class="lineNum">     118 </span><span class="lineNoCov">          0 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const ObjectDataICommand&amp; command )</span>

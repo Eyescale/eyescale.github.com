@@ -1,6 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"queue_master_8h_source.html":[6,0,46],
 "queue_slave_8h_source.html":[6,0,47],
 "send_token_8h_source.html":[6,0,48],
 "serializable_8h_source.html":[6,0,49],

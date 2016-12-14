@@ -5,7 +5,7 @@ var classco_1_1_data_i_stream =
     [ "~DataIStream", "classco_1_1_data_i_stream.html#aebd9feab6d54577506a37b756eca37b5", null ],
     [ "deserializeChildren", "classco_1_1_data_i_stream.html#aa7176a552bc9593ae6cc071697098204", null ],
     [ "getLocalNode", "classco_1_1_data_i_stream.html#a0afaf6930a70bf36f71c18c934da80c9", null ],
-    [ "getNextBuffer", "classco_1_1_data_i_stream.html#afc83473ea3d43284309549e69806261f", null ],
+    [ "getNextBuffer", "classco_1_1_data_i_stream.html#a62b377ef94bfd16fcb76319471503694", null ],
     [ "getRemainingBuffer", "classco_1_1_data_i_stream.html#aebb79ab3f9c83cac9be932c4e4ecdbd6", null ],
     [ "getRemainingBufferSize", "classco_1_1_data_i_stream.html#ac9403b531f7d38ed2bfa7e64603006d9", null ],
     [ "getRemoteNode", "classco_1_1_data_i_stream.html#aed146c31e393a30ff76dd4b4f3fab885", null ],

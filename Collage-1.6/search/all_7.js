@@ -34,7 +34,6 @@ var searchData=
   ['getnotifier',['getNotifier',['../classco_1_1_buffer_connection.html#abe5263221ad0689355e55a1ff956845d',1,'co::BufferConnection::getNotifier()'],['../classco_1_1_connection.html#a2fac03f6e4e2b5bf174649363cfd0c94',1,'co::Connection::getNotifier()']]],
   ['getobjectbuffersize',['getObjectBufferSize',['../classco_1_1_global.html#abab9d172b0927d79733a28af60a2d9f0',1,'co::Global']]],
   ['getpatch',['getPatch',['../classco_1_1_version.html#a24cf3802e0e424beff53bd98945e6a16',1,'co::Version']]],
-  ['getpluginregistry',['getPluginRegistry',['../classco_1_1_global.html#a0e5d30eb93e68aa5107fbe9f18c2913d',1,'co::Global']]],
   ['getremainingbuffer',['getRemainingBuffer',['../classco_1_1_data_i_stream.html#aebb79ab3f9c83cac9be932c4e4ecdbd6',1,'co::DataIStream']]],
   ['getremainingbuffersize',['getRemainingBufferSize',['../classco_1_1_data_i_stream.html#ac9403b531f7d38ed2bfa7e64603006d9',1,'co::DataIStream']]],
   ['getremotenode',['getRemoteNode',['../classco_1_1_data_i_stream.html#aed146c31e393a30ff76dd4b4f3fab885',1,'co::DataIStream::getRemoteNode()'],['../classco_1_1_i_command.html#a9a30e67bfac46b49276910d4d5aa0928',1,'co::ICommand::getRemoteNode()']]],

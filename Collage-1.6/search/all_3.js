@@ -3,7 +3,7 @@ var searchData=
   ['changelog',['Changelog',['../Changelog.html',1,'']]],
   ['changetype',['ChangeType',['../classco_1_1_object.html#aaae58400a7f8d052bfa2b5392a5fbfe8',1,'co::Object']]],
   ['check',['check',['../classco_1_1_version.html#a67fe85be9c5dcb085e54fa9a7ecea4bc',1,'co::Version']]],
-  ['choosecompressor',['chooseCompressor',['../classco_1_1_object.html#ac5c35d27fb9c4149924abefca4a610f2',1,'co::Object']]],
+  ['choosecompressor',['chooseCompressor',['../classco_1_1_object.html#a15e036ed4f28d3409c9f869b26cc94e3',1,'co::Object']]],
   ['clear',['clear',['../classco_1_1_object_map.html#adbac29af8f614bb16d87943808d3bbf3',1,'co::ObjectMap::clear()'],['../classco_1_1_queue_master.html#a978b7df8f9806c5911bd46aca4721534',1,'co::QueueMaster::clear()']]],
   ['close',['close',['../classco_1_1_connection.html#a539fe42f7056fb3932139f3e95b050fb',1,'co::Connection::close()'],['../classco_1_1_local_node.html#a40df2d93c9d4551f6243fde90825c25f',1,'co::LocalNode::close()']]],
   ['cmd_5fnode_5fcustom',['CMD_NODE_CUSTOM',['../namespaceco.html#a21e97c30f3c5e0b6043169a3ab888e6ba6259624287b1314e043f607a8efb29ce',1,'co']]],

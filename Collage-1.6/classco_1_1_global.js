@@ -30,7 +30,6 @@ var classco_1_1_global =
     [ "getIAttribute", "classco_1_1_global.html#a2e6a343853761d6277ce6efde3ebf23c", null ],
     [ "getKeepaliveTimeout", "classco_1_1_global.html#aa1cf3b3c39fe76fcf4ee233175957634", null ],
     [ "getObjectBufferSize", "classco_1_1_global.html#abab9d172b0927d79733a28af60a2d9f0", null ],
-    [ "getPluginRegistry", "classco_1_1_global.html#a0e5d30eb93e68aa5107fbe9f18c2913d", null ],
     [ "getTimeout", "classco_1_1_global.html#aeb60db7d2907e544494fddfb98bd4c0e", null ],
     [ "setDefaultPort", "classco_1_1_global.html#a08c32db858f6d07cbe1c28f7f0d70316", null ],
     [ "setIAttribute", "classco_1_1_global.html#ab4f059502046665a74f30bd09d3bfc07", null ],

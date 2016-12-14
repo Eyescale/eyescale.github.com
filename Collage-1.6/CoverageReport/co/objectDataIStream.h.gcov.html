@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 01:22:04</td>
+            <td class="headerValue">2016-12-14 01:26:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -61,8 +61,8 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
-<span class="lineNum">       3 </span>            :  *                    2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
 <span class="lineNum">       6 </span>            :  *
@@ -93,54 +93,54 @@
 <span class="lineNum">      31 </span>            : 
 <span class="lineNum">      32 </span>            : namespace co
 <span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span>            :     /** The DataIStream for object data. */
-<span class="lineNum">      35 </span>            :     class ObjectDataIStream : public DataIStream
-<span class="lineNum">      36 </span>            :     {
-<span class="lineNum">      37 </span>            :     public:
-<span class="lineNum">      38 </span>            :         ObjectDataIStream();
-<span class="lineNum">      39 </span>            :         ObjectDataIStream( const ObjectDataIStream&amp; rhs );
-<span class="lineNum">      40 </span>            :         virtual ~ObjectDataIStream();
+<span class="lineNum">      34 </span>            : /** The DataIStream for object data. */
+<span class="lineNum">      35 </span>            : class ObjectDataIStream : public DataIStream
+<span class="lineNum">      36 </span>            : {
+<span class="lineNum">      37 </span>            : public:
+<span class="lineNum">      38 </span>            :     ObjectDataIStream();
+<span class="lineNum">      39 </span>            :     ObjectDataIStream( const ObjectDataIStream&amp; rhs );
+<span class="lineNum">      40 </span>            :     virtual ~ObjectDataIStream();
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span>            :         ObjectDataIStream&amp; operator = ( const ObjectDataIStream&amp; rhs );
+<span class="lineNum">      42 </span>            :     ObjectDataIStream&amp; operator = ( const ObjectDataIStream&amp; rhs );
 <span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span>            :         void addDataCommand( ObjectDataICommand command );
-<a name="45"><span class="lineNum">      45 </span>            :         size_t getDataSize() const;</a>
+<span class="lineNum">      44 </span>            :     void addDataCommand( ObjectDataICommand command );
+<a name="45"><span class="lineNum">      45 </span>            :     size_t getDataSize() const;</a>
 <span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span><span class="lineCov">        539 :         uint128_t getVersion() const override { return _version.get(); }</span>
-<a name="48"><span class="lineNum">      48 </span>            :         uint128_t getPendingVersion() const;</a>
+<span class="lineNum">      47 </span><span class="lineCov">        539 :     uint128_t getVersion() const override { return _version.get(); }</span>
+<a name="48"><span class="lineNum">      48 </span>            :     uint128_t getPendingVersion() const;</a>
 <a name="49"><span class="lineNum">      49 </span>            : </a>
-<span class="lineNum">      50 </span><span class="lineCov">         12 :         void waitReady() const { _version.waitNE( VERSION_INVALID ); }</span>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">     606868 :         bool isReady() const { return _version != VERSION_INVALID; }</span></a>
+<span class="lineNum">      50 </span><span class="lineCov">         12 :     void waitReady() const { _version.waitNE( VERSION_INVALID ); }</span>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">     592189 :     bool isReady() const { return _version != VERSION_INVALID; }</span></a>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">        116 :         size_t nRemainingBuffers() const override { return _commands.size(); }</span>
+<span class="lineNum">      53 </span><span class="lineCov">        116 :     size_t nRemainingBuffers() const override { return _commands.size(); }</span>
 <span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span>            :         void reset() override;
+<span class="lineNum">      55 </span>            :     void reset() override;
 <span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            :         bool hasInstanceData() const;
+<span class="lineNum">      57 </span>            :     bool hasInstanceData() const;
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span>            :         CO_API NodePtr getRemoteNode() const override;
-<span class="lineNum">      60 </span>            :         CO_API LocalNodePtr getLocalNode() const override;
+<span class="lineNum">      59 </span>            :     CO_API NodePtr getRemoteNode() const override;
+<span class="lineNum">      60 </span>            :     CO_API LocalNodePtr getLocalNode() const override;
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            :     protected:
-<span class="lineNum">      63 </span>            :         bool getNextBuffer( uint32_t&amp; compressor, uint32_t&amp; nChunks,
-<span class="lineNum">      64 </span>            :                             const void** chunkData, uint64_t&amp; size ) override;
+<span class="lineNum">      62 </span>            : protected:
+<span class="lineNum">      63 </span>            :     bool getNextBuffer( CompressorInfo&amp; compressor, uint32_t&amp; nChunks,
+<span class="lineNum">      64 </span>            :                         const void*&amp; chunkData, uint64_t&amp; size ) override;
 <span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span>            :     private:
-<span class="lineNum">      67 </span>            :         typedef std::deque&lt; ICommand &gt; CommandDeque;
+<span class="lineNum">      66 </span>            : private:
+<span class="lineNum">      67 </span>            :     typedef std::deque&lt; ICommand &gt; CommandDeque;
 <span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :         /** All data commands for this istream. */
-<span class="lineNum">      70 </span>            :         CommandDeque _commands;
+<span class="lineNum">      69 </span>            :     /** All data commands for this istream. */
+<span class="lineNum">      70 </span>            :     CommandDeque _commands;
 <span class="lineNum">      71 </span>            : 
-<span class="lineNum">      72 </span>            :         ICommand _usedCommand; //!&lt; Currently used buffer
+<span class="lineNum">      72 </span>            :     ICommand _usedCommand; //!&lt; Currently used buffer
 <span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span>            :         /** The object version associated with this input stream. */
-<a name="75"><span class="lineNum">      75 </span>            :         lunchbox::Monitor&lt; uint128_t &gt; _version;</a>
+<span class="lineNum">      74 </span>            :     /** The object version associated with this input stream. */
+<a name="75"><span class="lineNum">      75 </span>            :     lunchbox::Monitor&lt; uint128_t &gt; _version;</a>
 <span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span><span class="lineCov">     202335 :         void _setReady() { _version = getPendingVersion(); }</span>
-<a name="78"><span class="lineNum">      78 </span>            :         void _reset();</a>
+<span class="lineNum">      77 </span><span class="lineCov">     197442 :     void _setReady() { _version = getPendingVersion(); }</span>
+<a name="78"><span class="lineNum">      78 </span>            :     void _reset();</a>
 <span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span><span class="lineCov">     404670 :         LB_TS_VAR( _thread );</span>
-<span class="lineNum">      81 </span>            :     };
+<span class="lineNum">      80 </span><span class="lineCov">     394884 :     LB_TS_VAR( _thread );</span>
+<span class="lineNum">      81 </span>            : };
 <span class="lineNum">      82 </span>            : }
 <span class="lineNum">      83 </span>            : #endif //CO_OBJECTDATAISTREAM_H
 </pre>
