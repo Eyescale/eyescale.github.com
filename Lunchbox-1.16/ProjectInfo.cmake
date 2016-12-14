@@ -1,0 +1,7 @@
+set(LUNCHBOX_MATURITY "EP")
+set(LUNCHBOX_DESCRIPTION "Multi-threaded C++ toolbox library for all application developers creating high-performance multi-threaded programs.")
+set(LUNCHBOX_GIT_ROOT_URL "https://github.com/Eyescale/Lunchbox.git")
+set(LUNCHBOX_PACKAGE_URL "https://launchpad.net/~eilemann/+archive/equalizer-dev")
+set(LUNCHBOX_CI_URL "https://travis-ci.org/Eyescale/Lunchbox")
+set(LUNCHBOX_CI_PNG "https://travis-ci.org/Eyescale/Lunchbox.png")
+set(LUNCHBOX_ISSUES_URL "https://github.com/Eyescale/Lunchbox/issues")
