@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-12 05:04:37</td>
+            <td class="headerValue">2016-12-14 05:09:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">24</td>
@@ -146,11 +146,11 @@
 <span class="lineNum">      84 </span>            :     //@}
 <span class="lineNum">      85 </span>            : 
 <span class="lineNum">      86 </span>            :     /** @return true if the object has data to commit. @version 1.0 */
-<span class="lineNum">      87 </span>            :     EQFABRIC_API virtual bool isDirty() const;
+<span class="lineNum">      87 </span>            :     EQFABRIC_API bool isDirty() const override;
 <span class="lineNum">      88 </span>            : 
 <span class="lineNum">      89 </span>            :     /** @internal */
-<span class="lineNum">      90 </span>            :     EQFABRIC_API virtual uint128_t commit( const uint32_t incarnation =
-<span class="lineNum">      91 </span>            :                                            CO_COMMIT_NEXT );
+<span class="lineNum">      90 </span>            :     EQFABRIC_API uint128_t commit( const uint32_t incarnation =
+<span class="lineNum">      91 </span>            :                                    CO_COMMIT_NEXT ) override;
 <span class="lineNum">      92 </span>            : 
 <span class="lineNum">      93 </span>            :     /** @internal Back up app-specific data, excluding child data. */
 <span class="lineNum">      94 </span>            :     EQFABRIC_API virtual void backup();
@@ -200,12 +200,12 @@
 <span class="lineNum">     138 </span>            :     /** @internal Set the tasks this entity might potentially execute. */
 <span class="lineNum">     139 </span>            :     EQFABRIC_API void setTasks( const uint32_t tasks );
 <span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span>            :     EQFABRIC_API virtual void notifyDetach();
+<span class="lineNum">     141 </span>            :     EQFABRIC_API void notifyDetach() override;
 <span class="lineNum">     142 </span>            : 
-<span class="lineNum">     143 </span>            :     EQFABRIC_API virtual void serialize( co::DataOStream&amp; os,
-<span class="lineNum">     144 </span>            :                                          const uint64_t dirtyBits );
-<span class="lineNum">     145 </span>            :     EQFABRIC_API virtual void deserialize( co::DataIStream&amp; is,
-<span class="lineNum">     146 </span>            :                                            const uint64_t dirtyBits );
+<span class="lineNum">     143 </span>            :     EQFABRIC_API void serialize( co::DataOStream&amp; os,
+<span class="lineNum">     144 </span>            :                                  const uint64_t dirtyBits ) override;
+<span class="lineNum">     145 </span>            :     EQFABRIC_API void deserialize( co::DataIStream&amp; is,
+<span class="lineNum">     146 </span>            :                                    const uint64_t dirtyBits ) override;
 <a name="147"><span class="lineNum">     147 </span>            : </a>
 <span class="lineNum">     148 </span>            :     /** @internal @return the bits to be re-committed by the master. */
 <span class="lineNum">     149 </span><span class="lineNoCov">          0 :     virtual uint64_t getRedistributableBits() const</span>
@@ -229,10 +229,10 @@
 <a name="167"><span class="lineNum">     167 </span>            :     /** @internal commit slave instance to the server. */</a>
 <span class="lineNum">     168 </span>            :     template&lt; class C &gt; inline
 <span class="lineNum">     169 </span><span class="lineNoCov">          0 :     void commitChild( C* child, const uint32_t incarnation )</span>
-<span class="lineNum">     170 </span>            :         {
-<span class="lineNum">     171 </span><span class="lineNoCov">          0 :             LBASSERT( child-&gt;isAttached( ));</span>
-<span class="lineNum">     172 </span><span class="lineNoCov">          0 :             child-&gt;commit( incarnation );</span>
-<span class="lineNum">     173 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     170 </span>            :     {
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :         LBASSERT( child-&gt;isAttached( ));</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :         child-&gt;commit( incarnation );</span>
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     174 </span>            : 
 <span class="lineNum">     175 </span>            :     /** @internal commit, register child slave instances with the server. */
 <span class="lineNum">     176 </span>            :     template&lt; class C, class S &gt;

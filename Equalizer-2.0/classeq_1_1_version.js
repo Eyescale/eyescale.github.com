@@ -5,7 +5,7 @@ var classeq_1_1_version =
     [ "getMajor", "classeq_1_1_version.html#afbe4e1735273451342a27dbac923acba", null ],
     [ "getMinor", "classeq_1_1_version.html#a7cfed2a685dedbf227b54255888c968a", null ],
     [ "getPatch", "classeq_1_1_version.html#aaf6efd0926fe0b5775b24b2170781911", null ],
-    [ "getRevision", "classeq_1_1_version.html#a64760bf29561a5be6d8f1cfab150fac6", null ],
+    [ "getRevision", "classeq_1_1_version.html#a253ccbf09cc32b0f47ae47af3f80dc6d", null ],
     [ "getRevString", "classeq_1_1_version.html#a1e1e2966714ae5deab1a618127c22009", null ],
     [ "getSchema", "classeq_1_1_version.html#a17ab5ec81edb18c7116cc6b637c773c7", null ],
     [ "getString", "classeq_1_1_version.html#a4cf29eaacd5dad1886d2d78176225122", null ],
