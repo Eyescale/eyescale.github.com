@@ -48,7 +48,7 @@ var classeq_1_1_window =
     [ "isRunning", "classeq_1_1_window.html#a11cea64cf4da90ffb2845fba0b691bce", null ],
     [ "isStopped", "classeq_1_1_window.html#a95fe12ec0817578b03c19955e632d176", null ],
     [ "makeCurrent", "classeq_1_1_window.html#a5e15bf16f8e90d98cf8bcbaa9e62704e", null ],
-    [ "notifyViewportChanged", "classeq_1_1_window.html#ac931956e82f8d3fba02646570fde3013", null ],
+    [ "notifyViewportChanged", "classeq_1_1_window.html#a4180bcc3f8d85db4c9142569e7ffaee5", null ],
     [ "processEvent", "classeq_1_1_window.html#ad9b0263c62b73e3c3ac29a544fb1a41f", null ],
     [ "processEvent", "classeq_1_1_window.html#afe2d9d31a1e019c762f82988ed4ee161", null ],
     [ "processEvent", "classeq_1_1_window.html#ab9eacc6d478029edec49717d329d0dcc", null ],
