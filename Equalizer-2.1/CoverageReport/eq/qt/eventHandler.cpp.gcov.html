@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Equalizer - eq/qt/eventHandler.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">eq/qt</a> - eventHandler.cpp<span style="font-size: 80%;"> (source / <a href="eventHandler.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Equalizer</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">153</td>
+            <td class="headerCovTableEntryLo">0.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-12-23 05:09:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntryLo">12.5 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2014-2016, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       3 </span>            :  *                          Juan Hernando &lt;jhernando@fi.upm.es&gt;
+<span class="lineNum">       4 </span>            :  *                          Stefan.Eilemann@epfl.ch
+<span class="lineNum">       5 </span>            :  *
+<span class="lineNum">       6 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       7 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       8 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       9 </span>            :  *
+<span class="lineNum">      10 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">      11 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      12 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      13 </span>            :  * details.
+<span class="lineNum">      14 </span>            :  *
+<span class="lineNum">      15 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      16 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      17 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      18 </span>            :  */
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &quot;eventHandler.h&quot;
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : #include &quot;event.h&quot;
+<span class="lineNum">      23 </span>            : #include &quot;window.h&quot;
+<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/keyEvent.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/sizeEvent.h&gt;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : #include &lt;QApplication&gt;
+<span class="lineNum">      28 </span>            : #include &lt;QKeyEvent&gt;
+<span class="lineNum">      29 </span>            : #include &lt;QThread&gt;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : namespace eq
+<span class="lineNum">      32 </span>            : {
+<span class="lineNum">      33 </span>            : namespace qt
+<span class="lineNum">      34 </span>            : {
+<span class="lineNum">      35 </span>            : 
+<a name="36"><span class="lineNum">      36 </span>            : namespace</a>
+<span class="lineNum">      37 </span>            : {
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 : uint32_t _getKey( const QKeyEvent&amp; keyEvent )</span>
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     switch( keyEvent.key( ))</span>
+<span class="lineNum">      41 </span>            :     {
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     case Qt::Key_Escape:    return KC_ESCAPE;</span>
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     case Qt::Key_Backspace: return KC_BACKSPACE;</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     case Qt::Key_Return:    return KC_RETURN;</span>
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     case Qt::Key_Tab:       return KC_TAB;</span>
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :     case Qt::Key_Home:      return KC_HOME;</span>
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     case Qt::Key_Left:      return KC_LEFT;</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     case Qt::Key_Up:        return KC_UP;</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     case Qt::Key_Right:     return KC_RIGHT;</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     case Qt::Key_Down:      return KC_DOWN;</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     case Qt::Key_PageUp:    return KC_PAGE_UP;</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     case Qt::Key_PageDown:  return KC_PAGE_DOWN;</span>
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :     case Qt::Key_End:       return KC_END;</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     case Qt::Key_F1:        return KC_F1;</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     case Qt::Key_F2:        return KC_F2;</span>
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :     case Qt::Key_F3:        return KC_F3;</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     case Qt::Key_F4:        return KC_F4;</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     case Qt::Key_F5:        return KC_F5;</span>
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :     case Qt::Key_F6:        return KC_F6;</span>
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :     case Qt::Key_F7:        return KC_F7;</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     case Qt::Key_F8:        return KC_F8;</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :     case Qt::Key_F9:        return KC_F9;</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :     case Qt::Key_F10:       return KC_F10;</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :     case Qt::Key_F11:       return KC_F11;</span>
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :     case Qt::Key_F12:       return KC_F12;</span>
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     case Qt::Key_F13:       return KC_F13;</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     case Qt::Key_F14:       return KC_F14;</span>
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :     case Qt::Key_F15:       return KC_F15;</span>
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :     case Qt::Key_F16:       return KC_F16;</span>
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :     case Qt::Key_F17:       return KC_F17;</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     case Qt::Key_F18:       return KC_F18;</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :     case Qt::Key_F19:       return KC_F19;</span>
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :     case Qt::Key_F20:       return KC_F20;</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     case Qt::Key_F21:       return KC_F21;</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :     case Qt::Key_F22:       return KC_F22;</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     case Qt::Key_F23:       return KC_F23;</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :     case Qt::Key_F24:       return KC_F24;</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     case Qt::Key_Shift:     return KC_SHIFT_L;</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :     case Qt::Key_Control:   return KC_CONTROL_L;</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     case Qt::Key_Alt:       return KC_ALT_L;</span>
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :     case Qt::Key_AltGr:     return KC_ALT_R;</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     case Qt::Key_unknown:   return KC_VOID;</span>
+<span class="lineNum">      83 </span>            :     default:
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :         if( keyEvent.text().isEmpty( ))</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :             return KC_VOID;</span>
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         return keyEvent.text().at( 0 ).unicode();</span>
+<span class="lineNum">      87 </span>            :     }
+<a name="88"><span class="lineNum">      88 </span>            : }</a>
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 : KeyModifier _getKeyModifiers( const QInputEvent&amp; event )</span>
+<span class="lineNum">      91 </span>            : {
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :     Qt::KeyboardModifiers modifiers = event.modifiers();</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :     KeyModifier result = KeyModifier::none;</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :     if( modifiers &amp; Qt::AltModifier )</span>
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :         result |= KeyModifier::alt;</span>
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :     if( modifiers &amp; Qt::ControlModifier )</span>
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :         result |= KeyModifier::control;</span>
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :     if( modifiers &amp; Qt::ShiftModifier )</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         result |= KeyModifier::shift;</span>
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     101 </span>            : }
+<a name="102"><span class="lineNum">     102 </span>            : </a>
+<span class="lineNum">     103 </span>            : // Qt buttons 2 &amp; 3 are inversed with EQ (X11/AGL/WGL)
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 : uint32_t _getButtons( const Qt::MouseButtons&amp; eventButtons )</span>
+<span class="lineNum">     105 </span>            : {
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :     if( (eventButtons &amp; (Qt::MidButton | Qt::RightButton)) ==</span>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :                                              (Qt::MidButton | Qt::RightButton) )</span>
+<span class="lineNum">     108 </span>            :     {
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :         return eventButtons;</span>
+<span class="lineNum">     110 </span>            :     }
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     uint32_t buttons = eventButtons;</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     if( eventButtons &amp; Qt::MidButton || eventButtons &amp; Qt::RightButton )</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :         buttons ^= PTR_BUTTON2 | PTR_BUTTON3;</span>
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :     return buttons;</span>
+<a name="116"><span class="lineNum">     116 </span>            : }</a>
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 : uint32_t _getButton( const Qt::MouseButton button )</span>
+<span class="lineNum">     119 </span>            : {
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     if( button == Qt::RightButton )</span>
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :         return PTR_BUTTON2;</span>
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :     if( button == Qt::MidButton )</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :         return PTR_BUTTON3;</span>
+<span class="lineNum">     124 </span><span class="lineNoCov">          0 :     return button;</span>
+<span class="lineNum">     125 </span>            : }
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            : // Performs a (derived) copy of the incoming event. QApplication::postEvent()
+<a name="128"><span class="lineNum">     128 </span>            : // takes ownership of the given event, and the incoming event is only valid</a>
+<span class="lineNum">     129 </span>            : // within the event function, it is destroyed afterwards by Qt.
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 : QEvent* _clone( const QEvent* event )</span>
+<span class="lineNum">     131 </span>            : {
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :     switch( event-&gt;type( ))</span>
+<span class="lineNum">     133 </span>            :     {
+<span class="lineNum">     134 </span>            :     case QEvent::Close:
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :         return new QCloseEvent;</span>
+<span class="lineNum">     136 </span>            :     case QEvent::Expose:
+<span class="lineNum">     137 </span>            :     {
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 :         const QExposeEvent* e = static_cast&lt; const QExposeEvent* &gt;( event );</span>
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :         return new QExposeEvent( e-&gt;region( ));</span>
+<span class="lineNum">     140 </span>            :     }
+<span class="lineNum">     141 </span>            :     case QEvent::Hide:
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         return new QHideEvent;</span>
+<span class="lineNum">     143 </span>            :     case QEvent::Resize:
+<span class="lineNum">     144 </span>            :     {
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         const QResizeEvent* e = static_cast&lt; const QResizeEvent* &gt;( event );</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         return new QResizeEvent( e-&gt;size(), e-&gt;oldSize( ));</span>
+<span class="lineNum">     147 </span>            :     }
+<span class="lineNum">     148 </span>            :     case QEvent::MouseMove:
+<span class="lineNum">     149 </span>            :     case QEvent::MouseButtonPress:
+<span class="lineNum">     150 </span>            :     case QEvent::MouseButtonRelease:
+<span class="lineNum">     151 </span>            :     {
+<span class="lineNum">     152 </span><span class="lineNoCov">          0 :         const QMouseEvent* e = static_cast&lt; const QMouseEvent* &gt;( event );</span>
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :         return new QMouseEvent( e-&gt;type(), e-&gt;localPos(), e-&gt;windowPos(),</span>
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :                                 e-&gt;screenPos(), e-&gt;button(), e-&gt;buttons(),</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :                                 e-&gt;modifiers( ));</span>
+<span class="lineNum">     156 </span>            :     }
+<span class="lineNum">     157 </span>            :     case QEvent::Wheel:
+<span class="lineNum">     158 </span>            :     {
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :         const QWheelEvent* e = static_cast&lt; const QWheelEvent* &gt;( event );</span>
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :         return new QWheelEvent( e-&gt;pos(), e-&gt;globalPos(), e-&gt;pixelDelta(),</span>
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :                                 e-&gt;angleDelta(), e-&gt;delta(), e-&gt;orientation(),</span>
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :                                 e-&gt;buttons(), e-&gt;modifiers(), e-&gt;phase()</span>
+<span class="lineNum">     163 </span>            : #if QT_VERSION &gt;= 0x050500
+<span class="lineNum">     164 </span>            :                                 , e-&gt;source()
+<span class="lineNum">     165 </span>            : #endif
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :                                 );</span>
+<span class="lineNum">     167 </span>            :     }
+<span class="lineNum">     168 </span>            :     case QEvent::KeyPress:
+<span class="lineNum">     169 </span>            :     case QEvent::KeyRelease:
+<span class="lineNum">     170 </span>            :     {
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :         const QKeyEvent* e = static_cast&lt; const QKeyEvent* &gt;( event );</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :         return new QKeyEvent( e-&gt;type(), e-&gt;key(), e-&gt;modifiers(),</span>
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :                               e-&gt;nativeScanCode(), e-&gt;nativeVirtualKey(),</span>
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 :                               e-&gt;nativeModifiers(), e-&gt;text(),</span>
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :                               e-&gt;isAutoRepeat(), ushort( e-&gt;count( )));</span>
+<span class="lineNum">     176 </span>            :     }
+<span class="lineNum">     177 </span>            :     default:
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         return nullptr;</span>
+<span class="lineNum">     179 </span>            :     }
+<span class="lineNum">     180 </span>            : }
+<a name="181"><span class="lineNum">     181 </span>            : }</a>
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 : EventHandler::EventHandler( WindowIF&amp; window )</span>
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :     : _window( window )</span>
+<a name="185"><span class="lineNum">     185 </span><span class="lineNoCov">          0 : {}</span></a>
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span><span class="lineNoCov">          0 : EventHandler::~EventHandler()</span>
+<a name="188"><span class="lineNum">     188 </span><span class="lineNoCov">          0 : {}</span></a>
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 : bool EventHandler::event( QEvent* qevent )</span>
+<span class="lineNum">     191 </span>            : {
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :     if( thread() != QThread::currentThread( ))</span>
+<span class="lineNum">     193 </span>            :     {
+<span class="lineNum">     194 </span>            :         // Event did not arrive in the current thread, repost to correct thread.
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :         QEvent* clone = _clone( qevent );</span>
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :         if( clone )</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :             QApplication::postEvent( this, clone );</span>
+<span class="lineNum">     198 </span>            :         // else not cloned because unknown/not handled by us later (see below)
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     201 </span>            :     }
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :     return _processEvent( qevent );</span>
+<a name="204"><span class="lineNum">     204 </span>            : }</a>
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 : bool EventHandler::_processEvent( QEvent* qEvent )</span>
+<span class="lineNum">     207 </span>            : {
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     switch( qEvent-&gt;type( ))</span>
+<span class="lineNum">     209 </span>            :     {
+<span class="lineNum">     210 </span>            :     case QEvent::Close:
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :         return _window.processEvent( EVENT_WINDOW_CLOSE, qEvent );</span>
+<span class="lineNum">     212 </span>            :     case QEvent::Expose:
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :         return _window.processEvent( EVENT_WINDOW_EXPOSE, qEvent );</span>
+<span class="lineNum">     214 </span>            :     case QEvent::Hide:
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :         return _window.processEvent( EVENT_WINDOW_HIDE, qEvent );</span>
+<span class="lineNum">     216 </span>            :     case QEvent::Resize:
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :         return _processSizeEvent( EVENT_WINDOW_RESIZE, qEvent );</span>
+<span class="lineNum">     218 </span>            :     case QEvent::MouseMove:
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :         return _processPointerEvent( EVENT_WINDOW_POINTER_MOTION, qEvent );</span>
+<span class="lineNum">     220 </span>            :     case QEvent::MouseButtonPress:
+<span class="lineNum">     221 </span>            :         return _processPointerEvent( EVENT_WINDOW_POINTER_BUTTON_PRESS,
+<span class="lineNum">     222 </span><span class="lineNoCov">          0 :                                      qEvent );</span>
+<span class="lineNum">     223 </span>            :     case QEvent::MouseButtonRelease:
+<span class="lineNum">     224 </span>            :         return _processPointerEvent( EVENT_WINDOW_POINTER_BUTTON_RELEASE,
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :                                      qEvent );</span>
+<span class="lineNum">     226 </span>            : #ifndef QT_NO_WHEELEVENT
+<span class="lineNum">     227 </span>            :     case QEvent::Wheel:
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :         return _processWheelEvent( qEvent );</span>
+<span class="lineNum">     229 </span>            : #endif
+<span class="lineNum">     230 </span>            :     case QEvent::KeyPress:
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 :         return _processKeyEvent( EVENT_KEY_PRESS, qEvent );</span>
+<span class="lineNum">     232 </span>            :     case QEvent::KeyRelease:
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 :         return _processKeyEvent( EVENT_KEY_RELEASE, qEvent );</span>
+<span class="lineNum">     234 </span>            :     default:
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     236 </span>            :     }
+<a name="237"><span class="lineNum">     237 </span>            : }</a>
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 : bool EventHandler::_processSizeEvent( const EventType type, QEvent* qev )</span>
+<span class="lineNum">     240 </span>            : {
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :     QResizeEvent* qevent = static_cast&lt; QResizeEvent* &gt;( qev );</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :     SizeEvent sizeEvent;</span>
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :     sizeEvent.w = qevent-&gt;size().width();</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :     sizeEvent.h = qevent-&gt;size().height();</span>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :     return _window.processEvent( type, qev, sizeEvent );</span>
+<a name="246"><span class="lineNum">     246 </span>            : }</a>
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span><span class="lineNoCov">          0 : bool EventHandler::_processPointerEvent( const EventType type, QEvent* qev )</span>
+<span class="lineNum">     249 </span>            : {
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :     QMouseEvent* qevent = static_cast&lt; QMouseEvent* &gt;( qev );</span>
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 :     PointerEvent pointerEvent;</span>
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :     pointerEvent.x = qevent-&gt;x();</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :     pointerEvent.y = qevent-&gt;y();</span>
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :     pointerEvent.buttons = _getButtons( qevent-&gt;buttons( ));</span>
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :     pointerEvent.button = _getButton( qevent-&gt;button( ));</span>
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :     pointerEvent.modifiers = _getKeyModifiers( *qevent );</span>
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :     _computePointerDelta( type, pointerEvent );</span>
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :     return _window.processEvent( type, qev, pointerEvent );</span>
+<span class="lineNum">     259 </span>            : }
+<a name="260"><span class="lineNum">     260 </span>            : </a>
+<span class="lineNum">     261 </span>            : #ifndef QT_NO_WHEELEVENT
+<span class="lineNum">     262 </span><span class="lineNoCov">          0 : bool EventHandler::_processWheelEvent( QEvent* qev )</span>
+<span class="lineNum">     263 </span>            : {
+<span class="lineNum">     264 </span><span class="lineNoCov">          0 :     QWheelEvent* qevent = static_cast&lt; QWheelEvent* &gt;( qev );</span>
+<span class="lineNum">     265 </span><span class="lineNoCov">          0 :     PointerEvent pointerEvent;</span>
+<span class="lineNum">     266 </span><span class="lineNoCov">          0 :     switch( qevent-&gt;orientation( ))</span>
+<span class="lineNum">     267 </span>            :     {
+<span class="lineNum">     268 </span>            :     case Qt::Horizontal:
+<span class="lineNum">     269 </span><span class="lineNoCov">          0 :         pointerEvent.xAxis = qevent-&gt;delta() &gt; 0 ? 1 : -1;</span>
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     271 </span>            :     case Qt::Vertical:
+<span class="lineNum">     272 </span><span class="lineNoCov">          0 :         pointerEvent.yAxis = qevent-&gt;delta() &gt; 0 ? 1 : -1;</span>
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     274 </span>            :     }
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :     pointerEvent.buttons = _getButtons( qevent-&gt;buttons( ));</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :     pointerEvent.button  = PTR_BUTTON_NONE;</span>
+<span class="lineNum">     277 </span><span class="lineNoCov">          0 :     pointerEvent.modifiers = _getKeyModifiers( *qevent );</span>
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :     return _window.processEvent( EVENT_WINDOW_POINTER_WHEEL, qev, pointerEvent);</span>
+<span class="lineNum">     279 </span>            : }
+<a name="280"><span class="lineNum">     280 </span>            : #endif</a>
+<span class="lineNum">     281 </span>            : 
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 : bool EventHandler::_processKeyEvent( const EventType type, QEvent* qev )</span>
+<span class="lineNum">     283 </span>            : {
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :     QKeyEvent* qevent = static_cast&lt; QKeyEvent* &gt;( qev );</span>
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :     KeyEvent keyEvent;</span>
+<span class="lineNum">     286 </span><span class="lineNoCov">          0 :     keyEvent.key = _getKey( *qevent );</span>
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :     keyEvent.modifiers = _getKeyModifiers( *qevent );</span>
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 :     return _window.processEvent( type, qev, keyEvent );</span>
+<span class="lineNum">     289 </span>            : }
+<a name="290"><span class="lineNum">     290 </span>            : </a>
+<span class="lineNum">     291 </span>            : }
+<span class="lineNum">     292 </span><span class="lineCov">         36 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
