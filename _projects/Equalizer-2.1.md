@@ -4,7 +4,7 @@ version: "2.1"
 major: 2
 minor: 1
 description: Parallel Rendering Framework
-updated: 23/12/16
+updated: 24/12/16
 homepage: https://github.com/Eyescale/Equalizer
 repository: https://github.com/Eyescale/Equalizer.git
 issuesurl: https://github.com/Eyescale/Equalizer/issues
