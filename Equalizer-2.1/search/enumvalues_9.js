@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['mode_5f2d',['MODE_2D',['../classeq_1_1fabric_1_1_equalizer.html#a999a437f685cecaab8b6acf84ecdc8dca0991bd58352a8693b9a2d4036b9fd289',1,'eq::fabric::Equalizer']]],
-  ['mode_5fdb',['MODE_DB',['../classeq_1_1fabric_1_1_equalizer.html#a999a437f685cecaab8b6acf84ecdc8dcaa8eac02eeea34721bb480d062d1c54dd',1,'eq::fabric::Equalizer']]],
-  ['mode_5fhorizontal',['MODE_HORIZONTAL',['../classeq_1_1fabric_1_1_equalizer.html#a999a437f685cecaab8b6acf84ecdc8dca8b28472851595c7adbb8802e86344033',1,'eq::fabric::Equalizer']]],
-  ['mode_5fmono',['MODE_MONO',['../classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76a6a239583f61db085be382b8255e98540',1,'eq::fabric::View']]],
-  ['mode_5fstereo',['MODE_STEREO',['../classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76a61f7cc23613e76b5d68c25acad4826d8',1,'eq::fabric::View']]],
-  ['mode_5fvertical',['MODE_VERTICAL',['../classeq_1_1fabric_1_1_equalizer.html#a999a437f685cecaab8b6acf84ecdc8dca301730daff1a082e76e68fe15300c6b2',1,'eq::fabric::Equalizer']]]
+  ['nicest',['NICEST',['../namespaceeq_1_1fabric.html#a01b6b996932dcb42ea205e657abae6b2a3c2346f35d2141c4821610f69a1eaf50',1,'eq::fabric']]],
+  ['node_5fframe_5fdecompress',['NODE_FRAME_DECOMPRESS',['../structeq_1_1fabric_1_1_statistic.html#a666d290258be2baa1f0fcd9c6be6dd45a50d443d99cbf46177f5f935fa1e86270',1,'eq::fabric::Statistic']]],
+  ['nodetype_5fserver',['NODETYPE_SERVER',['../namespaceeq_1_1fabric.html#a7a79990d899212df9a55559a946fa102a1dc4c34ace90e54ea6e9fcfac38b28e5',1,'eq::fabric']]]
 ];

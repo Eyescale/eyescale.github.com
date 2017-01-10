@@ -1,11 +1,11 @@
 var classeq_1_1fabric_1_1_frame =
 [
-    [ "Buffer", "classeq_1_1fabric_1_1_frame.html#a09d354db0c932b84a6194fd6c3e512c3", [
-      [ "BUFFER_NONE", "classeq_1_1fabric_1_1_frame.html#a09d354db0c932b84a6194fd6c3e512c3a814ff2a31e1d24a007da01db21cf8061", null ],
-      [ "BUFFER_UNDEFINED", "classeq_1_1fabric_1_1_frame.html#a09d354db0c932b84a6194fd6c3e512c3a7db2914348736ce7536d1c23a61f5d22", null ],
-      [ "BUFFER_COLOR", "classeq_1_1fabric_1_1_frame.html#a09d354db0c932b84a6194fd6c3e512c3a417a4ec31cc1a4157f0be6792ff5f943", null ],
-      [ "BUFFER_DEPTH", "classeq_1_1fabric_1_1_frame.html#a09d354db0c932b84a6194fd6c3e512c3a2deaaa96f7f23e2f3484b1905908dc8b", null ],
-      [ "BUFFER_ALL", "classeq_1_1fabric_1_1_frame.html#a09d354db0c932b84a6194fd6c3e512c3af35d0977a60bd58df9b0ed5964c639d9", null ]
+    [ "Buffer", "classeq_1_1fabric_1_1_frame.html#aa5e55733b5d10fae778e515586c6f70b", [
+      [ "none", "classeq_1_1fabric_1_1_frame.html#aa5e55733b5d10fae778e515586c6f70ba334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "undefined", "classeq_1_1fabric_1_1_frame.html#aa5e55733b5d10fae778e515586c6f70ba5e543256c480ac577d30f76f9120eb74", null ],
+      [ "color", "classeq_1_1fabric_1_1_frame.html#aa5e55733b5d10fae778e515586c6f70ba70dda5dfb8053dc6d1c492574bce9bfd", null ],
+      [ "depth", "classeq_1_1fabric_1_1_frame.html#aa5e55733b5d10fae778e515586c6f70ba12a055bf01a31369fe81ac35d85c7bc1", null ],
+      [ "all", "classeq_1_1fabric_1_1_frame.html#aa5e55733b5d10fae778e515586c6f70baa181a603769c1f98ad927e7367c7aa51", null ]
     ] ],
     [ "Type", "classeq_1_1fabric_1_1_frame.html#add9e511de81ad2c43dc89dad4a109d1b", [
       [ "TYPE_MEMORY", "classeq_1_1fabric_1_1_frame.html#add9e511de81ad2c43dc89dad4a109d1bacc6364283121236b94973c0578cad8a2", null ],

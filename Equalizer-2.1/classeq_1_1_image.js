@@ -1,6 +1,7 @@
 var classeq_1_1_image =
 [
     [ "Image", "classeq_1_1_image.html#a5693561f02c68271bad3b34d720ae1e8", null ],
+    [ "Image", "classeq_1_1_image.html#a8754b199d15776fa16d8a66cdb91c0db", null ],
     [ "~Image", "classeq_1_1_image.html#a1ceb5bb8814a9055eea97223d8c009ce", null ],
     [ "allocCompressor", "classeq_1_1_image.html#a71983234019551fed3af5530b7764738", null ],
     [ "allocDownloader", "classeq_1_1_image.html#ab5e9cba5f0d48fab09ae7ac736363dd0", null ],
@@ -31,6 +32,7 @@ var classeq_1_1_image =
     [ "hasAsyncReadback", "classeq_1_1_image.html#a37406b768d99b1723eb01c3a70f6618d", null ],
     [ "hasPixelData", "classeq_1_1_image.html#ab8215322e211459465ee1819a900f0c8", null ],
     [ "hasTextureData", "classeq_1_1_image.html#a38b386187aaa012df227813023736e36", null ],
+    [ "operator=", "classeq_1_1_image.html#a2c3b075aa958b1da24eca8d516914f80", null ],
     [ "readImage", "classeq_1_1_image.html#a5d421b50f8851041ef9ea44ca6bbebfe", null ],
     [ "reset", "classeq_1_1_image.html#a1ef8a2df60c3aedb72011d8521c6ae70", null ],
     [ "resetPlugins", "classeq_1_1_image.html#a86196e5e6b5e8f74abadb613cf36c11b", null ],
@@ -43,11 +45,13 @@ var classeq_1_1_image =
     [ "setQuality", "classeq_1_1_image.html#aa1ae517a0b10924ce01aa2359a1669de", null ],
     [ "setStorageType", "classeq_1_1_image.html#a35c1dc9e8d16b150b9bbfa547cc3bbbf", null ],
     [ "setZoom", "classeq_1_1_image.html#ac2c7c15c5ea34ecc2fa9bf4113b9edc8", null ],
-    [ "startReadback", "classeq_1_1_image.html#a4c704ff01fd84e4df90fb971f037bbba", null ],
+    [ "startReadback", "classeq_1_1_image.html#a0846e18bf3bcafdbdbd304a81a25a1b4", null ],
     [ "startReadback", "classeq_1_1_image.html#a98a2790ee30cf3eb1a7c6a62bfb80f06", null ],
     [ "upload", "classeq_1_1_image.html#ac5b2f1f4908a4f539bfcb8f1808439c8", null ],
     [ "useCompressor", "classeq_1_1_image.html#a984ebafc216cfcc3c7bb3749952a0680", null ],
     [ "validatePixelData", "classeq_1_1_image.html#abeb89165471e0f8c01c5f406bf61ccbd", null ],
     [ "writeImage", "classeq_1_1_image.html#afc97b319fb08470037caf35d006eeb21", null ],
-    [ "writeImages", "classeq_1_1_image.html#a7245d3ed3744488b4081aa243cbeff3d", null ]
+    [ "writeImages", "classeq_1_1_image.html#a7245d3ed3744488b4081aa243cbeff3d", null ],
+    [ "operator<<", "classeq_1_1_image.html#add5d260065ae9f6d5100ed4bc60be7ff", null ],
+    [ "operator>>", "classeq_1_1_image.html#a133e2252a2bc481919046bbbaa39abef", null ]
 ];

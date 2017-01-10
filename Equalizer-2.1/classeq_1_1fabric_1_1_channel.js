@@ -5,6 +5,7 @@ var classeq_1_1fabric_1_1_channel =
     [ "DirtyBits", "classeq_1_1fabric_1_1_channel.html#a557ef83c8d5f37454c24ea51bec02119", [
       [ "DIRTY_ATTRIBUTES", "classeq_1_1fabric_1_1_channel.html#a557ef83c8d5f37454c24ea51bec02119a53165a5791ba13c3a5efcde757ecf8ac", null ],
       [ "DIRTY_VIEWPORT", "classeq_1_1fabric_1_1_channel.html#a557ef83c8d5f37454c24ea51bec02119af9ecb1578548eaa44f1598e2243bd622", null ],
+      [ "DIRTY_PIXELVIEWPORT", "classeq_1_1fabric_1_1_channel.html#a557ef83c8d5f37454c24ea51bec02119aa97f0e718d30418c0940164fcc3a8d9d", null ],
       [ "DIRTY_MEMBER", "classeq_1_1fabric_1_1_channel.html#a557ef83c8d5f37454c24ea51bec02119ad107f4512fed708fbc5cd4b01b91a2fa", null ],
       [ "DIRTY_FRUSTUM", "classeq_1_1fabric_1_1_channel.html#a557ef83c8d5f37454c24ea51bec02119a8836ce2cbdac0aa09d474dfe624046b8", null ],
       [ "DIRTY_CAPABILITIES", "classeq_1_1fabric_1_1_channel.html#a557ef83c8d5f37454c24ea51bec02119ad56fe10dc8fe9576931bfe53f2d391a9", null ],
@@ -38,7 +39,6 @@ var classeq_1_1fabric_1_1_channel =
     [ "getHeadTransform", "classeq_1_1fabric_1_1_channel.html#a9b48c6ea3bec6054f6503d06834e56f4", null ],
     [ "getIAttribute", "classeq_1_1fabric_1_1_channel.html#ab95924efea8b5108e4310807c19dfe7a", null ],
     [ "getIAttributeString", "classeq_1_1fabric_1_1_channel.html#a476015e957cef7f0e52d0b91a3197f43", null ],
-    [ "getMaxSize", "classeq_1_1fabric_1_1_channel.html#a68f0b8ec7f2bfaf6f2d088a5e805c7ba", null ],
     [ "getNativeContext", "classeq_1_1fabric_1_1_channel.html#aa896f613be32640f4584619f0586b50a", null ],
     [ "getNativePixelViewport", "classeq_1_1fabric_1_1_channel.html#a7c9bd91890416d860cde709b3139aaa0", null ],
     [ "getOrtho", "classeq_1_1fabric_1_1_channel.html#adfd47320b686909e4c78df306cd1498b", null ],
@@ -77,7 +77,6 @@ var classeq_1_1fabric_1_1_channel =
     [ "setCapabilities", "classeq_1_1fabric_1_1_channel.html#ad1b9b116389b4907f2d1804bd81a2193", null ],
     [ "setDirty", "classeq_1_1fabric_1_1_channel.html#a6f8d7be8cb29d039ec600cd4021e06af", null ],
     [ "setIAttribute", "classeq_1_1fabric_1_1_channel.html#a201fe93422ddf112b2d538b5751ba2cb", null ],
-    [ "setMaxSize", "classeq_1_1fabric_1_1_channel.html#af667b4074f02e830aa7cddfc1451926f", null ],
     [ "setNearFar", "classeq_1_1fabric_1_1_channel.html#a68de09f0af71688cd6021f4dee283f4d", null ],
     [ "setOverdraw", "classeq_1_1fabric_1_1_channel.html#adeb3bb92d33d3d4f824038a9bc3afe1d", null ],
     [ "setPixelViewport", "classeq_1_1fabric_1_1_channel.html#a3d2960543d8314ecd2a6a8538df84726", null ],

@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">53</td>
-            <td class="headerCovTableEntry">77</td>
-            <td class="headerCovTableEntryMed">68.8 %</td>
+            <td class="headerCovTableEntry">54</td>
+            <td class="headerCovTableEntry">78</td>
+            <td class="headerCovTableEntryMed">69.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-24 05:09:05</td>
+            <td class="headerValue">2017-01-10 05:08:25</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">48</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -88,15 +88,15 @@
 <span class="lineNum">      26 </span>            : #include &quot;visitorResult.h&quot;         // enum
 <span class="lineNum">      27 </span>            : #include &quot;types.h&quot;
 <span class="lineNum">      28 </span>            : 
-<span class="lineNum">      29 </span>            : #include &lt;eq/fabric/frame.h&gt;      // enum Frame::Buffer
-<span class="lineNum">      30 </span>            : #include &lt;eq/fabric/projection.h&gt; // used in inline method
-<span class="lineNum">      31 </span>            : #include &lt;eq/fabric/range.h&gt;      // member
-<span class="lineNum">      32 </span>            : #include &lt;eq/fabric/subPixel.h&gt;   // member
+<span class="lineNum">      29 </span>            : #include &lt;eq/fabric/frame.h&gt;       // enum Frame::Buffer
+<span class="lineNum">      30 </span>            : #include &lt;eq/fabric/projection.h&gt;  // used in inline method
+<span class="lineNum">      31 </span>            : #include &lt;eq/fabric/range.h&gt;       // member
+<span class="lineNum">      32 </span>            : #include &lt;eq/fabric/subPixel.h&gt;    // member
 <span class="lineNum">      33 </span>            : #include &lt;eq/fabric/swapBarrier.h&gt; // RefPtr member
-<span class="lineNum">      34 </span>            : #include &lt;eq/fabric/task.h&gt;       // enum
-<span class="lineNum">      35 </span>            : #include &lt;eq/fabric/viewport.h&gt;   // member
-<span class="lineNum">      36 </span>            : #include &lt;eq/fabric/wall.h&gt;       // used in inline method
-<span class="lineNum">      37 </span>            : #include &lt;eq/fabric/zoom.h&gt;       // member
+<span class="lineNum">      34 </span>            : #include &lt;eq/fabric/task.h&gt;        // enum
+<span class="lineNum">      35 </span>            : #include &lt;eq/fabric/viewport.h&gt;    // member
+<span class="lineNum">      36 </span>            : #include &lt;eq/fabric/wall.h&gt;        // used in inline method
+<span class="lineNum">      37 </span>            : #include &lt;eq/fabric/zoom.h&gt;        // member
 <span class="lineNum">      38 </span>            : #include &lt;co/barrier.h&gt;
 <span class="lineNum">      39 </span>            : #include &lt;lunchbox/thread.h&gt;
 <span class="lineNum">      40 </span>            : #include &lt;iostream&gt;
@@ -250,431 +250,432 @@
 <span class="lineNum">     188 </span>            :      *
 <a name="189"><span class="lineNum">     189 </span>            :      * @param buffers the compound image buffers.</a>
 <span class="lineNum">     190 </span>            :      */
-<span class="lineNum">     191 </span><span class="lineCov">        188 :     void setBuffers( const uint32_t buffers ) { _data.buffers = buffers; }</span>
-<span class="lineNum">     192 </span>            : 
-<span class="lineNum">     193 </span>            :     /**
-<span class="lineNum">     194 </span>            :      * Add a image buffer to be used by the compound, preserving previous
-<span class="lineNum">     195 </span>            :      * buffers.
-<span class="lineNum">     196 </span>            :      *
-<span class="lineNum">     197 </span>            :      * @param buffer the compound image buffer to add.
-<span class="lineNum">     198 </span>            :      */
-<span class="lineNum">     199 </span>            :     void enableBuffer( const eq::fabric::Frame::Buffer buffer )
-<span class="lineNum">     200 </span>            :         { _data.buffers |= buffer; }
-<a name="201"><span class="lineNum">     201 </span>            : </a>
-<span class="lineNum">     202 </span>            :     /** @return the image buffers used by this compound. */
-<a name="203"><span class="lineNum">     203 </span><span class="lineCov">       2014 :     uint32_t getBuffers() const { return _data.buffers; }</span></a>
-<a name="204"><span class="lineNum">     204 </span>            : </a>
-<span class="lineNum">     205 </span><span class="lineCov">        248 :     void setViewport( const Viewport&amp; vp ) { _data.vp = vp; }</span>
-<a name="206"><span class="lineNum">     206 </span><span class="lineCov">       2014 :     const Viewport&amp; getViewport() const    { return _data.vp; }</span></a>
-<a name="207"><span class="lineNum">     207 </span>            : </a>
-<span class="lineNum">     208 </span><span class="lineCov">        692 :     void setRange( const Range&amp; range )    { _data.range = range; }</span>
-<a name="209"><span class="lineNum">     209 </span><span class="lineCov">       2014 :     const Range&amp; getRange() const          { return _data.range; }</span></a>
-<a name="210"><span class="lineNum">     210 </span>            : </a>
-<span class="lineNum">     211 </span><span class="lineCov">         68 :     void setPeriod( const uint32_t period )    { _data.period = period; }</span>
-<a name="212"><span class="lineNum">     212 </span><span class="lineCov">       2014 :     uint32_t getPeriod() const                 { return _data.period; }</span></a>
-<a name="213"><span class="lineNum">     213 </span>            : </a>
-<span class="lineNum">     214 </span><span class="lineCov">         68 :     void setPhase( const uint32_t phase )      { _data.phase = phase; }</span>
-<a name="215"><span class="lineNum">     215 </span><span class="lineCov">       2014 :     uint32_t getPhase() const                  { return _data.phase; }</span></a>
-<a name="216"><span class="lineNum">     216 </span>            : </a>
-<span class="lineNum">     217 </span><span class="lineCov">         92 :     void setPixel( const Pixel&amp; pixel )    { _data.pixel = pixel; }</span>
-<a name="218"><span class="lineNum">     218 </span><span class="lineCov">       2014 :     const Pixel&amp; getPixel() const          { return _data.pixel; }</span></a>
-<span class="lineNum">     219 </span>            : 
-<a name="220"><span class="lineNum">     220 </span><span class="lineCov">         44 :     void setSubPixel( const SubPixel&amp; subPixel )</span></a>
-<span class="lineNum">     221 </span><span class="lineCov">         44 :         { _data.subPixel = subPixel; }</span>
-<a name="222"><span class="lineNum">     222 </span><span class="lineCov">       2014 :     const SubPixel&amp; getSubPixel() const    { return _data.subPixel; }</span></a>
-<a name="223"><span class="lineNum">     223 </span>            : </a>
-<span class="lineNum">     224 </span><span class="lineCov">          4 :     void setZoom( const Zoom&amp; zoom )       { _data.zoom = zoom; }</span>
-<a name="225"><span class="lineNum">     225 </span><span class="lineCov">       2014 :     const Zoom&amp; getZoom() const            { return _data.zoom; }</span></a>
-<span class="lineNum">     226 </span>            : 
-<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     void setMaxFPS( const float fps )          { _data.maxFPS = fps; }</span>
-<a name="228"><span class="lineNum">     228 </span>            :     float getMaxFPS() const                    { return _data.maxFPS; }</a>
-<span class="lineNum">     229 </span>            : 
-<a name="230"><span class="lineNum">     230 </span><span class="lineNoCov">          0 :     void setUsage( const float usage )</span></a>
-<span class="lineNum">     231 </span><span class="lineNoCov">          0 :         { LBASSERT( usage &gt;= 0.f ); _usage = usage; }</span>
-<a name="232"><span class="lineNum">     232 </span><span class="lineNoCov">          0 :     float getUsage() const                     { return _usage; }</span></a>
-<a name="233"><span class="lineNum">     233 </span>            : </a>
-<span class="lineNum">     234 </span><span class="lineCov">          4 :     void setTaskID( const uint32_t id )        { _taskID = id; }</span>
-<span class="lineNum">     235 </span><span class="lineNoCov">          0 :     uint32_t getTaskID() const                 { return _taskID; }</span>
-<span class="lineNum">     236 </span>            :     //@}
-<span class="lineNum">     237 </span>            : 
-<span class="lineNum">     238 </span>            :     /** @name IO object access. */
-<span class="lineNum">     239 </span>            :     //@{
-<span class="lineNum">     240 </span>            :     /**
-<span class="lineNum">     241 </span>            :      * Set a swap barrier.
-<span class="lineNum">     242 </span>            :      *
-<span class="lineNum">     243 </span>            :      * Windows of compounds with the same swap barrier name will enter a
-<span class="lineNum">     244 </span>            :      * barrier before executing Window::swap. Setting an empty string
-<span class="lineNum">     245 </span>            :      * disables the swap barrier.
-<span class="lineNum">     246 </span>            :      *
-<span class="lineNum">     247 </span>            :      * @param barrier the swap barrier.
-<span class="lineNum">     248 </span>            :      */
-<span class="lineNum">     249 </span>            :     void setSwapBarrier( SwapBarrierPtr barrier );
-<a name="250"><span class="lineNum">     250 </span>            : </a>
-<span class="lineNum">     251 </span>            :     /** @return the current swap barrier. */
-<span class="lineNum">     252 </span><span class="lineCov">       2214 :     SwapBarrierConstPtr getSwapBarrier() const { return _swapBarrier; }</span>
-<span class="lineNum">     253 </span>            : 
-<span class="lineNum">     254 </span>            :     /**
-<span class="lineNum">     255 </span>            :      * Add a new input frame for this compound.
-<span class="lineNum">     256 </span>            :      *
-<span class="lineNum">     257 </span>            :      * @param frame the input frame.
-<span class="lineNum">     258 </span>            :      */
-<span class="lineNum">     259 </span>            :     EQSERVER_API void addInputFrame( Frame* frame );
-<a name="260"><span class="lineNum">     260 </span>            : </a>
-<span class="lineNum">     261 </span>            :     /** @return the vector of input frames. */
-<span class="lineNum">     262 </span><span class="lineCov">       2014 :     const Frames&amp; getInputFrames() const {return _inputFrames; }</span>
-<span class="lineNum">     263 </span>            : 
-<span class="lineNum">     264 </span>            :     /**
-<span class="lineNum">     265 </span>            :      * Add a new output frame for this compound.
-<span class="lineNum">     266 </span>            :      *
-<span class="lineNum">     267 </span>            :      * @param frame the output frame.
-<span class="lineNum">     268 </span>            :      */
-<span class="lineNum">     269 </span>            :     EQSERVER_API void addOutputFrame( Frame* frame );
-<a name="270"><span class="lineNum">     270 </span>            : </a>
-<span class="lineNum">     271 </span>            :     /** @return the vector of output frames. */
-<span class="lineNum">     272 </span><span class="lineCov">       2018 :     const Frames&amp; getOutputFrames() const { return _outputFrames; }</span>
-<span class="lineNum">     273 </span>            : 
-<span class="lineNum">     274 </span>            :     /**
-<span class="lineNum">     275 </span>            :      * Add a new input tile queue for this compound.
-<span class="lineNum">     276 </span>            :      *
-<span class="lineNum">     277 </span>            :      * @param tileQueue the input tile queue.
-<span class="lineNum">     278 </span>            :      */
-<span class="lineNum">     279 </span>            :     EQSERVER_API void addInputTileQueue( TileQueue* tileQueue );
-<span class="lineNum">     280 </span>            : 
-<span class="lineNum">     281 </span>            :     /**
-<span class="lineNum">     282 </span>            :      * Remove an input tile queue from this compound.
-<span class="lineNum">     283 </span>            :      *
-<span class="lineNum">     284 </span>            :      * @param tileQueue the input tile queue.
-<span class="lineNum">     285 </span>            :      */
-<span class="lineNum">     286 </span>            :     EQSERVER_API void removeInputTileQueue( TileQueue* tileQueue );
-<a name="287"><span class="lineNum">     287 </span>            : </a>
-<span class="lineNum">     288 </span>            :     /** @return the vector of input tile queues. */
-<span class="lineNum">     289 </span><span class="lineCov">       2014 :     const TileQueues&amp; getInputTileQueues() const { return _inputTileQueues;}</span>
-<span class="lineNum">     290 </span>            : 
-<span class="lineNum">     291 </span>            :     /**
-<span class="lineNum">     292 </span>            :      * Add a new output tile queue for this compound.
-<span class="lineNum">     293 </span>            :      *
-<span class="lineNum">     294 </span>            :      * @param queue the output tile queue.
-<span class="lineNum">     295 </span>            :      */
-<span class="lineNum">     296 </span>            :     EQSERVER_API void addOutputTileQueue( TileQueue* queue );
-<span class="lineNum">     297 </span>            : 
-<span class="lineNum">     298 </span>            :     /**
-<span class="lineNum">     299 </span>            :      * Remove an output tile queue from this compound.
-<span class="lineNum">     300 </span>            :      *
-<span class="lineNum">     301 </span>            :      * @param tileQueue the output tile queue.
-<span class="lineNum">     302 </span>            :      */
-<span class="lineNum">     303 </span>            :     EQSERVER_API void removeOutputTileQueue( TileQueue* tileQueue );
-<a name="304"><span class="lineNum">     304 </span>            : </a>
-<span class="lineNum">     305 </span>            :     /** @return the vector of output tile queues. */
-<span class="lineNum">     306 </span><span class="lineCov">       2018 :     const TileQueues&amp; getOutputTileQueues() const { return _outputTileQueues; }</span>
-<a name="307"><span class="lineNum">     307 </span>            : </a>
-<span class="lineNum">     308 </span>            :     /** @return true if the compound is a tile compound. */
-<span class="lineNum">     309 </span><span class="lineNoCov">          0 :     bool hasTiles() const</span>
-<span class="lineNum">     310 </span><span class="lineNoCov">          0 :         { return !_outputTileQueues.empty() || !_inputTileQueues.empty(); }</span>
-<span class="lineNum">     311 </span>            :     //@}
-<span class="lineNum">     312 </span>            : 
-<span class="lineNum">     313 </span>            :     /**
-<span class="lineNum">     314 </span>            :      * @name Inherit data access needed during channel update.
-<span class="lineNum">     315 </span>            :      *
-<span class="lineNum">     316 </span>            :      * Inherit data are the actual, as opposed to configured, attributes and
-<span class="lineNum">     317 </span>            :      * data used by the compound. The inherit data is updated at the
-<span class="lineNum">     318 </span>            :      * beginning of each update().
-<span class="lineNum">     319 </span>            :      */
-<a name="320"><span class="lineNum">     320 </span>            :     //@{</a>
-<a name="321"><span class="lineNum">     321 </span>            :     RenderContext setupRenderContext( Eye eye ) const;</a>
-<span class="lineNum">     322 </span><span class="lineNoCov">          0 :     uint32_t getInheritBuffers() const { return _inherit.buffers; }</span>
-<a name="323"><span class="lineNum">     323 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; getInheritPixelViewport() const { return _inherit.pvp;}</span></a>
-<span class="lineNum">     324 </span>            :     const Range&amp; getInheritRange()   const { return _inherit.range; }
-<a name="325"><span class="lineNum">     325 </span><span class="lineNoCov">          0 :     const Pixel&amp; getInheritPixel()   const { return _inherit.pixel; }</span></a>
-<a name="326"><span class="lineNum">     326 </span>            :     const SubPixel&amp; getInheritSubPixel() const { return _inherit.subPixel; }</a>
-<span class="lineNum">     327 </span><span class="lineNoCov">          0 :     const Zoom&amp; getInheritZoom()     const { return _inherit.zoom; }</span>
-<a name="328"><span class="lineNum">     328 </span><span class="lineNoCov">          0 :     uint32_t getInheritPeriod()          const { return _inherit.period; }</span></a>
-<a name="329"><span class="lineNum">     329 </span>            :     uint32_t getInheritPhase()           const { return _inherit.phase; }</a>
-<span class="lineNum">     330 </span><span class="lineNoCov">          0 :     float getInheritMaxFPS()             const { return _inherit.maxFPS; }</span>
-<a name="331"><span class="lineNum">     331 </span><span class="lineNoCov">          0 :     int32_t getInheritIAttribute( const IAttribute attr ) const</span></a>
-<a name="332"><span class="lineNum">     332 </span><span class="lineNoCov">          0 :         { return _inherit.iAttributes[attr]; }</span></a>
-<a name="333"><span class="lineNum">     333 </span><span class="lineCov">          4 :     uint32_t getInheritTasks()           const { return _inherit.tasks; }</span></a>
-<a name="334"><span class="lineNum">     334 </span><span class="lineNoCov">          0 :     uint32_t getInheritEyes()            const { return _inherit.eyes; }</span></a>
-<span class="lineNum">     335 </span><span class="lineNoCov">          0 :     Channel* getInheritChannel()               { return _inherit.channel; }</span>
-<span class="lineNum">     336 </span><span class="lineNoCov">          0 :     const Channel* getInheritChannel()   const { return _inherit.channel; }</span>
-<a name="337"><span class="lineNum">     337 </span>            : </a>
-<span class="lineNum">     338 </span>            :     /** @return true if the task is set, false if not. */
-<span class="lineNum">     339 </span><span class="lineNoCov">          0 :     bool testInheritTask( const fabric::Task task ) const</span>
-<span class="lineNum">     340 </span><span class="lineNoCov">          0 :         { return (_inherit.tasks &amp; task); }</span>
-<a name="341"><span class="lineNum">     341 </span>            : </a>
-<span class="lineNum">     342 </span>            :     /** Delete an inherit task, if it was set. */
-<span class="lineNum">     343 </span><span class="lineNoCov">          0 :     void unsetInheritTask( const fabric::Task task ) { _inherit.tasks &amp;= ~task;}</span>
-<a name="344"><span class="lineNum">     344 </span>            : </a>
-<span class="lineNum">     345 </span>            :     /** @return true if the eye pass is actived, false if not. */
-<span class="lineNum">     346 </span><span class="lineCov">          4 :     bool testInheritEye( const Eye eye ) const { return (_inherit.eyes &amp; eye); }</span>
-<span class="lineNum">     347 </span>            :     //@}
-<span class="lineNum">     348 </span>            : 
-<span class="lineNum">     349 </span>            :     /** @name Frustum Operations */
-<span class="lineNum">     350 </span>            :     //@{
-<span class="lineNum">     351 </span>            :     /**
-<span class="lineNum">     352 </span>            :      * Set the compound's frustum using a wall description.
-<span class="lineNum">     353 </span>            :      *
-<span class="lineNum">     354 </span>            :      * @param wall the wall description.
-<span class="lineNum">     355 </span>            :      */
-<span class="lineNum">     356 </span>            :     EQSERVER_API void setWall( const Wall&amp; wall );
-<a name="357"><span class="lineNum">     357 </span>            : </a>
-<span class="lineNum">     358 </span>            :     /** @return the last specified wall description. */
-<span class="lineNum">     359 </span><span class="lineCov">         28 :     const Wall&amp; getWall() const { return _frustum.getWall(); }</span>
-<span class="lineNum">     360 </span>            : 
-<span class="lineNum">     361 </span>            :     /**
-<span class="lineNum">     362 </span>            :      * Set the compound's frustum using a projection description
-<span class="lineNum">     363 </span>            :      *
-<span class="lineNum">     364 </span>            :      * @param projection the projection description.
-<span class="lineNum">     365 </span>            :      */
-<span class="lineNum">     366 </span>            :     EQSERVER_API void setProjection( const Projection&amp; projection );
-<a name="367"><span class="lineNum">     367 </span>            : </a>
-<span class="lineNum">     368 </span>            :     /** @return the last specified projection description. */
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     const Projection&amp; getProjection() const</span>
-<span class="lineNum">     370 </span><span class="lineNoCov">          0 :     { return _frustum.getProjection(); }</span>
-<a name="371"><span class="lineNum">     371 </span>            : </a>
-<span class="lineNum">     372 </span>            :     /** @return the type of the latest specified frustum. */
-<span class="lineNum">     373 </span><span class="lineCov">       2014 :     Frustum::Type getFrustumType() const</span>
-<span class="lineNum">     374 </span><span class="lineCov">       2014 :     { return _frustum.getCurrentType(); }</span>
-<a name="375"><span class="lineNum">     375 </span>            : </a>
-<span class="lineNum">     376 </span>            :     /** @return the frustum of this compound. */
-<span class="lineNum">     377 </span><span class="lineNoCov">          0 :     Frustum&amp; getFrustum() { return _frustum; }</span>
-<span class="lineNum">     378 </span>            : 
-<span class="lineNum">     379 </span>            :     /** @return the frustum of this compound. */
-<span class="lineNum">     380 </span>            :     const Frustum&amp; getFrustum() const { return _frustum; }
-<span class="lineNum">     381 </span>            : 
-<span class="lineNum">     382 </span>            :     /** Update the frustum from the view or segment. */
-<span class="lineNum">     383 </span>            :     void updateFrustum( const Vector3f&amp; eye, const float ratio );
-<span class="lineNum">     384 </span>            : 
-<span class="lineNum">     385 </span>            :     /** compute the frustum for a given viewport */
-<span class="lineNum">     386 </span>            :     void computeTileFrustum( Frustumf&amp; frustum, const fabric::Eye eye,
-<span class="lineNum">     387 </span>            :                              Viewport vp, bool ortho ) const;
-<a name="388"><span class="lineNum">     388 </span>            : </a>
-<span class="lineNum">     389 </span>            :     /** @return the bitwise OR of the eye values. */
-<span class="lineNum">     390 </span><span class="lineCov">       2018 :     uint32_t getEyes() const { return _data.eyes; }</span>
-<span class="lineNum">     391 </span>            : 
-<span class="lineNum">     392 </span>            :     /**
-<span class="lineNum">     393 </span>            :      * Set the eyes to be used by the compound.
-<span class="lineNum">     394 </span>            :      *
-<span class="lineNum">     395 </span>            :      * Previously set eyes are overwritten.
-<span class="lineNum">     396 </span>            :      *
-<a name="397"><span class="lineNum">     397 </span>            :      * @param eyes the compound eyes.</a>
-<span class="lineNum">     398 </span>            :      */
-<span class="lineNum">     399 </span><span class="lineCov">        200 :     void setEyes( const uint32_t eyes ) { _data.eyes = eyes; }</span>
-<span class="lineNum">     400 </span>            : 
-<span class="lineNum">     401 </span>            :     /**
-<span class="lineNum">     402 </span>            :      * Add eyes to be used by the compound.
-<span class="lineNum">     403 </span>            :      *
-<span class="lineNum">     404 </span>            :      * Previously set eyes are preserved.
-<span class="lineNum">     405 </span>            :      *
-<a name="406"><span class="lineNum">     406 </span>            :      * @param eyes the compound eyes.</a>
-<span class="lineNum">     407 </span>            :      */
-<span class="lineNum">     408 </span><span class="lineCov">        336 :     void enableEye( const uint32_t eyes ) { _data.eyes |= eyes; }</span>
-<span class="lineNum">     409 </span>            :     //@}
-<span class="lineNum">     410 </span>            : 
-<span class="lineNum">     411 </span>            :     /** @name Compound Operations. */
-<span class="lineNum">     412 </span>            :     //@{
-<span class="lineNum">     413 </span>            :     /**
-<span class="lineNum">     414 </span>            :      * Traverse the compound and all children using a compound visitor.
-<span class="lineNum">     415 </span>            :      *
-<span class="lineNum">     416 </span>            :      * @param visitor the visitor.
-<span class="lineNum">     417 </span>            :      * @return the result of the visitor traversal.
-<span class="lineNum">     418 </span>            :      */
-<span class="lineNum">     419 </span>            :     EQSERVER_API VisitorResult accept( CompoundVisitor&amp; visitor ) const;
-<span class="lineNum">     420 </span>            :     /** Non-const version of accept(). */
-<span class="lineNum">     421 </span>            :     EQSERVER_API VisitorResult accept( CompoundVisitor&amp; visitor );
-<span class="lineNum">     422 </span>            : 
-<span class="lineNum">     423 </span>            :     /** @internal Activate the given eyes for the the compound tree. */
-<span class="lineNum">     424 </span>            :     void activate( const uint32_t eyes );
-<span class="lineNum">     425 </span>            : 
-<span class="lineNum">     426 </span>            :     /** @internal Deactivate the given eyes for the the compound tree. */
-<span class="lineNum">     427 </span>            :     void deactivate( const uint32_t eyes );
-<span class="lineNum">     428 </span>            : 
-<span class="lineNum">     429 </span>            :     /**
-<span class="lineNum">     430 </span>            :      * @return if the compound is activated for selected eye
-<span class="lineNum">     431 </span>            :      and current (DPlex).
-<span class="lineNum">     432 </span>            :      *
-<span class="lineNum">     433 </span>            :      * @param eye eye which will be tested.
-<span class="lineNum">     434 </span>            :      */
-<span class="lineNum">     435 </span>            :     bool isInheritActive( const Eye eye ) const;
-<span class="lineNum">     436 </span>            : 
-<span class="lineNum">     437 </span>            :     /** @return true if the compound is activated for any later eye pass. */
-<span class="lineNum">     438 </span>            :     bool isLastInheritEye( const Eye eye ) const;
-<span class="lineNum">     439 </span>            : 
-<span class="lineNum">     440 </span>            :     /**
-<span class="lineNum">     441 </span>            :      * @return true if the compound is active and the compound's channel is
-<span class="lineNum">     442 </span>            :      *         running.
-<span class="lineNum">     443 </span>            :      */
-<span class="lineNum">     444 </span>            :     bool isActive() const;
-<span class="lineNum">     445 </span>            : 
-<span class="lineNum">     446 </span>            :     /** Initialize this compound. */
-<span class="lineNum">     447 </span>            :     void init();
-<span class="lineNum">     448 </span>            : 
-<span class="lineNum">     449 </span>            :     /** Exit this compound. */
-<span class="lineNum">     450 </span>            :     void exit();
-<span class="lineNum">     451 </span>            : 
-<span class="lineNum">     452 </span>            :     /** Initialize the default tasks of this compound. */
-<span class="lineNum">     453 </span>            :     void updateInheritTasks();
-<span class="lineNum">     454 </span>            : 
-<span class="lineNum">     455 </span>            :     /** Register all distributed objects (frames) */
-<span class="lineNum">     456 </span>            :     void register_();
-<span class="lineNum">     457 </span>            : 
-<span class="lineNum">     458 </span>            :     /** Deregister all distributed objects (frames) */
-<span class="lineNum">     459 </span>            :     void deregister();
-<span class="lineNum">     460 </span>            : 
-<span class="lineNum">     461 </span>            :     /** Back up all relevant compound data. */
-<span class="lineNum">     462 </span>            :     void backup();
-<span class="lineNum">     463 </span>            : 
-<span class="lineNum">     464 </span>            :     /** Restore all relevant compound data. */
-<span class="lineNum">     465 </span>            :     void restore();
-<span class="lineNum">     466 </span>            : 
-<span class="lineNum">     467 </span>            :     /**
-<span class="lineNum">     468 </span>            :      * Updates this compound.
-<span class="lineNum">     469 </span>            :      *
-<span class="lineNum">     470 </span>            :      * The compound's parameters for the next frame are computed.
-<span class="lineNum">     471 </span>            :      */
-<span class="lineNum">     472 </span>            :     void update( const uint32_t frameNumber );
-<span class="lineNum">     473 </span>            : 
-<span class="lineNum">     474 </span>            :     /** Update the inherit data of this compound. */
-<span class="lineNum">     475 </span>            :     void updateInheritData( const uint32_t frameNumber );
-<span class="lineNum">     476 </span>            :     //@}
-<span class="lineNum">     477 </span>            : 
-<span class="lineNum">     478 </span>            :     /** @name Compound listener interface. */
-<span class="lineNum">     479 </span>            :     //@{
-<span class="lineNum">     480 </span>            :     /** Register a compound listener. */
-<span class="lineNum">     481 </span>            :     void addListener( CompoundListener* listener );
-<span class="lineNum">     482 </span>            :     /** Deregister a compound listener. */
-<span class="lineNum">     483 </span>            :     void removeListener( CompoundListener* listener );
-<span class="lineNum">     484 </span>            : 
-<span class="lineNum">     485 </span>            :     /** Notify all listeners that the compound is about to be updated. */
-<span class="lineNum">     486 </span>            :     void fireUpdatePre( const uint32_t frameNumber );
-<span class="lineNum">     487 </span>            :     //@}
-<span class="lineNum">     488 </span>            : 
-<span class="lineNum">     489 </span>            :     /**
-<span class="lineNum">     490 </span>            :      * @name Attributes
-<a name="491"><span class="lineNum">     491 </span>            :      */</a>
-<span class="lineNum">     492 </span>            :     //@{
-<a name="493"><span class="lineNum">     493 </span><span class="lineCov">         28 :     void setIAttribute( const IAttribute attr, const int32_t value )</span></a>
-<span class="lineNum">     494 </span><span class="lineCov">         28 :     { _data.iAttributes[attr] = value; }</span>
-<span class="lineNum">     495 </span><span class="lineCov">      10070 :     int32_t  getIAttribute( const IAttribute attr ) const</span>
-<span class="lineNum">     496 </span><span class="lineCov">      10070 :     { return _data.iAttributes[attr]; }</span>
-<span class="lineNum">     497 </span>            :     static const std::string&amp;  getIAttributeString( const IAttribute attr );
-<span class="lineNum">     498 </span>            :     //@}
-<span class="lineNum">     499 </span>            : 
-<span class="lineNum">     500 </span>            :     typedef stde::hash_map&lt;std::string, co::Barrier*&gt; BarrierMap;
-<span class="lineNum">     501 </span>            :     typedef BarrierMap::const_iterator BarrierMapCIter;
-<span class="lineNum">     502 </span>            : 
-<span class="lineNum">     503 </span>            :     typedef stde::hash_map&lt;std::string, Frame*&gt; FrameMap;
-<span class="lineNum">     504 </span>            :     typedef FrameMap::const_iterator FrameMapCIter;
-<span class="lineNum">     505 </span>            : 
-<span class="lineNum">     506 </span>            :     typedef stde::hash_map&lt;std::string, TileQueue*&gt;   TileQueueMap;
-<span class="lineNum">     507 </span>            : 
-<span class="lineNum">     508 </span>            : private:
-<span class="lineNum">     509 </span>            :     //-------------------- Members --------------------
-<span class="lineNum">     510 </span>            :     std::string _name;
-<span class="lineNum">     511 </span>            : 
-<span class="lineNum">     512 </span>            :     /**
-<span class="lineNum">     513 </span>            :      * The config the compound is attached to, only set on root
-<span class="lineNum">     514 </span>            :      * compounds.
-<span class="lineNum">     515 </span>            :      */
-<span class="lineNum">     516 </span>            :     friend class Config;
-<span class="lineNum">     517 </span>            :     Config* const _config;
-<span class="lineNum">     518 </span>            : 
-<span class="lineNum">     519 </span>            :     Compound* const _parent;
-<span class="lineNum">     520 </span>            :     Compounds _children;
-<span class="lineNum">     521 </span>            : 
-<span class="lineNum">     522 </span>            :     /** Percentage the resource should be used. */
-<span class="lineNum">     523 </span>            :     float _usage;
-<span class="lineNum">     524 </span>            : 
-<span class="lineNum">     525 </span>            :     /** Unique identifier for channel tasks. */
-<a name="526"><span class="lineNum">     526 </span>            :     uint32_t _taskID;</a>
-<span class="lineNum">     527 </span>            : 
-<span class="lineNum">     528 </span><span class="lineCov">         12 :     struct Data</span>
-<span class="lineNum">     529 </span>            :     {
-<span class="lineNum">     530 </span>            :         Data();
-<span class="lineNum">     531 </span>            : 
-<span class="lineNum">     532 </span>            :         Channel*          channel;
-<span class="lineNum">     533 </span>            :         Viewport          vp;
-<span class="lineNum">     534 </span>            :         PixelViewport     pvp;
-<span class="lineNum">     535 </span>            :         Vector4i          overdraw;
-<span class="lineNum">     536 </span>            :         Range             range;
-<span class="lineNum">     537 </span>            :         Pixel             pixel;
-<span class="lineNum">     538 </span>            :         SubPixel          subPixel;
-<span class="lineNum">     539 </span>            :         FrustumData       frustumData;
-<span class="lineNum">     540 </span>            :         Zoom              zoom;
-<span class="lineNum">     541 </span>            :         uint32_t          buffers;
-<span class="lineNum">     542 </span>            :         uint32_t          eyes;
-<span class="lineNum">     543 </span>            :         uint32_t          tasks;
-<span class="lineNum">     544 </span>            :         uint32_t          period;
-<span class="lineNum">     545 </span>            :         uint32_t          phase;
-<span class="lineNum">     546 </span>            :         int32_t           iAttributes[IATTR_ALL];
-<span class="lineNum">     547 </span>            :         float             maxFPS;
-<span class="lineNum">     548 </span>            : 
-<span class="lineNum">     549 </span>            :         // compound activation per eye
-<span class="lineNum">     550 </span>            :         uint32_t active[ fabric::NUM_EYES ];
-<span class="lineNum">     551 </span>            : 
-<span class="lineNum">     552 </span>            :         union // placeholder for binary-compatible changes
-<span class="lineNum">     553 </span>            :         {
-<span class="lineNum">     554 </span>            :             char dummy[16];
-<span class="lineNum">     555 </span>            :         };
-<span class="lineNum">     556 </span>            :     };
-<span class="lineNum">     557 </span>            : 
-<span class="lineNum">     558 </span>            :     Data _data;
-<span class="lineNum">     559 </span>            :     Data _backup;
-<span class="lineNum">     560 </span>            :     Data _inherit;
-<span class="lineNum">     561 </span>            : 
-<span class="lineNum">     562 </span>            :     /** The frustum description of this compound. */
-<span class="lineNum">     563 </span>            :     Frustum _frustum;
-<span class="lineNum">     564 </span>            : 
-<span class="lineNum">     565 </span>            :     typedef std::vector&lt; CompoundListener* &gt; CompoundListeners;
-<span class="lineNum">     566 </span>            :     CompoundListeners _listeners;
-<span class="lineNum">     567 </span>            : 
-<span class="lineNum">     568 </span>            :     Equalizers _equalizers;
-<span class="lineNum">     569 </span>            : 
-<span class="lineNum">     570 </span>            :     SwapBarrierPtr _swapBarrier;
-<span class="lineNum">     571 </span>            : 
-<span class="lineNum">     572 </span>            :     Frames _inputFrames;
-<span class="lineNum">     573 </span>            :     Frames _outputFrames;
-<span class="lineNum">     574 </span>            : 
-<span class="lineNum">     575 </span>            :     TileQueues _inputTileQueues;
-<span class="lineNum">     576 </span>            :     TileQueues _outputTileQueues;
-<span class="lineNum">     577 </span>            : 
-<span class="lineNum">     578 </span>            :     struct Private;
-<a name="579"><span class="lineNum">     579 </span>            :     Private* _private; // placeholder for binary-compatible changes</a>
-<span class="lineNum">     580 </span>            : 
-<span class="lineNum">     581 </span><span class="lineCov">       8040 :     LB_TS_VAR( _serverThread );</span>
-<span class="lineNum">     582 </span>            : 
-<span class="lineNum">     583 </span>            :     //-------------------- Methods --------------------
-<span class="lineNum">     584 </span>            :     void _addChild( Compound* child );
-<span class="lineNum">     585 </span>            :     bool _removeChild( Compound* child );
-<span class="lineNum">     586 </span>            : 
-<span class="lineNum">     587 </span>            :     void _updateOverdraw( Wall&amp; wall );
-<span class="lineNum">     588 </span>            :     void _updateInheritRoot();
-<span class="lineNum">     589 </span>            :     void _updateInheritNode();
-<span class="lineNum">     590 </span>            :     void _updateInheritPVP();
-<span class="lineNum">     591 </span>            :     void _updateInheritOverdraw();
-<span class="lineNum">     592 </span>            :     void _updateInheritStereo();
-<span class="lineNum">     593 </span>            :     void _updateInheritActive( const uint32_t frameNumber );
-<span class="lineNum">     594 </span>            : 
-<span class="lineNum">     595 </span>            :     void _setDefaultFrameName( Frame* frame );
-<span class="lineNum">     596 </span>            :     void _setDefaultTileQueueName( TileQueue* tileQueue );
-<span class="lineNum">     597 </span>            : 
-<span class="lineNum">     598 </span>            :     void _fireChildAdded( Compound* child );
-<span class="lineNum">     599 </span>            :     void _fireChildRemove( Compound* child );
-<span class="lineNum">     600 </span>            : 
-<span class="lineNum">     601 </span>            :     void _computeFrustum( RenderContext&amp; context ) const;
-<span class="lineNum">     602 </span>            :     void _computePerspective( RenderContext&amp; context,
-<span class="lineNum">     603 </span>            :                               const Vector3f&amp; eye ) const;
-<span class="lineNum">     604 </span>            :     void _computeOrtho( RenderContext&amp; context, const Vector3f&amp; eye ) const;
-<span class="lineNum">     605 </span>            :     Vector3f _getEyePosition( const fabric::Eye eye ) const;
-<span class="lineNum">     606 </span>            :     const Matrix4f&amp; _getInverseHeadMatrix() const;
-<span class="lineNum">     607 </span>            :     void _computeFrustumCorners( Frustumf&amp; frustum,
-<span class="lineNum">     608 </span>            :                                  const FrustumData&amp; frustumData, const Vector3f&amp; eye,
-<span class="lineNum">     609 </span>            :                                  const bool ortho, const Viewport* const vp = 0 ) const;
-<span class="lineNum">     610 </span>            : };
-<span class="lineNum">     611 </span>            : 
-<span class="lineNum">     612 </span>            : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Compound&amp; compound );
-<span class="lineNum">     613 </span>            : }
+<span class="lineNum">     191 </span><span class="lineCov">        188 :     void setBuffers( const fabric::Frame::Buffer buffers )</span>
+<span class="lineNum">     192 </span><span class="lineCov">        188 :         { _data.buffers = buffers; }</span>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span>            :     /**
+<span class="lineNum">     195 </span>            :      * Add a image buffer to be used by the compound, preserving previous
+<span class="lineNum">     196 </span>            :      * buffers.
+<span class="lineNum">     197 </span>            :      *
+<span class="lineNum">     198 </span>            :      * @param buffer the compound image buffer to add.
+<span class="lineNum">     199 </span>            :      */
+<span class="lineNum">     200 </span>            :     void enableBuffer( const fabric::Frame::Buffer buffer )
+<span class="lineNum">     201 </span>            :         { _data.buffers |= buffer; }
+<a name="202"><span class="lineNum">     202 </span>            : </a>
+<span class="lineNum">     203 </span>            :     /** @return the image buffers used by this compound. */
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">       2014 :     fabric::Frame::Buffer getBuffers() const { return _data.buffers; }</span></a>
+<a name="205"><span class="lineNum">     205 </span>            : </a>
+<span class="lineNum">     206 </span><span class="lineCov">        248 :     void setViewport( const Viewport&amp; vp ) { _data.vp = vp; }</span>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">       2014 :     const Viewport&amp; getViewport() const    { return _data.vp; }</span></a>
+<a name="208"><span class="lineNum">     208 </span>            : </a>
+<span class="lineNum">     209 </span><span class="lineCov">        692 :     void setRange( const Range&amp; range )    { _data.range = range; }</span>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">       2014 :     const Range&amp; getRange() const          { return _data.range; }</span></a>
+<a name="211"><span class="lineNum">     211 </span>            : </a>
+<span class="lineNum">     212 </span><span class="lineCov">         68 :     void setPeriod( const uint32_t period )    { _data.period = period; }</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">       2014 :     uint32_t getPeriod() const                 { return _data.period; }</span></a>
+<a name="214"><span class="lineNum">     214 </span>            : </a>
+<span class="lineNum">     215 </span><span class="lineCov">         68 :     void setPhase( const uint32_t phase )      { _data.phase = phase; }</span>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">       2014 :     uint32_t getPhase() const                  { return _data.phase; }</span></a>
+<a name="217"><span class="lineNum">     217 </span>            : </a>
+<span class="lineNum">     218 </span><span class="lineCov">         92 :     void setPixel( const Pixel&amp; pixel )    { _data.pixel = pixel; }</span>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">       2014 :     const Pixel&amp; getPixel() const          { return _data.pixel; }</span></a>
+<span class="lineNum">     220 </span>            : 
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">         44 :     void setSubPixel( const SubPixel&amp; subPixel )</span></a>
+<span class="lineNum">     222 </span><span class="lineCov">         44 :         { _data.subPixel = subPixel; }</span>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">       2014 :     const SubPixel&amp; getSubPixel() const    { return _data.subPixel; }</span></a>
+<a name="224"><span class="lineNum">     224 </span>            : </a>
+<span class="lineNum">     225 </span><span class="lineCov">          4 :     void setZoom( const Zoom&amp; zoom )       { _data.zoom = zoom; }</span>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">       2014 :     const Zoom&amp; getZoom() const            { return _data.zoom; }</span></a>
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :     void setMaxFPS( const float fps )          { _data.maxFPS = fps; }</span>
+<a name="229"><span class="lineNum">     229 </span>            :     float getMaxFPS() const                    { return _data.maxFPS; }</a>
+<span class="lineNum">     230 </span>            : 
+<a name="231"><span class="lineNum">     231 </span><span class="lineNoCov">          0 :     void setUsage( const float usage )</span></a>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :         { LBASSERT( usage &gt;= 0.f ); _usage = usage; }</span>
+<a name="233"><span class="lineNum">     233 </span><span class="lineNoCov">          0 :     float getUsage() const                     { return _usage; }</span></a>
+<a name="234"><span class="lineNum">     234 </span>            : </a>
+<span class="lineNum">     235 </span><span class="lineCov">          4 :     void setTaskID( const uint32_t id )        { _taskID = id; }</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :     uint32_t getTaskID() const                 { return _taskID; }</span>
+<span class="lineNum">     237 </span>            :     //@}
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span>            :     /** @name IO object access. */
+<span class="lineNum">     240 </span>            :     //@{
+<span class="lineNum">     241 </span>            :     /**
+<span class="lineNum">     242 </span>            :      * Set a swap barrier.
+<span class="lineNum">     243 </span>            :      *
+<span class="lineNum">     244 </span>            :      * Windows of compounds with the same swap barrier name will enter a
+<span class="lineNum">     245 </span>            :      * barrier before executing Window::swap. Setting an empty string
+<span class="lineNum">     246 </span>            :      * disables the swap barrier.
+<span class="lineNum">     247 </span>            :      *
+<span class="lineNum">     248 </span>            :      * @param barrier the swap barrier.
+<span class="lineNum">     249 </span>            :      */
+<span class="lineNum">     250 </span>            :     void setSwapBarrier( SwapBarrierPtr barrier );
+<a name="251"><span class="lineNum">     251 </span>            : </a>
+<span class="lineNum">     252 </span>            :     /** @return the current swap barrier. */
+<span class="lineNum">     253 </span><span class="lineCov">       2214 :     SwapBarrierConstPtr getSwapBarrier() const { return _swapBarrier; }</span>
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span>            :     /**
+<span class="lineNum">     256 </span>            :      * Add a new input frame for this compound.
+<span class="lineNum">     257 </span>            :      *
+<span class="lineNum">     258 </span>            :      * @param frame the input frame.
+<span class="lineNum">     259 </span>            :      */
+<span class="lineNum">     260 </span>            :     EQSERVER_API void addInputFrame( Frame* frame );
+<a name="261"><span class="lineNum">     261 </span>            : </a>
+<span class="lineNum">     262 </span>            :     /** @return the vector of input frames. */
+<span class="lineNum">     263 </span><span class="lineCov">       2014 :     const Frames&amp; getInputFrames() const {return _inputFrames; }</span>
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            :     /**
+<span class="lineNum">     266 </span>            :      * Add a new output frame for this compound.
+<span class="lineNum">     267 </span>            :      *
+<span class="lineNum">     268 </span>            :      * @param frame the output frame.
+<span class="lineNum">     269 </span>            :      */
+<span class="lineNum">     270 </span>            :     EQSERVER_API void addOutputFrame( Frame* frame );
+<a name="271"><span class="lineNum">     271 </span>            : </a>
+<span class="lineNum">     272 </span>            :     /** @return the vector of output frames. */
+<span class="lineNum">     273 </span><span class="lineCov">       2018 :     const Frames&amp; getOutputFrames() const { return _outputFrames; }</span>
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span>            :     /**
+<span class="lineNum">     276 </span>            :      * Add a new input tile queue for this compound.
+<span class="lineNum">     277 </span>            :      *
+<span class="lineNum">     278 </span>            :      * @param tileQueue the input tile queue.
+<span class="lineNum">     279 </span>            :      */
+<span class="lineNum">     280 </span>            :     EQSERVER_API void addInputTileQueue( TileQueue* tileQueue );
+<span class="lineNum">     281 </span>            : 
+<span class="lineNum">     282 </span>            :     /**
+<span class="lineNum">     283 </span>            :      * Remove an input tile queue from this compound.
+<span class="lineNum">     284 </span>            :      *
+<span class="lineNum">     285 </span>            :      * @param tileQueue the input tile queue.
+<span class="lineNum">     286 </span>            :      */
+<span class="lineNum">     287 </span>            :     EQSERVER_API void removeInputTileQueue( TileQueue* tileQueue );
+<a name="288"><span class="lineNum">     288 </span>            : </a>
+<span class="lineNum">     289 </span>            :     /** @return the vector of input tile queues. */
+<span class="lineNum">     290 </span><span class="lineCov">       2014 :     const TileQueues&amp; getInputTileQueues() const { return _inputTileQueues;}</span>
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            :     /**
+<span class="lineNum">     293 </span>            :      * Add a new output tile queue for this compound.
+<span class="lineNum">     294 </span>            :      *
+<span class="lineNum">     295 </span>            :      * @param queue the output tile queue.
+<span class="lineNum">     296 </span>            :      */
+<span class="lineNum">     297 </span>            :     EQSERVER_API void addOutputTileQueue( TileQueue* queue );
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span>            :     /**
+<span class="lineNum">     300 </span>            :      * Remove an output tile queue from this compound.
+<span class="lineNum">     301 </span>            :      *
+<span class="lineNum">     302 </span>            :      * @param tileQueue the output tile queue.
+<span class="lineNum">     303 </span>            :      */
+<span class="lineNum">     304 </span>            :     EQSERVER_API void removeOutputTileQueue( TileQueue* tileQueue );
+<a name="305"><span class="lineNum">     305 </span>            : </a>
+<span class="lineNum">     306 </span>            :     /** @return the vector of output tile queues. */
+<span class="lineNum">     307 </span><span class="lineCov">       2018 :     const TileQueues&amp; getOutputTileQueues() const { return _outputTileQueues; }</span>
+<a name="308"><span class="lineNum">     308 </span>            : </a>
+<span class="lineNum">     309 </span>            :     /** @return true if the compound is a tile compound. */
+<span class="lineNum">     310 </span><span class="lineNoCov">          0 :     bool hasTiles() const</span>
+<span class="lineNum">     311 </span><span class="lineNoCov">          0 :         { return !_outputTileQueues.empty() || !_inputTileQueues.empty(); }</span>
+<span class="lineNum">     312 </span>            :     //@}
+<span class="lineNum">     313 </span>            : 
+<span class="lineNum">     314 </span>            :     /**
+<span class="lineNum">     315 </span>            :      * @name Inherit data access needed during channel update.
+<span class="lineNum">     316 </span>            :      *
+<span class="lineNum">     317 </span>            :      * Inherit data are the actual, as opposed to configured, attributes and
+<span class="lineNum">     318 </span>            :      * data used by the compound. The inherit data is updated at the
+<span class="lineNum">     319 </span>            :      * beginning of each update().
+<span class="lineNum">     320 </span>            :      */
+<a name="321"><span class="lineNum">     321 </span>            :     //@{</a>
+<a name="322"><span class="lineNum">     322 </span>            :     RenderContext setupRenderContext( Eye eye ) const;</a>
+<span class="lineNum">     323 </span><span class="lineNoCov">          0 :     fabric::Frame::Buffer getInheritBuffers() const { return _inherit.buffers; }</span>
+<a name="324"><span class="lineNum">     324 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; getInheritPixelViewport() const { return _inherit.pvp;}</span></a>
+<span class="lineNum">     325 </span>            :     const Range&amp; getInheritRange()   const { return _inherit.range; }
+<a name="326"><span class="lineNum">     326 </span><span class="lineNoCov">          0 :     const Pixel&amp; getInheritPixel()   const { return _inherit.pixel; }</span></a>
+<a name="327"><span class="lineNum">     327 </span>            :     const SubPixel&amp; getInheritSubPixel() const { return _inherit.subPixel; }</a>
+<span class="lineNum">     328 </span><span class="lineNoCov">          0 :     const Zoom&amp; getInheritZoom()     const { return _inherit.zoom; }</span>
+<a name="329"><span class="lineNum">     329 </span><span class="lineNoCov">          0 :     uint32_t getInheritPeriod()          const { return _inherit.period; }</span></a>
+<a name="330"><span class="lineNum">     330 </span>            :     uint32_t getInheritPhase()           const { return _inherit.phase; }</a>
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 :     float getInheritMaxFPS()             const { return _inherit.maxFPS; }</span>
+<a name="332"><span class="lineNum">     332 </span><span class="lineNoCov">          0 :     int32_t getInheritIAttribute( const IAttribute attr ) const</span></a>
+<a name="333"><span class="lineNum">     333 </span><span class="lineNoCov">          0 :         { return _inherit.iAttributes[attr]; }</span></a>
+<a name="334"><span class="lineNum">     334 </span><span class="lineCov">          4 :     uint32_t getInheritTasks()           const { return _inherit.tasks; }</span></a>
+<a name="335"><span class="lineNum">     335 </span><span class="lineNoCov">          0 :     uint32_t getInheritEyes()            const { return _inherit.eyes; }</span></a>
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :     Channel* getInheritChannel()               { return _inherit.channel; }</span>
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :     const Channel* getInheritChannel()   const { return _inherit.channel; }</span>
+<a name="338"><span class="lineNum">     338 </span>            : </a>
+<span class="lineNum">     339 </span>            :     /** @return true if the task is set, false if not. */
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :     bool testInheritTask( const fabric::Task task ) const</span>
+<span class="lineNum">     341 </span><span class="lineNoCov">          0 :         { return (_inherit.tasks &amp; task); }</span>
+<a name="342"><span class="lineNum">     342 </span>            : </a>
+<span class="lineNum">     343 </span>            :     /** Delete an inherit task, if it was set. */
+<span class="lineNum">     344 </span><span class="lineNoCov">          0 :     void unsetInheritTask( const fabric::Task task ) { _inherit.tasks &amp;= ~task;}</span>
+<a name="345"><span class="lineNum">     345 </span>            : </a>
+<span class="lineNum">     346 </span>            :     /** @return true if the eye pass is actived, false if not. */
+<span class="lineNum">     347 </span><span class="lineCov">          4 :     bool testInheritEye( const Eye eye ) const { return (_inherit.eyes &amp; eye); }</span>
+<span class="lineNum">     348 </span>            :     //@}
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span>            :     /** @name Frustum Operations */
+<span class="lineNum">     351 </span>            :     //@{
+<span class="lineNum">     352 </span>            :     /**
+<span class="lineNum">     353 </span>            :      * Set the compound's frustum using a wall description.
+<span class="lineNum">     354 </span>            :      *
+<span class="lineNum">     355 </span>            :      * @param wall the wall description.
+<span class="lineNum">     356 </span>            :      */
+<span class="lineNum">     357 </span>            :     EQSERVER_API void setWall( const Wall&amp; wall );
+<a name="358"><span class="lineNum">     358 </span>            : </a>
+<span class="lineNum">     359 </span>            :     /** @return the last specified wall description. */
+<span class="lineNum">     360 </span><span class="lineCov">         28 :     const Wall&amp; getWall() const { return _frustum.getWall(); }</span>
+<span class="lineNum">     361 </span>            : 
+<span class="lineNum">     362 </span>            :     /**
+<span class="lineNum">     363 </span>            :      * Set the compound's frustum using a projection description
+<span class="lineNum">     364 </span>            :      *
+<span class="lineNum">     365 </span>            :      * @param projection the projection description.
+<span class="lineNum">     366 </span>            :      */
+<span class="lineNum">     367 </span>            :     EQSERVER_API void setProjection( const Projection&amp; projection );
+<a name="368"><span class="lineNum">     368 </span>            : </a>
+<span class="lineNum">     369 </span>            :     /** @return the last specified projection description. */
+<span class="lineNum">     370 </span><span class="lineNoCov">          0 :     const Projection&amp; getProjection() const</span>
+<span class="lineNum">     371 </span><span class="lineNoCov">          0 :     { return _frustum.getProjection(); }</span>
+<a name="372"><span class="lineNum">     372 </span>            : </a>
+<span class="lineNum">     373 </span>            :     /** @return the type of the latest specified frustum. */
+<span class="lineNum">     374 </span><span class="lineCov">       2014 :     Frustum::Type getFrustumType() const</span>
+<span class="lineNum">     375 </span><span class="lineCov">       2014 :     { return _frustum.getCurrentType(); }</span>
+<a name="376"><span class="lineNum">     376 </span>            : </a>
+<span class="lineNum">     377 </span>            :     /** @return the frustum of this compound. */
+<span class="lineNum">     378 </span><span class="lineNoCov">          0 :     Frustum&amp; getFrustum() { return _frustum; }</span>
+<span class="lineNum">     379 </span>            : 
+<span class="lineNum">     380 </span>            :     /** @return the frustum of this compound. */
+<span class="lineNum">     381 </span>            :     const Frustum&amp; getFrustum() const { return _frustum; }
+<span class="lineNum">     382 </span>            : 
+<span class="lineNum">     383 </span>            :     /** Update the frustum from the view or segment. */
+<span class="lineNum">     384 </span>            :     void updateFrustum( const Vector3f&amp; eye, const float ratio );
+<span class="lineNum">     385 </span>            : 
+<span class="lineNum">     386 </span>            :     /** compute the frustum for a given viewport */
+<span class="lineNum">     387 </span>            :     void computeTileFrustum( Frustumf&amp; frustum, const fabric::Eye eye,
+<span class="lineNum">     388 </span>            :                              Viewport vp, bool ortho ) const;
+<a name="389"><span class="lineNum">     389 </span>            : </a>
+<span class="lineNum">     390 </span>            :     /** @return the bitwise OR of the eye values. */
+<span class="lineNum">     391 </span><span class="lineCov">       2018 :     uint32_t getEyes() const { return _data.eyes; }</span>
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span>            :     /**
+<span class="lineNum">     394 </span>            :      * Set the eyes to be used by the compound.
+<span class="lineNum">     395 </span>            :      *
+<span class="lineNum">     396 </span>            :      * Previously set eyes are overwritten.
+<span class="lineNum">     397 </span>            :      *
+<a name="398"><span class="lineNum">     398 </span>            :      * @param eyes the compound eyes.</a>
+<span class="lineNum">     399 </span>            :      */
+<span class="lineNum">     400 </span><span class="lineCov">        200 :     void setEyes( const uint32_t eyes ) { _data.eyes = eyes; }</span>
+<span class="lineNum">     401 </span>            : 
+<span class="lineNum">     402 </span>            :     /**
+<span class="lineNum">     403 </span>            :      * Add eyes to be used by the compound.
+<span class="lineNum">     404 </span>            :      *
+<span class="lineNum">     405 </span>            :      * Previously set eyes are preserved.
+<span class="lineNum">     406 </span>            :      *
+<a name="407"><span class="lineNum">     407 </span>            :      * @param eyes the compound eyes.</a>
+<span class="lineNum">     408 </span>            :      */
+<span class="lineNum">     409 </span><span class="lineCov">        336 :     void enableEye( const uint32_t eyes ) { _data.eyes |= eyes; }</span>
+<span class="lineNum">     410 </span>            :     //@}
+<span class="lineNum">     411 </span>            : 
+<span class="lineNum">     412 </span>            :     /** @name Compound Operations. */
+<span class="lineNum">     413 </span>            :     //@{
+<span class="lineNum">     414 </span>            :     /**
+<span class="lineNum">     415 </span>            :      * Traverse the compound and all children using a compound visitor.
+<span class="lineNum">     416 </span>            :      *
+<span class="lineNum">     417 </span>            :      * @param visitor the visitor.
+<span class="lineNum">     418 </span>            :      * @return the result of the visitor traversal.
+<span class="lineNum">     419 </span>            :      */
+<span class="lineNum">     420 </span>            :     EQSERVER_API VisitorResult accept( CompoundVisitor&amp; visitor ) const;
+<span class="lineNum">     421 </span>            :     /** Non-const version of accept(). */
+<span class="lineNum">     422 </span>            :     EQSERVER_API VisitorResult accept( CompoundVisitor&amp; visitor );
+<span class="lineNum">     423 </span>            : 
+<span class="lineNum">     424 </span>            :     /** @internal Activate the given eyes for the the compound tree. */
+<span class="lineNum">     425 </span>            :     void activate( const uint32_t eyes );
+<span class="lineNum">     426 </span>            : 
+<span class="lineNum">     427 </span>            :     /** @internal Deactivate the given eyes for the the compound tree. */
+<span class="lineNum">     428 </span>            :     void deactivate( const uint32_t eyes );
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span>            :     /**
+<span class="lineNum">     431 </span>            :      * @return if the compound is activated for selected eye
+<span class="lineNum">     432 </span>            :      and current (DPlex).
+<span class="lineNum">     433 </span>            :      *
+<span class="lineNum">     434 </span>            :      * @param eye eye which will be tested.
+<span class="lineNum">     435 </span>            :      */
+<span class="lineNum">     436 </span>            :     bool isInheritActive( const Eye eye ) const;
+<span class="lineNum">     437 </span>            : 
+<span class="lineNum">     438 </span>            :     /** @return true if the compound is activated for any later eye pass. */
+<span class="lineNum">     439 </span>            :     bool isLastInheritEye( const Eye eye ) const;
+<span class="lineNum">     440 </span>            : 
+<span class="lineNum">     441 </span>            :     /**
+<span class="lineNum">     442 </span>            :      * @return true if the compound is active and the compound's channel is
+<span class="lineNum">     443 </span>            :      *         running.
+<span class="lineNum">     444 </span>            :      */
+<span class="lineNum">     445 </span>            :     bool isActive() const;
+<span class="lineNum">     446 </span>            : 
+<span class="lineNum">     447 </span>            :     /** Initialize this compound. */
+<span class="lineNum">     448 </span>            :     void init();
+<span class="lineNum">     449 </span>            : 
+<span class="lineNum">     450 </span>            :     /** Exit this compound. */
+<span class="lineNum">     451 </span>            :     void exit();
+<span class="lineNum">     452 </span>            : 
+<span class="lineNum">     453 </span>            :     /** Initialize the default tasks of this compound. */
+<span class="lineNum">     454 </span>            :     void updateInheritTasks();
+<span class="lineNum">     455 </span>            : 
+<span class="lineNum">     456 </span>            :     /** Register all distributed objects (frames) */
+<span class="lineNum">     457 </span>            :     void register_();
+<span class="lineNum">     458 </span>            : 
+<span class="lineNum">     459 </span>            :     /** Deregister all distributed objects (frames) */
+<span class="lineNum">     460 </span>            :     void deregister();
+<span class="lineNum">     461 </span>            : 
+<span class="lineNum">     462 </span>            :     /** Back up all relevant compound data. */
+<span class="lineNum">     463 </span>            :     void backup();
+<span class="lineNum">     464 </span>            : 
+<span class="lineNum">     465 </span>            :     /** Restore all relevant compound data. */
+<span class="lineNum">     466 </span>            :     void restore();
+<span class="lineNum">     467 </span>            : 
+<span class="lineNum">     468 </span>            :     /**
+<span class="lineNum">     469 </span>            :      * Updates this compound.
+<span class="lineNum">     470 </span>            :      *
+<span class="lineNum">     471 </span>            :      * The compound's parameters for the next frame are computed.
+<span class="lineNum">     472 </span>            :      */
+<span class="lineNum">     473 </span>            :     void update( const uint32_t frameNumber );
+<span class="lineNum">     474 </span>            : 
+<span class="lineNum">     475 </span>            :     /** Update the inherit data of this compound. */
+<span class="lineNum">     476 </span>            :     void updateInheritData( const uint32_t frameNumber );
+<span class="lineNum">     477 </span>            :     //@}
+<span class="lineNum">     478 </span>            : 
+<span class="lineNum">     479 </span>            :     /** @name Compound listener interface. */
+<span class="lineNum">     480 </span>            :     //@{
+<span class="lineNum">     481 </span>            :     /** Register a compound listener. */
+<span class="lineNum">     482 </span>            :     void addListener( CompoundListener* listener );
+<span class="lineNum">     483 </span>            :     /** Deregister a compound listener. */
+<span class="lineNum">     484 </span>            :     void removeListener( CompoundListener* listener );
+<span class="lineNum">     485 </span>            : 
+<span class="lineNum">     486 </span>            :     /** Notify all listeners that the compound is about to be updated. */
+<span class="lineNum">     487 </span>            :     void fireUpdatePre( const uint32_t frameNumber );
+<span class="lineNum">     488 </span>            :     //@}
+<span class="lineNum">     489 </span>            : 
+<span class="lineNum">     490 </span>            :     /**
+<span class="lineNum">     491 </span>            :      * @name Attributes
+<a name="492"><span class="lineNum">     492 </span>            :      */</a>
+<span class="lineNum">     493 </span>            :     //@{
+<a name="494"><span class="lineNum">     494 </span><span class="lineCov">         28 :     void setIAttribute( const IAttribute attr, const int32_t value )</span></a>
+<span class="lineNum">     495 </span><span class="lineCov">         28 :     { _data.iAttributes[attr] = value; }</span>
+<span class="lineNum">     496 </span><span class="lineCov">      10070 :     int32_t  getIAttribute( const IAttribute attr ) const</span>
+<span class="lineNum">     497 </span><span class="lineCov">      10070 :     { return _data.iAttributes[attr]; }</span>
+<span class="lineNum">     498 </span>            :     static const std::string&amp;  getIAttributeString( const IAttribute attr );
+<span class="lineNum">     499 </span>            :     //@}
+<span class="lineNum">     500 </span>            : 
+<span class="lineNum">     501 </span>            :     typedef stde::hash_map&lt;std::string, co::Barrier*&gt; BarrierMap;
+<span class="lineNum">     502 </span>            :     typedef BarrierMap::const_iterator BarrierMapCIter;
+<span class="lineNum">     503 </span>            : 
+<span class="lineNum">     504 </span>            :     typedef stde::hash_map&lt;std::string, Frame*&gt; FrameMap;
+<span class="lineNum">     505 </span>            :     typedef FrameMap::const_iterator FrameMapCIter;
+<span class="lineNum">     506 </span>            : 
+<span class="lineNum">     507 </span>            :     typedef stde::hash_map&lt;std::string, TileQueue*&gt;   TileQueueMap;
+<span class="lineNum">     508 </span>            : 
+<span class="lineNum">     509 </span>            : private:
+<span class="lineNum">     510 </span>            :     //-------------------- Members --------------------
+<span class="lineNum">     511 </span>            :     std::string _name;
+<span class="lineNum">     512 </span>            : 
+<span class="lineNum">     513 </span>            :     /**
+<span class="lineNum">     514 </span>            :      * The config the compound is attached to, only set on root
+<span class="lineNum">     515 </span>            :      * compounds.
+<span class="lineNum">     516 </span>            :      */
+<span class="lineNum">     517 </span>            :     friend class Config;
+<span class="lineNum">     518 </span>            :     Config* const _config;
+<span class="lineNum">     519 </span>            : 
+<span class="lineNum">     520 </span>            :     Compound* const _parent;
+<span class="lineNum">     521 </span>            :     Compounds _children;
+<span class="lineNum">     522 </span>            : 
+<span class="lineNum">     523 </span>            :     /** Percentage the resource should be used. */
+<span class="lineNum">     524 </span>            :     float _usage;
+<span class="lineNum">     525 </span>            : 
+<span class="lineNum">     526 </span>            :     /** Unique identifier for channel tasks. */
+<a name="527"><span class="lineNum">     527 </span>            :     uint32_t _taskID;</a>
+<span class="lineNum">     528 </span>            : 
+<span class="lineNum">     529 </span><span class="lineCov">         12 :     struct Data</span>
+<span class="lineNum">     530 </span>            :     {
+<span class="lineNum">     531 </span>            :         Data();
+<span class="lineNum">     532 </span>            : 
+<span class="lineNum">     533 </span>            :         Channel*              channel;
+<span class="lineNum">     534 </span>            :         Viewport              vp;
+<span class="lineNum">     535 </span>            :         PixelViewport         pvp;
+<span class="lineNum">     536 </span>            :         Vector4i              overdraw;
+<span class="lineNum">     537 </span>            :         Range                 range;
+<span class="lineNum">     538 </span>            :         Pixel                 pixel;
+<span class="lineNum">     539 </span>            :         SubPixel              subPixel;
+<span class="lineNum">     540 </span>            :         FrustumData           frustumData;
+<span class="lineNum">     541 </span>            :         Zoom                  zoom;
+<span class="lineNum">     542 </span>            :         fabric::Frame::Buffer buffers;
+<span class="lineNum">     543 </span>            :         uint32_t              eyes;
+<span class="lineNum">     544 </span>            :         uint32_t              tasks;
+<span class="lineNum">     545 </span>            :         uint32_t              period;
+<span class="lineNum">     546 </span>            :         uint32_t              phase;
+<span class="lineNum">     547 </span>            :         int32_t               iAttributes[IATTR_ALL];
+<span class="lineNum">     548 </span>            :         float                 maxFPS;
+<span class="lineNum">     549 </span>            : 
+<span class="lineNum">     550 </span>            :         // compound activation per eye
+<span class="lineNum">     551 </span>            :         uint32_t active[ fabric::NUM_EYES ];
+<span class="lineNum">     552 </span>            : 
+<span class="lineNum">     553 </span>            :         union // placeholder for binary-compatible changes
+<span class="lineNum">     554 </span>            :         {
+<span class="lineNum">     555 </span>            :             char dummy[16];
+<span class="lineNum">     556 </span>            :         };
+<span class="lineNum">     557 </span>            :     };
+<span class="lineNum">     558 </span>            : 
+<span class="lineNum">     559 </span>            :     Data _data;
+<span class="lineNum">     560 </span>            :     Data _backup;
+<span class="lineNum">     561 </span>            :     Data _inherit;
+<span class="lineNum">     562 </span>            : 
+<span class="lineNum">     563 </span>            :     /** The frustum description of this compound. */
+<span class="lineNum">     564 </span>            :     Frustum _frustum;
+<span class="lineNum">     565 </span>            : 
+<span class="lineNum">     566 </span>            :     typedef std::vector&lt; CompoundListener* &gt; CompoundListeners;
+<span class="lineNum">     567 </span>            :     CompoundListeners _listeners;
+<span class="lineNum">     568 </span>            : 
+<span class="lineNum">     569 </span>            :     Equalizers _equalizers;
+<span class="lineNum">     570 </span>            : 
+<span class="lineNum">     571 </span>            :     SwapBarrierPtr _swapBarrier;
+<span class="lineNum">     572 </span>            : 
+<span class="lineNum">     573 </span>            :     Frames _inputFrames;
+<span class="lineNum">     574 </span>            :     Frames _outputFrames;
+<span class="lineNum">     575 </span>            : 
+<span class="lineNum">     576 </span>            :     TileQueues _inputTileQueues;
+<span class="lineNum">     577 </span>            :     TileQueues _outputTileQueues;
+<span class="lineNum">     578 </span>            : 
+<span class="lineNum">     579 </span>            :     struct Private;
+<a name="580"><span class="lineNum">     580 </span>            :     Private* _private; // placeholder for binary-compatible changes</a>
+<span class="lineNum">     581 </span>            : 
+<span class="lineNum">     582 </span><span class="lineCov">       8040 :     LB_TS_VAR( _serverThread );</span>
+<span class="lineNum">     583 </span>            : 
+<span class="lineNum">     584 </span>            :     //-------------------- Methods --------------------
+<span class="lineNum">     585 </span>            :     void _addChild( Compound* child );
+<span class="lineNum">     586 </span>            :     bool _removeChild( Compound* child );
+<span class="lineNum">     587 </span>            : 
+<span class="lineNum">     588 </span>            :     void _updateOverdraw( Wall&amp; wall );
+<span class="lineNum">     589 </span>            :     void _updateInheritRoot();
+<span class="lineNum">     590 </span>            :     void _updateInheritNode();
+<span class="lineNum">     591 </span>            :     void _updateInheritPVP();
+<span class="lineNum">     592 </span>            :     void _updateInheritOverdraw();
+<span class="lineNum">     593 </span>            :     void _updateInheritStereo();
+<span class="lineNum">     594 </span>            :     void _updateInheritActive( const uint32_t frameNumber );
+<span class="lineNum">     595 </span>            : 
+<span class="lineNum">     596 </span>            :     void _setDefaultFrameName( Frame* frame );
+<span class="lineNum">     597 </span>            :     void _setDefaultTileQueueName( TileQueue* tileQueue );
+<span class="lineNum">     598 </span>            : 
+<span class="lineNum">     599 </span>            :     void _fireChildAdded( Compound* child );
+<span class="lineNum">     600 </span>            :     void _fireChildRemove( Compound* child );
+<span class="lineNum">     601 </span>            : 
+<span class="lineNum">     602 </span>            :     void _computeFrustum( RenderContext&amp; context ) const;
+<span class="lineNum">     603 </span>            :     void _computePerspective( RenderContext&amp; context,
+<span class="lineNum">     604 </span>            :                               const Vector3f&amp; eye ) const;
+<span class="lineNum">     605 </span>            :     void _computeOrtho( RenderContext&amp; context, const Vector3f&amp; eye ) const;
+<span class="lineNum">     606 </span>            :     Vector3f _getEyePosition( const fabric::Eye eye ) const;
+<span class="lineNum">     607 </span>            :     const Matrix4f&amp; _getInverseHeadMatrix() const;
+<span class="lineNum">     608 </span>            :     void _computeFrustumCorners( Frustumf&amp; frustum,
+<span class="lineNum">     609 </span>            :                                  const FrustumData&amp; frustumData, const Vector3f&amp; eye,
+<span class="lineNum">     610 </span>            :                                  const bool ortho, const Viewport* const vp = 0 ) const;
+<span class="lineNum">     611 </span>            : };
+<span class="lineNum">     612 </span>            : 
+<span class="lineNum">     613 </span>            : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Compound&amp; compound );
 <span class="lineNum">     614 </span>            : }
-<span class="lineNum">     615 </span>            : #endif // EQSERVER_COMPOUND_H
+<span class="lineNum">     615 </span>            : }
+<span class="lineNum">     616 </span>            : #endif // EQSERVER_COMPOUND_H
 </pre>
       </td>
     </tr>

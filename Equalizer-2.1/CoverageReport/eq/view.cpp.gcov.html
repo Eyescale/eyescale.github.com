@@ -32,17 +32,17 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">19</td>
-            <td class="headerCovTableEntry">64</td>
-            <td class="headerCovTableEntryLo">29.7 %</td>
+            <td class="headerCovTableEntry">107</td>
+            <td class="headerCovTableEntryLo">17.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-24 05:09:05</td>
+            <td class="headerValue">2017-01-10 05:08:25</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">9</td>
-            <td class="headerCovTableEntry">14</td>
-            <td class="headerCovTableEntryMed">64.3 %</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntryLo">39.1 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2008-2015, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2008-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * This library is free software; you can redistribute it and/or modify it under
@@ -80,158 +80,244 @@
 <span class="lineNum">      18 </span>            : 
 <span class="lineNum">      19 </span>            : #include &quot;view.h&quot;
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #include &quot;config.h&quot;
-<span class="lineNum">      22 </span>            : #include &quot;pipe.h&quot;
-<span class="lineNum">      23 </span>            : #include &quot;layout.h&quot;
-<span class="lineNum">      24 </span>            : #include &quot;observer.h&quot;
-<span class="lineNum">      25 </span>            : #include &quot;server.h&quot;
-<span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span>            : #include &lt;eq/fabric/commands.h&gt;
-<span class="lineNum">      28 </span>            : #include &lt;eq/fabric/sizeEvent.h&gt;
-<span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span>            : #include &lt;co/dataIStream.h&gt;
-<span class="lineNum">      31 </span>            : #include &lt;co/dataOStream.h&gt;
-<span class="lineNum">      32 </span>            : #include &lt;lunchbox/scopedMutex.h&gt;
-<span class="lineNum">      33 </span>            : #include &lt;lunchbox/spinLock.h&gt;
-<span class="lineNum">      34 </span>            : 
-<span class="lineNum">      35 </span>            : namespace eq
-<span class="lineNum">      36 </span>            : {
-<a name="37"><span class="lineNum">      37 </span>            : namespace detail</a>
-<span class="lineNum">      38 </span>            : {
-<span class="lineNum">      39 </span><span class="lineCov">          4 : class View</span>
+<span class="lineNum">      21 </span>            : #include &quot;compositor.h&quot;
+<span class="lineNum">      22 </span>            : #include &quot;config.h&quot;
+<span class="lineNum">      23 </span>            : #include &quot;eventICommand.h&quot;
+<span class="lineNum">      24 </span>            : #include &quot;image.h&quot;
+<span class="lineNum">      25 </span>            : #include &quot;imageOp.h&quot;
+<span class="lineNum">      26 </span>            : #include &quot;layout.h&quot;
+<span class="lineNum">      27 </span>            : #include &quot;observer.h&quot;
+<span class="lineNum">      28 </span>            : #include &quot;pipe.h&quot;
+<span class="lineNum">      29 </span>            : #include &quot;server.h&quot;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : #include &lt;eq/fabric/commands.h&gt;
+<span class="lineNum">      32 </span>            : #include &lt;eq/fabric/sizeEvent.h&gt;
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : #include &lt;co/dataIStream.h&gt;
+<span class="lineNum">      35 </span>            : #include &lt;co/dataOStream.h&gt;
+<span class="lineNum">      36 </span>            : #include &lt;lunchbox/scopedMutex.h&gt;
+<span class="lineNum">      37 </span>            : #include &lt;lunchbox/spinLock.h&gt;
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : namespace eq
 <span class="lineNum">      40 </span>            : {
-<span class="lineNum">      41 </span>            : public:
-<span class="lineNum">      42 </span>            :     lunchbox::SpinLock eventLock; //!&lt; event-handling resize synchronizer
-<span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span>            :     /** Unmodified, baseline view frustum data, used for resizing. */
-<span class="lineNum">      45 </span>            :     Frustum baseFrustum;
-<span class="lineNum">      46 </span>            : };
-<span class="lineNum">      47 </span>            : }
-<span class="lineNum">      48 </span>            : 
-<a name="49"><span class="lineNum">      49 </span>            : typedef fabric::View&lt; Layout, View, Observer &gt; Super;</a>
+<a name="41"><span class="lineNum">      41 </span>            : namespace detail</a>
+<span class="lineNum">      42 </span>            : {
+<span class="lineNum">      43 </span><span class="lineCov">          4 : class View</span>
+<span class="lineNum">      44 </span>            : {
+<span class="lineNum">      45 </span>            : public:
+<span class="lineNum">      46 </span>            :     lunchbox::SpinLock eventLock; //!&lt; event-handling resize synchronizer
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            :     /** Unmodified, baseline view frustum data, used for resizing. */
+<a name="49"><span class="lineNum">      49 </span>            :     Frustum baseFrustum;</a>
 <span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span><span class="lineCov">          2 : View::View( Layout* parent )</span>
-<span class="lineNum">      52 </span>            :         : Super( parent )
-<span class="lineNum">      53 </span><span class="lineCov">          2 :         , _impl( new detail::View )</span>
-<span class="lineNum">      54 </span><span class="lineCov">          4 :         , _pipe( 0 )</span>
-<span class="lineNum">      55 </span>            : {
-<a name="56"><span class="lineNum">      56 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">          6 : View::~View()</span>
-<span class="lineNum">      59 </span>            : {
-<span class="lineNum">      60 </span><span class="lineCov">          2 :     delete _impl;</span>
-<a name="61"><span class="lineNum">      61 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">          3 : void View::deserialize( co::DataIStream&amp; is, const uint64_t dirtyBits )</span>
-<span class="lineNum">      64 </span>            : {
-<span class="lineNum">      65 </span><span class="lineCov">          3 :     Super::deserialize( is, dirtyBits );</span>
-<span class="lineNum">      66 </span><span class="lineCov">          6 :     if( _impl-&gt;baseFrustum.getCurrentType() == TYPE_NONE &amp;&amp;</span>
-<span class="lineNum">      67 </span><span class="lineCov">          3 :         ( dirtyBits &amp; DIRTY_FRUSTUM ))</span>
-<span class="lineNum">      68 </span>            :     {
-<span class="lineNum">      69 </span><span class="lineCov">          2 :         _impl-&gt;baseFrustum = *this; // save baseline data for resizing</span>
-<span class="lineNum">      70 </span>            :     }
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          3 : }</span></a>
-<span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span><span class="lineCov">          2 : void View::detach()</span>
-<span class="lineNum">      74 </span>            : {
-<span class="lineNum">      75 </span>            :     // if pipe is not running, detach comes from _flushViews in state stopping
-<span class="lineNum">      76 </span>            :     //  Don't send command to stopping pipe (see issue #11)
-<span class="lineNum">      77 </span><span class="lineCov">          2 :     if( _pipe &amp;&amp; _pipe-&gt;isRunning( ))</span>
-<span class="lineNum">      78 </span>            :     {
-<span class="lineNum">      79 </span>            :         // local command dispatching
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :         co::ObjectOCommand( _pipe, getLocalNode(), fabric::CMD_PIPE_DETACH_VIEW,</span>
-<span class="lineNum">      81 </span><span class="lineNoCov">          0 :                             co::COMMANDTYPE_OBJECT, _pipe-&gt;getID(),</span>
-<span class="lineNum">      82 </span><span class="lineNoCov">          0 :                             CO_INSTANCE_ALL ) &lt;&lt; getID();</span>
-<span class="lineNum">      83 </span>            :     }
-<span class="lineNum">      84 </span><span class="lineCov">          2 :     Super::detach();</span>
-<a name="85"><span class="lineNum">      85 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span><span class="lineNoCov">          0 : Config* View::getConfig()</span>
-<span class="lineNum">      88 </span>            : {
-<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     Layout* layout = getLayout();</span>
-<span class="lineNum">      90 </span><span class="lineNoCov">          0 :     if( layout )</span>
-<span class="lineNum">      91 </span><span class="lineNoCov">          0 :         return layout-&gt;getConfig();</span>
-<span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span><span class="lineNoCov">          0 :     if( _pipe )</span>
-<span class="lineNum">      94 </span><span class="lineNoCov">          0 :         return _pipe-&gt;getConfig();</span>
-<span class="lineNum">      95 </span>            : 
-<span class="lineNum">      96 </span><span class="lineNoCov">          0 :     LBUNREACHABLE;</span>
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :     return 0;</span>
-<a name="98"><span class="lineNum">      98 </span>            : }</a>
-<span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span><span class="lineNoCov">          0 : const Config* View::getConfig() const</span>
-<span class="lineNum">     101 </span>            : {
-<span class="lineNum">     102 </span><span class="lineNoCov">          0 :     const Layout* layout = getLayout();</span>
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 :     if( layout )</span>
-<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         return layout-&gt;getConfig();</span>
-<span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span><span class="lineNoCov">          0 :     if( _pipe )</span>
-<span class="lineNum">     107 </span><span class="lineNoCov">          0 :         return _pipe-&gt;getConfig();</span>
-<span class="lineNum">     108 </span>            : 
-<span class="lineNum">     109 </span><span class="lineNoCov">          0 :     LBUNREACHABLE;</span>
-<span class="lineNum">     110 </span><span class="lineNoCov">          0 :     return 0;</span>
-<a name="111"><span class="lineNum">     111 </span>            : }</a>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     struct Screenshot</span>
+<span class="lineNum">      52 </span>            :     {
+<span class="lineNum">      53 </span>            :         std::unique_ptr&lt; eq::Image &gt; _image;
+<a name="54"><span class="lineNum">      54 </span>            :         Viewport _viewport;</a>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :         bool isComplete() const</span>
+<span class="lineNum">      57 </span>            :         {
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :             return _viewport == Viewport::FULL;</span>
+<a name="59"><span class="lineNum">      59 </span>            :         }</a>
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :         void composite( const Viewport&amp; viewport, const eq::Image&amp; image )</span>
+<span class="lineNum">      62 </span>            :         {
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :             if( !_image )</span>
+<span class="lineNum">      64 </span>            :             {
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :                 _viewport = viewport;</span>
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :                 _image.reset( new eq::Image( image ));</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :                 return;</span>
+<span class="lineNum">      68 </span>            :             }
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :             ImageOps ops;</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :             ImageOp current;</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :             current.image = _image.get();</span>
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :             ImageOp newImage;</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :             newImage.image = &amp;image;</span>
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :             ops.push_back( current );</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :             ops.push_back( newImage );</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :             _image.reset(</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :                      new eq::Image( *Compositor::mergeImagesCPU( ops, false )));</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :             _viewport.unite( viewport );</span>
+<span class="lineNum">      81 </span>            :         }
+<span class="lineNum">      82 </span>            :     };
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :     std::map&lt; uint32_t, Screenshot &gt; screenshot;
+<span class="lineNum">      85 </span>            :     eq::View::ScreenshotFunc screenshotFunc;
+<span class="lineNum">      86 </span>            : };
+<span class="lineNum">      87 </span>            : }
+<span class="lineNum">      88 </span>            : 
+<a name="89"><span class="lineNum">      89 </span>            : typedef fabric::View&lt; Layout, View, Observer &gt; Super;</a>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineCov">          2 : View::View( Layout* parent )</span>
+<span class="lineNum">      92 </span>            :         : Super( parent )
+<span class="lineNum">      93 </span><span class="lineCov">          2 :         , _impl( new detail::View )</span>
+<span class="lineNum">      94 </span><span class="lineCov">          4 :         , _pipe( 0 )</span>
+<span class="lineNum">      95 </span>            : {
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineCov">          6 : View::~View()</span>
+<span class="lineNum">      99 </span>            : {
+<span class="lineNum">     100 </span><span class="lineCov">          2 :     delete _impl;</span>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span><span class="lineCov">          3 : void View::deserialize( co::DataIStream&amp; is, const uint64_t dirtyBits )</span>
+<span class="lineNum">     104 </span>            : {
+<span class="lineNum">     105 </span><span class="lineCov">          3 :     Super::deserialize( is, dirtyBits );</span>
+<span class="lineNum">     106 </span><span class="lineCov">          6 :     if( _impl-&gt;baseFrustum.getCurrentType() == TYPE_NONE &amp;&amp;</span>
+<span class="lineNum">     107 </span><span class="lineCov">          3 :         ( dirtyBits &amp; DIRTY_FRUSTUM ))</span>
+<span class="lineNum">     108 </span>            :     {
+<span class="lineNum">     109 </span><span class="lineCov">          2 :         _impl-&gt;baseFrustum = *this; // save baseline data for resizing</span>
+<span class="lineNum">     110 </span>            :     }
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">          3 : }</span></a>
 <span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span><span class="lineNoCov">          0 : ServerPtr View::getServer()</span>
+<span class="lineNum">     113 </span><span class="lineCov">          2 : void View::detach()</span>
 <span class="lineNum">     114 </span>            : {
-<span class="lineNum">     115 </span><span class="lineNoCov">          0 :     Config* config = getConfig();</span>
-<span class="lineNum">     116 </span><span class="lineNoCov">          0 :     LBASSERT( config );</span>
-<span class="lineNum">     117 </span><span class="lineNoCov">          0 :     return ( config ? config-&gt;getServer() : 0 );</span>
-<a name="118"><span class="lineNum">     118 </span>            : }</a>
-<span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineNoCov">          0 : const Frustum&amp; View::getBaseFrustum() const</span>
-<span class="lineNum">     121 </span>            : {
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 :     return _impl-&gt;baseFrustum;</span>
-<a name="123"><span class="lineNum">     123 </span>            : }</a>
-<span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span><span class="lineNoCov">          0 : bool View::handleEvent( const EventType type, const SizeEvent&amp; event )</span>
-<span class="lineNum">     126 </span>            : {
-<span class="lineNum">     127 </span><span class="lineNoCov">          0 :     if( type != EVENT_VIEW_RESIZE )</span>
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span><span class="lineNoCov">          0 :     if( event.dw == 0.f || event.dh == 0.f )</span>
-<span class="lineNum">     131 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     115 </span>            :     // if pipe is not running, detach comes from _flushViews in state stopping
+<span class="lineNum">     116 </span>            :     //  Don't send command to stopping pipe (see issue #11)
+<span class="lineNum">     117 </span><span class="lineCov">          2 :     if( _pipe &amp;&amp; _pipe-&gt;isRunning( ))</span>
+<span class="lineNum">     118 </span>            :     {
+<span class="lineNum">     119 </span>            :         // local command dispatching
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         co::ObjectOCommand( _pipe, getLocalNode(), fabric::CMD_PIPE_DETACH_VIEW,</span>
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :                             co::COMMANDTYPE_OBJECT, _pipe-&gt;getID(),</span>
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :                             CO_INSTANCE_ALL ) &lt;&lt; getID();</span>
+<span class="lineNum">     123 </span>            :     }
+<span class="lineNum">     124 </span><span class="lineCov">          2 :     Super::detach();</span>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 : Config* View::getConfig()</span>
+<span class="lineNum">     128 </span>            : {
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :     Layout* layout = getLayout();</span>
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :     if( layout )</span>
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 :         return layout-&gt;getConfig();</span>
 <span class="lineNum">     132 </span>            : 
-<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     switch( getCurrentType( ))</span>
-<span class="lineNum">     134 </span>            :     {
-<span class="lineNum">     135 </span>            :     case TYPE_WALL:
-<span class="lineNum">     136 </span>            :     {
-<span class="lineNum">     137 </span><span class="lineNoCov">          0 :         const float ratio( event.dw / event.dh );</span>
-<span class="lineNum">     138 </span><span class="lineNoCov">          0 :         Wall wall( _impl-&gt;baseFrustum.getWall( ));</span>
-<span class="lineNum">     139 </span><span class="lineNoCov">          0 :         wall.resizeHorizontal( ratio );</span>
-<span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;eventLock );</span>
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         setWall( wall );</span>
-<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         return true;</span>
-<span class="lineNum">     144 </span>            :     }
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     if( _pipe )</span>
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :         return _pipe-&gt;getConfig();</span>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     LBUNREACHABLE;</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :     return 0;</span>
+<a name="138"><span class="lineNum">     138 </span>            : }</a>
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 : const Config* View::getConfig() const</span>
+<span class="lineNum">     141 </span>            : {
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :     const Layout* layout = getLayout();</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :     if( layout )</span>
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :         return layout-&gt;getConfig();</span>
 <span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span>            :     case View::TYPE_PROJECTION:
-<span class="lineNum">     147 </span>            :     {
-<span class="lineNum">     148 </span><span class="lineNoCov">          0 :         const float ratio( event.dw / event.dh );</span>
-<span class="lineNum">     149 </span><span class="lineNoCov">          0 :         eq::Projection projection( _impl-&gt;baseFrustum.getProjection( ));</span>
-<span class="lineNum">     150 </span><span class="lineNoCov">          0 :         projection.resizeHorizontal( ratio );</span>
-<span class="lineNum">     151 </span>            : 
-<span class="lineNum">     152 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;eventLock );</span>
-<span class="lineNum">     153 </span><span class="lineNoCov">          0 :         setProjection( projection );</span>
-<span class="lineNum">     154 </span><span class="lineNoCov">          0 :         return true;</span>
-<span class="lineNum">     155 </span>            :     }
-<span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span>            :     default:
-<span class="lineNum">     158 </span><span class="lineNoCov">          0 :         LBUNIMPLEMENTED;</span>
-<span class="lineNum">     159 </span>            :     case eq::View::TYPE_NONE:
-<span class="lineNum">     160 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     161 </span>            :     }
-<span class="lineNum">     162 </span>            : }
-<span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span>            : }
-<span class="lineNum">     165 </span>            : 
-<span class="lineNum">     166 </span>            : #include &lt;eq/fabric/view.ipp&gt;
-<span class="lineNum">     167 </span>            : template class eq::fabric::View&lt; eq::Layout, eq::View, eq::Observer &gt;;
-<span class="lineNum">     168 </span>            : 
-<a name="169"><span class="lineNum">     169 </span>            : /** @cond IGNORE */</a>
-<span class="lineNum">     170 </span>            : template EQFABRIC_API std::ostream&amp; eq::fabric::operator &lt;&lt; ( std::ostream&amp;,
-<span class="lineNum">     171 </span><span class="lineCov">         36 :                                                              const eq::Super&amp; );</span>
-<span class="lineNum">     172 </span>            : /** @endcond */
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :     if( _pipe )</span>
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :         return _pipe-&gt;getConfig();</span>
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :     LBUNREACHABLE;</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :     return 0;</span>
+<a name="151"><span class="lineNum">     151 </span>            : }</a>
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 : ServerPtr View::getServer()</span>
+<span class="lineNum">     154 </span>            : {
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :     Config* config = getConfig();</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :     LBASSERT( config );</span>
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :     return ( config ? config-&gt;getServer() : 0 );</span>
+<a name="158"><span class="lineNum">     158 </span>            : }</a>
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 : const Frustum&amp; View::getBaseFrustum() const</span>
+<span class="lineNum">     161 </span>            : {
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :     return _impl-&gt;baseFrustum;</span>
+<a name="163"><span class="lineNum">     163 </span>            : }</a>
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 : bool View::handleEvent( const EventType type, const SizeEvent&amp; event )</span>
+<span class="lineNum">     166 </span>            : {
+<span class="lineNum">     167 </span><span class="lineNoCov">          0 :     if( type != EVENT_VIEW_RESIZE )</span>
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :     if( event.dw == 0.f || event.dh == 0.f )</span>
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :     switch( getCurrentType( ))</span>
+<span class="lineNum">     174 </span>            :     {
+<span class="lineNum">     175 </span>            :     case TYPE_WALL:
+<span class="lineNum">     176 </span>            :     {
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         const float ratio( event.dw / event.dh );</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         Wall wall( _impl-&gt;baseFrustum.getWall( ));</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :         wall.resizeHorizontal( ratio );</span>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;eventLock );</span>
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :         setWall( wall );</span>
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     184 </span>            :     }
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            :     case View::TYPE_PROJECTION:
+<span class="lineNum">     187 </span>            :     {
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :         const float ratio( event.dw / event.dh );</span>
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 :         eq::Projection projection( _impl-&gt;baseFrustum.getProjection( ));</span>
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :         projection.resizeHorizontal( ratio );</span>
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastWrite mutex( _impl-&gt;eventLock );</span>
+<span class="lineNum">     193 </span><span class="lineNoCov">          0 :         setProjection( projection );</span>
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     195 </span>            :     }
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span>            :     default:
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :         LBUNIMPLEMENTED;</span>
+<span class="lineNum">     199 </span>            :     case eq::View::TYPE_NONE:
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     201 </span>            :     }
+<a name="202"><span class="lineNum">     202 </span>            : }</a>
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 : void View::enableScreenshot( Frame::Buffer buffers, const ScreenshotFunc&amp; func )</span>
+<span class="lineNum">     205 </span>            : {
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :     Super::_setScreenshotBuffers( buffers );</span>
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :     _impl-&gt;screenshotFunc = func;</span>
+<a name="208"><span class="lineNum">     208 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 : void View::disableScreenshot()</span>
+<span class="lineNum">     211 </span>            : {
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :     Super::_setScreenshotBuffers( Frame::Buffer::none );</span>
+<a name="213"><span class="lineNum">     213 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 : void View::sendScreenshotEvent( const Viewport&amp; viewport,</span>
+<span class="lineNum">     216 </span>            :                                 const uint32_t frameNumber, const Image&amp; image )
+<span class="lineNum">     217 </span>            : {
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 :     getConfig()-&gt;sendEvent( EVENT_VIEW_SCREENSHOT ) &lt;&lt; getID() &lt;&lt; viewport</span>
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :                                                     &lt;&lt; frameNumber &lt;&lt; image;</span>
+<a name="220"><span class="lineNum">     220 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span><span class="lineNoCov">          0 : bool View::handleEvent( EventICommand&amp; command )</span>
+<span class="lineNum">     223 </span>            : {
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :     switch( command.getEventType( ))</span>
+<span class="lineNum">     225 </span>            :     {
+<span class="lineNum">     226 </span>            :     case EVENT_VIEW_SCREENSHOT:
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :         return _handleScreenshot( command );</span>
+<span class="lineNum">     228 </span>            :     }
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :     return false;</span>
+<a name="230"><span class="lineNum">     230 </span>            : }</a>
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 : bool View::_handleScreenshot( EventICommand&amp; command )</span>
+<span class="lineNum">     233 </span>            : {
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :     const auto&amp; vp = command.read&lt; Viewport &gt;();</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :     const auto frameNumber = command.read&lt; uint32_t &gt;();</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :     const auto&amp; newImage = command.read&lt; Image &gt;();</span>
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :     auto&amp; screenshot = _impl-&gt;screenshot[ frameNumber ];</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :     screenshot.composite( vp, newImage );</span>
+<span class="lineNum">     240 </span>            : 
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :     if( screenshot.isComplete( ))</span>
+<span class="lineNum">     242 </span>            :     {
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :         _impl-&gt;screenshotFunc( frameNumber, *screenshot._image );</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         _impl-&gt;screenshot.erase( frameNumber );</span>
+<span class="lineNum">     245 </span>            :     }
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     248 </span>            : }
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span>            : }
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span>            : #include &lt;eq/fabric/view.ipp&gt;
+<span class="lineNum">     253 </span>            : template class eq::fabric::View&lt; eq::Layout, eq::View, eq::Observer &gt;;
+<span class="lineNum">     254 </span>            : 
+<a name="255"><span class="lineNum">     255 </span>            : /** @cond IGNORE */</a>
+<span class="lineNum">     256 </span>            : template EQFABRIC_API std::ostream&amp; eq::fabric::operator &lt;&lt; ( std::ostream&amp;,
+<span class="lineNum">     257 </span><span class="lineCov">         36 :                                                              const eq::Super&amp; );</span>
+<span class="lineNum">     258 </span>            : /** @endcond */
 </pre>
       </td>
     </tr>

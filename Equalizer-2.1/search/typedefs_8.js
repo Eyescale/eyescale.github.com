@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['screenshotfunc',['ScreenshotFunc',['../classeq_1_1_view.html#aaf267aa2e08dd3a2dfd6bc4d3a46f703',1,'eq::View']]],
   ['segments',['Segments',['../classeq_1_1fabric_1_1_canvas.html#af8784510d513b46d6a17981dbda687ca',1,'eq::fabric::Canvas::Segments()'],['../namespaceeq.html#a3cf4fbb377a515d635472c0a9737f748',1,'eq::Segments()']]],
   ['segmentsciter',['SegmentsCIter',['../namespaceeq.html#a20872d7e3dc6a204976c3dea40a06c30',1,'eq']]],
   ['segmentvisitor',['SegmentVisitor',['../namespaceeq.html#a4c1471cfefaf635b9add19fec1376692',1,'eq']]],

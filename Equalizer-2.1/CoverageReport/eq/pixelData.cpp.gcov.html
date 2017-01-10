@@ -32,17 +32,17 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">16</td>
-            <td class="headerCovTableEntry">16</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntryMed">69.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-24 05:09:05</td>
+            <td class="headerValue">2017-01-10 05:08:25</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">5</td>
-            <td class="headerCovTableEntry">5</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryHi">83.3 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -61,9 +61,9 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2006-2014, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
-<span class="lineNum">       3 </span>            :  *                    2011, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
-<span class="lineNum">       4 </span>            :  *                    2010, Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2006-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       4 </span>            :  *                          Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *
 <span class="lineNum">       6 </span>            :  * This library is free software; you can redistribute it and/or modify it under
 <span class="lineNum">       7 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -90,23 +90,34 @@
 <span class="lineNum">      28 </span><span class="lineCov">       1646 :     reset();</span>
 <a name="29"><span class="lineNum">      29 </span><span class="lineCov">       1646 : }</span></a>
 <span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span><span class="lineCov">         52 : PixelData::~PixelData()</span>
-<span class="lineNum">      32 </span>            : {
-<span class="lineNum">      33 </span><span class="lineCov">         26 :     reset();</span>
-<a name="34"><span class="lineNum">      34 </span><span class="lineCov">         26 : }</span></a>
-<span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span><span class="lineCov">       1672 : void PixelData::reset()</span>
-<span class="lineNum">      37 </span>            : {
-<span class="lineNum">      38 </span><span class="lineCov">       1672 :     internalFormat = EQ_COMPRESSOR_DATATYPE_NONE;</span>
-<span class="lineNum">      39 </span><span class="lineCov">       1672 :     externalFormat = EQ_COMPRESSOR_DATATYPE_NONE;</span>
-<span class="lineNum">      40 </span><span class="lineCov">       1672 :     pixelSize = 0;</span>
-<span class="lineNum">      41 </span><span class="lineCov">       1672 :     pixels = 0;</span>
-<span class="lineNum">      42 </span><span class="lineCov">       1672 :     compressedData = pression::CompressorResult();</span>
-<span class="lineNum">      43 </span><span class="lineCov">       1672 :     compressorName = EQ_COMPRESSOR_INVALID;</span>
-<span class="lineNum">      44 </span><span class="lineCov">       1672 :     compressorFlags = 0;</span>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">       1672 : }</span></a>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 : PixelData::PixelData( const PixelData&amp; rhs )</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :     : internalFormat( rhs.internalFormat )</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :     , externalFormat( rhs.externalFormat )</span>
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :     , pixelSize( rhs.pixelSize )</span>
+<span class="lineNum">      35 </span>            :     , pvp( rhs.pvp )
+<span class="lineNum">      36 </span>            :     , compressedData( rhs.compressedData )
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :     , compressorName( rhs.compressorName )</span>
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :     , compressorFlags( rhs.compressorFlags )</span>
+<span class="lineNum">      39 </span>            : {
+<a name="40"><span class="lineNum">      40 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span><span class="lineCov">         52 : PixelData::~PixelData()</span>
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span><span class="lineCov">         26 :     reset();</span>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">         26 : }</span></a>
 <span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">      47 </span><span class="lineCov">       1672 : void PixelData::reset()</span>
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span><span class="lineCov">       1672 :     internalFormat = EQ_COMPRESSOR_DATATYPE_NONE;</span>
+<span class="lineNum">      50 </span><span class="lineCov">       1672 :     externalFormat = EQ_COMPRESSOR_DATATYPE_NONE;</span>
+<span class="lineNum">      51 </span><span class="lineCov">       1672 :     pixelSize = 0;</span>
+<span class="lineNum">      52 </span><span class="lineCov">       1672 :     pixels = 0;</span>
+<span class="lineNum">      53 </span><span class="lineCov">       1672 :     compressedData = pression::CompressorResult();</span>
+<span class="lineNum">      54 </span><span class="lineCov">       1672 :     compressorName = EQ_COMPRESSOR_INVALID;</span>
+<span class="lineNum">      55 </span><span class="lineCov">       1672 :     compressorFlags = 0;</span>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">       1672 : }</span></a>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">         36 : }</span>
 </pre>
       </td>
     </tr>

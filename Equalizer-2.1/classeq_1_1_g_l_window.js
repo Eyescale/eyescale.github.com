@@ -17,5 +17,6 @@ var classeq_1_1_g_l_window =
     [ "isCurrent", "classeq_1_1_g_l_window.html#a87a95ddbe5a9993b4f8a36aaf17c22d4", null ],
     [ "makeCurrent", "classeq_1_1_g_l_window.html#a37838c9aca2297d47603b18d1e953c0a", null ],
     [ "queryDrawableConfig", "classeq_1_1_g_l_window.html#adde4544eb0954e33f3fdc7f5d1952fd4", null ],
+    [ "resize", "classeq_1_1_g_l_window.html#ae8e2c8705ad3150871f499bce9655a4a", null ],
     [ "updateFrameBuffer", "classeq_1_1_g_l_window.html#a232cea38218d73df847b22dc0cd8a788", null ]
 ];

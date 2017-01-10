@@ -26,6 +26,7 @@ var classeq_1_1_system_window =
     [ "processEvent", "classeq_1_1_system_window.html#a16066f67716e151954e94756a4f37263", null ],
     [ "processEvent", "classeq_1_1_system_window.html#aa8496fdc41099eacfb97b05bf8d1571d", null ],
     [ "queryDrawableConfig", "classeq_1_1_system_window.html#a995dc1b1044673fea0a12adcddeb319c", null ],
+    [ "resize", "classeq_1_1_system_window.html#ad85d7462f818a4d1844277d7e54666df", null ],
     [ "sendError", "classeq_1_1_system_window.html#aa5e2cefc215d894e9ec370bdd18b5f5b", null ],
     [ "setName", "classeq_1_1_system_window.html#a279a88dc1758222716c552305d5e9e90", null ],
     [ "setPixelViewport", "classeq_1_1_system_window.html#ab45ed6161cfacd3ae1b4a5bc7e24ca1c", null ],

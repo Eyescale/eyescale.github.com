@@ -12,6 +12,7 @@ var classeq_1_1qt_1_1_share_context_window =
     [ "joinNVSwapBarrier", "classeq_1_1qt_1_1_share_context_window.html#aac57c704897f996782906c1ac5c20bd8", null ],
     [ "makeCurrent", "classeq_1_1qt_1_1_share_context_window.html#a43e9068e76f89330359aa17d6dc857f3", null ],
     [ "queryDrawableConfig", "classeq_1_1qt_1_1_share_context_window.html#a184e6505939a8ccad09c6722187e8bb0", null ],
+    [ "resize", "classeq_1_1qt_1_1_share_context_window.html#ad34d8e140ba2dd0665c93ba6036f387e", null ],
     [ "swapBuffers", "classeq_1_1qt_1_1_share_context_window.html#a688409b97af8713553c34367f47e6856", null ],
     [ "updateFrameBuffer", "classeq_1_1qt_1_1_share_context_window.html#ae5a480b4cd746cceeea74ffa67e716e5", null ]
 ];

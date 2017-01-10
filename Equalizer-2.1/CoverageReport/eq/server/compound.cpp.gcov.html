@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">564</td>
-            <td class="headerCovTableEntry">1007</td>
-            <td class="headerCovTableEntryMed">56.0 %</td>
+            <td class="headerCovTableEntry">562</td>
+            <td class="headerCovTableEntry">986</td>
+            <td class="headerCovTableEntryMed">57.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-24 05:09:05</td>
+            <td class="headerValue">2017-01-10 05:08:25</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">47</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *                          Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -198,7 +198,7 @@
 <span class="lineNum">     136 </span>            : 
 <span class="lineNum">     137 </span><span class="lineCov">      12060 : Compound::Data::Data()</span>
 <span class="lineNum">     138 </span>            :         : channel( 0 )
-<span class="lineNum">     139 </span>            :         , buffers( Frame::BUFFER_UNDEFINED )
+<span class="lineNum">     139 </span>            :         , buffers( Frame::Buffer::undefined )
 <span class="lineNum">     140 </span>            :         , eyes( EYE_UNDEFINED )
 <span class="lineNum">     141 </span>            :         , tasks( fabric::TASK_DEFAULT )
 <span class="lineNum">     142 </span>            :         , period( LB_UNDEFINED_UINT32 )
@@ -926,893 +926,862 @@
 <span class="lineNum">     864 </span><span class="lineCov">          4 :     if( overdraw.y() &amp;&amp; viewVP.getYEnd() &gt; segmentVP.getYEnd( ))</span>
 <span class="lineNum">     865 </span><span class="lineNoCov">          0 :         channelOverdraw.w() = overdraw.y();</span>
 <span class="lineNum">     866 </span>            : 
-<span class="lineNum">     867 </span>            :     // clamp to max channel size
-<span class="lineNum">     868 </span><span class="lineCov">          4 :     const Vector2i&amp; maxSize = channel-&gt;getMaxSize();</span>
-<span class="lineNum">     869 </span><span class="lineCov">          4 :     if( maxSize != Vector2i( ))</span>
-<span class="lineNum">     870 </span>            :     {
-<span class="lineNum">     871 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; channelPVP = channel-&gt;getPixelViewport();</span>
-<span class="lineNum">     872 </span>            : 
-<span class="lineNum">     873 </span><span class="lineNoCov">          0 :         const int32_t xOverdraw = channelOverdraw.x() + channelOverdraw.z();</span>
-<span class="lineNum">     874 </span><span class="lineNoCov">          0 :         const int32_t xSize = xOverdraw + channelPVP.w;</span>
-<span class="lineNum">     875 </span><span class="lineNoCov">          0 :         if( xSize &gt; maxSize.x( ))</span>
-<span class="lineNum">     876 </span>            :         {
-<span class="lineNum">     877 </span><span class="lineNoCov">          0 :             const uint32_t maxOverdraw = maxSize.x() - channelPVP.w;</span>
-<span class="lineNum">     878 </span><span class="lineNoCov">          0 :             const float ratio = static_cast&lt; float &gt;( maxOverdraw ) /</span>
-<span class="lineNum">     879 </span><span class="lineNoCov">          0 :                                 static_cast&lt; float &gt;( xOverdraw );</span>
-<span class="lineNum">     880 </span><span class="lineNoCov">          0 :             channelOverdraw.x() = static_cast&lt; int &gt;(</span>
-<span class="lineNum">     881 </span><span class="lineNoCov">          0 :                 channelOverdraw.x() * ratio + .5f );</span>
-<span class="lineNum">     882 </span><span class="lineNoCov">          0 :             channelOverdraw.z() = maxOverdraw - channelOverdraw.x();</span>
-<span class="lineNum">     883 </span>            :         }
+<span class="lineNum">     867 </span>            :     // apply to frustum
+<span class="lineNum">     868 </span><span class="lineCov">          4 :     if( channelOverdraw.x() &gt; 0 )</span>
+<span class="lineNum">     869 </span>            :     {
+<span class="lineNum">     870 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
+<span class="lineNum">     871 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.w + channelOverdraw.x( )) /</span>
+<span class="lineNum">     872 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.w );</span>
+<span class="lineNum">     873 </span><span class="lineNoCov">          0 :         wall.resizeLeft( ratio );</span>
+<span class="lineNum">     874 </span>            :     }
+<span class="lineNum">     875 </span>            : 
+<span class="lineNum">     876 </span><span class="lineCov">          4 :     if( channelOverdraw.z() &gt; 0 )</span>
+<span class="lineNum">     877 </span>            :     {
+<span class="lineNum">     878 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
+<span class="lineNum">     879 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.w + channelOverdraw.x( ) +</span>
+<span class="lineNum">     880 </span><span class="lineNoCov">          0 :                                                 channelOverdraw.z( )) /</span>
+<span class="lineNum">     881 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.w + channelOverdraw.x( ));</span>
+<span class="lineNum">     882 </span><span class="lineNoCov">          0 :         wall.resizeRight( ratio );</span>
+<span class="lineNum">     883 </span>            :     }
 <span class="lineNum">     884 </span>            : 
-<span class="lineNum">     885 </span><span class="lineNoCov">          0 :         const int32_t yOverdraw = channelOverdraw.y() + channelOverdraw.w();</span>
-<span class="lineNum">     886 </span><span class="lineNoCov">          0 :         const int32_t ySize = yOverdraw + channelPVP.h;</span>
-<span class="lineNum">     887 </span><span class="lineNoCov">          0 :         if( ySize &gt; maxSize.y( ))</span>
-<span class="lineNum">     888 </span>            :         {
-<span class="lineNum">     889 </span><span class="lineNoCov">          0 :             const uint32_t maxOverdraw = maxSize.y() - channelPVP.h;</span>
-<span class="lineNum">     890 </span><span class="lineNoCov">          0 :             const float ratio = static_cast&lt; float &gt;( maxOverdraw ) /</span>
-<span class="lineNum">     891 </span><span class="lineNoCov">          0 :                                 static_cast&lt; float &gt;( yOverdraw );</span>
-<span class="lineNum">     892 </span><span class="lineNoCov">          0 :             channelOverdraw.y() = static_cast&lt; int &gt;(</span>
-<span class="lineNum">     893 </span><span class="lineNoCov">          0 :                 channelOverdraw.y() * ratio +.5f );</span>
-<span class="lineNum">     894 </span><span class="lineNoCov">          0 :             channelOverdraw.w() = maxOverdraw - channelOverdraw.y();</span>
-<span class="lineNum">     895 </span>            :         }
-<span class="lineNum">     896 </span>            :     }
-<span class="lineNum">     897 </span>            : 
-<span class="lineNum">     898 </span>            :     // apply to frustum
-<span class="lineNum">     899 </span><span class="lineCov">          4 :     if( channelOverdraw.x() &gt; 0 )</span>
-<span class="lineNum">     900 </span>            :     {
-<span class="lineNum">     901 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
-<span class="lineNum">     902 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.w + channelOverdraw.x( )) /</span>
-<span class="lineNum">     903 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.w );</span>
-<span class="lineNum">     904 </span><span class="lineNoCov">          0 :         wall.resizeLeft( ratio );</span>
-<span class="lineNum">     905 </span>            :     }
-<span class="lineNum">     906 </span>            : 
-<span class="lineNum">     907 </span><span class="lineCov">          4 :     if( channelOverdraw.z() &gt; 0 )</span>
-<span class="lineNum">     908 </span>            :     {
-<span class="lineNum">     909 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
-<span class="lineNum">     910 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.w + channelOverdraw.x( ) +</span>
-<span class="lineNum">     911 </span><span class="lineNoCov">          0 :                                                 channelOverdraw.z( )) /</span>
-<span class="lineNum">     912 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.w + channelOverdraw.x( ));</span>
-<span class="lineNum">     913 </span><span class="lineNoCov">          0 :         wall.resizeRight( ratio );</span>
-<span class="lineNum">     914 </span>            :     }
+<span class="lineNum">     885 </span><span class="lineCov">          4 :     if( channelOverdraw.y() &gt; 0 )</span>
+<span class="lineNum">     886 </span>            :     {
+<span class="lineNum">     887 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
+<span class="lineNum">     888 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.h + channelOverdraw.y( )) /</span>
+<span class="lineNum">     889 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.h );</span>
+<span class="lineNum">     890 </span><span class="lineNoCov">          0 :         wall.resizeBottom( ratio );</span>
+<span class="lineNum">     891 </span>            :     }
+<span class="lineNum">     892 </span>            : 
+<span class="lineNum">     893 </span><span class="lineCov">          4 :     if( channelOverdraw.w() &gt; 0 )</span>
+<span class="lineNum">     894 </span>            :     {
+<span class="lineNum">     895 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
+<span class="lineNum">     896 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.h + + channelOverdraw.y( ) +</span>
+<span class="lineNum">     897 </span><span class="lineNoCov">          0 :                                                 channelOverdraw.w( )) /</span>
+<span class="lineNum">     898 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.h + channelOverdraw.y( ));</span>
+<span class="lineNum">     899 </span><span class="lineNoCov">          0 :         wall.resizeTop( ratio );</span>
+<span class="lineNum">     900 </span>            :     }
+<span class="lineNum">     901 </span>            : 
+<span class="lineNum">     902 </span><span class="lineCov">          4 :     channel-&gt;setOverdraw( channelOverdraw );</span>
+<span class="lineNum">     903 </span>            : }
+<span class="lineNum">     904 </span>            : 
+<span class="lineNum">     905 </span>            : //---------------------------------------------------------------------------
+<span class="lineNum">     906 </span>            : // accept
+<span class="lineNum">     907 </span>            : //---------------------------------------------------------------------------
+<span class="lineNum">     908 </span>            : namespace
+<a name="909"><span class="lineNum">     909 </span>            : {</a>
+<span class="lineNum">     910 </span>            : template&lt; class C &gt;
+<span class="lineNum">     911 </span><span class="lineCov">       2082 : VisitorResult _accept( C* compound, CompoundVisitor&amp; visitor )</span>
+<span class="lineNum">     912 </span>            : {
+<span class="lineNum">     913 </span><span class="lineCov">       2082 :     if( compound-&gt;isLeaf( ))</span>
+<span class="lineNum">     914 </span><span class="lineCov">         18 :         return visitor.visitLeaf( compound );</span>
 <span class="lineNum">     915 </span>            : 
-<span class="lineNum">     916 </span><span class="lineCov">          4 :     if( channelOverdraw.y() &gt; 0 )</span>
-<span class="lineNum">     917 </span>            :     {
-<span class="lineNum">     918 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
-<span class="lineNum">     919 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.h + channelOverdraw.y( )) /</span>
-<span class="lineNum">     920 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.h );</span>
-<span class="lineNum">     921 </span><span class="lineNoCov">          0 :         wall.resizeBottom( ratio );</span>
-<span class="lineNum">     922 </span>            :     }
+<span class="lineNum">     916 </span><span class="lineCov">       2064 :     C* current = compound;</span>
+<span class="lineNum">     917 </span><span class="lineCov">       2064 :     VisitorResult result = TRAVERSE_CONTINUE;</span>
+<span class="lineNum">     918 </span>            : 
+<span class="lineNum">     919 </span><span class="lineCov">       3754 :     while( true )</span>
+<span class="lineNum">     920 </span>            :     {
+<span class="lineNum">     921 </span><span class="lineCov">       5818 :         C* parent = current-&gt;getParent();</span>
+<span class="lineNum">     922 </span><span class="lineCov">       5818 :         C* next   = current-&gt;getNext();</span>
 <span class="lineNum">     923 </span>            : 
-<span class="lineNum">     924 </span><span class="lineCov">          4 :     if( channelOverdraw.w() &gt; 0 )</span>
-<span class="lineNum">     925 </span>            :     {
-<span class="lineNum">     926 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = channel-&gt;getPixelViewport();</span>
-<span class="lineNum">     927 </span><span class="lineNoCov">          0 :         const float ratio = static_cast&lt;float&gt;( pvp.h + + channelOverdraw.y( ) +</span>
-<span class="lineNum">     928 </span><span class="lineNoCov">          0 :                                                 channelOverdraw.w( )) /</span>
-<span class="lineNum">     929 </span><span class="lineNoCov">          0 :                             static_cast&lt;float&gt;( pvp.h + channelOverdraw.y( ));</span>
-<span class="lineNum">     930 </span><span class="lineNoCov">          0 :         wall.resizeTop( ratio );</span>
-<span class="lineNum">     931 </span>            :     }
-<span class="lineNum">     932 </span>            : 
-<span class="lineNum">     933 </span><span class="lineCov">          4 :     channel-&gt;setOverdraw( channelOverdraw );</span>
-<span class="lineNum">     934 </span>            : }
-<span class="lineNum">     935 </span>            : 
-<span class="lineNum">     936 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     937 </span>            : // accept
-<span class="lineNum">     938 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     939 </span>            : namespace
-<a name="940"><span class="lineNum">     940 </span>            : {</a>
-<span class="lineNum">     941 </span>            : template&lt; class C &gt;
-<span class="lineNum">     942 </span><span class="lineCov">       2082 : VisitorResult _accept( C* compound, CompoundVisitor&amp; visitor )</span>
-<span class="lineNum">     943 </span>            : {
-<span class="lineNum">     944 </span><span class="lineCov">       2082 :     if( compound-&gt;isLeaf( ))</span>
-<span class="lineNum">     945 </span><span class="lineCov">         18 :         return visitor.visitLeaf( compound );</span>
-<span class="lineNum">     946 </span>            : 
-<span class="lineNum">     947 </span><span class="lineCov">       2064 :     C* current = compound;</span>
-<span class="lineNum">     948 </span><span class="lineCov">       2064 :     VisitorResult result = TRAVERSE_CONTINUE;</span>
-<span class="lineNum">     949 </span>            : 
-<span class="lineNum">     950 </span><span class="lineCov">       3754 :     while( true )</span>
-<span class="lineNum">     951 </span>            :     {
-<span class="lineNum">     952 </span><span class="lineCov">       5818 :         C* parent = current-&gt;getParent();</span>
-<span class="lineNum">     953 </span><span class="lineCov">       5818 :         C* next   = current-&gt;getNext();</span>
+<span class="lineNum">     924 </span><span class="lineCov">       5818 :         const Compounds&amp; children = current-&gt;getChildren();</span>
+<span class="lineNum">     925 </span><span class="lineCov">       5818 :         C* child  = children.empty() ? 0 : children[0];</span>
+<span class="lineNum">     926 </span>            : 
+<span class="lineNum">     927 </span>            :         //---------- down-right traversal
+<span class="lineNum">     928 </span><span class="lineCov">       5818 :         if ( !child ) // leaf</span>
+<span class="lineNum">     929 </span>            :         {
+<span class="lineNum">     930 </span><span class="lineCov">       3130 :             switch( visitor.visitLeaf( current ))</span>
+<span class="lineNum">     931 </span>            :             {
+<span class="lineNum">     932 </span>            :                 case TRAVERSE_TERMINATE:
+<span class="lineNum">     933 </span><span class="lineCov">        174 :                     return TRAVERSE_TERMINATE;</span>
+<span class="lineNum">     934 </span>            : 
+<span class="lineNum">     935 </span>            :                 case TRAVERSE_PRUNE:
+<span class="lineNum">     936 </span><span class="lineCov">       1704 :                     result = TRAVERSE_PRUNE;</span>
+<span class="lineNum">     937 </span><span class="lineCov">       1704 :                     current = next;</span>
+<span class="lineNum">     938 </span><span class="lineCov">       1704 :                     break;</span>
+<span class="lineNum">     939 </span>            : 
+<span class="lineNum">     940 </span>            :                 case TRAVERSE_CONTINUE:
+<span class="lineNum">     941 </span><span class="lineCov">       1252 :                     current = next;</span>
+<span class="lineNum">     942 </span><span class="lineCov">       1252 :                     break;</span>
+<span class="lineNum">     943 </span>            : 
+<span class="lineNum">     944 </span>            :                 default:
+<span class="lineNum">     945 </span><span class="lineNoCov">          0 :                     LBASSERTINFO( 0, &quot;Unreachable&quot; );</span>
+<span class="lineNum">     946 </span>            :             }
+<span class="lineNum">     947 </span>            :         }
+<span class="lineNum">     948 </span>            :         else // node
+<span class="lineNum">     949 </span>            :         {
+<span class="lineNum">     950 </span><span class="lineCov">       2688 :             switch( visitor.visitPre( current ))</span>
+<span class="lineNum">     951 </span>            :             {
+<span class="lineNum">     952 </span>            :                 case TRAVERSE_TERMINATE:
+<span class="lineNum">     953 </span><span class="lineCov">        244 :                     return TRAVERSE_TERMINATE;</span>
 <span class="lineNum">     954 </span>            : 
-<span class="lineNum">     955 </span><span class="lineCov">       5818 :         const Compounds&amp; children = current-&gt;getChildren();</span>
-<span class="lineNum">     956 </span><span class="lineCov">       5818 :         C* child  = children.empty() ? 0 : children[0];</span>
-<span class="lineNum">     957 </span>            : 
-<span class="lineNum">     958 </span>            :         //---------- down-right traversal
-<span class="lineNum">     959 </span><span class="lineCov">       5818 :         if ( !child ) // leaf</span>
-<span class="lineNum">     960 </span>            :         {
-<span class="lineNum">     961 </span><span class="lineCov">       3130 :             switch( visitor.visitLeaf( current ))</span>
-<span class="lineNum">     962 </span>            :             {
-<span class="lineNum">     963 </span>            :                 case TRAVERSE_TERMINATE:
-<span class="lineNum">     964 </span><span class="lineCov">        174 :                     return TRAVERSE_TERMINATE;</span>
-<span class="lineNum">     965 </span>            : 
-<span class="lineNum">     966 </span>            :                 case TRAVERSE_PRUNE:
-<span class="lineNum">     967 </span><span class="lineCov">       1704 :                     result = TRAVERSE_PRUNE;</span>
-<span class="lineNum">     968 </span><span class="lineCov">       1704 :                     current = next;</span>
-<span class="lineNum">     969 </span><span class="lineCov">       1704 :                     break;</span>
-<span class="lineNum">     970 </span>            : 
-<span class="lineNum">     971 </span>            :                 case TRAVERSE_CONTINUE:
-<span class="lineNum">     972 </span><span class="lineCov">       1252 :                     current = next;</span>
-<span class="lineNum">     973 </span><span class="lineCov">       1252 :                     break;</span>
-<span class="lineNum">     974 </span>            : 
-<span class="lineNum">     975 </span>            :                 default:
-<span class="lineNum">     976 </span><span class="lineNoCov">          0 :                     LBASSERTINFO( 0, &quot;Unreachable&quot; );</span>
-<span class="lineNum">     977 </span>            :             }
-<span class="lineNum">     978 </span>            :         }
-<span class="lineNum">     979 </span>            :         else // node
-<span class="lineNum">     980 </span>            :         {
-<span class="lineNum">     981 </span><span class="lineCov">       2688 :             switch( visitor.visitPre( current ))</span>
-<span class="lineNum">     982 </span>            :             {
-<span class="lineNum">     983 </span>            :                 case TRAVERSE_TERMINATE:
-<span class="lineNum">     984 </span><span class="lineCov">        244 :                     return TRAVERSE_TERMINATE;</span>
-<span class="lineNum">     985 </span>            : 
-<span class="lineNum">     986 </span>            :                 case TRAVERSE_PRUNE:
-<span class="lineNum">     987 </span><span class="lineCov">       1206 :                     result = TRAVERSE_PRUNE;</span>
-<span class="lineNum">     988 </span><span class="lineCov">       1206 :                     current = next;</span>
-<span class="lineNum">     989 </span><span class="lineCov">       1206 :                     break;</span>
-<span class="lineNum">     990 </span>            : 
-<span class="lineNum">     991 </span>            :                 case TRAVERSE_CONTINUE:
-<span class="lineNum">     992 </span><span class="lineCov">       1238 :                     current = child;</span>
-<span class="lineNum">     993 </span><span class="lineCov">       1238 :                     break;</span>
-<span class="lineNum">     994 </span>            : 
-<span class="lineNum">     995 </span>            :                 default:
-<span class="lineNum">     996 </span><span class="lineNoCov">          0 :                     LBASSERTINFO( 0, &quot;Unreachable&quot; );</span>
-<span class="lineNum">     997 </span>            :             }
+<span class="lineNum">     955 </span>            :                 case TRAVERSE_PRUNE:
+<span class="lineNum">     956 </span><span class="lineCov">       1206 :                     result = TRAVERSE_PRUNE;</span>
+<span class="lineNum">     957 </span><span class="lineCov">       1206 :                     current = next;</span>
+<span class="lineNum">     958 </span><span class="lineCov">       1206 :                     break;</span>
+<span class="lineNum">     959 </span>            : 
+<span class="lineNum">     960 </span>            :                 case TRAVERSE_CONTINUE:
+<span class="lineNum">     961 </span><span class="lineCov">       1238 :                     current = child;</span>
+<span class="lineNum">     962 </span><span class="lineCov">       1238 :                     break;</span>
+<span class="lineNum">     963 </span>            : 
+<span class="lineNum">     964 </span>            :                 default:
+<span class="lineNum">     965 </span><span class="lineNoCov">          0 :                     LBASSERTINFO( 0, &quot;Unreachable&quot; );</span>
+<span class="lineNum">     966 </span>            :             }
+<span class="lineNum">     967 </span>            :         }
+<span class="lineNum">     968 </span>            : 
+<span class="lineNum">     969 </span>            :         //---------- up-right traversal
+<span class="lineNum">     970 </span><span class="lineCov">       5400 :         if( !current &amp;&amp; !parent ) return TRAVERSE_CONTINUE;</span>
+<span class="lineNum">     971 </span>            : 
+<span class="lineNum">     972 </span><span class="lineCov">       4992 :         while( !current )</span>
+<span class="lineNum">     973 </span>            :         {
+<span class="lineNum">     974 </span><span class="lineCov">       1006 :             current = parent;</span>
+<span class="lineNum">     975 </span><span class="lineCov">       1006 :             parent  = current-&gt;getParent();</span>
+<span class="lineNum">     976 </span><span class="lineCov">       1006 :             next    = current-&gt;getNext();</span>
+<span class="lineNum">     977 </span>            : 
+<span class="lineNum">     978 </span><span class="lineCov">       1006 :             switch( visitor.visitPost( current ))</span>
+<span class="lineNum">     979 </span>            :             {
+<span class="lineNum">     980 </span>            :                 case TRAVERSE_TERMINATE:
+<span class="lineNum">     981 </span><span class="lineNoCov">          0 :                     return TRAVERSE_TERMINATE;</span>
+<span class="lineNum">     982 </span>            : 
+<span class="lineNum">     983 </span>            :                 case TRAVERSE_PRUNE:
+<span class="lineNum">     984 </span><span class="lineNoCov">          0 :                     result = TRAVERSE_PRUNE;</span>
+<span class="lineNum">     985 </span><span class="lineNoCov">          0 :                     break;</span>
+<span class="lineNum">     986 </span>            : 
+<span class="lineNum">     987 </span>            :                 case TRAVERSE_CONTINUE:
+<span class="lineNum">     988 </span><span class="lineCov">       1006 :                     break;</span>
+<span class="lineNum">     989 </span>            : 
+<span class="lineNum">     990 </span>            :                 default:
+<span class="lineNum">     991 </span><span class="lineNoCov">          0 :                     LBASSERTINFO( 0, &quot;Unreachable&quot; );</span>
+<span class="lineNum">     992 </span>            :             }
+<span class="lineNum">     993 </span>            : 
+<span class="lineNum">     994 </span><span class="lineCov">       1006 :             if ( current == compound )</span>
+<span class="lineNum">     995 </span><span class="lineCov">        774 :                 return result;</span>
+<span class="lineNum">     996 </span>            : 
+<span class="lineNum">     997 </span><span class="lineCov">        232 :             current = next;</span>
 <span class="lineNum">     998 </span>            :         }
-<span class="lineNum">     999 </span>            : 
-<span class="lineNum">    1000 </span>            :         //---------- up-right traversal
-<span class="lineNum">    1001 </span><span class="lineCov">       5400 :         if( !current &amp;&amp; !parent ) return TRAVERSE_CONTINUE;</span>
-<span class="lineNum">    1002 </span>            : 
-<span class="lineNum">    1003 </span><span class="lineCov">       4992 :         while( !current )</span>
-<span class="lineNum">    1004 </span>            :         {
-<span class="lineNum">    1005 </span><span class="lineCov">       1006 :             current = parent;</span>
-<span class="lineNum">    1006 </span><span class="lineCov">       1006 :             parent  = current-&gt;getParent();</span>
-<span class="lineNum">    1007 </span><span class="lineCov">       1006 :             next    = current-&gt;getNext();</span>
+<span class="lineNum">     999 </span>            :     }
+<span class="lineNum">    1000 </span>            :     return result;
+<span class="lineNum">    1001 </span>            : }
+<a name="1002"><span class="lineNum">    1002 </span>            : }</a>
+<span class="lineNum">    1003 </span>            : 
+<span class="lineNum">    1004 </span><span class="lineCov">       2082 : VisitorResult Compound::accept( CompoundVisitor&amp; visitor )</span>
+<span class="lineNum">    1005 </span>            : {
+<span class="lineNum">    1006 </span><span class="lineCov">       2082 :     return _accept( this, visitor );</span>
+<a name="1007"><span class="lineNum">    1007 </span>            : }</a>
 <span class="lineNum">    1008 </span>            : 
-<span class="lineNum">    1009 </span><span class="lineCov">       1006 :             switch( visitor.visitPost( current ))</span>
-<span class="lineNum">    1010 </span>            :             {
-<span class="lineNum">    1011 </span>            :                 case TRAVERSE_TERMINATE:
-<span class="lineNum">    1012 </span><span class="lineNoCov">          0 :                     return TRAVERSE_TERMINATE;</span>
+<span class="lineNum">    1009 </span><span class="lineNoCov">          0 : VisitorResult Compound::accept( CompoundVisitor&amp; visitor ) const</span>
+<span class="lineNum">    1010 </span>            : {
+<span class="lineNum">    1011 </span><span class="lineNoCov">          0 :     return _accept( this, visitor );</span>
+<span class="lineNum">    1012 </span>            : }
 <span class="lineNum">    1013 </span>            : 
-<span class="lineNum">    1014 </span>            :                 case TRAVERSE_PRUNE:
-<span class="lineNum">    1015 </span><span class="lineNoCov">          0 :                     result = TRAVERSE_PRUNE;</span>
-<span class="lineNum">    1016 </span><span class="lineNoCov">          0 :                     break;</span>
+<span class="lineNum">    1014 </span>            : //---------------------------------------------------------------------------
+<span class="lineNum">    1015 </span>            : // Operations
+<a name="1016"><span class="lineNum">    1016 </span>            : //---------------------------------------------------------------------------</a>
 <span class="lineNum">    1017 </span>            : 
-<span class="lineNum">    1018 </span>            :                 case TRAVERSE_CONTINUE:
-<span class="lineNum">    1019 </span><span class="lineCov">       1006 :                     break;</span>
-<span class="lineNum">    1020 </span>            : 
-<span class="lineNum">    1021 </span>            :                 default:
-<span class="lineNum">    1022 </span><span class="lineNoCov">          0 :                     LBASSERTINFO( 0, &quot;Unreachable&quot; );</span>
-<span class="lineNum">    1023 </span>            :             }
-<span class="lineNum">    1024 </span>            : 
-<span class="lineNum">    1025 </span><span class="lineCov">       1006 :             if ( current == compound )</span>
-<span class="lineNum">    1026 </span><span class="lineCov">        774 :                 return result;</span>
-<span class="lineNum">    1027 </span>            : 
-<span class="lineNum">    1028 </span><span class="lineCov">        232 :             current = next;</span>
-<span class="lineNum">    1029 </span>            :         }
-<span class="lineNum">    1030 </span>            :     }
-<span class="lineNum">    1031 </span>            :     return result;
-<span class="lineNum">    1032 </span>            : }
-<a name="1033"><span class="lineNum">    1033 </span>            : }</a>
+<span class="lineNum">    1018 </span><span class="lineCov">          4 : void Compound::activate( const uint32_t eyes )</span>
+<span class="lineNum">    1019 </span>            : {
+<span class="lineNum">    1020 </span><span class="lineCov">         16 :     for( size_t i = 0; i &lt; NUM_EYES; ++i )</span>
+<span class="lineNum">    1021 </span>            :     {
+<span class="lineNum">    1022 </span><span class="lineCov">         12 :         const Eye eye = Eye( 1 &lt;&lt; i );</span>
+<span class="lineNum">    1023 </span><span class="lineCov">         12 :         if( !(eyes &amp; eye) )</span>
+<span class="lineNum">    1024 </span><span class="lineCov">         14 :             continue;</span>
+<span class="lineNum">    1025 </span>            : 
+<span class="lineNum">    1026 </span><span class="lineCov">          8 :         ++_data.active[ i ];</span>
+<span class="lineNum">    1027 </span><span class="lineCov">          8 :         if( !getChannel( )) // non-dest root compound</span>
+<span class="lineNum">    1028 </span><span class="lineCov">          6 :             continue;</span>
+<span class="lineNum">    1029 </span>            : 
+<span class="lineNum">    1030 </span><span class="lineCov">          4 :         CompoundActivateVisitor channelActivate( true, eye );</span>
+<span class="lineNum">    1031 </span><span class="lineCov">          2 :         accept( channelActivate );</span>
+<span class="lineNum">    1032 </span>            :     }
+<a name="1033"><span class="lineNum">    1033 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">    1034 </span>            : 
-<span class="lineNum">    1035 </span><span class="lineCov">       2082 : VisitorResult Compound::accept( CompoundVisitor&amp; visitor )</span>
+<span class="lineNum">    1035 </span><span class="lineCov">          4 : void Compound::deactivate( const uint32_t eyes )</span>
 <span class="lineNum">    1036 </span>            : {
-<span class="lineNum">    1037 </span><span class="lineCov">       2082 :     return _accept( this, visitor );</span>
-<a name="1038"><span class="lineNum">    1038 </span>            : }</a>
-<span class="lineNum">    1039 </span>            : 
-<span class="lineNum">    1040 </span><span class="lineNoCov">          0 : VisitorResult Compound::accept( CompoundVisitor&amp; visitor ) const</span>
-<span class="lineNum">    1041 </span>            : {
-<span class="lineNum">    1042 </span><span class="lineNoCov">          0 :     return _accept( this, visitor );</span>
-<span class="lineNum">    1043 </span>            : }
-<span class="lineNum">    1044 </span>            : 
-<span class="lineNum">    1045 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">    1046 </span>            : // Operations
-<a name="1047"><span class="lineNum">    1047 </span>            : //---------------------------------------------------------------------------</a>
-<span class="lineNum">    1048 </span>            : 
-<span class="lineNum">    1049 </span><span class="lineCov">          4 : void Compound::activate( const uint32_t eyes )</span>
-<span class="lineNum">    1050 </span>            : {
-<span class="lineNum">    1051 </span><span class="lineCov">         16 :     for( size_t i = 0; i &lt; NUM_EYES; ++i )</span>
-<span class="lineNum">    1052 </span>            :     {
-<span class="lineNum">    1053 </span><span class="lineCov">         12 :         const Eye eye = Eye( 1 &lt;&lt; i );</span>
-<span class="lineNum">    1054 </span><span class="lineCov">         12 :         if( !(eyes &amp; eye) )</span>
-<span class="lineNum">    1055 </span><span class="lineCov">         14 :             continue;</span>
-<span class="lineNum">    1056 </span>            : 
-<span class="lineNum">    1057 </span><span class="lineCov">          8 :         ++_data.active[ i ];</span>
-<span class="lineNum">    1058 </span><span class="lineCov">          8 :         if( !getChannel( )) // non-dest root compound</span>
-<span class="lineNum">    1059 </span><span class="lineCov">          6 :             continue;</span>
-<span class="lineNum">    1060 </span>            : 
-<span class="lineNum">    1061 </span><span class="lineCov">          4 :         CompoundActivateVisitor channelActivate( true, eye );</span>
-<span class="lineNum">    1062 </span><span class="lineCov">          2 :         accept( channelActivate );</span>
-<span class="lineNum">    1063 </span>            :     }
-<a name="1064"><span class="lineNum">    1064 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">    1065 </span>            : 
-<span class="lineNum">    1066 </span><span class="lineCov">          4 : void Compound::deactivate( const uint32_t eyes )</span>
-<span class="lineNum">    1067 </span>            : {
-<span class="lineNum">    1068 </span><span class="lineCov">         16 :     for( size_t i = 0; i &lt; NUM_EYES; ++i )</span>
-<span class="lineNum">    1069 </span>            :     {
-<span class="lineNum">    1070 </span><span class="lineCov">         12 :         const fabric::Eye eye = static_cast&lt; Eye &gt;( 1 &lt;&lt; i );</span>
-<span class="lineNum">    1071 </span><span class="lineCov">         12 :         if( !(eyes &amp; eye) )</span>
-<span class="lineNum">    1072 </span><span class="lineCov">         14 :             continue;</span>
-<span class="lineNum">    1073 </span>            : 
-<span class="lineNum">    1074 </span><span class="lineCov">          8 :         LBASSERT( _data.active[ i ] );</span>
-<span class="lineNum">    1075 </span><span class="lineCov">          8 :         --_data.active[ i ];</span>
-<span class="lineNum">    1076 </span><span class="lineCov">          8 :         if( !getChannel( )) // non-dest root compound</span>
-<span class="lineNum">    1077 </span><span class="lineCov">          6 :             continue;</span>
-<span class="lineNum">    1078 </span>            : 
-<span class="lineNum">    1079 </span><span class="lineCov">          4 :         CompoundActivateVisitor channelDeactivate( false, eye );</span>
-<span class="lineNum">    1080 </span><span class="lineCov">          2 :         accept( channelDeactivate );</span>
-<span class="lineNum">    1081 </span>            :     }
-<a name="1082"><span class="lineNum">    1082 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">    1083 </span>            : 
-<span class="lineNum">    1084 </span><span class="lineCov">          2 : void Compound::init()</span>
-<span class="lineNum">    1085 </span>            : {
-<span class="lineNum">    1086 </span><span class="lineCov">          4 :     CompoundInitVisitor initVisitor;</span>
-<span class="lineNum">    1087 </span><span class="lineCov">          2 :     accept( initVisitor );</span>
-<a name="1088"><span class="lineNum">    1088 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">    1037 </span><span class="lineCov">         16 :     for( size_t i = 0; i &lt; NUM_EYES; ++i )</span>
+<span class="lineNum">    1038 </span>            :     {
+<span class="lineNum">    1039 </span><span class="lineCov">         12 :         const fabric::Eye eye = static_cast&lt; Eye &gt;( 1 &lt;&lt; i );</span>
+<span class="lineNum">    1040 </span><span class="lineCov">         12 :         if( !(eyes &amp; eye) )</span>
+<span class="lineNum">    1041 </span><span class="lineCov">         14 :             continue;</span>
+<span class="lineNum">    1042 </span>            : 
+<span class="lineNum">    1043 </span><span class="lineCov">          8 :         LBASSERT( _data.active[ i ] );</span>
+<span class="lineNum">    1044 </span><span class="lineCov">          8 :         --_data.active[ i ];</span>
+<span class="lineNum">    1045 </span><span class="lineCov">          8 :         if( !getChannel( )) // non-dest root compound</span>
+<span class="lineNum">    1046 </span><span class="lineCov">          6 :             continue;</span>
+<span class="lineNum">    1047 </span>            : 
+<span class="lineNum">    1048 </span><span class="lineCov">          4 :         CompoundActivateVisitor channelDeactivate( false, eye );</span>
+<span class="lineNum">    1049 </span><span class="lineCov">          2 :         accept( channelDeactivate );</span>
+<span class="lineNum">    1050 </span>            :     }
+<a name="1051"><span class="lineNum">    1051 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">    1052 </span>            : 
+<span class="lineNum">    1053 </span><span class="lineCov">          2 : void Compound::init()</span>
+<span class="lineNum">    1054 </span>            : {
+<span class="lineNum">    1055 </span><span class="lineCov">          4 :     CompoundInitVisitor initVisitor;</span>
+<span class="lineNum">    1056 </span><span class="lineCov">          2 :     accept( initVisitor );</span>
+<a name="1057"><span class="lineNum">    1057 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">    1058 </span>            : 
+<span class="lineNum">    1059 </span><span class="lineCov">          2 : void Compound::exit()</span>
+<span class="lineNum">    1060 </span>            : {
+<span class="lineNum">    1061 </span><span class="lineCov">          4 :     CompoundExitVisitor visitor;</span>
+<span class="lineNum">    1062 </span><span class="lineCov">          2 :     accept( visitor );</span>
+<a name="1063"><span class="lineNum">    1063 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">    1064 </span>            : 
+<span class="lineNum">    1065 </span><span class="lineCov">          8 : void Compound::register_()</span>
+<span class="lineNum">    1066 </span>            : {
+<span class="lineNum">    1067 </span><span class="lineCov">         16 :     ServerPtr server = getServer();</span>
+<span class="lineNum">    1068 </span><span class="lineCov">          8 :     const uint32_t latency = getConfig()-&gt;getLatency();</span>
+<span class="lineNum">    1069 </span>            : 
+<span class="lineNum">    1070 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _outputFrames.begin();</span>
+<span class="lineNum">    1071 </span><span class="lineCov">         16 :          i != _outputFrames.end(); ++i )</span>
+<span class="lineNum">    1072 </span>            :     {
+<span class="lineNum">    1073 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
+<span class="lineNum">    1074 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( frame );</span>
+<span class="lineNum">    1075 </span><span class="lineNoCov">          0 :         frame-&gt;setAutoObsolete( latency );</span>
+<span class="lineNum">    1076 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Output frame \&quot;&quot; &lt;&lt; frame-&gt;getName()</span>
+<span class="lineNum">    1077 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; frame-&gt;getID() &lt;&lt; std::endl;</span>
+<span class="lineNum">    1078 </span>            :     }
+<span class="lineNum">    1079 </span>            : 
+<span class="lineNum">    1080 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _inputFrames.begin();</span>
+<span class="lineNum">    1081 </span><span class="lineCov">         16 :          i != _inputFrames.end(); ++i )</span>
+<span class="lineNum">    1082 </span>            :     {
+<span class="lineNum">    1083 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
+<span class="lineNum">    1084 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( frame );</span>
+<span class="lineNum">    1085 </span><span class="lineNoCov">          0 :         frame-&gt;setAutoObsolete( latency );</span>
+<span class="lineNum">    1086 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Input frame \&quot;&quot; &lt;&lt; frame-&gt;getName()</span>
+<span class="lineNum">    1087 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; frame-&gt;getID() &lt;&lt; std::endl;</span>
+<span class="lineNum">    1088 </span>            :     }
 <span class="lineNum">    1089 </span>            : 
-<span class="lineNum">    1090 </span><span class="lineCov">          2 : void Compound::exit()</span>
-<span class="lineNum">    1091 </span>            : {
-<span class="lineNum">    1092 </span><span class="lineCov">          4 :     CompoundExitVisitor visitor;</span>
-<span class="lineNum">    1093 </span><span class="lineCov">          2 :     accept( visitor );</span>
-<a name="1094"><span class="lineNum">    1094 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">    1095 </span>            : 
-<span class="lineNum">    1096 </span><span class="lineCov">          8 : void Compound::register_()</span>
-<span class="lineNum">    1097 </span>            : {
-<span class="lineNum">    1098 </span><span class="lineCov">         16 :     ServerPtr server = getServer();</span>
-<span class="lineNum">    1099 </span><span class="lineCov">          8 :     const uint32_t latency = getConfig()-&gt;getLatency();</span>
-<span class="lineNum">    1100 </span>            : 
-<span class="lineNum">    1101 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _outputFrames.begin();</span>
-<span class="lineNum">    1102 </span><span class="lineCov">         16 :          i != _outputFrames.end(); ++i )</span>
-<span class="lineNum">    1103 </span>            :     {
-<span class="lineNum">    1104 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
-<span class="lineNum">    1105 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( frame );</span>
-<span class="lineNum">    1106 </span><span class="lineNoCov">          0 :         frame-&gt;setAutoObsolete( latency );</span>
-<span class="lineNum">    1107 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Output frame \&quot;&quot; &lt;&lt; frame-&gt;getName()</span>
-<span class="lineNum">    1108 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; frame-&gt;getID() &lt;&lt; std::endl;</span>
-<span class="lineNum">    1109 </span>            :     }
+<span class="lineNum">    1090 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _inputTileQueues.begin();</span>
+<span class="lineNum">    1091 </span><span class="lineCov">         16 :          i != _inputTileQueues.end(); ++i )</span>
+<span class="lineNum">    1092 </span>            :     {
+<span class="lineNum">    1093 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
+<span class="lineNum">    1094 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( queue );</span>
+<span class="lineNum">    1095 </span><span class="lineNoCov">          0 :         queue-&gt;setAutoObsolete( latency );</span>
+<span class="lineNum">    1096 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Input queue \&quot;&quot; &lt;&lt; queue-&gt;getName()</span>
+<span class="lineNum">    1097 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; queue-&gt;getID() &lt;&lt; std::endl;</span>
+<span class="lineNum">    1098 </span>            :     }
+<span class="lineNum">    1099 </span>            : 
+<span class="lineNum">    1100 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _outputTileQueues.begin();</span>
+<span class="lineNum">    1101 </span><span class="lineCov">         16 :          i != _outputTileQueues.end(); ++i )</span>
+<span class="lineNum">    1102 </span>            :     {
+<span class="lineNum">    1103 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
+<span class="lineNum">    1104 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( queue );</span>
+<span class="lineNum">    1105 </span><span class="lineNoCov">          0 :         queue-&gt;setAutoObsolete( latency );</span>
+<span class="lineNum">    1106 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Output queue \&quot;&quot; &lt;&lt; queue-&gt;getName()</span>
+<span class="lineNum">    1107 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; queue-&gt;getID() &lt;&lt; std::endl;</span>
+<span class="lineNum">    1108 </span>            :     }
+<a name="1109"><span class="lineNum">    1109 </span><span class="lineCov">          8 : }</span></a>
 <span class="lineNum">    1110 </span>            : 
-<span class="lineNum">    1111 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _inputFrames.begin();</span>
-<span class="lineNum">    1112 </span><span class="lineCov">         16 :          i != _inputFrames.end(); ++i )</span>
-<span class="lineNum">    1113 </span>            :     {
-<span class="lineNum">    1114 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
-<span class="lineNum">    1115 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( frame );</span>
-<span class="lineNum">    1116 </span><span class="lineNoCov">          0 :         frame-&gt;setAutoObsolete( latency );</span>
-<span class="lineNum">    1117 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Input frame \&quot;&quot; &lt;&lt; frame-&gt;getName()</span>
-<span class="lineNum">    1118 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; frame-&gt;getID() &lt;&lt; std::endl;</span>
-<span class="lineNum">    1119 </span>            :     }
-<span class="lineNum">    1120 </span>            : 
-<span class="lineNum">    1121 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _inputTileQueues.begin();</span>
-<span class="lineNum">    1122 </span><span class="lineCov">         16 :          i != _inputTileQueues.end(); ++i )</span>
-<span class="lineNum">    1123 </span>            :     {
-<span class="lineNum">    1124 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
-<span class="lineNum">    1125 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( queue );</span>
-<span class="lineNum">    1126 </span><span class="lineNoCov">          0 :         queue-&gt;setAutoObsolete( latency );</span>
-<span class="lineNum">    1127 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Input queue \&quot;&quot; &lt;&lt; queue-&gt;getName()</span>
-<span class="lineNum">    1128 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; queue-&gt;getID() &lt;&lt; std::endl;</span>
-<span class="lineNum">    1129 </span>            :     }
-<span class="lineNum">    1130 </span>            : 
-<span class="lineNum">    1131 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _outputTileQueues.begin();</span>
-<span class="lineNum">    1132 </span><span class="lineCov">         16 :          i != _outputTileQueues.end(); ++i )</span>
-<span class="lineNum">    1133 </span>            :     {
-<span class="lineNum">    1134 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
-<span class="lineNum">    1135 </span><span class="lineNoCov">          0 :         server-&gt;registerObject( queue );</span>
-<span class="lineNum">    1136 </span><span class="lineNoCov">          0 :         queue-&gt;setAutoObsolete( latency );</span>
-<span class="lineNum">    1137 </span><span class="lineNoCov">          0 :         LBLOG( LOG_ASSEMBLY ) &lt;&lt; &quot;Output queue \&quot;&quot; &lt;&lt; queue-&gt;getName()</span>
-<span class="lineNum">    1138 </span><span class="lineNoCov">          0 :                               &lt;&lt; &quot;\&quot; id &quot; &lt;&lt; queue-&gt;getID() &lt;&lt; std::endl;</span>
-<span class="lineNum">    1139 </span>            :     }
-<a name="1140"><span class="lineNum">    1140 </span><span class="lineCov">          8 : }</span></a>
-<span class="lineNum">    1141 </span>            : 
-<span class="lineNum">    1142 </span><span class="lineCov">          8 : void Compound::deregister()</span>
-<span class="lineNum">    1143 </span>            : {
-<span class="lineNum">    1144 </span><span class="lineCov">         16 :     ServerPtr server = getServer();</span>
+<span class="lineNum">    1111 </span><span class="lineCov">          8 : void Compound::deregister()</span>
+<span class="lineNum">    1112 </span>            : {
+<span class="lineNum">    1113 </span><span class="lineCov">         16 :     ServerPtr server = getServer();</span>
+<span class="lineNum">    1114 </span>            : 
+<span class="lineNum">    1115 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _outputFrames.begin();</span>
+<span class="lineNum">    1116 </span><span class="lineCov">         16 :          i != _outputFrames.end(); ++i )</span>
+<span class="lineNum">    1117 </span>            :     {
+<span class="lineNum">    1118 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
+<span class="lineNum">    1119 </span><span class="lineNoCov">          0 :         frame-&gt;flush();</span>
+<span class="lineNum">    1120 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( frame );</span>
+<span class="lineNum">    1121 </span>            :     }
+<span class="lineNum">    1122 </span>            : 
+<span class="lineNum">    1123 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _inputFrames.begin();</span>
+<span class="lineNum">    1124 </span><span class="lineCov">         16 :          i != _inputFrames.end(); ++i )</span>
+<span class="lineNum">    1125 </span>            :     {
+<span class="lineNum">    1126 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
+<span class="lineNum">    1127 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( frame );</span>
+<span class="lineNum">    1128 </span>            :     }
+<span class="lineNum">    1129 </span>            : 
+<span class="lineNum">    1130 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _inputTileQueues.begin();</span>
+<span class="lineNum">    1131 </span><span class="lineCov">         16 :         i != _inputTileQueues.end(); ++i )</span>
+<span class="lineNum">    1132 </span>            :     {
+<span class="lineNum">    1133 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
+<span class="lineNum">    1134 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( queue );</span>
+<span class="lineNum">    1135 </span>            :     }
+<span class="lineNum">    1136 </span>            : 
+<span class="lineNum">    1137 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _outputTileQueues.begin();</span>
+<span class="lineNum">    1138 </span><span class="lineCov">         16 :         i != _outputTileQueues.end(); ++i )</span>
+<span class="lineNum">    1139 </span>            :     {
+<span class="lineNum">    1140 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
+<span class="lineNum">    1141 </span><span class="lineNoCov">          0 :         queue-&gt;flush();</span>
+<span class="lineNum">    1142 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( queue );</span>
+<span class="lineNum">    1143 </span>            :     }
+<a name="1144"><span class="lineNum">    1144 </span><span class="lineCov">          8 : }</span></a>
 <span class="lineNum">    1145 </span>            : 
-<span class="lineNum">    1146 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _outputFrames.begin();</span>
-<span class="lineNum">    1147 </span><span class="lineCov">         16 :          i != _outputFrames.end(); ++i )</span>
-<span class="lineNum">    1148 </span>            :     {
-<span class="lineNum">    1149 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
-<span class="lineNum">    1150 </span><span class="lineNoCov">          0 :         frame-&gt;flush();</span>
-<span class="lineNum">    1151 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( frame );</span>
-<span class="lineNum">    1152 </span>            :     }
+<span class="lineNum">    1146 </span><span class="lineCov">          4 : void Compound::backup()</span>
+<span class="lineNum">    1147 </span>            : {
+<span class="lineNum">    1148 </span><span class="lineCov">          4 :     _backup = _data;</span>
+<span class="lineNum">    1149 </span>            : 
+<span class="lineNum">    1150 </span><span class="lineCov">          4 :     for( EqualizersCIter i = _equalizers.begin(); i != _equalizers.end(); ++i )</span>
+<span class="lineNum">    1151 </span><span class="lineNoCov">          0 :         (*i)-&gt;backup();</span>
+<a name="1152"><span class="lineNum">    1152 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">    1153 </span>            : 
-<span class="lineNum">    1154 </span><span class="lineCov">         24 :     for( Frames::const_iterator i = _inputFrames.begin();</span>
-<span class="lineNum">    1155 </span><span class="lineCov">         16 :          i != _inputFrames.end(); ++i )</span>
-<span class="lineNum">    1156 </span>            :     {
-<span class="lineNum">    1157 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
-<span class="lineNum">    1158 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( frame );</span>
-<span class="lineNum">    1159 </span>            :     }
-<span class="lineNum">    1160 </span>            : 
-<span class="lineNum">    1161 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _inputTileQueues.begin();</span>
-<span class="lineNum">    1162 </span><span class="lineCov">         16 :         i != _inputTileQueues.end(); ++i )</span>
-<span class="lineNum">    1163 </span>            :     {
-<span class="lineNum">    1164 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
-<span class="lineNum">    1165 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( queue );</span>
-<span class="lineNum">    1166 </span>            :     }
-<span class="lineNum">    1167 </span>            : 
-<span class="lineNum">    1168 </span><span class="lineCov">         24 :     for( TileQueuesCIter i = _outputTileQueues.begin();</span>
-<span class="lineNum">    1169 </span><span class="lineCov">         16 :         i != _outputTileQueues.end(); ++i )</span>
-<span class="lineNum">    1170 </span>            :     {
-<span class="lineNum">    1171 </span><span class="lineNoCov">          0 :         TileQueue* queue = *i;</span>
-<span class="lineNum">    1172 </span><span class="lineNoCov">          0 :         queue-&gt;flush();</span>
-<span class="lineNum">    1173 </span><span class="lineNoCov">          0 :         server-&gt;deregisterObject( queue );</span>
-<span class="lineNum">    1174 </span>            :     }
-<a name="1175"><span class="lineNum">    1175 </span><span class="lineCov">          8 : }</span></a>
+<span class="lineNum">    1154 </span><span class="lineCov">          4 : void Compound::restore()</span>
+<span class="lineNum">    1155 </span>            : {
+<span class="lineNum">    1156 </span><span class="lineCov">          4 :     _data = _backup;</span>
+<span class="lineNum">    1157 </span>            : 
+<span class="lineNum">    1158 </span><span class="lineCov">          4 :     for( EqualizersCIter i = _equalizers.begin(); i != _equalizers.end(); ++i )</span>
+<span class="lineNum">    1159 </span><span class="lineNoCov">          0 :         (*i)-&gt;restore();</span>
+<span class="lineNum">    1160 </span><span class="lineCov">          4 : }</span>
+<span class="lineNum">    1161 </span>            : 
+<span class="lineNum">    1162 </span>            : //---------------------------------------------------------------------------
+<a name="1163"><span class="lineNum">    1163 </span>            : // pre-render compound state update</a>
+<span class="lineNum">    1164 </span>            : //---------------------------------------------------------------------------
+<span class="lineNum">    1165 </span><span class="lineNoCov">          0 : void Compound::update( const uint32_t frameNumber )</span>
+<span class="lineNum">    1166 </span>            : {
+<span class="lineNum">    1167 </span>            :     // https://github.com/Eyescale/Equalizer/issues/76
+<span class="lineNum">    1168 </span><span class="lineNoCov">          0 :     CompoundUpdateActivateVisitor updateActivateVisitor( frameNumber );</span>
+<span class="lineNum">    1169 </span><span class="lineNoCov">          0 :     accept( updateActivateVisitor );</span>
+<span class="lineNum">    1170 </span>            : 
+<span class="lineNum">    1171 </span><span class="lineNoCov">          0 :     CompoundUpdateDataVisitor updateDataVisitor( frameNumber );</span>
+<span class="lineNum">    1172 </span><span class="lineNoCov">          0 :     accept( updateDataVisitor );</span>
+<span class="lineNum">    1173 </span>            : 
+<span class="lineNum">    1174 </span><span class="lineNoCov">          0 :     CompoundUpdateOutputVisitor updateOutputVisitor( frameNumber );</span>
+<span class="lineNum">    1175 </span><span class="lineNoCov">          0 :     accept( updateOutputVisitor );</span>
 <span class="lineNum">    1176 </span>            : 
-<span class="lineNum">    1177 </span><span class="lineCov">          4 : void Compound::backup()</span>
-<span class="lineNum">    1178 </span>            : {
-<span class="lineNum">    1179 </span><span class="lineCov">          4 :     _backup = _data;</span>
-<span class="lineNum">    1180 </span>            : 
-<span class="lineNum">    1181 </span><span class="lineCov">          4 :     for( EqualizersCIter i = _equalizers.begin(); i != _equalizers.end(); ++i )</span>
-<span class="lineNum">    1182 </span><span class="lineNoCov">          0 :         (*i)-&gt;backup();</span>
-<a name="1183"><span class="lineNum">    1183 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">    1184 </span>            : 
-<span class="lineNum">    1185 </span><span class="lineCov">          4 : void Compound::restore()</span>
-<span class="lineNum">    1186 </span>            : {
-<span class="lineNum">    1187 </span><span class="lineCov">          4 :     _data = _backup;</span>
+<span class="lineNum">    1177 </span><span class="lineNoCov">          0 :     const FrameMap&amp; outputFrames = updateOutputVisitor.getOutputFrames();</span>
+<span class="lineNum">    1178 </span><span class="lineNoCov">          0 :     const TileQueueMap&amp; outputQueues = updateOutputVisitor.getOutputQueues();</span>
+<span class="lineNum">    1179 </span><span class="lineNoCov">          0 :     CompoundUpdateInputVisitor updateInputVisitor( outputFrames, outputQueues );</span>
+<span class="lineNum">    1180 </span><span class="lineNoCov">          0 :     accept( updateInputVisitor );</span>
+<span class="lineNum">    1181 </span>            : 
+<span class="lineNum">    1182 </span>            :     // commit output frames after input frames have been set
+<span class="lineNum">    1183 </span><span class="lineNoCov">          0 :     for( FrameMapCIter i = outputFrames.begin(); i != outputFrames.end(); ++i )</span>
+<span class="lineNum">    1184 </span>            :     {
+<span class="lineNum">    1185 </span><span class="lineNoCov">          0 :         Frame* frame = i-&gt;second;</span>
+<span class="lineNum">    1186 </span><span class="lineNoCov">          0 :         frame-&gt;commit();</span>
+<span class="lineNum">    1187 </span>            :     }
 <span class="lineNum">    1188 </span>            : 
-<span class="lineNum">    1189 </span><span class="lineCov">          4 :     for( EqualizersCIter i = _equalizers.begin(); i != _equalizers.end(); ++i )</span>
-<span class="lineNum">    1190 </span><span class="lineNoCov">          0 :         (*i)-&gt;restore();</span>
-<span class="lineNum">    1191 </span><span class="lineCov">          4 : }</span>
-<span class="lineNum">    1192 </span>            : 
-<span class="lineNum">    1193 </span>            : //---------------------------------------------------------------------------
-<a name="1194"><span class="lineNum">    1194 </span>            : // pre-render compound state update</a>
-<span class="lineNum">    1195 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">    1196 </span><span class="lineNoCov">          0 : void Compound::update( const uint32_t frameNumber )</span>
-<span class="lineNum">    1197 </span>            : {
-<span class="lineNum">    1198 </span>            :     // https://github.com/Eyescale/Equalizer/issues/76
-<span class="lineNum">    1199 </span><span class="lineNoCov">          0 :     CompoundUpdateActivateVisitor updateActivateVisitor( frameNumber );</span>
-<span class="lineNum">    1200 </span><span class="lineNoCov">          0 :     accept( updateActivateVisitor );</span>
-<span class="lineNum">    1201 </span>            : 
-<span class="lineNum">    1202 </span><span class="lineNoCov">          0 :     CompoundUpdateDataVisitor updateDataVisitor( frameNumber );</span>
-<span class="lineNum">    1203 </span><span class="lineNoCov">          0 :     accept( updateDataVisitor );</span>
+<span class="lineNum">    1189 </span><span class="lineNoCov">          0 :     const BarrierMap&amp; swapBarriers = updateOutputVisitor.getSwapBarriers();</span>
+<span class="lineNum">    1190 </span><span class="lineNoCov">          0 :     for( BarrierMapCIter i = swapBarriers.begin(); i != swapBarriers.end(); ++i)</span>
+<span class="lineNum">    1191 </span>            :     {
+<span class="lineNum">    1192 </span><span class="lineNoCov">          0 :         co::Barrier* barrier = i-&gt;second;</span>
+<span class="lineNum">    1193 </span><span class="lineNoCov">          0 :         LBASSERT( barrier-&gt;isGood( ));</span>
+<span class="lineNum">    1194 </span><span class="lineNoCov">          0 :         if( barrier-&gt;getHeight() &gt; 1 )</span>
+<span class="lineNum">    1195 </span><span class="lineNoCov">          0 :             barrier-&gt;commit();</span>
+<span class="lineNum">    1196 </span>            :     }
+<a name="1197"><span class="lineNum">    1197 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">    1198 </span>            : 
+<span class="lineNum">    1199 </span><span class="lineCov">          4 : void Compound::updateInheritData( const uint32_t frameNumber )</span>
+<span class="lineNum">    1200 </span>            : {
+<span class="lineNum">    1201 </span><span class="lineCov">          4 :     _data.pixel.validate();</span>
+<span class="lineNum">    1202 </span><span class="lineCov">          4 :     _data.subPixel.validate();</span>
+<span class="lineNum">    1203 </span><span class="lineCov">          4 :     _data.zoom.validate();</span>
 <span class="lineNum">    1204 </span>            : 
-<span class="lineNum">    1205 </span><span class="lineNoCov">          0 :     CompoundUpdateOutputVisitor updateOutputVisitor( frameNumber );</span>
-<span class="lineNum">    1206 </span><span class="lineNoCov">          0 :     accept( updateOutputVisitor );</span>
-<span class="lineNum">    1207 </span>            : 
-<span class="lineNum">    1208 </span><span class="lineNoCov">          0 :     const FrameMap&amp; outputFrames = updateOutputVisitor.getOutputFrames();</span>
-<span class="lineNum">    1209 </span><span class="lineNoCov">          0 :     const TileQueueMap&amp; outputQueues = updateOutputVisitor.getOutputQueues();</span>
-<span class="lineNum">    1210 </span><span class="lineNoCov">          0 :     CompoundUpdateInputVisitor updateInputVisitor( outputFrames, outputQueues );</span>
-<span class="lineNum">    1211 </span><span class="lineNoCov">          0 :     accept( updateInputVisitor );</span>
-<span class="lineNum">    1212 </span>            : 
-<span class="lineNum">    1213 </span>            :     // commit output frames after input frames have been set
-<span class="lineNum">    1214 </span><span class="lineNoCov">          0 :     for( FrameMapCIter i = outputFrames.begin(); i != outputFrames.end(); ++i )</span>
-<span class="lineNum">    1215 </span>            :     {
-<span class="lineNum">    1216 </span><span class="lineNoCov">          0 :         Frame* frame = i-&gt;second;</span>
-<span class="lineNum">    1217 </span><span class="lineNoCov">          0 :         frame-&gt;commit();</span>
-<span class="lineNum">    1218 </span>            :     }
+<span class="lineNum">    1205 </span><span class="lineCov">          4 :     if( isRoot( ))</span>
+<span class="lineNum">    1206 </span><span class="lineCov">          2 :         _updateInheritRoot();</span>
+<span class="lineNum">    1207 </span>            :     else
+<span class="lineNum">    1208 </span><span class="lineCov">          2 :         _updateInheritNode();</span>
+<span class="lineNum">    1209 </span>            : 
+<span class="lineNum">    1210 </span><span class="lineCov">          4 :     if( _inherit.channel )</span>
+<span class="lineNum">    1211 </span>            :     {
+<span class="lineNum">    1212 </span><span class="lineCov">          2 :         _updateInheritStereo();</span>
+<span class="lineNum">    1213 </span><span class="lineCov">          2 :         _updateInheritActive( frameNumber );</span>
+<span class="lineNum">    1214 </span>            :     }
+<span class="lineNum">    1215 </span>            : 
+<span class="lineNum">    1216 </span><span class="lineCov">          4 :     if( _inherit.pvp.isValid( ))</span>
+<span class="lineNum">    1217 </span>            :     {
+<span class="lineNum">    1218 </span><span class="lineNoCov">          0 :         _inherit.pvp.apply( _data.pixel );</span>
 <span class="lineNum">    1219 </span>            : 
-<span class="lineNum">    1220 </span><span class="lineNoCov">          0 :     const BarrierMap&amp; swapBarriers = updateOutputVisitor.getSwapBarriers();</span>
-<span class="lineNum">    1221 </span><span class="lineNoCov">          0 :     for( BarrierMapCIter i = swapBarriers.begin(); i != swapBarriers.end(); ++i)</span>
-<span class="lineNum">    1222 </span>            :     {
-<span class="lineNum">    1223 </span><span class="lineNoCov">          0 :         co::Barrier* barrier = i-&gt;second;</span>
-<span class="lineNum">    1224 </span><span class="lineNoCov">          0 :         LBASSERT( barrier-&gt;isGood( ));</span>
-<span class="lineNum">    1225 </span><span class="lineNoCov">          0 :         if( barrier-&gt;getHeight() &gt; 1 )</span>
-<span class="lineNum">    1226 </span><span class="lineNoCov">          0 :             barrier-&gt;commit();</span>
+<span class="lineNum">    1220 </span>            :         // Zoom
+<span class="lineNum">    1221 </span><span class="lineNoCov">          0 :         const PixelViewport unzoomedPVP( _inherit.pvp );</span>
+<span class="lineNum">    1222 </span><span class="lineNoCov">          0 :         _inherit.pvp.apply( _data.zoom );</span>
+<span class="lineNum">    1223 </span>            : 
+<span class="lineNum">    1224 </span>            :         // update inherit zoom to be pixel-correct with the integer-rounded pvp
+<span class="lineNum">    1225 </span><span class="lineNoCov">          0 :         const Zoom zoom = _inherit.pvp.getZoom( unzoomedPVP );</span>
+<span class="lineNum">    1226 </span><span class="lineNoCov">          0 :         _inherit.zoom *= zoom;</span>
 <span class="lineNum">    1227 </span>            :     }
-<a name="1228"><span class="lineNum">    1228 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">    1229 </span>            : 
-<span class="lineNum">    1230 </span><span class="lineCov">          4 : void Compound::updateInheritData( const uint32_t frameNumber )</span>
-<span class="lineNum">    1231 </span>            : {
-<span class="lineNum">    1232 </span><span class="lineCov">          4 :     _data.pixel.validate();</span>
-<span class="lineNum">    1233 </span><span class="lineCov">          4 :     _data.subPixel.validate();</span>
-<span class="lineNum">    1234 </span><span class="lineCov">          4 :     _data.zoom.validate();</span>
-<span class="lineNum">    1235 </span>            : 
-<span class="lineNum">    1236 </span><span class="lineCov">          4 :     if( isRoot( ))</span>
-<span class="lineNum">    1237 </span><span class="lineCov">          2 :         _updateInheritRoot();</span>
-<span class="lineNum">    1238 </span>            :     else
-<span class="lineNum">    1239 </span><span class="lineCov">          2 :         _updateInheritNode();</span>
-<span class="lineNum">    1240 </span>            : 
-<span class="lineNum">    1241 </span><span class="lineCov">          4 :     if( _inherit.channel )</span>
-<span class="lineNum">    1242 </span>            :     {
-<span class="lineNum">    1243 </span><span class="lineCov">          2 :         _updateInheritStereo();</span>
-<span class="lineNum">    1244 </span><span class="lineCov">          2 :         _updateInheritActive( frameNumber );</span>
-<span class="lineNum">    1245 </span>            :     }
-<span class="lineNum">    1246 </span>            : 
-<span class="lineNum">    1247 </span><span class="lineCov">          4 :     if( _inherit.pvp.isValid( ))</span>
-<span class="lineNum">    1248 </span>            :     {
-<span class="lineNum">    1249 </span><span class="lineNoCov">          0 :         _inherit.pvp.apply( _data.pixel );</span>
-<span class="lineNum">    1250 </span>            : 
-<span class="lineNum">    1251 </span>            :         // Zoom
-<span class="lineNum">    1252 </span><span class="lineNoCov">          0 :         const PixelViewport unzoomedPVP( _inherit.pvp );</span>
-<span class="lineNum">    1253 </span><span class="lineNoCov">          0 :         _inherit.pvp.apply( _data.zoom );</span>
-<span class="lineNum">    1254 </span>            : 
-<span class="lineNum">    1255 </span>            :         // update inherit zoom to be pixel-correct with the integer-rounded pvp
-<span class="lineNum">    1256 </span><span class="lineNoCov">          0 :         const Zoom zoom = _inherit.pvp.getZoom( unzoomedPVP );</span>
-<span class="lineNum">    1257 </span><span class="lineNoCov">          0 :         _inherit.zoom *= zoom;</span>
-<span class="lineNum">    1258 </span>            :     }
-<span class="lineNum">    1259 </span>            : 
-<span class="lineNum">    1260 </span>            :     // Tasks
-<span class="lineNum">    1261 </span><span class="lineCov">          4 :     updateInheritTasks();</span>
-<span class="lineNum">    1262 </span>            : 
-<span class="lineNum">    1263 </span><span class="lineCov">          4 :     const View* view = _inherit.channel ? _inherit.channel-&gt;getView() : 0;</span>
-<span class="lineNum">    1264 </span><span class="lineCov">          4 :     const Channel* channel = getChannel();</span>
-<span class="lineNum">    1265 </span><span class="lineCov">          4 :     if( channel &amp;&amp; !channel-&gt;supportsView( view ))</span>
-<span class="lineNum">    1266 </span><span class="lineNoCov">          0 :         _inherit.tasks = fabric::TASK_NONE;</span>
+<span class="lineNum">    1228 </span>            : 
+<span class="lineNum">    1229 </span>            :     // Tasks
+<span class="lineNum">    1230 </span><span class="lineCov">          4 :     updateInheritTasks();</span>
+<span class="lineNum">    1231 </span>            : 
+<span class="lineNum">    1232 </span><span class="lineCov">          4 :     const View* view = _inherit.channel ? _inherit.channel-&gt;getView() : 0;</span>
+<span class="lineNum">    1233 </span><span class="lineCov">          4 :     const Channel* channel = getChannel();</span>
+<span class="lineNum">    1234 </span><span class="lineCov">          4 :     if( channel &amp;&amp; !channel-&gt;supportsView( view ))</span>
+<span class="lineNum">    1235 </span><span class="lineNoCov">          0 :         _inherit.tasks = fabric::TASK_NONE;</span>
+<span class="lineNum">    1236 </span>            : 
+<span class="lineNum">    1237 </span><span class="lineCov">          4 :     if( !_inherit.pvp.hasArea() || !_inherit.range.hasData( ))</span>
+<span class="lineNum">    1238 </span>            :         // Channels with no PVP or range do not execute tasks
+<span class="lineNum">    1239 </span><span class="lineCov">          4 :         _inherit.tasks = fabric::TASK_NONE;</span>
+<a name="1240"><span class="lineNum">    1240 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">    1241 </span>            : 
+<span class="lineNum">    1242 </span><span class="lineCov">          2 : void Compound::_updateInheritRoot()</span>
+<span class="lineNum">    1243 </span>            : {
+<span class="lineNum">    1244 </span><span class="lineCov">          2 :     LBASSERT( !_parent );</span>
+<span class="lineNum">    1245 </span>            : 
+<span class="lineNum">    1246 </span><span class="lineCov">          2 :     const PixelViewport oldPVP( _inherit.pvp );</span>
+<span class="lineNum">    1247 </span><span class="lineCov">          2 :     _inherit = _data;</span>
+<span class="lineNum">    1248 </span><span class="lineCov">          2 :     _inherit.pvp = oldPVP;</span>
+<span class="lineNum">    1249 </span>            : 
+<span class="lineNum">    1250 </span><span class="lineCov">          2 :     _inherit.zoom = Zoom::NONE; // will be reapplied by parent method</span>
+<span class="lineNum">    1251 </span><span class="lineCov">          2 :     _updateInheritPVP();</span>
+<span class="lineNum">    1252 </span>            : 
+<span class="lineNum">    1253 </span><span class="lineCov">          2 :     if( _inherit.eyes == fabric::EYE_UNDEFINED )</span>
+<span class="lineNum">    1254 </span><span class="lineCov">          2 :         _inherit.eyes = fabric::EYES_ALL;</span>
+<span class="lineNum">    1255 </span><span class="lineNoCov">          0 :     else if( _inherit.channel )</span>
+<span class="lineNum">    1256 </span>            :     {
+<span class="lineNum">    1257 </span><span class="lineNoCov">          0 :         const View* view = _inherit.channel-&gt;getView();</span>
+<span class="lineNum">    1258 </span><span class="lineNoCov">          0 :         if( !view )</span>
+<span class="lineNum">    1259 </span><span class="lineNoCov">          0 :             _inherit.eyes = EYE_CYCLOP;</span>
+<span class="lineNum">    1260 </span>            :     }
+<span class="lineNum">    1261 </span>            : 
+<span class="lineNum">    1262 </span><span class="lineCov">          2 :     if( _inherit.period == LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1263 </span><span class="lineCov">          2 :         _inherit.period = 1;</span>
+<span class="lineNum">    1264 </span>            : 
+<span class="lineNum">    1265 </span><span class="lineCov">          2 :     if( _inherit.phase == LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1266 </span><span class="lineCov">          2 :         _inherit.phase = 0;</span>
 <span class="lineNum">    1267 </span>            : 
-<span class="lineNum">    1268 </span><span class="lineCov">          4 :     if( !_inherit.pvp.hasArea() || !_inherit.range.hasData( ))</span>
-<span class="lineNum">    1269 </span>            :         // Channels with no PVP or range do not execute tasks
-<span class="lineNum">    1270 </span><span class="lineCov">          4 :         _inherit.tasks = fabric::TASK_NONE;</span>
-<a name="1271"><span class="lineNum">    1271 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">    1272 </span>            : 
-<span class="lineNum">    1273 </span><span class="lineCov">          2 : void Compound::_updateInheritRoot()</span>
-<span class="lineNum">    1274 </span>            : {
-<span class="lineNum">    1275 </span><span class="lineCov">          2 :     LBASSERT( !_parent );</span>
+<span class="lineNum">    1268 </span><span class="lineCov">          2 :     if( _inherit.buffers == Frame::Buffer::undefined )</span>
+<span class="lineNum">    1269 </span><span class="lineCov">          2 :         _inherit.buffers = Frame::Buffer::color;</span>
+<span class="lineNum">    1270 </span>            : 
+<span class="lineNum">    1271 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_MODE] == UNDEFINED )</span>
+<span class="lineNum">    1272 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::AUTO;</span>
+<span class="lineNum">    1273 </span>            : 
+<span class="lineNum">    1274 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] == UNDEFINED )</span>
+<span class="lineNum">    1275 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] = COLOR_MASK_RED;</span>
 <span class="lineNum">    1276 </span>            : 
-<span class="lineNum">    1277 </span><span class="lineCov">          2 :     const PixelViewport oldPVP( _inherit.pvp );</span>
-<span class="lineNum">    1278 </span><span class="lineCov">          2 :     _inherit = _data;</span>
-<span class="lineNum">    1279 </span><span class="lineCov">          2 :     _inherit.pvp = oldPVP;</span>
-<span class="lineNum">    1280 </span>            : 
-<span class="lineNum">    1281 </span><span class="lineCov">          2 :     _inherit.zoom = Zoom::NONE; // will be reapplied by parent method</span>
-<span class="lineNum">    1282 </span><span class="lineCov">          2 :     _updateInheritPVP();</span>
-<span class="lineNum">    1283 </span>            : 
-<span class="lineNum">    1284 </span><span class="lineCov">          2 :     if( _inherit.eyes == fabric::EYE_UNDEFINED )</span>
-<span class="lineNum">    1285 </span><span class="lineCov">          2 :         _inherit.eyes = fabric::EYES_ALL;</span>
-<span class="lineNum">    1286 </span><span class="lineNoCov">          0 :     else if( _inherit.channel )</span>
-<span class="lineNum">    1287 </span>            :     {
-<span class="lineNum">    1288 </span><span class="lineNoCov">          0 :         const View* view = _inherit.channel-&gt;getView();</span>
-<span class="lineNum">    1289 </span><span class="lineNoCov">          0 :         if( !view )</span>
-<span class="lineNum">    1290 </span><span class="lineNoCov">          0 :             _inherit.eyes = EYE_CYCLOP;</span>
-<span class="lineNum">    1291 </span>            :     }
-<span class="lineNum">    1292 </span>            : 
-<span class="lineNum">    1293 </span><span class="lineCov">          2 :     if( _inherit.period == LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1294 </span><span class="lineCov">          2 :         _inherit.period = 1;</span>
-<span class="lineNum">    1295 </span>            : 
-<span class="lineNum">    1296 </span><span class="lineCov">          2 :     if( _inherit.phase == LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1297 </span><span class="lineCov">          2 :         _inherit.phase = 0;</span>
+<span class="lineNum">    1277 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] == UNDEFINED )</span>
+<span class="lineNum">    1278 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] =</span>
+<span class="lineNum">    1279 </span>            :             COLOR_MASK_GREEN | COLOR_MASK_BLUE;
+<a name="1280"><span class="lineNum">    1280 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">    1281 </span>            : 
+<span class="lineNum">    1282 </span><span class="lineCov">          2 : void Compound::_updateInheritNode()</span>
+<span class="lineNum">    1283 </span>            : {
+<span class="lineNum">    1284 </span><span class="lineCov">          2 :     LBASSERT( _parent );</span>
+<span class="lineNum">    1285 </span><span class="lineCov">          2 :     const PixelViewport oldPVP( _inherit.pvp );</span>
+<span class="lineNum">    1286 </span><span class="lineCov">          2 :     _inherit = _parent-&gt;_inherit;</span>
+<span class="lineNum">    1287 </span>            : 
+<span class="lineNum">    1288 </span><span class="lineCov">          2 :     if( !_inherit.channel )</span>
+<span class="lineNum">    1289 </span>            :     {
+<span class="lineNum">    1290 </span><span class="lineCov">          2 :         _inherit.pvp = oldPVP;</span>
+<span class="lineNum">    1291 </span><span class="lineCov">          2 :         _updateInheritPVP();</span>
+<span class="lineNum">    1292 </span><span class="lineCov">          2 :         _inherit.vp.apply( _data.vp );</span>
+<span class="lineNum">    1293 </span>            :     }
+<span class="lineNum">    1294 </span><span class="lineNoCov">          0 :     else if( _inherit.pvp.isValid( ))</span>
+<span class="lineNum">    1295 </span>            :     {
+<span class="lineNum">    1296 </span><span class="lineNoCov">          0 :         LBASSERT( _data.vp.isValid( ));</span>
+<span class="lineNum">    1297 </span><span class="lineNoCov">          0 :         _inherit.pvp.apply( _data.vp );</span>
 <span class="lineNum">    1298 </span>            : 
-<span class="lineNum">    1299 </span><span class="lineCov">          2 :     if( _inherit.buffers == Frame::BUFFER_UNDEFINED )</span>
-<span class="lineNum">    1300 </span><span class="lineCov">          2 :         _inherit.buffers = Frame::BUFFER_COLOR;</span>
-<span class="lineNum">    1301 </span>            : 
-<span class="lineNum">    1302 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_MODE] == UNDEFINED )</span>
-<span class="lineNum">    1303 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::AUTO;</span>
-<span class="lineNum">    1304 </span>            : 
-<span class="lineNum">    1305 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] == UNDEFINED )</span>
-<span class="lineNum">    1306 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] = COLOR_MASK_RED;</span>
-<span class="lineNum">    1307 </span>            : 
-<span class="lineNum">    1308 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] == UNDEFINED )</span>
-<span class="lineNum">    1309 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] =</span>
-<span class="lineNum">    1310 </span>            :             COLOR_MASK_GREEN | COLOR_MASK_BLUE;
-<a name="1311"><span class="lineNum">    1311 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">    1312 </span>            : 
-<span class="lineNum">    1313 </span><span class="lineCov">          2 : void Compound::_updateInheritNode()</span>
-<span class="lineNum">    1314 </span>            : {
-<span class="lineNum">    1315 </span><span class="lineCov">          2 :     LBASSERT( _parent );</span>
-<span class="lineNum">    1316 </span><span class="lineCov">          2 :     const PixelViewport oldPVP( _inherit.pvp );</span>
-<span class="lineNum">    1317 </span><span class="lineCov">          2 :     _inherit = _parent-&gt;_inherit;</span>
-<span class="lineNum">    1318 </span>            : 
-<span class="lineNum">    1319 </span><span class="lineCov">          2 :     if( !_inherit.channel )</span>
-<span class="lineNum">    1320 </span>            :     {
-<span class="lineNum">    1321 </span><span class="lineCov">          2 :         _inherit.pvp = oldPVP;</span>
-<span class="lineNum">    1322 </span><span class="lineCov">          2 :         _updateInheritPVP();</span>
-<span class="lineNum">    1323 </span><span class="lineCov">          2 :         _inherit.vp.apply( _data.vp );</span>
-<span class="lineNum">    1324 </span>            :     }
-<span class="lineNum">    1325 </span><span class="lineNoCov">          0 :     else if( _inherit.pvp.isValid( ))</span>
-<span class="lineNum">    1326 </span>            :     {
-<span class="lineNum">    1327 </span><span class="lineNoCov">          0 :         LBASSERT( _data.vp.isValid( ));</span>
-<span class="lineNum">    1328 </span><span class="lineNoCov">          0 :         _inherit.pvp.apply( _data.vp );</span>
+<span class="lineNum">    1299 </span>            :         // Compute the inherit viewport to be pixel-correct with the integer-
+<span class="lineNum">    1300 </span>            :         // rounded pvp. This is needed to calculate the frustum correctly.
+<span class="lineNum">    1301 </span><span class="lineNoCov">          0 :         const Viewport vp = _inherit.pvp / _parent-&gt;_inherit.pvp;</span>
+<span class="lineNum">    1302 </span><span class="lineNoCov">          0 :         _inherit.vp.apply( vp );</span>
+<span class="lineNum">    1303 </span>            : 
+<span class="lineNum">    1304 </span><span class="lineNoCov">          0 :         _updateInheritOverdraw();</span>
+<span class="lineNum">    1305 </span>            :     }
+<span class="lineNum">    1306 </span>            :     else
+<span class="lineNum">    1307 </span>            :     {
+<span class="lineNum">    1308 </span><span class="lineNoCov">          0 :         LBASSERT( !_inherit.channel-&gt;isRunning( ));</span>
+<span class="lineNum">    1309 </span>            :     }
+<span class="lineNum">    1310 </span>            : 
+<span class="lineNum">    1311 </span><span class="lineCov">          2 :     if( _data.frustumData.isValid( ))</span>
+<span class="lineNum">    1312 </span><span class="lineCov">          2 :         _inherit.frustumData = _data.frustumData;</span>
+<span class="lineNum">    1313 </span>            : 
+<span class="lineNum">    1314 </span><span class="lineCov">          2 :     _inherit.range.apply( _data.range );</span>
+<span class="lineNum">    1315 </span><span class="lineCov">          2 :     _inherit.pixel.apply( _data.pixel );</span>
+<span class="lineNum">    1316 </span><span class="lineCov">          2 :     _inherit.subPixel.apply( _data.subPixel );</span>
+<span class="lineNum">    1317 </span>            : 
+<span class="lineNum">    1318 </span><span class="lineCov">          2 :     if( _data.eyes != fabric::EYE_UNDEFINED )</span>
+<span class="lineNum">    1319 </span><span class="lineNoCov">          0 :         _inherit.eyes = _data.eyes;</span>
+<span class="lineNum">    1320 </span><span class="lineCov">          2 :     else if( _inherit.channel )</span>
+<span class="lineNum">    1321 </span>            :     {
+<span class="lineNum">    1322 </span><span class="lineCov">          2 :         const View* view = _inherit.channel-&gt;getView();</span>
+<span class="lineNum">    1323 </span><span class="lineCov">          2 :         if( !view )</span>
+<span class="lineNum">    1324 </span><span class="lineNoCov">          0 :             _inherit.eyes = EYE_CYCLOP;</span>
+<span class="lineNum">    1325 </span>            :     }
+<span class="lineNum">    1326 </span>            : 
+<span class="lineNum">    1327 </span><span class="lineCov">          2 :     if( _data.period != LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1328 </span><span class="lineNoCov">          0 :         _inherit.period = _data.period;</span>
 <span class="lineNum">    1329 </span>            : 
-<span class="lineNum">    1330 </span>            :         // Compute the inherit viewport to be pixel-correct with the integer-
-<span class="lineNum">    1331 </span>            :         // rounded pvp. This is needed to calculate the frustum correctly.
-<span class="lineNum">    1332 </span><span class="lineNoCov">          0 :         const Viewport vp = _inherit.pvp / _parent-&gt;_inherit.pvp;</span>
-<span class="lineNum">    1333 </span><span class="lineNoCov">          0 :         _inherit.vp.apply( vp );</span>
+<span class="lineNum">    1330 </span><span class="lineCov">          2 :     if( _data.phase != LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1331 </span><span class="lineNoCov">          0 :         _inherit.phase = _data.phase;</span>
+<span class="lineNum">    1332 </span>            : 
+<span class="lineNum">    1333 </span><span class="lineCov">          2 :     _inherit.maxFPS = _data.maxFPS;</span>
 <span class="lineNum">    1334 </span>            : 
-<span class="lineNum">    1335 </span><span class="lineNoCov">          0 :         _updateInheritOverdraw();</span>
-<span class="lineNum">    1336 </span>            :     }
-<span class="lineNum">    1337 </span>            :     else
-<span class="lineNum">    1338 </span>            :     {
-<span class="lineNum">    1339 </span><span class="lineNoCov">          0 :         LBASSERT( !_inherit.channel-&gt;isRunning( ));</span>
-<span class="lineNum">    1340 </span>            :     }
+<span class="lineNum">    1335 </span><span class="lineCov">          2 :     if( _data.buffers != Frame::Buffer::undefined )</span>
+<span class="lineNum">    1336 </span><span class="lineNoCov">          0 :         _inherit.buffers = _data.buffers;</span>
+<span class="lineNum">    1337 </span>            : 
+<span class="lineNum">    1338 </span><span class="lineCov">          2 :     if( _data.iAttributes[IATTR_STEREO_MODE] != UNDEFINED )</span>
+<span class="lineNum">    1339 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_MODE] =</span>
+<span class="lineNum">    1340 </span><span class="lineNoCov">          0 :             _data.iAttributes[IATTR_STEREO_MODE];</span>
 <span class="lineNum">    1341 </span>            : 
-<span class="lineNum">    1342 </span><span class="lineCov">          2 :     if( _data.frustumData.isValid( ))</span>
-<span class="lineNum">    1343 </span><span class="lineCov">          2 :         _inherit.frustumData = _data.frustumData;</span>
-<span class="lineNum">    1344 </span>            : 
-<span class="lineNum">    1345 </span><span class="lineCov">          2 :     _inherit.range.apply( _data.range );</span>
-<span class="lineNum">    1346 </span><span class="lineCov">          2 :     _inherit.pixel.apply( _data.pixel );</span>
-<span class="lineNum">    1347 </span><span class="lineCov">          2 :     _inherit.subPixel.apply( _data.subPixel );</span>
-<span class="lineNum">    1348 </span>            : 
-<span class="lineNum">    1349 </span><span class="lineCov">          2 :     if( _data.eyes != fabric::EYE_UNDEFINED )</span>
-<span class="lineNum">    1350 </span><span class="lineNoCov">          0 :         _inherit.eyes = _data.eyes;</span>
-<span class="lineNum">    1351 </span><span class="lineCov">          2 :     else if( _inherit.channel )</span>
-<span class="lineNum">    1352 </span>            :     {
-<span class="lineNum">    1353 </span><span class="lineCov">          2 :         const View* view = _inherit.channel-&gt;getView();</span>
-<span class="lineNum">    1354 </span><span class="lineCov">          2 :         if( !view )</span>
-<span class="lineNum">    1355 </span><span class="lineNoCov">          0 :             _inherit.eyes = EYE_CYCLOP;</span>
-<span class="lineNum">    1356 </span>            :     }
-<span class="lineNum">    1357 </span>            : 
-<span class="lineNum">    1358 </span><span class="lineCov">          2 :     if( _data.period != LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1359 </span><span class="lineNoCov">          0 :         _inherit.period = _data.period;</span>
+<span class="lineNum">    1342 </span><span class="lineCov">          2 :     if( _data.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] != UNDEFINED )</span>
+<span class="lineNum">    1343 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] =</span>
+<span class="lineNum">    1344 </span><span class="lineNoCov">          0 :             _data.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK];</span>
+<span class="lineNum">    1345 </span>            : 
+<span class="lineNum">    1346 </span><span class="lineCov">          2 :     if( _data.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] != UNDEFINED )</span>
+<span class="lineNum">    1347 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] =</span>
+<span class="lineNum">    1348 </span><span class="lineNoCov">          0 :             _data.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK];</span>
+<a name="1349"><span class="lineNum">    1349 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">    1350 </span>            : 
+<span class="lineNum">    1351 </span><span class="lineCov">          4 : void Compound::_updateInheritPVP()</span>
+<span class="lineNum">    1352 </span>            : {
+<span class="lineNum">    1353 </span><span class="lineCov">          4 :     Channel* channel = _data.channel;</span>
+<span class="lineNum">    1354 </span><span class="lineCov">          4 :     if( !channel )</span>
+<span class="lineNum">    1355 </span><span class="lineCov">          6 :         return;</span>
+<span class="lineNum">    1356 </span>            : 
+<span class="lineNum">    1357 </span><span class="lineCov">          2 :     const PixelViewport oldPVP( _inherit.pvp );</span>
+<span class="lineNum">    1358 </span><span class="lineCov">          2 :     _inherit.channel = channel;</span>
+<span class="lineNum">    1359 </span><span class="lineCov">          2 :     _inherit.pvp = channel-&gt;getPixelViewport( );</span>
 <span class="lineNum">    1360 </span>            : 
-<span class="lineNum">    1361 </span><span class="lineCov">          2 :     if( _data.phase != LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1362 </span><span class="lineNoCov">          0 :         _inherit.phase = _data.phase;</span>
-<span class="lineNum">    1363 </span>            : 
-<span class="lineNum">    1364 </span><span class="lineCov">          2 :     _inherit.maxFPS = _data.maxFPS;</span>
-<span class="lineNum">    1365 </span>            : 
-<span class="lineNum">    1366 </span><span class="lineCov">          2 :     if( _data.buffers != Frame::BUFFER_UNDEFINED )</span>
-<span class="lineNum">    1367 </span><span class="lineNoCov">          0 :         _inherit.buffers = _data.buffers;</span>
+<span class="lineNum">    1361 </span><span class="lineCov">          2 :     View* view = channel-&gt;getView();</span>
+<span class="lineNum">    1362 </span><span class="lineCov">          2 :     if( !view || !_inherit.pvp.isValid( ))</span>
+<span class="lineNum">    1363 </span>            :     {
+<span class="lineNum">    1364 </span><span class="lineCov">          2 :         LBASSERT( channel-&gt;getOverdraw() == Vector4i( ));</span>
+<span class="lineNum">    1365 </span><span class="lineCov">          2 :         return;</span>
+<span class="lineNum">    1366 </span>            :     }
+<span class="lineNum">    1367 </span><span class="lineNoCov">          0 :     LBASSERT( channel == getChannel( ));</span>
 <span class="lineNum">    1368 </span>            : 
-<span class="lineNum">    1369 </span><span class="lineCov">          2 :     if( _data.iAttributes[IATTR_STEREO_MODE] != UNDEFINED )</span>
-<span class="lineNum">    1370 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_MODE] =</span>
-<span class="lineNum">    1371 </span><span class="lineNoCov">          0 :             _data.iAttributes[IATTR_STEREO_MODE];</span>
-<span class="lineNum">    1372 </span>            : 
-<span class="lineNum">    1373 </span><span class="lineCov">          2 :     if( _data.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] != UNDEFINED )</span>
-<span class="lineNum">    1374 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK] =</span>
-<span class="lineNum">    1375 </span><span class="lineNoCov">          0 :             _data.iAttributes[IATTR_STEREO_ANAGLYPH_LEFT_MASK];</span>
-<span class="lineNum">    1376 </span>            : 
-<span class="lineNum">    1377 </span><span class="lineCov">          2 :     if( _data.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] != UNDEFINED )</span>
-<span class="lineNum">    1378 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK] =</span>
-<span class="lineNum">    1379 </span><span class="lineNoCov">          0 :             _data.iAttributes[IATTR_STEREO_ANAGLYPH_RIGHT_MASK];</span>
-<a name="1380"><span class="lineNum">    1380 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">    1381 </span>            : 
-<span class="lineNum">    1382 </span><span class="lineCov">          4 : void Compound::_updateInheritPVP()</span>
-<span class="lineNum">    1383 </span>            : {
-<span class="lineNum">    1384 </span><span class="lineCov">          4 :     Channel* channel = _data.channel;</span>
-<span class="lineNum">    1385 </span><span class="lineCov">          4 :     if( !channel )</span>
-<span class="lineNum">    1386 </span><span class="lineCov">          6 :         return;</span>
+<span class="lineNum">    1369 </span>            :     // enlarge pvp by overdraw
+<span class="lineNum">    1370 </span><span class="lineNoCov">          0 :     const Vector4i&amp; overdraw = channel-&gt;getOverdraw();</span>
+<span class="lineNum">    1371 </span><span class="lineNoCov">          0 :     _inherit.pvp.w += overdraw.x() + overdraw.z();</span>
+<span class="lineNum">    1372 </span><span class="lineNoCov">          0 :     _inherit.pvp.h += overdraw.y() + overdraw.w();</span>
+<span class="lineNum">    1373 </span>            : 
+<span class="lineNum">    1374 </span><span class="lineNoCov">          0 :     if( oldPVP != _inherit.pvp ) // channel PVP changed</span>
+<span class="lineNum">    1375 </span>            :     {
+<span class="lineNum">    1376 </span><span class="lineNoCov">          0 :         view-&gt;updateFrusta();</span>
+<span class="lineNum">    1377 </span><span class="lineNoCov">          0 :         LBASSERT( overdraw == channel-&gt;getOverdraw( ));</span>
+<span class="lineNum">    1378 </span>            :     }
+<span class="lineNum">    1379 </span>            : 
+<span class="lineNum">    1380 </span><span class="lineNoCov">          0 :     _inherit.overdraw = overdraw;</span>
+<a name="1381"><span class="lineNum">    1381 </span>            : }</a>
+<span class="lineNum">    1382 </span>            : 
+<span class="lineNum">    1383 </span><span class="lineNoCov">          0 : void Compound::_updateInheritOverdraw()</span>
+<span class="lineNum">    1384 </span>            : {
+<span class="lineNum">    1385 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; pvp = _inherit.pvp;</span>
+<span class="lineNum">    1386 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; parentPVP = _parent-&gt;_inherit.pvp;</span>
 <span class="lineNum">    1387 </span>            : 
-<span class="lineNum">    1388 </span><span class="lineCov">          2 :     const PixelViewport oldPVP( _inherit.pvp );</span>
-<span class="lineNum">    1389 </span><span class="lineCov">          2 :     _inherit.channel = channel;</span>
-<span class="lineNum">    1390 </span><span class="lineCov">          2 :     _inherit.pvp = channel-&gt;getPixelViewport( );</span>
-<span class="lineNum">    1391 </span>            : 
-<span class="lineNum">    1392 </span><span class="lineCov">          2 :     View* view = channel-&gt;getView();</span>
-<span class="lineNum">    1393 </span><span class="lineCov">          2 :     if( !view || !_inherit.pvp.isValid( ))</span>
-<span class="lineNum">    1394 </span>            :     {
-<span class="lineNum">    1395 </span><span class="lineCov">          2 :         LBASSERT( channel-&gt;getOverdraw() == Vector4i( ));</span>
-<span class="lineNum">    1396 </span><span class="lineCov">          2 :         return;</span>
-<span class="lineNum">    1397 </span>            :     }
-<span class="lineNum">    1398 </span><span class="lineNoCov">          0 :     LBASSERT( channel == getChannel( ));</span>
-<span class="lineNum">    1399 </span>            : 
-<span class="lineNum">    1400 </span>            :     // enlarge pvp by overdraw
-<span class="lineNum">    1401 </span><span class="lineNoCov">          0 :     const Vector4i&amp; overdraw = channel-&gt;getOverdraw();</span>
-<span class="lineNum">    1402 </span><span class="lineNoCov">          0 :     _inherit.pvp.w += overdraw.x() + overdraw.z();</span>
-<span class="lineNum">    1403 </span><span class="lineNoCov">          0 :     _inherit.pvp.h += overdraw.y() + overdraw.w();</span>
-<span class="lineNum">    1404 </span>            : 
-<span class="lineNum">    1405 </span><span class="lineNoCov">          0 :     if( oldPVP != _inherit.pvp ) // channel PVP changed</span>
-<span class="lineNum">    1406 </span>            :     {
-<span class="lineNum">    1407 </span><span class="lineNoCov">          0 :         view-&gt;updateFrusta();</span>
-<span class="lineNum">    1408 </span><span class="lineNoCov">          0 :         LBASSERT( overdraw == channel-&gt;getOverdraw( ));</span>
-<span class="lineNum">    1409 </span>            :     }
+<span class="lineNum">    1388 </span><span class="lineNoCov">          0 :     _inherit.overdraw.x() -= pvp.x - parentPVP.x;</span>
+<span class="lineNum">    1389 </span><span class="lineNoCov">          0 :     _inherit.overdraw.y() -= pvp.y - parentPVP.y;</span>
+<span class="lineNum">    1390 </span><span class="lineNoCov">          0 :     _inherit.overdraw.z() -= parentPVP.getXEnd() - pvp.getXEnd();</span>
+<span class="lineNum">    1391 </span><span class="lineNoCov">          0 :     _inherit.overdraw.w() -= parentPVP.getYEnd() - pvp.getYEnd();</span>
+<span class="lineNum">    1392 </span>            : 
+<span class="lineNum">    1393 </span><span class="lineNoCov">          0 :     _inherit.overdraw.x() = LB_MAX( _inherit.overdraw.x(), 0 );</span>
+<span class="lineNum">    1394 </span><span class="lineNoCov">          0 :     _inherit.overdraw.y() = LB_MAX( _inherit.overdraw.y(), 0 );</span>
+<span class="lineNum">    1395 </span><span class="lineNoCov">          0 :     _inherit.overdraw.z() = LB_MAX( _inherit.overdraw.z(), 0 );</span>
+<span class="lineNum">    1396 </span><span class="lineNoCov">          0 :     _inherit.overdraw.w() = LB_MAX( _inherit.overdraw.w(), 0 );</span>
+<span class="lineNum">    1397 </span>            : 
+<span class="lineNum">    1398 </span><span class="lineNoCov">          0 :     _inherit.overdraw.x() = LB_MIN( _inherit.overdraw.x(), pvp.w );</span>
+<span class="lineNum">    1399 </span><span class="lineNoCov">          0 :     _inherit.overdraw.y() = LB_MIN( _inherit.overdraw.y(), pvp.h );</span>
+<span class="lineNum">    1400 </span><span class="lineNoCov">          0 :     _inherit.overdraw.z() = LB_MIN( _inherit.overdraw.z(), pvp.w );</span>
+<span class="lineNum">    1401 </span><span class="lineNoCov">          0 :     _inherit.overdraw.w() = LB_MIN( _inherit.overdraw.w(), pvp.h );</span>
+<span class="lineNum">    1402 </span>            : 
+<span class="lineNum">    1403 </span><span class="lineNoCov">          0 :     LBASSERTINFO( pvp.w &gt;= _inherit.overdraw.x() + _inherit.overdraw.z(),</span>
+<span class="lineNum">    1404 </span>            :                   pvp.w &lt;&lt; &quot; &lt; &quot; &lt;&lt;
+<span class="lineNum">    1405 </span>            :                   _inherit.overdraw.x() + _inherit.overdraw.z( ));
+<span class="lineNum">    1406 </span><span class="lineNoCov">          0 :     LBASSERTINFO( pvp.h &gt;= _inherit.overdraw.y() + _inherit.overdraw.w(),</span>
+<span class="lineNum">    1407 </span>            :                   pvp.h &lt;&lt; &quot; &lt; &quot; &lt;&lt;
+<span class="lineNum">    1408 </span>            :                   _inherit.overdraw.y() + _inherit.overdraw.w( ));
+<a name="1409"><span class="lineNum">    1409 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">    1410 </span>            : 
-<span class="lineNum">    1411 </span><span class="lineNoCov">          0 :     _inherit.overdraw = overdraw;</span>
-<a name="1412"><span class="lineNum">    1412 </span>            : }</a>
-<span class="lineNum">    1413 </span>            : 
-<span class="lineNum">    1414 </span><span class="lineNoCov">          0 : void Compound::_updateInheritOverdraw()</span>
-<span class="lineNum">    1415 </span>            : {
-<span class="lineNum">    1416 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; pvp = _inherit.pvp;</span>
-<span class="lineNum">    1417 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; parentPVP = _parent-&gt;_inherit.pvp;</span>
-<span class="lineNum">    1418 </span>            : 
-<span class="lineNum">    1419 </span><span class="lineNoCov">          0 :     _inherit.overdraw.x() -= pvp.x - parentPVP.x;</span>
-<span class="lineNum">    1420 </span><span class="lineNoCov">          0 :     _inherit.overdraw.y() -= pvp.y - parentPVP.y;</span>
-<span class="lineNum">    1421 </span><span class="lineNoCov">          0 :     _inherit.overdraw.z() -= parentPVP.getXEnd() - pvp.getXEnd();</span>
-<span class="lineNum">    1422 </span><span class="lineNoCov">          0 :     _inherit.overdraw.w() -= parentPVP.getYEnd() - pvp.getYEnd();</span>
-<span class="lineNum">    1423 </span>            : 
-<span class="lineNum">    1424 </span><span class="lineNoCov">          0 :     _inherit.overdraw.x() = LB_MAX( _inherit.overdraw.x(), 0 );</span>
-<span class="lineNum">    1425 </span><span class="lineNoCov">          0 :     _inherit.overdraw.y() = LB_MAX( _inherit.overdraw.y(), 0 );</span>
-<span class="lineNum">    1426 </span><span class="lineNoCov">          0 :     _inherit.overdraw.z() = LB_MAX( _inherit.overdraw.z(), 0 );</span>
-<span class="lineNum">    1427 </span><span class="lineNoCov">          0 :     _inherit.overdraw.w() = LB_MAX( _inherit.overdraw.w(), 0 );</span>
-<span class="lineNum">    1428 </span>            : 
-<span class="lineNum">    1429 </span><span class="lineNoCov">          0 :     _inherit.overdraw.x() = LB_MIN( _inherit.overdraw.x(), pvp.w );</span>
-<span class="lineNum">    1430 </span><span class="lineNoCov">          0 :     _inherit.overdraw.y() = LB_MIN( _inherit.overdraw.y(), pvp.h );</span>
-<span class="lineNum">    1431 </span><span class="lineNoCov">          0 :     _inherit.overdraw.z() = LB_MIN( _inherit.overdraw.z(), pvp.w );</span>
-<span class="lineNum">    1432 </span><span class="lineNoCov">          0 :     _inherit.overdraw.w() = LB_MIN( _inherit.overdraw.w(), pvp.h );</span>
+<span class="lineNum">    1411 </span><span class="lineCov">          8 : void Compound::updateInheritTasks()</span>
+<span class="lineNum">    1412 </span>            : {
+<span class="lineNum">    1413 </span><span class="lineCov">          8 :     if( _data.tasks == fabric::TASK_DEFAULT )</span>
+<span class="lineNum">    1414 </span>            :     {
+<span class="lineNum">    1415 </span><span class="lineCov">          8 :         if( isLeaf( ))</span>
+<span class="lineNum">    1416 </span>            :         {
+<span class="lineNum">    1417 </span><span class="lineCov">          6 :             _inherit.tasks = fabric::TASK_ALL;</span>
+<span class="lineNum">    1418 </span>            :             // check if a parent compound has cleared us
+<span class="lineNum">    1419 </span><span class="lineCov">         12 :             for( Compound* compound = getParent(); compound;</span>
+<span class="lineNum">    1420 </span>            :                  compound = compound-&gt;getParent( ))
+<span class="lineNum">    1421 </span>            :             {
+<span class="lineNum">    1422 </span><span class="lineCov">          6 :                 Channel* channel = compound-&gt;getChannel();</span>
+<span class="lineNum">    1423 </span><span class="lineCov">          6 :                 if( channel == getChannel( ))</span>
+<span class="lineNum">    1424 </span><span class="lineNoCov">          0 :                     _inherit.tasks &amp;= ~fabric::TASK_CLEAR; // done already</span>
+<span class="lineNum">    1425 </span>            :             }
+<span class="lineNum">    1426 </span>            :         }
+<span class="lineNum">    1427 </span>            :         else
+<span class="lineNum">    1428 </span><span class="lineCov">          2 :             _inherit.tasks = fabric::TASK_CLEAR | fabric::TASK_ASSEMBLE |</span>
+<span class="lineNum">    1429 </span>            :                              fabric::TASK_READBACK;
+<span class="lineNum">    1430 </span>            :     }
+<span class="lineNum">    1431 </span>            :     else
+<span class="lineNum">    1432 </span><span class="lineNoCov">          0 :         _inherit.tasks = _data.tasks;</span>
 <span class="lineNum">    1433 </span>            : 
-<span class="lineNum">    1434 </span><span class="lineNoCov">          0 :     LBASSERTINFO( pvp.w &gt;= _inherit.overdraw.x() + _inherit.overdraw.z(),</span>
-<span class="lineNum">    1435 </span>            :                   pvp.w &lt;&lt; &quot; &lt; &quot; &lt;&lt;
-<span class="lineNum">    1436 </span>            :                   _inherit.overdraw.x() + _inherit.overdraw.z( ));
-<span class="lineNum">    1437 </span><span class="lineNoCov">          0 :     LBASSERTINFO( pvp.h &gt;= _inherit.overdraw.y() + _inherit.overdraw.w(),</span>
-<span class="lineNum">    1438 </span>            :                   pvp.h &lt;&lt; &quot; &lt; &quot; &lt;&lt;
-<span class="lineNum">    1439 </span>            :                   _inherit.overdraw.y() + _inherit.overdraw.w( ));
-<a name="1440"><span class="lineNum">    1440 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">    1441 </span>            : 
-<span class="lineNum">    1442 </span><span class="lineCov">          8 : void Compound::updateInheritTasks()</span>
-<span class="lineNum">    1443 </span>            : {
-<span class="lineNum">    1444 </span><span class="lineCov">          8 :     if( _data.tasks == fabric::TASK_DEFAULT )</span>
-<span class="lineNum">    1445 </span>            :     {
-<span class="lineNum">    1446 </span><span class="lineCov">          8 :         if( isLeaf( ))</span>
-<span class="lineNum">    1447 </span>            :         {
-<span class="lineNum">    1448 </span><span class="lineCov">          6 :             _inherit.tasks = fabric::TASK_ALL;</span>
-<span class="lineNum">    1449 </span>            :             // check if a parent compound has cleared us
-<span class="lineNum">    1450 </span><span class="lineCov">         12 :             for( Compound* compound = getParent(); compound;</span>
-<span class="lineNum">    1451 </span>            :                  compound = compound-&gt;getParent( ))
-<span class="lineNum">    1452 </span>            :             {
-<span class="lineNum">    1453 </span><span class="lineCov">          6 :                 Channel* channel = compound-&gt;getChannel();</span>
-<span class="lineNum">    1454 </span><span class="lineCov">          6 :                 if( channel == getChannel( ))</span>
-<span class="lineNum">    1455 </span><span class="lineNoCov">          0 :                     _inherit.tasks &amp;= ~fabric::TASK_CLEAR; // done already</span>
-<span class="lineNum">    1456 </span>            :             }
-<span class="lineNum">    1457 </span>            :         }
-<span class="lineNum">    1458 </span>            :         else
-<span class="lineNum">    1459 </span><span class="lineCov">          2 :             _inherit.tasks = fabric::TASK_CLEAR | fabric::TASK_ASSEMBLE |</span>
-<span class="lineNum">    1460 </span>            :                              fabric::TASK_READBACK;
-<span class="lineNum">    1461 </span>            :     }
+<span class="lineNum">    1434 </span><span class="lineCov">          8 :     const Channel* channel = getChannel();</span>
+<span class="lineNum">    1435 </span><span class="lineCov">          8 :     if( isDestination() &amp;&amp; channel-&gt;getView( ))</span>
+<span class="lineNum">    1436 </span><span class="lineCov">          6 :         _inherit.tasks |= fabric::TASK_VIEW;</span>
+<span class="lineNum">    1437 </span>            :     else
+<span class="lineNum">    1438 </span><span class="lineCov">          2 :         _inherit.tasks &amp;= ~fabric::TASK_VIEW;</span>
+<a name="1439"><span class="lineNum">    1439 </span><span class="lineCov">          8 : }</span></a>
+<span class="lineNum">    1440 </span>            : 
+<span class="lineNum">    1441 </span><span class="lineCov">          2 : void Compound::_updateInheritStereo()</span>
+<span class="lineNum">    1442 </span>            : {
+<span class="lineNum">    1443 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_MODE] != fabric::AUTO )</span>
+<span class="lineNum">    1444 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">    1445 </span>            : 
+<span class="lineNum">    1446 </span><span class="lineCov">          2 :     const Segment* segment = _inherit.channel-&gt;getSegment();</span>
+<span class="lineNum">    1447 </span><span class="lineCov">          2 :     const uint32_t eyes = segment ? segment-&gt;getEyes() : _inherit.eyes;</span>
+<span class="lineNum">    1448 </span><span class="lineCov">          2 :     const bool stereoEyes = ( eyes &amp; EYES_STEREO ) == EYES_STEREO;</span>
+<span class="lineNum">    1449 </span><span class="lineCov">          2 :     if( !stereoEyes )</span>
+<span class="lineNum">    1450 </span>            :     {
+<span class="lineNum">    1451 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::PASSIVE;</span>
+<span class="lineNum">    1452 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">    1453 </span>            :     }
+<span class="lineNum">    1454 </span>            : 
+<span class="lineNum">    1455 </span><span class="lineCov">          2 :     const Window* window = _inherit.channel-&gt;getWindow();</span>
+<span class="lineNum">    1456 </span><span class="lineCov">          2 :     const bool stereoWindow = window-&gt;getDrawableConfig().stereo;</span>
+<span class="lineNum">    1457 </span><span class="lineCov">          2 :     const bool usesFBO =  window &amp;&amp; window-&gt;getIAttribute(</span>
+<span class="lineNum">    1458 </span><span class="lineCov">          2 :                 WindowSettings::IATTR_HINT_DRAWABLE ) == fabric::FBO;</span>
+<span class="lineNum">    1459 </span>            : 
+<span class="lineNum">    1460 </span><span class="lineCov">          2 :     if( stereoWindow &amp;&amp; !usesFBO )</span>
+<span class="lineNum">    1461 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::QUAD;</span>
 <span class="lineNum">    1462 </span>            :     else
-<span class="lineNum">    1463 </span><span class="lineNoCov">          0 :         _inherit.tasks = _data.tasks;</span>
-<span class="lineNum">    1464 </span>            : 
-<span class="lineNum">    1465 </span><span class="lineCov">          8 :     const Channel* channel = getChannel();</span>
-<span class="lineNum">    1466 </span><span class="lineCov">          8 :     if( isDestination() &amp;&amp; channel-&gt;getView( ))</span>
-<span class="lineNum">    1467 </span><span class="lineCov">          6 :         _inherit.tasks |= fabric::TASK_VIEW;</span>
-<span class="lineNum">    1468 </span>            :     else
-<span class="lineNum">    1469 </span><span class="lineCov">          2 :         _inherit.tasks &amp;= ~fabric::TASK_VIEW;</span>
-<a name="1470"><span class="lineNum">    1470 </span><span class="lineCov">          8 : }</span></a>
-<span class="lineNum">    1471 </span>            : 
-<span class="lineNum">    1472 </span><span class="lineCov">          2 : void Compound::_updateInheritStereo()</span>
-<span class="lineNum">    1473 </span>            : {
-<span class="lineNum">    1474 </span><span class="lineCov">          2 :     if( _inherit.iAttributes[IATTR_STEREO_MODE] != fabric::AUTO )</span>
-<span class="lineNum">    1475 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">    1476 </span>            : 
-<span class="lineNum">    1477 </span><span class="lineCov">          2 :     const Segment* segment = _inherit.channel-&gt;getSegment();</span>
-<span class="lineNum">    1478 </span><span class="lineCov">          2 :     const uint32_t eyes = segment ? segment-&gt;getEyes() : _inherit.eyes;</span>
-<span class="lineNum">    1479 </span><span class="lineCov">          2 :     const bool stereoEyes = ( eyes &amp; EYES_STEREO ) == EYES_STEREO;</span>
-<span class="lineNum">    1480 </span><span class="lineCov">          2 :     if( !stereoEyes )</span>
-<span class="lineNum">    1481 </span>            :     {
-<span class="lineNum">    1482 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::PASSIVE;</span>
-<span class="lineNum">    1483 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">    1484 </span>            :     }
-<span class="lineNum">    1485 </span>            : 
-<span class="lineNum">    1486 </span><span class="lineCov">          2 :     const Window* window = _inherit.channel-&gt;getWindow();</span>
-<span class="lineNum">    1487 </span><span class="lineCov">          2 :     const bool stereoWindow = window-&gt;getDrawableConfig().stereo;</span>
-<span class="lineNum">    1488 </span><span class="lineCov">          2 :     const bool usesFBO =  window &amp;&amp; window-&gt;getIAttribute(</span>
-<span class="lineNum">    1489 </span><span class="lineCov">          2 :                 WindowSettings::IATTR_HINT_DRAWABLE ) == fabric::FBO;</span>
-<span class="lineNum">    1490 </span>            : 
-<span class="lineNum">    1491 </span><span class="lineCov">          2 :     if( stereoWindow &amp;&amp; !usesFBO )</span>
-<span class="lineNum">    1492 </span><span class="lineNoCov">          0 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::QUAD;</span>
-<span class="lineNum">    1493 </span>            :     else
-<span class="lineNum">    1494 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::ANAGLYPH;</span>
-<a name="1495"><span class="lineNum">    1495 </span>            : }</a>
-<span class="lineNum">    1496 </span>            : 
-<span class="lineNum">    1497 </span><span class="lineCov">          2 : void Compound::_updateInheritActive( const uint32_t frameNumber )</span>
-<span class="lineNum">    1498 </span>            : {
-<span class="lineNum">    1499 </span><span class="lineCov">          2 :     const bool phaseActive = ((frameNumber%_inherit.period) == _inherit.phase );</span>
-<span class="lineNum">    1500 </span><span class="lineCov">          2 :     const bool channelActive = _inherit.channel-&gt;isRunning(); // runtime failure</span>
-<span class="lineNum">    1501 </span>            : 
-<span class="lineNum">    1502 </span><span class="lineCov">          8 :     for( size_t i = 0; i &lt; fabric::NUM_EYES; ++i )</span>
-<span class="lineNum">    1503 </span>            :     {
-<span class="lineNum">    1504 </span><span class="lineCov">          6 :         const uint32_t eye = 1 &lt;&lt; i;</span>
-<span class="lineNum">    1505 </span><span class="lineCov">          6 :         const bool eyeActive = _inherit.eyes &amp; eye;</span>
-<span class="lineNum">    1506 </span><span class="lineCov">         12 :         const bool destActive = isDestination() ? _data.active[i] :</span>
-<span class="lineNum">    1507 </span><span class="lineCov">         12 :                                                   _inherit.active[i];</span>
-<span class="lineNum">    1508 </span>            : 
-<span class="lineNum">    1509 </span><span class="lineCov">          6 :         if( destActive &amp;&amp; eyeActive &amp;&amp; phaseActive &amp;&amp; channelActive )</span>
-<span class="lineNum">    1510 </span><span class="lineNoCov">          0 :             _inherit.active[i] = 1;</span>
-<span class="lineNum">    1511 </span>            :         else
-<span class="lineNum">    1512 </span><span class="lineCov">          6 :             _inherit.active[i] = 0; // deactivate</span>
-<span class="lineNum">    1513 </span>            :     }
-<a name="1514"><span class="lineNum">    1514 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">    1515 </span>            : 
-<span class="lineNum">    1516 </span><span class="lineCov">       2014 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Compound&amp; compound )</span>
-<span class="lineNum">    1517 </span>            : {
-<span class="lineNum">    1518 </span><span class="lineCov">       2014 :     os &lt;&lt; lunchbox::disableFlush &lt;&lt; &quot;compound&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1519 </span><span class="lineCov">       2014 :     os &lt;&lt; &quot;{&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::indent;</span>
-<span class="lineNum">    1520 </span>            : 
-<span class="lineNum">    1521 </span><span class="lineCov">       2014 :     const std::string&amp; name = compound.getName();</span>
-<span class="lineNum">    1522 </span><span class="lineCov">       2014 :     if( !name.empty( ))</span>
-<span class="lineNum">    1523 </span><span class="lineCov">          8 :         os &lt;&lt; &quot;name     \&quot;&quot; &lt;&lt; name &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1524 </span>            : 
-<span class="lineNum">    1525 </span><span class="lineCov">       2014 :     const Channel* channel = compound.getChannel();</span>
-<span class="lineNum">    1526 </span><span class="lineCov">       2014 :     if( channel )</span>
-<span class="lineNum">    1527 </span>            :     {
-<span class="lineNum">    1528 </span><span class="lineCov">       1876 :         Compound* parent = compound.getParent();</span>
-<span class="lineNum">    1529 </span><span class="lineCov">       1876 :         if( !parent || parent-&gt;getChannel() != channel )</span>
-<span class="lineNum">    1530 </span>            :         {
-<span class="lineNum">    1531 </span><span class="lineCov">       1412 :             const std::string&amp; channelName = channel-&gt;getName();</span>
-<span class="lineNum">    1532 </span><span class="lineCov">       1412 :             const Config*      config      = compound.getConfig();</span>
-<span class="lineNum">    1533 </span><span class="lineCov">       1412 :             LBASSERT( config );</span>
-<span class="lineNum">    1534 </span>            : 
-<span class="lineNum">    1535 </span><span class="lineCov">       2824 :             if( !channelName.empty() &amp;&amp;</span>
-<span class="lineNum">    1536 </span><span class="lineCov">       1412 :                 config-&gt;find&lt; Channel &gt;( channelName ) == channel )</span>
-<span class="lineNum">    1537 </span>            :             {
-<span class="lineNum">    1538 </span><span class="lineCov">        830 :                 os &lt;&lt; &quot;channel  \&quot;&quot; &lt;&lt; channelName &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1539 </span>            :             }
-<span class="lineNum">    1540 </span>            :             else
-<span class="lineNum">    1541 </span>            :             {
-<span class="lineNum">    1542 </span><span class="lineCov">        582 :                 const Segment* segment = channel-&gt;getSegment();</span>
-<span class="lineNum">    1543 </span><span class="lineCov">        582 :                 const View*    view    = channel-&gt;getView();</span>
-<span class="lineNum">    1544 </span>            : 
-<span class="lineNum">    1545 </span><span class="lineCov">        582 :                 if( view &amp;&amp; segment )</span>
-<span class="lineNum">    1546 </span>            :                 {
-<span class="lineNum">    1547 </span><span class="lineCov">        582 :                     os &lt;&lt; &quot;channel  ( &quot;;</span>
-<span class="lineNum">    1548 </span>            : 
-<span class="lineNum">    1549 </span><span class="lineCov">        582 :                     const Canvas* canvas = segment-&gt;getCanvas();</span>
-<span class="lineNum">    1550 </span><span class="lineCov">        582 :                     const std::string&amp; canvasName = canvas-&gt;getName();</span>
-<span class="lineNum">    1551 </span><span class="lineCov">        598 :                     if( !canvasName.empty() &amp;&amp;</span>
-<span class="lineNum">    1552 </span><span class="lineCov">         16 :                         config-&gt;find&lt; Canvas &gt;( canvasName ) == canvas )</span>
-<span class="lineNum">    1553 </span>            :                     {
-<span class="lineNum">    1554 </span><span class="lineCov">         16 :                         os &lt;&lt; &quot;canvas \&quot;&quot; &lt;&lt; canvasName &lt;&lt; &quot;\&quot;  &quot;;</span>
-<span class="lineNum">    1555 </span>            :                     }
-<span class="lineNum">    1556 </span>            :                     else
-<span class="lineNum">    1557 </span><span class="lineCov">        566 :                         os &lt;&lt; canvas-&gt;getPath() &lt;&lt; &quot;  &quot;;</span>
-<span class="lineNum">    1558 </span>            : 
-<span class="lineNum">    1559 </span><span class="lineCov">        582 :                     const std::string&amp; segmentName = segment-&gt;getName();</span>
-<span class="lineNum">    1560 </span><span class="lineCov">        582 :                     if( !segmentName.empty() &amp;&amp;</span>
-<span class="lineNum">    1561 </span><span class="lineNoCov">          0 :                         canvas-&gt;findSegment( segmentName ) == segment )</span>
-<span class="lineNum">    1562 </span>            :                     {
-<span class="lineNum">    1563 </span><span class="lineNoCov">          0 :                         os &lt;&lt; &quot;segment \&quot;&quot; &lt;&lt; segmentName &lt;&lt; &quot;\&quot;   &quot;;</span>
-<span class="lineNum">    1564 </span>            :                     }
-<span class="lineNum">    1565 </span>            :                     else
-<span class="lineNum">    1566 </span><span class="lineCov">        582 :                         os &lt;&lt; &quot;segment &quot; &lt;&lt; segment-&gt;getPath().segmentIndex</span>
-<span class="lineNum">    1567 </span><span class="lineCov">        582 :                            &lt;&lt; &quot;   &quot;;</span>
-<span class="lineNum">    1568 </span>            : 
-<span class="lineNum">    1569 </span><span class="lineCov">        582 :                     const Layout* layout = view-&gt;getLayout();</span>
-<span class="lineNum">    1570 </span><span class="lineCov">        582 :                     const std::string&amp; layoutName = layout-&gt;getName();</span>
-<span class="lineNum">    1571 </span><span class="lineCov">        870 :                     if( !layoutName.empty() &amp;&amp;</span>
-<span class="lineNum">    1572 </span><span class="lineCov">        288 :                         config-&gt;find&lt; Layout &gt;( layoutName ) == layout )</span>
-<span class="lineNum">    1573 </span>            :                     {
-<span class="lineNum">    1574 </span><span class="lineCov">        288 :                         os &lt;&lt; &quot;layout \&quot;&quot; &lt;&lt; layoutName &lt;&lt; &quot;\&quot;  &quot;;</span>
-<span class="lineNum">    1575 </span>            :                     }
-<span class="lineNum">    1576 </span>            :                     else
-<span class="lineNum">    1577 </span><span class="lineCov">        294 :                         os &lt;&lt; layout-&gt;getPath() &lt;&lt; &quot;  &quot;;</span>
-<span class="lineNum">    1578 </span>            : 
-<span class="lineNum">    1579 </span><span class="lineCov">        582 :                     const std::string&amp; viewName = view-&gt;getName();</span>
-<span class="lineNum">    1580 </span><span class="lineCov">        584 :                     if( !viewName.empty() &amp;&amp;</span>
-<span class="lineNum">    1581 </span><span class="lineCov">          2 :                         config-&gt;find&lt; View &gt;( viewName ) == view )</span>
-<span class="lineNum">    1582 </span>            :                     {
-<span class="lineNum">    1583 </span><span class="lineCov">          2 :                         os &lt;&lt; &quot;view \&quot;&quot; &lt;&lt; viewName &lt;&lt; '\&quot;';</span>
-<span class="lineNum">    1584 </span>            :                     }
-<span class="lineNum">    1585 </span>            :                     else
-<span class="lineNum">    1586 </span><span class="lineCov">        580 :                         os &lt;&lt; &quot;view &quot; &lt;&lt; view-&gt;getPath().viewIndex;</span>
-<span class="lineNum">    1587 </span>            : 
-<span class="lineNum">    1588 </span><span class="lineCov">        582 :                     os &lt;&lt; &quot; )&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1589 </span>            :                 }
-<span class="lineNum">    1590 </span>            :                 else
-<span class="lineNum">    1591 </span><span class="lineNoCov">          0 :                     os &lt;&lt; &quot;channel  ( &quot; &lt;&lt; channel-&gt;getPath() &lt;&lt; &quot; )&quot;</span>
-<span class="lineNum">    1592 </span><span class="lineNoCov">          0 :                        &lt;&lt; std::endl;</span>
-<span class="lineNum">    1593 </span>            :             }
-<span class="lineNum">    1594 </span>            :         }
-<span class="lineNum">    1595 </span>            :     }
-<span class="lineNum">    1596 </span>            : 
-<span class="lineNum">    1597 </span><span class="lineCov">       2014 :     const uint32_t tasks = compound.getTasks();</span>
-<span class="lineNum">    1598 </span><span class="lineCov">       2014 :     if( tasks != fabric::TASK_DEFAULT )</span>
-<span class="lineNum">    1599 </span>            :     {
-<span class="lineNum">    1600 </span><span class="lineCov">        184 :         os &lt;&lt; &quot;task     [&quot;;</span>
-<span class="lineNum">    1601 </span><span class="lineCov">        184 :         if( tasks &amp;  fabric::TASK_CLEAR )    os &lt;&lt; &quot; CLEAR&quot;;</span>
-<span class="lineNum">    1602 </span><span class="lineCov">        366 :         if( compound.isLeaf() &amp;&amp;</span>
-<span class="lineNum">    1603 </span><span class="lineCov">        186 :             ( tasks &amp;  fabric::TASK_DRAW ))  os &lt;&lt; &quot; DRAW&quot;;</span>
-<span class="lineNum">    1604 </span><span class="lineCov">        184 :         if( tasks &amp;  fabric::TASK_ASSEMBLE ) os &lt;&lt; &quot; ASSEMBLE&quot;;</span>
-<span class="lineNum">    1605 </span><span class="lineCov">        184 :         if( tasks &amp;  fabric::TASK_READBACK ) os &lt;&lt; &quot; READBACK&quot;;</span>
-<span class="lineNum">    1606 </span><span class="lineCov">        184 :         os &lt;&lt; &quot; ]&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1607 </span>            :     }
-<span class="lineNum">    1608 </span>            : 
-<span class="lineNum">    1609 </span><span class="lineCov">       2014 :     const uint32_t buffers = compound.getBuffers();</span>
-<span class="lineNum">    1610 </span><span class="lineCov">       2014 :     if( buffers != Frame::BUFFER_UNDEFINED )</span>
-<span class="lineNum">    1611 </span>            :     {
-<span class="lineNum">    1612 </span><span class="lineCov">         94 :         os &lt;&lt; &quot;buffers  [&quot;;</span>
-<span class="lineNum">    1613 </span><span class="lineCov">         94 :         if( buffers &amp; Frame::BUFFER_COLOR )  os &lt;&lt; &quot; COLOR&quot;;</span>
-<span class="lineNum">    1614 </span><span class="lineCov">         94 :         if( buffers &amp; Frame::BUFFER_DEPTH )  os &lt;&lt; &quot; DEPTH&quot;;</span>
-<span class="lineNum">    1615 </span><span class="lineCov">         94 :         os &lt;&lt; &quot; ]&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1616 </span>            :     }
-<span class="lineNum">    1617 </span>            : 
-<span class="lineNum">    1618 </span><span class="lineCov">       2014 :     const Viewport&amp; vp = compound.getViewport();</span>
-<span class="lineNum">    1619 </span><span class="lineCov">       2014 :     if( vp.isValid() &amp;&amp; vp != Viewport::FULL )</span>
-<span class="lineNum">    1620 </span><span class="lineCov">        124 :         os &lt;&lt; &quot;viewport &quot; &lt;&lt; vp &lt;&lt; std::endl;</span>
-<span class="lineNum">    1621 </span>            : 
-<span class="lineNum">    1622 </span><span class="lineCov">       2014 :     const Range&amp; range = compound.getRange();</span>
-<span class="lineNum">    1623 </span><span class="lineCov">       2014 :     if( range.isValid() &amp;&amp; range != Range::ALL )</span>
-<span class="lineNum">    1624 </span><span class="lineCov">        346 :         os &lt;&lt; range &lt;&lt; std::endl;</span>
-<span class="lineNum">    1625 </span>            : 
-<span class="lineNum">    1626 </span><span class="lineCov">       2014 :     const Pixel&amp; pixel = compound.getPixel();</span>
-<span class="lineNum">    1627 </span><span class="lineCov">       2014 :     if( pixel.isValid() &amp;&amp; pixel != Pixel::ALL )</span>
-<span class="lineNum">    1628 </span><span class="lineCov">         46 :         os &lt;&lt; pixel &lt;&lt; std::endl;</span>
-<span class="lineNum">    1629 </span>            : 
-<span class="lineNum">    1630 </span><span class="lineCov">       2014 :     const SubPixel&amp; subPixel = compound.getSubPixel();</span>
-<span class="lineNum">    1631 </span><span class="lineCov">       2014 :     if( subPixel.isValid() &amp;&amp; subPixel != SubPixel::ALL )</span>
-<span class="lineNum">    1632 </span><span class="lineCov">         22 :             os &lt;&lt; subPixel &lt;&lt; std::endl;</span>
+<span class="lineNum">    1463 </span><span class="lineCov">          2 :         _inherit.iAttributes[IATTR_STEREO_MODE] = fabric::ANAGLYPH;</span>
+<a name="1464"><span class="lineNum">    1464 </span>            : }</a>
+<span class="lineNum">    1465 </span>            : 
+<span class="lineNum">    1466 </span><span class="lineCov">          2 : void Compound::_updateInheritActive( const uint32_t frameNumber )</span>
+<span class="lineNum">    1467 </span>            : {
+<span class="lineNum">    1468 </span><span class="lineCov">          2 :     const bool phaseActive = ((frameNumber%_inherit.period) == _inherit.phase );</span>
+<span class="lineNum">    1469 </span><span class="lineCov">          2 :     const bool channelActive = _inherit.channel-&gt;isRunning(); // runtime failure</span>
+<span class="lineNum">    1470 </span>            : 
+<span class="lineNum">    1471 </span><span class="lineCov">          8 :     for( size_t i = 0; i &lt; fabric::NUM_EYES; ++i )</span>
+<span class="lineNum">    1472 </span>            :     {
+<span class="lineNum">    1473 </span><span class="lineCov">          6 :         const uint32_t eye = 1 &lt;&lt; i;</span>
+<span class="lineNum">    1474 </span><span class="lineCov">          6 :         const bool eyeActive = _inherit.eyes &amp; eye;</span>
+<span class="lineNum">    1475 </span><span class="lineCov">         12 :         const bool destActive = isDestination() ? _data.active[i] :</span>
+<span class="lineNum">    1476 </span><span class="lineCov">         12 :                                                   _inherit.active[i];</span>
+<span class="lineNum">    1477 </span>            : 
+<span class="lineNum">    1478 </span><span class="lineCov">          6 :         if( destActive &amp;&amp; eyeActive &amp;&amp; phaseActive &amp;&amp; channelActive )</span>
+<span class="lineNum">    1479 </span><span class="lineNoCov">          0 :             _inherit.active[i] = 1;</span>
+<span class="lineNum">    1480 </span>            :         else
+<span class="lineNum">    1481 </span><span class="lineCov">          6 :             _inherit.active[i] = 0; // deactivate</span>
+<span class="lineNum">    1482 </span>            :     }
+<a name="1483"><span class="lineNum">    1483 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">    1484 </span>            : 
+<span class="lineNum">    1485 </span><span class="lineCov">       2014 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Compound&amp; compound )</span>
+<span class="lineNum">    1486 </span>            : {
+<span class="lineNum">    1487 </span><span class="lineCov">       2014 :     os &lt;&lt; lunchbox::disableFlush &lt;&lt; &quot;compound&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1488 </span><span class="lineCov">       2014 :     os &lt;&lt; &quot;{&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::indent;</span>
+<span class="lineNum">    1489 </span>            : 
+<span class="lineNum">    1490 </span><span class="lineCov">       2014 :     const std::string&amp; name = compound.getName();</span>
+<span class="lineNum">    1491 </span><span class="lineCov">       2014 :     if( !name.empty( ))</span>
+<span class="lineNum">    1492 </span><span class="lineCov">          8 :         os &lt;&lt; &quot;name     \&quot;&quot; &lt;&lt; name &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1493 </span>            : 
+<span class="lineNum">    1494 </span><span class="lineCov">       2014 :     const Channel* channel = compound.getChannel();</span>
+<span class="lineNum">    1495 </span><span class="lineCov">       2014 :     if( channel )</span>
+<span class="lineNum">    1496 </span>            :     {
+<span class="lineNum">    1497 </span><span class="lineCov">       1876 :         Compound* parent = compound.getParent();</span>
+<span class="lineNum">    1498 </span><span class="lineCov">       1876 :         if( !parent || parent-&gt;getChannel() != channel )</span>
+<span class="lineNum">    1499 </span>            :         {
+<span class="lineNum">    1500 </span><span class="lineCov">       1412 :             const std::string&amp; channelName = channel-&gt;getName();</span>
+<span class="lineNum">    1501 </span><span class="lineCov">       1412 :             const Config*      config      = compound.getConfig();</span>
+<span class="lineNum">    1502 </span><span class="lineCov">       1412 :             LBASSERT( config );</span>
+<span class="lineNum">    1503 </span>            : 
+<span class="lineNum">    1504 </span><span class="lineCov">       2824 :             if( !channelName.empty() &amp;&amp;</span>
+<span class="lineNum">    1505 </span><span class="lineCov">       1412 :                 config-&gt;find&lt; Channel &gt;( channelName ) == channel )</span>
+<span class="lineNum">    1506 </span>            :             {
+<span class="lineNum">    1507 </span><span class="lineCov">        830 :                 os &lt;&lt; &quot;channel  \&quot;&quot; &lt;&lt; channelName &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1508 </span>            :             }
+<span class="lineNum">    1509 </span>            :             else
+<span class="lineNum">    1510 </span>            :             {
+<span class="lineNum">    1511 </span><span class="lineCov">        582 :                 const Segment* segment = channel-&gt;getSegment();</span>
+<span class="lineNum">    1512 </span><span class="lineCov">        582 :                 const View*    view    = channel-&gt;getView();</span>
+<span class="lineNum">    1513 </span>            : 
+<span class="lineNum">    1514 </span><span class="lineCov">        582 :                 if( view &amp;&amp; segment )</span>
+<span class="lineNum">    1515 </span>            :                 {
+<span class="lineNum">    1516 </span><span class="lineCov">        582 :                     os &lt;&lt; &quot;channel  ( &quot;;</span>
+<span class="lineNum">    1517 </span>            : 
+<span class="lineNum">    1518 </span><span class="lineCov">        582 :                     const Canvas* canvas = segment-&gt;getCanvas();</span>
+<span class="lineNum">    1519 </span><span class="lineCov">        582 :                     const std::string&amp; canvasName = canvas-&gt;getName();</span>
+<span class="lineNum">    1520 </span><span class="lineCov">        598 :                     if( !canvasName.empty() &amp;&amp;</span>
+<span class="lineNum">    1521 </span><span class="lineCov">         16 :                         config-&gt;find&lt; Canvas &gt;( canvasName ) == canvas )</span>
+<span class="lineNum">    1522 </span>            :                     {
+<span class="lineNum">    1523 </span><span class="lineCov">         16 :                         os &lt;&lt; &quot;canvas \&quot;&quot; &lt;&lt; canvasName &lt;&lt; &quot;\&quot;  &quot;;</span>
+<span class="lineNum">    1524 </span>            :                     }
+<span class="lineNum">    1525 </span>            :                     else
+<span class="lineNum">    1526 </span><span class="lineCov">        566 :                         os &lt;&lt; canvas-&gt;getPath() &lt;&lt; &quot;  &quot;;</span>
+<span class="lineNum">    1527 </span>            : 
+<span class="lineNum">    1528 </span><span class="lineCov">        582 :                     const std::string&amp; segmentName = segment-&gt;getName();</span>
+<span class="lineNum">    1529 </span><span class="lineCov">        582 :                     if( !segmentName.empty() &amp;&amp;</span>
+<span class="lineNum">    1530 </span><span class="lineNoCov">          0 :                         canvas-&gt;findSegment( segmentName ) == segment )</span>
+<span class="lineNum">    1531 </span>            :                     {
+<span class="lineNum">    1532 </span><span class="lineNoCov">          0 :                         os &lt;&lt; &quot;segment \&quot;&quot; &lt;&lt; segmentName &lt;&lt; &quot;\&quot;   &quot;;</span>
+<span class="lineNum">    1533 </span>            :                     }
+<span class="lineNum">    1534 </span>            :                     else
+<span class="lineNum">    1535 </span><span class="lineCov">        582 :                         os &lt;&lt; &quot;segment &quot; &lt;&lt; segment-&gt;getPath().segmentIndex</span>
+<span class="lineNum">    1536 </span><span class="lineCov">        582 :                            &lt;&lt; &quot;   &quot;;</span>
+<span class="lineNum">    1537 </span>            : 
+<span class="lineNum">    1538 </span><span class="lineCov">        582 :                     const Layout* layout = view-&gt;getLayout();</span>
+<span class="lineNum">    1539 </span><span class="lineCov">        582 :                     const std::string&amp; layoutName = layout-&gt;getName();</span>
+<span class="lineNum">    1540 </span><span class="lineCov">        870 :                     if( !layoutName.empty() &amp;&amp;</span>
+<span class="lineNum">    1541 </span><span class="lineCov">        288 :                         config-&gt;find&lt; Layout &gt;( layoutName ) == layout )</span>
+<span class="lineNum">    1542 </span>            :                     {
+<span class="lineNum">    1543 </span><span class="lineCov">        288 :                         os &lt;&lt; &quot;layout \&quot;&quot; &lt;&lt; layoutName &lt;&lt; &quot;\&quot;  &quot;;</span>
+<span class="lineNum">    1544 </span>            :                     }
+<span class="lineNum">    1545 </span>            :                     else
+<span class="lineNum">    1546 </span><span class="lineCov">        294 :                         os &lt;&lt; layout-&gt;getPath() &lt;&lt; &quot;  &quot;;</span>
+<span class="lineNum">    1547 </span>            : 
+<span class="lineNum">    1548 </span><span class="lineCov">        582 :                     const std::string&amp; viewName = view-&gt;getName();</span>
+<span class="lineNum">    1549 </span><span class="lineCov">        584 :                     if( !viewName.empty() &amp;&amp;</span>
+<span class="lineNum">    1550 </span><span class="lineCov">          2 :                         config-&gt;find&lt; View &gt;( viewName ) == view )</span>
+<span class="lineNum">    1551 </span>            :                     {
+<span class="lineNum">    1552 </span><span class="lineCov">          2 :                         os &lt;&lt; &quot;view \&quot;&quot; &lt;&lt; viewName &lt;&lt; '\&quot;';</span>
+<span class="lineNum">    1553 </span>            :                     }
+<span class="lineNum">    1554 </span>            :                     else
+<span class="lineNum">    1555 </span><span class="lineCov">        580 :                         os &lt;&lt; &quot;view &quot; &lt;&lt; view-&gt;getPath().viewIndex;</span>
+<span class="lineNum">    1556 </span>            : 
+<span class="lineNum">    1557 </span><span class="lineCov">        582 :                     os &lt;&lt; &quot; )&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1558 </span>            :                 }
+<span class="lineNum">    1559 </span>            :                 else
+<span class="lineNum">    1560 </span><span class="lineNoCov">          0 :                     os &lt;&lt; &quot;channel  ( &quot; &lt;&lt; channel-&gt;getPath() &lt;&lt; &quot; )&quot;</span>
+<span class="lineNum">    1561 </span><span class="lineNoCov">          0 :                        &lt;&lt; std::endl;</span>
+<span class="lineNum">    1562 </span>            :             }
+<span class="lineNum">    1563 </span>            :         }
+<span class="lineNum">    1564 </span>            :     }
+<span class="lineNum">    1565 </span>            : 
+<span class="lineNum">    1566 </span><span class="lineCov">       2014 :     const uint32_t tasks = compound.getTasks();</span>
+<span class="lineNum">    1567 </span><span class="lineCov">       2014 :     if( tasks != fabric::TASK_DEFAULT )</span>
+<span class="lineNum">    1568 </span>            :     {
+<span class="lineNum">    1569 </span><span class="lineCov">        184 :         os &lt;&lt; &quot;task     [&quot;;</span>
+<span class="lineNum">    1570 </span><span class="lineCov">        184 :         if( tasks &amp;  fabric::TASK_CLEAR )    os &lt;&lt; &quot; CLEAR&quot;;</span>
+<span class="lineNum">    1571 </span><span class="lineCov">        366 :         if( compound.isLeaf() &amp;&amp;</span>
+<span class="lineNum">    1572 </span><span class="lineCov">        186 :             ( tasks &amp;  fabric::TASK_DRAW ))  os &lt;&lt; &quot; DRAW&quot;;</span>
+<span class="lineNum">    1573 </span><span class="lineCov">        184 :         if( tasks &amp;  fabric::TASK_ASSEMBLE ) os &lt;&lt; &quot; ASSEMBLE&quot;;</span>
+<span class="lineNum">    1574 </span><span class="lineCov">        184 :         if( tasks &amp;  fabric::TASK_READBACK ) os &lt;&lt; &quot; READBACK&quot;;</span>
+<span class="lineNum">    1575 </span><span class="lineCov">        184 :         os &lt;&lt; &quot; ]&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1576 </span>            :     }
+<span class="lineNum">    1577 </span>            : 
+<span class="lineNum">    1578 </span><span class="lineCov">       2014 :     const fabric::Frame::Buffer buffers = compound.getBuffers();</span>
+<span class="lineNum">    1579 </span><span class="lineCov">       2014 :     if( buffers != Frame::Buffer::undefined )</span>
+<span class="lineNum">    1580 </span>            :     {
+<span class="lineNum">    1581 </span><span class="lineCov">         94 :         os &lt;&lt; &quot;buffers  [&quot;;</span>
+<span class="lineNum">    1582 </span><span class="lineCov">         94 :         if( buffers &amp; Frame::Buffer::color )  os &lt;&lt; &quot; COLOR&quot;;</span>
+<span class="lineNum">    1583 </span><span class="lineCov">         94 :         if( buffers &amp; Frame::Buffer::depth )  os &lt;&lt; &quot; DEPTH&quot;;</span>
+<span class="lineNum">    1584 </span><span class="lineCov">         94 :         os &lt;&lt; &quot; ]&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1585 </span>            :     }
+<span class="lineNum">    1586 </span>            : 
+<span class="lineNum">    1587 </span><span class="lineCov">       2014 :     const Viewport&amp; vp = compound.getViewport();</span>
+<span class="lineNum">    1588 </span><span class="lineCov">       2014 :     if( vp.isValid() &amp;&amp; vp != Viewport::FULL )</span>
+<span class="lineNum">    1589 </span><span class="lineCov">        124 :         os &lt;&lt; &quot;viewport &quot; &lt;&lt; vp &lt;&lt; std::endl;</span>
+<span class="lineNum">    1590 </span>            : 
+<span class="lineNum">    1591 </span><span class="lineCov">       2014 :     const Range&amp; range = compound.getRange();</span>
+<span class="lineNum">    1592 </span><span class="lineCov">       2014 :     if( range.isValid() &amp;&amp; range != Range::ALL )</span>
+<span class="lineNum">    1593 </span><span class="lineCov">        346 :         os &lt;&lt; range &lt;&lt; std::endl;</span>
+<span class="lineNum">    1594 </span>            : 
+<span class="lineNum">    1595 </span><span class="lineCov">       2014 :     const Pixel&amp; pixel = compound.getPixel();</span>
+<span class="lineNum">    1596 </span><span class="lineCov">       2014 :     if( pixel.isValid() &amp;&amp; pixel != Pixel::ALL )</span>
+<span class="lineNum">    1597 </span><span class="lineCov">         46 :         os &lt;&lt; pixel &lt;&lt; std::endl;</span>
+<span class="lineNum">    1598 </span>            : 
+<span class="lineNum">    1599 </span><span class="lineCov">       2014 :     const SubPixel&amp; subPixel = compound.getSubPixel();</span>
+<span class="lineNum">    1600 </span><span class="lineCov">       2014 :     if( subPixel.isValid() &amp;&amp; subPixel != SubPixel::ALL )</span>
+<span class="lineNum">    1601 </span><span class="lineCov">         22 :             os &lt;&lt; subPixel &lt;&lt; std::endl;</span>
+<span class="lineNum">    1602 </span>            : 
+<span class="lineNum">    1603 </span><span class="lineCov">       2014 :     const Zoom&amp; zoom = compound.getZoom();</span>
+<span class="lineNum">    1604 </span><span class="lineCov">       2014 :     if( zoom.isValid() &amp;&amp; zoom != Zoom::NONE )</span>
+<span class="lineNum">    1605 </span><span class="lineCov">          2 :         os &lt;&lt; zoom &lt;&lt; std::endl;</span>
+<span class="lineNum">    1606 </span>            : 
+<span class="lineNum">    1607 </span><span class="lineCov">       2014 :     const uint32_t eye = compound.getEyes();</span>
+<span class="lineNum">    1608 </span><span class="lineCov">       2014 :     if( eye )</span>
+<span class="lineNum">    1609 </span>            :     {
+<span class="lineNum">    1610 </span><span class="lineCov">        100 :         os &lt;&lt; &quot;eye      [ &quot;;</span>
+<span class="lineNum">    1611 </span><span class="lineCov">        100 :         if( eye &amp; fabric::EYE_CYCLOP )</span>
+<span class="lineNum">    1612 </span><span class="lineCov">         70 :             os &lt;&lt; &quot;CYCLOP &quot;;</span>
+<span class="lineNum">    1613 </span><span class="lineCov">        100 :         if( eye &amp; fabric::EYE_LEFT )</span>
+<span class="lineNum">    1614 </span><span class="lineCov">         48 :             os &lt;&lt; &quot;LEFT &quot;;</span>
+<span class="lineNum">    1615 </span><span class="lineCov">        100 :         if( eye &amp; fabric::EYE_RIGHT )</span>
+<span class="lineNum">    1616 </span><span class="lineCov">         50 :             os &lt;&lt; &quot;RIGHT &quot;;</span>
+<span class="lineNum">    1617 </span><span class="lineCov">        100 :         os &lt;&lt; &quot;]&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1618 </span>            :     }
+<span class="lineNum">    1619 </span>            : 
+<span class="lineNum">    1620 </span><span class="lineCov">       2014 :     const uint32_t period = compound.getPeriod();</span>
+<span class="lineNum">    1621 </span><span class="lineCov">       2014 :     const uint32_t phase  = compound.getPhase();</span>
+<span class="lineNum">    1622 </span><span class="lineCov">       2014 :     if( period != LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1623 </span><span class="lineCov">         34 :         os &lt;&lt; &quot;period &quot; &lt;&lt; period &lt;&lt; &quot;  &quot;;</span>
+<span class="lineNum">    1624 </span>            : 
+<span class="lineNum">    1625 </span><span class="lineCov">       2014 :     if( phase != LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1626 </span><span class="lineCov">         34 :         os &lt;&lt; &quot;phase &quot; &lt;&lt; phase;</span>
+<span class="lineNum">    1627 </span>            : 
+<span class="lineNum">    1628 </span><span class="lineCov">       2014 :     if( period != LB_UNDEFINED_UINT32 || phase != LB_UNDEFINED_UINT32 )</span>
+<span class="lineNum">    1629 </span><span class="lineCov">         34 :         os &lt;&lt; std::endl;</span>
+<span class="lineNum">    1630 </span>            : 
+<span class="lineNum">    1631 </span>            :     // attributes
+<span class="lineNum">    1632 </span><span class="lineCov">       2014 :     bool attrPrinted = false;</span>
 <span class="lineNum">    1633 </span>            : 
-<span class="lineNum">    1634 </span><span class="lineCov">       2014 :     const Zoom&amp; zoom = compound.getZoom();</span>
-<span class="lineNum">    1635 </span><span class="lineCov">       2014 :     if( zoom.isValid() &amp;&amp; zoom != Zoom::NONE )</span>
-<span class="lineNum">    1636 </span><span class="lineCov">          2 :         os &lt;&lt; zoom &lt;&lt; std::endl;</span>
-<span class="lineNum">    1637 </span>            : 
-<span class="lineNum">    1638 </span><span class="lineCov">       2014 :     const uint32_t eye = compound.getEyes();</span>
-<span class="lineNum">    1639 </span><span class="lineCov">       2014 :     if( eye )</span>
-<span class="lineNum">    1640 </span>            :     {
-<span class="lineNum">    1641 </span><span class="lineCov">        100 :         os &lt;&lt; &quot;eye      [ &quot;;</span>
-<span class="lineNum">    1642 </span><span class="lineCov">        100 :         if( eye &amp; fabric::EYE_CYCLOP )</span>
-<span class="lineNum">    1643 </span><span class="lineCov">         70 :             os &lt;&lt; &quot;CYCLOP &quot;;</span>
-<span class="lineNum">    1644 </span><span class="lineCov">        100 :         if( eye &amp; fabric::EYE_LEFT )</span>
-<span class="lineNum">    1645 </span><span class="lineCov">         48 :             os &lt;&lt; &quot;LEFT &quot;;</span>
-<span class="lineNum">    1646 </span><span class="lineCov">        100 :         if( eye &amp; fabric::EYE_RIGHT )</span>
-<span class="lineNum">    1647 </span><span class="lineCov">         50 :             os &lt;&lt; &quot;RIGHT &quot;;</span>
-<span class="lineNum">    1648 </span><span class="lineCov">        100 :         os &lt;&lt; &quot;]&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1649 </span>            :     }
-<span class="lineNum">    1650 </span>            : 
-<span class="lineNum">    1651 </span><span class="lineCov">       2014 :     const uint32_t period = compound.getPeriod();</span>
-<span class="lineNum">    1652 </span><span class="lineCov">       2014 :     const uint32_t phase  = compound.getPhase();</span>
-<span class="lineNum">    1653 </span><span class="lineCov">       2014 :     if( period != LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1654 </span><span class="lineCov">         34 :         os &lt;&lt; &quot;period &quot; &lt;&lt; period &lt;&lt; &quot;  &quot;;</span>
+<span class="lineNum">    1634 </span><span class="lineCov">      12084 :     for( Compound::IAttribute i = static_cast&lt; Compound::IAttribute &gt;( 0 );</span>
+<span class="lineNum">    1635 </span><span class="lineCov">      12084 :          i&lt;Compound::IATTR_ALL;</span>
+<span class="lineNum">    1636 </span><span class="lineCov">      10070 :          i = static_cast&lt; Compound::IAttribute &gt;( uint32_t( i ) + 1 ))</span>
+<span class="lineNum">    1637 </span>            :     {
+<span class="lineNum">    1638 </span><span class="lineCov">      10070 :         const int value = compound.getIAttribute( i );</span>
+<span class="lineNum">    1639 </span><span class="lineCov">      10070 :         if( value == Global::instance()-&gt;getCompoundIAttribute( i ))</span>
+<span class="lineNum">    1640 </span><span class="lineCov">      10056 :             continue;</span>
+<span class="lineNum">    1641 </span>            : 
+<span class="lineNum">    1642 </span><span class="lineCov">         14 :         if( !attrPrinted )</span>
+<span class="lineNum">    1643 </span>            :         {
+<span class="lineNum">    1644 </span><span class="lineCov">         10 :             os &lt;&lt; std::endl &lt;&lt; &quot;attributes&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">    1645 </span><span class="lineCov">         10 :             os &lt;&lt; &quot;{&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::indent;</span>
+<span class="lineNum">    1646 </span><span class="lineCov">         10 :             attrPrinted = true;</span>
+<span class="lineNum">    1647 </span>            :         }
+<span class="lineNum">    1648 </span>            : 
+<span class="lineNum">    1649 </span>            :         os &lt;&lt; ( i==Compound::IATTR_STEREO_MODE ?
+<span class="lineNum">    1650 </span>            :                     &quot;stereo_mode                &quot; :
+<span class="lineNum">    1651 </span><span class="lineCov">         12 :                 i==Compound::IATTR_STEREO_ANAGLYPH_LEFT_MASK ?</span>
+<span class="lineNum">    1652 </span>            :                     &quot;stereo_anaglyph_left_mask  &quot; :
+<span class="lineNum">    1653 </span><span class="lineCov">          4 :                 i==Compound::IATTR_STEREO_ANAGLYPH_RIGHT_MASK ?</span>
+<span class="lineNum">    1654 </span><span class="lineCov">         22 :                     &quot;stereo_anaglyph_right_mask &quot; : &quot;ERROR &quot; );</span>
 <span class="lineNum">    1655 </span>            : 
-<span class="lineNum">    1656 </span><span class="lineCov">       2014 :     if( phase != LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1657 </span><span class="lineCov">         34 :         os &lt;&lt; &quot;phase &quot; &lt;&lt; phase;</span>
-<span class="lineNum">    1658 </span>            : 
-<span class="lineNum">    1659 </span><span class="lineCov">       2014 :     if( period != LB_UNDEFINED_UINT32 || phase != LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">    1660 </span><span class="lineCov">         34 :         os &lt;&lt; std::endl;</span>
+<span class="lineNum">    1656 </span><span class="lineCov">         14 :         switch( i )</span>
+<span class="lineNum">    1657 </span>            :         {
+<span class="lineNum">    1658 </span>            :             case Compound::IATTR_STEREO_MODE:
+<span class="lineNum">    1659 </span><span class="lineCov">          6 :                 os &lt;&lt; static_cast&lt; fabric::IAttribute &gt;( value ) &lt;&lt; std::endl;</span>
+<span class="lineNum">    1660 </span><span class="lineCov">          6 :                 break;</span>
 <span class="lineNum">    1661 </span>            : 
-<span class="lineNum">    1662 </span>            :     // attributes
-<span class="lineNum">    1663 </span><span class="lineCov">       2014 :     bool attrPrinted = false;</span>
-<span class="lineNum">    1664 </span>            : 
-<span class="lineNum">    1665 </span><span class="lineCov">      12084 :     for( Compound::IAttribute i = static_cast&lt; Compound::IAttribute &gt;( 0 );</span>
-<span class="lineNum">    1666 </span><span class="lineCov">      12084 :          i&lt;Compound::IATTR_ALL;</span>
-<span class="lineNum">    1667 </span><span class="lineCov">      10070 :          i = static_cast&lt; Compound::IAttribute &gt;( uint32_t( i ) + 1 ))</span>
-<span class="lineNum">    1668 </span>            :     {
-<span class="lineNum">    1669 </span><span class="lineCov">      10070 :         const int value = compound.getIAttribute( i );</span>
-<span class="lineNum">    1670 </span><span class="lineCov">      10070 :         if( value == Global::instance()-&gt;getCompoundIAttribute( i ))</span>
-<span class="lineNum">    1671 </span><span class="lineCov">      10056 :             continue;</span>
-<span class="lineNum">    1672 </span>            : 
-<span class="lineNum">    1673 </span><span class="lineCov">         14 :         if( !attrPrinted )</span>
-<span class="lineNum">    1674 </span>            :         {
-<span class="lineNum">    1675 </span><span class="lineCov">         10 :             os &lt;&lt; std::endl &lt;&lt; &quot;attributes&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1676 </span><span class="lineCov">         10 :             os &lt;&lt; &quot;{&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::indent;</span>
-<span class="lineNum">    1677 </span><span class="lineCov">         10 :             attrPrinted = true;</span>
-<span class="lineNum">    1678 </span>            :         }
-<span class="lineNum">    1679 </span>            : 
-<span class="lineNum">    1680 </span>            :         os &lt;&lt; ( i==Compound::IATTR_STEREO_MODE ?
-<span class="lineNum">    1681 </span>            :                     &quot;stereo_mode                &quot; :
-<span class="lineNum">    1682 </span><span class="lineCov">         12 :                 i==Compound::IATTR_STEREO_ANAGLYPH_LEFT_MASK ?</span>
-<span class="lineNum">    1683 </span>            :                     &quot;stereo_anaglyph_left_mask  &quot; :
-<span class="lineNum">    1684 </span><span class="lineCov">          4 :                 i==Compound::IATTR_STEREO_ANAGLYPH_RIGHT_MASK ?</span>
-<span class="lineNum">    1685 </span><span class="lineCov">         22 :                     &quot;stereo_anaglyph_right_mask &quot; : &quot;ERROR &quot; );</span>
+<span class="lineNum">    1662 </span>            :             case Compound::IATTR_STEREO_ANAGLYPH_LEFT_MASK:
+<span class="lineNum">    1663 </span>            :             case Compound::IATTR_STEREO_ANAGLYPH_RIGHT_MASK:
+<span class="lineNum">    1664 </span><span class="lineCov">          8 :                 os &lt;&lt; ColorMask( value ) &lt;&lt; std::endl;</span>
+<span class="lineNum">    1665 </span><span class="lineCov">          8 :                 break;</span>
+<span class="lineNum">    1666 </span>            : 
+<span class="lineNum">    1667 </span>            :             default:
+<span class="lineNum">    1668 </span><span class="lineNoCov">          0 :                 LBASSERTINFO( 0, &quot;unimplemented&quot; );</span>
+<span class="lineNum">    1669 </span>            :         }
+<span class="lineNum">    1670 </span>            :     }
+<span class="lineNum">    1671 </span>            : 
+<span class="lineNum">    1672 </span><span class="lineCov">       2014 :     if( attrPrinted )</span>
+<span class="lineNum">    1673 </span><span class="lineCov">         10 :         os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; std::endl &lt;&lt; std::endl;</span>
+<span class="lineNum">    1674 </span>            : 
+<span class="lineNum">    1675 </span><span class="lineCov">       2014 :     switch( compound.getFrustumType( ))</span>
+<span class="lineNum">    1676 </span>            :     {
+<span class="lineNum">    1677 </span>            :         case Frustum::TYPE_WALL:
+<span class="lineNum">    1678 </span><span class="lineCov">         28 :             os &lt;&lt; compound.getWall() &lt;&lt; std::endl;</span>
+<span class="lineNum">    1679 </span><span class="lineCov">         28 :             break;</span>
+<span class="lineNum">    1680 </span>            :         case Frustum::TYPE_PROJECTION:
+<span class="lineNum">    1681 </span><span class="lineNoCov">          0 :             os &lt;&lt; compound.getProjection() &lt;&lt; std::endl;</span>
+<span class="lineNum">    1682 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">    1683 </span>            :         default:
+<span class="lineNum">    1684 </span><span class="lineCov">       1986 :             break;</span>
+<span class="lineNum">    1685 </span>            :     }
 <span class="lineNum">    1686 </span>            : 
-<span class="lineNum">    1687 </span><span class="lineCov">         14 :         switch( i )</span>
-<span class="lineNum">    1688 </span>            :         {
-<span class="lineNum">    1689 </span>            :             case Compound::IATTR_STEREO_MODE:
-<span class="lineNum">    1690 </span><span class="lineCov">          6 :                 os &lt;&lt; static_cast&lt; fabric::IAttribute &gt;( value ) &lt;&lt; std::endl;</span>
-<span class="lineNum">    1691 </span><span class="lineCov">          6 :                 break;</span>
-<span class="lineNum">    1692 </span>            : 
-<span class="lineNum">    1693 </span>            :             case Compound::IATTR_STEREO_ANAGLYPH_LEFT_MASK:
-<span class="lineNum">    1694 </span>            :             case Compound::IATTR_STEREO_ANAGLYPH_RIGHT_MASK:
-<span class="lineNum">    1695 </span><span class="lineCov">          8 :                 os &lt;&lt; ColorMask( value ) &lt;&lt; std::endl;</span>
-<span class="lineNum">    1696 </span><span class="lineCov">          8 :                 break;</span>
-<span class="lineNum">    1697 </span>            : 
-<span class="lineNum">    1698 </span>            :             default:
-<span class="lineNum">    1699 </span><span class="lineNoCov">          0 :                 LBASSERTINFO( 0, &quot;unimplemented&quot; );</span>
-<span class="lineNum">    1700 </span>            :         }
-<span class="lineNum">    1701 </span>            :     }
-<span class="lineNum">    1702 </span>            : 
-<span class="lineNum">    1703 </span><span class="lineCov">       2014 :     if( attrPrinted )</span>
-<span class="lineNum">    1704 </span><span class="lineCov">         10 :         os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; std::endl &lt;&lt; std::endl;</span>
-<span class="lineNum">    1705 </span>            : 
-<span class="lineNum">    1706 </span><span class="lineCov">       2014 :     switch( compound.getFrustumType( ))</span>
-<span class="lineNum">    1707 </span>            :     {
-<span class="lineNum">    1708 </span>            :         case Frustum::TYPE_WALL:
-<span class="lineNum">    1709 </span><span class="lineCov">         28 :             os &lt;&lt; compound.getWall() &lt;&lt; std::endl;</span>
-<span class="lineNum">    1710 </span><span class="lineCov">         28 :             break;</span>
-<span class="lineNum">    1711 </span>            :         case Frustum::TYPE_PROJECTION:
-<span class="lineNum">    1712 </span><span class="lineNoCov">          0 :             os &lt;&lt; compound.getProjection() &lt;&lt; std::endl;</span>
-<span class="lineNum">    1713 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">    1714 </span>            :         default:
-<span class="lineNum">    1715 </span><span class="lineCov">       1986 :             break;</span>
-<span class="lineNum">    1716 </span>            :     }
+<span class="lineNum">    1687 </span><span class="lineCov">       2014 :     const Equalizers&amp; equalizers = compound.getEqualizers();</span>
+<span class="lineNum">    1688 </span><span class="lineCov">       2152 :     for( EqualizersCIter i = equalizers.begin(); i != equalizers.end(); ++i )</span>
+<span class="lineNum">    1689 </span><span class="lineCov">        138 :         os &lt;&lt; *i;</span>
+<span class="lineNum">    1690 </span>            : 
+<span class="lineNum">    1691 </span><span class="lineCov">       2014 :     const TileQueues&amp; outputQueues = compound.getOutputTileQueues();</span>
+<span class="lineNum">    1692 </span><span class="lineCov">       2014 :     for( TileQueuesCIter i = outputQueues.begin(); i != outputQueues.end(); ++i)</span>
+<span class="lineNum">    1693 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;output&quot; &lt;&lt;  *i;</span>
+<span class="lineNum">    1694 </span>            : 
+<span class="lineNum">    1695 </span><span class="lineCov">       2014 :     const TileQueues&amp; inputQueues = compound.getInputTileQueues();</span>
+<span class="lineNum">    1696 </span><span class="lineCov">       2014 :     for( TileQueuesCIter i = inputQueues.begin(); i != inputQueues.end(); ++i )</span>
+<span class="lineNum">    1697 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;input&quot; &lt;&lt; *i;</span>
+<span class="lineNum">    1698 </span>            : 
+<span class="lineNum">    1699 </span><span class="lineCov">       2014 :     if( compound.getSwapBarrier( ))</span>
+<span class="lineNum">    1700 </span><span class="lineCov">        200 :         os &lt;&lt; *compound.getSwapBarrier();</span>
+<span class="lineNum">    1701 </span>            : 
+<span class="lineNum">    1702 </span><span class="lineCov">       2014 :     const Compounds&amp; children = compound.getChildren();</span>
+<span class="lineNum">    1703 </span><span class="lineCov">       2014 :     if( !children.empty( ))</span>
+<span class="lineNum">    1704 </span>            :     {
+<span class="lineNum">    1705 </span><span class="lineCov">        590 :         os &lt;&lt; std::endl;</span>
+<span class="lineNum">    1706 </span><span class="lineCov">       2274 :         for( CompoundsCIter i = children.begin(); i != children.end(); ++i )</span>
+<span class="lineNum">    1707 </span><span class="lineCov">       1684 :             os &lt;&lt; **i;</span>
+<span class="lineNum">    1708 </span>            :     }
+<span class="lineNum">    1709 </span>            : 
+<span class="lineNum">    1710 </span><span class="lineCov">       2014 :     const Frames&amp; inputFrames = compound.getInputFrames();</span>
+<span class="lineNum">    1711 </span><span class="lineCov">       3402 :     for( FramesCIter i = inputFrames.begin(); i != inputFrames.end(); ++i )</span>
+<span class="lineNum">    1712 </span><span class="lineCov">       1388 :         os &lt;&lt; &quot;input&quot; &lt;&lt; **i &lt;&lt; std::endl;</span>
+<span class="lineNum">    1713 </span>            : 
+<span class="lineNum">    1714 </span><span class="lineCov">       2014 :     const Frames&amp; outputFrames = compound.getOutputFrames();</span>
+<span class="lineNum">    1715 </span><span class="lineCov">       3368 :     for( FramesCIter i = outputFrames.begin(); i != outputFrames.end(); ++i )</span>
+<span class="lineNum">    1716 </span><span class="lineCov">       1354 :         os &lt;&lt; &quot;output&quot;  &lt;&lt; **i &lt;&lt; std::endl;</span>
 <span class="lineNum">    1717 </span>            : 
-<span class="lineNum">    1718 </span><span class="lineCov">       2014 :     const Equalizers&amp; equalizers = compound.getEqualizers();</span>
-<span class="lineNum">    1719 </span><span class="lineCov">       2152 :     for( EqualizersCIter i = equalizers.begin(); i != equalizers.end(); ++i )</span>
-<span class="lineNum">    1720 </span><span class="lineCov">        138 :         os &lt;&lt; *i;</span>
-<span class="lineNum">    1721 </span>            : 
-<span class="lineNum">    1722 </span><span class="lineCov">       2014 :     const TileQueues&amp; outputQueues = compound.getOutputTileQueues();</span>
-<span class="lineNum">    1723 </span><span class="lineCov">       2014 :     for( TileQueuesCIter i = outputQueues.begin(); i != outputQueues.end(); ++i)</span>
-<span class="lineNum">    1724 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;output&quot; &lt;&lt;  *i;</span>
-<span class="lineNum">    1725 </span>            : 
-<span class="lineNum">    1726 </span><span class="lineCov">       2014 :     const TileQueues&amp; inputQueues = compound.getInputTileQueues();</span>
-<span class="lineNum">    1727 </span><span class="lineCov">       2014 :     for( TileQueuesCIter i = inputQueues.begin(); i != inputQueues.end(); ++i )</span>
-<span class="lineNum">    1728 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;input&quot; &lt;&lt; *i;</span>
-<span class="lineNum">    1729 </span>            : 
-<span class="lineNum">    1730 </span><span class="lineCov">       2014 :     if( compound.getSwapBarrier( ))</span>
-<span class="lineNum">    1731 </span><span class="lineCov">        200 :         os &lt;&lt; *compound.getSwapBarrier();</span>
-<span class="lineNum">    1732 </span>            : 
-<span class="lineNum">    1733 </span><span class="lineCov">       2014 :     const Compounds&amp; children = compound.getChildren();</span>
-<span class="lineNum">    1734 </span><span class="lineCov">       2014 :     if( !children.empty( ))</span>
-<span class="lineNum">    1735 </span>            :     {
-<span class="lineNum">    1736 </span><span class="lineCov">        590 :         os &lt;&lt; std::endl;</span>
-<span class="lineNum">    1737 </span><span class="lineCov">       2274 :         for( CompoundsCIter i = children.begin(); i != children.end(); ++i )</span>
-<span class="lineNum">    1738 </span><span class="lineCov">       1684 :             os &lt;&lt; **i;</span>
-<span class="lineNum">    1739 </span>            :     }
-<span class="lineNum">    1740 </span>            : 
-<span class="lineNum">    1741 </span><span class="lineCov">       2014 :     const Frames&amp; inputFrames = compound.getInputFrames();</span>
-<span class="lineNum">    1742 </span><span class="lineCov">       3402 :     for( FramesCIter i = inputFrames.begin(); i != inputFrames.end(); ++i )</span>
-<span class="lineNum">    1743 </span><span class="lineCov">       1388 :         os &lt;&lt; &quot;input&quot; &lt;&lt; **i &lt;&lt; std::endl;</span>
-<span class="lineNum">    1744 </span>            : 
-<span class="lineNum">    1745 </span><span class="lineCov">       2014 :     const Frames&amp; outputFrames = compound.getOutputFrames();</span>
-<span class="lineNum">    1746 </span><span class="lineCov">       3368 :     for( FramesCIter i = outputFrames.begin(); i != outputFrames.end(); ++i )</span>
-<span class="lineNum">    1747 </span><span class="lineCov">       1354 :         os &lt;&lt; &quot;output&quot;  &lt;&lt; **i &lt;&lt; std::endl;</span>
-<span class="lineNum">    1748 </span>            : 
-<span class="lineNum">    1749 </span><span class="lineCov">       2014 :     return os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::enableFlush;</span>
-<span class="lineNum">    1750 </span>            : }
-<a name="1751"><span class="lineNum">    1751 </span>            : </a>
-<span class="lineNum">    1752 </span>            : }
-<span class="lineNum">    1753 </span><span class="lineCov">         72 : }</span>
+<span class="lineNum">    1718 </span><span class="lineCov">       2014 :     return os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::enableFlush;</span>
+<span class="lineNum">    1719 </span>            : }
+<a name="1720"><span class="lineNum">    1720 </span>            : </a>
+<span class="lineNum">    1721 </span>            : }
+<span class="lineNum">    1722 </span><span class="lineCov">         72 : }</span>
 </pre>
       </td>
     </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-24 05:09:05</td>
+            <td class="headerValue">2017-01-10 05:08:25</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">12</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2006-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2006-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *                          Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *                          Enrique &lt;egparedes@ifi.uzh.ch&gt;
@@ -187,9 +187,9 @@
 <span class="lineNum">     125 </span>            : 
 <span class="lineNum">     126 </span><span class="lineNoCov">          0 : void FrameData::setQuality( Frame::Buffer buffer, float quality )</span>
 <span class="lineNum">     127 </span>            : {
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     if( buffer != Frame::BUFFER_COLOR )</span>
+<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     if( buffer != Frame::Buffer::color )</span>
 <span class="lineNum">     129 </span>            :     {
-<span class="lineNum">     130 </span><span class="lineNoCov">          0 :         LBASSERT( buffer == Frame::BUFFER_DEPTH );</span>
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :         LBASSERT( buffer == Frame::Buffer::depth );</span>
 <span class="lineNum">     131 </span><span class="lineNoCov">          0 :         _impl-&gt;depthQuality = quality;</span>
 <span class="lineNum">     132 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     133 </span>            :     }
@@ -199,9 +199,9 @@
 <span class="lineNum">     137 </span>            : 
 <span class="lineNum">     138 </span><span class="lineNoCov">          0 : void FrameData::useCompressor( const Frame::Buffer buffer, const uint32_t name )</span>
 <span class="lineNum">     139 </span>            : {
-<span class="lineNum">     140 </span><span class="lineNoCov">          0 :     if( buffer != Frame::BUFFER_COLOR )</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :     if( buffer != Frame::Buffer::color )</span>
 <span class="lineNum">     141 </span>            :     {
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         LBASSERT( buffer == Frame::BUFFER_DEPTH );</span>
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         LBASSERT( buffer == Frame::Buffer::depth );</span>
 <span class="lineNum">     143 </span><span class="lineNoCov">          0 :         _impl-&gt;depthCompressor = name;</span>
 <span class="lineNum">     144 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     145 </span>            :     }
@@ -295,31 +295,31 @@
 <span class="lineNum">     233 </span><span class="lineCov">          6 :     image-&gt;setStorageType( type );</span>
 <span class="lineNum">     234 </span><span class="lineCov">          6 :     if( setQuality_ )</span>
 <span class="lineNum">     235 </span>            :     {
-<span class="lineNum">     236 </span><span class="lineCov">          6 :         image-&gt;setQuality( Frame::BUFFER_COLOR, _impl-&gt;colorQuality );</span>
-<span class="lineNum">     237 </span><span class="lineCov">          6 :         image-&gt;setQuality( Frame::BUFFER_DEPTH, _impl-&gt;depthQuality );</span>
+<span class="lineNum">     236 </span><span class="lineCov">          6 :         image-&gt;setQuality( Frame::Buffer::color, _impl-&gt;colorQuality );</span>
+<span class="lineNum">     237 </span><span class="lineCov">          6 :         image-&gt;setQuality( Frame::Buffer::depth, _impl-&gt;depthQuality );</span>
 <span class="lineNum">     238 </span>            :     }
 <span class="lineNum">     239 </span>            : 
-<span class="lineNum">     240 </span><span class="lineCov">          6 :     image-&gt;useCompressor( Frame::BUFFER_COLOR, _impl-&gt;colorCompressor );</span>
-<span class="lineNum">     241 </span><span class="lineCov">          6 :     image-&gt;useCompressor( Frame::BUFFER_DEPTH, _impl-&gt;depthCompressor );</span>
+<span class="lineNum">     240 </span><span class="lineCov">          6 :     image-&gt;useCompressor( Frame::Buffer::color, _impl-&gt;colorCompressor );</span>
+<span class="lineNum">     241 </span><span class="lineCov">          6 :     image-&gt;useCompressor( Frame::Buffer::depth, _impl-&gt;depthCompressor );</span>
 <span class="lineNum">     242 </span>            : 
-<span class="lineNum">     243 </span>            :     image-&gt;setInternalFormat( Frame::BUFFER_DEPTH,
+<span class="lineNum">     243 </span>            :     image-&gt;setInternalFormat( Frame::Buffer::depth,
 <span class="lineNum">     244 </span><span class="lineCov">          6 :                               EQ_COMPRESSOR_DATATYPE_DEPTH );</span>
 <span class="lineNum">     245 </span><span class="lineCov">          6 :     switch( config.colorBits )</span>
 <span class="lineNum">     246 </span>            :     {
 <span class="lineNum">     247 </span>            :         case 16:
-<span class="lineNum">     248 </span>            :             image-&gt;setInternalFormat( Frame::BUFFER_COLOR,
+<span class="lineNum">     248 </span>            :             image-&gt;setInternalFormat( Frame::Buffer::color,
 <span class="lineNum">     249 </span><span class="lineNoCov">          0 :                                       EQ_COMPRESSOR_DATATYPE_RGBA16F );</span>
 <span class="lineNum">     250 </span><span class="lineNoCov">          0 :             break;</span>
 <span class="lineNum">     251 </span>            :         case 32:
-<span class="lineNum">     252 </span>            :             image-&gt;setInternalFormat( Frame::BUFFER_COLOR,
+<span class="lineNum">     252 </span>            :             image-&gt;setInternalFormat( Frame::Buffer::color,
 <span class="lineNum">     253 </span><span class="lineNoCov">          0 :                                       EQ_COMPRESSOR_DATATYPE_RGBA32F );</span>
 <span class="lineNum">     254 </span><span class="lineNoCov">          0 :             break;</span>
 <span class="lineNum">     255 </span>            :         case 10:
-<span class="lineNum">     256 </span>            :             image-&gt;setInternalFormat( Frame::BUFFER_COLOR,
+<span class="lineNum">     256 </span>            :             image-&gt;setInternalFormat( Frame::Buffer::color,
 <span class="lineNum">     257 </span><span class="lineNoCov">          0 :                                       EQ_COMPRESSOR_DATATYPE_RGB10_A2 );</span>
 <span class="lineNum">     258 </span><span class="lineNoCov">          0 :             break;</span>
 <span class="lineNum">     259 </span>            :         default:
-<span class="lineNum">     260 </span>            :             image-&gt;setInternalFormat( Frame::BUFFER_COLOR,
+<span class="lineNum">     260 </span>            :             image-&gt;setInternalFormat( Frame::Buffer::color,
 <span class="lineNum">     261 </span><span class="lineCov">          6 :                                       EQ_COMPRESSOR_DATATYPE_RGBA );</span>
 <span class="lineNum">     262 </span>            :     }
 <span class="lineNum">     263 </span>            : 
@@ -332,7 +332,7 @@
 <span class="lineNum">     270 </span>            :                                  const PixelViewports&amp; regions,
 <span class="lineNum">     271 </span>            :                                  const RenderContext&amp; context )
 <span class="lineNum">     272 </span>            : {
-<span class="lineNum">     273 </span><span class="lineNoCov">          0 :     if( _buffers == Frame::BUFFER_NONE )</span>
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :     if( _buffers == Frame::Buffer::none )</span>
 <span class="lineNum">     274 </span><span class="lineNoCov">          0 :         return Images();</span>
 <span class="lineNum">     275 </span>            : 
 <span class="lineNum">     276 </span><span class="lineNoCov">          0 :     const Zoom&amp; frameZoom = frame.getZoom();</span>
@@ -366,7 +366,7 @@
 <span class="lineNum">     304 </span>            : #if 0
 <span class="lineNum">     305 </span>            :     // TODO: issue #85: move automatic ROI detection to eq::Channel
 <span class="lineNum">     306 </span>            :     PixelViewports regions;
-<span class="lineNum">     307 </span>            :     if( buffers &amp; Frame::BUFFER_DEPTH &amp;&amp; frameZoom == Zoom::NONE )
+<span class="lineNum">     307 </span>            :     if( buffers &amp; Frame::Buffer::DEPTH &amp;&amp; frameZoom == Zoom::NONE )
 <span class="lineNum">     308 </span>            :         regions = _impl-&gt;roiFinder-&gt;findRegions( buffers, absPVP, frameZoom,
 <span class="lineNum">     309 </span>            :                                                  frame.getAssemblyStage(),
 <span class="lineNum">     310 </span>            :                                                  frame.getFrameID(), glObjects);
@@ -471,84 +471,85 @@
 <span class="lineNum">     409 </span>            : 
 <span class="lineNum">     410 </span><span class="lineNoCov">          0 : bool FrameData::addImage( const co::ObjectVersion&amp; frameDataVersion,</span>
 <span class="lineNum">     411 </span>            :                           const PixelViewport&amp; pvp, const Zoom&amp; zoom,
-<span class="lineNum">     412 </span>            :                           const RenderContext&amp; context, const uint32_t buffers_,
-<span class="lineNum">     413 </span>            :                           const bool useAlpha, uint8_t* data )
-<span class="lineNum">     414 </span>            : {
-<span class="lineNum">     415 </span><span class="lineNoCov">          0 :     LBASSERT( _impl-&gt;readyVersion &lt; frameDataVersion.version.low( ));</span>
-<span class="lineNum">     416 </span><span class="lineNoCov">          0 :     if( _impl-&gt;readyVersion &gt;= frameDataVersion.version.low( ))</span>
-<span class="lineNum">     417 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     418 </span>            : 
-<span class="lineNum">     419 </span><span class="lineNoCov">          0 :     Image* image = _allocImage( Frame::TYPE_MEMORY, DrawableConfig(),</span>
-<span class="lineNum">     420 </span><span class="lineNoCov">          0 :                                 false /* set quality */ );</span>
-<span class="lineNum">     421 </span>            : 
-<span class="lineNum">     422 </span><span class="lineNoCov">          0 :     image-&gt;setPixelViewport( pvp );</span>
-<span class="lineNum">     423 </span><span class="lineNoCov">          0 :     image-&gt;setAlphaUsage( useAlpha );</span>
-<span class="lineNum">     424 </span>            : 
-<span class="lineNum">     425 </span><span class="lineNoCov">          0 :     Frame::Buffer buffers[] = { Frame::BUFFER_COLOR, Frame::BUFFER_DEPTH };</span>
-<span class="lineNum">     426 </span><span class="lineNoCov">          0 :     for( unsigned i = 0; i &lt; 2; ++i )</span>
-<span class="lineNum">     427 </span>            :     {
-<span class="lineNum">     428 </span><span class="lineNoCov">          0 :         const Frame::Buffer buffer = buffers[i];</span>
-<span class="lineNum">     429 </span>            : 
-<span class="lineNum">     430 </span><span class="lineNoCov">          0 :         if( buffers_ &amp; buffer )</span>
-<span class="lineNum">     431 </span>            :         {
-<span class="lineNum">     432 </span><span class="lineNoCov">          0 :             PixelData pixelData;</span>
-<span class="lineNum">     433 </span><span class="lineNoCov">          0 :             const ImageHeader* header = reinterpret_cast&lt;ImageHeader*&gt;( data );</span>
-<span class="lineNum">     434 </span><span class="lineNoCov">          0 :             data += sizeof( ImageHeader );</span>
-<span class="lineNum">     435 </span>            : 
-<span class="lineNum">     436 </span><span class="lineNoCov">          0 :             pixelData.internalFormat  = header-&gt;internalFormat;</span>
-<span class="lineNum">     437 </span><span class="lineNoCov">          0 :             pixelData.externalFormat  = header-&gt;externalFormat;</span>
-<span class="lineNum">     438 </span><span class="lineNoCov">          0 :             pixelData.pixelSize       = header-&gt;pixelSize;</span>
-<span class="lineNum">     439 </span><span class="lineNoCov">          0 :             pixelData.pvp             = header-&gt;pvp;</span>
-<span class="lineNum">     440 </span><span class="lineNoCov">          0 :             pixelData.compressorFlags = header-&gt;compressorFlags;</span>
-<span class="lineNum">     441 </span>            : 
-<span class="lineNum">     442 </span><span class="lineNoCov">          0 :             const uint32_t compressor = header-&gt;compressorName;</span>
-<span class="lineNum">     443 </span><span class="lineNoCov">          0 :             if( compressor &gt; EQ_COMPRESSOR_NONE )</span>
-<span class="lineNum">     444 </span>            :             {
-<span class="lineNum">     445 </span><span class="lineNoCov">          0 :                 pression::CompressorChunks chunks;</span>
-<span class="lineNum">     446 </span><span class="lineNoCov">          0 :                 const uint32_t nChunks = header-&gt;nChunks;</span>
-<span class="lineNum">     447 </span><span class="lineNoCov">          0 :                 chunks.reserve( nChunks );</span>
-<span class="lineNum">     448 </span>            : 
-<span class="lineNum">     449 </span><span class="lineNoCov">          0 :                 for( uint32_t j = 0; j &lt; nChunks; ++j )</span>
-<span class="lineNum">     450 </span>            :                 {
-<span class="lineNum">     451 </span><span class="lineNoCov">          0 :                     const uint64_t size = *reinterpret_cast&lt; uint64_t*&gt;( data );</span>
-<span class="lineNum">     452 </span><span class="lineNoCov">          0 :                     data += sizeof( uint64_t );</span>
-<span class="lineNum">     453 </span>            : 
-<span class="lineNum">     454 </span><span class="lineNoCov">          0 :                     chunks.push_back( pression::CompressorChunk( data, size ));</span>
-<span class="lineNum">     455 </span><span class="lineNoCov">          0 :                     data += size;</span>
-<span class="lineNum">     456 </span>            :                 }
-<span class="lineNum">     457 </span>            :                 pixelData.compressedData =
-<span class="lineNum">     458 </span><span class="lineNoCov">          0 :                     pression::CompressorResult( compressor, chunks );</span>
-<span class="lineNum">     459 </span>            :             }
-<span class="lineNum">     460 </span>            :             else
-<span class="lineNum">     461 </span>            :             {
-<span class="lineNum">     462 </span><span class="lineNoCov">          0 :                 const uint64_t size = *reinterpret_cast&lt; uint64_t*&gt;( data );</span>
-<span class="lineNum">     463 </span><span class="lineNoCov">          0 :                 data += sizeof( uint64_t );</span>
-<span class="lineNum">     464 </span>            : 
-<span class="lineNum">     465 </span><span class="lineNoCov">          0 :                 pixelData.pixels = data;</span>
-<span class="lineNum">     466 </span><span class="lineNoCov">          0 :                 data += size;</span>
-<span class="lineNum">     467 </span><span class="lineNoCov">          0 :                 LBASSERT( size == pixelData.pvp.getArea()*pixelData.pixelSize );</span>
-<span class="lineNum">     468 </span>            :             }
-<span class="lineNum">     469 </span>            : 
-<span class="lineNum">     470 </span><span class="lineNoCov">          0 :             image-&gt;setZoom( zoom );</span>
-<span class="lineNum">     471 </span><span class="lineNoCov">          0 :             image-&gt;setContext( context );</span>
-<span class="lineNum">     472 </span><span class="lineNoCov">          0 :             image-&gt;setQuality( buffer, header-&gt;quality );</span>
-<span class="lineNum">     473 </span><span class="lineNoCov">          0 :             image-&gt;setPixelData( buffer, pixelData );</span>
-<span class="lineNum">     474 </span>            :         }
-<span class="lineNum">     475 </span>            :     }
-<span class="lineNum">     476 </span>            : 
-<span class="lineNum">     477 </span><span class="lineNoCov">          0 :     _impl-&gt;pendingImages.push_back( image );</span>
-<span class="lineNum">     478 </span><span class="lineNoCov">          0 :     return true;</span>
-<a name="479"><span class="lineNum">     479 </span>            : }</a>
-<span class="lineNum">     480 </span>            : 
-<span class="lineNum">     481 </span><span class="lineNoCov">          0 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const FrameData&amp; data )</span>
-<span class="lineNum">     482 </span>            : {
-<span class="lineNum">     483 </span><span class="lineNoCov">          0 :     return os &lt;&lt; &quot;frame data id &quot; &lt;&lt; data.getID() &lt;&lt; &quot;.&quot; &lt;&lt; data.getInstanceID()</span>
-<span class="lineNum">     484 </span><span class="lineNoCov">          0 :               &lt;&lt; &quot; v&quot; &lt;&lt; data.getVersion() &lt;&lt; ' ' &lt;&lt; data.getImages().size()</span>
-<span class="lineNum">     485 </span><span class="lineNoCov">          0 :               &lt;&lt; &quot; images, ready &quot; &lt;&lt; ( data.isReady() ? 'y' :'n' ) &lt;&lt; &quot; &quot;</span>
-<span class="lineNum">     486 </span><span class="lineNoCov">          0 :               &lt;&lt; data.getZoom();</span>
-<a name="487"><span class="lineNum">     487 </span>            : }</a>
-<span class="lineNum">     488 </span>            : 
-<span class="lineNum">     489 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">     412 </span>            :                           const RenderContext&amp; context,
+<span class="lineNum">     413 </span>            :                           const Frame::Buffer buffers_, const bool useAlpha,
+<span class="lineNum">     414 </span>            :                           uint8_t* data )
+<span class="lineNum">     415 </span>            : {
+<span class="lineNum">     416 </span><span class="lineNoCov">          0 :     LBASSERT( _impl-&gt;readyVersion &lt; frameDataVersion.version.low( ));</span>
+<span class="lineNum">     417 </span><span class="lineNoCov">          0 :     if( _impl-&gt;readyVersion &gt;= frameDataVersion.version.low( ))</span>
+<span class="lineNum">     418 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     419 </span>            : 
+<span class="lineNum">     420 </span><span class="lineNoCov">          0 :     Image* image = _allocImage( Frame::TYPE_MEMORY, DrawableConfig(),</span>
+<span class="lineNum">     421 </span><span class="lineNoCov">          0 :                                 false /* set quality */ );</span>
+<span class="lineNum">     422 </span>            : 
+<span class="lineNum">     423 </span><span class="lineNoCov">          0 :     image-&gt;setPixelViewport( pvp );</span>
+<span class="lineNum">     424 </span><span class="lineNoCov">          0 :     image-&gt;setAlphaUsage( useAlpha );</span>
+<span class="lineNum">     425 </span>            : 
+<span class="lineNum">     426 </span><span class="lineNoCov">          0 :     Frame::Buffer buffers[] = { Frame::Buffer::color, Frame::Buffer::depth };</span>
+<span class="lineNum">     427 </span><span class="lineNoCov">          0 :     for( unsigned i = 0; i &lt; 2; ++i )</span>
+<span class="lineNum">     428 </span>            :     {
+<span class="lineNum">     429 </span><span class="lineNoCov">          0 :         const Frame::Buffer buffer = buffers[i];</span>
+<span class="lineNum">     430 </span>            : 
+<span class="lineNum">     431 </span><span class="lineNoCov">          0 :         if( buffers_ &amp; buffer )</span>
+<span class="lineNum">     432 </span>            :         {
+<span class="lineNum">     433 </span><span class="lineNoCov">          0 :             PixelData pixelData;</span>
+<span class="lineNum">     434 </span><span class="lineNoCov">          0 :             const ImageHeader* header = reinterpret_cast&lt;ImageHeader*&gt;( data );</span>
+<span class="lineNum">     435 </span><span class="lineNoCov">          0 :             data += sizeof( ImageHeader );</span>
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 :             pixelData.internalFormat  = header-&gt;internalFormat;</span>
+<span class="lineNum">     438 </span><span class="lineNoCov">          0 :             pixelData.externalFormat  = header-&gt;externalFormat;</span>
+<span class="lineNum">     439 </span><span class="lineNoCov">          0 :             pixelData.pixelSize       = header-&gt;pixelSize;</span>
+<span class="lineNum">     440 </span><span class="lineNoCov">          0 :             pixelData.pvp             = header-&gt;pvp;</span>
+<span class="lineNum">     441 </span><span class="lineNoCov">          0 :             pixelData.compressorFlags = header-&gt;compressorFlags;</span>
+<span class="lineNum">     442 </span>            : 
+<span class="lineNum">     443 </span><span class="lineNoCov">          0 :             const uint32_t compressor = header-&gt;compressorName;</span>
+<span class="lineNum">     444 </span><span class="lineNoCov">          0 :             if( compressor &gt; EQ_COMPRESSOR_NONE )</span>
+<span class="lineNum">     445 </span>            :             {
+<span class="lineNum">     446 </span><span class="lineNoCov">          0 :                 pression::CompressorChunks chunks;</span>
+<span class="lineNum">     447 </span><span class="lineNoCov">          0 :                 const uint32_t nChunks = header-&gt;nChunks;</span>
+<span class="lineNum">     448 </span><span class="lineNoCov">          0 :                 chunks.reserve( nChunks );</span>
+<span class="lineNum">     449 </span>            : 
+<span class="lineNum">     450 </span><span class="lineNoCov">          0 :                 for( uint32_t j = 0; j &lt; nChunks; ++j )</span>
+<span class="lineNum">     451 </span>            :                 {
+<span class="lineNum">     452 </span><span class="lineNoCov">          0 :                     const uint64_t size = *reinterpret_cast&lt; uint64_t*&gt;( data );</span>
+<span class="lineNum">     453 </span><span class="lineNoCov">          0 :                     data += sizeof( uint64_t );</span>
+<span class="lineNum">     454 </span>            : 
+<span class="lineNum">     455 </span><span class="lineNoCov">          0 :                     chunks.push_back( pression::CompressorChunk( data, size ));</span>
+<span class="lineNum">     456 </span><span class="lineNoCov">          0 :                     data += size;</span>
+<span class="lineNum">     457 </span>            :                 }
+<span class="lineNum">     458 </span>            :                 pixelData.compressedData =
+<span class="lineNum">     459 </span><span class="lineNoCov">          0 :                     pression::CompressorResult( compressor, chunks );</span>
+<span class="lineNum">     460 </span>            :             }
+<span class="lineNum">     461 </span>            :             else
+<span class="lineNum">     462 </span>            :             {
+<span class="lineNum">     463 </span><span class="lineNoCov">          0 :                 const uint64_t size = *reinterpret_cast&lt; uint64_t*&gt;( data );</span>
+<span class="lineNum">     464 </span><span class="lineNoCov">          0 :                 data += sizeof( uint64_t );</span>
+<span class="lineNum">     465 </span>            : 
+<span class="lineNum">     466 </span><span class="lineNoCov">          0 :                 pixelData.pixels = data;</span>
+<span class="lineNum">     467 </span><span class="lineNoCov">          0 :                 data += size;</span>
+<span class="lineNum">     468 </span><span class="lineNoCov">          0 :                 LBASSERT( size == pixelData.pvp.getArea()*pixelData.pixelSize );</span>
+<span class="lineNum">     469 </span>            :             }
+<span class="lineNum">     470 </span>            : 
+<span class="lineNum">     471 </span><span class="lineNoCov">          0 :             image-&gt;setZoom( zoom );</span>
+<span class="lineNum">     472 </span><span class="lineNoCov">          0 :             image-&gt;setContext( context );</span>
+<span class="lineNum">     473 </span><span class="lineNoCov">          0 :             image-&gt;setQuality( buffer, header-&gt;quality );</span>
+<span class="lineNum">     474 </span><span class="lineNoCov">          0 :             image-&gt;setPixelData( buffer, pixelData );</span>
+<span class="lineNum">     475 </span>            :         }
+<span class="lineNum">     476 </span>            :     }
+<span class="lineNum">     477 </span>            : 
+<span class="lineNum">     478 </span><span class="lineNoCov">          0 :     _impl-&gt;pendingImages.push_back( image );</span>
+<span class="lineNum">     479 </span><span class="lineNoCov">          0 :     return true;</span>
+<a name="480"><span class="lineNum">     480 </span>            : }</a>
+<span class="lineNum">     481 </span>            : 
+<span class="lineNum">     482 </span><span class="lineNoCov">          0 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const FrameData&amp; data )</span>
+<span class="lineNum">     483 </span>            : {
+<span class="lineNum">     484 </span><span class="lineNoCov">          0 :     return os &lt;&lt; &quot;frame data id &quot; &lt;&lt; data.getID() &lt;&lt; &quot;.&quot; &lt;&lt; data.getInstanceID()</span>
+<span class="lineNum">     485 </span><span class="lineNoCov">          0 :               &lt;&lt; &quot; v&quot; &lt;&lt; data.getVersion() &lt;&lt; ' ' &lt;&lt; data.getImages().size()</span>
+<span class="lineNum">     486 </span><span class="lineNoCov">          0 :               &lt;&lt; &quot; images, ready &quot; &lt;&lt; ( data.isReady() ? 'y' :'n' ) &lt;&lt; &quot; &quot;</span>
+<span class="lineNum">     487 </span><span class="lineNoCov">          0 :               &lt;&lt; data.getZoom();</span>
+<a name="488"><span class="lineNum">     488 </span>            : }</a>
+<span class="lineNum">     489 </span>            : 
+<span class="lineNum">     490 </span><span class="lineCov">         36 : }</span>
 </pre>
       </td>
     </tr>

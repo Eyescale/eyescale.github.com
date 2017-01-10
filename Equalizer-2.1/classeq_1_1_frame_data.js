@@ -4,7 +4,7 @@ var classeq_1_1_frame_data =
     [ "Listener", "classeq_1_1_frame_data.html#a5cfb97ef32365ae884508af41be2d373", null ],
     [ "FrameData", "classeq_1_1_frame_data.html#ac1e48c545eb2f550d7374008a8b48c05", null ],
     [ "~FrameData", "classeq_1_1_frame_data.html#a0a0a476c62a1c529fd83a9a77c31ff9a", null ],
-    [ "addImage", "classeq_1_1_frame_data.html#ae9be6bb282111e59330a061781ea8490", null ],
+    [ "addImage", "classeq_1_1_frame_data.html#a109a970e72f5360139a09d23144b2ce9", null ],
     [ "addListener", "classeq_1_1_frame_data.html#ab4aa76724ae68d7942b1f2d635419bf8", null ],
     [ "applyInstanceData", "classeq_1_1_frame_data.html#ab6dd785518eb570977bc0b83e1587db3", null ],
     [ "assembleFrame", "classeq_1_1_frame_data.html#af5f785e7806e1e59e28e53e12807e776", null ],

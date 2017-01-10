@@ -17,6 +17,7 @@ var classeq_1_1fabric_1_1_canvas =
     [ "findSegment", "classeq_1_1fabric_1_1_canvas.html#ad43979c4b467bde8f7da02e1713075c6", null ],
     [ "findSegment", "classeq_1_1fabric_1_1_canvas.html#ae60e897b29482e76c4701950cfc100d8", null ],
     [ "getActiveLayout", "classeq_1_1fabric_1_1_canvas.html#ac7a7a7dd37398e844ae3e78cebc8cd5b", null ],
+    [ "getActiveLayout", "classeq_1_1fabric_1_1_canvas.html#a3a88dcf701077d5c1a3ebbb79944a6bd", null ],
     [ "getActiveLayoutIndex", "classeq_1_1fabric_1_1_canvas.html#a8e24e509abfe033a4d76edf3ef6ef6ba", null ],
     [ "getConfig", "classeq_1_1fabric_1_1_canvas.html#a217d5ee92bba00ece42388b8629f0729", null ],
     [ "getConfig", "classeq_1_1fabric_1_1_canvas.html#afba34d60aae57b7eaac4cdba2616ec4c", null ],

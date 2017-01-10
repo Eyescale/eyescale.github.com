@@ -1,6 +1,7 @@
 var searchData=
 [
   ['elementvisitor',['ElementVisitor',['../classeq_1_1fabric_1_1_element_visitor.html#addd2886df6a65773be02ef7da5646ed4',1,'eq::fabric::ElementVisitor']]],
+  ['enablescreenshot',['enableScreenshot',['../classeq_1_1_view.html#a100f57340b877be74acf90a5580c5db5',1,'eq::View']]],
   ['entercarbon',['enterCarbon',['../classeq_1_1_global.html#a6981afb7c4a6e78bc0ca099d4d5a4d50',1,'eq::Global']]],
   ['erasestring',['eraseString',['../classeq_1_1fabric_1_1_error_registry.html#a68691465080cc3139f0e38232b26cb8b',1,'eq::fabric::ErrorRegistry']]],
   ['error',['Error',['../classeq_1_1fabric_1_1_error.html#a8f80777b7c9f3c975b16aa63c47b1c21',1,'eq::fabric::Error']]],
@@ -11,7 +12,7 @@ var searchData=
   ['exitclient',['exitClient',['../classeq_1_1_client.html#ac4044ff611e919dfabb9a72b17501f5e',1,'eq::Client']]],
   ['exitcontext',['exitContext',['../classseq_1_1_renderer.html#ad161d31256f2a4cfaee8f31ba13c35e1',1,'seq::Renderer']]],
   ['exiterrors',['exitErrors',['../namespaceseq.html#a96de08e505674c076e156ad4f1a3abb0',1,'seq']]],
-  ['exiteventhandler',['exitEventHandler',['../classeq_1_1glx_1_1_window.html#a28203e7bfa95fe3306fc3ea48cd282cc',1,'eq::glx::Window::exitEventHandler()'],['../classeq_1_1wgl_1_1_window.html#a89a3ed89cba0c79d744a3faf0fd5b2d7',1,'eq::wgl::Window::exitEventHandler()']]],
+  ['exiteventhandler',['exitEventHandler',['../classeq_1_1glx_1_1_window.html#ac6b5e1de50e1cb7e07ef3b584b55d25e',1,'eq::glx::Window::exitEventHandler()'],['../classeq_1_1wgl_1_1_window.html#a89a3ed89cba0c79d744a3faf0fd5b2d7',1,'eq::wgl::Window::exitEventHandler()']]],
   ['exitglew',['exitGLEW',['../classeq_1_1_g_l_window.html#abda0f097fa517fd9a50ba9faa66c7389',1,'eq::GLWindow']]],
   ['exitlocal',['exitLocal',['../classeq_1_1_client.html#aa0dde520d14f5ff0691b1063c5cd9d97',1,'eq::Client']]],
   ['exitmagellan',['exitMagellan',['../classeq_1_1wgl_1_1_event_handler.html#ad1b96397f37ac6d33c2271506efba41a',1,'eq::wgl::EventHandler']]],

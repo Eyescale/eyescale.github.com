@@ -13,6 +13,7 @@ var classeq_1_1fabric_1_1_view =
       [ "DIRTY_EQUALIZERS", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a3e98e7037248bc4289ff599c6d3581c7", null ],
       [ "DIRTY_MODELUNIT", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a7204fe1e80fbb18a209cb357995d62c0", null ],
       [ "DIRTY_ATTRIBUTES", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a2308eeafa7d941eb7cecb947504fa037", null ],
+      [ "DIRTY_SCREENSHOT", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a3f79f499b74c8697f6d90eaafb2252e1", null ],
       [ "DIRTY_VIEW_BITS", "classeq_1_1fabric_1_1_view.html#adc7f77745c85bcda3b1f2649d57abf52a60e2b43ad2569714ca91018d1c9cb9d6", null ]
     ] ],
     [ "Mode", "classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76", [
@@ -27,6 +28,7 @@ var classeq_1_1fabric_1_1_view =
     ] ],
     [ "View", "classeq_1_1fabric_1_1_view.html#a46f240d65b179e11018b07dd5457e48a", null ],
     [ "~View", "classeq_1_1fabric_1_1_view.html#a53463bc834bc9eb1fc2acdd3d20c2eff", null ],
+    [ "_setScreenshotBuffers", "classeq_1_1fabric_1_1_view.html#abbf34bcf6a04f9ab119c210ac6dfac60", null ],
     [ "accept", "classeq_1_1fabric_1_1_view.html#a96ebb4c8221ba402591de658b0d07434", null ],
     [ "accept", "classeq_1_1fabric_1_1_view.html#a85d7c327102e41ee7f87590d88c77017", null ],
     [ "activateMode", "classeq_1_1fabric_1_1_view.html#ad03a272df124cbdae3d38d62677e768e", null ],
@@ -49,6 +51,7 @@ var classeq_1_1fabric_1_1_view =
     [ "getRedistributableBits", "classeq_1_1fabric_1_1_view.html#aa1e65fc088531e229588ca02228b23fa", null ],
     [ "getSAttribute", "classeq_1_1fabric_1_1_view.html#aed8b18af7733da81a3a280582b79bbcb", null ],
     [ "getSAttributeString", "classeq_1_1fabric_1_1_view.html#acdbfa3b4757c573b3349cbc4c4b35849", null ],
+    [ "getScreenshotBuffers", "classeq_1_1fabric_1_1_view.html#a9b62c52157b93c5b9c44e6c7771181a9", null ],
     [ "getUserDataLatency", "classeq_1_1fabric_1_1_view.html#a6b8bfadb73fceb818ca32f33f46b2dd0", null ],
     [ "getViewport", "classeq_1_1fabric_1_1_view.html#a3fe4fad549e3feea155256c53f865782", null ],
     [ "hasMasterUserData", "classeq_1_1fabric_1_1_view.html#a47f610e5566c663c581fd1e6988995df", null ],

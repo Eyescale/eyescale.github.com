@@ -1,6 +1,7 @@
 var structeq_1_1_pixel_data =
 [
     [ "PixelData", "structeq_1_1_pixel_data.html#aeba3bdb3e1d5121588c8f4b0736a4cec", null ],
+    [ "PixelData", "structeq_1_1_pixel_data.html#a4985179e609f0a718d89c58588d311f9", null ],
     [ "~PixelData", "structeq_1_1_pixel_data.html#ab61c5943e88bb043631e1b6a68a522e5", null ],
     [ "reset", "structeq_1_1_pixel_data.html#a434c3c94359c1b6d1d0f21eb8875e03d", null ],
     [ "compressedData", "structeq_1_1_pixel_data.html#a9149afb1c7523ee2c76ba190900f8ffa", null ],

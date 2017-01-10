@@ -12,6 +12,5 @@ var classeq_1_1fabric_1_1_error =
     [ "operator=", "classeq_1_1fabric_1_1_error.html#a7a73f99a52798b21ec6f705e14703c9f", null ],
     [ "operator==", "classeq_1_1fabric_1_1_error.html#a2b0830d82bacde9cb60ef750004244e5", null ],
     [ "operator==", "classeq_1_1fabric_1_1_error.html#a44e893adbcf624b2d9b850fadc78d292", null ],
-    [ "serialize", "classeq_1_1fabric_1_1_error.html#ab7349a8f7662977b896ebf6e33b83e69", null ],
-    [ "lunchbox::byteswap", "classeq_1_1fabric_1_1_error.html#ad450fce438f26941dd8156268ed2c1db", null ]
+    [ "serialize", "classeq_1_1fabric_1_1_error.html#ab7349a8f7662977b896ebf6e33b83e69", null ]
 ];

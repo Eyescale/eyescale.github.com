@@ -6,7 +6,7 @@ var classeq_1_1_frame =
     [ "clear", "classeq_1_1_frame.html#a7910594e92083c8ad13605dc6ba5dcf0", null ],
     [ "deleteGLObjects", "classeq_1_1_frame.html#af82e53083031578ccf083b137ac6d8cd", null ],
     [ "disableBuffer", "classeq_1_1_frame.html#ac33170fe48a0dcd54a13a24b60fff656", null ],
-    [ "getBuffers", "classeq_1_1_frame.html#a943e47059750293e1736fd1fd803281c", null ],
+    [ "getBuffers", "classeq_1_1_frame.html#a70c9b97413d16d5f68ee0c90f570c005", null ],
     [ "getFrameData", "classeq_1_1_frame.html#a032a4de05e725739ef6a81e44417083b", null ],
     [ "getFrameData", "classeq_1_1_frame.html#ab95234830b0660392112a9e26f37dd8c", null ],
     [ "getImages", "classeq_1_1_frame.html#a1c516a1af5a71362fe78937238b95c3c", null ],
