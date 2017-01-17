@@ -53,6 +53,7 @@ var hierarchy =
     [ "lunchbox::ScopedMutex< L, T >", "classlunchbox_1_1_scoped_mutex.html", null ],
     [ "lunchbox::Thread", "classlunchbox_1_1_thread.html", null ],
     [ "lunchbox::ThreadID", "classlunchbox_1_1_thread_i_d.html", null ],
+    [ "lunchbox::ThreadPool", "classlunchbox_1_1_thread_pool.html", null ],
     [ "lunchbox::TLS", "classlunchbox_1_1_t_l_s.html", null ],
     [ "lunchbox::Version", "classlunchbox_1_1_version.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< T > >", "classlunchbox_1_1_ref_ptr.html", null ],

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 05:26:53</td>
+            <td class="headerValue">2017-01-17 05:24:03</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">51</td>
@@ -113,13 +113,13 @@
 <span class="lineNum">      51 </span><span class="lineCov">          2 :     Monitor() : _value( T( 0 )) {}</span>
 <a name="52"><span class="lineNum">      52 </span>            : </a>
 <span class="lineNum">      53 </span>            :     /** Construct a new monitor with a given default value. @version 1.0 */
-<span class="lineNum">      54 </span><span class="lineCov">       1642 :     explicit Monitor( const T&amp; value ) : _value( value ) {}</span>
+<span class="lineNum">      54 </span><span class="lineCov">       1643 :     explicit Monitor( const T&amp; value ) : _value( value ) {}</span>
 <span class="lineNum">      55 </span>            : 
 <span class="lineNum">      56 </span>            :     /** Ctor initializing with the given monitor value. @version 1.1.5 */
 <span class="lineNum">      57 </span>            :     Monitor( const Monitor&lt; T &gt;&amp; from ) : _value( from._value ) {}
 <a name="58"><span class="lineNum">      58 </span>            : </a>
 <span class="lineNum">      59 </span>            :     /** Destructs the monitor. @version 1.0 */
-<span class="lineNum">      60 </span><span class="lineCov">       1645 :     ~Monitor() {}</span>
+<span class="lineNum">      60 </span><span class="lineCov">       1646 :     ~Monitor() {}</span>
 <span class="lineNum">      61 </span>            : 
 <span class="lineNum">      62 </span>            :     /** @name Changing the monitored value. */
 <a name="63"><span class="lineNum">      63 </span>            :     //@{</a>
@@ -142,8 +142,8 @@
 <span class="lineNum">      80 </span>            :     }
 <a name="81"><span class="lineNum">      81 </span>            : </a>
 <span class="lineNum">      82 </span>            :     /** Assign a new value. @version 1.0 */
-<span class="lineNum">      83 </span><span class="lineCov">     830636 :     Monitor&amp; operator = ( const T&amp; value )</span>
-<span class="lineNum">      84 </span><span class="lineCov">     830636 :         { set( value ); return *this; }</span>
+<span class="lineNum">      83 </span><span class="lineCov">     830638 :     Monitor&amp; operator = ( const T&amp; value )</span>
+<span class="lineNum">      84 </span><span class="lineCov">     830638 :         { set( value ); return *this; }</span>
 <span class="lineNum">      85 </span>            : 
 <span class="lineNum">      86 </span>            :     /** Assign a new value. @version 1.1.5 */
 <span class="lineNum">      87 </span>            :     const Monitor&amp; operator = ( const Monitor&lt; T &gt;&amp; from )
@@ -168,13 +168,13 @@
 <span class="lineNum">     106 </span>            :     }
 <a name="107"><span class="lineNum">     107 </span>            : </a>
 <span class="lineNum">     108 </span>            :     /** Set a new value. @return the old value @version 1.0 */
-<span class="lineNum">     109 </span><span class="lineCov">     830636 :     T set( const T&amp; value )</span>
+<span class="lineNum">     109 </span><span class="lineCov">     830638 :     T set( const T&amp; value )</span>
 <span class="lineNum">     110 </span>            :     {
-<span class="lineNum">     111 </span><span class="lineCov">    1661272 :         ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     112 </span><span class="lineCov">     830636 :         const T old = _value;</span>
-<span class="lineNum">     113 </span><span class="lineCov">     830636 :         _value = value;</span>
-<span class="lineNum">     114 </span><span class="lineCov">     830636 :         _cond.broadcast();</span>
-<span class="lineNum">     115 </span><span class="lineCov">    1661272 :         return old;</span>
+<span class="lineNum">     111 </span><span class="lineCov">    1661276 :         ScopedCondition mutex( _cond );</span>
+<span class="lineNum">     112 </span><span class="lineCov">     830638 :         const T old = _value;</span>
+<span class="lineNum">     113 </span><span class="lineCov">     830638 :         _value = value;</span>
+<span class="lineNum">     114 </span><span class="lineCov">     830638 :         _cond.broadcast();</span>
+<span class="lineNum">     115 </span><span class="lineCov">    1661277 :         return old;</span>
 <span class="lineNum">     116 </span>            :     }
 <span class="lineNum">     117 </span>            :     //@}
 <span class="lineNum">     118 </span>            : 
@@ -195,9 +195,9 @@
 <span class="lineNum">     133 </span>            :      * @return the value when reaching the condition.
 <a name="134"><span class="lineNum">     134 </span>            :      * @version 1.0</a>
 <span class="lineNum">     135 </span>            :      */
-<span class="lineNum">     136 </span><span class="lineCov">      11306 :     const T waitNE( const T&amp; value ) const</span>
+<span class="lineNum">     136 </span><span class="lineCov">      11307 :     const T waitNE( const T&amp; value ) const</span>
 <span class="lineNum">     137 </span>            :     {
-<span class="lineNum">     138 </span><span class="lineCov">      11306 :         return _waitPredicate( boost::bind( std::not_equal_to&lt;T&gt;(), value, _1));</span>
+<span class="lineNum">     138 </span><span class="lineCov">      11307 :         return _waitPredicate( boost::bind( std::not_equal_to&lt;T&gt;(), value, _1));</span>
 <span class="lineNum">     139 </span>            :     }
 <span class="lineNum">     140 </span>            : 
 <span class="lineNum">     141 </span>            :     /**
@@ -235,8 +235,8 @@
 <span class="lineNum">     173 </span>            :      * @return the value when reaching the condition.
 <a name="174"><span class="lineNum">     174 </span>            :      * @version 1.0</a>
 <span class="lineNum">     175 </span>            :      */
-<span class="lineNum">     176 </span><span class="lineCov">      67922 :     const T waitLE( const T&amp; value ) const</span>
-<span class="lineNum">     177 </span><span class="lineCov">      67922 :      { return _waitPredicate( boost::bind( std::less_equal&lt;T&gt;(), _1, value )); }</span>
+<span class="lineNum">     176 </span><span class="lineCov">      63335 :     const T waitLE( const T&amp; value ) const</span>
+<span class="lineNum">     177 </span><span class="lineCov">      63335 :      { return _waitPredicate( boost::bind( std::less_equal&lt;T&gt;(), _1, value )); }</span>
 <span class="lineNum">     178 </span>            : 
 <span class="lineNum">     179 </span>            :     /**
 <span class="lineNum">     180 </span>            :      * Block until the monitor has a value greater than the given value.
@@ -343,10 +343,10 @@
 <span class="lineNum">     281 </span><span class="lineCov">       4314 :         ScopedCondition mutex( sizeof(T)&gt;8 ? &amp;_cond : 0 ); // issue #1</span>
 <a name="282"><span class="lineNum">     282 </span><span class="lineCov">       4314 :         return _value == value;</span></a>
 <span class="lineNum">     283 </span>            :     }
-<span class="lineNum">     284 </span><span class="lineCov">     204095 :     bool operator != ( const T&amp; value ) const</span>
+<span class="lineNum">     284 </span><span class="lineCov">     190336 :     bool operator != ( const T&amp; value ) const</span>
 <span class="lineNum">     285 </span>            :     {
-<span class="lineNum">     286 </span><span class="lineCov">     408190 :         ScopedCondition mutex( sizeof(T)&gt;8 ? &amp;_cond : 0 ); // issue #1</span>
-<a name="287"><span class="lineNum">     287 </span><span class="lineCov">     408190 :         return _value != value;</span></a>
+<span class="lineNum">     286 </span><span class="lineCov">     380672 :         ScopedCondition mutex( sizeof(T)&gt;8 ? &amp;_cond : 0 ); // issue #1</span>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">     380672 :         return _value != value;</span></a>
 <span class="lineNum">     288 </span>            :     }
 <span class="lineNum">     289 </span><span class="lineCov">       2000 :     bool operator &lt; ( const T&amp; value ) const</span>
 <span class="lineNum">     290 </span>            :     {
@@ -442,18 +442,18 @@
 <span class="lineNum">     380 </span>            :     mutable Condition _cond;
 <a name="381"><span class="lineNum">     381 </span>            : </a>
 <span class="lineNum">     382 </span>            :     template&lt; typename F &gt;
-<span class="lineNum">     383 </span><span class="lineCov">     482228 :     const T _waitPredicate( const F&amp; predicate ) const</span>
+<span class="lineNum">     383 </span><span class="lineCov">     477642 :     const T _waitPredicate( const F&amp; predicate ) const</span>
 <span class="lineNum">     384 </span>            :     {
 <span class="lineNum">     385 </span>            :         if( sizeof( T ) &lt;= 8 ) // issue #1
 <span class="lineNum">     386 </span>            :         {
-<span class="lineNum">     387 </span><span class="lineCov">     415306 :             const T current = _value;</span>
-<span class="lineNum">     388 </span><span class="lineCov">     415306 :             if( predicate( current ))</span>
-<span class="lineNum">     389 </span><span class="lineCov">       1617 :                 return current;</span>
+<span class="lineNum">     387 </span><span class="lineCov">     415307 :             const T current = _value;</span>
+<span class="lineNum">     388 </span><span class="lineCov">     415307 :             if( predicate( current ))</span>
+<span class="lineNum">     389 </span><span class="lineCov">       1618 :                 return current;</span>
 <span class="lineNum">     390 </span>            :         }
-<span class="lineNum">     391 </span><span class="lineCov">     961222 :         ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     392 </span><span class="lineCov">    1645263 :         while( !predicate( _value ))</span>
-<span class="lineNum">     393 </span><span class="lineCov">     582326 :             _cond.wait();</span>
-<span class="lineNum">     394 </span><span class="lineCov">     480611 :         return _value;</span>
+<span class="lineNum">     391 </span><span class="lineCov">     952047 :         ScopedCondition mutex( _cond );</span>
+<span class="lineNum">     392 </span><span class="lineCov">    1630378 :         while( !predicate( _value ))</span>
+<span class="lineNum">     393 </span><span class="lineCov">     577177 :             _cond.wait();</span>
+<span class="lineNum">     394 </span><span class="lineCov">     476024 :         return _value;</span>
 <span class="lineNum">     395 </span>            :     }
 <a name="396"><span class="lineNum">     396 </span>            : </a>
 <span class="lineNum">     397 </span>            :     template&lt; typename F &gt;
@@ -466,9 +466,9 @@
 <span class="lineNum">     404 </span><span class="lineNoCov">          0 :                 return true;</span>
 <span class="lineNum">     405 </span>            :         }
 <span class="lineNum">     406 </span><span class="lineCov">       8000 :         ScopedCondition mutex( _cond );</span>
-<span class="lineNum">     407 </span><span class="lineCov">     289524 :         while( !predicate( _value ))</span>
+<span class="lineNum">     407 </span><span class="lineCov">     290652 :         while( !predicate( _value ))</span>
 <span class="lineNum">     408 </span>            :         {
-<span class="lineNum">     409 </span><span class="lineCov">     142762 :             if( !_cond.timedWait( timeout ) )</span>
+<span class="lineNum">     409 </span><span class="lineCov">     143326 :             if( !_cond.timedWait( timeout ) )</span>
 <span class="lineNum">     410 </span>            :             {
 <span class="lineNum">     411 </span><span class="lineNoCov">          0 :                 return false;</span>
 <span class="lineNum">     412 </span>            :             }

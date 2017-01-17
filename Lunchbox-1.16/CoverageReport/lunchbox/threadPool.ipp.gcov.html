@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Lunchbox - lunchbox/threadPool.ipp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">lunchbox</a> - threadPool.ipp<span style="font-size: 80%;"> (source / <a href="threadPool.ipp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Lunchbox</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2017-01-17 05:24:03</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryHi">87.5 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* Copyright (c) 2016-2017, Mohamed-Ghaith Kaabi &lt;mohamedghaith.kaabi@gmail.com&gt;</a>
+<span class="lineNum">       2 </span>            :  *
+<span class="lineNum">       3 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       4 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       5 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       6 </span>            :  *
+<span class="lineNum">       7 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       8 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">       9 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      10 </span>            :  * details.
+<span class="lineNum">      11 </span>            :  *
+<span class="lineNum">      12 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      13 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      14 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      15 </span>            :  */
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : namespace lunchbox
+<a name="19"><span class="lineNum">      19 </span>            : {</a>
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span><span class="lineCov">          4 : ThreadPool::ThreadPool( const size_t size )</span>
+<span class="lineNum">      22 </span><span class="lineCov">          4 :     : _stop( false )</span>
+<a name="23"><span class="lineNum">      23 </span>            : {</a>
+<span class="lineNum">      24 </span><span class="lineCov">         16 :     for( size_t i = 0; i &lt; size; ++i )</span>
+<span class="lineNum">      25 </span><span class="lineCov">         24 :         _threads.emplace_back( [this] { this-&gt;work(); } );</span>
+<a name="26"><span class="lineNum">      26 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span><span class="lineCov">          8 : ThreadPool::~ThreadPool()</span>
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span>            :     {
+<span class="lineNum">      31 </span><span class="lineCov">          8 :         std::unique_lock&lt;std::mutex&gt; lock( _tasksMutex );</span>
+<span class="lineNum">      32 </span><span class="lineCov">          4 :         _stop = true;</span>
+<span class="lineNum">      33 </span><span class="lineCov">          4 :         _waitCondition.notify_all();</span>
+<span class="lineNum">      34 </span>            :     }
+<span class="lineNum">      35 </span><span class="lineCov">          4 :     joinAll();</span>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span><span class="lineCov">          1 : size_t ThreadPool::getSize() const { return _threads.size(); }</span>
+<a name="39"><span class="lineNum">      39 </span>            : </a>
+<span class="lineNum">      40 </span>            : template &lt; typename F &gt;
+<span class="lineNum">      41 </span><span class="lineCov">        111 : std::future&lt; typename std::result_of&lt; F() &gt;::type &gt; ThreadPool::post( F&amp;&amp; f )</span>
+<span class="lineNum">      42 </span>            : {
+<span class="lineNum">      43 </span>            :     using ReturnType = typename std::result_of&lt; F() &gt;::type;
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            :     auto task =
+<span class="lineNum">      46 </span><span class="lineCov">        222 :         std::make_shared&lt; std::packaged_task&lt; ReturnType() &gt; &gt;( std::forward&lt; F &gt;( f ));</span>
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span><span class="lineCov">        111 :     auto res = task-&gt;get_future();</span>
+<a name="49"><span class="lineNum">      49 </span>            :     {</a>
+<span class="lineNum">      50 </span><span class="lineCov">        222 :         std::unique_lock&lt; std::mutex &gt; lock( _tasksMutex );</span>
+<span class="lineNum">      51 </span><span class="lineCov">        681 :         _tasks.emplace( [task]() { ( *task )(); });</span>
+<span class="lineNum">      52 </span>            :     }
+<span class="lineNum">      53 </span><span class="lineCov">        111 :     _waitCondition.notify_one();</span>
+<span class="lineNum">      54 </span><span class="lineCov">        222 :     return res;</span>
+<span class="lineNum">      55 </span>            : }
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<span class="lineNum">      57 </span>            : template &lt; typename F &gt;
+<span class="lineNum">      58 </span><span class="lineCov">         10 : void ThreadPool::postDetached( F&amp;&amp; f )</span>
+<span class="lineNum">      59 </span>            : {
+<span class="lineNum">      60 </span>            :     {
+<span class="lineNum">      61 </span><span class="lineCov">         20 :         std::unique_lock&lt; std::mutex &gt; lock( _tasksMutex );</span>
+<span class="lineNum">      62 </span><span class="lineCov">         10 :         _tasks.emplace( f );</span>
+<span class="lineNum">      63 </span>            :     }
+<span class="lineNum">      64 </span><span class="lineCov">         10 :     _waitCondition.notify_one();</span>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">         10 : }</span></a>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">          2 : bool ThreadPool::hasPendingJobs() const</span>
+<span class="lineNum">      68 </span>            : {
+<span class="lineNum">      69 </span><span class="lineCov">          4 :     std::unique_lock&lt; std::mutex &gt; lock( _tasksMutex );</span>
+<span class="lineNum">      70 </span><span class="lineCov">          4 :     return !_tasks.empty();</span>
+<a name="71"><span class="lineNum">      71 </span>            : }</a>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineCov">          4 : void ThreadPool::joinAll()</span>
+<span class="lineNum">      74 </span>            : {
+<span class="lineNum">      75 </span><span class="lineCov">         16 :     for( auto&amp; thread : _threads )</span>
+<span class="lineNum">      76 </span><span class="lineCov">         12 :         thread.join();</span>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineCov">         37 : void ThreadPool::work()</span>
+<span class="lineNum">      80 </span>            : {
+<span class="lineNum">      81 </span>            :     for( ;; )
+<span class="lineNum">      82 </span>            :     {
+<span class="lineNum">      83 </span><span class="lineCov">         62 :         std::function&lt; void() &gt; task;</span>
+<a name="84"><span class="lineNum">      84 </span>            :         {</a>
+<span class="lineNum">      85 </span><span class="lineCov">         62 :             std::unique_lock&lt; std::mutex &gt; lock( _tasksMutex );</span>
+<span class="lineNum">      86 </span><span class="lineCov">         89 :             _waitCondition.wait( lock, [this] { return _stop || !_tasks.empty(); });</span>
+<span class="lineNum">      87 </span><span class="lineCov">         37 :             if( _stop )</span>
+<span class="lineNum">      88 </span><span class="lineCov">         24 :                 return;</span>
+<span class="lineNum">      89 </span><span class="lineCov">         25 :             task = std::move( _tasks.front());</span>
+<span class="lineNum">      90 </span><span class="lineCov">         25 :             _tasks.pop();</span>
+<span class="lineNum">      91 </span>            :         }
+<span class="lineNum">      92 </span><span class="lineCov">         25 :         task();</span>
+<span class="lineNum">      93 </span><span class="lineCov">         25 :     }</span>
+<span class="lineNum">      94 </span>            : }
+<span class="lineNum">      95 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

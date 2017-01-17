@@ -31,17 +31,17 @@
             <td class="headerValue">Lunchbox</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">7</td>
-            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">8</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 05:26:53</td>
+            <td class="headerValue">2017-01-17 05:24:03</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">5</td>
-            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">6</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
@@ -88,76 +88,58 @@
 <span class="lineNum">      26 </span>            : #include &lt;functional&gt;
 <span class="lineNum">      27 </span>            : 
 <span class="lineNum">      28 </span>            : namespace lunchbox
-<span class="lineNum">      29 </span>            : {
-<span class="lineNum">      30 </span>            : /**
-<span class="lineNum">      31 </span>            :  * Manages a class deriving from a T interface.
-<span class="lineNum">      32 </span>            :  *
-<span class="lineNum">      33 </span>            :  * Plugin classes deriving from T must implement the following
-<span class="lineNum">      34 </span>            :  * prototype for their constructor:
-<span class="lineNum">      35 </span>            :  * @code
-<span class="lineNum">      36 </span>            :  * DerivedPluginClass( const T::InitDataT&amp; initData );
-<span class="lineNum">      37 </span>            :  * @endcode
-<span class="lineNum">      38 </span>            :  *
-<span class="lineNum">      39 </span>            :  * T must also implement the following method to be registered:
-<span class="lineNum">      40 </span>            :  * @code
-<span class="lineNum">      41 </span>            :  * static bool handles( const T::InitDataT&amp; initData );
-<span class="lineNum">      42 </span>            :  * @endcode
-<span class="lineNum">      43 </span>            :  *
-<span class="lineNum">      44 </span>            :  * Note this requires a 'typedef [foo] InitDataT' in T.
-<a name="45"><span class="lineNum">      45 </span>            :  * @version 1.11.0</a>
-<span class="lineNum">      46 </span>            :  */
-<span class="lineNum">      47 </span><span class="lineCov">         14 : template&lt; class T &gt; class Plugin</span>
-<span class="lineNum">      48 </span>            : {
-<span class="lineNum">      49 </span>            : public:
-<span class="lineNum">      50 </span>            :     /**
-<span class="lineNum">      51 </span>            :      * The constructor method / concrete factory for Plugin objects.
-<span class="lineNum">      52 </span>            :      * @version 1.11.0
-<span class="lineNum">      53 </span>            :      */
-<span class="lineNum">      54 </span>            :     typedef std::function&lt; T* ( const typename T::InitDataT&amp; )&gt; Constructor;
-<span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span>            :     /**
-<span class="lineNum">      57 </span>            :      * The method to check if the plugin can handle a given initData.
-<span class="lineNum">      58 </span>            :      * @version 1.11.0
-<span class="lineNum">      59 </span>            :      */
-<span class="lineNum">      60 </span>            :     typedef std::function&lt; bool ( const typename T::InitDataT&amp; )&gt; HandlesFunc;
-<span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            :     /**
-<span class="lineNum">      63 </span>            :      * Construct a new Plugin.
-<span class="lineNum">      64 </span>            :      * @param constructor_ The constructor method for Plugin objects.
-<span class="lineNum">      65 </span>            :      * @param handles_ The method to check if the plugin can handle the
-<span class="lineNum">      66 </span>            :      * initData.
-<a name="67"><span class="lineNum">      67 </span>            :      * @version 1.11.0</a>
-<span class="lineNum">      68 </span>            :      */
-<span class="lineNum">      69 </span><span class="lineCov">          4 :     Plugin( const Constructor&amp; constructor, const HandlesFunc&amp; handles_ )</span>
-<span class="lineNum">      70 </span>            :         : _constructor( constructor ), _handles( handles_ )
-<span class="lineNum">      71 </span><span class="lineCov">          4 :         , tag( servus::make_UUID( )) {}</span>
-<span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span>            :     /** @return true if the plugins wrap the same plugin. @version 1.11.0 */
-<span class="lineNum">      74 </span>            :     bool operator == ( const Plugin&amp; rhs ) const
-<span class="lineNum">      75 </span>            :         { return tag == rhs.tag; }
-<span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span>            :     /** @return false if the plugins do wrap the same plugin. @version 1.11.0 */
-<span class="lineNum">      78 </span>            :     bool operator != ( const Plugin&amp; rhs ) const { return !(*this == rhs); }
-<a name="79"><span class="lineNum">      79 </span>            : </a>
-<span class="lineNum">      80 </span>            :     /** Construct a new plugin instance. @version 1.14 */
-<span class="lineNum">      81 </span><span class="lineCov">          2 :     T* construct( const typename T::InitDataT&amp; data )</span>
-<span class="lineNum">      82 </span><span class="lineCov">          2 :         { return _constructor( data ); }</span>
-<a name="83"><span class="lineNum">      83 </span>            : </a>
-<span class="lineNum">      84 </span>            :     /** @return true if this plugin handles the given request. @version 1.14 */
-<span class="lineNum">      85 </span><span class="lineCov">          4 :     bool handles( const typename T::InitDataT&amp; data )</span>
-<span class="lineNum">      86 </span><span class="lineCov">          4 :         { return _handles( data ); }</span>
-<span class="lineNum">      87 </span>            : 
-<span class="lineNum">      88 </span>            : private:
-<span class="lineNum">      89 </span>            :     Constructor _constructor;
-<span class="lineNum">      90 </span>            :     HandlesFunc _handles;
-<span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span>            :     // Makes Plugin comparable. See http://stackoverflow.com/questions/18665515
-<span class="lineNum">      93 </span>            :     servus::uint128_t tag;
-<span class="lineNum">      94 </span>            : };
-<span class="lineNum">      95 </span>            : 
-<span class="lineNum">      96 </span>            : }
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span>            : #endif
+<a name="29"><span class="lineNum">      29 </span>            : {</a>
+<span class="lineNum">      30 </span>            : /** @internal */
+<span class="lineNum">      31 </span><span class="lineCov">         14 : template&lt; class T &gt; class Plugin</span>
+<span class="lineNum">      32 </span>            : {
+<span class="lineNum">      33 </span>            : public:
+<span class="lineNum">      34 </span>            :     /** The constructor method for Plugin objects.  @version 1.11.0 */
+<span class="lineNum">      35 </span>            :     using Constructor = std::function&lt; T*( const typename T::InitDataT&amp; )&gt;;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            :     /**
+<span class="lineNum">      38 </span>            :      * The method to check if the plugin can handle a given initData.
+<span class="lineNum">      39 </span>            :      * @version 1.11.0
+<span class="lineNum">      40 </span>            :      */
+<span class="lineNum">      41 </span>            :     using HandlesFunc = std::function&lt; bool( const typename T::InitDataT&amp; )&gt;;
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            :     /** The method to get the plugin's description. @version 1.16 */
+<span class="lineNum">      44 </span>            :     using DescriptionFunc = std::function&lt; std::string( )&gt;;
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :     /**
+<span class="lineNum">      47 </span>            :      * Construct a new Plugin.
+<span class="lineNum">      48 </span>            :      * @param constructor_ The constructor method for Plugin objects.
+<span class="lineNum">      49 </span>            :      * @param handles_ The method to check if the plugin can handle the
+<span class="lineNum">      50 </span>            :      * initData.
+<a name="51"><span class="lineNum">      51 </span>            :      * @version 1.11.0</a>
+<span class="lineNum">      52 </span>            :      */
+<span class="lineNum">      53 </span><span class="lineCov">          4 :     Plugin( const Constructor&amp; constructor, const HandlesFunc&amp; handles_,</span>
+<span class="lineNum">      54 </span>            :             const DescriptionFunc&amp; description )
+<span class="lineNum">      55 </span>            :         : _constructor( constructor ), _handles( handles_ ),
+<span class="lineNum">      56 </span><span class="lineCov">          4 :           _description( description ) {}</span>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<span class="lineNum">      58 </span>            :     /** Construct a new plugin instance. @version 1.14 */
+<span class="lineNum">      59 </span><span class="lineCov">          2 :     T* construct( const typename T::InitDataT&amp; data ) const</span>
+<span class="lineNum">      60 </span><span class="lineCov">          2 :         { return _constructor( data ); }</span>
+<a name="61"><span class="lineNum">      61 </span>            : </a>
+<span class="lineNum">      62 </span>            :     /** @return true if this plugin handles the given request. @version 1.14 */
+<span class="lineNum">      63 </span><span class="lineCov">          4 :     bool handles( const typename T::InitDataT&amp; data ) const</span>
+<span class="lineNum">      64 </span><span class="lineCov">          4 :         { return _handles( data ); }</span>
+<a name="65"><span class="lineNum">      65 </span>            : </a>
+<span class="lineNum">      66 </span>            :     /** @return the plugin's description. @version 1.17 */
+<span class="lineNum">      67 </span><span class="lineCov">          3 :     std::string getDescription() const { return _description(); }</span>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : private:
+<span class="lineNum">      70 </span>            :     Constructor _constructor;
+<span class="lineNum">      71 </span>            :     HandlesFunc _handles;
+<span class="lineNum">      72 </span>            :     DescriptionFunc _description;
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :     bool operator == ( const Plugin&amp; rhs ) const = delete;
+<span class="lineNum">      75 </span>            :     bool operator != ( const Plugin&amp; rhs ) const = delete;
+<span class="lineNum">      76 </span>            : };
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : }
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : #endif
 </pre>
       </td>
     </tr>

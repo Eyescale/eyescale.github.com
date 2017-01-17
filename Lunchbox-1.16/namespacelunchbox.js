@@ -45,6 +45,7 @@ var namespacelunchbox =
     [ "SpinLock", "classlunchbox_1_1_spin_lock.html", "classlunchbox_1_1_spin_lock" ],
     [ "Thread", "classlunchbox_1_1_thread.html", "classlunchbox_1_1_thread" ],
     [ "ThreadID", "classlunchbox_1_1_thread_i_d.html", "classlunchbox_1_1_thread_i_d" ],
+    [ "ThreadPool", "classlunchbox_1_1_thread_pool.html", "classlunchbox_1_1_thread_pool" ],
     [ "TimedLock", "classlunchbox_1_1_timed_lock.html", "classlunchbox_1_1_timed_lock" ],
     [ "TLS", "classlunchbox_1_1_t_l_s.html", "classlunchbox_1_1_t_l_s" ],
     [ "UnregisteredRequest", "classlunchbox_1_1_unregistered_request.html", "classlunchbox_1_1_unregistered_request" ],

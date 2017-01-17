@@ -8,6 +8,6 @@ var searchData=
   ['close',['close',['../classlunchbox_1_1_d_s_o.html#a798b973ef6500051f13ab121459e09cf',1,'lunchbox::DSO']]],
   ['compareandswap',['compareAndSwap',['../classlunchbox_1_1_atomic.html#a49977b83d150b3c94f8f131ce538ca9d',1,'lunchbox::Atomic::compareAndSwap(T *value, const T expected, const T newValue)'],['../classlunchbox_1_1_atomic.html#ad1651aa31eb0602f4766b17197aec083',1,'lunchbox::Atomic::compareAndSwap(const T expected, const T newValue)']]],
   ['condition',['Condition',['../classlunchbox_1_1_condition.html#a0c99f83bf0b425600daa79b462732a41',1,'lunchbox::Condition']]],
-  ['construct',['construct',['../classlunchbox_1_1_plugin.html#afba6d036bf4d0814b0158bd7fa66ea5b',1,'lunchbox::Plugin']]],
+  ['construct',['construct',['../classlunchbox_1_1_plugin.html#a918c4220cc64e1ad9a8544e89de20b58',1,'lunchbox::Plugin']]],
   ['create',['create',['../classlunchbox_1_1_memory_map.html#a68906f43c55dfd17f1dd935105313f09',1,'lunchbox::MemoryMap::create()'],['../classlunchbox_1_1_plugin_factory.html#a499ca7985a56eb6ea15fdceb500274ef',1,'lunchbox::PluginFactory::create()']]]
 ];

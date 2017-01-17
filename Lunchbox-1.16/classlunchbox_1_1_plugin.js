@@ -1,10 +1,10 @@
 var classlunchbox_1_1_plugin =
 [
-    [ "Constructor", "classlunchbox_1_1_plugin.html#a1b16a330b0c607647c0b187a5c7917f4", null ],
-    [ "HandlesFunc", "classlunchbox_1_1_plugin.html#a13510330061fcee2a42a3e8ecc9959c3", null ],
-    [ "Plugin", "classlunchbox_1_1_plugin.html#ab80dd488f327254edc2ae721c1598b2a", null ],
-    [ "construct", "classlunchbox_1_1_plugin.html#afba6d036bf4d0814b0158bd7fa66ea5b", null ],
-    [ "handles", "classlunchbox_1_1_plugin.html#aee605b18b276559a7f4993c74280921a", null ],
-    [ "operator!=", "classlunchbox_1_1_plugin.html#a4c69bf46ec087299455fe034c22591d9", null ],
-    [ "operator==", "classlunchbox_1_1_plugin.html#aec2574ae65d008658b6a37b4e321092b", null ]
+    [ "Constructor", "classlunchbox_1_1_plugin.html#a445e5a3b03f75787fe974c56ab780faf", null ],
+    [ "DescriptionFunc", "classlunchbox_1_1_plugin.html#a8fb40bc3de283e9944d043969e1ceaf7", null ],
+    [ "HandlesFunc", "classlunchbox_1_1_plugin.html#a53cae6fcc184ed025046d013c2612e84", null ],
+    [ "Plugin", "classlunchbox_1_1_plugin.html#a422f584387960db582ac74fae2b78300", null ],
+    [ "construct", "classlunchbox_1_1_plugin.html#a918c4220cc64e1ad9a8544e89de20b58", null ],
+    [ "getDescription", "classlunchbox_1_1_plugin.html#a5866adff97b25b81320de4beece83f54", null ],
+    [ "handles", "classlunchbox_1_1_plugin.html#aac443945489e2dc8d28ad2c8c85bf1f1", null ]
 ];
