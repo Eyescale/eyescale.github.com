@@ -116,7 +116,6 @@ var files =
     [ "fabric/segment.h", "fabric_2segment_8h_source.html", null ],
     [ "segment.h", "segment_8h_source.html", null ],
     [ "seq.h", "seq_8h_source.html", null ],
-    [ "sequel.h", "sequel_8h_source.html", null ],
     [ "fabric/server.h", "fabric_2server_8h_source.html", null ],
     [ "server.h", "server_8h_source.html", null ],
     [ "shader.h", "shader_8h_source.html", null ],

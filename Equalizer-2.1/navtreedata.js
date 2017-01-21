@@ -43,16 +43,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classeq_1_1_frame.html#a70c9b97413d16d5f68ee0c90f570c005",
-"classeq_1_1_pipe.html#a83de565fbdc7407afa9499ed8558bd6a",
-"classeq_1_1fabric_1_1_canvas.html#ab1e6140747354b7194b6c906d2a0620c",
-"classeq_1_1fabric_1_1_equalizer.html#a614bc1bef81195f374c4993116c272da",
-"classeq_1_1fabric_1_1_observer.html#a4a6a6375b5ece742b0c20e861f1d4282",
-"classeq_1_1fabric_1_1_view.html#a0b6794d64f1083897d702802ccf0338d",
-"classeq_1_1glx_1_1_window.html#acca896d467cdc669d92b1240aec614b3",
-"classeq_1_1util_1_1_texture.html#a9d40e7398af143460513e6769727b5cd",
-"eq_2fabric_2version_8h.html#a2993dbcce0e39ab9500d2bf0690213a4",
-"structeq_1_1_frame_data_1_1_image_header.html#a312cd70a876f5139cebd4c8c0311ea61"
+"classeq_1_1_frame.html#a6820b7d36a7d2186a3661890eb31a762",
+"classeq_1_1_pipe.html#a8281183eb14ea544240341e13c41cd54",
+"classeq_1_1fabric_1_1_canvas.html#aa8058094b356b5f583bd5ae9a2d98c9d",
+"classeq_1_1fabric_1_1_equalizer.html#a4f03d1637046a1ba00573d5c86f66393",
+"classeq_1_1fabric_1_1_observer.html#a3d4d761c9696c9c8e2a256d800ca2799",
+"classeq_1_1fabric_1_1_view.html#a04b1fee2e4364ec5d94c7da847d847de",
+"classeq_1_1glx_1_1_window.html#ac6b5e1de50e1cb7e07ef3b584b55d25e",
+"classeq_1_1util_1_1_texture.html#a9b237bcb780b201997c85c7c386cc5a5",
+"eq_2fabric_2version_8h.html",
+"structeq_1_1_frame_data_1_1_image_header.html#a0f14524ffc264d7a19b4c65430df689b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

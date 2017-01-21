@@ -11,6 +11,7 @@ var classseq_1_1_application =
     [ "destroyViewData", "classseq_1_1_application.html#a64d5e3b4d0e21f1e68bde7c37e25139a", null ],
     [ "exit", "classseq_1_1_application.html#a19f55a695d570d3dffdf28f3ee0faf2c", null ],
     [ "getConfig", "classseq_1_1_application.html#ac9fbe36c394a991107c76e175cd9843b", null ],
+    [ "getHelp", "classseq_1_1_application.html#ae5d59262bb1d3e95102488a22578399a", null ],
     [ "getImpl", "classseq_1_1_application.html#ab85412a94d8d8973ada89cd703fb3368", null ],
     [ "getMasterNode", "classseq_1_1_application.html#a2ff66cd5f538a722a33c44cc0680c8a7", null ],
     [ "init", "classseq_1_1_application.html#a20b41f9fea9352f9be69bcd96ac3cde0", null ],

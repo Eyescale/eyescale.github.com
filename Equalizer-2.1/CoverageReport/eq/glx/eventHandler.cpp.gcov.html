@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">7</td>
-            <td class="headerCovTableEntry">239</td>
-            <td class="headerCovTableEntryLo">2.9 %</td>
+            <td class="headerCovTableEntry">237</td>
+            <td class="headerCovTableEntryLo">3.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-10 05:08:25</td>
+            <td class="headerValue">2017-01-21 05:04:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2006-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2006-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *                          Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -411,130 +411,128 @@
 <span class="lineNum">     349 </span><span class="lineNoCov">          0 :                 axisEvent.xRotation = -spev.motion.rx;</span>
 <span class="lineNum">     350 </span><span class="lineNoCov">          0 :                 axisEvent.yRotation = -spev.motion.ry;</span>
 <span class="lineNum">     351 </span><span class="lineNoCov">          0 :                 axisEvent.zRotation =  spev.motion.rz;</span>
-<span class="lineNum">     352 </span><span class="lineNoCov">          0 :                 return _window-&gt;processEvent( EVENT_MAGELLAN_AXIS, event,</span>
-<span class="lineNum">     353 </span><span class="lineNoCov">          0 :                                               axisEvent );</span>
-<span class="lineNum">     354 </span>            :             }
-<span class="lineNum">     355 </span>            : 
-<span class="lineNum">     356 </span>            :             case SPNAV_EVENT_BUTTON:
-<span class="lineNum">     357 </span>            :             {
-<span class="lineNum">     358 </span><span class="lineNoCov">          0 :                 ButtonEvent buttonEvent;</span>
-<span class="lineNum">     359 </span><span class="lineNoCov">          0 :                 buttonEvent.buttons = spev.button.press;</span>
-<span class="lineNum">     360 </span><span class="lineNoCov">          0 :                 buttonEvent.button = spev.button.bnum;</span>
-<span class="lineNum">     361 </span><span class="lineNoCov">          0 :                 return _window-&gt;processEvent( EVENT_MAGELLAN_BUTTON, event,</span>
-<span class="lineNum">     362 </span><span class="lineNoCov">          0 :                                               buttonEvent );</span>
-<span class="lineNum">     363 </span>            :             }
-<span class="lineNum">     364 </span>            : 
-<span class="lineNum">     365 </span>            :             default:
-<span class="lineNum">     366 </span><span class="lineNoCov">          0 :                 LBUNIMPLEMENTED;</span>
-<span class="lineNum">     367 </span><span class="lineNoCov">          0 :                 return false;</span>
-<span class="lineNum">     368 </span>            :             }
-<span class="lineNum">     369 </span>            : 
-<span class="lineNum">     370 </span>            :             break;
-<span class="lineNum">     371 </span>            :         }
-<span class="lineNum">     372 </span>            :  #endif
-<span class="lineNum">     373 </span>            : 
-<span class="lineNum">     374 </span><span class="lineNoCov">          0 :         Atom deleteAtom = XInternAtom( event.xany.display, &quot;WM_DELETE_WINDOW&quot;,</span>
-<span class="lineNum">     375 </span><span class="lineNoCov">          0 :                                        False );</span>
-<span class="lineNum">     376 </span>            : 
-<span class="lineNum">     377 </span><span class="lineNoCov">          0 :         if( static_cast&lt;Atom&gt;( event.xclient.data.l[0] ) != deleteAtom )</span>
-<span class="lineNum">     378 </span><span class="lineNoCov">          0 :             return false; // not a delete message, ignore.</span>
-<span class="lineNum">     379 </span>            :     }
-<span class="lineNum">     380 </span>            :     // else: delete message, fall through
-<span class="lineNum">     381 </span>            : 
-<span class="lineNum">     382 </span>            :     case DestroyNotify:
-<span class="lineNum">     383 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_CLOSE, event );</span>
-<span class="lineNum">     384 </span>            : 
-<span class="lineNum">     385 </span>            :     case MotionNotify:
-<span class="lineNum">     386 </span>            :     {
-<span class="lineNum">     387 </span><span class="lineNoCov">          0 :         PointerEvent pointerEvent;</span>
-<span class="lineNum">     388 </span><span class="lineNoCov">          0 :         pointerEvent.x = event.xmotion.x;</span>
-<span class="lineNum">     389 </span><span class="lineNoCov">          0 :         pointerEvent.y = event.xmotion.y;</span>
-<span class="lineNum">     390 </span><span class="lineNoCov">          0 :         pointerEvent.buttons = _getButtonState( event );</span>
-<span class="lineNum">     391 </span><span class="lineNoCov">          0 :         pointerEvent.button  = PTR_BUTTON_NONE;</span>
-<span class="lineNum">     392 </span><span class="lineNoCov">          0 :         pointerEvent.modifiers = _getKeyModifiers( event.xbutton.state );</span>
-<span class="lineNum">     393 </span><span class="lineNoCov">          0 :         _computePointerDelta( EVENT_WINDOW_POINTER_MOTION, pointerEvent );</span>
-<span class="lineNum">     394 </span>            : 
-<span class="lineNum">     395 </span>            : 
-<span class="lineNum">     396 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_POINTER_MOTION, event,</span>
-<span class="lineNum">     397 </span><span class="lineNoCov">          0 :                                       pointerEvent );</span>
-<span class="lineNum">     398 </span>            :     }
-<span class="lineNum">     399 </span>            : 
-<span class="lineNum">     400 </span>            :     case ButtonPress:
-<span class="lineNum">     401 </span>            :     {
-<span class="lineNum">     402 </span><span class="lineNoCov">          0 :         PointerEvent pointerEvent;</span>
-<span class="lineNum">     403 </span><span class="lineNoCov">          0 :         pointerEvent.x = event.xbutton.x;</span>
-<span class="lineNum">     404 </span><span class="lineNoCov">          0 :         pointerEvent.y = event.xbutton.y;</span>
-<span class="lineNum">     405 </span><span class="lineNoCov">          0 :         pointerEvent.buttons = _getButtonState( event );</span>
-<span class="lineNum">     406 </span><span class="lineNoCov">          0 :         pointerEvent.button  = _getButtonAction( event );</span>
-<span class="lineNum">     407 </span><span class="lineNoCov">          0 :         pointerEvent.modifiers = _getKeyModifiers( event.xbutton.state );</span>
-<span class="lineNum">     408 </span>            : 
-<span class="lineNum">     409 </span><span class="lineNoCov">          0 :         switch( pointerEvent.button ) // Translate wheel events</span>
-<span class="lineNum">     410 </span>            :         {
-<span class="lineNum">     411 </span><span class="lineNoCov">          0 :         case PTR_BUTTON4: pointerEvent.yAxis = 1; break;</span>
-<span class="lineNum">     412 </span><span class="lineNoCov">          0 :         case PTR_BUTTON5: pointerEvent.yAxis = -1; break;</span>
-<span class="lineNum">     413 </span><span class="lineNoCov">          0 :         case PTR_BUTTON6: pointerEvent.xAxis = 1; break;</span>
-<span class="lineNum">     414 </span><span class="lineNoCov">          0 :         case PTR_BUTTON7: pointerEvent.xAxis = -1; break;</span>
-<span class="lineNum">     415 </span>            :         }
-<span class="lineNum">     416 </span>            : 
-<span class="lineNum">     417 </span><span class="lineNoCov">          0 :         switch( pointerEvent.button )</span>
-<span class="lineNum">     418 </span>            :         {
-<span class="lineNum">     419 </span>            :         case PTR_BUTTON4:
-<span class="lineNum">     420 </span>            :         case PTR_BUTTON5:
-<span class="lineNum">     421 </span>            :         case PTR_BUTTON6:
-<span class="lineNum">     422 </span>            :         case PTR_BUTTON7:
-<span class="lineNum">     423 </span><span class="lineNoCov">          0 :             pointerEvent.button = PTR_BUTTON_NONE;</span>
-<span class="lineNum">     424 </span><span class="lineNoCov">          0 :             _computePointerDelta( EVENT_WINDOW_POINTER_WHEEL, pointerEvent );</span>
-<span class="lineNum">     425 </span><span class="lineNoCov">          0 :             return _window-&gt;processEvent( EVENT_WINDOW_POINTER_WHEEL, event,</span>
-<span class="lineNum">     426 </span><span class="lineNoCov">          0 :                                           pointerEvent );</span>
-<span class="lineNum">     427 </span>            :         }
-<span class="lineNum">     428 </span>            : 
-<span class="lineNum">     429 </span><span class="lineNoCov">          0 :         _computePointerDelta( EVENT_WINDOW_POINTER_BUTTON_PRESS, pointerEvent );</span>
-<span class="lineNum">     430 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_POINTER_BUTTON_PRESS, event,</span>
-<span class="lineNum">     431 </span><span class="lineNoCov">          0 :                                       pointerEvent );</span>
-<span class="lineNum">     432 </span>            :     }
-<span class="lineNum">     433 </span>            : 
-<span class="lineNum">     434 </span>            :     case ButtonRelease:
-<span class="lineNum">     435 </span>            :     {
-<span class="lineNum">     436 </span><span class="lineNoCov">          0 :         PointerEvent pointerEvent;</span>
-<span class="lineNum">     437 </span><span class="lineNoCov">          0 :         pointerEvent.x = event.xbutton.x;</span>
-<span class="lineNum">     438 </span><span class="lineNoCov">          0 :         pointerEvent.y = event.xbutton.y;</span>
-<span class="lineNum">     439 </span><span class="lineNoCov">          0 :         pointerEvent.buttons = _getButtonState( event );</span>
-<span class="lineNum">     440 </span><span class="lineNoCov">          0 :         pointerEvent.button  = _getButtonAction( event);</span>
-<span class="lineNum">     441 </span><span class="lineNoCov">          0 :         pointerEvent.modifiers = _getKeyModifiers( event.xbutton.state );</span>
-<span class="lineNum">     442 </span>            : 
-<span class="lineNum">     443 </span><span class="lineNoCov">          0 :         _computePointerDelta( EVENT_WINDOW_POINTER_BUTTON_RELEASE,</span>
-<span class="lineNum">     444 </span><span class="lineNoCov">          0 :                               pointerEvent );</span>
-<span class="lineNum">     445 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_POINTER_BUTTON_RELEASE,</span>
-<span class="lineNum">     446 </span><span class="lineNoCov">          0 :                                       event, pointerEvent );</span>
-<span class="lineNum">     447 </span>            :     }
-<span class="lineNum">     448 </span>            : 
-<span class="lineNum">     449 </span>            :     case KeyPress:
-<span class="lineNum">     450 </span>            :     {
-<span class="lineNum">     451 </span><span class="lineNoCov">          0 :         KeyEvent keyEvent;</span>
-<span class="lineNum">     452 </span><span class="lineNoCov">          0 :         keyEvent.key = _getKey( event );</span>
-<span class="lineNum">     453 </span><span class="lineNoCov">          0 :         keyEvent.modifiers = _getKeyModifiers( event.xkey.state );</span>
-<span class="lineNum">     454 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_KEY_PRESS, event, keyEvent );</span>
-<span class="lineNum">     455 </span>            :     }
-<span class="lineNum">     456 </span>            : 
-<span class="lineNum">     457 </span>            :     case KeyRelease:
-<span class="lineNum">     458 </span>            :     {
-<span class="lineNum">     459 </span><span class="lineNoCov">          0 :         KeyEvent keyEvent;</span>
-<span class="lineNum">     460 </span><span class="lineNoCov">          0 :         keyEvent.key = _getKey( event );</span>
-<span class="lineNum">     461 </span><span class="lineNoCov">          0 :         keyEvent.modifiers = _getKeyModifiers( event.xkey.state );</span>
-<span class="lineNum">     462 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_KEY_RELEASE, event, keyEvent );</span>
-<span class="lineNum">     463 </span>            :     }
-<span class="lineNum">     464 </span>            : 
-<span class="lineNum">     465 </span>            :     default:
-<span class="lineNum">     466 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Unhandled X event, type &quot; &lt;&lt; event.type &lt;&lt; std::endl;</span>
-<span class="lineNum">     467 </span>            :         // no break;
-<span class="lineNum">     468 </span>            :     case ReparentNotify:
-<span class="lineNum">     469 </span>            :     case VisibilityNotify:
-<span class="lineNum">     470 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_UNKNOWN, event );</span>
-<span class="lineNum">     471 </span>            :     }
+<span class="lineNum">     352 </span><span class="lineNoCov">          0 :                 return _window-&gt;processEvent( event, axisEvent );</span>
+<span class="lineNum">     353 </span>            :             }
+<span class="lineNum">     354 </span>            : 
+<span class="lineNum">     355 </span>            :             case SPNAV_EVENT_BUTTON:
+<span class="lineNum">     356 </span>            :             {
+<span class="lineNum">     357 </span><span class="lineNoCov">          0 :                 ButtonEvent buttonEvent;</span>
+<span class="lineNum">     358 </span><span class="lineNoCov">          0 :                 buttonEvent.buttons = spev.button.press;</span>
+<span class="lineNum">     359 </span><span class="lineNoCov">          0 :                 buttonEvent.button = spev.button.bnum;</span>
+<span class="lineNum">     360 </span><span class="lineNoCov">          0 :                 return _window-&gt;processEvent( event, buttonEvent );</span>
+<span class="lineNum">     361 </span>            :             }
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            :             default:
+<span class="lineNum">     364 </span><span class="lineNoCov">          0 :                 LBUNIMPLEMENTED;</span>
+<span class="lineNum">     365 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     366 </span>            :             }
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span>            :             break;
+<span class="lineNum">     369 </span>            :         }
+<span class="lineNum">     370 </span>            :  #endif
+<span class="lineNum">     371 </span>            : 
+<span class="lineNum">     372 </span><span class="lineNoCov">          0 :         Atom deleteAtom = XInternAtom( event.xany.display, &quot;WM_DELETE_WINDOW&quot;,</span>
+<span class="lineNum">     373 </span><span class="lineNoCov">          0 :                                        False );</span>
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span><span class="lineNoCov">          0 :         if( static_cast&lt;Atom&gt;( event.xclient.data.l[0] ) != deleteAtom )</span>
+<span class="lineNum">     376 </span><span class="lineNoCov">          0 :             return false; // not a delete message, ignore.</span>
+<span class="lineNum">     377 </span>            :     }
+<span class="lineNum">     378 </span>            :     // else: delete message, fall through
+<span class="lineNum">     379 </span>            : 
+<span class="lineNum">     380 </span>            :     case DestroyNotify:
+<span class="lineNum">     381 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_CLOSE, event );</span>
+<span class="lineNum">     382 </span>            : 
+<span class="lineNum">     383 </span>            :     case MotionNotify:
+<span class="lineNum">     384 </span>            :     {
+<span class="lineNum">     385 </span><span class="lineNoCov">          0 :         PointerEvent pointerEvent;</span>
+<span class="lineNum">     386 </span><span class="lineNoCov">          0 :         pointerEvent.x = event.xmotion.x;</span>
+<span class="lineNum">     387 </span><span class="lineNoCov">          0 :         pointerEvent.y = event.xmotion.y;</span>
+<span class="lineNum">     388 </span><span class="lineNoCov">          0 :         pointerEvent.buttons = _getButtonState( event );</span>
+<span class="lineNum">     389 </span><span class="lineNoCov">          0 :         pointerEvent.button  = PTR_BUTTON_NONE;</span>
+<span class="lineNum">     390 </span><span class="lineNoCov">          0 :         pointerEvent.modifiers = _getKeyModifiers( event.xbutton.state );</span>
+<span class="lineNum">     391 </span><span class="lineNoCov">          0 :         _computePointerDelta( EVENT_WINDOW_POINTER_MOTION, pointerEvent );</span>
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span>            : 
+<span class="lineNum">     394 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_POINTER_MOTION, event,</span>
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :                                       pointerEvent );</span>
+<span class="lineNum">     396 </span>            :     }
+<span class="lineNum">     397 </span>            : 
+<span class="lineNum">     398 </span>            :     case ButtonPress:
+<span class="lineNum">     399 </span>            :     {
+<span class="lineNum">     400 </span><span class="lineNoCov">          0 :         PointerEvent pointerEvent;</span>
+<span class="lineNum">     401 </span><span class="lineNoCov">          0 :         pointerEvent.x = event.xbutton.x;</span>
+<span class="lineNum">     402 </span><span class="lineNoCov">          0 :         pointerEvent.y = event.xbutton.y;</span>
+<span class="lineNum">     403 </span><span class="lineNoCov">          0 :         pointerEvent.buttons = _getButtonState( event );</span>
+<span class="lineNum">     404 </span><span class="lineNoCov">          0 :         pointerEvent.button  = _getButtonAction( event );</span>
+<span class="lineNum">     405 </span><span class="lineNoCov">          0 :         pointerEvent.modifiers = _getKeyModifiers( event.xbutton.state );</span>
+<span class="lineNum">     406 </span>            : 
+<span class="lineNum">     407 </span><span class="lineNoCov">          0 :         switch( pointerEvent.button ) // Translate wheel events</span>
+<span class="lineNum">     408 </span>            :         {
+<span class="lineNum">     409 </span><span class="lineNoCov">          0 :         case PTR_BUTTON4: pointerEvent.yAxis = 1; break;</span>
+<span class="lineNum">     410 </span><span class="lineNoCov">          0 :         case PTR_BUTTON5: pointerEvent.yAxis = -1; break;</span>
+<span class="lineNum">     411 </span><span class="lineNoCov">          0 :         case PTR_BUTTON6: pointerEvent.xAxis = 1; break;</span>
+<span class="lineNum">     412 </span><span class="lineNoCov">          0 :         case PTR_BUTTON7: pointerEvent.xAxis = -1; break;</span>
+<span class="lineNum">     413 </span>            :         }
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 :         switch( pointerEvent.button )</span>
+<span class="lineNum">     416 </span>            :         {
+<span class="lineNum">     417 </span>            :         case PTR_BUTTON4:
+<span class="lineNum">     418 </span>            :         case PTR_BUTTON5:
+<span class="lineNum">     419 </span>            :         case PTR_BUTTON6:
+<span class="lineNum">     420 </span>            :         case PTR_BUTTON7:
+<span class="lineNum">     421 </span><span class="lineNoCov">          0 :             pointerEvent.button = PTR_BUTTON_NONE;</span>
+<span class="lineNum">     422 </span><span class="lineNoCov">          0 :             _computePointerDelta( EVENT_WINDOW_POINTER_WHEEL, pointerEvent );</span>
+<span class="lineNum">     423 </span><span class="lineNoCov">          0 :             return _window-&gt;processEvent( EVENT_WINDOW_POINTER_WHEEL, event,</span>
+<span class="lineNum">     424 </span><span class="lineNoCov">          0 :                                           pointerEvent );</span>
+<span class="lineNum">     425 </span>            :         }
+<span class="lineNum">     426 </span>            : 
+<span class="lineNum">     427 </span><span class="lineNoCov">          0 :         _computePointerDelta( EVENT_WINDOW_POINTER_BUTTON_PRESS, pointerEvent );</span>
+<span class="lineNum">     428 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_POINTER_BUTTON_PRESS, event,</span>
+<span class="lineNum">     429 </span><span class="lineNoCov">          0 :                                       pointerEvent );</span>
+<span class="lineNum">     430 </span>            :     }
+<span class="lineNum">     431 </span>            : 
+<span class="lineNum">     432 </span>            :     case ButtonRelease:
+<span class="lineNum">     433 </span>            :     {
+<span class="lineNum">     434 </span><span class="lineNoCov">          0 :         PointerEvent pointerEvent;</span>
+<span class="lineNum">     435 </span><span class="lineNoCov">          0 :         pointerEvent.x = event.xbutton.x;</span>
+<span class="lineNum">     436 </span><span class="lineNoCov">          0 :         pointerEvent.y = event.xbutton.y;</span>
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 :         pointerEvent.buttons = _getButtonState( event );</span>
+<span class="lineNum">     438 </span><span class="lineNoCov">          0 :         pointerEvent.button  = _getButtonAction( event);</span>
+<span class="lineNum">     439 </span><span class="lineNoCov">          0 :         pointerEvent.modifiers = _getKeyModifiers( event.xbutton.state );</span>
+<span class="lineNum">     440 </span>            : 
+<span class="lineNum">     441 </span><span class="lineNoCov">          0 :         _computePointerDelta( EVENT_WINDOW_POINTER_BUTTON_RELEASE,</span>
+<span class="lineNum">     442 </span><span class="lineNoCov">          0 :                               pointerEvent );</span>
+<span class="lineNum">     443 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_WINDOW_POINTER_BUTTON_RELEASE,</span>
+<span class="lineNum">     444 </span><span class="lineNoCov">          0 :                                       event, pointerEvent );</span>
+<span class="lineNum">     445 </span>            :     }
+<span class="lineNum">     446 </span>            : 
+<span class="lineNum">     447 </span>            :     case KeyPress:
+<span class="lineNum">     448 </span>            :     {
+<span class="lineNum">     449 </span><span class="lineNoCov">          0 :         KeyEvent keyEvent;</span>
+<span class="lineNum">     450 </span><span class="lineNoCov">          0 :         keyEvent.key = _getKey( event );</span>
+<span class="lineNum">     451 </span><span class="lineNoCov">          0 :         keyEvent.modifiers = _getKeyModifiers( event.xkey.state );</span>
+<span class="lineNum">     452 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_KEY_PRESS, event, keyEvent );</span>
+<span class="lineNum">     453 </span>            :     }
+<span class="lineNum">     454 </span>            : 
+<span class="lineNum">     455 </span>            :     case KeyRelease:
+<span class="lineNum">     456 </span>            :     {
+<span class="lineNum">     457 </span><span class="lineNoCov">          0 :         KeyEvent keyEvent;</span>
+<span class="lineNum">     458 </span><span class="lineNoCov">          0 :         keyEvent.key = _getKey( event );</span>
+<span class="lineNum">     459 </span><span class="lineNoCov">          0 :         keyEvent.modifiers = _getKeyModifiers( event.xkey.state );</span>
+<span class="lineNum">     460 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_KEY_RELEASE, event, keyEvent );</span>
+<span class="lineNum">     461 </span>            :     }
+<span class="lineNum">     462 </span>            : 
+<span class="lineNum">     463 </span>            :     default:
+<span class="lineNum">     464 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Unhandled X event, type &quot; &lt;&lt; event.type &lt;&lt; std::endl;</span>
+<span class="lineNum">     465 </span>            :         // no break;
+<span class="lineNum">     466 </span>            :     case ReparentNotify:
+<span class="lineNum">     467 </span>            :     case VisibilityNotify:
+<span class="lineNum">     468 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent( EVENT_UNKNOWN, event );</span>
+<span class="lineNum">     469 </span>            :     }
+<span class="lineNum">     470 </span>            : }
+<a name="471"><span class="lineNum">     471 </span>            : </a>
 <span class="lineNum">     472 </span>            : }
-<a name="473"><span class="lineNum">     473 </span>            : </a>
-<span class="lineNum">     474 </span>            : }
-<span class="lineNum">     475 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">     473 </span><span class="lineCov">         36 : }</span>
 </pre>
       </td>
     </tr>

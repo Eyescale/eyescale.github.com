@@ -10,6 +10,7 @@ var classeq_1_1_client =
     [ "exitLocal", "classeq_1_1_client.html#aa0dde520d14f5ff0691b1063c5cd9d97", null ],
     [ "getActiveLayouts", "classeq_1_1_client.html#abe11db5317d8fda7f0ebd22c8ff1e840", null ],
     [ "getGPUFilter", "classeq_1_1_client.html#a4c821133dc4105e00ffd56fdf10b8255", null ],
+    [ "getHelp", "classeq_1_1_client.html#ae1ca91efd20efabff54023b065970dd9", null ],
     [ "getMainThreadQueue", "classeq_1_1_client.html#ac590187edae4f1e11c5009fac8d7e397", null ],
     [ "getModelUnit", "classeq_1_1_client.html#addef7f862152c7c93ab86f33044365a7", null ],
     [ "getName", "classeq_1_1_client.html#a382b68304cb9aa4cb032c6dce137d3a0", null ],
