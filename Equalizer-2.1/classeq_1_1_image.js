@@ -52,6 +52,6 @@ var classeq_1_1_image =
     [ "validatePixelData", "classeq_1_1_image.html#abeb89165471e0f8c01c5f406bf61ccbd", null ],
     [ "writeImage", "classeq_1_1_image.html#afc97b319fb08470037caf35d006eeb21", null ],
     [ "writeImages", "classeq_1_1_image.html#a7245d3ed3744488b4081aa243cbeff3d", null ],
-    [ "operator<<", "classeq_1_1_image.html#add5d260065ae9f6d5100ed4bc60be7ff", null ],
-    [ "operator>>", "classeq_1_1_image.html#a133e2252a2bc481919046bbbaa39abef", null ]
+    [ "operator<<", "classeq_1_1_image.html#af299990266c076dbd3e56360dc03dc98", null ],
+    [ "operator>>", "classeq_1_1_image.html#a24cb53c60ae36b735947d10ffee2b80c", null ]
 ];
