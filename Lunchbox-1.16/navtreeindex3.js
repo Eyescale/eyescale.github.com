@@ -1,6 +1,7 @@
 var NAVTREEINDEX3 =
 {
 "namespacelunchbox.html":[5,0,0],
+"namespacelunchbox.html":[4,0,0],
 "namespacemembers.html":[4,1,0],
 "namespacemembers_enum.html":[4,1,3],
 "namespacemembers_eval.html":[4,1,4],

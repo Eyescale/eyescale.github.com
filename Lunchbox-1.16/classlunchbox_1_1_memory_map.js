@@ -13,7 +13,8 @@ var classlunchbox_1_1_memory_map =
     [ "getAddress", "classlunchbox_1_1_memory_map.html#a90cbdfbd48c7dffafe8907be74309fb6", null ],
     [ "getSize", "classlunchbox_1_1_memory_map.html#a5be5d450cd168983053cc6b05447ad5b", null ],
     [ "map", "classlunchbox_1_1_memory_map.html#a2d43b3371292235f2395ae0ca8cb2cb1", null ],
-    [ "recreate", "classlunchbox_1_1_memory_map.html#ae06a39b47e029a029de06cd398935fac", null ],
+    [ "recreate", "classlunchbox_1_1_memory_map.html#aa0bf73bc7824e2ef741589ffd87fb517", null ],
     [ "remap", "classlunchbox_1_1_memory_map.html#a688db52f17a4900731ba7c82e9ff64cd", null ],
+    [ "resize", "classlunchbox_1_1_memory_map.html#a02aa7c54cb61726ef38280a4f258c3d9", null ],
     [ "unmap", "classlunchbox_1_1_memory_map.html#afee63b1e51c6a28d329852c507b51cdb", null ]
 ];

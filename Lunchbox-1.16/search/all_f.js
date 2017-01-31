@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['recreate',['recreate',['../classlunchbox_1_1_memory_map.html#ae06a39b47e029a029de06cd398935fac',1,'lunchbox::MemoryMap']]],
+  ['recreate',['recreate',['../classlunchbox_1_1_memory_map.html#aa0bf73bc7824e2ef741589ffd87fb517',1,'lunchbox::MemoryMap']]],
   ['ref',['ref',['../classlunchbox_1_1_referenced.html#a4b75d91a8562485c885cbf65b42232a3',1,'lunchbox::Referenced']]],
   ['referenced',['Referenced',['../classlunchbox_1_1_referenced.html',1,'lunchbox']]],
   ['referenced',['Referenced',['../classlunchbox_1_1_referenced.html#a4194650cb8c1f901cd3dd8c1ae3a02b0',1,'lunchbox::Referenced::Referenced()'],['../classlunchbox_1_1_referenced.html#a254310e9ede333af755434a529a85b77',1,'lunchbox::Referenced::Referenced(const Referenced &amp;)']]],
@@ -22,7 +22,7 @@ var searchData=
   ['reserve',['reserve',['../classlunchbox_1_1_buffer.html#a08776c868da50571dc37a0a5be09fa0f',1,'lunchbox::Buffer']]],
   ['reset',['reset',['../classlunchbox_1_1_buffer.html#abaeaaced5408d9fbcdf0d46bd0006c60',1,'lunchbox::Buffer::reset()'],['../classlunchbox_1_1_clock.html#a79e773ad626f597ef1f972d9ffdfb669',1,'lunchbox::Clock::reset()']]],
   ['resettimef',['resetTimef',['../classlunchbox_1_1_clock.html#aea70842de20111f00dadbf4249927da3',1,'lunchbox::Clock']]],
-  ['resize',['resize',['../classlunchbox_1_1_buffer.html#a6c598fbe76366611703cf7935388185a',1,'lunchbox::Buffer::resize()'],['../classlunchbox_1_1_l_f_queue.html#aa43df91e458ae30aed03d00d77362a70',1,'lunchbox::LFQueue::resize()'],['../classlunchbox_1_1_l_f_vector.html#afe5da93274a1b15588eb32d38349fa96',1,'lunchbox::LFVector::resize()']]],
+  ['resize',['resize',['../classlunchbox_1_1_buffer.html#a6c598fbe76366611703cf7935388185a',1,'lunchbox::Buffer::resize()'],['../classlunchbox_1_1_l_f_queue.html#aa43df91e458ae30aed03d00d77362a70',1,'lunchbox::LFQueue::resize()'],['../classlunchbox_1_1_l_f_vector.html#afe5da93274a1b15588eb32d38349fa96',1,'lunchbox::LFVector::resize()'],['../classlunchbox_1_1_memory_map.html#a02aa7c54cb61726ef38280a4f258c3d9',1,'lunchbox::MemoryMap::resize()']]],
   ['result',['Result',['../classlunchbox_1_1_result.html#ae82daa1dc22757f6122baa0d9690b9d3',1,'lunchbox::Result']]],
   ['result',['Result',['../classlunchbox_1_1_result.html',1,'lunchbox']]],
   ['rng',['RNG',['../classlunchbox_1_1_r_n_g.html',1,'lunchbox']]],
