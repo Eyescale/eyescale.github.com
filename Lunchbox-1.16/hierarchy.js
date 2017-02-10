@@ -58,6 +58,7 @@ var hierarchy =
     [ "lunchbox::Version", "classlunchbox_1_1_version.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< T > >", "classlunchbox_1_1_ref_ptr.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< void > >", "classlunchbox_1_1_ref_ptr.html", null ],
+    [ "lunchbox::RefPtr< K >", "classlunchbox_1_1_ref_ptr.html", null ],
     [ "std::exception", null, [
       [ "std::bad_cast", null, [
         [ "lunchbox::bad_any_cast", "classlunchbox_1_1bad__any__cast.html", null ]
@@ -66,10 +67,6 @@ var hierarchy =
         [ "lunchbox::FutureTimeout", "classlunchbox_1_1_future_timeout.html", null ],
         [ "lunchbox::UnregisteredRequest", "classlunchbox_1_1_unregistered_request.html", null ]
       ] ]
-    ] ],
-    [ "hash_map", null, [
-      [ "lunchbox::PtrHash< K, T >", "classlunchbox_1_1_ptr_hash.html", null ],
-      [ "lunchbox::RefPtrHash< K, T >", "classlunchbox_1_1_ref_ptr_hash.html", null ]
     ] ],
     [ "std::ios_base", null, [
       [ "std::basic_ios< Char >", null, [
@@ -85,5 +82,9 @@ var hierarchy =
         [ "lunchbox::LFVectorIterator< V, T >", "classlunchbox_1_1_l_f_vector_iterator.html", null ]
       ] ],
       [ "lunchbox::IndexIterator< S, C, T >", "classlunchbox_1_1_index_iterator.html", null ]
+    ] ],
+    [ "std::unordered_map< K, T >", null, [
+      [ "lunchbox::PtrHash< K, T >", "classlunchbox_1_1_ptr_hash.html", null ],
+      [ "lunchbox::RefPtrHash< K, T >", "classlunchbox_1_1_ref_ptr_hash.html", null ]
     ] ]
 ];

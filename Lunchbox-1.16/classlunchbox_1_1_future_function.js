@@ -1,6 +1,6 @@
 var classlunchbox_1_1_future_function =
 [
-    [ "Func", "classlunchbox_1_1_future_function.html#a61be37f0d0ed7e79f252d4e07973bec9", null ],
+    [ "Func", "classlunchbox_1_1_future_function.html#a127c9b2b87edac3b787eddcddaedee97", null ],
     [ "FutureFunction", "classlunchbox_1_1_future_function.html#a403f76f8e3d86286516a36849abb812f", null ],
     [ "~FutureFunction", "classlunchbox_1_1_future_function.html#a8e9f447923de01313aba904c1948f655", null ],
     [ "isReady", "classlunchbox_1_1_future_function.html#a989a008f61f079b25f420185125e1cd5", null ],

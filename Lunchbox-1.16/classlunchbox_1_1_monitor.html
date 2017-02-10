@@ -275,8 +275,8 @@ class lunchbox::Monitor&lt; T &gt;</h3>
 
 <p>A monitor primitive. </p>
 <p>A monitor has a value, which can be monitored to reach a certain state. The caller is blocked until the condition is fulfilled. The concept is similar to a pthread condition, with more usage convenience.</p>
-<p>Example: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2010-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div><div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div><div class="line"><span class="comment"> * by the Free Software Foundation.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div><div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div><div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div><div class="line"><span class="comment"> * details.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div><div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div><div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#define TEST_RUNTIME 300 // seconds</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/test.h&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/monitor.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">using</span> servus::uint128_t;</div><div class="line"></div><div class="line"><a class="code" href="classlunchbox_1_1_monitor.html">lunchbox::Monitor&lt; int64_t &gt;</a> monitor;</div><div class="line"><a class="code" href="classlunchbox_1_1_monitor.html">lunchbox::Monitor&lt; bool &gt;</a> boolMonitor;</div><div class="line"></div><div class="line"><span class="keyword">class </span>Thread1 : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">explicit</span> Thread1( int64_t loops ) : _loops( loops ) {}</div><div class="line">    <span class="keyword">virtual</span> ~Thread1() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div><div class="line">        {</div><div class="line">            int64_t nOps = _loops;</div><div class="line">            <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">            <span class="keywordflow">while</span>( nOps-- )</div><div class="line">            {</div><div class="line">                monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a7c51270ac06b7ba7eca8356b19970a0b">waitEQ</a>( nOps );</div><div class="line">                monitor = -nOps;</div><div class="line">            }</div><div class="line"></div><div class="line">            <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line">            std::cout &lt;&lt; 2*_loops / time &lt;&lt; <span class="stringliteral">&quot; ops/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">        }</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    int64_t _loops;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> testSimpleMonitor()</div><div class="line">{</div><div class="line">    TEST( !boolMonitor );</div><div class="line">    boolMonitor = <span class="keyword">true</span>;</div><div class="line">    TEST( boolMonitor );</div><div class="line"></div><div class="line">    <span class="keyword">const</span> int64_t loops = 200000;</div><div class="line">    int64_t nOps = loops;</div><div class="line">    Thread1 waiter( nOps );</div><div class="line"></div><div class="line">    TEST( waiter.start( ));</div><div class="line">    <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line"></div><div class="line">    <span class="keywordflow">while</span>( nOps-- )</div><div class="line">    {</div><div class="line">        monitor = nOps;</div><div class="line">        monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a7c51270ac06b7ba7eca8356b19970a0b">waitEQ</a>( -nOps );</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.getTimef();</div><div class="line"></div><div class="line">    TEST( waiter.join( ));</div><div class="line">    std::cout &lt;&lt; 2*loops / time &lt;&lt; <span class="stringliteral">&quot; ops/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">class </span>Thread2 : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">explicit</span> Thread2( <span class="keywordtype">size_t</span> loops )</div><div class="line">        : innerLoops( 0 )</div><div class="line">        , _outerLoops( loops )</div><div class="line">    {}</div><div class="line"></div><div class="line">    <span class="keyword">virtual</span> ~Thread2() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div><div class="line">        {</div><div class="line">            <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">            <span class="keywordtype">size_t</span> ops = 0;</div><div class="line">            <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> k = 0; k != 2; ++k )</div><div class="line">            {</div><div class="line">                <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i != _outerLoops; ++i )</div><div class="line">                {</div><div class="line">                    <span class="keyword">const</span> int64_t loops = innerLoops.waitNE( 0 );</div><div class="line">                    innerLoops = 0;</div><div class="line">                    <span class="keywordflow">for</span>( int64_t j = 0; j != loops; ++j )</div><div class="line">                    {</div><div class="line">                        <span class="keywordflow">if</span> (innerLoops &gt; 0)</div><div class="line">                            abort();</div><div class="line">                        ++monitor;</div><div class="line">                    }</div><div class="line">                    ops += loops * 2 + 2;</div><div class="line">                }</div><div class="line">            }</div><div class="line"></div><div class="line">            <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> k = 0; k != 2; ++k )</div><div class="line">            {</div><div class="line">                <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i != _outerLoops; ++i )</div><div class="line">                {</div><div class="line">                    <span class="keyword">const</span> int64_t loops = innerLoops.<a class="code" href="classlunchbox_1_1_monitor.html#a27e55a47658258031ee6af2b5a5417fc">waitNE</a>( 0 );</div><div class="line">                    innerLoops = 0;</div><div class="line">                    <span class="keywordflow">for</span>( int64_t j = 0; j != loops; ++j )</div><div class="line">                    {</div><div class="line">                        <span class="keywordflow">if</span> (innerLoops &gt; 0)</div><div class="line">                            abort();</div><div class="line">                        --monitor;</div><div class="line">                    }</div><div class="line">                    ops += loops * 2 + 2;</div><div class="line">                }</div><div class="line">            }</div><div class="line"></div><div class="line">            <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line">            std::cout &lt;&lt; ops/time &lt;&lt; <span class="stringliteral">&quot; ops/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">        }</div><div class="line"></div><div class="line">    <a class="code" href="classlunchbox_1_1_monitor.html">lunchbox::Monitor&lt; int64_t &gt;</a> innerLoops;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keywordtype">size_t</span> _outerLoops;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> testMonitorComparisons()</div><div class="line">{</div><div class="line">    boolMonitor = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">const</span> int64_t loops = 1000;</div><div class="line">    Thread2 waiter( loops );</div><div class="line">    TEST( waiter.start( ));</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span>( int64_t i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST( monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a3174b097cd0d5586791c2595337e6774">waitGE</a>( i + 1 ) &gt;= i + 1 );</div><div class="line">        TEST( monitor &gt;= i + 1 );</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span>( int64_t i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST( monitor.<a class="code" href="classlunchbox_1_1_monitor.html#aadc923894732b2f3621e1c69b5c62d66">waitGT</a>( i ) &gt; i );</div><div class="line">        TEST( monitor &gt; i );</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span>( int64_t i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST( monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a9801fc5798c6d4efaf26d9d21402ce5d">waitLE</a>( 0 ) &lt;= 0 );</div><div class="line">        TEST( monitor &lt;= 0 );</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span>( int64_t i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST( monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a876eefbbe29513d6fc08265a10fafe43">waitLT</a>( 1 ) &lt; 1 );</div><div class="line">        TEST( monitor &lt; 1 );</div><div class="line">    }</div><div class="line"></div><div class="line">    TEST( waiter.join( ));</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> testTimedMonitorComparisons()</div><div class="line">{</div><div class="line">    boolMonitor = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">size_t</span> loops = 1000;</div><div class="line">    Thread2 waiter( loops );</div><div class="line">    TEST( waiter.start( ));</div><div class="line">    <span class="keyword">const</span> uint32_t timeout = 1;</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span>( !monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a2a8b5c1fc9b3cfdd917a2955aa555b53">timedWaitGE</a>( i + 1, timeout ))</div><div class="line">            ;</div><div class="line">        TEST( monitor &gt;= i + 1 );</div><div class="line">    }</div><div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span>( !monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a8857cfb02fa94ea4b29793a1fa2060be">timedWaitGT</a>( i, timeout ))</div><div class="line">            ;</div><div class="line">        TEST( monitor &gt; i );</div><div class="line">    }</div><div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span>( !monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a3f4d896667711194394e778a74ced30a">timedWaitLE</a>( 0, timeout ))</div><div class="line">            ;</div><div class="line">        TEST( monitor &lt;= 0 );</div><div class="line">    }</div><div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i != loops; ++i )</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span>( !monitor.<a class="code" href="classlunchbox_1_1_monitor.html#af2e959c5b4ca937fde9f60304a7b8896">timedWaitLT</a>( 1, timeout ))</div><div class="line">            ;</div><div class="line">        TEST( monitor &lt; 1 );</div><div class="line">    }</div><div class="line"></div><div class="line">    TEST( waiter.join( ));</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div><div class="line">{</div><div class="line">    testSimpleMonitor();</div><div class="line">    testMonitorComparisons();</div><div class="line">    testTimedMonitorComparisons();</div><div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div><div class="line">}</div></div><!-- fragment --> 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00044">44</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Example: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2010-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div><div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div><div class="line"><span class="comment"> * by the Free Software Foundation.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div><div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div><div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div><div class="line"><span class="comment"> * details.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div><div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div><div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#define TEST_RUNTIME 300 // seconds</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/test.h&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/monitor.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">using</span> servus::uint128_t;</div><div class="line"></div><div class="line"><a class="code" href="classlunchbox_1_1_monitor.html">lunchbox::Monitor&lt;int64_t&gt;</a> monitor;</div><div class="line"><a class="code" href="classlunchbox_1_1_monitor.html">lunchbox::Monitor&lt;bool&gt;</a> boolMonitor;</div><div class="line"></div><div class="line"><span class="keyword">class </span>Thread1 : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">explicit</span> Thread1(int64_t loops)</div><div class="line">        : _loops(loops)</div><div class="line">    {</div><div class="line">    }</div><div class="line">    <span class="keyword">virtual</span> ~Thread1() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div><div class="line">    {</div><div class="line">        int64_t nOps = _loops;</div><div class="line">        <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">        <span class="keywordflow">while</span> (nOps--)</div><div class="line">        {</div><div class="line">            monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a7c51270ac06b7ba7eca8356b19970a0b">waitEQ</a>(nOps);</div><div class="line">            monitor = -nOps;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line">        std::cout &lt;&lt; 2 * _loops / time &lt;&lt; <span class="stringliteral">&quot; ops/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">    }</div><div class="line"></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    int64_t _loops;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> testSimpleMonitor()</div><div class="line">{</div><div class="line">    TEST(!boolMonitor);</div><div class="line">    boolMonitor = <span class="keyword">true</span>;</div><div class="line">    TEST(boolMonitor);</div><div class="line"></div><div class="line">    <span class="keyword">const</span> int64_t loops = 200000;</div><div class="line">    int64_t nOps = loops;</div><div class="line">    Thread1 waiter(nOps);</div><div class="line"></div><div class="line">    TEST(waiter.start());</div><div class="line">    <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line"></div><div class="line">    <span class="keywordflow">while</span> (nOps--)</div><div class="line">    {</div><div class="line">        monitor = nOps;</div><div class="line">        monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a7c51270ac06b7ba7eca8356b19970a0b">waitEQ</a>(-nOps);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.getTimef();</div><div class="line"></div><div class="line">    TEST(waiter.join());</div><div class="line">    std::cout &lt;&lt; 2 * loops / time &lt;&lt; <span class="stringliteral">&quot; ops/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">class </span>Thread2 : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">explicit</span> Thread2(<span class="keywordtype">size_t</span> loops)</div><div class="line">        : innerLoops(0)</div><div class="line">        , _outerLoops(loops)</div><div class="line">    {</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">virtual</span> ~Thread2() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div><div class="line">    {</div><div class="line">        <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">        <span class="keywordtype">size_t</span> ops = 0;</div><div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> k = 0; k != 2; ++k)</div><div class="line">        {</div><div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i != _outerLoops; ++i)</div><div class="line">            {</div><div class="line">                <span class="keyword">const</span> int64_t loops = innerLoops.waitNE(0);</div><div class="line">                innerLoops = 0;</div><div class="line">                <span class="keywordflow">for</span> (int64_t j = 0; j != loops; ++j)</div><div class="line">                {</div><div class="line">                    <span class="keywordflow">if</span> (innerLoops &gt; 0)</div><div class="line">                        abort();</div><div class="line">                    ++monitor;</div><div class="line">                }</div><div class="line">                ops += loops * 2 + 2;</div><div class="line">            }</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> k = 0; k != 2; ++k)</div><div class="line">        {</div><div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i != _outerLoops; ++i)</div><div class="line">            {</div><div class="line">                <span class="keyword">const</span> int64_t loops = innerLoops.<a class="code" href="classlunchbox_1_1_monitor.html#a27e55a47658258031ee6af2b5a5417fc">waitNE</a>(0);</div><div class="line">                innerLoops = 0;</div><div class="line">                <span class="keywordflow">for</span> (int64_t j = 0; j != loops; ++j)</div><div class="line">                {</div><div class="line">                    <span class="keywordflow">if</span> (innerLoops &gt; 0)</div><div class="line">                        abort();</div><div class="line">                    --monitor;</div><div class="line">                }</div><div class="line">                ops += loops * 2 + 2;</div><div class="line">            }</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line">        std::cout &lt;&lt; ops / time &lt;&lt; <span class="stringliteral">&quot; ops/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">    }</div><div class="line"></div><div class="line">    <a class="code" href="classlunchbox_1_1_monitor.html">lunchbox::Monitor&lt;int64_t&gt;</a> innerLoops;</div><div class="line"></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keywordtype">size_t</span> _outerLoops;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> testMonitorComparisons()</div><div class="line">{</div><div class="line">    boolMonitor = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">const</span> int64_t loops = 1000;</div><div class="line">    Thread2 waiter(loops);</div><div class="line">    TEST(waiter.start());</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (int64_t i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST(monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a3174b097cd0d5586791c2595337e6774">waitGE</a>(i + 1) &gt;= i + 1);</div><div class="line">        TEST(monitor &gt;= i + 1);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (int64_t i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST(monitor.<a class="code" href="classlunchbox_1_1_monitor.html#aadc923894732b2f3621e1c69b5c62d66">waitGT</a>(i) &gt; i);</div><div class="line">        TEST(monitor &gt; i);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (int64_t i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST(monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a9801fc5798c6d4efaf26d9d21402ce5d">waitLE</a>(0) &lt;= 0);</div><div class="line">        TEST(monitor &lt;= 0);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (int64_t i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        TEST(monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a876eefbbe29513d6fc08265a10fafe43">waitLT</a>(1) &lt; 1);</div><div class="line">        TEST(monitor &lt; 1);</div><div class="line">    }</div><div class="line"></div><div class="line">    TEST(waiter.join());</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> testTimedMonitorComparisons()</div><div class="line">{</div><div class="line">    boolMonitor = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">size_t</span> loops = 1000;</div><div class="line">    Thread2 waiter(loops);</div><div class="line">    TEST(waiter.start());</div><div class="line">    <span class="keyword">const</span> uint32_t timeout = 1;</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span> (!monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a2a8b5c1fc9b3cfdd917a2955aa555b53">timedWaitGE</a>(i + 1, timeout))</div><div class="line">            ;</div><div class="line">        TEST(monitor &gt;= i + 1);</div><div class="line">    }</div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = 0;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span> (!monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a8857cfb02fa94ea4b29793a1fa2060be">timedWaitGT</a>(i, timeout))</div><div class="line">            ;</div><div class="line">        TEST(monitor &gt; i);</div><div class="line">    }</div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span> (!monitor.<a class="code" href="classlunchbox_1_1_monitor.html#a3f4d896667711194394e778a74ced30a">timedWaitLE</a>(0, timeout))</div><div class="line">            ;</div><div class="line">        TEST(monitor &lt;= 0);</div><div class="line">    }</div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i != loops; ++i)</div><div class="line">    {</div><div class="line">        monitor = i + 1;</div><div class="line">        waiter.innerLoops = i + 1;</div><div class="line">        <span class="keywordflow">while</span> (!monitor.<a class="code" href="classlunchbox_1_1_monitor.html#af2e959c5b4ca937fde9f60304a7b8896">timedWaitLT</a>(1, timeout))</div><div class="line">            ;</div><div class="line">        TEST(monitor &lt; 1);</div><div class="line">    }</div><div class="line"></div><div class="line">    TEST(waiter.join());</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span>, <span class="keywordtype">char</span>**)</div><div class="line">{</div><div class="line">    testSimpleMonitor();</div><div class="line">    testMonitorComparisons();</div><div class="line">    testTimedMonitorComparisons();</div><div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div><div class="line">}</div></div><!-- fragment --> 
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00045">45</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a9ccea26bb37295705d4d553d971f4c40"></a>
 <div class="memitem">
@@ -349,7 +349,7 @@ template&lt;class T&gt; </div>
 <p>Construct a new monitor with a given default value. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00054">54</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00057">57</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -380,7 +380,7 @@ template&lt;class T&gt; </div>
 <p>Ctor initializing with the given monitor value. </p>
 <dl class="section version"><dt>Version</dt><dd>1.1.5 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00057">57</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00063">63</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -410,7 +410,7 @@ template&lt;class T&gt; </div>
 <p>Destructs the monitor. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00060">60</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00069">69</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -440,21 +440,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the current value. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00354">354</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
-
-<p>Referenced by <a class="el" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1">lunchbox::operator&lt;&lt;()</a>.</p>
-
-<p><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classlunchbox_1_1_monitor_a4f65b15236944dee768f06d25e441005_icgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a4f65b15236944dee768f06d25e441005_icgraph" alt=""/></div>
-<map name="classlunchbox_1_1_monitor_a4f65b15236944dee768f06d25e441005_icgraph" id="classlunchbox_1_1_monitor_a4f65b15236944dee768f06d25e441005_icgraph">
-<area shape="rect" id="node3" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1" title="Print the monitor to the given output stream. " alt="" coords="229,5,400,35"/>
-</map>
-</div>
-</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00374">374</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -483,7 +469,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>a bool conversion of the result. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.9.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00341">341</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00362">362</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -513,15 +499,15 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the current and the given value. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00371">371</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00390">390</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#ada4038bc6e1ba603633808b78907c160">lunchbox::Condition::timedWait()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef">lunchbox::Condition::wait()</a>.</p>
 
-<p><div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_a837f715563966e1fc1a7e233fa246036_cgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a837f715563966e1fc1a7e233fa246036_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_a837f715563966e1fc1a7e233fa246036_cgraph" id="classlunchbox_1_1_monitor_a837f715563966e1fc1a7e233fa246036_cgraph">
 <area shape="rect" id="node3" href="classlunchbox_1_1_condition.html#ada4038bc6e1ba603633808b78907c160" title="Atomically unlock the mutex, wait for a signal and relock the mutex. " alt="" coords="205,5,360,51"/>
@@ -559,15 +545,15 @@ template&lt;class T&gt; </div>
 <p>Perform an and operation on the value. </p>
 <dl class="section version"><dt>Version</dt><dd>1.7 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00100">100</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00114">114</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb">lunchbox::Condition::broadcast()</a>.</p>
 
-<p><div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_abd349b13b1850d30bf474989b511689d_cgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_abd349b13b1850d30bf474989b511689d_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_abd349b13b1850d30bf474989b511689d_cgraph" id="classlunchbox_1_1_monitor_abd349b13b1850d30bf474989b511689d_cgraph">
 <area shape="rect" id="node3" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb" title="Broadcast the condition. " alt="" coords="205,5,360,51"/>
@@ -603,7 +589,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the current plus the given value. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00357">357</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00376">376</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -634,17 +620,17 @@ template&lt;class T&gt; </div>
 <p>Increment the monitored value, prefix only. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00065">65</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00073">73</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb">lunchbox::Condition::broadcast()</a>.</p>
 
 <p>Referenced by <a class="el" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1">lunchbox::operator&lt;&lt;()</a>.</p>
 
-<p><div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_cgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_cgraph" id="classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_cgraph">
 <area shape="rect" id="node3" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb" title="Broadcast the condition. " alt="" coords="205,5,360,51"/>
@@ -652,11 +638,11 @@ template&lt;class T&gt; </div>
 </div>
 </p>
 
-<p><div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_icgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_icgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_icgraph" id="classlunchbox_1_1_monitor_ad8e37edbb3843933e78ca2daf7705741_icgraph">
 <area shape="rect" id="node3" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1" title="Print the monitor to the given output stream. " alt="" coords="205,13,376,43"/>
@@ -693,17 +679,17 @@ template&lt;class T&gt; </div>
 <p>Decrement the monitored value, prefix only. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00074">74</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00082">82</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb">lunchbox::Condition::broadcast()</a>.</p>
 
 <p>Referenced by <a class="el" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1">lunchbox::operator&lt;&lt;()</a>.</p>
 
-<p><div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_cgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_cgraph" id="classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_cgraph">
 <area shape="rect" id="node3" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb" title="Broadcast the condition. " alt="" coords="205,5,360,51"/>
@@ -711,11 +697,11 @@ template&lt;class T&gt; </div>
 </div>
 </p>
 
-<p><div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_icgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_icgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_icgraph" id="classlunchbox_1_1_monitor_a49d4e024b636594bb7708d9c41d4c329_icgraph">
 <area shape="rect" id="node3" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1" title="Print the monitor to the given output stream. " alt="" coords="205,13,376,43"/>
@@ -750,7 +736,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the current value. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00351">351</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00372">372</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -781,7 +767,7 @@ template&lt;class T&gt; </div>
 <p>Assign a new value. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00083">83</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00091">91</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -812,7 +798,7 @@ template&lt;class T&gt; </div>
 <p>Assign a new value. </p>
 <dl class="section version"><dt>Version</dt><dd>1.1.5 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00087">87</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00098">98</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -842,7 +828,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the current or'ed with the given value. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00364">364</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00383">383</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -873,17 +859,17 @@ template&lt;class T&gt; </div>
 <p>Perform an or operation on the value. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00091">91</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00105">105</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb">lunchbox::Condition::broadcast()</a>.</p>
 
 <p>Referenced by <a class="el" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1">lunchbox::operator&lt;&lt;()</a>.</p>
 
-<p><div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_cgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_cgraph" id="classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_cgraph">
 <area shape="rect" id="node3" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb" title="Broadcast the condition. " alt="" coords="205,5,360,51"/>
@@ -891,11 +877,11 @@ template&lt;class T&gt; </div>
 </div>
 </p>
 
-<p><div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_icgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_icgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_icgraph" id="classlunchbox_1_1_monitor_a5591e04993c5909e74792a29cdf192ce_icgraph">
 <area shape="rect" id="node3" href="namespacelunchbox.html#a840cd0fc7a87c0a6894543b5604941e1" title="Print the monitor to the given output stream. " alt="" coords="205,13,376,43"/>
@@ -933,15 +919,15 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the old value </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00109">109</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00123">123</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb">lunchbox::Condition::broadcast()</a>.</p>
 
-<p><div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-11-content" class="dyncontent" style="display:none;">
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_a882e0a906655f62ab995b23b32348194_cgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a882e0a906655f62ab995b23b32348194_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_a882e0a906655f62ab995b23b32348194_cgraph" id="classlunchbox_1_1_monitor_a882e0a906655f62ab995b23b32348194_cgraph">
 <area shape="rect" id="node3" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb" title="Broadcast the condition. " alt="" coords="229,5,384,51"/>
@@ -996,7 +982,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on timeout. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00204">204</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00223">223</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1045,7 +1031,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on timeout. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00230">230</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00250">250</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1094,7 +1080,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on timeout. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.10 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00256">256</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00277">277</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1143,7 +1129,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on timeout. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.10 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00243">243</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00264">264</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1192,7 +1178,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on timeout. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.10 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00269">269</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00290">290</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1241,7 +1227,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on timeout. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.10 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00217">217</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00236">236</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1273,7 +1259,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the value when reaching the condition. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00126">126</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00140">140</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1305,7 +1291,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the value when reaching the condition. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00165">165</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00179">179</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1337,7 +1323,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the value when reaching the condition. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.10 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00184">184</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00199">199</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1369,7 +1355,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the value when reaching the condition. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00176">176</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00189">189</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1401,7 +1387,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the value when reaching the condition. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.10 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00192">192</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00209">209</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1433,7 +1419,7 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the value when reaching the condition. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00136">136</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00150">150</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 </div>
 </div>
@@ -1475,15 +1461,15 @@ template&lt;class T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the value when reaching the condition. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="monitor_8h_source.html#l00146">146</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
+<p>Definition at line <a class="el" href="monitor_8h_source.html#l00160">160</a> of file <a class="el" href="monitor_8h_source.html">monitor.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef">lunchbox::Condition::wait()</a>.</p>
 
-<p><div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classlunchbox_1_1_monitor_a1445722f55dca5e15e40886cb3d598f8_cgraph.png" border="0" usemap="#classlunchbox_1_1_monitor_a1445722f55dca5e15e40886cb3d598f8_cgraph" alt=""/></div>
 <map name="classlunchbox_1_1_monitor_a1445722f55dca5e15e40886cb3d598f8_cgraph" id="classlunchbox_1_1_monitor_a1445722f55dca5e15e40886cb3d598f8_cgraph">
 <area shape="rect" id="node3" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef" title="Atomically unlock the mutex, wait for a signal and relock the mutex. " alt="" coords="205,5,360,51"/>
@@ -1502,7 +1488,7 @@ template&lt;class T&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelunchbox.html">lunchbox</a></li><li class="navelem"><a class="el" href="classlunchbox_1_1_monitor.html">Monitor</a></li>
-    <li class="footer">Generated on Tue Jan 31 2017 05:27:05 for Lunchbox by
+    <li class="footer">Generated on Fri Feb 10 2017 05:26:09 for Lunchbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

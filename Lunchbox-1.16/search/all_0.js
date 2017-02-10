@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['a_5fint32_5ft',['a_int32_t',['../namespacelunchbox.html#a4f4ba0a198a145a091514d20275f97bf',1,'lunchbox']]],
-  ['a_5fssize_5ft',['a_ssize_t',['../namespacelunchbox.html#a836a09793d6520b6ac44485b20f5b438',1,'lunchbox']]],
+  ['a_5fint32_5ft',['a_int32_t',['../namespacelunchbox.html#aa891a2eba481ac60ea48bb1aa98d3c53',1,'lunchbox']]],
+  ['a_5fssize_5ft',['a_ssize_t',['../namespacelunchbox.html#ae009aa10147f54224fba9ef3306cca35',1,'lunchbox']]],
   ['addandget',['addAndGet',['../classlunchbox_1_1_atomic.html#a8501225f5fe1e2fa1ab89631ba5f8204',1,'lunchbox::Atomic']]],
   ['affinity',['Affinity',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275',1,'lunchbox::Thread']]],
   ['alloc',['alloc',['../classlunchbox_1_1_pool.html#aa91ebc18d14b4b1e6fe16f3a3b43c5bf',1,'lunchbox::Pool']]],

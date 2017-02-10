@@ -4,8 +4,8 @@ var log_8h =
     [ "LBDEBUG", "log_8h.html#a9c965bb2cc6418eef306fc94a73ee192", null ],
     [ "LBERROR", "log_8h.html#a92e4d12e3e46c1bfc6621841912c1244", null ],
     [ "LBINFO", "log_8h.html#a4aa7eab491821715f6b2913196d60e92", null ],
-    [ "LBLOG", "log_8h.html#affdf07fed2dd75e991e08606bd88eb68", null ],
-    [ "LBTHROW", "log_8h.html#a983343ae5460a02758317a6f33e5a361", null ],
+    [ "LBLOG", "log_8h.html#a7b40caf1ed02222fa853195c0faa4f01", null ],
+    [ "LBTHROW", "log_8h.html#a0f6fc890529bdf69a3cfe7a3b00ab1e3", null ],
     [ "LBVERB", "log_8h.html#ae5bad30c3702f35f20e3b7d821884ec3", null ],
     [ "LBWARN", "log_8h.html#aa6ce5b1840ab1d9bfc7fcc9a70b4ec07", null ],
     [ "LogLevel", "log_8h.html#ae68656dc67ec561fdc56a0f06f3bb99d", [

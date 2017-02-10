@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['scopedcondition',['ScopedCondition',['../namespacelunchbox.html#afa595b8617cdaca22a42f2adf6233aed',1,'lunchbox']]],
-  ['scopedfastread',['ScopedFastRead',['../namespacelunchbox.html#a38f2dd0d032969c1e99325b137151fbf',1,'lunchbox']]],
-  ['scopedfastwrite',['ScopedFastWrite',['../namespacelunchbox.html#a0c118c0f203f0c74f28c771bb44323dc',1,'lunchbox']]],
-  ['scopedread',['ScopedRead',['../namespacelunchbox.html#a616d2b35671649b3bd000281c26af03a',1,'lunchbox']]],
-  ['scopedwrite',['ScopedWrite',['../namespacelunchbox.html#ab8e3e9002decffb853f466e4fc24adc2',1,'lunchbox']]],
-  ['strings',['Strings',['../namespacelunchbox.html#aea35aa9bfc7484de290c0ed0dbcfeceb',1,'lunchbox']]]
+  ['scopedcondition',['ScopedCondition',['../namespacelunchbox.html#a67cfedca659fa6e4c7b163540c30960b',1,'lunchbox']]],
+  ['scopedfastread',['ScopedFastRead',['../namespacelunchbox.html#a1db2d7a9c25c17ab20cb95d46a525926',1,'lunchbox']]],
+  ['scopedfastwrite',['ScopedFastWrite',['../namespacelunchbox.html#a495c2ffa59a8678b39669bc346d90e3e',1,'lunchbox']]],
+  ['scopedread',['ScopedRead',['../namespacelunchbox.html#a5bb0ba9632dc8f418121a8ccc22acaa3',1,'lunchbox']]],
+  ['scopedwrite',['ScopedWrite',['../namespacelunchbox.html#a46b62bcabb4e5d673c98f56ffda9cee6',1,'lunchbox']]],
+  ['strings',['Strings',['../namespacelunchbox.html#ac04bcedd3eda78906f61debed74db7ec',1,'lunchbox']]]
 ];

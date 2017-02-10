@@ -176,8 +176,8 @@ class lunchbox::LFQueue&lt; T &gt;</h3>
 <li>Fixed maximum size (writes may fail)</li>
 <li>Not copyable</li>
 </ul>
-<p>Example: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2010-2011, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div><div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div><div class="line"><span class="comment"> * by the Free Software Foundation.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div><div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div><div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div><div class="line"><span class="comment"> * details.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div><div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div><div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/test.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/lfQueue.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#define RUNTIME 1000 </span><span class="comment">/*ms*/</span><span class="preprocessor"></span></div><div class="line"></div><div class="line"><a class="code" href="classlunchbox_1_1_l_f_queue.html">lunchbox::LFQueue&lt; uint64_t &gt;</a> queue(1024);</div><div class="line"></div><div class="line"><span class="keyword">class </span>ReadThread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">virtual</span> ~ReadThread() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div><div class="line">        {</div><div class="line">            uint64_t nOps = 0;</div><div class="line">            uint64_t nEmpty = 0;</div><div class="line">            uint64_t item = 0xffffffffffffffffull;</div><div class="line"></div><div class="line">            <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">            <span class="keywordflow">while</span>( clock.<a class="code" href="classlunchbox_1_1_clock.html#a04ba4dc653c1789edaccb86fb6e1b0ef">getTime64</a>() &lt; RUNTIME )</div><div class="line">            {</div><div class="line">                <span class="keywordflow">if</span>( queue.getFront( item ))</div><div class="line">                {</div><div class="line">                    TEST( item == nOps );</div><div class="line">                    uint64_t item2 = 0xffffffffffffffffull;</div><div class="line">                    TEST( queue.pop( item2 ));</div><div class="line">                    TEST( item2 == item );</div><div class="line">                    ++nOps;</div><div class="line">                }</div><div class="line">                TEST( item + 1 == nOps );</div><div class="line">                ++nEmpty;</div><div class="line">            }</div><div class="line">            <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line">            std::cout &lt;&lt; 2*nOps/time &lt;&lt; <span class="stringliteral">&quot; reads/ms, &quot;</span> &lt;&lt; nEmpty/time</div><div class="line">                      &lt;&lt; <span class="stringliteral">&quot; empty/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">        }</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div><div class="line">{</div><div class="line">    ReadThread reader;</div><div class="line">    uint64_t nOps = 0;</div><div class="line">    uint64_t nEmpty = 0;</div><div class="line"></div><div class="line">    TEST( reader.start( ));</div><div class="line"></div><div class="line">    <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">    <span class="keywordflow">while</span>( clock.getTime64() &lt; RUNTIME )</div><div class="line">    {</div><div class="line">        <span class="keywordflow">while</span>( queue.push( nOps ))</div><div class="line">            ++nOps;</div><div class="line">        ++nEmpty;</div><div class="line">    }</div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line"></div><div class="line">    TEST( reader.join( ));</div><div class="line">    std::cout &lt;&lt; nOps/time &lt;&lt; <span class="stringliteral">&quot; writes/ms, &quot;</span> &lt;&lt; nEmpty/time &lt;&lt; <span class="stringliteral">&quot; full/ms&quot;</span></div><div class="line">              &lt;&lt; std::endl;</div><div class="line"></div><div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div><div class="line">}</div></div><!-- fragment --> 
-<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00042">42</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
+<p>Example: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2010-2011, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div><div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div><div class="line"><span class="comment"> * by the Free Software Foundation.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div><div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div><div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div><div class="line"><span class="comment"> * details.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div><div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div><div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/lfQueue.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/test.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#define RUNTIME 1000 </span><span class="comment">/*ms*/</span><span class="preprocessor"></span></div><div class="line"></div><div class="line"><a class="code" href="classlunchbox_1_1_l_f_queue.html">lunchbox::LFQueue&lt;uint64_t&gt;</a> queue(1024);</div><div class="line"></div><div class="line"><span class="keyword">class </span>ReadThread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">virtual</span> ~ReadThread() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run()</div><div class="line">    {</div><div class="line">        uint64_t nOps = 0;</div><div class="line">        uint64_t nEmpty = 0;</div><div class="line">        uint64_t item = 0xffffffffffffffffull;</div><div class="line"></div><div class="line">        <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">        <span class="keywordflow">while</span> (clock.<a class="code" href="classlunchbox_1_1_clock.html#a04ba4dc653c1789edaccb86fb6e1b0ef">getTime64</a>() &lt; RUNTIME)</div><div class="line">        {</div><div class="line">            <span class="keywordflow">if</span> (queue.getFront(item))</div><div class="line">            {</div><div class="line">                TEST(item == nOps);</div><div class="line">                uint64_t item2 = 0xffffffffffffffffull;</div><div class="line">                TEST(queue.pop(item2));</div><div class="line">                TEST(item2 == item);</div><div class="line">                ++nOps;</div><div class="line">            }</div><div class="line">            TEST(item + 1 == nOps);</div><div class="line">            ++nEmpty;</div><div class="line">        }</div><div class="line">        <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line">        std::cout &lt;&lt; 2 * nOps / time &lt;&lt; <span class="stringliteral">&quot; reads/ms, &quot;</span> &lt;&lt; nEmpty / time</div><div class="line">                  &lt;&lt; <span class="stringliteral">&quot; empty/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span>, <span class="keywordtype">char</span>**)</div><div class="line">{</div><div class="line">    ReadThread reader;</div><div class="line">    uint64_t nOps = 0;</div><div class="line">    uint64_t nEmpty = 0;</div><div class="line"></div><div class="line">    TEST(reader.start());</div><div class="line"></div><div class="line">    <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">    <span class="keywordflow">while</span> (clock.getTime64() &lt; RUNTIME)</div><div class="line">    {</div><div class="line">        <span class="keywordflow">while</span> (queue.push(nOps))</div><div class="line">            ++nOps;</div><div class="line">        ++nEmpty;</div><div class="line">    }</div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line"></div><div class="line">    TEST(reader.join());</div><div class="line">    std::cout &lt;&lt; nOps / time &lt;&lt; <span class="stringliteral">&quot; writes/ms, &quot;</span> &lt;&lt; nEmpty / time &lt;&lt; <span class="stringliteral">&quot; full/ms&quot;</span></div><div class="line">              &lt;&lt; std::endl;</div><div class="line"></div><div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div><div class="line">}</div></div><!-- fragment --> 
+<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00043">43</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab81f6db5cfd932741a4db1307038429e"></a>
 <div class="memitem">
@@ -206,7 +206,7 @@ template&lt;typename T&gt; </div>
 <p>Construct a new queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00046">46</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00047">47</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
 
 </div>
 </div>
@@ -236,7 +236,7 @@ template&lt;typename T&gt; </div>
 <p>Destruct this queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00050">50</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00055">55</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
 
 </div>
 </div>
@@ -259,7 +259,7 @@ template&lt;typename T &gt; </div>
 <p>Reset (empty) the queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00020">20</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00021">21</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1_l_f_queue.html#a2febf57c0e90faadc2a0031e934eac8b">lunchbox::LFQueue&lt; T &gt;::isEmpty()</a>.</p>
 
@@ -302,7 +302,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the maximum number of elements held by the queue. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00099">99</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00102">102</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
 
 </div>
 </div>
@@ -332,7 +332,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if an element was placed in result, false if the queue is empty. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00046">46</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00050">50</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1_l_f_queue.html#a2febf57c0e90faadc2a0031e934eac8b">lunchbox::LFQueue&lt; T &gt;::isEmpty()</a>.</p>
 
@@ -375,7 +375,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the queue is empty, false otherwise. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00053">53</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8h_source.html#l00057">57</a> of file <a class="el" href="lf_queue_8h_source.html">lfQueue.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_l_f_queue.html#ab9b9e20309e4e7670ded69c00d6a0be2">lunchbox::LFQueue&lt; T &gt;::clear()</a>, <a class="el" href="classlunchbox_1_1_l_f_queue.html#afd6b8a0a92e974d356232795a4451d0a">lunchbox::LFQueue&lt; T &gt;::getFront()</a>, <a class="el" href="classlunchbox_1_1_l_f_queue.html#aff32197fe03d8398047850e2227bb554">lunchbox::LFQueue&lt; T &gt;::pop()</a>, <a class="el" href="classlunchbox_1_1_l_f_queue.html#a9b7ef3653b6163779209810eec58c2a4">lunchbox::LFQueue&lt; T &gt;::push()</a>, and <a class="el" href="classlunchbox_1_1_l_f_queue.html#aa43df91e458ae30aed03d00d77362a70">lunchbox::LFQueue&lt; T &gt;::resize()</a>.</p>
 
@@ -423,7 +423,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if an element was placed in result, false if the queue is empty. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00035">35</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00038">38</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1_l_f_queue.html#a2febf57c0e90faadc2a0031e934eac8b">lunchbox::LFQueue&lt; T &gt;::isEmpty()</a>.</p>
 
@@ -467,7 +467,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the element was placed, false if the queue is full </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00056">56</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00061">61</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1_l_f_queue.html#a2febf57c0e90faadc2a0031e934eac8b">lunchbox::LFQueue&lt; T &gt;::isEmpty()</a>.</p>
 
@@ -504,7 +504,7 @@ template&lt;typename T &gt; </div>
 <p>Resize and reset the queue. </p>
 <p>This method is not thread-safe. The queue has to be empty. </p><dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00027">27</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="lf_queue_8ipp_source.html#l00029">29</a> of file <a class="el" href="lf_queue_8ipp_source.html">lfQueue.ipp</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1_l_f_queue.html#a2febf57c0e90faadc2a0031e934eac8b">lunchbox::LFQueue&lt; T &gt;::isEmpty()</a>.</p>
 
@@ -532,7 +532,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelunchbox.html">lunchbox</a></li><li class="navelem"><a class="el" href="classlunchbox_1_1_l_f_queue.html">LFQueue</a></li>
-    <li class="footer">Generated on Tue Jan 31 2017 05:27:05 for Lunchbox by
+    <li class="footer">Generated on Fri Feb 10 2017 05:26:09 for Lunchbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

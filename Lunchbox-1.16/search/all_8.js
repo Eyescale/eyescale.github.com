@@ -1,7 +1,7 @@
 var searchData=
 [
   ['impl',['Impl',['../classlunchbox_1_1_request_1_1_impl.html',1,'lunchbox::Request']]],
-  ['impl',['Impl',['../classlunchbox_1_1_future.html#abe7797708b4323b00b8be91e26d9d7fc',1,'lunchbox::Future::Impl()'],['../classlunchbox_1_1_future_3_01void_01_4.html#a53fcaf319608ad03824e344ca9c4855b',1,'lunchbox::Future&lt; void &gt;::Impl()']]],
+  ['impl',['Impl',['../classlunchbox_1_1_future.html#a03b71703cd700f78ff4db158ff93eb6c',1,'lunchbox::Future::Impl()'],['../classlunchbox_1_1_future_3_01void_01_4.html#ac29233b08ffc767ff3a3546a9fa25e0e',1,'lunchbox::Future&lt; void &gt;::Impl()']]],
   ['incandget',['incAndGet',['../classlunchbox_1_1_atomic.html#a369ba693fab5d7127403476e21a31163',1,'lunchbox::Atomic']]],
   ['indent',['indent',['../classlunchbox_1_1_log.html#a20bc497d4695f6a9569838ce4982a49c',1,'lunchbox::Log::indent()'],['../namespacelunchbox.html#aab104979a3e0aadb5fcbf881dd57607a',1,'lunchbox::indent()']]],
   ['introduction',['Introduction',['../index.html',1,'']]],
@@ -23,5 +23,5 @@ var searchData=
   ['issetwrite',['isSetWrite',['../classlunchbox_1_1_spin_lock.html#a8ef0fe73e4a2527722adeddcd6904e78',1,'lunchbox::SpinLock']]],
   ['isstopped',['isStopped',['../classlunchbox_1_1_thread.html#a09999f5927ad8aa555367c8e716373bd',1,'lunchbox::Thread']]],
   ['isvalid',['isValid',['../classlunchbox_1_1_per_thread.html#a0523e5fd0fcffd48f2b4ed9139353a1d',1,'lunchbox::PerThread::isValid()'],['../classlunchbox_1_1_per_thread_ref.html#a05c446deec2e186560e9741012e53ce1',1,'lunchbox::PerThreadRef::isValid()'],['../classlunchbox_1_1_ref_ptr.html#ab93da2352d9394794adee5e3bd1fe9c9',1,'lunchbox::RefPtr::isValid()']]],
-  ['iterator',['iterator',['../classlunchbox_1_1_l_f_vector.html#ac24df70e49a70c87919a13ce144874b9',1,'lunchbox::LFVector']]]
+  ['iterator',['iterator',['../classlunchbox_1_1_l_f_vector.html#a2577e7f0e0d01c6be0ab09e9f9cb11c1',1,'lunchbox::LFVector']]]
 ];

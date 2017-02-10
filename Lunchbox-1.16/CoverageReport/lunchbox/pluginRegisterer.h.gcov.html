@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-31 05:27:02</td>
+            <td class="headerValue">2017-02-10 05:26:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -84,7 +84,7 @@
 <span class="lineNum">      22 </span>            : #ifndef LUNCHBOX_PLUGINREGISTERER_H
 <span class="lineNum">      23 </span>            : #define LUNCHBOX_PLUGINREGISTERER_H
 <span class="lineNum">      24 </span>            : 
-<span class="lineNum">      25 </span>            : #include &lt;lunchbox/plugin.h&gt; // used inline
+<span class="lineNum">      25 </span>            : #include &lt;lunchbox/plugin.h&gt;        // used inline
 <span class="lineNum">      26 </span>            : #include &lt;lunchbox/pluginFactory.h&gt; // used inline
 <span class="lineNum">      27 </span>            : 
 <span class="lineNum">      28 </span>            : #include &lt;boost/functional/factory.hpp&gt;
@@ -124,23 +124,22 @@
 <span class="lineNum">      62 </span>            :  * @version 1.11.0
 <span class="lineNum">      63 </span>            :  */
 <span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span>            : template&lt; typename T &gt; class PluginRegisterer
-<span class="lineNum">      66 </span>            : {
-<a name="67"><span class="lineNum">      67 </span>            : public:</a>
-<span class="lineNum">      68 </span>            :     /** Construct and register the Plugin&lt; T &gt; class. @version 1.11.0 */
-<span class="lineNum">      69 </span><span class="lineCov">          4 :     PluginRegisterer()</span>
-<span class="lineNum">      70 </span>            :     {
-<span class="lineNum">      71 </span><span class="lineCov">          4 :         PluginFactory&lt; typename T::InterfaceT &gt;::getInstance().register_(</span>
-<span class="lineNum">      72 </span>            :             {
-<span class="lineNum">      73 </span>            :                 std::bind( boost::factory&lt; T* &gt;(), std::placeholders::_1 ),
-<span class="lineNum">      74 </span>            :                 std::bind( &amp;T::handles, std::placeholders::_1 ),
-<span class="lineNum">      75 </span>            :                 std::bind( &amp;T::getDescription )
-<span class="lineNum">      76 </span>            :             });
-<span class="lineNum">      77 </span><span class="lineCov">          4 :     }</span>
-<span class="lineNum">      78 </span>            : };
-<span class="lineNum">      79 </span>            : }
-<span class="lineNum">      80 </span>            : 
-<span class="lineNum">      81 </span>            : #endif
+<span class="lineNum">      65 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      66 </span>            : class PluginRegisterer
+<span class="lineNum">      67 </span>            : {
+<a name="68"><span class="lineNum">      68 </span>            : public:</a>
+<span class="lineNum">      69 </span>            :     /** Construct and register the Plugin&lt; T &gt; class. @version 1.11.0 */
+<span class="lineNum">      70 </span><span class="lineCov">          4 :     PluginRegisterer()</span>
+<span class="lineNum">      71 </span>            :     {
+<span class="lineNum">      72 </span><span class="lineCov">          4 :         PluginFactory&lt;typename T::InterfaceT&gt;::getInstance().register_(</span>
+<span class="lineNum">      73 </span>            :             {std::bind(boost::factory&lt;T*&gt;(), std::placeholders::_1),
+<span class="lineNum">      74 </span>            :              std::bind(&amp;T::handles, std::placeholders::_1),
+<span class="lineNum">      75 </span>            :              std::bind(&amp;T::getDescription)});
+<span class="lineNum">      76 </span><span class="lineCov">          4 :     }</span>
+<span class="lineNum">      77 </span>            : };
+<span class="lineNum">      78 </span>            : }
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : #endif
 </pre>
       </td>
     </tr>

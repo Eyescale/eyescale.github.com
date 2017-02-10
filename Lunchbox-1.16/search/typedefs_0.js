@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['a_5fint32_5ft',['a_int32_t',['../namespacelunchbox.html#a4f4ba0a198a145a091514d20275f97bf',1,'lunchbox']]],
-  ['a_5fssize_5ft',['a_ssize_t',['../namespacelunchbox.html#a836a09793d6520b6ac44485b20f5b438',1,'lunchbox']]]
+  ['a_5fint32_5ft',['a_int32_t',['../namespacelunchbox.html#aa891a2eba481ac60ea48bb1aa98d3c53',1,'lunchbox']]],
+  ['a_5fssize_5ft',['a_ssize_t',['../namespacelunchbox.html#ae009aa10147f54224fba9ef3306cca35',1,'lunchbox']]]
 ];

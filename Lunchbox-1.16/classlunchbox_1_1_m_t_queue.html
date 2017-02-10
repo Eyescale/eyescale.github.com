@@ -224,8 +224,8 @@ class lunchbox::MTQueue&lt; T, S &gt;</h3>
 <p>A thread-safe queue with a blocking read access. </p>
 <p>Typically used to communicate between two execution threads.</p>
 <p>S is deprecated by the ctor param maxSize, and defines the initial maximum capacity of the Queue&lt;T&gt;. When the capacity is reached, pushing new values blocks until items have been consumed.</p>
-<p>Example: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2010-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div><div class="line"><span class="comment"> *                    2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div><div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div><div class="line"><span class="comment"> * by the Free Software Foundation.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div><div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div><div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div><div class="line"><span class="comment"> * details.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div><div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div><div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;pthread.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/test.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/compiler.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/mtQueue.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#define NOPS 100000</span></div><div class="line"><span class="preprocessor">#define NTHREADS 4</span></div><div class="line"></div><div class="line"><a class="code" href="classlunchbox_1_1_m_t_queue.html">lunchbox::MTQueue&lt; uint64_t &gt;</a> queue;</div><div class="line"><a class="code" href="classlunchbox_1_1_m_t_queue_1_1_group.html">lunchbox::MTQueue&lt; uint64_t &gt;::Group</a> group( NTHREADS + 1 );</div><div class="line"></div><div class="line"><span class="preprocessor">#ifdef LB_GCC_4_6_OR_LATER</span></div><div class="line"><span class="preprocessor">#  pragma GCC diagnostic ignored &quot;-Wunused-but-set-variable&quot;</span></div><div class="line"><span class="preprocessor">#endif</span></div><div class="line"><span class="keyword">class </span>ReadThread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">virtual</span> ~ReadThread() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run() { run_(); }</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> run_()</div><div class="line">    {</div><div class="line">        uint64_t item = 0xffffffffffffffffull;</div><div class="line"><span class="preprocessor">#ifndef NDEBUG</span></div><div class="line">        uint64_t last = 0;</div><div class="line"><span class="preprocessor">#endif</span></div><div class="line">        <span class="keywordflow">while</span>( queue.<a class="code" href="classlunchbox_1_1_m_t_queue.html#ab29d5638ab3976e61fe67539fed0583f">popBarrier</a>( item, group ))</div><div class="line">        {</div><div class="line"><span class="preprocessor">#ifndef NDEBUG</span></div><div class="line">            TESTINFO( last &lt; item, last &lt;&lt; <span class="stringliteral">&quot; &gt;= &quot;</span> &lt;&lt; item );</div><div class="line">            last = item;</div><div class="line"><span class="preprocessor">#endif</span></div><div class="line">        }</div><div class="line">        TEST( queue.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a52d8a019021e2242ace2c74bbcc32636">isEmpty</a>( ));</div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main( <span class="keywordtype">int</span>, <span class="keywordtype">char</span>** )</div><div class="line">{</div><div class="line">    ReadThread reader[ NTHREADS ];</div><div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i &lt; NTHREADS; ++i )</div><div class="line">        TEST( reader[i].start( ));</div><div class="line"></div><div class="line">    <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 1 ; i &lt; NOPS; ++i )</div><div class="line">        queue.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>( i );</div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line"></div><div class="line">    ReadThread::run_();</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span>( <span class="keywordtype">size_t</span> i = 0; i &lt; NTHREADS; ++i )</div><div class="line">        TEST( reader[i].join( ));</div><div class="line"></div><div class="line">    std::cout &lt;&lt; NOPS/time &lt;&lt; <span class="stringliteral">&quot; writes/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div><div class="line">}</div></div><!-- fragment --> 
-<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00043">43</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
+<p>Example: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2010-2013, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;</span></div><div class="line"><span class="comment"> *                    2012, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div><div class="line"><span class="comment"> * the terms of the GNU Lesser General Public License version 2.1 as published</span></div><div class="line"><span class="comment"> * by the Free Software Foundation.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div><div class="line"><span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div><div class="line"><span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div><div class="line"><span class="comment"> * details.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div><div class="line"><span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div><div class="line"><span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/clock.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/compiler.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/mtQueue.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/test.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;lunchbox/thread.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;pthread.h&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#define NOPS 100000</span></div><div class="line"><span class="preprocessor">#define NTHREADS 4</span></div><div class="line"></div><div class="line"><a class="code" href="classlunchbox_1_1_m_t_queue.html">lunchbox::MTQueue&lt;uint64_t&gt;</a> queue;</div><div class="line"><a class="code" href="classlunchbox_1_1_m_t_queue_1_1_group.html">lunchbox::MTQueue&lt;uint64_t&gt;::Group</a> group(NTHREADS + 1);</div><div class="line"></div><div class="line"><span class="preprocessor">#ifdef LB_GCC_4_6_OR_LATER</span></div><div class="line"><span class="preprocessor">#pragma GCC diagnostic ignored &quot;-Wunused-but-set-variable&quot;</span></div><div class="line"><span class="preprocessor">#endif</span></div><div class="line"><span class="keyword">class </span>ReadThread : <span class="keyword">public</span> <a class="code" href="classlunchbox_1_1_thread.html">lunchbox::Thread</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">virtual</span> ~ReadThread() {}</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> run() { run_(); }</div><div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> run_()</div><div class="line">    {</div><div class="line">        uint64_t item = 0xffffffffffffffffull;</div><div class="line"><span class="preprocessor">#ifndef NDEBUG</span></div><div class="line">        uint64_t last = 0;</div><div class="line"><span class="preprocessor">#endif</span></div><div class="line">        <span class="keywordflow">while</span> (queue.<a class="code" href="classlunchbox_1_1_m_t_queue.html#ab29d5638ab3976e61fe67539fed0583f">popBarrier</a>(item, group))</div><div class="line">        {</div><div class="line"><span class="preprocessor">#ifndef NDEBUG</span></div><div class="line">            TESTINFO(last &lt; item, last &lt;&lt; <span class="stringliteral">&quot; &gt;= &quot;</span> &lt;&lt; item);</div><div class="line">            last = item;</div><div class="line"><span class="preprocessor">#endif</span></div><div class="line">        }</div><div class="line">        TEST(queue.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a52d8a019021e2242ace2c74bbcc32636">isEmpty</a>());</div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span>, <span class="keywordtype">char</span>**)</div><div class="line">{</div><div class="line">    ReadThread reader[NTHREADS];</div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; NTHREADS; ++i)</div><div class="line">        TEST(reader[i].start());</div><div class="line"></div><div class="line">    <a class="code" href="classlunchbox_1_1_clock.html">lunchbox::Clock</a> clock;</div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; NOPS; ++i)</div><div class="line">        queue.<a class="code" href="classlunchbox_1_1_m_t_queue.html#a25b6d6a42aede1adc7fc185a3b8be736">push</a>(i);</div><div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> time = clock.<a class="code" href="classlunchbox_1_1_clock.html#aeebff54f50c1b2fad25038c0ef3242ef">getTimef</a>();</div><div class="line"></div><div class="line">    ReadThread::run_();</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; NTHREADS; ++i)</div><div class="line">        TEST(reader[i].join());</div><div class="line"></div><div class="line">    std::cout &lt;&lt; NOPS / time &lt;&lt; <span class="stringliteral">&quot; writes/ms&quot;</span> &lt;&lt; std::endl;</div><div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div><div class="line">}</div></div><!-- fragment --> 
+<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00044">44</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a64b286cfbedb8c279a9094124fa80f86"></a>
 <div class="memitem">
@@ -254,7 +254,7 @@ template&lt;typename T, size_t S = ULONG_MAX&gt; </div>
 <p>Construct a new queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00052">52</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00053">53</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
 
 </div>
 </div>
@@ -285,7 +285,7 @@ template&lt;typename T, size_t S = ULONG_MAX&gt; </div>
 <p>Construct a copy of a queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00055">55</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00059">59</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
 
 </div>
 </div>
@@ -315,7 +315,7 @@ template&lt;typename T, size_t S = ULONG_MAX&gt; </div>
 <p>Destruct this Queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00058">58</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00061">61</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_m_t_queue.html#a95ba8597433c3ed4c71305a4e417049a">lunchbox::MTQueue&lt; T, S &gt;::operator=()</a>, and <a class="el" href="classlunchbox_1_1_m_t_queue.html#a6fb6c2678797889663d3c18423fcd0d3">lunchbox::MTQueue&lt; T, S &gt;::operator[]()</a>.</p>
 
@@ -397,7 +397,7 @@ template&lt;typename T , size_t S&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if an element was placed in result, false if the queue is empty. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00242">242</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00247">247</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193">lunchbox::Condition::lock()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21">lunchbox::Condition::unlock()</a>.</p>
 
@@ -454,7 +454,7 @@ template&lt;typename T , size_t S&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if an element was placed in result, false if the queue is empty. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00227">227</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00232">232</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193">lunchbox::Condition::lock()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21">lunchbox::Condition::unlock()</a>.</p>
 
@@ -568,7 +568,7 @@ template&lt;typename T, size_t S = ULONG_MAX&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the number of items currently in the queue. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00073">73</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00074">74</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_m_t_queue.html#a87171a084e02bb30d79ed0e99cedfc00">lunchbox::MTQueue&lt; T, S &gt;::setMaxSize()</a>.</p>
 
@@ -611,7 +611,7 @@ template&lt;typename T, size_t S = ULONG_MAX&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if the queue is empty, false otherwise. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00070">70</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8h_source.html#l00072">72</a> of file <a class="el" href="mt_queue_8h_source.html">mtQueue.h</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1_m_t_queue.html#a5e8c24c850872a024d892a0ea6f401ae">lunchbox::MTQueue&lt; T, S &gt;::getMaxSize()</a>.</p>
 
@@ -792,7 +792,7 @@ template&lt;typename T , size_t S&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if an element was retrieved, false if the barrier height was reached. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.7.1 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00200">200</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00206">206</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a07aa16903761365eba6282857a7ee8fb">lunchbox::Condition::broadcast()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193">lunchbox::Condition::lock()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a87d2093573f687965335d6efc490867a">lunchbox::Condition::signal()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21">lunchbox::Condition::unlock()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef">lunchbox::Condition::wait()</a>.</p>
 
@@ -847,7 +847,7 @@ template&lt;typename T , size_t S&gt; </div>
 <p>Push a new element to the back of the queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00257">257</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00262">262</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193">lunchbox::Condition::lock()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a87d2093573f687965335d6efc490867a">lunchbox::Condition::signal()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21">lunchbox::Condition::unlock()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef">lunchbox::Condition::wait()</a>.</p>
 
@@ -901,7 +901,7 @@ template&lt;typename T , size_t S&gt; </div>
 <p>Push a vector of elements to the back of the queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00268">268</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00273">273</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193">lunchbox::Condition::lock()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a87d2093573f687965335d6efc490867a">lunchbox::Condition::signal()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21">lunchbox::Condition::unlock()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef">lunchbox::Condition::wait()</a>.</p>
 
@@ -941,7 +941,7 @@ template&lt;typename T , size_t S&gt; </div>
 <p>Push a new element to the front of the queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00280">280</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00285">285</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193">lunchbox::Condition::lock()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a87d2093573f687965335d6efc490867a">lunchbox::Condition::signal()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21">lunchbox::Condition::unlock()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef">lunchbox::Condition::wait()</a>.</p>
 
@@ -995,7 +995,7 @@ template&lt;typename T , size_t S&gt; </div>
 <p>Push a vector of elements to the front of the queue. </p>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00291">291</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00296">296</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193">lunchbox::Condition::lock()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a87d2093573f687965335d6efc490867a">lunchbox::Condition::signal()</a>, <a class="el" href="classlunchbox_1_1_condition.html#a2c6fc076e00cf7149d94adcaf44d4d21">lunchbox::Condition::unlock()</a>, and <a class="el" href="classlunchbox_1_1_condition.html#a6e75523ac81a219114eefd94aad541ef">lunchbox::Condition::wait()</a>.</p>
 
@@ -1201,7 +1201,7 @@ template&lt;typename T , size_t S&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if an element was placed in result, false if the queue is empty. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00147">147</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00148">148</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>Referenced by <a class="el" href="classlunchbox_1_1_m_t_queue.html#a5e8c24c850872a024d892a0ea6f401ae">lunchbox::MTQueue&lt; T, S &gt;::getMaxSize()</a>.</p>
 
@@ -1257,7 +1257,7 @@ template&lt;typename T , size_t S&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true if an element was placed in result, false if the queue is empty. </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>1.1.6 </dd></dl>
 
-<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00164">164</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
+<p>Definition at line <a class="el" href="mt_queue_8ipp_source.html#l00165">165</a> of file <a class="el" href="mt_queue_8ipp_source.html">mtQueue.ipp</a>.</p>
 
 <p>References <a class="el" href="types_8h.html#a6a78ec50fe9d6fdf1efb293ba6a686bc">LB_MIN</a>.</p>
 
@@ -1311,7 +1311,7 @@ template&lt;typename T , size_t S&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacelunchbox.html">lunchbox</a></li><li class="navelem"><a class="el" href="classlunchbox_1_1_m_t_queue.html">MTQueue</a></li>
-    <li class="footer">Generated on Tue Jan 31 2017 05:27:06 for Lunchbox by
+    <li class="footer">Generated on Fri Feb 10 2017 05:26:09 for Lunchbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

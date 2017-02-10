@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bufferb',['Bufferb',['../namespacelunchbox.html#af4d147a89a2b79db1a733c657fb9944f',1,'lunchbox']]]
+  ['bufferb',['Bufferb',['../namespacelunchbox.html#af0fff737972dc5ead9c4cf178b160e1f',1,'lunchbox']]]
 ];

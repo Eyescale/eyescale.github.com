@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['monitorb',['Monitorb',['../namespacelunchbox.html#a5b17ccd4a5baea475ece5b3f5528d7b7',1,'lunchbox']]],
-  ['monitoru',['Monitoru',['../namespacelunchbox.html#a9225c9132da8788f84a8ce137b57fc84',1,'lunchbox']]]
+  ['monitorb',['Monitorb',['../namespacelunchbox.html#a93e732a01980dc7ca43683616a0e1dee',1,'lunchbox']]],
+  ['monitoru',['Monitoru',['../namespacelunchbox.html#a15681820d2427141e528b45abbc49c15',1,'lunchbox']]]
 ];

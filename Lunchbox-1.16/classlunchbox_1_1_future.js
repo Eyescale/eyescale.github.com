@@ -1,6 +1,6 @@
 var classlunchbox_1_1_future =
 [
-    [ "Impl", "classlunchbox_1_1_future.html#abe7797708b4323b00b8be91e26d9d7fc", null ],
+    [ "Impl", "classlunchbox_1_1_future.html#a03b71703cd700f78ff4db158ff93eb6c", null ],
     [ "Future", "classlunchbox_1_1_future.html#a76ed077d7196cbaa39b4ebce424ae760", null ],
     [ "~Future", "classlunchbox_1_1_future.html#ade97c12a4b3fded660c5f68db3c6b7b2", null ],
     [ "isReady", "classlunchbox_1_1_future.html#af349a2b76540d7b11a0f64fc2fd44fbc", null ],

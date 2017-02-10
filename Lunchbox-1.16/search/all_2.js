@@ -13,7 +13,7 @@ var searchData=
   ['condition',['Condition',['../classlunchbox_1_1_condition.html',1,'lunchbox']]],
   ['const_5fiterator',['const_iterator',['../classlunchbox_1_1_l_f_vector.html#aaca1d38e47dc0f6ad4722ffa9380b303',1,'lunchbox::LFVector']]],
   ['construct',['construct',['../classlunchbox_1_1_plugin.html#a918c4220cc64e1ad9a8544e89de20b58',1,'lunchbox::Plugin']]],
-  ['constructor',['Constructor',['../classlunchbox_1_1_plugin.html#a445e5a3b03f75787fe974c56ab780faf',1,'lunchbox::Plugin']]],
+  ['constructor',['Constructor',['../classlunchbox_1_1_plugin.html#af0b94f2b0640ece5f95d7013b9d10f52',1,'lunchbox::Plugin']]],
   ['core',['CORE',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275abdc093f548630be3a35d5f76d10bd8dc',1,'lunchbox::Thread']]],
   ['create',['create',['../classlunchbox_1_1_memory_map.html#a68906f43c55dfd17f1dd935105313f09',1,'lunchbox::MemoryMap::create()'],['../classlunchbox_1_1_plugin_factory.html#a499ca7985a56eb6ea15fdceb500274ef',1,'lunchbox::PluginFactory::create()']]]
 ];
