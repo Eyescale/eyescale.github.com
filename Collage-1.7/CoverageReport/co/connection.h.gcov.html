@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">4</td>
-            <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryMed">40.0 %</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryLo">33.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -86,147 +86,147 @@
 <span class="lineNum">      24 </span>            : #include &lt;co/api.h&gt;
 <span class="lineNum">      25 </span>            : #include &lt;co/types.h&gt;
 <span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span>            : #include &lt;lunchbox/bitOperation.h&gt; // used inline
-<span class="lineNum">      28 </span>            : #include &lt;lunchbox/referenced.h&gt;   // base class
-<span class="lineNum">      29 </span>            : #include &lt;boost/noncopyable.hpp&gt;   // base class
+<span class="lineNum">      27 </span>            : #include &lt;boost/noncopyable.hpp&gt;   // base class
+<span class="lineNum">      28 </span>            : #include &lt;lunchbox/bitOperation.h&gt; // used inline
+<span class="lineNum">      29 </span>            : #include &lt;lunchbox/referenced.h&gt;   // base class
 <span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span>            : #include &lt;sys/types.h&gt;
-<span class="lineNum">      32 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">      31 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">      32 </span>            : #include &lt;sys/types.h&gt;
 <span class="lineNum">      33 </span>            : #include &lt;vector&gt;
 <span class="lineNum">      34 </span>            : 
 <span class="lineNum">      35 </span>            : namespace co
 <span class="lineNum">      36 </span>            : {
-<span class="lineNum">      37 </span>            : namespace detail { class Connection; }
-<span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span>            : /**
-<span class="lineNum">      40 </span>            :  * An interface definition for communication between hosts.
-<span class="lineNum">      41 </span>            :  *
-<span class="lineNum">      42 </span>            :  * Connections are stream-oriented communication lines. The parameters of a
-<span class="lineNum">      43 </span>            :  * Connection are described in a ConnectionDescription, which is used in
-<span class="lineNum">      44 </span>            :  * create(), listen() and connect(). A Connection has a Connection::State, which
-<span class="lineNum">      45 </span>            :  * changes when calling listen(), connect() or close(), or whenever the
-<span class="lineNum">      46 </span>            :  * underlying connection is closed by the operating system.
-<span class="lineNum">      47 </span>            :  *
-<span class="lineNum">      48 </span>            :  * The Connection class defines the interface for connections, various derived
-<span class="lineNum">      49 </span>            :  * classes implement it for the low-level communication protocols, e.g.,
-<span class="lineNum">      50 </span>            :  * SocketConnection for TCP/IP or RSPConnection for UDP-based reliable
-<span class="lineNum">      51 </span>            :  * multicast. An implementation may not implement all the functionality defined
-<span class="lineNum">      52 </span>            :  * in this interface.
-<span class="lineNum">      53 </span>            :  *
-<span class="lineNum">      54 </span>            :  * The Connection is used reference-counted throughout the Collage API.
-<span class="lineNum">      55 </span>            :  */
-<span class="lineNum">      56 </span>            : class Connection : public lunchbox::Referenced, public boost::noncopyable
-<span class="lineNum">      57 </span>            : {
-<span class="lineNum">      58 </span>            : public:
-<span class="lineNum">      59 </span>            :     enum State //! The current state of the Connection @version 1.0
-<span class="lineNum">      60 </span>            :     {
-<span class="lineNum">      61 </span>            :         STATE_CLOSED,     //!&lt; Closed, initial state
-<span class="lineNum">      62 </span>            :         STATE_CONNECTING, //!&lt; A connect() or listen() is in progress
-<span class="lineNum">      63 </span>            :         STATE_CONNECTED,  //!&lt; The connection has been connected and is open
-<span class="lineNum">      64 </span>            :         STATE_LISTENING,  //!&lt; The connection is listening for connects
-<span class="lineNum">      65 </span>            :         STATE_CLOSING     //!&lt; A close() is in progress
-<span class="lineNum">      66 </span>            :     };
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span>            :     /**
-<span class="lineNum">      69 </span>            :      * Create a new connection.
-<span class="lineNum">      70 </span>            :      *
-<span class="lineNum">      71 </span>            :      * This factory method creates a new concrete connection for the requested
-<span class="lineNum">      72 </span>            :      * type. The description is set on the created Connection.
+<span class="lineNum">      37 </span>            : namespace detail
+<span class="lineNum">      38 </span>            : {
+<span class="lineNum">      39 </span>            : class Connection;
+<span class="lineNum">      40 </span>            : }
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : /**
+<span class="lineNum">      43 </span>            :  * An interface definition for communication between hosts.
+<span class="lineNum">      44 </span>            :  *
+<span class="lineNum">      45 </span>            :  * Connections are stream-oriented communication lines. The parameters of a
+<span class="lineNum">      46 </span>            :  * Connection are described in a ConnectionDescription, which is used in
+<span class="lineNum">      47 </span>            :  * create(), listen() and connect(). A Connection has a Connection::State, which
+<span class="lineNum">      48 </span>            :  * changes when calling listen(), connect() or close(), or whenever the
+<span class="lineNum">      49 </span>            :  * underlying connection is closed by the operating system.
+<span class="lineNum">      50 </span>            :  *
+<span class="lineNum">      51 </span>            :  * The Connection class defines the interface for connections, various derived
+<span class="lineNum">      52 </span>            :  * classes implement it for the low-level communication protocols, e.g.,
+<span class="lineNum">      53 </span>            :  * SocketConnection for TCP/IP or RSPConnection for UDP-based reliable
+<span class="lineNum">      54 </span>            :  * multicast. An implementation may not implement all the functionality defined
+<span class="lineNum">      55 </span>            :  * in this interface.
+<span class="lineNum">      56 </span>            :  *
+<span class="lineNum">      57 </span>            :  * The Connection is used reference-counted throughout the Collage API.
+<span class="lineNum">      58 </span>            :  */
+<span class="lineNum">      59 </span>            : class Connection : public lunchbox::Referenced, public boost::noncopyable
+<span class="lineNum">      60 </span>            : {
+<span class="lineNum">      61 </span>            : public:
+<span class="lineNum">      62 </span>            :     enum State //! The current state of the Connection @version 1.0
+<span class="lineNum">      63 </span>            :     {
+<span class="lineNum">      64 </span>            :         STATE_CLOSED,     //!&lt; Closed, initial state
+<span class="lineNum">      65 </span>            :         STATE_CONNECTING, //!&lt; A connect() or listen() is in progress
+<span class="lineNum">      66 </span>            :         STATE_CONNECTED,  //!&lt; The connection has been connected and is open
+<span class="lineNum">      67 </span>            :         STATE_LISTENING,  //!&lt; The connection is listening for connects
+<span class="lineNum">      68 </span>            :         STATE_CLOSING     //!&lt; A close() is in progress
+<span class="lineNum">      69 </span>            :     };
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :     /**
+<span class="lineNum">      72 </span>            :      * Create a new connection.
 <span class="lineNum">      73 </span>            :      *
-<span class="lineNum">      74 </span>            :      * @param desc the connection parameters.
-<span class="lineNum">      75 </span>            :      * @return the connection.
-<span class="lineNum">      76 </span>            :      * @version 1.0
-<span class="lineNum">      77 </span>            :      */
-<span class="lineNum">      78 </span>            :     CO_API static ConnectionPtr create( ConnectionDescriptionPtr desc );
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span>            :     /** @name Data Access */
-<span class="lineNum">      81 </span>            :     //@{
-<span class="lineNum">      82 </span>            :     /** @return the State of this connection. @version 1.0 */
-<span class="lineNum">      83 </span>            :     CO_API State getState() const;
-<a name="84"><span class="lineNum">      84 </span>            : </a>
-<span class="lineNum">      85 </span>            :     /** @return true if the connection is closed. @version 1.0 */
-<span class="lineNum">      86 </span><span class="lineCov">       1141 :     bool isClosed() const { return getState() == STATE_CLOSED; }</span>
+<span class="lineNum">      74 </span>            :      * This factory method creates a new concrete connection for the requested
+<span class="lineNum">      75 </span>            :      * type. The description is set on the created Connection.
+<span class="lineNum">      76 </span>            :      *
+<span class="lineNum">      77 </span>            :      * @param desc the connection parameters.
+<span class="lineNum">      78 </span>            :      * @return the connection.
+<span class="lineNum">      79 </span>            :      * @version 1.0
+<span class="lineNum">      80 </span>            :      */
+<span class="lineNum">      81 </span>            :     CO_API static ConnectionPtr create(ConnectionDescriptionPtr desc);
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :     /** @name Data Access */
+<span class="lineNum">      84 </span>            :     //@{
+<span class="lineNum">      85 </span>            :     /** @return the State of this connection. @version 1.0 */
+<span class="lineNum">      86 </span>            :     CO_API State getState() const;
 <a name="87"><span class="lineNum">      87 </span>            : </a>
-<span class="lineNum">      88 </span>            :     /** @return true if the connection is about to close. @version 1.0 */
-<span class="lineNum">      89 </span><span class="lineCov">          6 :     bool isClosing() const { return getState() == STATE_CLOSING; }</span>
-<a name="90"><span class="lineNum">      90 </span>            : </a>
-<span class="lineNum">      91 </span>            :     /** @return true if the connection is connected. @version 1.0 */
-<span class="lineNum">      92 </span><span class="lineCov">    3655492 :     bool isConnected() const { return getState() == STATE_CONNECTED; }</span>
-<a name="93"><span class="lineNum">      93 </span>            : </a>
+<span class="lineNum">      88 </span>            :     /** @return true if the connection is closed. @version 1.0 */
+<a name="89"><span class="lineNum">      89 </span><span class="lineCov">       1195 :     bool isClosed() const { return getState() == STATE_CLOSED; }</span></a>
+<span class="lineNum">      90 </span>            :     /** @return true if the connection is about to close. @version 1.0 */
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">          6 :     bool isClosing() const { return getState() == STATE_CLOSING; }</span></a>
+<span class="lineNum">      92 </span>            :     /** @return true if the connection is connected. @version 1.0 */
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">    3622740 :     bool isConnected() const { return getState() == STATE_CONNECTED; }</span></a>
 <span class="lineNum">      94 </span>            :     /** @return true if the connection is listening. @version 1.0 */
 <span class="lineNum">      95 </span><span class="lineCov">     307014 :     bool isListening() const { return getState() == STATE_LISTENING; }</span>
-<span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span>            :     /** @return true if this is a multicast connection. @version 1.0 */
-<span class="lineNum">      98 </span>            :     CO_API bool isMulticast() const;
-<span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span>            :     /** @return the description for this connection. @version 1.0 */
-<span class="lineNum">     101 </span>            :     CO_API ConstConnectionDescriptionPtr getDescription() const;
-<span class="lineNum">     102 </span>            : 
-<span class="lineNum">     103 </span>            :     /** @internal */
-<span class="lineNum">     104 </span>            :     bool operator == ( const Connection&amp; rhs ) const;
-<span class="lineNum">     105 </span>            :     //@}
-<span class="lineNum">     106 </span>            : 
-<span class="lineNum">     107 </span>            :     /** @name Connection State Changes */
-<span class="lineNum">     108 </span>            :     //@{
-<span class="lineNum">     109 </span>            :     /**
-<span class="lineNum">     110 </span>            :      * Connect to the remote peer.
-<span class="lineNum">     111 </span>            :      *
-<span class="lineNum">     112 </span>            :      * The ConnectionDescription of this connection is used to identify the
-<span class="lineNum">     113 </span>            :      * peer's parameters.
-<span class="lineNum">     114 </span>            :      *
-<span class="lineNum">     115 </span>            :      * @return true if the connection was successfully connected, false
-<span class="lineNum">     116 </span>            :      *         if not.
-<a name="117"><span class="lineNum">     117 </span>            :      * @version 1.0</a>
-<span class="lineNum">     118 </span>            :      */
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     virtual bool connect() { return false; }</span>
-<span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span>            :     /**
-<span class="lineNum">     122 </span>            :      * Put the connection into the listening state.
-<span class="lineNum">     123 </span>            :      *
-<span class="lineNum">     124 </span>            :      * The ConnectionDescription of this connection is used to identify the
-<span class="lineNum">     125 </span>            :      * listening parameters.
-<span class="lineNum">     126 </span>            :      *
-<span class="lineNum">     127 </span>            :      * @return true if the connection is listening for new incoming
-<span class="lineNum">     128 </span>            :      *         connections, false if not.
-<a name="129"><span class="lineNum">     129 </span>            :      * @version 1.0</a>
-<span class="lineNum">     130 </span>            :      */
-<span class="lineNum">     131 </span><span class="lineNoCov">          0 :     virtual bool listen() { return false; }</span>
-<a name="132"><span class="lineNum">     132 </span>            : </a>
-<span class="lineNum">     133 </span>            :     /** Close a connected or listening connection. @version 1.0 */
-<span class="lineNum">     134 </span><span class="lineNoCov">          0 :     virtual void close() {}</span>
-<span class="lineNum">     135 </span>            :     //@}
-<span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span>            :     /** @internal @name Listener Interface */
-<span class="lineNum">     138 </span>            :     //@{
-<span class="lineNum">     139 </span>            :     /** @internal Add a listener for connection state changes. */
-<span class="lineNum">     140 </span>            :     void addListener( ConnectionListener* listener );
-<span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span>            :     /** @internal Remove a listener for connection state changes. */
-<span class="lineNum">     143 </span>            :     void removeListener( ConnectionListener* listener );
-<span class="lineNum">     144 </span>            :     //@}
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span>            :     /** @name Asynchronous accept */
-<span class="lineNum">     147 </span>            :     //@{
-<span class="lineNum">     148 </span>            :     /**
-<span class="lineNum">     149 </span>            :      * Start an accept operation.
-<span class="lineNum">     150 </span>            :      *
-<span class="lineNum">     151 </span>            :      * This method returns immediately. The Notifier will signal a new
-<span class="lineNum">     152 </span>            :      * connection request, upon which acceptSync() should be used to finish the
-<span class="lineNum">     153 </span>            :      * accept operation. Only one accept operation might be outstanding, that
-<span class="lineNum">     154 </span>            :      * is, acceptSync() has to be called before the next acceptNB().
-<span class="lineNum">     155 </span>            :      *
-<span class="lineNum">     156 </span>            :      * @sa acceptSync()
-<a name="157"><span class="lineNum">     157 </span>            :      * @version 1.0</a>
-<span class="lineNum">     158 </span>            :      */
-<span class="lineNum">     159 </span><span class="lineNoCov">          0 :     virtual void acceptNB() { LBUNIMPLEMENTED; }</span>
-<span class="lineNum">     160 </span>            : 
-<span class="lineNum">     161 </span>            :     /**
-<span class="lineNum">     162 </span>            :      * Complete an accept operation.
-<span class="lineNum">     163 </span>            :      *
-<span class="lineNum">     164 </span>            :      * @return the new connection, 0 on error.
-<a name="165"><span class="lineNum">     165 </span>            :      * @version 1.0</a>
-<span class="lineNum">     166 </span>            :      */
-<span class="lineNum">     167 </span><span class="lineNoCov">          0 :     virtual ConnectionPtr acceptSync() { LBUNIMPLEMENTED; return 0; }</span>
+<span class="lineNum">      96 </span>            :     /** @return true if this is a multicast connection. @version 1.0 */
+<span class="lineNum">      97 </span>            :     CO_API bool isMulticast() const;
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :     /** @return the description for this connection. @version 1.0 */
+<span class="lineNum">     100 </span>            :     CO_API ConstConnectionDescriptionPtr getDescription() const;
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            :     /** @internal */
+<span class="lineNum">     103 </span>            :     bool operator==(const Connection&amp; rhs) const;
+<span class="lineNum">     104 </span>            :     //@}
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :     /** @name Connection State Changes */
+<span class="lineNum">     107 </span>            :     //@{
+<span class="lineNum">     108 </span>            :     /**
+<span class="lineNum">     109 </span>            :      * Connect to the remote peer.
+<span class="lineNum">     110 </span>            :      *
+<span class="lineNum">     111 </span>            :      * The ConnectionDescription of this connection is used to identify the
+<span class="lineNum">     112 </span>            :      * peer's parameters.
+<span class="lineNum">     113 </span>            :      *
+<span class="lineNum">     114 </span>            :      * @return true if the connection was successfully connected, false
+<span class="lineNum">     115 </span>            :      *         if not.
+<a name="116"><span class="lineNum">     116 </span>            :      * @version 1.0</a>
+<span class="lineNum">     117 </span>            :      */
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     virtual bool connect() { return false; }</span>
+<span class="lineNum">     119 </span>            :     /**
+<span class="lineNum">     120 </span>            :      * Put the connection into the listening state.
+<span class="lineNum">     121 </span>            :      *
+<span class="lineNum">     122 </span>            :      * The ConnectionDescription of this connection is used to identify the
+<span class="lineNum">     123 </span>            :      * listening parameters.
+<span class="lineNum">     124 </span>            :      *
+<span class="lineNum">     125 </span>            :      * @return true if the connection is listening for new incoming
+<span class="lineNum">     126 </span>            :      *         connections, false if not.
+<a name="127"><span class="lineNum">     127 </span>            :      * @version 1.0</a>
+<span class="lineNum">     128 </span>            :      */
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :     virtual bool listen() { return false; }</span></a>
+<span class="lineNum">     130 </span>            :     /** Close a connected or listening connection. @version 1.0 */
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 :     virtual void close() {}</span>
+<span class="lineNum">     132 </span>            :     //@}
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            :     /** @internal @name Listener Interface */
+<span class="lineNum">     135 </span>            :     //@{
+<span class="lineNum">     136 </span>            :     /** @internal Add a listener for connection state changes. */
+<span class="lineNum">     137 </span>            :     void addListener(ConnectionListener* listener);
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            :     /** @internal Remove a listener for connection state changes. */
+<span class="lineNum">     140 </span>            :     void removeListener(ConnectionListener* listener);
+<span class="lineNum">     141 </span>            :     //@}
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            :     /** @name Asynchronous accept */
+<span class="lineNum">     144 </span>            :     //@{
+<span class="lineNum">     145 </span>            :     /**
+<span class="lineNum">     146 </span>            :      * Start an accept operation.
+<span class="lineNum">     147 </span>            :      *
+<span class="lineNum">     148 </span>            :      * This method returns immediately. The Notifier will signal a new
+<span class="lineNum">     149 </span>            :      * connection request, upon which acceptSync() should be used to finish the
+<span class="lineNum">     150 </span>            :      * accept operation. Only one accept operation might be outstanding, that
+<span class="lineNum">     151 </span>            :      * is, acceptSync() has to be called before the next acceptNB().
+<span class="lineNum">     152 </span>            :      *
+<span class="lineNum">     153 </span>            :      * @sa acceptSync()
+<a name="154"><span class="lineNum">     154 </span>            :      * @version 1.0</a>
+<span class="lineNum">     155 </span>            :      */
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :     virtual void acceptNB() { LBUNIMPLEMENTED; }</span>
+<span class="lineNum">     157 </span>            :     /**
+<span class="lineNum">     158 </span>            :      * Complete an accept operation.
+<span class="lineNum">     159 </span>            :      *
+<span class="lineNum">     160 </span>            :      * @return the new connection, 0 on error.
+<a name="161"><span class="lineNum">     161 </span>            :      * @version 1.0</a>
+<span class="lineNum">     162 </span>            :      */
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :     virtual ConnectionPtr acceptSync()</span>
+<span class="lineNum">     164 </span>            :     {
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :         LBUNIMPLEMENTED;</span>
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     167 </span>            :     }
 <span class="lineNum">     168 </span>            :     //@}
 <span class="lineNum">     169 </span>            : 
 <span class="lineNum">     170 </span>            :     /** @name Asynchronous read */
@@ -245,7 +245,7 @@
 <span class="lineNum">     183 </span>            :      * @sa recvSync()
 <span class="lineNum">     184 </span>            :      * @version 1.0
 <span class="lineNum">     185 </span>            :      */
-<span class="lineNum">     186 </span>            :     CO_API void recvNB( BufferPtr buffer, const uint64_t bytes );
+<span class="lineNum">     186 </span>            :     CO_API void recvNB(BufferPtr buffer, const uint64_t bytes);
 <span class="lineNum">     187 </span>            : 
 <span class="lineNum">     188 </span>            :     /**
 <span class="lineNum">     189 </span>            :      * Finish reading data from the connection.
@@ -262,7 +262,7 @@
 <span class="lineNum">     200 </span>            :      * @return true if all requested data has been read, false otherwise.
 <span class="lineNum">     201 </span>            :      * @version 1.0
 <span class="lineNum">     202 </span>            :      */
-<span class="lineNum">     203 </span>            :     CO_API bool recvSync( BufferPtr&amp; buffer, const bool block = true );
+<span class="lineNum">     203 </span>            :     CO_API bool recvSync(BufferPtr&amp; buffer, const bool block = true);
 <span class="lineNum">     204 </span>            : 
 <span class="lineNum">     205 </span>            :     BufferPtr resetRecvData(); //!&lt; @internal
 <span class="lineNum">     206 </span>            :     //@}
@@ -284,8 +284,8 @@
 <span class="lineNum">     222 </span>            :      * @sa lockSend(), unlockSend()
 <span class="lineNum">     223 </span>            :      * @version 1.0
 <span class="lineNum">     224 </span>            :      */
-<span class="lineNum">     225 </span>            :     CO_API bool send( const void* buffer, const uint64_t bytes,
-<span class="lineNum">     226 </span>            :                       const bool isLocked = false );
+<span class="lineNum">     225 </span>            :     CO_API bool send(const void* buffer, const uint64_t bytes,
+<span class="lineNum">     226 </span>            :                      const bool isLocked = false);
 <span class="lineNum">     227 </span>            : 
 <span class="lineNum">     228 </span>            :     /** Lock the connection, no other thread can send data. @version 1.0 */
 <span class="lineNum">     229 </span>            :     CO_API void lockSend() const;
@@ -295,12 +295,12 @@
 <a name="233"><span class="lineNum">     233 </span>            : </a>
 <span class="lineNum">     234 </span>            :     /** @internal Finish all pending send operations. */
 <span class="lineNum">     235 </span><span class="lineNoCov">          0 :     virtual void finish() {}</span>
-<span class="lineNum">     236 </span>            :     //@}
+<span class="lineNum">     236 </span>            : //@}
 <span class="lineNum">     237 </span>            : 
-<span class="lineNum">     238 </span>            :     /**
-<span class="lineNum">     239 </span>            :      * The Notifier used by the ConnectionSet to detect readiness of a
-<span class="lineNum">     240 </span>            :      * Connection.
-<span class="lineNum">     241 </span>            :      */
+<span class="lineNum">     238 </span>            : /**
+<span class="lineNum">     239 </span>            :  * The Notifier used by the ConnectionSet to detect readiness of a
+<span class="lineNum">     240 </span>            :  * Connection.
+<span class="lineNum">     241 </span>            :  */
 <span class="lineNum">     242 </span>            : #ifdef _WIN32
 <span class="lineNum">     243 </span>            :     typedef void* Notifier;
 <span class="lineNum">     244 </span>            : #else
@@ -321,7 +321,7 @@
 <span class="lineNum">     259 </span>            :     enum ReadStatus //!&lt; error codes for readSync()
 <span class="lineNum">     260 </span>            :     {
 <span class="lineNum">     261 </span>            :         READ_TIMEOUT = -2,
-<span class="lineNum">     262 </span>            :         READ_ERROR   = -1
+<span class="lineNum">     262 </span>            :         READ_ERROR = -1
 <span class="lineNum">     263 </span>            :         // &gt;= 0: nBytes read
 <span class="lineNum">     264 </span>            :     };
 <span class="lineNum">     265 </span>            : 
@@ -339,7 +339,7 @@
 <span class="lineNum">     277 </span>            :      * @param bytes the number of bytes to read.
 <span class="lineNum">     278 </span>            :      * @sa readSync()
 <span class="lineNum">     279 </span>            :      */
-<span class="lineNum">     280 </span>            :     virtual void readNB( void* buffer, const uint64_t bytes ) = 0;
+<span class="lineNum">     280 </span>            :     virtual void readNB(void* buffer, const uint64_t bytes) = 0;
 <span class="lineNum">     281 </span>            : 
 <span class="lineNum">     282 </span>            :     /**
 <span class="lineNum">     283 </span>            :      * Finish reading data from the connection.
@@ -353,8 +353,8 @@
 <span class="lineNum">     291 </span>            :      *              unless you know exactly why not.
 <span class="lineNum">     292 </span>            :      * @return the number of bytes read, or -1 upon error.
 <span class="lineNum">     293 </span>            :      */
-<span class="lineNum">     294 </span>            :     virtual int64_t readSync( void* buffer, const uint64_t bytes,
-<span class="lineNum">     295 </span>            :                               const bool block ) = 0;
+<span class="lineNum">     294 </span>            :     virtual int64_t readSync(void* buffer, const uint64_t bytes,
+<span class="lineNum">     295 </span>            :                              const bool block) = 0;
 <span class="lineNum">     296 </span>            : 
 <span class="lineNum">     297 </span>            :     /**
 <span class="lineNum">     298 </span>            :      * Write data to the connection.
@@ -366,15 +366,15 @@
 <span class="lineNum">     304 </span>            :      * @param bytes the number of bytes to write.
 <span class="lineNum">     305 </span>            :      * @return the number of bytes written, or -1 upon error.
 <span class="lineNum">     306 </span>            :      */
-<span class="lineNum">     307 </span>            :     virtual int64_t write( const void* buffer, const uint64_t bytes ) = 0;
+<span class="lineNum">     307 </span>            :     virtual int64_t write(const void* buffer, const uint64_t bytes) = 0;
 <span class="lineNum">     308 </span>            :     //@}
 <span class="lineNum">     309 </span>            : 
 <span class="lineNum">     310 </span>            :     /** @internal @name State Changes */
 <span class="lineNum">     311 </span>            :     //@{
 <span class="lineNum">     312 </span>            :     /** @internal Set the connection parameter description. */
-<span class="lineNum">     313 </span>            :     CO_API void _setDescription( ConnectionDescriptionPtr description );
+<span class="lineNum">     313 </span>            :     CO_API void _setDescription(ConnectionDescriptionPtr description);
 <span class="lineNum">     314 </span>            : 
-<span class="lineNum">     315 </span>            :     CO_API void _setState( const State state ); //!&lt; @internal
+<span class="lineNum">     315 </span>            :     CO_API void _setState(const State state); //!&lt; @internal
 <span class="lineNum">     316 </span>            : 
 <span class="lineNum">     317 </span>            :     /** @return the description for this connection. */
 <span class="lineNum">     318 </span>            :     CO_API ConnectionDescriptionPtr _getDescription();
@@ -384,10 +384,10 @@
 <span class="lineNum">     322 </span>            :     detail::Connection* const _impl;
 <span class="lineNum">     323 </span>            : };
 <span class="lineNum">     324 </span>            : 
-<span class="lineNum">     325 </span>            : CO_API std::ostream&amp; operator &lt;&lt; ( std::ostream&amp;, const Connection&amp; );
+<span class="lineNum">     325 </span>            : CO_API std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const Connection&amp;);
 <span class="lineNum">     326 </span>            : }
 <span class="lineNum">     327 </span>            : 
-<span class="lineNum">     328 </span>            : #endif //CO_CONNECTION_H
+<span class="lineNum">     328 </span>            : #endif // CO_CONNECTION_H
 </pre>
       </td>
     </tr>

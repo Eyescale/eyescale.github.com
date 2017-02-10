@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">21</td>
-            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntry">25</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">38</td>
@@ -89,225 +89,247 @@
 <span class="lineNum">      27 </span>            : #include &lt;co/types.h&gt;
 <span class="lineNum">      28 </span>            : 
 <span class="lineNum">      29 </span>            : #include &lt;lunchbox/array.h&gt; // used inline
-<span class="lineNum">      30 </span>            : #include &lt;lunchbox/stdExt.h&gt;
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span>            : #include &lt;boost/noncopyable.hpp&gt;
-<span class="lineNum">      33 </span>            : #include &lt;boost/type_traits.hpp&gt;
-<span class="lineNum">      34 </span>            : #include &lt;map&gt;
-<span class="lineNum">      35 </span>            : #include &lt;set&gt;
-<span class="lineNum">      36 </span>            : #include &lt;vector&gt;
-<span class="lineNum">      37 </span>            : 
-<span class="lineNum">      38 </span>            : namespace co
-<span class="lineNum">      39 </span>            : {
-<span class="lineNum">      40 </span>            : namespace detail { class DataOStream; }
-<span class="lineNum">      41 </span>            : namespace DataStreamTest { class Sender; }
-<span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span>            : /**
-<span class="lineNum">      44 </span>            :  * A std::ostream-like interface for object serialization.
-<span class="lineNum">      45 </span>            :  *
-<span class="lineNum">      46 </span>            :  * Implements buffering, retaining and compressing data in a binary format.
-<span class="lineNum">      47 </span>            :  * Derived classes send the data using the appropriate commands.
-<span class="lineNum">      48 </span>            :  */
-<span class="lineNum">      49 </span>            : class DataOStream : public boost::noncopyable
-<span class="lineNum">      50 </span>            : {
-<span class="lineNum">      51 </span>            : public:
-<span class="lineNum">      52 </span>            :     /** @name Internal */
-<span class="lineNum">      53 </span>            :     //@{
-<span class="lineNum">      54 </span>            :     /** @internal Disable and flush the output to the current receivers. */
-<span class="lineNum">      55 </span>            :     CO_API void disable();
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            :     /** @internal Enable copying of all data into a saved buffer. */
-<span class="lineNum">      58 </span>            :     void enableSave();
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     /** @internal Disable copying of all data into a saved buffer. */
-<span class="lineNum">      61 </span>            :     void disableSave();
-<span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span>            :     /** @internal @return if data was sent since the last enable() */
-<span class="lineNum">      64 </span>            :     CO_API bool hasSentData() const;
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span>            :     /** @internal */
-<span class="lineNum">      67 </span>            :     CO_API const Connections&amp; getConnections() const;
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :     /** @internal Stream the data header (compressor, nChunks). */
-<span class="lineNum">      70 </span>            :     DataOStream&amp; streamDataHeader( DataOStream&amp; os );
-<span class="lineNum">      71 </span>            : 
-<span class="lineNum">      72 </span>            :     /** @internal Send the (compressed) data using the given connection. */
-<span class="lineNum">      73 </span>            :     void sendBody( ConnectionPtr connection, const void* data,
-<span class="lineNum">      74 </span>            :                    const uint64_t dataSize );
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : #include &lt;boost/noncopyable.hpp&gt;
+<span class="lineNum">      32 </span>            : #include &lt;boost/type_traits.hpp&gt;
+<span class="lineNum">      33 </span>            : #include &lt;map&gt;
+<span class="lineNum">      34 </span>            : #include &lt;set&gt;
+<span class="lineNum">      35 </span>            : #include &lt;unordered_map&gt;
+<span class="lineNum">      36 </span>            : #include &lt;unordered_set&gt;
+<span class="lineNum">      37 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : namespace co
+<span class="lineNum">      40 </span>            : {
+<span class="lineNum">      41 </span>            : namespace detail
+<span class="lineNum">      42 </span>            : {
+<span class="lineNum">      43 </span>            : class DataOStream;
+<span class="lineNum">      44 </span>            : }
+<span class="lineNum">      45 </span>            : namespace DataStreamTest
+<span class="lineNum">      46 </span>            : {
+<span class="lineNum">      47 </span>            : class Sender;
+<span class="lineNum">      48 </span>            : }
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            : /**
+<span class="lineNum">      51 </span>            :  * A std::ostream-like interface for object serialization.
+<span class="lineNum">      52 </span>            :  *
+<span class="lineNum">      53 </span>            :  * Implements buffering, retaining and compressing data in a binary format.
+<span class="lineNum">      54 </span>            :  * Derived classes send the data using the appropriate commands.
+<span class="lineNum">      55 </span>            :  */
+<span class="lineNum">      56 </span>            : class DataOStream : public boost::noncopyable
+<span class="lineNum">      57 </span>            : {
+<span class="lineNum">      58 </span>            : public:
+<span class="lineNum">      59 </span>            :     /** @name Internal */
+<span class="lineNum">      60 </span>            :     //@{
+<span class="lineNum">      61 </span>            :     /** @internal Disable and flush the output to the current receivers. */
+<span class="lineNum">      62 </span>            :     CO_API void disable();
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            :     /** @internal Enable copying of all data into a saved buffer. */
+<span class="lineNum">      65 </span>            :     void enableSave();
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :     /** @internal Disable copying of all data into a saved buffer. */
+<span class="lineNum">      68 </span>            :     void disableSave();
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :     /** @internal @return if data was sent since the last enable() */
+<span class="lineNum">      71 </span>            :     CO_API bool hasSentData() const;
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            :     /** @internal */
+<span class="lineNum">      74 </span>            :     CO_API const Connections&amp; getConnections() const;
 <span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span>            :     /** @internal @return the compressed data size, 0 if uncompressed.*/
-<span class="lineNum">      77 </span>            :     uint64_t getCompressedDataSize() const;
-<span class="lineNum">      78 </span>            :     //@}
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span>            :     /** @name Data output */
-<a name="81"><span class="lineNum">      81 </span>            :     //@{</a>
-<span class="lineNum">      82 </span>            :     /** Write a plain data item by copying it to the stream. @version 1.0 */
-<span class="lineNum">      83 </span><span class="lineCov">     291946 :     template&lt; class T &gt; DataOStream&amp; operator &lt;&lt; ( const T&amp; value )</span>
-<span class="lineNum">      84 </span><span class="lineCov">     291946 :         { _write( value, boost::has_trivial_copy&lt; T &gt;( )); return *this; }</span>
-<a name="85"><span class="lineNum">      85 </span>            : </a>
-<span class="lineNum">      86 </span>            :     /** Write a C array. @version 1.0 */
-<span class="lineNum">      87 </span><span class="lineCov">         19 :     template&lt; class T &gt; DataOStream&amp; operator &lt;&lt; ( const Array&lt; T &gt; array )</span>
-<span class="lineNum">      88 </span><span class="lineCov">         19 :         { _writeArray( array, boost::has_trivial_copy&lt;T&gt;( )); return *this; }</span>
-<span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span>            :     /**
-<span class="lineNum">      91 </span>            :      * Write a lunchbox::RefPtr. Refcount has to managed by caller.
-<span class="lineNum">      92 </span>            :      * @version 1.1
-<span class="lineNum">      93 </span>            :      */
-<span class="lineNum">      94 </span>            :     template&lt; class T &gt;
-<span class="lineNum">      95 </span>            :     DataOStream&amp; operator &lt;&lt; ( const lunchbox::RefPtr&lt; T &gt;&amp; ptr );
+<span class="lineNum">      76 </span>            :     /** @internal Stream the data header (compressor, nChunks). */
+<span class="lineNum">      77 </span>            :     DataOStream&amp; streamDataHeader(DataOStream&amp; os);
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :     /** @internal Send the (compressed) data using the given connection. */
+<span class="lineNum">      80 </span>            :     void sendBody(ConnectionPtr connection, const void* data,
+<span class="lineNum">      81 </span>            :                   const uint64_t dataSize);
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :     /** @internal @return the compressed data size, 0 if uncompressed.*/
+<span class="lineNum">      84 </span>            :     uint64_t getCompressedDataSize() const;
+<span class="lineNum">      85 </span>            :     //@}
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            :     /** @name Data output */
+<span class="lineNum">      88 </span>            :     //@{
+<a name="89"><span class="lineNum">      89 </span>            :     /** Write a plain data item by copying it to the stream. @version 1.0 */</a>
+<span class="lineNum">      90 </span>            :     template &lt;class T&gt;
+<span class="lineNum">      91 </span><span class="lineCov">     291993 :     DataOStream&amp; operator&lt;&lt;(const T&amp; value)</span>
+<span class="lineNum">      92 </span>            :     {
+<span class="lineNum">      93 </span><span class="lineCov">     291993 :         _write(value, boost::has_trivial_copy&lt;T&gt;());</span>
+<span class="lineNum">      94 </span><span class="lineCov">     292009 :         return *this;</span>
+<span class="lineNum">      95 </span>            :     }
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span>            :     /** Write a lunchbox::Buffer. @version 1.0 */
-<span class="lineNum">      98 </span>            :     template&lt; class T &gt;
-<span class="lineNum">      99 </span>            :     DataOStream&amp; operator &lt;&lt; ( const lunchbox::Buffer&lt; T &gt;&amp; buffer );
-<span class="lineNum">     100 </span>            : 
-<a name="101"><span class="lineNum">     101 </span>            :     /** Transmit a request identifier. @version 1.1.1 */</a>
-<span class="lineNum">     102 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     103 </span><span class="lineCov">      20194 :     DataOStream&amp; operator &lt;&lt; ( const lunchbox::Request&lt;T&gt;&amp; request )</span>
-<span class="lineNum">     104 </span><span class="lineCov">      20194 :     { return (*this) &lt;&lt; request.getID(); }</span>
-<span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span>            :     /** Write a std::vector of serializable items. @version 1.0 */
-<span class="lineNum">     107 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     108 </span>            :     DataOStream&amp; operator &lt;&lt; ( const std::vector&lt; T &gt;&amp; value );
-<span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span>            :     /** Write a std::map of serializable items. @version 1.0 */
-<span class="lineNum">     111 </span>            :     template&lt; class K, class V &gt;
-<span class="lineNum">     112 </span>            :     DataOStream&amp; operator &lt;&lt; ( const std::map&lt; K, V &gt;&amp; value );
-<span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span>            :     /** Write a std::set of serializable items. @version 1.0 */
-<span class="lineNum">     115 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     116 </span>            :     DataOStream&amp; operator &lt;&lt; ( const std::set&lt; T &gt;&amp; value );
-<span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span>            :     /** Write a stde::hash_map of serializable items. @version 1.0 */
-<span class="lineNum">     119 </span>            :     template&lt; class K, class V &gt;
-<span class="lineNum">     120 </span>            :     DataOStream&amp; operator &lt;&lt; ( const stde::hash_map&lt; K, V &gt;&amp; value );
-<span class="lineNum">     121 </span>            : 
-<span class="lineNum">     122 </span>            :     /** Write a stde::hash_set of serializable items. @version 1.0 */
-<span class="lineNum">     123 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     124 </span>            :     DataOStream&amp; operator &lt;&lt; ( const stde::hash_set&lt; T &gt;&amp; value );
-<span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span>            :     /** @internal
-<span class="lineNum">     127 </span>            :      * Serialize child objects.
-<span class="lineNum">     128 </span>            :      *
-<span class="lineNum">     129 </span>            :      * The DataIStream has a deserialize counterpart to this method. All
-<span class="lineNum">     130 </span>            :      * child objects have to be registered or mapped beforehand.
-<span class="lineNum">     131 </span>            :      */
-<span class="lineNum">     132 </span>            :     template&lt; typename C &gt;
-<span class="lineNum">     133 </span>            :     void serializeChildren( const std::vector&lt; C* &gt;&amp; children );
-<span class="lineNum">     134 </span>            :     //@}
-<span class="lineNum">     135 </span>            : 
-<span class="lineNum">     136 </span>            :     CO_API static std::ostream&amp; printStatistics( std::ostream&amp; ); //!&lt; @internal
-<span class="lineNum">     137 </span>            :     CO_API static void clearStatistics(); //!&lt; @internal
+<a name="97"><span class="lineNum">      97 </span>            :     /** Write a C array. @version 1.0 */</a>
+<span class="lineNum">      98 </span>            :     template &lt;class T&gt;
+<span class="lineNum">      99 </span><span class="lineCov">         19 :     DataOStream&amp; operator&lt;&lt;(const Array&lt;T&gt; array)</span>
+<span class="lineNum">     100 </span>            :     {
+<span class="lineNum">     101 </span><span class="lineCov">         19 :         _writeArray(array, boost::has_trivial_copy&lt;T&gt;());</span>
+<span class="lineNum">     102 </span><span class="lineCov">         19 :         return *this;</span>
+<span class="lineNum">     103 </span>            :     }
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            :     /**
+<span class="lineNum">     106 </span>            :      * Write a lunchbox::RefPtr. Refcount has to managed by caller.
+<span class="lineNum">     107 </span>            :      * @version 1.1
+<span class="lineNum">     108 </span>            :      */
+<span class="lineNum">     109 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     110 </span>            :     DataOStream&amp; operator&lt;&lt;(const lunchbox::RefPtr&lt;T&gt;&amp; ptr);
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            :     /** Write a lunchbox::Buffer. @version 1.0 */
+<span class="lineNum">     113 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     114 </span>            :     DataOStream&amp; operator&lt;&lt;(const lunchbox::Buffer&lt;T&gt;&amp; buffer);
+<span class="lineNum">     115 </span>            : 
+<a name="116"><span class="lineNum">     116 </span>            :     /** Transmit a request identifier. @version 1.1.1 */</a>
+<span class="lineNum">     117 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     118 </span><span class="lineCov">      20194 :     DataOStream&amp; operator&lt;&lt;(const lunchbox::Request&lt;T&gt;&amp; request)</span>
+<span class="lineNum">     119 </span>            :     {
+<span class="lineNum">     120 </span><span class="lineCov">      20194 :         return (*this) &lt;&lt; request.getID();</span>
+<span class="lineNum">     121 </span>            :     }
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            :     /** Write a std::vector of serializable items. @version 1.0 */
+<span class="lineNum">     124 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     125 </span>            :     DataOStream&amp; operator&lt;&lt;(const std::vector&lt;T&gt;&amp; value);
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            :     /** Write a std::map of serializable items. @version 1.0 */
+<span class="lineNum">     128 </span>            :     template &lt;class K, class V&gt;
+<span class="lineNum">     129 </span>            :     DataOStream&amp; operator&lt;&lt;(const std::map&lt;K, V&gt;&amp; value);
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            :     /** Write a std::set of serializable items. @version 1.0 */
+<span class="lineNum">     132 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     133 </span>            :     DataOStream&amp; operator&lt;&lt;(const std::set&lt;T&gt;&amp; value);
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            :     /** Write an unordered_map of serializable items. @version 1.0 */
+<span class="lineNum">     136 </span>            :     template &lt;class K, class V&gt;
+<span class="lineNum">     137 </span>            :     DataOStream&amp; operator&lt;&lt;(const std::unordered_map&lt;K, V&gt;&amp; value);
 <span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span>            : protected:
-<span class="lineNum">     140 </span>            :     CO_API explicit DataOStream(
-<span class="lineNum">     141 </span><span class="lineCov">        183 :             size_t chunkSize = Global::getObjectBufferSize( )); //!&lt; @internal</span>
-<span class="lineNum">     142 </span>            :     explicit DataOStream( DataOStream&amp; rhs );  //!&lt; @internal
-<span class="lineNum">     143 </span>            :     virtual CO_API ~DataOStream(); //!&lt; @internal
-<span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span>            :     /** @internal */
-<span class="lineNum">     146 </span>            :     CO_API lunchbox::Bufferb&amp; getBuffer();
-<span class="lineNum">     147 </span>            : 
-<span class="lineNum">     148 </span>            :     /** @internal Initialize the given compressor. */
-<span class="lineNum">     149 </span>            :     void _setCompressor( const pression::data::CompressorInfo&amp; info );
-<span class="lineNum">     150 </span>            : 
-<span class="lineNum">     151 </span>            :     /** @internal Enable output. */
-<span class="lineNum">     152 </span>            :     CO_API void _enable();
-<span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span>            :     /** @internal Flush remaining data in the buffer. */
-<span class="lineNum">     155 </span>            :     void flush( const bool last );
-<span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span>            :     /** @internal Set up the connection list for a group of nodes, using
-<span class="lineNum">     158 </span>            :      * multicast where possible.
-<span class="lineNum">     159 </span>            :      */
-<span class="lineNum">     160 </span>            :     void _setupConnections( const Nodes&amp; receivers );
+<span class="lineNum">     139 </span>            :     /** Write an unordered_set of serializable items. @version 1.0 */
+<span class="lineNum">     140 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     141 </span>            :     DataOStream&amp; operator&lt;&lt;(const std::unordered_set&lt;T&gt;&amp; value);
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            :     /** @internal
+<span class="lineNum">     144 </span>            :      * Serialize child objects.
+<span class="lineNum">     145 </span>            :      *
+<span class="lineNum">     146 </span>            :      * The DataIStream has a deserialize counterpart to this method. All
+<span class="lineNum">     147 </span>            :      * child objects have to be registered or mapped beforehand.
+<span class="lineNum">     148 </span>            :      */
+<span class="lineNum">     149 </span>            :     template &lt;typename C&gt;
+<span class="lineNum">     150 </span>            :     void serializeChildren(const std::vector&lt;C*&gt;&amp; children);
+<span class="lineNum">     151 </span>            :     //@}
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            :     CO_API static std::ostream&amp; printStatistics(std::ostream&amp;); //!&lt; @internal
+<span class="lineNum">     154 </span>            :     CO_API static void clearStatistics();                       //!&lt; @internal
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            : protected:
+<span class="lineNum">     157 </span>            :     CO_API explicit DataOStream(
+<span class="lineNum">     158 </span><span class="lineCov">        183 :         size_t chunkSize = Global::getObjectBufferSize()); //!&lt; @internal</span>
+<span class="lineNum">     159 </span>            :     explicit DataOStream(DataOStream&amp; rhs);                //!&lt; @internal
+<span class="lineNum">     160 </span>            :     virtual CO_API ~DataOStream();                         //!&lt; @internal
 <span class="lineNum">     161 </span>            : 
-<span class="lineNum">     162 </span>            :     void _setupConnections( const Connections&amp; connections );
-<span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span>            :     /** @internal Set up the connection (list) for one node. */
-<span class="lineNum">     165 </span>            :     void _setupConnection( NodePtr node, const bool useMulticast );
-<span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span>            :     /** @internal Needed by unit test. */
-<span class="lineNum">     168 </span>            :     CO_API void _setupConnection( ConnectionPtr connection );
-<span class="lineNum">     169 </span>            :     friend class DataStreamTest::Sender;
+<span class="lineNum">     162 </span>            :     /** @internal */
+<span class="lineNum">     163 </span>            :     CO_API lunchbox::Bufferb&amp; getBuffer();
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span>            :     /** @internal Initialize the given compressor. */
+<span class="lineNum">     166 </span>            :     void _setCompressor(const pression::data::CompressorInfo&amp; info);
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            :     /** @internal Enable output. */
+<span class="lineNum">     169 </span>            :     CO_API void _enable();
 <span class="lineNum">     170 </span>            : 
-<span class="lineNum">     171 </span>            :     /** @internal Resend the saved buffer to all enabled connections. */
-<span class="lineNum">     172 </span>            :     void _resend();
+<span class="lineNum">     171 </span>            :     /** @internal Flush remaining data in the buffer. */
+<span class="lineNum">     172 </span>            :     void flush(const bool last);
 <span class="lineNum">     173 </span>            : 
-<span class="lineNum">     174 </span>            :     void _clearConnections(); //!&lt; @internal
-<span class="lineNum">     175 </span>            : 
-<span class="lineNum">     176 </span>            :     /** @internal @name Data sending, used by the subclasses */
-<span class="lineNum">     177 </span>            :     //@{
-<span class="lineNum">     178 </span>            :     /** @internal Send a data buffer (command) to the receivers. */
-<span class="lineNum">     179 </span>            :     virtual void sendData( const void* buffer, const uint64_t size,
-<span class="lineNum">     180 </span>            :                            const bool last ) = 0;
-<span class="lineNum">     181 </span>            :     //@}
-<span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span>            :     /** @internal Reset the whole stream. */
-<span class="lineNum">     184 </span>            :     virtual CO_API void reset();
-<span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span>            : private:
-<span class="lineNum">     187 </span>            :     detail::DataOStream* const _impl;
-<span class="lineNum">     188 </span>            : 
-<span class="lineNum">     189 </span>            :     /** Collect compressed data. */
-<span class="lineNum">     190 </span>            :     CO_API uint64_t _getCompressedData( const uint8_t** chunks,
-<span class="lineNum">     191 </span>            :                                         uint64_t* chunkSizes ) const;
+<span class="lineNum">     174 </span>            :     /** @internal Set up the connection list for a group of nodes, using
+<span class="lineNum">     175 </span>            :      * multicast where possible.
+<span class="lineNum">     176 </span>            :      */
+<span class="lineNum">     177 </span>            :     void _setupConnections(const Nodes&amp; receivers);
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            :     void _setupConnections(const Connections&amp; connections);
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span>            :     /** @internal Set up the connection (list) for one node. */
+<span class="lineNum">     182 </span>            :     void _setupConnection(NodePtr node, const bool useMulticast);
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            :     /** @internal Needed by unit test. */
+<span class="lineNum">     185 </span>            :     CO_API void _setupConnection(ConnectionPtr connection);
+<span class="lineNum">     186 </span>            :     friend class DataStreamTest::Sender;
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            :     /** @internal Resend the saved buffer to all enabled connections. */
+<span class="lineNum">     189 </span>            :     void _resend();
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span>            :     void _clearConnections(); //!&lt; @internal
 <span class="lineNum">     192 </span>            : 
-<span class="lineNum">     193 </span>            :     /** Write a number of bytes from data into the stream. */
-<span class="lineNum">     194 </span>            :     CO_API void _write( const void* data, uint64_t size );
-<span class="lineNum">     195 </span>            : 
-<span class="lineNum">     196 </span>            :     /** Helper function preparing data for sendData() as needed. */
-<span class="lineNum">     197 </span>            :     void _sendData( const void* data, const uint64_t size );
-<span class="lineNum">     198 </span>            : 
-<span class="lineNum">     199 </span>            :     /** Reset after sending a buffer. */
-<span class="lineNum">     200 </span>            :     void _resetBuffer();
-<span class="lineNum">     201 </span>            : 
-<a name="202"><span class="lineNum">     202 </span>            :     /** Write a vector of trivial data. */</a>
-<span class="lineNum">     203 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     204 </span><span class="lineCov">          4 :     DataOStream&amp; _writeFlatVector( const std::vector&lt; T &gt;&amp; value )</span>
-<span class="lineNum">     205 </span>            :     {
-<span class="lineNum">     206 </span><span class="lineCov">          4 :         const uint64_t nElems = value.size();</span>
-<span class="lineNum">     207 </span><span class="lineCov">          4 :         _write( &amp;nElems, sizeof( nElems ));</span>
-<span class="lineNum">     208 </span><span class="lineCov">          4 :         if( nElems &gt; 0 )</span>
-<span class="lineNum">     209 </span><span class="lineCov">          4 :             _write( &amp;value.front(), nElems * sizeof( T ));</span>
-<span class="lineNum">     210 </span><span class="lineCov">          4 :         return *this;</span>
-<span class="lineNum">     211 </span>            :     }
-<a name="212"><span class="lineNum">     212 </span>            : </a>
-<span class="lineNum">     213 </span>            :     /** Write a plain data item. */
-<span class="lineNum">     214 </span><span class="lineCov">     291946 :     template&lt; class T &gt; void _write( const T&amp; value, const boost::true_type&amp; )</span>
-<span class="lineNum">     215 </span><span class="lineCov">     291946 :         { _write( &amp;value, sizeof( value )); }</span>
-<span class="lineNum">     216 </span>            : 
-<span class="lineNum">     217 </span>            :     /** Write a non-plain data item. */
-<span class="lineNum">     218 </span>            :     template&lt; class T &gt; void _write( const T&amp; value, const boost::false_type&amp; )
-<span class="lineNum">     219 </span>            :     {
-<span class="lineNum">     220 </span>            :         _writeSerializable( value,
-<span class="lineNum">     221 </span>            :                             boost::is_base_of&lt; servus::Serializable, T &gt;( ));
-<span class="lineNum">     222 </span>            :     }
-<span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span>            :     /** Write a serializable object. */
-<span class="lineNum">     225 </span>            :     template&lt; class T&gt;
-<span class="lineNum">     226 </span>            :     void _writeSerializable( const T&amp; value, const boost::true_type&amp; );
-<span class="lineNum">     227 </span>            : 
-<a name="228"><span class="lineNum">     228 </span>            :     /** Write an Array of POD data */</a>
-<span class="lineNum">     229 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     230 </span><span class="lineCov">          1 :     void _writeArray( const Array&lt; T &gt; array, const boost::true_type&amp; )</span>
-<span class="lineNum">     231 </span><span class="lineCov">          1 :         { _write( array.data, array.getNumBytes( )); }</span>
-<span class="lineNum">     232 </span>            : 
-<a name="233"><span class="lineNum">     233 </span>            :     /** Write an Array of non-POD data */</a>
-<span class="lineNum">     234 </span>            :     template&lt; class T &gt;
-<span class="lineNum">     235 </span><span class="lineCov">          1 :     void _writeArray( const Array&lt; T &gt; array, const boost::false_type&amp; )</span>
-<span class="lineNum">     236 </span>            :     {
-<span class="lineNum">     237 </span><span class="lineCov">          3 :         for( size_t i = 0; i &lt; array.num; ++i )</span>
-<span class="lineNum">     238 </span><span class="lineCov">          2 :             *this &lt;&lt; array.data[ i ];</span>
-<span class="lineNum">     239 </span><span class="lineCov">          1 :     }</span>
-<span class="lineNum">     240 </span>            : 
-<span class="lineNum">     241 </span>            :     /** Send the trailing data (command) to the receivers */
-<span class="lineNum">     242 </span>            :     void _sendFooter( const void* buffer, const uint64_t size );
-<span class="lineNum">     243 </span>            : };
-<span class="lineNum">     244 </span>            : }
-<span class="lineNum">     245 </span>            : 
-<span class="lineNum">     246 </span>            : #include &quot;dataOStream.ipp&quot; // template implementation
+<span class="lineNum">     193 </span>            :     /** @internal @name Data sending, used by the subclasses */
+<span class="lineNum">     194 </span>            :     //@{
+<span class="lineNum">     195 </span>            :     /** @internal Send a data buffer (command) to the receivers. */
+<span class="lineNum">     196 </span>            :     virtual void sendData(const void* buffer, const uint64_t size,
+<span class="lineNum">     197 </span>            :                           const bool last) = 0;
+<span class="lineNum">     198 </span>            :     //@}
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            :     /** @internal Reset the whole stream. */
+<span class="lineNum">     201 </span>            :     virtual CO_API void reset();
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            : private:
+<span class="lineNum">     204 </span>            :     detail::DataOStream* const _impl;
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            :     /** Collect compressed data. */
+<span class="lineNum">     207 </span>            :     CO_API uint64_t _getCompressedData(const uint8_t** chunks,
+<span class="lineNum">     208 </span>            :                                        uint64_t* chunkSizes) const;
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span>            :     /** Write a number of bytes from data into the stream. */
+<span class="lineNum">     211 </span>            :     CO_API void _write(const void* data, uint64_t size);
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            :     /** Helper function preparing data for sendData() as needed. */
+<span class="lineNum">     214 </span>            :     void _sendData(const void* data, const uint64_t size);
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span>            :     /** Reset after sending a buffer. */
+<span class="lineNum">     217 </span>            :     void _resetBuffer();
+<span class="lineNum">     218 </span>            : 
+<a name="219"><span class="lineNum">     219 </span>            :     /** Write a vector of trivial data. */</a>
+<span class="lineNum">     220 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     221 </span><span class="lineCov">          4 :     DataOStream&amp; _writeFlatVector(const std::vector&lt;T&gt;&amp; value)</span>
+<span class="lineNum">     222 </span>            :     {
+<span class="lineNum">     223 </span><span class="lineCov">          4 :         const uint64_t nElems = value.size();</span>
+<span class="lineNum">     224 </span><span class="lineCov">          4 :         _write(&amp;nElems, sizeof(nElems));</span>
+<span class="lineNum">     225 </span><span class="lineCov">          4 :         if (nElems &gt; 0)</span>
+<span class="lineNum">     226 </span><span class="lineCov">          4 :             _write(&amp;value.front(), nElems * sizeof(T));</span>
+<span class="lineNum">     227 </span><span class="lineCov">          4 :         return *this;</span>
+<span class="lineNum">     228 </span>            :     }
+<span class="lineNum">     229 </span>            : 
+<a name="230"><span class="lineNum">     230 </span>            :     /** Write a plain data item. */</a>
+<span class="lineNum">     231 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     232 </span><span class="lineCov">     291991 :     void _write(const T&amp; value, const boost::true_type&amp;)</span>
+<span class="lineNum">     233 </span>            :     {
+<span class="lineNum">     234 </span><span class="lineCov">     291991 :         _write(&amp;value, sizeof(value));</span>
+<span class="lineNum">     235 </span><span class="lineCov">     292010 :     }</span>
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span>            :     /** Write a non-plain data item. */
+<span class="lineNum">     238 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     239 </span>            :     void _write(const T&amp; value, const boost::false_type&amp;)
+<span class="lineNum">     240 </span>            :     {
+<span class="lineNum">     241 </span>            :         _writeSerializable(value, boost::is_base_of&lt;servus::Serializable, T&gt;());
+<span class="lineNum">     242 </span>            :     }
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span>            :     /** Write a serializable object. */
+<span class="lineNum">     245 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     246 </span>            :     void _writeSerializable(const T&amp; value, const boost::true_type&amp;);
 <span class="lineNum">     247 </span>            : 
-<span class="lineNum">     248 </span>            : #endif //CO_DATAOSTREAM_H
+<a name="248"><span class="lineNum">     248 </span>            :     /** Write an Array of POD data */</a>
+<span class="lineNum">     249 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     250 </span><span class="lineCov">          1 :     void _writeArray(const Array&lt;T&gt; array, const boost::true_type&amp;)</span>
+<span class="lineNum">     251 </span>            :     {
+<span class="lineNum">     252 </span><span class="lineCov">          1 :         _write(array.data, array.getNumBytes());</span>
+<span class="lineNum">     253 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     254 </span>            : 
+<a name="255"><span class="lineNum">     255 </span>            :     /** Write an Array of non-POD data */</a>
+<span class="lineNum">     256 </span>            :     template &lt;class T&gt;
+<span class="lineNum">     257 </span><span class="lineCov">          1 :     void _writeArray(const Array&lt;T&gt; array, const boost::false_type&amp;)</span>
+<span class="lineNum">     258 </span>            :     {
+<span class="lineNum">     259 </span><span class="lineCov">          3 :         for (size_t i = 0; i &lt; array.num; ++i)</span>
+<span class="lineNum">     260 </span><span class="lineCov">          2 :             *this &lt;&lt; array.data[i];</span>
+<span class="lineNum">     261 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span>            :     /** Send the trailing data (command) to the receivers */
+<span class="lineNum">     264 </span>            :     void _sendFooter(const void* buffer, const uint64_t size);
+<span class="lineNum">     265 </span>            : };
+<span class="lineNum">     266 </span>            : }
+<span class="lineNum">     267 </span>            : 
+<span class="lineNum">     268 </span>            : #include &quot;dataOStream.ipp&quot; // template implementation
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span>            : #endif // CO_DATAOSTREAM_H
 </pre>
       </td>
     </tr>

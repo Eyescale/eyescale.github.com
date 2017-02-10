@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">79</td>
-            <td class="headerCovTableEntry">102</td>
-            <td class="headerCovTableEntryMed">77.5 %</td>
+            <td class="headerCovTableEntry">77</td>
+            <td class="headerCovTableEntry">100</td>
+            <td class="headerCovTableEntryMed">77.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">26</td>
@@ -91,206 +91,205 @@
 <span class="lineNum">      29 </span>            : {
 <a name="30"><span class="lineNum">      30 </span>            : namespace detail</a>
 <span class="lineNum">      31 </span>            : {
-<span class="lineNum">      32 </span><span class="lineCov">    5843050 : class ICommand</span>
+<span class="lineNum">      32 </span><span class="lineCov">    5887867 : class ICommand</span>
 <a name="33"><span class="lineNum">      33 </span>            : {</a>
 <span class="lineNum">      34 </span>            : public:
-<span class="lineNum">      35 </span><span class="lineCov">    1177095 :     ICommand()</span>
-<span class="lineNum">      36 </span><span class="lineCov">    1177095 :         : func( 0, 0 )</span>
-<span class="lineNum">      37 </span>            :         , buffer( 0 )
-<span class="lineNum">      38 </span>            :         , size( 0 )
-<span class="lineNum">      39 </span>            :         , type( COMMANDTYPE_INVALID )
-<span class="lineNum">      40 </span>            :         , cmd( CMD_INVALID )
-<span class="lineNum">      41 </span><span class="lineCov">    1177095 :         , consumed( false )</span>
-<a name="42"><span class="lineNum">      42 </span><span class="lineCov">    1177093 :     {}</span></a>
-<span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span><span class="lineCov">     116901 :     ICommand( LocalNodePtr local_, NodePtr remote_, ConstBufferPtr buffer_ )</span>
-<span class="lineNum">      45 </span><span class="lineCov">     116901 :         : local( local_ )</span>
-<span class="lineNum">      46 </span>            :         , remote( remote_ )
-<span class="lineNum">      47 </span>            :         , func( 0, 0 )
-<span class="lineNum">      48 </span>            :         , buffer( buffer_ )
-<span class="lineNum">      49 </span>            :         , size( 0 )
-<span class="lineNum">      50 </span>            :         , type( COMMANDTYPE_INVALID )
-<span class="lineNum">      51 </span>            :         , cmd( CMD_INVALID )
-<span class="lineNum">      52 </span><span class="lineCov">     116901 :         , consumed( false )</span>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">     116901 :     {}</span></a>
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span><span class="lineCov">     397373 :     void clear()</span>
-<span class="lineNum">      56 </span>            :     {
-<span class="lineNum">      57 </span><span class="lineCov">     397373 :         *this = ICommand();</span>
-<span class="lineNum">      58 </span><span class="lineCov">     397373 :     }</span>
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     LocalNodePtr local; //!&lt; The node receiving the command
-<span class="lineNum">      61 </span>            :     NodePtr remote; //!&lt; The node sending the command
-<span class="lineNum">      62 </span>            :     co::Dispatcher::Func func;
-<span class="lineNum">      63 </span>            :     ConstBufferPtr buffer;
-<span class="lineNum">      64 </span>            :     uint64_t size;
-<span class="lineNum">      65 </span>            :     uint32_t type;
-<span class="lineNum">      66 </span>            :     uint32_t cmd;
-<span class="lineNum">      67 </span>            :     bool consumed;
-<span class="lineNum">      68 </span>            : };
-<a name="69"><span class="lineNum">      69 </span>            : } // detail namespace</a>
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span><span class="lineCov">     779727 : ICommand::ICommand()</span>
-<span class="lineNum">      72 </span>            :     : DataIStream()
-<span class="lineNum">      73 </span><span class="lineCov">     779727 :     , _impl( new detail::ICommand )</span>
-<span class="lineNum">      74 </span>            : {
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">     779720 : }</span></a>
-<span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span><span class="lineCov">     116901 : ICommand::ICommand( LocalNodePtr local, NodePtr remote, ConstBufferPtr buffer )</span>
-<span class="lineNum">      78 </span>            :     : DataIStream()
-<span class="lineNum">      79 </span><span class="lineCov">     116901 :     , _impl( new detail::ICommand( local, remote, buffer ))</span>
-<span class="lineNum">      80 </span>            : {
-<span class="lineNum">      81 </span><span class="lineCov">     116901 :     if( _impl-&gt;buffer )</span>
-<span class="lineNum">      82 </span>            :     {
-<span class="lineNum">      83 </span><span class="lineCov">     116900 :         LBASSERT( buffer-&gt;getSize() &gt;= sizeof( _impl-&gt;size ) +</span>
-<span class="lineNum">      84 </span>            :                   sizeof( _impl-&gt;type ) + sizeof( _impl-&gt;cmd ));
-<span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span><span class="lineCov">     116900 :         *this &gt;&gt; _impl-&gt;size &gt;&gt; _impl-&gt;type &gt;&gt; _impl-&gt;cmd;</span>
-<span class="lineNum">      87 </span>            :     }
-<a name="88"><span class="lineNum">      88 </span><span class="lineCov">     116901 : }</span></a>
-<span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span><span class="lineCov">    1818063 : ICommand::ICommand( const ICommand&amp; rhs )</span>
-<span class="lineNum">      91 </span>            :     : DataIStream()
-<span class="lineNum">      92 </span><span class="lineCov">    1818063 :     , _impl( new detail::ICommand( *rhs._impl ))</span>
-<span class="lineNum">      93 </span>            : {
-<span class="lineNum">      94 </span><span class="lineCov">    1818065 :     _impl-&gt;consumed = false;</span>
-<span class="lineNum">      95 </span><span class="lineCov">    1818065 :     _skipHeader();</span>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">    1818064 : }</span></a>
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span><span class="lineCov">     581278 : ICommand&amp; ICommand::operator = ( const ICommand&amp; rhs )</span>
-<span class="lineNum">      99 </span>            : {
-<span class="lineNum">     100 </span><span class="lineCov">     581278 :     if( this != &amp;rhs )</span>
-<span class="lineNum">     101 </span>            :     {
-<span class="lineNum">     102 </span><span class="lineCov">     581289 :         *_impl = *rhs._impl;</span>
-<span class="lineNum">     103 </span><span class="lineCov">     581294 :         _impl-&gt;consumed = false;</span>
-<span class="lineNum">     104 </span><span class="lineCov">     581294 :         _skipHeader();</span>
-<span class="lineNum">     105 </span>            :     }
-<span class="lineNum">     106 </span><span class="lineCov">     581160 :     return *this;</span>
-<a name="107"><span class="lineNum">     107 </span>            : }</a>
-<span class="lineNum">     108 </span>            : 
-<span class="lineNum">     109 </span><span class="lineCov">    5362982 : ICommand::~ICommand()</span>
-<span class="lineNum">     110 </span>            : {
-<span class="lineNum">     111 </span><span class="lineCov">    2648998 :     delete _impl;</span>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">    2710021 : }</span></a>
-<span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span><span class="lineCov">     397373 : void ICommand::clear()</span>
-<span class="lineNum">     115 </span>            : {
-<span class="lineNum">     116 </span><span class="lineCov">     397373 :     _impl-&gt;clear();</span>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">     397373 : }</span></a>
-<span class="lineNum">     118 </span>            : 
-<span class="lineNum">     119 </span><span class="lineCov">    2397501 : void ICommand::_skipHeader()</span>
-<span class="lineNum">     120 </span>            : {
-<span class="lineNum">     121 </span>            :     const size_t headerSize = sizeof( _impl-&gt;size ) + sizeof( _impl-&gt;type ) +
-<span class="lineNum">     122 </span><span class="lineCov">    2397501 :                               sizeof( _impl-&gt;cmd );</span>
-<span class="lineNum">     123 </span><span class="lineCov">    2397501 :     if( isValid() &amp;&amp; getRemainingBufferSize() &gt;= headerSize )</span>
-<span class="lineNum">     124 </span><span class="lineCov">    2365183 :         getRemainingBuffer( headerSize );</span>
-<a name="125"><span class="lineNum">     125 </span><span class="lineCov">    2371164 : }</span></a>
-<span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span><span class="lineCov">      72273 : uint32_t ICommand::getType() const</span>
-<span class="lineNum">     128 </span>            : {
-<span class="lineNum">     129 </span><span class="lineCov">      72273 :     return _impl-&gt;type;</span>
-<a name="130"><span class="lineNum">     130 </span>            : }</a>
-<span class="lineNum">     131 </span>            : 
-<span class="lineNum">     132 </span><span class="lineCov">     655097 : uint32_t ICommand::getCommand() const</span>
-<span class="lineNum">     133 </span>            : {
-<span class="lineNum">     134 </span><span class="lineCov">     655097 :     return _impl-&gt;cmd;</span>
-<a name="135"><span class="lineNum">     135 </span>            : }</a>
-<span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span><span class="lineCov">     677510 : uint64_t ICommand::getSize() const</span>
-<span class="lineNum">     138 </span>            : {
-<span class="lineNum">     139 </span><span class="lineCov">     677510 :     return _impl-&gt;size;</span>
-<a name="140"><span class="lineNum">     140 </span>            : }</a>
-<span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span><span class="lineCov">      44759 : void ICommand::setType( const CommandType type )</span>
-<span class="lineNum">     143 </span>            : {
-<span class="lineNum">     144 </span><span class="lineCov">      44759 :     _impl-&gt;type = type;</span>
-<a name="145"><span class="lineNum">     145 </span><span class="lineCov">      44759 : }</span></a>
-<span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span><span class="lineCov">      44821 : void ICommand::setCommand( const uint32_t cmd )</span>
-<span class="lineNum">     148 </span>            : {
-<span class="lineNum">     149 </span><span class="lineCov">      44821 :     _impl-&gt;cmd = cmd;</span>
-<a name="150"><span class="lineNum">     150 </span><span class="lineCov">      44821 : }</span></a>
-<span class="lineNum">     151 </span>            : 
-<span class="lineNum">     152 </span><span class="lineCov">     632778 : void ICommand::setDispatchFunction( const Dispatcher::Func&amp; func )</span>
-<span class="lineNum">     153 </span>            : {
-<span class="lineNum">     154 </span><span class="lineCov">     632778 :     _impl-&gt;func = func;</span>
-<a name="155"><span class="lineNum">     155 </span><span class="lineCov">     632778 : }</span></a>
-<span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span><span class="lineNoCov">          0 : ConstBufferPtr ICommand::getBuffer() const</span>
-<span class="lineNum">     158 </span>            : {
-<span class="lineNum">     159 </span><span class="lineNoCov">          0 :     LBASSERT( _impl-&gt;buffer );</span>
-<span class="lineNum">     160 </span><span class="lineNoCov">          0 :     return _impl-&gt;buffer;</span>
-<a name="161"><span class="lineNum">     161 </span>            : }</a>
-<span class="lineNum">     162 </span>            : 
-<span class="lineNum">     163 </span><span class="lineNoCov">          0 : size_t ICommand::nRemainingBuffers() const</span>
-<span class="lineNum">     164 </span>            : {
-<span class="lineNum">     165 </span><span class="lineNoCov">          0 :     return _impl-&gt;buffer ? 1 : 0;</span>
-<a name="166"><span class="lineNum">     166 </span>            : }</a>
-<span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 : uint128_t ICommand::getVersion() const</span>
-<span class="lineNum">     169 </span>            : {
-<span class="lineNum">     170 </span><span class="lineNoCov">          0 :     return VERSION_NONE;</span>
-<a name="171"><span class="lineNum">     171 </span>            : }</a>
-<span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span><span class="lineCov">    2426660 : bool ICommand::getNextBuffer( CompressorInfo&amp; info, uint32_t&amp; nChunks,</span>
-<span class="lineNum">     174 </span>            :                               const void*&amp; chunkData, uint64_t&amp; size )
-<span class="lineNum">     175 </span>            : {
-<span class="lineNum">     176 </span><span class="lineCov">    2426660 :     if( _impl-&gt;consumed ) // 2nd call</span>
-<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         _impl-&gt;buffer = 0;</span>
-<span class="lineNum">     178 </span>            : 
-<span class="lineNum">     179 </span><span class="lineCov">    2426660 :     if( !_impl-&gt;buffer )</span>
-<span class="lineNum">     180 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     181 </span>            : 
-<span class="lineNum">     182 </span><span class="lineCov">    2426555 :     _impl-&gt;consumed = true;</span>
-<span class="lineNum">     183 </span><span class="lineCov">    2426555 :     chunkData = _impl-&gt;buffer-&gt;getData();</span>
-<span class="lineNum">     184 </span><span class="lineCov">    2433397 :     size = reinterpret_cast&lt; const uint64_t* &gt;( chunkData )[ 0 ];</span>
-<span class="lineNum">     185 </span><span class="lineCov">    2433397 :     info = CompressorInfo();</span>
-<span class="lineNum">     186 </span><span class="lineCov">    2493110 :     nChunks = 1;</span>
-<span class="lineNum">     187 </span><span class="lineCov">    2493110 :     return true;</span>
-<a name="188"><span class="lineNum">     188 </span>            : }</a>
-<span class="lineNum">     189 </span>            : 
-<span class="lineNum">     190 </span><span class="lineCov">     229426 : NodePtr ICommand::getRemoteNode() const</span>
-<span class="lineNum">     191 </span>            : {
-<span class="lineNum">     192 </span><span class="lineCov">     229426 :     return _impl-&gt;remote;</span>
-<a name="193"><span class="lineNum">     193 </span>            : }</a>
-<span class="lineNum">     194 </span>            : 
-<span class="lineNum">     195 </span><span class="lineNoCov">          0 : LocalNodePtr ICommand::getLocalNode() const</span>
-<span class="lineNum">     196 </span>            : {
-<span class="lineNum">     197 </span><span class="lineNoCov">          0 :     return _impl-&gt;local;</span>
-<a name="198"><span class="lineNum">     198 </span>            : }</a>
-<span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineCov">    4154560 : bool ICommand::isValid() const</span>
-<span class="lineNum">     201 </span>            : {
-<span class="lineNum">     202 </span><span class="lineCov">   12462434 :     return _impl-&gt;buffer &amp;&amp; !_impl-&gt;buffer-&gt;isEmpty() &amp;&amp;</span>
-<span class="lineNum">     203 </span><span class="lineCov">   16618951 :            _impl-&gt;type != COMMANDTYPE_INVALID &amp;&amp; _impl-&gt;cmd != CMD_INVALID &amp;&amp;</span>
-<span class="lineNum">     204 </span><span class="lineCov">    8310841 :            _impl-&gt;size &gt; 0;</span>
-<a name="205"><span class="lineNum">     205 </span>            : }</a>
-<span class="lineNum">     206 </span>            : 
-<span class="lineNum">     207 </span><span class="lineCov">     632722 : bool ICommand::operator()()</span>
-<span class="lineNum">     208 </span>            : {
-<span class="lineNum">     209 </span><span class="lineCov">     632722 :     LBASSERT( _impl-&gt;func.isValid( ));</span>
-<span class="lineNum">     210 </span><span class="lineCov">     632708 :     Dispatcher::Func func = _impl-&gt;func;</span>
-<span class="lineNum">     211 </span><span class="lineCov">     632708 :     _impl-&gt;func.clear();</span>
-<span class="lineNum">     212 </span><span class="lineCov">     632709 :     return func( *this );</span>
-<a name="213"><span class="lineNum">     213 </span>            : }</a>
-<span class="lineNum">     214 </span>            : 
-<span class="lineNum">     215 </span><span class="lineNoCov">          0 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const ICommand&amp; command )</span>
-<span class="lineNum">     216 </span>            : {
-<span class="lineNum">     217 </span><span class="lineNoCov">          0 :     ConstBufferPtr buffer = command.getBuffer();</span>
-<span class="lineNum">     218 </span><span class="lineNoCov">          0 :     if( buffer )</span>
-<span class="lineNum">     219 </span><span class="lineNoCov">          0 :         os &lt;&lt; lunchbox::disableFlush &lt;&lt; &quot;command&lt; type &quot;</span>
-<span class="lineNum">     220 </span><span class="lineNoCov">          0 :            &lt;&lt; uint32_t( command.getType( )) &lt;&lt; &quot; cmd &quot; &lt;&lt; command.getCommand()</span>
-<span class="lineNum">     221 </span><span class="lineNoCov">          0 :            &lt;&lt; &quot; size &quot; &lt;&lt; command.getSize() &lt;&lt; '/' &lt;&lt; buffer-&gt;getSize() &lt;&lt; '/'</span>
-<span class="lineNum">     222 </span><span class="lineNoCov">          0 :            &lt;&lt; buffer-&gt;getMaxSize() &lt;&lt; &quot; from &quot; &lt;&lt; command.getNode() &lt;&lt; &quot; to &quot;</span>
-<span class="lineNum">     223 </span><span class="lineNoCov">          0 :            &lt;&lt; command.getLocalNode() &lt;&lt; &quot; &gt;&quot; &lt;&lt; lunchbox::enableFlush;</span>
-<span class="lineNum">     224 </span>            :     else
-<span class="lineNum">     225 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;command&lt; empty &gt;&quot;;</span>
-<span class="lineNum">     226 </span>            : 
-<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     if( command._impl-&gt;func.isValid( ))</span>
-<span class="lineNum">     228 </span><span class="lineNoCov">          0 :         os &lt;&lt; ' ' &lt;&lt; command._impl-&gt;func &lt;&lt; std::endl;</span>
-<a name="229"><span class="lineNum">     229 </span><span class="lineNoCov">          0 :     return os;</span></a>
-<span class="lineNum">     230 </span>            : }
-<span class="lineNum">     231 </span><span class="lineCov">         66 : }</span>
+<span class="lineNum">      35 </span><span class="lineCov">    1177918 :     ICommand()</span>
+<span class="lineNum">      36 </span><span class="lineCov">    1177918 :         : func(0, 0)</span>
+<span class="lineNum">      37 </span>            :         , buffer(0)
+<span class="lineNum">      38 </span>            :         , size(0)
+<span class="lineNum">      39 </span>            :         , type(COMMANDTYPE_INVALID)
+<span class="lineNum">      40 </span>            :         , cmd(CMD_INVALID)
+<span class="lineNum">      41 </span><span class="lineCov">    1177918 :         , consumed(false)</span>
+<span class="lineNum">      42 </span>            :     {
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">    1177900 :     }</span></a>
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span><span class="lineCov">     118114 :     ICommand(LocalNodePtr local_, NodePtr remote_, ConstBufferPtr buffer_)</span>
+<span class="lineNum">      46 </span><span class="lineCov">     118114 :         : local(local_)</span>
+<span class="lineNum">      47 </span>            :         , remote(remote_)
+<span class="lineNum">      48 </span>            :         , func(0, 0)
+<span class="lineNum">      49 </span>            :         , buffer(buffer_)
+<span class="lineNum">      50 </span>            :         , size(0)
+<span class="lineNum">      51 </span>            :         , type(COMMANDTYPE_INVALID)
+<span class="lineNum">      52 </span>            :         , cmd(CMD_INVALID)
+<span class="lineNum">      53 </span><span class="lineCov">     118114 :         , consumed(false)</span>
+<span class="lineNum">      54 </span>            :     {
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">     118114 :     }</span></a>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineCov">     387409 :     void clear() { *this = ICommand(); }</span>
+<span class="lineNum">      58 </span>            :     LocalNodePtr local; //!&lt; The node receiving the command
+<span class="lineNum">      59 </span>            :     NodePtr remote;     //!&lt; The node sending the command
+<span class="lineNum">      60 </span>            :     co::Dispatcher::Func func;
+<span class="lineNum">      61 </span>            :     ConstBufferPtr buffer;
+<span class="lineNum">      62 </span>            :     uint64_t size;
+<span class="lineNum">      63 </span>            :     uint32_t type;
+<span class="lineNum">      64 </span>            :     uint32_t cmd;
+<span class="lineNum">      65 </span>            :     bool consumed;
+<span class="lineNum">      66 </span>            : };
+<a name="67"><span class="lineNum">      67 </span>            : } // detail namespace</a>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span><span class="lineCov">     790518 : ICommand::ICommand()</span>
+<span class="lineNum">      70 </span>            :     : DataIStream()
+<span class="lineNum">      71 </span><span class="lineCov">     790518 :     , _impl(new detail::ICommand)</span>
+<span class="lineNum">      72 </span>            : {
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">     790490 : }</span></a>
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span><span class="lineCov">     118114 : ICommand::ICommand(LocalNodePtr local, NodePtr remote, ConstBufferPtr buffer)</span>
+<span class="lineNum">      76 </span>            :     : DataIStream()
+<span class="lineNum">      77 </span><span class="lineCov">     118114 :     , _impl(new detail::ICommand(local, remote, buffer))</span>
+<span class="lineNum">      78 </span>            : {
+<span class="lineNum">      79 </span><span class="lineCov">     118114 :     if (_impl-&gt;buffer)</span>
+<span class="lineNum">      80 </span>            :     {
+<span class="lineNum">      81 </span><span class="lineCov">     118113 :         LBASSERT(buffer-&gt;getSize() &gt;= sizeof(_impl-&gt;size) +</span>
+<span class="lineNum">      82 </span>            :                                           sizeof(_impl-&gt;type) +
+<span class="lineNum">      83 </span>            :                                           sizeof(_impl-&gt;cmd));
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span><span class="lineCov">     118113 :         *this &gt;&gt; _impl-&gt;size &gt;&gt; _impl-&gt;type &gt;&gt; _impl-&gt;cmd;</span>
+<span class="lineNum">      86 </span>            :     }
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">     118114 : }</span></a>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineCov">    1833444 : ICommand::ICommand(const ICommand&amp; rhs)</span>
+<span class="lineNum">      90 </span>            :     : DataIStream()
+<span class="lineNum">      91 </span><span class="lineCov">    1833444 :     , _impl(new detail::ICommand(*rhs._impl))</span>
+<span class="lineNum">      92 </span>            : {
+<span class="lineNum">      93 </span><span class="lineCov">    1833444 :     _impl-&gt;consumed = false;</span>
+<span class="lineNum">      94 </span><span class="lineCov">    1833444 :     _skipHeader();</span>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">    1833442 : }</span></a>
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span><span class="lineCov">     597069 : ICommand&amp; ICommand::operator=(const ICommand&amp; rhs)</span>
+<span class="lineNum">      98 </span>            : {
+<span class="lineNum">      99 </span><span class="lineCov">     597069 :     if (this != &amp;rhs)</span>
+<span class="lineNum">     100 </span>            :     {
+<span class="lineNum">     101 </span><span class="lineCov">     597069 :         *_impl = *rhs._impl;</span>
+<span class="lineNum">     102 </span><span class="lineCov">     597070 :         _impl-&gt;consumed = false;</span>
+<span class="lineNum">     103 </span><span class="lineCov">     597070 :         _skipHeader();</span>
+<span class="lineNum">     104 </span>            :     }
+<span class="lineNum">     105 </span><span class="lineCov">     596985 :     return *this;</span>
+<a name="106"><span class="lineNum">     106 </span>            : }</a>
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span><span class="lineCov">    5421595 : ICommand::~ICommand()</span>
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span><span class="lineCov">    2681676 :     delete _impl;</span>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">    2736609 : }</span></a>
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span><span class="lineCov">     387409 : void ICommand::clear()</span>
+<span class="lineNum">     114 </span>            : {
+<span class="lineNum">     115 </span><span class="lineCov">     387409 :     _impl-&gt;clear();</span>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">     387409 : }</span></a>
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span><span class="lineCov">    2429009 : void ICommand::_skipHeader()</span>
+<span class="lineNum">     119 </span>            : {
+<span class="lineNum">     120 </span>            :     const size_t headerSize =
+<span class="lineNum">     121 </span><span class="lineCov">    2429009 :         sizeof(_impl-&gt;size) + sizeof(_impl-&gt;type) + sizeof(_impl-&gt;cmd);</span>
+<span class="lineNum">     122 </span><span class="lineCov">    2429009 :     if (isValid() &amp;&amp; getRemainingBufferSize() &gt;= headerSize)</span>
+<span class="lineNum">     123 </span><span class="lineCov">    2379891 :         getRemainingBuffer(headerSize);</span>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">    2385682 : }</span></a>
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span><span class="lineCov">      72273 : uint32_t ICommand::getType() const</span>
+<span class="lineNum">     127 </span>            : {
+<span class="lineNum">     128 </span><span class="lineCov">      72273 :     return _impl-&gt;type;</span>
+<a name="129"><span class="lineNum">     129 </span>            : }</a>
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span><span class="lineCov">     670866 : uint32_t ICommand::getCommand() const</span>
+<span class="lineNum">     132 </span>            : {
+<span class="lineNum">     133 </span><span class="lineCov">     670866 :     return _impl-&gt;cmd;</span>
+<a name="134"><span class="lineNum">     134 </span>            : }</a>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">     662564 : uint64_t ICommand::getSize() const</span>
+<span class="lineNum">     137 </span>            : {
+<span class="lineNum">     138 </span><span class="lineCov">     662564 :     return _impl-&gt;size;</span>
+<a name="139"><span class="lineNum">     139 </span>            : }</a>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineCov">      45972 : void ICommand::setType(const CommandType type)</span>
+<span class="lineNum">     142 </span>            : {
+<span class="lineNum">     143 </span><span class="lineCov">      45972 :     _impl-&gt;type = type;</span>
+<a name="144"><span class="lineNum">     144 </span><span class="lineCov">      45972 : }</span></a>
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span><span class="lineCov">      46034 : void ICommand::setCommand(const uint32_t cmd)</span>
+<span class="lineNum">     147 </span>            : {
+<span class="lineNum">     148 </span><span class="lineCov">      46034 :     _impl-&gt;cmd = cmd;</span>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">      46034 : }</span></a>
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span><span class="lineCov">     648547 : void ICommand::setDispatchFunction(const Dispatcher::Func&amp; func)</span>
+<span class="lineNum">     152 </span>            : {
+<span class="lineNum">     153 </span><span class="lineCov">     648547 :     _impl-&gt;func = func;</span>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">     648547 : }</span></a>
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 : ConstBufferPtr ICommand::getBuffer() const</span>
+<span class="lineNum">     157 </span>            : {
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :     LBASSERT(_impl-&gt;buffer);</span>
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :     return _impl-&gt;buffer;</span>
+<a name="160"><span class="lineNum">     160 </span>            : }</a>
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 : size_t ICommand::nRemainingBuffers() const</span>
+<span class="lineNum">     163 </span>            : {
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :     return _impl-&gt;buffer ? 1 : 0;</span>
+<a name="165"><span class="lineNum">     165 </span>            : }</a>
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span><span class="lineNoCov">          0 : uint128_t ICommand::getVersion() const</span>
+<span class="lineNum">     168 </span>            : {
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :     return VERSION_NONE;</span>
+<a name="170"><span class="lineNum">     170 </span>            : }</a>
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span><span class="lineCov">    2453171 : bool ICommand::getNextBuffer(CompressorInfo&amp; info, uint32_t&amp; nChunks,</span>
+<span class="lineNum">     173 </span>            :                              const void*&amp; chunkData, uint64_t&amp; size)
+<span class="lineNum">     174 </span>            : {
+<span class="lineNum">     175 </span><span class="lineCov">    2453171 :     if (_impl-&gt;consumed) // 2nd call</span>
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :         _impl-&gt;buffer = 0;</span>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span><span class="lineCov">    2453171 :     if (!_impl-&gt;buffer)</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span><span class="lineCov">    2453972 :     _impl-&gt;consumed = true;</span>
+<span class="lineNum">     182 </span><span class="lineCov">    2453972 :     chunkData = _impl-&gt;buffer-&gt;getData();</span>
+<span class="lineNum">     183 </span><span class="lineCov">    2462998 :     size = reinterpret_cast&lt;const uint64_t*&gt;(chunkData)[0];</span>
+<span class="lineNum">     184 </span><span class="lineCov">    2462998 :     info = CompressorInfo();</span>
+<span class="lineNum">     185 </span><span class="lineCov">    2515079 :     nChunks = 1;</span>
+<span class="lineNum">     186 </span><span class="lineCov">    2515079 :     return true;</span>
+<a name="187"><span class="lineNum">     187 </span>            : }</a>
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span><span class="lineCov">     224444 : NodePtr ICommand::getRemoteNode() const</span>
+<span class="lineNum">     190 </span>            : {
+<span class="lineNum">     191 </span><span class="lineCov">     224444 :     return _impl-&gt;remote;</span>
+<a name="192"><span class="lineNum">     192 </span>            : }</a>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 : LocalNodePtr ICommand::getLocalNode() const</span>
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :     return _impl-&gt;local;</span>
+<a name="197"><span class="lineNum">     197 </span>            : }</a>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineCov">    4182620 : bool ICommand::isValid() const</span>
+<span class="lineNum">     200 </span>            : {
+<span class="lineNum">     201 </span><span class="lineCov">   12546488 :     return _impl-&gt;buffer &amp;&amp; !_impl-&gt;buffer-&gt;isEmpty() &amp;&amp;</span>
+<span class="lineNum">     202 </span><span class="lineCov">   16730227 :            _impl-&gt;type != COMMANDTYPE_INVALID &amp;&amp; _impl-&gt;cmd != CMD_INVALID &amp;&amp;</span>
+<span class="lineNum">     203 </span><span class="lineCov">    8360925 :            _impl-&gt;size &gt; 0;</span>
+<a name="204"><span class="lineNum">     204 </span>            : }</a>
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span><span class="lineCov">     648521 : bool ICommand::operator()()</span>
+<span class="lineNum">     207 </span>            : {
+<span class="lineNum">     208 </span><span class="lineCov">     648521 :     LBASSERT(_impl-&gt;func.isValid());</span>
+<span class="lineNum">     209 </span><span class="lineCov">     648511 :     Dispatcher::Func func = _impl-&gt;func;</span>
+<span class="lineNum">     210 </span><span class="lineCov">     648511 :     _impl-&gt;func.clear();</span>
+<span class="lineNum">     211 </span><span class="lineCov">     648510 :     return func(*this);</span>
+<a name="212"><span class="lineNum">     212 </span>            : }</a>
+<span class="lineNum">     213 </span>            : 
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const ICommand&amp; command)</span>
+<span class="lineNum">     215 </span>            : {
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :     ConstBufferPtr buffer = command.getBuffer();</span>
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :     if (buffer)</span>
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 :         os &lt;&lt; lunchbox::disableFlush &lt;&lt; &quot;command&lt; type &quot;</span>
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :            &lt;&lt; uint32_t(command.getType()) &lt;&lt; &quot; cmd &quot; &lt;&lt; command.getCommand()</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :            &lt;&lt; &quot; size &quot; &lt;&lt; command.getSize() &lt;&lt; '/' &lt;&lt; buffer-&gt;getSize() &lt;&lt; '/'</span>
+<span class="lineNum">     221 </span><span class="lineNoCov">          0 :            &lt;&lt; buffer-&gt;getMaxSize() &lt;&lt; &quot; from &quot; &lt;&lt; command.getNode() &lt;&lt; &quot; to &quot;</span>
+<span class="lineNum">     222 </span><span class="lineNoCov">          0 :            &lt;&lt; command.getLocalNode() &lt;&lt; &quot; &gt;&quot; &lt;&lt; lunchbox::enableFlush;</span>
+<span class="lineNum">     223 </span>            :     else
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;command&lt; empty &gt;&quot;;</span>
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :     if (command._impl-&gt;func.isValid())</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :         os &lt;&lt; ' ' &lt;&lt; command._impl-&gt;func &lt;&lt; std::endl;</span>
+<a name="228"><span class="lineNum">     228 </span><span class="lineNoCov">          0 :     return os;</span></a>
+<span class="lineNum">     229 </span>            : }
+<span class="lineNum">     230 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

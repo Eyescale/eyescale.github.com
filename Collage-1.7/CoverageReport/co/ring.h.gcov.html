@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">56</td>
-            <td class="headerCovTableEntry">56</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntry">64</td>
+            <td class="headerCovTableEntry">65</td>
+            <td class="headerCovTableEntryHi">98.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">50</td>
@@ -95,222 +95,252 @@
 <span class="lineNum">      33 </span>            : 
 <span class="lineNum">      34 </span>            : #include &lt;sys/types.h&gt;
 <span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span>            : template&lt; typename T &gt; class RingPtr
-<a name="37"><span class="lineNum">      37 </span>            : {</a>
-<span class="lineNum">      38 </span>            : public:
-<a name="39"><span class="lineNum">      39 </span><span class="lineCov">    6094967 :     inline T value() const {return ptrVal;};</span></a>
-<span class="lineNum">      40 </span>            :     inline T ptr(T num) const {return ((ptrVal % num) + ptrAdjust) % num;};
-<a name="41"><span class="lineNum">      41 </span><span class="lineCov">    3618561 :     inline T ptr(T num,T off) const {return ((ptrVal % num) + ptrAdjust + off) % num;};</span></a>
-<span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span><span class="lineCov">    3603946 :     void incr(T num,T amount)</span>
-<span class="lineNum">      44 </span>            :         {
-<span class="lineNum">      45 </span><span class="lineCov">    3603946 :             T optrVal = ptrVal;</span>
-<span class="lineNum">      46 </span><span class="lineCov">    3603946 :             ptrVal += amount;</span>
-<span class="lineNum">      47 </span>            :             /* Since the length of the ring is not a power of two we need to
-<span class="lineNum">      48 </span>            :                correct when there is a wrap around. This scheme puts the bulk of
-<span class="lineNum">      49 </span>            :                the cost of that calculation at incr time, not at access time.*/
-<span class="lineNum">      50 </span><span class="lineCov">    3603946 :             if (ptrVal &lt; optrVal)</span>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          7 :                 ptrAdjust = (ptrAdjust + ((T)(-1) % num) + 1) % num;</span></a>
-<span class="lineNum">      52 </span><span class="lineCov">    3603946 :         }</span>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">         76 :     inline void clear() {ptrVal = 0; ptrAdjust = 0;};</span></a>
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span><span class="lineCov">         74 :     inline RingPtr() : ptrVal(0), ptrAdjust(0) {};</span>
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            : private:
-<span class="lineNum">      58 </span>            :     T ptrVal;
-<span class="lineNum">      59 </span>            :     T ptrAdjust;
-<span class="lineNum">      60 </span>            : };
-<span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            : template&lt; typename T, unsigned int NUM &gt; class Ring
-<span class="lineNum">      63 </span>            : {
-<span class="lineNum">      64 </span>            : public:
-<span class="lineNum">      65 </span>            : 
-<a name="66"><span class="lineNum">      66 </span>            :     enum {HEAD = 0, MIDDLE = NUM/2, TAIL = NUM-1};</a>
-<a name="67"><span class="lineNum">      67 </span>            : </a>
-<span class="lineNum">      68 </span><span class="lineCov">         24 :     inline T size() const {return num;};</span>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          2 :     inline bool isEmpty(unsigned int ID1,unsigned int ID2) const</span></a>
-<span class="lineNum">      70 </span><span class="lineCov">          2 :         {return ptrs[ID1].value() == ptrs[ID2].value();};</span>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">     722144 :     inline bool isFull(unsigned int ID1,unsigned int ID2) const</span></a>
-<span class="lineNum">      72 </span><span class="lineCov">     722144 :         {return available(ID1,ID2) == num;};</span>
-<a name="73"><span class="lineNum">      73 </span><span class="lineCov">    3049626 :     inline T available(unsigned int ID1,unsigned int ID2) const</span></a>
-<span class="lineNum">      74 </span><span class="lineCov">    3049626 :         {return ptrs[ID1].value() - ptrs[ID2].value();};</span>
-<span class="lineNum">      75 </span><span class="lineCov">    1528378 :     inline T negAvailable(unsigned int ID1,unsigned int ID2) const</span>
-<span class="lineNum">      76 </span><span class="lineCov">    1528378 :         {return num - available(ID1,ID2);};</span>
-<span class="lineNum">      77 </span>            :     inline bool isEqual(unsigned int ID1,unsigned int ID2) const
-<a name="78"><span class="lineNum">      78 </span>            :         {return ptrs[ID1].value() == ptrs[ID2].value();};</a>
-<a name="79"><span class="lineNum">      79 </span>            : </a>
-<span class="lineNum">      80 </span><span class="lineCov">    3657607 :     inline void incr(unsigned int ID,T amount = 1) {ptrs[ID].incr(num,amount);};</span>
-<span class="lineNum">      81 </span><span class="lineCov">    3621096 :     inline T ptr(unsigned int ID,T off = 0) const {return ptrs[ID].ptr(num,off);};</span>
-<span class="lineNum">      82 </span>            :     inline T value(unsigned int ID) const {return ptrs[ID].value();};
-<span class="lineNum">      83 </span>            : 
-<span class="lineNum">      84 </span>            :     /* This moves the pointer to a new value. The new pointer is thought of as
-<span class="lineNum">      85 </span>            :        ahead of the old one, and buffer indicies are adjusted
-<span class="lineNum">      86 </span>            :        appropriately. */
-<span class="lineNum">      87 </span>            :     inline void moveValue(unsigned int ID,T val) {incr(ID,val - value(ID));}
-<a name="88"><span class="lineNum">      88 </span>            : </a>
-<a name="89"><span class="lineNum">      89 </span>            :     // Simple accessors for the head/tail</a>
-<a name="90"><span class="lineNum">      90 </span><span class="lineCov">          2 :     inline bool isEmpty() const {return isEmpty(HEAD,TAIL);};</span></a>
-<a name="91"><span class="lineNum">      91 </span><span class="lineCov">     722144 :     inline bool isFull() const {return isFull(HEAD,TAIL);};</span></a>
-<span class="lineNum">      92 </span><span class="lineCov">     398933 :     inline T available() const {return available(HEAD,TAIL);};</span>
-<span class="lineNum">      93 </span><span class="lineCov">    1528378 :     inline T negAvailable() const {return negAvailable(HEAD,TAIL);};</span>
-<a name="94"><span class="lineNum">      94 </span>            : </a>
-<a name="95"><span class="lineNum">      95 </span>            :     inline T head(T off = 0) const {return ptr(HEAD,off);};</a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">    1987570 :     inline void incrHead(T amount = 1) {incr(HEAD,amount);};</span></a>
-<span class="lineNum">      97 </span><span class="lineCov">     398933 :     inline T tail(T off = 0) const {return ptr(TAIL,off);};</span>
-<span class="lineNum">      98 </span><span class="lineCov">    1266236 :     inline void incrTail(T amount = 1) {incr(TAIL,amount);};</span>
-<span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span>            :     /* Return the number of consecutive entries between ID1 and ID2, such that
-<span class="lineNum">     101 </span>            :        bptr(ID2) + linearSize() does not pass ID1 or the end of the buffer. */
-<span class="lineNum">     102 </span>            :     T linearSize(unsigned int ID1,unsigned int ID2) const
-<span class="lineNum">     103 </span>            :         {
-<span class="lineNum">     104 </span>            :             T avail = available(ID1,ID2);
-<span class="lineNum">     105 </span>            :             T id2 = ptr(ID2);
-<span class="lineNum">     106 </span>            :             T left = size() - id2;
-<span class="lineNum">     107 </span>            :             if (avail &lt; left)
-<span class="lineNum">     108 </span>            :                 return avail;
-<span class="lineNum">     109 </span>            :             return left;
-<span class="lineNum">     110 </span>            :         }
-<span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span>            :     /* linearSize is the entries between the pointers (to get from ID2 to ID1)
-<span class="lineNum">     113 </span>            :        while negLinearSize is the entries outside the pointers (to get from ID1
-<span class="lineNum">     114 </span>            :        to ID2). linearSize is for reading, negLinearSize is for writing. */
-<span class="lineNum">     115 </span>            :     T negLinearSize(unsigned int ID1,unsigned int ID2) const
-<span class="lineNum">     116 </span>            :         {
-<span class="lineNum">     117 </span>            :             T avail = size() - available(ID1,ID2);
-<span class="lineNum">     118 </span>            :             T id1 = ptr(ID1);
-<span class="lineNum">     119 </span>            :             T left = size() - id1;
-<span class="lineNum">     120 </span>            :             if (avail &lt; left)
-<span class="lineNum">     121 </span>            :                 return avail;
-<span class="lineNum">     122 </span>            :             return left;
-<span class="lineNum">     123 </span>            :         }
-<span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span>            :     // Makes ptr(ID) % a == 0
-<span class="lineNum">     126 </span>            :     inline void align(unsigned int ID,T a)
-<span class="lineNum">     127 </span>            :         {
-<span class="lineNum">     128 </span>            :             incr(ID,(a - (ptr(ID) % a)) % a);
-<span class="lineNum">     129 </span>            :         }
-<span class="lineNum">     130 </span>            : 
-<span class="lineNum">     131 </span>            :     /* One usage model is to have the tail pointer be set to the lowest
-<span class="lineNum">     132 </span>            :        of several tail pointers. This is usefull if the progress of the
-<span class="lineNum">     133 </span>            :        other tails is unrelated. */
-<span class="lineNum">     134 </span>            :     void updateTail()
-<span class="lineNum">     135 </span>            :         {
-<span class="lineNum">     136 </span>            :             T avail = 0;
-<span class="lineNum">     137 </span>            :             for (unsigned int I = 1; I &lt; TAIL; I++)
-<span class="lineNum">     138 </span>            :             {
-<span class="lineNum">     139 </span>            :                 T tmp = available(HEAD,I);
-<span class="lineNum">     140 </span>            :                 if (tmp &gt; avail)
-<span class="lineNum">     141 </span>            :                     avail = tmp;
-<span class="lineNum">     142 </span>            :             }
-<span class="lineNum">     143 </span>            :             incrTail(available() - avail);
-<a name="144"><span class="lineNum">     144 </span>            :         }</a>
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span><span class="lineCov">         36 :     void clear(T newNum )</span>
-<span class="lineNum">     147 </span>            :         {
-<span class="lineNum">     148 </span><span class="lineCov">        112 :             for (unsigned int I = 0; I != NUM; I++)</span>
-<span class="lineNum">     149 </span><span class="lineCov">         76 :                 ptrs[I].clear();</span>
-<span class="lineNum">     150 </span><span class="lineCov">         36 :             num = newNum;</span>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         36 :         }</span></a>
-<span class="lineNum">     152 </span>            : 
-<span class="lineNum">     153 </span><span class="lineCov">         34 :     inline Ring(T num_) : num(num_) {};</span>
-<span class="lineNum">     154 </span>            : 
-<span class="lineNum">     155 </span>            : private:
-<span class="lineNum">     156 </span>            :     T num;
-<span class="lineNum">     157 </span>            :     RingPtr&lt;T&gt; ptrs[NUM];
-<span class="lineNum">     158 </span>            : };
-<span class="lineNum">     159 </span>            : 
-<span class="lineNum">     160 </span>            : template &lt;typename BT,typename RT = size_t,unsigned int NUM = 2&gt;
-<span class="lineNum">     161 </span>            : class BufferQ : public Ring&lt;RT,NUM&gt;
-<span class="lineNum">     162 </span>            : {
-<span class="lineNum">     163 </span>            :     typedef RT T;
-<span class="lineNum">     164 </span>            :     typedef BT buffer_t;
-<span class="lineNum">     165 </span>            :     typedef Ring&lt;RT,NUM&gt; RING;
-<span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span>            : protected:
-<span class="lineNum">     168 </span>            : 
-<span class="lineNum">     169 </span>            :     buffer_t *buffer;
-<span class="lineNum">     170 </span>            : 
-<span class="lineNum">     171 </span>            :     inline BufferQ(buffer_t *buffer_,T num_) : Ring&lt;RT,NUM&gt;(num_), buffer(buffer_) {};
+<span class="lineNum">      36 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      37 </span>            : class RingPtr
+<a name="38"><span class="lineNum">      38 </span>            : {</a>
+<span class="lineNum">      39 </span>            : public:
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">    2975677 :     inline T value() const { return ptrVal; };</span></a>
+<span class="lineNum">      41 </span>            :     inline T ptr(T num) const { return ((ptrVal % num) + ptrAdjust) % num; };
+<span class="lineNum">      42 </span><span class="lineCov">    1955047 :     inline T ptr(T num, T off) const</span>
+<span class="lineNum">      43 </span>            :     {
+<span class="lineNum">      44 </span><span class="lineCov">    1955047 :         return ((ptrVal % num) + ptrAdjust + off) % num;</span>
+<a name="45"><span class="lineNum">      45 </span>            :     };</a>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineCov">    2038443 :     void incr(T num, T amount)</span>
+<span class="lineNum">      48 </span>            :     {
+<span class="lineNum">      49 </span><span class="lineCov">    2038443 :         T optrVal = ptrVal;</span>
+<span class="lineNum">      50 </span><span class="lineCov">    2038443 :         ptrVal += amount;</span>
+<span class="lineNum">      51 </span>            :         /* Since the length of the ring is not a power of two we need to
+<span class="lineNum">      52 </span>            :            correct when there is a wrap around. This scheme puts the bulk of
+<span class="lineNum">      53 </span>            :            the cost of that calculation at incr time, not at access time.*/
+<span class="lineNum">      54 </span><span class="lineCov">    2038443 :         if (ptrVal &lt; optrVal)</span>
+<a name="55"><span class="lineNum">      55 </span><span class="lineNoCov">          0 :             ptrAdjust = (ptrAdjust + ((T)(-1) % num) + 1) % num;</span></a>
+<span class="lineNum">      56 </span><span class="lineCov">    2038443 :     }</span>
+<span class="lineNum">      57 </span><span class="lineCov">         76 :     inline void clear()</span>
+<span class="lineNum">      58 </span>            :     {
+<span class="lineNum">      59 </span><span class="lineCov">         76 :         ptrVal = 0;</span>
+<span class="lineNum">      60 </span><span class="lineCov">         76 :         ptrAdjust = 0;</span>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">         76 :     };</span></a>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineCov">         74 :     inline RingPtr()</span>
+<span class="lineNum">      64 </span>            :         : ptrVal(0)
+<span class="lineNum">      65 </span><span class="lineCov">         74 :         , ptrAdjust(0){};</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            : private:
+<span class="lineNum">      68 </span>            :     T ptrVal;
+<span class="lineNum">      69 </span>            :     T ptrAdjust;
+<span class="lineNum">      70 </span>            : };
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            : template &lt;typename T, unsigned int NUM&gt;
+<span class="lineNum">      73 </span>            : class Ring
+<span class="lineNum">      74 </span>            : {
+<span class="lineNum">      75 </span>            : public:
+<span class="lineNum">      76 </span>            :     enum
+<span class="lineNum">      77 </span>            :     {
+<span class="lineNum">      78 </span>            :         HEAD = 0,
+<span class="lineNum">      79 </span>            :         MIDDLE = NUM / 2,
+<span class="lineNum">      80 </span>            :         TAIL = NUM - 1
+<a name="81"><span class="lineNum">      81 </span>            :     };</a>
+<a name="82"><span class="lineNum">      82 </span>            : </a>
+<span class="lineNum">      83 </span><span class="lineCov">         24 :     inline T size() const { return num; };</span>
+<span class="lineNum">      84 </span><span class="lineCov">          2 :     inline bool isEmpty(unsigned int ID1, unsigned int ID2) const</span>
+<span class="lineNum">      85 </span>            :     {
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">          2 :         return ptrs[ID1].value() == ptrs[ID2].value();</span></a>
+<span class="lineNum">      87 </span>            :     };
+<span class="lineNum">      88 </span><span class="lineCov">     286520 :     inline bool isFull(unsigned int ID1, unsigned int ID2) const</span>
+<span class="lineNum">      89 </span>            :     {
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">     286520 :         return available(ID1, ID2) == num;</span></a>
+<span class="lineNum">      91 </span>            :     };
+<span class="lineNum">      92 </span><span class="lineCov">    1488421 :     inline T available(unsigned int ID1, unsigned int ID2) const</span>
+<span class="lineNum">      93 </span>            :     {
+<a name="94"><span class="lineNum">      94 </span><span class="lineCov">    1488421 :         return ptrs[ID1].value() - ptrs[ID2].value();</span></a>
+<span class="lineNum">      95 </span>            :     };
+<span class="lineNum">      96 </span><span class="lineCov">     745994 :     inline T negAvailable(unsigned int ID1, unsigned int ID2) const</span>
+<span class="lineNum">      97 </span>            :     {
+<span class="lineNum">      98 </span><span class="lineCov">     745994 :         return num - available(ID1, ID2);</span>
+<span class="lineNum">      99 </span>            :     };
+<span class="lineNum">     100 </span>            :     inline bool isEqual(unsigned int ID1, unsigned int ID2) const
+<span class="lineNum">     101 </span>            :     {
+<span class="lineNum">     102 </span>            :         return ptrs[ID1].value() == ptrs[ID2].value();
+<a name="103"><span class="lineNum">     103 </span>            :     };</a>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span><span class="lineCov">    2051736 :     inline void incr(unsigned int ID, T amount = 1)</span>
+<span class="lineNum">     106 </span>            :     {
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">    2051736 :         ptrs[ID].incr(num, amount);</span></a>
+<span class="lineNum">     108 </span><span class="lineCov">    2051794 :     };</span>
+<span class="lineNum">     109 </span><span class="lineCov">    1955769 :     inline T ptr(unsigned int ID, T off = 0) const</span>
+<span class="lineNum">     110 </span>            :     {
+<span class="lineNum">     111 </span><span class="lineCov">    1955769 :         return ptrs[ID].ptr(num, off);</span>
+<span class="lineNum">     112 </span>            :     };
+<span class="lineNum">     113 </span>            :     inline T value(unsigned int ID) const { return ptrs[ID].value(); };
+<span class="lineNum">     114 </span>            :     /* This moves the pointer to a new value. The new pointer is thought of as
+<span class="lineNum">     115 </span>            :        ahead of the old one, and buffer indicies are adjusted
+<span class="lineNum">     116 </span>            :        appropriately. */
+<a name="117"><span class="lineNum">     117 </span>            :     inline void moveValue(unsigned int ID, T val) { incr(ID, val - value(ID)); }</a>
+<a name="118"><span class="lineNum">     118 </span>            :     // Simple accessors for the head/tail</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">          2 :     inline bool isEmpty() const { return isEmpty(HEAD, TAIL); };</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">     286520 :     inline bool isFull() const { return isFull(HEAD, TAIL); };</span></a>
+<span class="lineNum">     121 </span><span class="lineCov">     226975 :     inline T available() const { return available(HEAD, TAIL); };</span>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">     745994 :     inline T negAvailable() const { return negAvailable(HEAD, TAIL); };</span></a>
+<a name="123"><span class="lineNum">     123 </span>            :     inline T head(T off = 0) const { return ptr(HEAD, off); };</a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">    1088382 :     inline void incrHead(T amount = 1) { incr(HEAD, amount); };</span></a>
+<span class="lineNum">     125 </span><span class="lineCov">     226975 :     inline T tail(T off = 0) const { return ptr(TAIL, off); };</span>
+<span class="lineNum">     126 </span><span class="lineCov">     733952 :     inline void incrTail(T amount = 1) { incr(TAIL, amount); };</span>
+<span class="lineNum">     127 </span>            :     /* Return the number of consecutive entries between ID1 and ID2, such that
+<span class="lineNum">     128 </span>            :        bptr(ID2) + linearSize() does not pass ID1 or the end of the buffer. */
+<span class="lineNum">     129 </span>            :     T linearSize(unsigned int ID1, unsigned int ID2) const
+<span class="lineNum">     130 </span>            :     {
+<span class="lineNum">     131 </span>            :         T avail = available(ID1, ID2);
+<span class="lineNum">     132 </span>            :         T id2 = ptr(ID2);
+<span class="lineNum">     133 </span>            :         T left = size() - id2;
+<span class="lineNum">     134 </span>            :         if (avail &lt; left)
+<span class="lineNum">     135 </span>            :             return avail;
+<span class="lineNum">     136 </span>            :         return left;
+<span class="lineNum">     137 </span>            :     }
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            :     /* linearSize is the entries between the pointers (to get from ID2 to ID1)
+<span class="lineNum">     140 </span>            :        while negLinearSize is the entries outside the pointers (to get from ID1
+<span class="lineNum">     141 </span>            :        to ID2). linearSize is for reading, negLinearSize is for writing. */
+<span class="lineNum">     142 </span>            :     T negLinearSize(unsigned int ID1, unsigned int ID2) const
+<span class="lineNum">     143 </span>            :     {
+<span class="lineNum">     144 </span>            :         T avail = size() - available(ID1, ID2);
+<span class="lineNum">     145 </span>            :         T id1 = ptr(ID1);
+<span class="lineNum">     146 </span>            :         T left = size() - id1;
+<span class="lineNum">     147 </span>            :         if (avail &lt; left)
+<span class="lineNum">     148 </span>            :             return avail;
+<span class="lineNum">     149 </span>            :         return left;
+<span class="lineNum">     150 </span>            :     }
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span>            :     // Makes ptr(ID) % a == 0
+<span class="lineNum">     153 </span>            :     inline void align(unsigned int ID, T a)
+<span class="lineNum">     154 </span>            :     {
+<span class="lineNum">     155 </span>            :         incr(ID, (a - (ptr(ID) % a)) % a);
+<span class="lineNum">     156 </span>            :     }
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span>            :     /* One usage model is to have the tail pointer be set to the lowest
+<span class="lineNum">     159 </span>            :        of several tail pointers. This is usefull if the progress of the
+<span class="lineNum">     160 </span>            :        other tails is unrelated. */
+<span class="lineNum">     161 </span>            :     void updateTail()
+<span class="lineNum">     162 </span>            :     {
+<span class="lineNum">     163 </span>            :         T avail = 0;
+<span class="lineNum">     164 </span>            :         for (unsigned int I = 1; I &lt; TAIL; I++)
+<span class="lineNum">     165 </span>            :         {
+<span class="lineNum">     166 </span>            :             T tmp = available(HEAD, I);
+<span class="lineNum">     167 </span>            :             if (tmp &gt; avail)
+<span class="lineNum">     168 </span>            :                 avail = tmp;
+<span class="lineNum">     169 </span>            :         }
+<span class="lineNum">     170 </span>            :         incrTail(available() - avail);
+<a name="171"><span class="lineNum">     171 </span>            :     }</a>
 <span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span>            : public:
-<span class="lineNum">     174 </span>            : 
-<span class="lineNum">     175 </span>            :     enum {HEAD = 0, MIDDLE = NUM/2, TAIL = NUM-1};
-<span class="lineNum">     176 </span>            : 
-<span class="lineNum">     177 </span>            :     inline const buffer_t *bptr(unsigned int ID,T off = 0) const {return buffer + ptr(ID,off);}
-<span class="lineNum">     178 </span>            :     inline const buffer_t *bhead(T off = 0) const {return bptr(HEAD,off);}
-<a name="179"><span class="lineNum">     179 </span>            :     inline const buffer_t *btail(T off = 0) const {return bptr(TAIL,off);}</a>
-<a name="180"><span class="lineNum">     180 </span>            : </a>
-<a name="181"><span class="lineNum">     181 </span><span class="lineCov">     888338 :     inline buffer_t *bptr(unsigned int ID,T off = 0) {return buffer + this-&gt;ptr(ID,off);}</span></a>
-<span class="lineNum">     182 </span><span class="lineCov">     443156 :     inline buffer_t *bhead(T off = 0) {return bptr(HEAD,off);}</span>
-<a name="183"><span class="lineNum">     183 </span><span class="lineCov">     445203 :     inline buffer_t *btail(T off = 0) {return bptr(TAIL,off);}</span></a>
-<span class="lineNum">     184 </span>            : 
-<span class="lineNum">     185 </span><span class="lineCov">     443156 :     inline buffer_t &amp;get()</span>
-<span class="lineNum">     186 </span>            :         {
-<span class="lineNum">     187 </span><span class="lineCov">     443156 :             buffer_t *res = bhead();</span>
-<span class="lineNum">     188 </span><span class="lineCov">     443156 :             RING::incrHead();</span>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">     443156 :             return *res;</span></a>
-<span class="lineNum">     190 </span>            :         };
-<span class="lineNum">     191 </span><span class="lineCov">     445203 :     inline void put(const buffer_t &amp;val)</span>
-<span class="lineNum">     192 </span>            :         {
-<span class="lineNum">     193 </span><span class="lineCov">     445203 :             *btail() = val;</span>
-<span class="lineNum">     194 </span><span class="lineCov">     445204 :             RING::incrTail();</span>
-<span class="lineNum">     195 </span><span class="lineCov">     445203 :         };</span>
-<span class="lineNum">     196 </span>            : 
-<a name="197"><span class="lineNum">     197 </span>            :     inline buffer_t *bufferPtr() const {return buffer;};</a>
-<span class="lineNum">     198 </span>            : 
-<span class="lineNum">     199 </span><span class="lineCov">         24 :     void clear(T newNum = RING::size())</span>
-<span class="lineNum">     200 </span>            :         {
-<span class="lineNum">     201 </span><span class="lineCov">         24 :             if (newNum != RING::size())</span>
-<span class="lineNum">     202 </span>            :             {
-<span class="lineNum">     203 </span><span class="lineCov">          8 :                 delete [] buffer;</span>
-<span class="lineNum">     204 </span><span class="lineCov">          8 :                 buffer = new buffer_t[newNum];</span>
-<span class="lineNum">     205 </span>            :             }
-<span class="lineNum">     206 </span><span class="lineCov">         24 :             return RING::clear(newNum);</span>
-<a name="207"><span class="lineNum">     207 </span>            :         }</a>
-<span class="lineNum">     208 </span>            : 
-<span class="lineNum">     209 </span><span class="lineCov">          6 :     inline BufferQ(T num_) : Ring&lt;RT,NUM&gt;(num_)</span>
-<span class="lineNum">     210 </span>            :         {
-<a name="211"><span class="lineNum">     211 </span><span class="lineCov">          6 :             buffer = new buffer_t[num_];</span></a>
-<span class="lineNum">     212 </span><span class="lineCov">          6 :         }</span>
-<span class="lineNum">     213 </span><span class="lineCov">          6 :     inline ~BufferQ()</span>
-<span class="lineNum">     214 </span>            :         {
-<span class="lineNum">     215 </span><span class="lineCov">          6 :             delete [] buffer;</span>
-<span class="lineNum">     216 </span><span class="lineCov">          6 :         }</span>
-<span class="lineNum">     217 </span>            : };
-<span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span>            : /* The track version of BufferQ extends an existing BufferQ with an additional
-<span class="lineNum">     220 </span>            :    set of pointers, but they still share the same memory region. */
-<span class="lineNum">     221 </span>            : template &lt;typename BT,typename RT = size_t,unsigned int NUM = 2&gt;
-<span class="lineNum">     222 </span>            : class BufferQTrack : public BufferQ&lt;BT,RT,NUM&gt;
-<span class="lineNum">     223 </span>            : {
-<span class="lineNum">     224 </span>            :     typedef RT T;
-<span class="lineNum">     225 </span>            :     typedef BT buffer_t;
-<span class="lineNum">     226 </span>            :     typedef Ring&lt;RT,NUM&gt; RING;
-<span class="lineNum">     227 </span>            :     typedef BufferQ&lt;BT,RT,NUM&gt; BUFFERQ;
-<span class="lineNum">     228 </span>            : 
-<span class="lineNum">     229 </span>            :     void clear(T newNum);
-<span class="lineNum">     230 </span>            : 
-<span class="lineNum">     231 </span>            : public:
-<span class="lineNum">     232 </span>            : 
-<span class="lineNum">     233 </span>            :     template &lt;unsigned int T&gt;
-<span class="lineNum">     234 </span>            :     inline void clear(const BufferQ&lt;BT,RT,T&gt; &amp;parent)
-<span class="lineNum">     235 </span>            :         {
-<span class="lineNum">     236 </span>            :             BUFFERQ::buffer = parent.bufferPtr();
-<span class="lineNum">     237 </span>            :             RING::clear(parent.size());
-<span class="lineNum">     238 </span>            :         }
-<span class="lineNum">     239 </span>            : 
-<span class="lineNum">     240 </span>            :     template &lt;unsigned int T&gt;
-<span class="lineNum">     241 </span>            :     inline BufferQTrack(const BufferQ&lt;BT,RT,T&gt; &amp;parent) :
-<span class="lineNum">     242 </span>            :             BufferQ&lt;BT,RT,NUM&gt;(parent.bufferPtr(),parent.size())
-<span class="lineNum">     243 </span>            :         {
-<span class="lineNum">     244 </span>            :         }
-<span class="lineNum">     245 </span>            :     inline ~BufferQTrack()
-<span class="lineNum">     246 </span>            :         {
-<span class="lineNum">     247 </span>            :             BUFFERQ::buffer = 0;
-<span class="lineNum">     248 </span>            :         }
-<span class="lineNum">     249 </span>            : };
-<span class="lineNum">     250 </span>            : 
-<span class="lineNum">     251 </span>            : #endif // CO_RING_H
+<span class="lineNum">     173 </span><span class="lineCov">         36 :     void clear(T newNum)</span>
+<span class="lineNum">     174 </span>            :     {
+<span class="lineNum">     175 </span><span class="lineCov">        112 :         for (unsigned int I = 0; I != NUM; I++)</span>
+<span class="lineNum">     176 </span><span class="lineCov">         76 :             ptrs[I].clear();</span>
+<span class="lineNum">     177 </span><span class="lineCov">         36 :         num = newNum;</span>
+<a name="178"><span class="lineNum">     178 </span><span class="lineCov">         36 :     }</span></a>
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span><span class="lineCov">         34 :     inline Ring(T num_)</span>
+<span class="lineNum">     181 </span><span class="lineCov">         34 :         : num(num_){};</span>
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span>            : private:
+<span class="lineNum">     184 </span>            :     T num;
+<span class="lineNum">     185 </span>            :     RingPtr&lt;T&gt; ptrs[NUM];
+<span class="lineNum">     186 </span>            : };
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            : template &lt;typename BT, typename RT = size_t, unsigned int NUM = 2&gt;
+<span class="lineNum">     189 </span>            : class BufferQ : public Ring&lt;RT, NUM&gt;
+<span class="lineNum">     190 </span>            : {
+<span class="lineNum">     191 </span>            :     typedef RT T;
+<span class="lineNum">     192 </span>            :     typedef BT buffer_t;
+<span class="lineNum">     193 </span>            :     typedef Ring&lt;RT, NUM&gt; RING;
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span>            : protected:
+<span class="lineNum">     196 </span>            :     buffer_t *buffer;
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span>            :     inline BufferQ(buffer_t *buffer_, T num_)
+<span class="lineNum">     199 </span>            :         : Ring&lt;RT, NUM&gt;(num_)
+<span class="lineNum">     200 </span>            :         , buffer(buffer_){};
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span>            : public:
+<span class="lineNum">     203 </span>            :     enum
+<span class="lineNum">     204 </span>            :     {
+<span class="lineNum">     205 </span>            :         HEAD = 0,
+<span class="lineNum">     206 </span>            :         MIDDLE = NUM / 2,
+<span class="lineNum">     207 </span>            :         TAIL = NUM - 1
+<span class="lineNum">     208 </span>            :     };
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span>            :     inline const buffer_t *bptr(unsigned int ID, T off = 0) const
+<span class="lineNum">     211 </span>            :     {
+<span class="lineNum">     212 </span>            :         return buffer + ptr(ID, off);
+<span class="lineNum">     213 </span>            :     }
+<a name="214"><span class="lineNum">     214 </span>            :     inline const buffer_t *bhead(T off = 0) const { return bptr(HEAD, off); }</a>
+<span class="lineNum">     215 </span>            :     inline const buffer_t *btail(T off = 0) const { return bptr(TAIL, off); }
+<span class="lineNum">     216 </span><span class="lineCov">     523514 :     inline buffer_t *bptr(unsigned int ID, T off = 0)</span>
+<span class="lineNum">     217 </span>            :     {
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">     523514 :         return buffer + this-&gt;ptr(ID, off);</span></a>
+<a name="219"><span class="lineNum">     219 </span>            :     }</a>
+<a name="220"><span class="lineNum">     220 </span><span class="lineCov">     260768 :     inline buffer_t *bhead(T off = 0) { return bptr(HEAD, off); }</span></a>
+<span class="lineNum">     221 </span><span class="lineCov">     262805 :     inline buffer_t *btail(T off = 0) { return bptr(TAIL, off); }</span>
+<span class="lineNum">     222 </span><span class="lineCov">     260768 :     inline buffer_t &amp;get()</span>
+<span class="lineNum">     223 </span>            :     {
+<span class="lineNum">     224 </span><span class="lineCov">     260768 :         buffer_t *res = bhead();</span>
+<span class="lineNum">     225 </span><span class="lineCov">     260768 :         RING::incrHead();</span>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">     260768 :         return *res;</span></a>
+<span class="lineNum">     227 </span>            :     };
+<span class="lineNum">     228 </span><span class="lineCov">     262805 :     inline void put(const buffer_t &amp;val)</span>
+<span class="lineNum">     229 </span>            :     {
+<span class="lineNum">     230 </span><span class="lineCov">     262805 :         *btail() = val;</span>
+<span class="lineNum">     231 </span><span class="lineCov">     262801 :         RING::incrTail();</span>
+<span class="lineNum">     232 </span><span class="lineCov">     262797 :     };</span>
+<a name="233"><span class="lineNum">     233 </span>            : </a>
+<span class="lineNum">     234 </span>            :     inline buffer_t *bufferPtr() const { return buffer; };
+<span class="lineNum">     235 </span><span class="lineCov">         24 :     void clear(T newNum = RING::size())</span>
+<span class="lineNum">     236 </span>            :     {
+<span class="lineNum">     237 </span><span class="lineCov">         24 :         if (newNum != RING::size())</span>
+<span class="lineNum">     238 </span>            :         {
+<span class="lineNum">     239 </span><span class="lineCov">          8 :             delete[] buffer;</span>
+<span class="lineNum">     240 </span><span class="lineCov">          8 :             buffer = new buffer_t[newNum];</span>
+<span class="lineNum">     241 </span>            :         }
+<span class="lineNum">     242 </span><span class="lineCov">         24 :         return RING::clear(newNum);</span>
+<a name="243"><span class="lineNum">     243 </span>            :     }</a>
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span><span class="lineCov">          6 :     inline BufferQ(T num_)</span>
+<span class="lineNum">     246 </span><span class="lineCov">          6 :         : Ring&lt;RT, NUM&gt;(num_)</span>
+<span class="lineNum">     247 </span>            :     {
+<a name="248"><span class="lineNum">     248 </span><span class="lineCov">          6 :         buffer = new buffer_t[num_];</span></a>
+<span class="lineNum">     249 </span><span class="lineCov">          6 :     }</span>
+<span class="lineNum">     250 </span><span class="lineCov">          6 :     inline ~BufferQ() { delete[] buffer; }</span>
+<span class="lineNum">     251 </span>            : };
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            : /* The track version of BufferQ extends an existing BufferQ with an additional
+<span class="lineNum">     254 </span>            :    set of pointers, but they still share the same memory region. */
+<span class="lineNum">     255 </span>            : template &lt;typename BT, typename RT = size_t, unsigned int NUM = 2&gt;
+<span class="lineNum">     256 </span>            : class BufferQTrack : public BufferQ&lt;BT, RT, NUM&gt;
+<span class="lineNum">     257 </span>            : {
+<span class="lineNum">     258 </span>            :     typedef RT T;
+<span class="lineNum">     259 </span>            :     typedef BT buffer_t;
+<span class="lineNum">     260 </span>            :     typedef Ring&lt;RT, NUM&gt; RING;
+<span class="lineNum">     261 </span>            :     typedef BufferQ&lt;BT, RT, NUM&gt; BUFFERQ;
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span>            :     void clear(T newNum);
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : public:
+<span class="lineNum">     266 </span>            :     template &lt;unsigned int T&gt;
+<span class="lineNum">     267 </span>            :     inline void clear(const BufferQ&lt;BT, RT, T&gt; &amp;parent)
+<span class="lineNum">     268 </span>            :     {
+<span class="lineNum">     269 </span>            :         BUFFERQ::buffer = parent.bufferPtr();
+<span class="lineNum">     270 </span>            :         RING::clear(parent.size());
+<span class="lineNum">     271 </span>            :     }
+<span class="lineNum">     272 </span>            : 
+<span class="lineNum">     273 </span>            :     template &lt;unsigned int T&gt;
+<span class="lineNum">     274 </span>            :     inline BufferQTrack(const BufferQ&lt;BT, RT, T&gt; &amp;parent)
+<span class="lineNum">     275 </span>            :         : BufferQ&lt;BT, RT, NUM&gt;(parent.bufferPtr(), parent.size())
+<span class="lineNum">     276 </span>            :     {
+<span class="lineNum">     277 </span>            :     }
+<span class="lineNum">     278 </span>            :     inline ~BufferQTrack() { BUFFERQ::buffer = 0; }
+<span class="lineNum">     279 </span>            : };
+<span class="lineNum">     280 </span>            : 
+<span class="lineNum">     281 </span>            : #endif // CO_RING_H
 </pre>
       </td>
     </tr>

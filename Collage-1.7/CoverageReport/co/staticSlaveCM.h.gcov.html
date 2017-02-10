@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryMed">60.0 %</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntryMed">54.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -83,7 +83,7 @@
 <span class="lineNum">      21 </span>            : #ifndef CO_STATICSLAVECM_H
 <span class="lineNum">      22 </span>            : #define CO_STATICSLAVECM_H
 <span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span>            : #include &quot;objectCM.h&quot;     // base class
+<span class="lineNum">      24 </span>            : #include &quot;objectCM.h&quot;         // base class
 <span class="lineNum">      25 </span>            : #include &lt;co/objectVersion.h&gt; // VERSION_FOO values
 <span class="lineNum">      26 </span>            : #include &lt;lunchbox/thread.h&gt;  // thread-safety check
 <span class="lineNum">      27 </span>            : 
@@ -95,40 +95,44 @@
 <span class="lineNum">      33 </span>            : class StaticSlaveCM : public ObjectCM
 <span class="lineNum">      34 </span>            : {
 <span class="lineNum">      35 </span>            : public:
-<span class="lineNum">      36 </span>            :     explicit StaticSlaveCM( Object* object );
+<span class="lineNum">      36 </span>            :     explicit StaticSlaveCM(Object* object);
 <a name="37"><span class="lineNum">      37 </span>            :     virtual ~StaticSlaveCM();</a>
 <span class="lineNum">      38 </span>            : 
 <span class="lineNum">      39 </span><span class="lineCov">          8 :     void init() override {}</span>
-<span class="lineNum">      40 </span>            : 
-<a name="41"><span class="lineNum">      41 </span>            :     /** @name Versioning */</a>
-<a name="42"><span class="lineNum">      42 </span>            :     //@{</a>
-<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     uint128_t getHeadVersion() const override { return VERSION_FIRST; }</span>
-<span class="lineNum">      44 </span><span class="lineCov">          1 :     uint128_t getVersion() const override { return VERSION_FIRST; }</span>
-<a name="45"><span class="lineNum">      45 </span>            :     //@}</a>
-<a name="46"><span class="lineNum">      46 </span>            : </a>
-<span class="lineNum">      47 </span><span class="lineCov">         32 :     bool isMaster() const override { return false; }</span>
-<span class="lineNum">      48 </span><span class="lineCov">          8 :     uint32_t getMasterInstanceID() const override</span>
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          8 :     { return CO_INSTANCE_INVALID; }</span></a>
-<span class="lineNum">      50 </span>            : 
-<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :     bool addSlave( const MasterCMCommand&amp; ) override</span></a>
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     { LBDONTCALL; return false; }</span>
-<span class="lineNum">      53 </span><span class="lineNoCov">          0 :     void removeSlaves( NodePtr ) override {}</span>
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span>            :     void applyMapData( const uint128_t&amp; version ) override;
-<span class="lineNum">      56 </span>            :     void addInstanceDatas( const ObjectDataIStreamDeque&amp;,
-<span class="lineNum">      57 </span>            :                            const uint128_t&amp; startVersion ) override;
-<span class="lineNum">      58 </span>            : protected:
-<span class="lineNum">      59 </span>            :     /** input stream for receiving the current version */
-<span class="lineNum">      60 </span>            :     ObjectDataIStream* _currentIStream;
+<a name="40"><span class="lineNum">      40 </span>            :     /** @name Versioning */</a>
+<a name="41"><span class="lineNum">      41 </span>            :     //@{</a>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     uint128_t getHeadVersion() const override { return VERSION_FIRST; }</span>
+<span class="lineNum">      43 </span><span class="lineCov">          1 :     uint128_t getVersion() const override { return VERSION_FIRST; }</span>
+<a name="44"><span class="lineNum">      44 </span>            :     //@}</a>
+<a name="45"><span class="lineNum">      45 </span>            : </a>
+<span class="lineNum">      46 </span><span class="lineCov">         32 :     bool isMaster() const override { return false; }</span>
+<span class="lineNum">      47 </span><span class="lineCov">          8 :     uint32_t getMasterInstanceID() const override</span>
+<span class="lineNum">      48 </span>            :     {
+<span class="lineNum">      49 </span><span class="lineCov">          8 :         return CO_INSTANCE_INVALID;</span>
+<a name="50"><span class="lineNum">      50 </span>            :     }</a>
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     bool addSlave(const MasterCMCommand&amp;) override</span>
+<span class="lineNum">      53 </span>            :     {
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         LBDONTCALL;</span>
+<a name="55"><span class="lineNum">      55 </span><span class="lineNoCov">          0 :         return false;</span></a>
+<span class="lineNum">      56 </span>            :     }
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     void removeSlaves(NodePtr) override {}</span>
+<span class="lineNum">      58 </span>            :     void applyMapData(const uint128_t&amp; version) override;
+<span class="lineNum">      59 </span>            :     void addInstanceDatas(const ObjectDataIStreamDeque&amp;,
+<span class="lineNum">      60 </span>            :                           const uint128_t&amp; startVersion) override;
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            : private:
-<a name="63"><span class="lineNum">      63 </span>            :     /* The command handlers. */</a>
-<span class="lineNum">      64 </span>            :     bool _cmdInstance( ICommand&amp; command );
-<span class="lineNum">      65 </span><span class="lineCov">         16 :     LB_TS_VAR( _rcvThread );</span>
-<span class="lineNum">      66 </span>            : };
-<span class="lineNum">      67 </span>            : }
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            : #endif // CO_STATICSLAVECM_H
+<span class="lineNum">      62 </span>            : protected:
+<span class="lineNum">      63 </span>            :     /** input stream for receiving the current version */
+<span class="lineNum">      64 </span>            :     ObjectDataIStream* _currentIStream;
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            : private:
+<a name="67"><span class="lineNum">      67 </span>            :     /* The command handlers. */</a>
+<span class="lineNum">      68 </span>            :     bool _cmdInstance(ICommand&amp; command);
+<span class="lineNum">      69 </span><span class="lineCov">         16 :     LB_TS_VAR(_rcvThread);</span>
+<span class="lineNum">      70 </span>            : };
+<span class="lineNum">      71 </span>            : }
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            : #endif // CO_STATICSLAVECM_H
 </pre>
       </td>
     </tr>

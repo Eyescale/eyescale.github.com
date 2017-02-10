@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -89,56 +89,57 @@
 <span class="lineNum">      27 </span>            : 
 <span class="lineNum">      28 </span>            : namespace co
 <span class="lineNum">      29 </span>            : {
-<span class="lineNum">      30 </span>            : namespace detail { class QueueMaster; }
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span>            : /**
-<span class="lineNum">      33 </span>            :  * The producer end of a distributed queue.
-<span class="lineNum">      34 </span>            :  *
-<span class="lineNum">      35 </span>            :  * One instance of this class is registered with a LocalNode to for the producer
-<span class="lineNum">      36 </span>            :  * end of a distributed queue. One or more QueueSlave instances are mapped to
-<span class="lineNum">      37 </span>            :  * this master instance and consume the data.
-<span class="lineNum">      38 </span>            :  */
-<span class="lineNum">      39 </span>            : class QueueMaster : public Object
-<span class="lineNum">      40 </span>            : {
-<span class="lineNum">      41 </span>            : public:
-<span class="lineNum">      42 </span>            :     /** Construct a new queue master. @version 1.0 */
-<span class="lineNum">      43 </span>            :     CO_API QueueMaster();
-<span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span>            :     /** Destruct this queue master. @version 1.0 */
-<span class="lineNum">      46 </span>            :     virtual CO_API ~QueueMaster();
+<span class="lineNum">      30 </span>            : namespace detail
+<span class="lineNum">      31 </span>            : {
+<span class="lineNum">      32 </span>            : class QueueMaster;
+<span class="lineNum">      33 </span>            : }
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : /**
+<span class="lineNum">      36 </span>            :  * The producer end of a distributed queue.
+<span class="lineNum">      37 </span>            :  *
+<span class="lineNum">      38 </span>            :  * One instance of this class is registered with a LocalNode to for the producer
+<span class="lineNum">      39 </span>            :  * end of a distributed queue. One or more QueueSlave instances are mapped to
+<span class="lineNum">      40 </span>            :  * this master instance and consume the data.
+<span class="lineNum">      41 </span>            :  */
+<span class="lineNum">      42 </span>            : class QueueMaster : public Object
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span>            : public:
+<span class="lineNum">      45 </span>            :     /** Construct a new queue master. @version 1.0 */
+<span class="lineNum">      46 </span>            :     CO_API QueueMaster();
 <span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span>            :     /**
-<span class="lineNum">      49 </span>            :      * Enqueue a new queue item.
-<span class="lineNum">      50 </span>            :      *
-<span class="lineNum">      51 </span>            :      * The returned queue item can stream additional data using the DataOStream
-<span class="lineNum">      52 </span>            :      * operators. Note that the item is enqueued once it is destroyed, i.e. when
-<span class="lineNum">      53 </span>            :      * it runs out of scope.
-<span class="lineNum">      54 </span>            :      *
-<span class="lineNum">      55 </span>            :      * @return the item to enqueue.
-<span class="lineNum">      56 </span>            :      * @version 1.0
-<span class="lineNum">      57 </span>            :      */
-<span class="lineNum">      58 </span>            :     CO_API QueueItem push();
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     /** Remove all enqueued items. @version 1.0 */
-<span class="lineNum">      61 </span>            :     CO_API void clear();
+<span class="lineNum">      48 </span>            :     /** Destruct this queue master. @version 1.0 */
+<span class="lineNum">      49 </span>            :     virtual CO_API ~QueueMaster();
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :     /**
+<span class="lineNum">      52 </span>            :      * Enqueue a new queue item.
+<span class="lineNum">      53 </span>            :      *
+<span class="lineNum">      54 </span>            :      * The returned queue item can stream additional data using the DataOStream
+<span class="lineNum">      55 </span>            :      * operators. Note that the item is enqueued once it is destroyed, i.e. when
+<span class="lineNum">      56 </span>            :      * it runs out of scope.
+<span class="lineNum">      57 </span>            :      *
+<span class="lineNum">      58 </span>            :      * @return the item to enqueue.
+<span class="lineNum">      59 </span>            :      * @version 1.0
+<span class="lineNum">      60 </span>            :      */
+<span class="lineNum">      61 </span>            :     CO_API QueueItem push();
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span>            : private:
-<span class="lineNum">      64 </span>            :     detail::QueueMaster* const _impl;
+<span class="lineNum">      63 </span>            :     /** Remove all enqueued items. @version 1.0 */
+<span class="lineNum">      64 </span>            :     CO_API void clear();
 <span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span>            :     CO_API void attach( const uint128_t&amp; id,
-<a name="67"><span class="lineNum">      67 </span>            :                         const uint32_t instanceID ) override;</a>
+<span class="lineNum">      66 </span>            : private:
+<span class="lineNum">      67 </span>            :     detail::QueueMaster* const _impl;
 <span class="lineNum">      68 </span>            : 
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          2 :     ChangeType getChangeType() const override { return STATIC; }</span></a>
-<span class="lineNum">      70 </span>            :     void getInstanceData( co::DataOStream&amp; os ) override;
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     void applyInstanceData( co::DataIStream&amp; ) override { LBDONTCALL }</span>
-<span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span>            :     friend class QueueItem;
-<span class="lineNum">      74 </span>            :     void _addItem( QueueItem&amp; item );
-<span class="lineNum">      75 </span>            : };
-<span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span>            : } // co
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span>            : #endif // CO_QUEUEMASTER_H
+<a name="69"><span class="lineNum">      69 </span>            :     CO_API void attach(const uint128_t&amp; id, const uint32_t instanceID) override;</a>
+<span class="lineNum">      70 </span>            : 
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          2 :     ChangeType getChangeType() const override { return STATIC; }</span></a>
+<span class="lineNum">      72 </span>            :     void getInstanceData(co::DataOStream&amp; os) override;
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :     void applyInstanceData(co::DataIStream&amp;) override { LBDONTCALL }</span>
+<span class="lineNum">      74 </span>            :     friend class QueueItem;
+<span class="lineNum">      75 </span>            :     void _addItem(QueueItem&amp; item);
+<span class="lineNum">      76 </span>            : };
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : } // co
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : #endif // CO_QUEUEMASTER_H
 </pre>
       </td>
     </tr>

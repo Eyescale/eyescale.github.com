@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">43</td>
-            <td class="headerCovTableEntry">48</td>
-            <td class="headerCovTableEntryHi">89.6 %</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntry">46</td>
+            <td class="headerCovTableEntryHi">89.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -86,11 +86,11 @@
 <span class="lineNum">      24 </span>            : #include &quot;buffer.h&quot;
 <span class="lineNum">      25 </span>            : #include &quot;commandQueue.h&quot;
 <span class="lineNum">      26 </span>            : #include &quot;dataIStream.h&quot;
-<span class="lineNum">      27 </span>            : #include &quot;global.h&quot;
-<span class="lineNum">      28 </span>            : #include &quot;objectOCommand.h&quot;
+<span class="lineNum">      27 </span>            : #include &quot;exception.h&quot;
+<span class="lineNum">      28 </span>            : #include &quot;global.h&quot;
 <span class="lineNum">      29 </span>            : #include &quot;objectICommand.h&quot;
-<span class="lineNum">      30 </span>            : #include &quot;queueCommand.h&quot;
-<span class="lineNum">      31 </span>            : #include &quot;exception.h&quot;
+<span class="lineNum">      30 </span>            : #include &quot;objectOCommand.h&quot;
+<span class="lineNum">      31 </span>            : #include &quot;queueCommand.h&quot;
 <span class="lineNum">      32 </span>            : 
 <span class="lineNum">      33 </span>            : namespace co
 <span class="lineNum">      34 </span>            : {
@@ -99,91 +99,94 @@
 <span class="lineNum">      37 </span><span class="lineCov">          1 : class QueueSlave</span>
 <a name="38"><span class="lineNum">      38 </span>            : {</a>
 <span class="lineNum">      39 </span>            : public:
-<span class="lineNum">      40 </span><span class="lineCov">          1 :     QueueSlave( const uint32_t mark, const uint32_t amount)</span>
-<span class="lineNum">      41 </span><span class="lineCov">          1 :         : masterInstanceID( CO_INSTANCE_ALL )</span>
-<span class="lineNum">      42 </span><span class="lineCov">          2 :         , prefetchMark( mark == LB_UNDEFINED_UINT32 ?</span>
-<span class="lineNum">      43 </span><span class="lineCov">          1 :                     Global::getIAttribute( Global::IATTR_TILE_QUEUE_MIN_SIZE ) :</span>
-<span class="lineNum">      44 </span>            :                         mark )
-<span class="lineNum">      45 </span><span class="lineCov">          2 :         , prefetchAmount( amount == LB_UNDEFINED_UINT32 ?</span>
-<span class="lineNum">      46 </span><span class="lineCov">          1 :                       Global::getIAttribute( Global::IATTR_TILE_QUEUE_REFILL ) :</span>
-<span class="lineNum">      47 </span><span class="lineCov">          3 :                           amount )</span>
-<span class="lineNum">      48 </span><span class="lineCov">          1 :     {}</span>
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            :     co::CommandQueue queue;
-<span class="lineNum">      51 </span>            :     NodePtr master;
-<span class="lineNum">      52 </span>            :     uint32_t masterInstanceID;
-<span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span>            :     const uint32_t prefetchMark;
-<span class="lineNum">      55 </span>            :     const uint32_t prefetchAmount;
-<span class="lineNum">      56 </span>            : };
-<a name="57"><span class="lineNum">      57 </span>            : }</a>
-<span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">          1 : QueueSlave::QueueSlave( const uint32_t prefetchMark,</span>
-<span class="lineNum">      60 </span><span class="lineCov">          1 :                         const uint32_t prefetchAmount )</span>
-<span class="lineNum">      61 </span><span class="lineCov">          1 :         : _impl( new detail::QueueSlave( prefetchMark, prefetchAmount ))</span>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          1 : {}</span></a>
-<span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">          3 : QueueSlave::~QueueSlave()</span>
+<span class="lineNum">      40 </span><span class="lineCov">          1 :     QueueSlave(const uint32_t mark, const uint32_t amount)</span>
+<span class="lineNum">      41 </span><span class="lineCov">          1 :         : masterInstanceID(CO_INSTANCE_ALL)</span>
+<span class="lineNum">      42 </span>            :         , prefetchMark(
+<span class="lineNum">      43 </span>            :               mark == LB_UNDEFINED_UINT32
+<span class="lineNum">      44 </span><span class="lineCov">          1 :                   ? Global::getIAttribute(Global::IATTR_TILE_QUEUE_MIN_SIZE)</span>
+<span class="lineNum">      45 </span>            :                   : mark)
+<span class="lineNum">      46 </span>            :         , prefetchAmount(
+<span class="lineNum">      47 </span>            :               amount == LB_UNDEFINED_UINT32
+<span class="lineNum">      48 </span><span class="lineCov">          1 :                   ? Global::getIAttribute(Global::IATTR_TILE_QUEUE_REFILL)</span>
+<span class="lineNum">      49 </span><span class="lineCov">          3 :                   : amount)</span>
+<span class="lineNum">      50 </span>            :     {
+<span class="lineNum">      51 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :     co::CommandQueue queue;
+<span class="lineNum">      54 </span>            :     NodePtr master;
+<span class="lineNum">      55 </span>            :     uint32_t masterInstanceID;
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :     const uint32_t prefetchMark;
+<span class="lineNum">      58 </span>            :     const uint32_t prefetchAmount;
+<span class="lineNum">      59 </span>            : };
+<a name="60"><span class="lineNum">      60 </span>            : }</a>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineCov">          1 : QueueSlave::QueueSlave(const uint32_t prefetchMark,</span>
+<span class="lineNum">      63 </span><span class="lineCov">          1 :                        const uint32_t prefetchAmount)</span>
+<span class="lineNum">      64 </span><span class="lineCov">          1 :     : _impl(new detail::QueueSlave(prefetchMark, prefetchAmount))</span>
 <span class="lineNum">      65 </span>            : {
-<span class="lineNum">      66 </span><span class="lineCov">          1 :     delete _impl;</span>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span><span class="lineCov">          1 : void QueueSlave::attach( const uint128_t&amp; id, const uint32_t instanceID )</span>
-<span class="lineNum">      70 </span>            : {
-<span class="lineNum">      71 </span><span class="lineCov">          1 :     Object::attach(id, instanceID);</span>
-<span class="lineNum">      72 </span><span class="lineCov">          1 :     registerCommand( CMD_QUEUE_ITEM, CommandFunc&lt;Object&gt;(0, 0), &amp;_impl-&gt;queue );</span>
-<span class="lineNum">      73 </span><span class="lineCov">          1 :     registerCommand( CMD_QUEUE_EMPTY, CommandFunc&lt;Object&gt;(0, 0), &amp;_impl-&gt;queue);</span>
-<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">          1 : void QueueSlave::applyInstanceData( co::DataIStream&amp; is )</span>
-<span class="lineNum">      77 </span>            : {
-<span class="lineNum">      78 </span><span class="lineCov">          1 :     NodeID masterNodeID;</span>
-<span class="lineNum">      79 </span><span class="lineCov">          1 :     is &gt;&gt; _impl-&gt;masterInstanceID &gt;&gt; masterNodeID;</span>
-<span class="lineNum">      80 </span>            : 
-<span class="lineNum">      81 </span><span class="lineCov">          1 :     LBASSERT( masterNodeID != 0 );</span>
-<span class="lineNum">      82 </span><span class="lineCov">          1 :     LBASSERT( !_impl-&gt;master );</span>
-<span class="lineNum">      83 </span><span class="lineCov">          2 :     LocalNodePtr localNode = getLocalNode();</span>
-<span class="lineNum">      84 </span><span class="lineCov">          1 :     _impl-&gt;master = localNode-&gt;connect( masterNodeID );</span>
-<a name="85"><span class="lineNum">      85 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span><span class="lineCov">          5 : ObjectICommand QueueSlave::pop( const uint32_t timeout )</span>
-<span class="lineNum">      88 </span>            : {
-<span class="lineNum">      89 </span><span class="lineCov">          5 :     static lunchbox::a_int32_t _request;</span>
-<span class="lineNum">      90 </span><span class="lineCov">          5 :     const int32_t request = ++_request;</span>
-<span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span>            :     while( true )
-<span class="lineNum">      93 </span>            :     {
-<span class="lineNum">      94 </span><span class="lineCov">          5 :         const size_t queueSize = _impl-&gt;queue.getSize();</span>
-<span class="lineNum">      95 </span><span class="lineCov">          5 :         if( queueSize &lt;= _impl-&gt;prefetchMark )</span>
-<span class="lineNum">      96 </span>            :         {
-<span class="lineNum">      97 </span><span class="lineCov">         10 :             send( _impl-&gt;master, CMD_QUEUE_GET_ITEM, _impl-&gt;masterInstanceID )</span>
-<span class="lineNum">      98 </span><span class="lineCov">         15 :                     &lt;&lt; _impl-&gt;prefetchAmount &lt;&lt; getInstanceID() &lt;&lt; request;</span>
-<span class="lineNum">      99 </span>            :         }
-<span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span><span class="lineCov">          5 :         ObjectICommand cmd( _impl-&gt;queue.pop( timeout ));</span>
-<span class="lineNum">     102 </span><span class="lineCov">          5 :         if( !cmd.isValid( ))</span>
-<span class="lineNum">     103 </span>            :         {
-<span class="lineNum">     104 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Timeout during QueueSlave::pop()&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     105 </span><span class="lineNoCov">          0 :             return ObjectICommand( 0, 0, 0 );</span>
-<span class="lineNum">     106 </span>            :         }
-<span class="lineNum">     107 </span>            : 
-<span class="lineNum">     108 </span><span class="lineCov">          5 :         switch( cmd.getCommand( ))</span>
-<span class="lineNum">     109 </span>            :         {
-<span class="lineNum">     110 </span>            :         case CMD_QUEUE_ITEM:
-<span class="lineNum">     111 </span><span class="lineCov">          4 :             return ObjectICommand( cmd );</span>
-<span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span>            :         default:
-<span class="lineNum">     114 </span><span class="lineNoCov">          0 :             LBUNIMPLEMENTED;</span>
-<span class="lineNum">     115 </span>            :         case CMD_QUEUE_EMPTY:
-<span class="lineNum">     116 </span><span class="lineCov">          1 :             if( cmd.get&lt; int32_t &gt;() == request )</span>
-<span class="lineNum">     117 </span><span class="lineCov">          1 :                 return ObjectICommand( 0, 0, 0 );</span>
-<span class="lineNum">     118 </span>            :             // else left-over or not our empty command, discard and retry
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     120 </span>            :         }
-<span class="lineNum">     121 </span><span class="lineNoCov">          0 :     }</span>
-<a name="122"><span class="lineNum">     122 </span>            : }</a>
-<span class="lineNum">     123 </span>            : 
-<span class="lineNum">     124 </span><span class="lineCov">         66 : }</span>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span><span class="lineCov">          3 : QueueSlave::~QueueSlave()</span>
+<span class="lineNum">      69 </span>            : {
+<span class="lineNum">      70 </span><span class="lineCov">          1 :     delete _impl;</span>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineCov">          1 : void QueueSlave::attach(const uint128_t&amp; id, const uint32_t instanceID)</span>
+<span class="lineNum">      74 </span>            : {
+<span class="lineNum">      75 </span><span class="lineCov">          1 :     Object::attach(id, instanceID);</span>
+<span class="lineNum">      76 </span><span class="lineCov">          1 :     registerCommand(CMD_QUEUE_ITEM, CommandFunc&lt;Object&gt;(0, 0), &amp;_impl-&gt;queue);</span>
+<span class="lineNum">      77 </span><span class="lineCov">          1 :     registerCommand(CMD_QUEUE_EMPTY, CommandFunc&lt;Object&gt;(0, 0), &amp;_impl-&gt;queue);</span>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span><span class="lineCov">          1 : void QueueSlave::applyInstanceData(co::DataIStream&amp; is)</span>
+<span class="lineNum">      81 </span>            : {
+<span class="lineNum">      82 </span><span class="lineCov">          1 :     NodeID masterNodeID;</span>
+<span class="lineNum">      83 </span><span class="lineCov">          1 :     is &gt;&gt; _impl-&gt;masterInstanceID &gt;&gt; masterNodeID;</span>
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span><span class="lineCov">          1 :     LBASSERT(masterNodeID != 0);</span>
+<span class="lineNum">      86 </span><span class="lineCov">          1 :     LBASSERT(!_impl-&gt;master);</span>
+<span class="lineNum">      87 </span><span class="lineCov">          2 :     LocalNodePtr localNode = getLocalNode();</span>
+<span class="lineNum">      88 </span><span class="lineCov">          1 :     _impl-&gt;master = localNode-&gt;connect(masterNodeID);</span>
+<a name="89"><span class="lineNum">      89 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineCov">          5 : ObjectICommand QueueSlave::pop(const uint32_t timeout)</span>
+<span class="lineNum">      92 </span>            : {
+<span class="lineNum">      93 </span><span class="lineCov">          5 :     static lunchbox::a_int32_t _request;</span>
+<span class="lineNum">      94 </span><span class="lineCov">          5 :     const int32_t request = ++_request;</span>
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            :     while (true)
+<span class="lineNum">      97 </span>            :     {
+<span class="lineNum">      98 </span><span class="lineCov">          5 :         const size_t queueSize = _impl-&gt;queue.getSize();</span>
+<span class="lineNum">      99 </span><span class="lineCov">          5 :         if (queueSize &lt;= _impl-&gt;prefetchMark)</span>
+<span class="lineNum">     100 </span>            :         {
+<span class="lineNum">     101 </span><span class="lineCov">         10 :             send(_impl-&gt;master, CMD_QUEUE_GET_ITEM, _impl-&gt;masterInstanceID)</span>
+<span class="lineNum">     102 </span><span class="lineCov">         15 :                 &lt;&lt; _impl-&gt;prefetchAmount &lt;&lt; getInstanceID() &lt;&lt; request;</span>
+<span class="lineNum">     103 </span>            :         }
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span><span class="lineCov">          5 :         ObjectICommand cmd(_impl-&gt;queue.pop(timeout));</span>
+<span class="lineNum">     106 </span><span class="lineCov">          5 :         if (!cmd.isValid())</span>
+<span class="lineNum">     107 </span>            :         {
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Timeout during QueueSlave::pop()&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :             return ObjectICommand(0, 0, 0);</span>
+<span class="lineNum">     110 </span>            :         }
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineCov">          5 :         switch (cmd.getCommand())</span>
+<span class="lineNum">     113 </span>            :         {
+<span class="lineNum">     114 </span>            :         case CMD_QUEUE_ITEM:
+<span class="lineNum">     115 </span><span class="lineCov">          4 :             return ObjectICommand(cmd);</span>
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            :         default:
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :             LBUNIMPLEMENTED;</span>
+<span class="lineNum">     119 </span>            :         case CMD_QUEUE_EMPTY:
+<span class="lineNum">     120 </span><span class="lineCov">          1 :             if (cmd.get&lt;int32_t&gt;() == request)</span>
+<span class="lineNum">     121 </span><span class="lineCov">          1 :                 return ObjectICommand(0, 0, 0);</span>
+<span class="lineNum">     122 </span>            :             // else left-over or not our empty command, discard and retry
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     124 </span>            :         }
+<a name="125"><span class="lineNum">     125 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     126 </span>            : }
+<span class="lineNum">     127 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

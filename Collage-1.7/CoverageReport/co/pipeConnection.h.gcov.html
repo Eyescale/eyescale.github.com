@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -83,9 +83,9 @@
 <span class="lineNum">      21 </span>            : #define CO_PIPE_CONNECTION_H
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            : #ifdef _WIN32
-<span class="lineNum">      24 </span>            : #  include &lt;co/namedPipeConnection.h&gt;
+<span class="lineNum">      24 </span>            : #include &lt;co/namedPipeConnection.h&gt;
 <span class="lineNum">      25 </span>            : #else
-<span class="lineNum">      26 </span>            : #  include &quot;fdConnection.h&quot;
+<span class="lineNum">      26 </span>            : #include &quot;fdConnection.h&quot;
 <span class="lineNum">      27 </span>            : #endif
 <span class="lineNum">      28 </span>            : 
 <span class="lineNum">      29 </span>            : #include &lt;lunchbox/monitor.h&gt;
@@ -93,71 +93,68 @@
 <span class="lineNum">      31 </span>            : 
 <span class="lineNum">      32 </span>            : namespace co
 <span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span>            :     class NamedPipeConnection;
-<span class="lineNum">      35 </span>            :     class PipeConnection;
-<span class="lineNum">      36 </span>            :     typedef lunchbox::RefPtr&lt; PipeConnection &gt; PipeConnectionPtr;
-<span class="lineNum">      37 </span>            :     typedef lunchbox::RefPtr&lt; const PipeConnection &gt; ConstPipeConnectionPtr;
+<span class="lineNum">      34 </span>            : class NamedPipeConnection;
+<span class="lineNum">      35 </span>            : class PipeConnection;
+<span class="lineNum">      36 </span>            : typedef lunchbox::RefPtr&lt;PipeConnection&gt; PipeConnectionPtr;
+<span class="lineNum">      37 </span>            : typedef lunchbox::RefPtr&lt;const PipeConnection&gt; ConstPipeConnectionPtr;
 <span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span>            :     /**
-<span class="lineNum">      40 </span>            :      * An inter-thread, bi-directional connection using anonymous pipes.
-<span class="lineNum">      41 </span>            :      *
-<span class="lineNum">      42 </span>            :      * The pipe connection is implemented using anonymous pipes, and can
-<span class="lineNum">      43 </span>            :      * therefore only be used between related threads. It consist of a pair of
-<span class="lineNum">      44 </span>            :      * siblings representing the two endpoints.
-<span class="lineNum">      45 </span>            :      */
-<span class="lineNum">      46 </span>            :     class PipeConnection
+<span class="lineNum">      39 </span>            : /**
+<span class="lineNum">      40 </span>            :  * An inter-thread, bi-directional connection using anonymous pipes.
+<span class="lineNum">      41 </span>            :  *
+<span class="lineNum">      42 </span>            :  * The pipe connection is implemented using anonymous pipes, and can
+<span class="lineNum">      43 </span>            :  * therefore only be used between related threads. It consist of a pair of
+<span class="lineNum">      44 </span>            :  * siblings representing the two endpoints.
+<span class="lineNum">      45 </span>            :  */
+<span class="lineNum">      46 </span>            : class PipeConnection
 <span class="lineNum">      47 </span>            : #ifdef _WIN32
-<span class="lineNum">      48 </span>            :         : public Connection
+<span class="lineNum">      48 </span>            :     : public Connection
 <span class="lineNum">      49 </span>            : #else
-<span class="lineNum">      50 </span>            :         : public FDConnection
+<span class="lineNum">      50 </span>            :     : public FDConnection
 <span class="lineNum">      51 </span>            : #endif
-<span class="lineNum">      52 </span>            :     {
-<span class="lineNum">      53 </span>            :     public:
-<span class="lineNum">      54 </span>            :         /** Construct a new pipe connection. */
-<span class="lineNum">      55 </span>            :         CO_API PipeConnection();
-<span class="lineNum">      56 </span>            :         /** Destruct this pipe connection. */
-<span class="lineNum">      57 </span>            :         CO_API virtual ~PipeConnection();
+<span class="lineNum">      52 </span>            : {
+<span class="lineNum">      53 </span>            : public:
+<span class="lineNum">      54 </span>            :     /** Construct a new pipe connection. */
+<span class="lineNum">      55 </span>            :     CO_API PipeConnection();
+<span class="lineNum">      56 </span>            :     /** Destruct this pipe connection. */
+<span class="lineNum">      57 </span>            :     CO_API virtual ~PipeConnection();
 <a name="58"><span class="lineNum">      58 </span>            : </a>
-<span class="lineNum">      59 </span>            :         bool connect() override;
-<span class="lineNum">      60 </span><span class="lineCov">        113 :         void close() override { _close(); }</span>
-<span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            : #ifdef _WIN32
-<span class="lineNum">      63 </span>            :         Notifier getNotifier() const override;
-<a name="64"><span class="lineNum">      64 </span>            : #endif</a>
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span><span class="lineNoCov">          0 :         void acceptNB() override { /* nop */ }</span>
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span>            :         /** @return the sibling of this pipe connection. */
-<span class="lineNum">      69 </span>            :         ConnectionPtr acceptSync() override;
-<a name="70"><span class="lineNum">      70 </span>            : </a>
-<span class="lineNum">      71 </span>            :         /** @return the sibling connection. */
-<span class="lineNum">      72 </span><span class="lineCov">         99 :         PipeConnectionPtr getSibling() { return _sibling; }</span>
-<span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span>            :     protected:
-<span class="lineNum">      75 </span>            : #ifdef _WIN32
-<span class="lineNum">      76 </span>            :         void readNB( void* buffer, const uint64_t bytes ) override;
-<span class="lineNum">      77 </span>            :         int64_t readSync( void* buffer, const uint64_t bytes,
-<span class="lineNum">      78 </span>            :                                   const bool ignored ) override;
-<span class="lineNum">      79 </span>            :         int64_t write( const void* buffer,
-<span class="lineNum">      80 </span>            :                                const uint64_t bytes ) override;
-<span class="lineNum">      81 </span>            : #endif
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span>            :     private:
-<span class="lineNum">      84 </span>            :         PipeConnectionPtr _sibling;
-<span class="lineNum">      85 </span>            :         lunchbox::Monitorb _connected;
+<span class="lineNum">      59 </span>            :     bool connect() override;
+<span class="lineNum">      60 </span><span class="lineCov">        167 :     void close() override { _close(); }</span>
+<span class="lineNum">      61 </span>            : #ifdef _WIN32
+<span class="lineNum">      62 </span>            :     Notifier getNotifier() const override;
+<a name="63"><span class="lineNum">      63 </span>            : #endif</a>
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :     void acceptNB() override { /* nop */}</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :     /** @return the sibling of this pipe connection. */
+<span class="lineNum">      68 </span>            :     ConnectionPtr acceptSync() override;
+<a name="69"><span class="lineNum">      69 </span>            : </a>
+<span class="lineNum">      70 </span>            :     /** @return the sibling connection. */
+<span class="lineNum">      71 </span><span class="lineCov">         99 :     PipeConnectionPtr getSibling() { return _sibling; }</span>
+<span class="lineNum">      72 </span>            : protected:
+<span class="lineNum">      73 </span>            : #ifdef _WIN32
+<span class="lineNum">      74 </span>            :     void readNB(void* buffer, const uint64_t bytes) override;
+<span class="lineNum">      75 </span>            :     int64_t readSync(void* buffer, const uint64_t bytes,
+<span class="lineNum">      76 </span>            :                      const bool ignored) override;
+<span class="lineNum">      77 </span>            :     int64_t write(const void* buffer, const uint64_t bytes) override;
+<span class="lineNum">      78 </span>            : #endif
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : private:
+<span class="lineNum">      81 </span>            :     PipeConnectionPtr _sibling;
+<span class="lineNum">      82 </span>            :     lunchbox::Monitorb _connected;
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : #ifdef _WIN32
+<span class="lineNum">      85 </span>            :     NamedPipeConnectionPtr _namedPipe;
 <span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span>            : #ifdef _WIN32
-<span class="lineNum">      88 </span>            :         NamedPipeConnectionPtr _namedPipe;
+<span class="lineNum">      87 </span>            :     LB_TS_VAR(_recvThread);
+<span class="lineNum">      88 </span>            : #endif
 <span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span>            :         LB_TS_VAR( _recvThread );
-<span class="lineNum">      91 </span>            : #endif
-<span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span>            :         bool _createPipes();
-<span class="lineNum">      94 </span>            :         void _close();
-<span class="lineNum">      95 </span>            :     };
-<span class="lineNum">      96 </span>            : }
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span>            : #endif //CO_PIPE_CONNECTION_H
+<span class="lineNum">      90 </span>            :     bool _createPipes();
+<span class="lineNum">      91 </span>            :     void _close();
+<span class="lineNum">      92 </span>            : };
+<span class="lineNum">      93 </span>            : }
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span>            : #endif // CO_PIPE_CONNECTION_H
 </pre>
       </td>
     </tr>

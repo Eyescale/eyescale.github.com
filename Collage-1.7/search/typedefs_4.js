@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['localnodeptr',['LocalNodePtr',['../namespaceco.html#a1845cd1464ebae2968b11cb6b2b532a9',1,'co']]]
+  ['localnodeptr',['LocalNodePtr',['../namespaceco.html#a710db4a6662c544d3802735f806a085d',1,'co']]]
 ];

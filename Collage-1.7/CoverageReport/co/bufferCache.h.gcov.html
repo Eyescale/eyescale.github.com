@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -86,49 +86,52 @@
 <span class="lineNum">      24 </span>            : #include &lt;co/api.h&gt;
 <span class="lineNum">      25 </span>            : #include &lt;co/types.h&gt;
 <span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span>            : #include &lt;lunchbox/thread.h&gt; // thread-safety checks
-<span class="lineNum">      28 </span>            : #include &lt;boost/noncopyable.hpp&gt;
+<span class="lineNum">      27 </span>            : #include &lt;boost/noncopyable.hpp&gt;
+<span class="lineNum">      28 </span>            : #include &lt;lunchbox/thread.h&gt; // thread-safety checks
 <span class="lineNum">      29 </span>            : 
 <span class="lineNum">      30 </span>            : namespace co
 <span class="lineNum">      31 </span>            : {
-<span class="lineNum">      32 </span>            : namespace detail { class BufferCache; }
-<span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span>            : /** @internal
-<span class="lineNum">      35 </span>            :  * The buffer cache handles the reuse of allocated buffers for a node.
-<span class="lineNum">      36 </span>            :  *
-<span class="lineNum">      37 </span>            :  * Buffers are retained and released whenever they are not directly processed,
-<span class="lineNum">      38 </span>            :  * e.g., when pushed to another thread using a CommandQueue.
-<span class="lineNum">      39 </span>            :  */
-<span class="lineNum">      40 </span>            : class BufferCache : public boost::noncopyable
-<span class="lineNum">      41 </span>            : {
-<span class="lineNum">      42 </span>            : public:
-<span class="lineNum">      43 </span>            :     /**
-<span class="lineNum">      44 </span>            :      * Construct a new buffer cache.
-<span class="lineNum">      45 </span>            :      *
-<span class="lineNum">      46 </span>            :      * @param minFree number of buffers that are always kept free.
-<span class="lineNum">      47 </span>            :      */
-<span class="lineNum">      48 </span>            :     CO_API explicit BufferCache( const int32_t minFree );
-<span class="lineNum">      49 </span>            :     CO_API ~BufferCache();
-<span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span>            :     /** @return a new buffer. */
-<span class="lineNum">      52 </span>            :     CO_API BufferPtr alloc( const uint64_t reserve );
+<span class="lineNum">      32 </span>            : namespace detail
+<span class="lineNum">      33 </span>            : {
+<span class="lineNum">      34 </span>            : class BufferCache;
+<span class="lineNum">      35 </span>            : }
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : /** @internal
+<span class="lineNum">      38 </span>            :  * The buffer cache handles the reuse of allocated buffers for a node.
+<span class="lineNum">      39 </span>            :  *
+<span class="lineNum">      40 </span>            :  * Buffers are retained and released whenever they are not directly processed,
+<span class="lineNum">      41 </span>            :  * e.g., when pushed to another thread using a CommandQueue.
+<span class="lineNum">      42 </span>            :  */
+<span class="lineNum">      43 </span>            : class BufferCache : public boost::noncopyable
+<span class="lineNum">      44 </span>            : {
+<span class="lineNum">      45 </span>            : public:
+<span class="lineNum">      46 </span>            :     /**
+<span class="lineNum">      47 </span>            :      * Construct a new buffer cache.
+<span class="lineNum">      48 </span>            :      *
+<span class="lineNum">      49 </span>            :      * @param minFree number of buffers that are always kept free.
+<span class="lineNum">      50 </span>            :      */
+<span class="lineNum">      51 </span>            :     CO_API explicit BufferCache(const int32_t minFree);
+<span class="lineNum">      52 </span>            :     CO_API ~BufferCache();
 <span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span>            :     /** Compact buffer if too many commands are free. */
-<span class="lineNum">      55 </span>            :     void compact();
+<span class="lineNum">      54 </span>            :     /** @return a new buffer. */
+<span class="lineNum">      55 </span>            :     CO_API BufferPtr alloc(const uint64_t reserve);
 <span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            :     /** Flush all allocated buffers. */
-<span class="lineNum">      58 </span>            :     void flush();
+<span class="lineNum">      57 </span>            :     /** Compact buffer if too many commands are free. */
+<span class="lineNum">      58 </span>            :     void compact();
 <span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            : private:
-<a name="61"><span class="lineNum">      61 </span>            :     detail::BufferCache* const _impl;</a>
-<span class="lineNum">      62 </span>            :     friend std::ostream&amp; operator &lt;&lt; ( std::ostream&amp;, const BufferCache&amp; );
-<span class="lineNum">      63 </span><span class="lineCov">        222 :     LB_TS_VAR( _thread );</span>
-<span class="lineNum">      64 </span>            : };
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span>            : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp;, const BufferCache&amp; );
-<span class="lineNum">      67 </span>            : }
+<span class="lineNum">      60 </span>            :     /** Flush all allocated buffers. */
+<span class="lineNum">      61 </span>            :     void flush();
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : private:
+<a name="64"><span class="lineNum">      64 </span>            :     detail::BufferCache* const _impl;</a>
+<span class="lineNum">      65 </span>            :     friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const BufferCache&amp;);
+<span class="lineNum">      66 </span><span class="lineCov">        221 :     LB_TS_VAR(_thread);</span>
+<span class="lineNum">      67 </span>            : };
 <span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            : #endif //CO_BUFFERCACHE_H
+<span class="lineNum">      69 </span>            : std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const BufferCache&amp;);
+<span class="lineNum">      70 </span>            : }
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            : #endif // CO_BUFFERCACHE_H
 </pre>
       </td>
     </tr>

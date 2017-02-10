@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -89,53 +89,52 @@
 <span class="lineNum">      27 </span>            : #include &quot;objectDeltaDataOStream.h&quot;
 <span class="lineNum">      28 </span>            : #include &quot;objectInstanceDataOStream.h&quot;
 <span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span>            : namespace co
-<a name="31"><span class="lineNum">      31 </span>            : {</a>
-<span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span><span class="lineCov">          2 : UnbufferedMasterCM::UnbufferedMasterCM( Object* object )</span>
-<span class="lineNum">      34 </span><span class="lineCov">          2 :         : VersionedMasterCM( object )</span>
-<span class="lineNum">      35 </span>            : {
-<span class="lineNum">      36 </span><span class="lineCov">          2 :     _version = VERSION_FIRST;</span>
-<span class="lineNum">      37 </span><span class="lineCov">          2 :     LBASSERT( object );</span>
-<span class="lineNum">      38 </span><span class="lineCov">          2 :     LBASSERT( object-&gt;getLocalNode( ));</span>
-<a name="39"><span class="lineNum">      39 </span><span class="lineCov">          2 : }</span></a>
-<span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span><span class="lineCov">          4 : UnbufferedMasterCM::~UnbufferedMasterCM()</span>
-<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          4 : {}</span></a>
+<a name="30"><span class="lineNum">      30 </span>            : namespace co</a>
+<span class="lineNum">      31 </span>            : {
+<span class="lineNum">      32 </span><span class="lineCov">          2 : UnbufferedMasterCM::UnbufferedMasterCM(Object* object)</span>
+<span class="lineNum">      33 </span><span class="lineCov">          2 :     : VersionedMasterCM(object)</span>
+<span class="lineNum">      34 </span>            : {
+<span class="lineNum">      35 </span><span class="lineCov">          2 :     _version = VERSION_FIRST;</span>
+<span class="lineNum">      36 </span><span class="lineCov">          2 :     LBASSERT(object);</span>
+<span class="lineNum">      37 </span><span class="lineCov">          2 :     LBASSERT(object-&gt;getLocalNode());</span>
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineCov">          4 : UnbufferedMasterCM::~UnbufferedMasterCM()</span>
+<span class="lineNum">      41 </span>            : {
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span><span class="lineCov">          2 : uint128_t UnbufferedMasterCM::commit( const uint32_t )</span>
+<span class="lineNum">      44 </span><span class="lineCov">          2 : uint128_t UnbufferedMasterCM::commit(const uint32_t)</span>
 <span class="lineNum">      45 </span>            : {
 <span class="lineNum">      46 </span>            : #if 0
 <span class="lineNum">      47 </span>            :     LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;commit v&quot; &lt;&lt; _version &lt;&lt; &quot; &quot; &lt;&lt; command
 <span class="lineNum">      48 </span>            :                          &lt;&lt; std::endl;
 <span class="lineNum">      49 </span>            : #endif
-<span class="lineNum">      50 </span><span class="lineCov">          2 :     if( !_object-&gt;isDirty( ))</span>
+<span class="lineNum">      50 </span><span class="lineCov">          2 :     if (!_object-&gt;isDirty())</span>
 <span class="lineNum">      51 </span><span class="lineNoCov">          0 :         return _version;</span>
 <span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span><span class="lineCov">          2 :     _maxVersion.waitGE( _version.low() + 1 );</span>
-<span class="lineNum">      54 </span><span class="lineCov">          4 :     Mutex mutex( _slaves );</span>
-<span class="lineNum">      55 </span><span class="lineCov">          2 :     if( _slaves-&gt;empty( ))</span>
+<span class="lineNum">      53 </span><span class="lineCov">          2 :     _maxVersion.waitGE(_version.low() + 1);</span>
+<span class="lineNum">      54 </span><span class="lineCov">          4 :     Mutex mutex(_slaves);</span>
+<span class="lineNum">      55 </span><span class="lineCov">          2 :     if (_slaves-&gt;empty())</span>
 <span class="lineNum">      56 </span><span class="lineNoCov">          0 :         return _version;</span>
 <span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">          4 :     ObjectDeltaDataOStream os( this );</span>
-<span class="lineNum">      59 </span><span class="lineCov">          2 :     os.enableCommit( _version + 1, *_slaves );</span>
-<span class="lineNum">      60 </span><span class="lineCov">          2 :     _object-&gt;pack( os );</span>
+<span class="lineNum">      58 </span><span class="lineCov">          4 :     ObjectDeltaDataOStream os(this);</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :     os.enableCommit(_version + 1, *_slaves);</span>
+<span class="lineNum">      60 </span><span class="lineCov">          2 :     _object-&gt;pack(os);</span>
 <span class="lineNum">      61 </span><span class="lineCov">          2 :     os.disable();</span>
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">          2 :     if( os.hasSentData( ))</span>
+<span class="lineNum">      63 </span><span class="lineCov">          2 :     if (os.hasSentData())</span>
 <span class="lineNum">      64 </span>            :     {
 <span class="lineNum">      65 </span><span class="lineCov">          2 :         ++_version;</span>
-<span class="lineNum">      66 </span><span class="lineCov">          2 :         LBASSERT( _version != VERSION_NONE );</span>
+<span class="lineNum">      66 </span><span class="lineCov">          2 :         LBASSERT(_version != VERSION_NONE);</span>
 <span class="lineNum">      67 </span>            : #if 0
 <span class="lineNum">      68 </span>            :         LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;Committed v&quot; &lt;&lt; _version &lt;&lt; &quot;, id &quot;
 <span class="lineNum">      69 </span>            :                              &lt;&lt; _object-&gt;getID() &lt;&lt; std::endl;
 <span class="lineNum">      70 </span>            : #endif
 <span class="lineNum">      71 </span>            :     }
 <span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span><span class="lineCov">          2 :     return _version;</span>
-<a name="74"><span class="lineNum">      74 </span>            : }</a>
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineCov">         66 : }</span>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          2 :     return _version;</span></a>
+<span class="lineNum">      74 </span>            : }
+<span class="lineNum">      75 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>
     </tr>

@@ -4,7 +4,7 @@ var searchData=
   ['send',['send',['../classco_1_1_connection.html#a1d29eeca302db9b2b6dec50a50da9eb5',1,'co::Connection::send()'],['../classco_1_1_node.html#a106d506240ba6880bec678affabd1e77',1,'co::Node::send(const uint32_t cmd, const bool multicast=false)'],['../classco_1_1_node.html#a8b55043d34ea3039cd6d0b24b6f91b2a',1,'co::Node::send(const uint128_t &amp;commandID, const bool multicast=false)'],['../classco_1_1_object.html#ae60dd5457aa9a898ea6d2ee80dcf6b34',1,'co::Object::send()']]],
   ['sendbuffer',['sendBuffer',['../classco_1_1_buffer_connection.html#ac08ebce0098fb67f3f95895819f7076e',1,'co::BufferConnection']]],
   ['sendtoken',['SendToken',['../classco_1_1_send_token.html',1,'co']]],
-  ['sendtoken',['SendToken',['../classco_1_1_local_node.html#a4582e6c731d1a34236cf0e55c0507c17',1,'co::LocalNode']]],
+  ['sendtoken',['SendToken',['../classco_1_1_local_node.html#a3d705e3ee7fe29f47c05e185b38cd078',1,'co::LocalNode']]],
   ['serializable',['Serializable',['../classco_1_1_serializable.html',1,'co']]],
   ['serializable',['Serializable',['../classco_1_1_serializable.html#a7874cfdd6d94e2636c39b90e3faca0d8',1,'co::Serializable::Serializable()'],['../classco_1_1_serializable.html#aa20f8eadfd785a4bf8c774459f73a194',1,'co::Serializable::Serializable(const Serializable &amp;)']]],
   ['serialize',['serialize',['../classco_1_1_connection_description.html#a4dee15a967f96b59f23e122ba32a7eb5',1,'co::ConnectionDescription::serialize()'],['../classco_1_1_object_map.html#af04ce0f364039c27fe0c6819de544a36',1,'co::ObjectMap::serialize()'],['../classco_1_1_serializable.html#aacd8b78599bc2a371481894fba994d51',1,'co::Serializable::serialize()'],['../namespaceco.html#a3e7ec22e94baf2866b4fe2ffa2ed33ed',1,'co::serialize()']]],

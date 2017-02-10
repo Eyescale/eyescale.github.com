@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2011, Stefan Eilemann &lt;eile@eyescale.ch&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2011-2017, Stefan Eilemann &lt;eile@eyescale.ch&gt;
 <span class="lineNum">       3 </span>            :  *
 <span class="lineNum">       4 </span>            :  * This file is part of Collage &lt;https://github.com/Eyescale/Collage&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -86,51 +86,50 @@
 <span class="lineNum">      24 </span>            : 
 <span class="lineNum">      25 </span>            : #include &lt;lunchbox/mtQueue.h&gt; // member
 <span class="lineNum">      26 </span>            : #include &lt;lunchbox/pool.h&gt;    // member
-<span class="lineNum">      27 </span>            : #include &lt;lunchbox/stdExt.h&gt;  // member
-<span class="lineNum">      28 </span>            : #include &lt;lunchbox/thread.h&gt;  // thread-safety check
-<span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span>            : #include &quot;objectDataIStream.h&quot; // pooled object
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span>            : namespace co
-<span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span>            :     /**
-<span class="lineNum">      35 </span>            :      * @internal
-<span class="lineNum">      36 </span>            :      * Manages lifecycle of DataIStreams (assembles, queues and reuses them).
-<span class="lineNum">      37 </span>            :      */
-<span class="lineNum">      38 </span>            :     class DataIStreamQueue
-<span class="lineNum">      39 </span>            :     {
-<span class="lineNum">      40 </span>            :     public:
-<span class="lineNum">      41 </span>            :         DataIStreamQueue();
-<span class="lineNum">      42 </span>            :         ~DataIStreamQueue();
-<span class="lineNum">      43 </span>            : 
-<a name="44"><span class="lineNum">      44 </span>            :         bool addDataCommand( const uint128_t&amp; key, ICommand&amp; command );</a>
-<span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :         ObjectDataIStream* pop() { return _queued.pop().second; }</span>
-<span class="lineNum">      47 </span>            :         ObjectDataIStream* tryPop();
-<span class="lineNum">      48 </span>            :         ObjectDataIStream* pull( const uint128_t&amp; key );
-<span class="lineNum">      49 </span>            :         void recycle( ObjectDataIStream* stream );
-<span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span>            :     protected:
-<span class="lineNum">      52 </span>            :         typedef stde::hash_map&lt; uint128_t, ObjectDataIStream* &gt; PendingStreams;
-<span class="lineNum">      53 </span>            :         typedef PendingStreams::const_iterator PendingStreamsCIter;
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span>            :         /** Not yet ready streams. */
-<span class="lineNum">      56 </span>            :         PendingStreams _pending;
-<span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span>            :         typedef std::pair&lt; uint128_t, ObjectDataIStream* &gt; QueuedStream;
-<span class="lineNum">      59 </span>            :         typedef std::vector&lt; QueuedStream &gt; QueuedStreams;
-<span class="lineNum">      60 </span>            : 
-<span class="lineNum">      61 </span>            :         /** The change queue. */
-<span class="lineNum">      62 </span>            :         lunchbox::MTQueue&lt; QueuedStream &gt; _queued;
-<span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span>            :         /** Cached input streams (+decompressor) */
-<a name="65"><span class="lineNum">      65 </span>            :         lunchbox::Pool&lt; ObjectDataIStream, true &gt; _iStreamCache;</a>
-<span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineCov">        134 :         LB_TS_VAR( _thread );</span>
-<span class="lineNum">      68 </span>            :     };
-<span class="lineNum">      69 </span>            : }
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span>            : #endif // CO_DATAISTREAMQUEUE_H
+<span class="lineNum">      27 </span>            : #include &lt;lunchbox/thread.h&gt;  // thread-safety check
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : #include &quot;objectDataIStream.h&quot; // pooled object
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : namespace co
+<span class="lineNum">      32 </span>            : {
+<span class="lineNum">      33 </span>            : /**
+<span class="lineNum">      34 </span>            :  * @internal
+<span class="lineNum">      35 </span>            :  * Manages lifecycle of DataIStreams (assembles, queues and reuses them).
+<span class="lineNum">      36 </span>            :  */
+<span class="lineNum">      37 </span>            : class DataIStreamQueue
+<span class="lineNum">      38 </span>            : {
+<span class="lineNum">      39 </span>            : public:
+<span class="lineNum">      40 </span>            :     DataIStreamQueue();
+<span class="lineNum">      41 </span>            :     ~DataIStreamQueue();
+<span class="lineNum">      42 </span>            : 
+<a name="43"><span class="lineNum">      43 </span>            :     bool addDataCommand(const uint128_t&amp; key, ICommand&amp; command);</a>
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     ObjectDataIStream* pop() { return _queued.pop().second; }</span>
+<span class="lineNum">      46 </span>            :     ObjectDataIStream* tryPop();
+<span class="lineNum">      47 </span>            :     ObjectDataIStream* pull(const uint128_t&amp; key);
+<span class="lineNum">      48 </span>            :     void recycle(ObjectDataIStream* stream);
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            : protected:
+<span class="lineNum">      51 </span>            :     typedef std::unordered_map&lt;uint128_t, ObjectDataIStream*&gt; PendingStreams;
+<span class="lineNum">      52 </span>            :     typedef PendingStreams::const_iterator PendingStreamsCIter;
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            :     /** Not yet ready streams. */
+<span class="lineNum">      55 </span>            :     PendingStreams _pending;
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :     typedef std::pair&lt;uint128_t, ObjectDataIStream*&gt; QueuedStream;
+<span class="lineNum">      58 </span>            :     typedef std::vector&lt;QueuedStream&gt; QueuedStreams;
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     /** The change queue. */
+<span class="lineNum">      61 </span>            :     lunchbox::MTQueue&lt;QueuedStream&gt; _queued;
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            :     /** Cached input streams (+decompressor) */
+<a name="64"><span class="lineNum">      64 </span>            :     lunchbox::Pool&lt;ObjectDataIStream, true&gt; _iStreamCache;</a>
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineCov">        134 :     LB_TS_VAR(_thread);</span>
+<span class="lineNum">      67 </span>            : };
+<span class="lineNum">      68 </span>            : }
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : #endif // CO_DATAISTREAMQUEUE_H
 </pre>
       </td>
     </tr>

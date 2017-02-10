@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -87,56 +87,56 @@
 <span class="lineNum">      25 </span>            : #include &quot;object.h&quot;
 <span class="lineNum">      26 </span>            : #include &quot;objectDataIStream.h&quot;
 <span class="lineNum">      27 </span>            : 
-<span class="lineNum">      28 </span>            : namespace co
-<a name="29"><span class="lineNum">      29 </span>            : {</a>
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span><span class="lineCov">          7 : DeltaMasterCM::DeltaMasterCM( Object* object )</span>
-<span class="lineNum">      32 </span>            :         : FullMasterCM( object )
-<span class="lineNum">      33 </span>            : #pragma warning(push)
-<span class="lineNum">      34 </span>            : #pragma warning(disable : 4355)
-<span class="lineNum">      35 </span><span class="lineCov">          7 :         , _deltaData( this )</span>
-<span class="lineNum">      36 </span>            : #pragma warning(pop)
-<a name="37"><span class="lineNum">      37 </span><span class="lineCov">          7 : {}</span></a>
+<a name="28"><span class="lineNum">      28 </span>            : namespace co</a>
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span><span class="lineCov">          7 : DeltaMasterCM::DeltaMasterCM(Object* object)</span>
+<span class="lineNum">      31 </span>            :     : FullMasterCM(object)
+<span class="lineNum">      32 </span>            : #pragma warning(push)
+<span class="lineNum">      33 </span>            : #pragma warning(disable : 4355)
+<span class="lineNum">      34 </span><span class="lineCov">          7 :     , _deltaData(this)</span>
+<span class="lineNum">      35 </span>            : #pragma warning(pop)
+<span class="lineNum">      36 </span>            : {
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">          7 : }</span></a>
 <span class="lineNum">      38 </span>            : 
 <span class="lineNum">      39 </span><span class="lineCov">         14 : DeltaMasterCM::~DeltaMasterCM()</span>
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">         14 : {}</span></a>
-<span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">        104 : void DeltaMasterCM::_commit()</span>
-<span class="lineNum">      43 </span>            : {
-<span class="lineNum">      44 </span><span class="lineCov">        104 :     if( !_slaves-&gt;empty( ))</span>
-<span class="lineNum">      45 </span>            :     {
-<span class="lineNum">      46 </span><span class="lineCov">        104 :         _deltaData.reset();</span>
-<span class="lineNum">      47 </span><span class="lineCov">        104 :         _deltaData.enableCommit( _version + 1, *_slaves );</span>
-<span class="lineNum">      48 </span><span class="lineCov">        104 :         _object-&gt;pack( _deltaData );</span>
-<span class="lineNum">      49 </span><span class="lineCov">        104 :         _deltaData.disable();</span>
-<span class="lineNum">      50 </span>            :     }
-<span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">        104 :     if( _slaves-&gt;empty() || _deltaData.hasSentData( ))</span>
-<span class="lineNum">      53 </span>            :     {
-<span class="lineNum">      54 </span>            :         // save instance data
-<span class="lineNum">      55 </span><span class="lineCov">        104 :         InstanceData* instanceData = _newInstanceData();</span>
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span><span class="lineCov">        104 :         instanceData-&gt;os.enableCommit( _version + 1, Nodes( ));</span>
-<span class="lineNum">      58 </span><span class="lineCov">        104 :         _object-&gt;getInstanceData( instanceData-&gt;os );</span>
-<span class="lineNum">      59 </span><span class="lineCov">        104 :         instanceData-&gt;os.disable();</span>
-<span class="lineNum">      60 </span>            : 
-<span class="lineNum">      61 </span><span class="lineCov">        104 :         if( _deltaData.hasSentData() || instanceData-&gt;os.hasSentData( ))</span>
-<span class="lineNum">      62 </span>            :         {
-<span class="lineNum">      63 </span><span class="lineCov">        104 :             ++_version;</span>
-<span class="lineNum">      64 </span><span class="lineCov">        104 :             LBASSERT( _version != VERSION_NONE );</span>
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span><span class="lineCov">        104 :             _addInstanceData( instanceData );</span>
-<span class="lineNum">      67 </span>            :         }
-<span class="lineNum">      68 </span>            :         else
-<span class="lineNum">      69 </span><span class="lineNoCov">          0 :             _releaseInstanceData( instanceData );</span>
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span>            : #if 0
-<span class="lineNum">      72 </span>            :         LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;Committed v&quot; &lt;&lt; _version &lt;&lt; &quot; &quot; &lt;&lt; *_object
-<span class="lineNum">      73 </span>            :                              &lt;&lt; std::endl;
-<span class="lineNum">      74 </span>            : #endif
-<span class="lineNum">      75 </span>            :     }
-<a name="76"><span class="lineNum">      76 </span><span class="lineCov">        104 : }</span></a>
-<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      40 </span>            : {
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">         14 : }</span></a>
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span><span class="lineCov">        104 : void DeltaMasterCM::_commit()</span>
+<span class="lineNum">      44 </span>            : {
+<span class="lineNum">      45 </span><span class="lineCov">        104 :     if (!_slaves-&gt;empty())</span>
+<span class="lineNum">      46 </span>            :     {
+<span class="lineNum">      47 </span><span class="lineCov">        104 :         _deltaData.reset();</span>
+<span class="lineNum">      48 </span><span class="lineCov">        104 :         _deltaData.enableCommit(_version + 1, *_slaves);</span>
+<span class="lineNum">      49 </span><span class="lineCov">        104 :         _object-&gt;pack(_deltaData);</span>
+<span class="lineNum">      50 </span><span class="lineCov">        104 :         _deltaData.disable();</span>
+<span class="lineNum">      51 </span>            :     }
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">        104 :     if (_slaves-&gt;empty() || _deltaData.hasSentData())</span>
+<span class="lineNum">      54 </span>            :     {
+<span class="lineNum">      55 </span>            :         // save instance data
+<span class="lineNum">      56 </span><span class="lineCov">        104 :         InstanceData* instanceData = _newInstanceData();</span>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">        104 :         instanceData-&gt;os.enableCommit(_version + 1, Nodes());</span>
+<span class="lineNum">      59 </span><span class="lineCov">        104 :         _object-&gt;getInstanceData(instanceData-&gt;os);</span>
+<span class="lineNum">      60 </span><span class="lineCov">        104 :         instanceData-&gt;os.disable();</span>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineCov">        104 :         if (_deltaData.hasSentData() || instanceData-&gt;os.hasSentData())</span>
+<span class="lineNum">      63 </span>            :         {
+<span class="lineNum">      64 </span><span class="lineCov">        104 :             ++_version;</span>
+<span class="lineNum">      65 </span><span class="lineCov">        104 :             LBASSERT(_version != VERSION_NONE);</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">        104 :             _addInstanceData(instanceData);</span>
+<span class="lineNum">      68 </span>            :         }
+<span class="lineNum">      69 </span>            :         else
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :             _releaseInstanceData(instanceData);</span>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            : #if 0
+<span class="lineNum">      73 </span>            :         LBLOG( LOG_OBJECTS ) &lt;&lt; &quot;Committed v&quot; &lt;&lt; _version &lt;&lt; &quot; &quot; &lt;&lt; *_object
+<span class="lineNum">      74 </span>            :                              &lt;&lt; std::endl;
+<span class="lineNum">      75 </span>            : #endif
+<a name="76"><span class="lineNum">      76 </span>            :     }</a>
+<span class="lineNum">      77 </span><span class="lineCov">        104 : }</span>
 <span class="lineNum">      78 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>

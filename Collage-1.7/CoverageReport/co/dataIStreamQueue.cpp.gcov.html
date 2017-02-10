@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -88,87 +88,87 @@
 <a name="26"><span class="lineNum">      26 </span>            : namespace co</a>
 <span class="lineNum">      27 </span>            : {
 <span class="lineNum">      28 </span><span class="lineCov">         68 : DataIStreamQueue::DataIStreamQueue()</span>
-<a name="29"><span class="lineNum">      29 </span><span class="lineCov">         68 : {}</span></a>
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span><span class="lineCov">        132 : DataIStreamQueue::~DataIStreamQueue()</span>
-<span class="lineNum">      32 </span>            : {
-<span class="lineNum">      33 </span><span class="lineCov">         66 :     LBASSERTINFO( _pending.empty(), &quot;Incomplete commits pending&quot; );</span>
-<span class="lineNum">      34 </span><span class="lineCov">         66 :     LBASSERTINFO( _queued.isEmpty(), _queued.getSize() &lt;&lt; &quot; unapplied commits&quot; )</span>
-<span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span><span class="lineCov">         66 :     for( PendingStreamsCIter i = _pending.begin(); i != _pending.end(); ++i )</span>
-<span class="lineNum">      37 </span><span class="lineNoCov">          0 :         delete i-&gt;second;</span>
-<span class="lineNum">      38 </span><span class="lineCov">         66 :     _pending.clear();</span>
-<span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span><span class="lineCov">         66 :     QueuedStream stream;</span>
-<span class="lineNum">      41 </span><span class="lineCov">         66 :     while( _queued.tryPop( stream ))</span>
-<span class="lineNum">      42 </span><span class="lineNoCov">          0 :         delete stream.second;</span>
-<a name="43"><span class="lineNum">      43 </span><span class="lineCov">         66 : }</span></a>
-<span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 : ObjectDataIStream* DataIStreamQueue::tryPop()</span>
-<span class="lineNum">      46 </span>            : {
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     QueuedStream stream( uint128_t(), (ObjectDataIStream*)0 );</span>
-<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     _queued.tryPop( stream );</span>
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     return stream.second;</span>
-<a name="50"><span class="lineNum">      50 </span>            : }</a>
-<span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">          5 : ObjectDataIStream* DataIStreamQueue::pull( const uint128_t&amp; key )</span>
-<span class="lineNum">      53 </span>            : {
-<span class="lineNum">      54 </span><span class="lineCov">          5 :     ObjectDataIStream* is = 0;</span>
-<span class="lineNum">      55 </span><span class="lineCov">         10 :     QueuedStreams unusedStreams;</span>
-<span class="lineNum">      56 </span><span class="lineCov">         15 :     while( !is )</span>
-<span class="lineNum">      57 </span>            :     {
-<span class="lineNum">      58 </span><span class="lineCov">          5 :         QueuedStream candidate = _queued.pop();</span>
-<span class="lineNum">      59 </span><span class="lineCov">          5 :         if( candidate.first == key )</span>
-<span class="lineNum">      60 </span><span class="lineCov">          5 :             is = candidate.second;</span>
-<span class="lineNum">      61 </span>            :         else
-<span class="lineNum">      62 </span><span class="lineNoCov">          0 :             unusedStreams.push_back( candidate );</span>
-<span class="lineNum">      63 </span>            :     }
-<span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span><span class="lineCov">          5 :     _queued.pushFront( unusedStreams );</span>
-<span class="lineNum">      66 </span><span class="lineCov">         10 :     return is;</span>
-<a name="67"><span class="lineNum">      67 </span>            : }</a>
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span><span class="lineCov">          5 : void DataIStreamQueue::recycle( ObjectDataIStream* stream )</span>
-<span class="lineNum">      70 </span>            : {
-<span class="lineNum">      71 </span>            : #ifdef CO_AGGRESSIVE_CACHING
-<span class="lineNum">      72 </span>            :     stream-&gt;reset();
-<span class="lineNum">      73 </span>            :     _iStreamCache.release( stream );
-<span class="lineNum">      74 </span>            : #else
-<span class="lineNum">      75 </span><span class="lineCov">          5 :     delete stream;</span>
-<span class="lineNum">      76 </span>            : #endif
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          5 : }</span></a>
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineCov">          7 : bool DataIStreamQueue::addDataCommand( const uint128_t&amp; key, ICommand&amp; command )</span>
-<span class="lineNum">      80 </span>            : {
-<span class="lineNum">      81 </span><span class="lineCov">          7 :     LB_TS_THREAD( _thread );</span>
-<span class="lineNum">      82 </span><span class="lineCov">          7 :     LBASSERTINFO( _pending.size() &lt; 100, &quot;More than 100 pending commits&quot;);</span>
-<span class="lineNum">      83 </span>            : 
-<span class="lineNum">      84 </span><span class="lineCov">          7 :     ObjectDataIStream* is = 0;</span>
-<span class="lineNum">      85 </span><span class="lineCov">          7 :     PendingStreams::iterator i = _pending.find( key );</span>
-<span class="lineNum">      86 </span><span class="lineCov">          7 :     if( i == _pending.end( ))</span>
-<span class="lineNum">      87 </span><span class="lineCov">          5 :         is = _iStreamCache.alloc();</span>
-<span class="lineNum">      88 </span>            :     else
-<span class="lineNum">      89 </span><span class="lineCov">          2 :         is = i-&gt;second;</span>
-<span class="lineNum">      90 </span>            : 
-<span class="lineNum">      91 </span><span class="lineCov">          7 :     is-&gt;addDataCommand( command );</span>
-<span class="lineNum">      92 </span><span class="lineCov">          7 :     if( is-&gt;isReady( ))</span>
-<span class="lineNum">      93 </span>            :     {
-<span class="lineNum">      94 </span><span class="lineCov">          5 :         if( i != _pending.end( ))</span>
-<span class="lineNum">      95 </span><span class="lineCov">          2 :             _pending.erase( i );</span>
-<span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineCov">          5 :         _queued.push( QueuedStream( key, is ));</span>
-<span class="lineNum">      98 </span><span class="lineCov">          5 :         return true;</span>
-<span class="lineNum">      99 </span>            :     }
-<span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span><span class="lineCov">          2 :     if( i == _pending.end( ))</span>
-<span class="lineNum">     102 </span>            :     {
-<span class="lineNum">     103 </span><span class="lineCov">          2 :         _pending[ key ] = is;</span>
-<span class="lineNum">     104 </span><span class="lineCov">          2 :         return false;</span>
-<span class="lineNum">     105 </span>            :     }
-<span class="lineNum">     106 </span>            : 
-<span class="lineNum">     107 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="108"><span class="lineNum">     108 </span>            : }</a>
-<span class="lineNum">     109 </span>            : 
+<span class="lineNum">      29 </span>            : {
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">         68 : }</span></a>
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span><span class="lineCov">        132 : DataIStreamQueue::~DataIStreamQueue()</span>
+<span class="lineNum">      33 </span>            : {
+<span class="lineNum">      34 </span><span class="lineCov">         66 :     LBASSERTINFO(_pending.empty(), &quot;Incomplete commits pending&quot;);</span>
+<span class="lineNum">      35 </span><span class="lineCov">         66 :     LBASSERTINFO(_queued.isEmpty(), _queued.getSize() &lt;&lt; &quot; unapplied commits&quot;)</span>
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span><span class="lineCov">         66 :     for (PendingStreamsCIter i = _pending.begin(); i != _pending.end(); ++i)</span>
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :         delete i-&gt;second;</span>
+<span class="lineNum">      39 </span><span class="lineCov">         66 :     _pending.clear();</span>
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span><span class="lineCov">         66 :     QueuedStream stream;</span>
+<span class="lineNum">      42 </span><span class="lineCov">         66 :     while (_queued.tryPop(stream))</span>
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :         delete stream.second;</span>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">         66 : }</span></a>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 : ObjectDataIStream* DataIStreamQueue::tryPop()</span>
+<span class="lineNum">      47 </span>            : {
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     QueuedStream stream(uint128_t(), (ObjectDataIStream*)0);</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     _queued.tryPop(stream);</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     return stream.second;</span>
+<a name="51"><span class="lineNum">      51 </span>            : }</a>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">          5 : ObjectDataIStream* DataIStreamQueue::pull(const uint128_t&amp; key)</span>
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span><span class="lineCov">          5 :     ObjectDataIStream* is = 0;</span>
+<span class="lineNum">      56 </span><span class="lineCov">         10 :     QueuedStreams unusedStreams;</span>
+<span class="lineNum">      57 </span><span class="lineCov">         15 :     while (!is)</span>
+<span class="lineNum">      58 </span>            :     {
+<span class="lineNum">      59 </span><span class="lineCov">          5 :         QueuedStream candidate = _queued.pop();</span>
+<span class="lineNum">      60 </span><span class="lineCov">          5 :         if (candidate.first == key)</span>
+<span class="lineNum">      61 </span><span class="lineCov">          5 :             is = candidate.second;</span>
+<span class="lineNum">      62 </span>            :         else
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :             unusedStreams.push_back(candidate);</span>
+<span class="lineNum">      64 </span>            :     }
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineCov">          5 :     _queued.pushFront(unusedStreams);</span>
+<span class="lineNum">      67 </span><span class="lineCov">         10 :     return is;</span>
+<a name="68"><span class="lineNum">      68 </span>            : }</a>
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span><span class="lineCov">          5 : void DataIStreamQueue::recycle(ObjectDataIStream* stream)</span>
+<span class="lineNum">      71 </span>            : {
+<span class="lineNum">      72 </span>            : #ifdef CO_AGGRESSIVE_CACHING
+<span class="lineNum">      73 </span>            :     stream-&gt;reset();
+<span class="lineNum">      74 </span>            :     _iStreamCache.release(stream);
+<span class="lineNum">      75 </span>            : #else
+<span class="lineNum">      76 </span><span class="lineCov">          5 :     delete stream;</span>
+<span class="lineNum">      77 </span>            : #endif
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          5 : }</span></a>
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span><span class="lineCov">          7 : bool DataIStreamQueue::addDataCommand(const uint128_t&amp; key, ICommand&amp; command)</span>
+<span class="lineNum">      81 </span>            : {
+<span class="lineNum">      82 </span><span class="lineCov">          7 :     LB_TS_THREAD(_thread);</span>
+<span class="lineNum">      83 </span><span class="lineCov">          7 :     LBASSERTINFO(_pending.size() &lt; 100, &quot;More than 100 pending commits&quot;);</span>
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span><span class="lineCov">          7 :     ObjectDataIStream* is = 0;</span>
+<span class="lineNum">      86 </span><span class="lineCov">          7 :     PendingStreams::iterator i = _pending.find(key);</span>
+<span class="lineNum">      87 </span><span class="lineCov">          7 :     if (i == _pending.end())</span>
+<span class="lineNum">      88 </span><span class="lineCov">          5 :         is = _iStreamCache.alloc();</span>
+<span class="lineNum">      89 </span>            :     else
+<span class="lineNum">      90 </span><span class="lineCov">          2 :         is = i-&gt;second;</span>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span><span class="lineCov">          7 :     is-&gt;addDataCommand(command);</span>
+<span class="lineNum">      93 </span><span class="lineCov">          7 :     if (is-&gt;isReady())</span>
+<span class="lineNum">      94 </span>            :     {
+<span class="lineNum">      95 </span><span class="lineCov">          5 :         if (i != _pending.end())</span>
+<span class="lineNum">      96 </span><span class="lineCov">          2 :             _pending.erase(i);</span>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineCov">          5 :         _queued.push(QueuedStream(key, is));</span>
+<span class="lineNum">      99 </span><span class="lineCov">          5 :         return true;</span>
+<span class="lineNum">     100 </span>            :     }
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span><span class="lineCov">          2 :     if (i == _pending.end())</span>
+<span class="lineNum">     103 </span>            :     {
+<span class="lineNum">     104 </span><span class="lineCov">          2 :         _pending[key] = is;</span>
+<span class="lineNum">     105 </span><span class="lineCov">          2 :         return false;</span>
+<span class="lineNum">     106 </span>            :     }
+<span class="lineNum">     107 </span>            : 
+<a name="108"><span class="lineNum">     108 </span><span class="lineNoCov">          0 :     return false;</span></a>
+<span class="lineNum">     109 </span>            : }
 <span class="lineNum">     110 </span><span class="lineCov">         66 : }</span>
 </pre>
       </td>

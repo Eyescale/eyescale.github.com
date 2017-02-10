@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">4</td>
-            <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntryMed">66.7 %</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryMed">71.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -82,51 +82,50 @@
 <span class="lineNum">      20 </span>            : #ifndef CO_WORKER_H
 <span class="lineNum">      21 </span>            : #define CO_WORKER_H
 <span class="lineNum">      22 </span>            : 
-<span class="lineNum">      23 </span>            : #include &lt;co/api.h&gt;          // CO_API definition
+<span class="lineNum">      23 </span>            : #include &lt;co/api.h&gt; // CO_API definition
 <span class="lineNum">      24 </span>            : #include &lt;co/types.h&gt;
-<span class="lineNum">      25 </span>            : #include &lt;lunchbox/thread.h&gt;  // base class
-<span class="lineNum">      26 </span>            : #include &lt;limits.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;limits.h&gt;
+<span class="lineNum">      26 </span>            : #include &lt;lunchbox/thread.h&gt; // base class
 <span class="lineNum">      27 </span>            : 
 <span class="lineNum">      28 </span>            : #ifdef COLLAGE_SHARED
-<span class="lineNum">      29 </span>            : #  define CO_WORKER_API CO_API
+<span class="lineNum">      29 </span>            : #define CO_WORKER_API CO_API
 <span class="lineNum">      30 </span>            : #else
-<span class="lineNum">      31 </span>            : #  define CO_WORKER_API
+<span class="lineNum">      31 </span>            : #define CO_WORKER_API
 <span class="lineNum">      32 </span>            : #endif
 <span class="lineNum">      33 </span>            : 
 <span class="lineNum">      34 </span>            : namespace co
 <span class="lineNum">      35 </span>            : {
 <span class="lineNum">      36 </span>            : /** A worker thread processing items out of a CommandQueue. */
-<span class="lineNum">      37 </span>            : template&lt; class Q &gt; class WorkerThread : public lunchbox::Thread
-<span class="lineNum">      38 </span>            : {
-<a name="39"><span class="lineNum">      39 </span>            : public:</a>
-<span class="lineNum">      40 </span>            :     /** Construct a new worker thread. @version 1.0 */
-<span class="lineNum">      41 </span><span class="lineCov">         55 :     explicit WorkerThread( const size_t maxSize = ULONG_MAX )</span>
-<span class="lineNum">      42 </span><span class="lineCov">         55 :         : _commands( maxSize ) {}</span>
-<a name="43"><span class="lineNum">      43 </span>            : </a>
-<span class="lineNum">      44 </span>            :     /** Destruct the worker. @version 1.0 */
-<span class="lineNum">      45 </span><span class="lineCov">         53 :     virtual ~WorkerThread() {}</span>
+<span class="lineNum">      37 </span>            : template &lt;class Q&gt;
+<span class="lineNum">      38 </span>            : class WorkerThread : public lunchbox::Thread
+<span class="lineNum">      39 </span>            : {
+<a name="40"><span class="lineNum">      40 </span>            : public:</a>
+<span class="lineNum">      41 </span>            :     /** Construct a new worker thread. @version 1.0 */
+<span class="lineNum">      42 </span><span class="lineCov">         55 :     explicit WorkerThread(const size_t maxSize = ULONG_MAX)</span>
+<span class="lineNum">      43 </span><span class="lineCov">         55 :         : _commands(maxSize)</span>
+<span class="lineNum">      44 </span>            :     {
+<span class="lineNum">      45 </span><span class="lineCov">         55 :     }</span>
 <a name="46"><span class="lineNum">      46 </span>            : </a>
-<span class="lineNum">      47 </span>            :     /** @return the queue to the worker thread. @version 1.0 */
-<span class="lineNum">      48 </span><span class="lineCov">        146 :     Q* getWorkerQueue() { return &amp;_commands; }</span>
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            : protected:
-<span class="lineNum">      51 </span>            :     /** @sa lunchbox::Thread::run() */
-<span class="lineNum">      52 </span>            :     CO_WORKER_API void run() override;
-<a name="53"><span class="lineNum">      53 </span>            : </a>
-<span class="lineNum">      54 </span>            :     /** @return true to stop the worker thread. @version 1.0 */
-<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     virtual bool stopRunning() { return false; }</span>
-<a name="56"><span class="lineNum">      56 </span>            : </a>
+<span class="lineNum">      47 </span>            :     /** Destruct the worker. @version 1.0 */
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         53 :     virtual ~WorkerThread() {}</span></a>
+<span class="lineNum">      49 </span>            :     /** @return the queue to the worker thread. @version 1.0 */
+<span class="lineNum">      50 </span><span class="lineCov">        146 :     Q* getWorkerQueue() { return &amp;_commands; }</span>
+<span class="lineNum">      51 </span>            : protected:
+<span class="lineNum">      52 </span>            :     /** @sa lunchbox::Thread::run() */
+<span class="lineNum">      53 </span>            :     CO_WORKER_API void run() override;
+<a name="54"><span class="lineNum">      54 </span>            : </a>
+<span class="lineNum">      55 </span>            :     /** @return true to stop the worker thread. @version 1.0 */
+<a name="56"><span class="lineNum">      56 </span><span class="lineNoCov">          0 :     virtual bool stopRunning() { return false; }</span></a>
 <span class="lineNum">      57 </span>            :     /** @return true to indicate pending idle tasks. @version 1.0 */
 <span class="lineNum">      58 </span><span class="lineNoCov">          0 :     virtual bool notifyIdle() { return false; }</span>
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            : private:
-<span class="lineNum">      61 </span>            :     /** The receiver-&gt;worker thread command queue. */
-<span class="lineNum">      62 </span>            :     Q _commands;
-<span class="lineNum">      63 </span>            : };
-<span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span>            : typedef WorkerThread&lt; CommandQueue &gt; Worker; // instantiated in worker.cpp
-<span class="lineNum">      66 </span>            : }
-<span class="lineNum">      67 </span>            : #endif //CO_WORKER_H
+<span class="lineNum">      59 </span>            : private:
+<span class="lineNum">      60 </span>            :     /** The receiver-&gt;worker thread command queue. */
+<span class="lineNum">      61 </span>            :     Q _commands;
+<span class="lineNum">      62 </span>            : };
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            : typedef WorkerThread&lt;CommandQueue&gt; Worker; // instantiated in worker.cpp
+<span class="lineNum">      65 </span>            : }
+<span class="lineNum">      66 </span>            : #endif // CO_WORKER_H
 </pre>
       </td>
     </tr>

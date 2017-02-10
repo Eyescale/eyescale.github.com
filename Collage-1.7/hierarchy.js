@@ -62,7 +62,6 @@ var hierarchy =
     [ "co::ObjectVersion", "structco_1_1_object_version.html", null ],
     [ "co::Version", "classco_1_1_version.html", null ],
     [ "co::Zeroconf", "classco_1_1_zeroconf.html", null ],
-    [ "hash< co::ObjectVersion >", "structhash_3_01co_1_1_object_version_01_4.html", null ],
     [ "Bufferb", null, [
       [ "co::Buffer", "classco_1_1_buffer.html", null ]
     ] ],
@@ -85,6 +84,7 @@ var hierarchy =
     [ "std::exception", null, [
       [ "co::Exception", "classco_1_1_exception.html", null ]
     ] ],
+    [ "std::hash< co::ObjectVersion >", "structstd_1_1hash_3_01co_1_1_object_version_01_4.html", null ],
     [ "T", null, [
       [ "co::Distributable< T, S, Args >", "classco_1_1_distributable.html", null ]
     ] ]

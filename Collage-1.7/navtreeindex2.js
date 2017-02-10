@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classco_1_1_object.html#ac98e060ef02dd0e670cc058590e22c00":[4,0,0,23,33],
 "classco_1_1_object.html#ad6671491af33756e8d069db3231c374d":[4,0,0,23,10],
 "classco_1_1_object.html#add2e3744d5c0a569d43a12971f5e72b8":[4,0,0,23,7],
 "classco_1_1_object.html#adea849be34cf83a2809075c16d16685b":[4,0,0,23,27],
@@ -159,8 +160,8 @@ var NAVTREEINDEX2 =
 "exception_8h_source.html":[5,0,28],
 "features_8h_source.html":[5,0,29],
 "files.html":[5,0],
-"functions.html":[4,3,0,0],
 "functions.html":[4,3,0],
+"functions.html":[4,3,0,0],
 "functions_0x7e.html":[4,3,0,23],
 "functions_a.html":[4,3,0,1],
 "functions_b.html":[4,3,0,2],
@@ -217,8 +218,8 @@ var NAVTREEINDEX2 =
 "globals_defs.html":[5,1,1],
 "hierarchy.html":[4,2],
 "i_command_8h_source.html":[5,0,31],
-"index.html":[0],
 "index.html":[],
+"index.html":[0],
 "init_8h_source.html":[5,0,32],
 "local_node_8h_source.html":[5,0,33],
 "log_8h_source.html":[5,0,34],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "serializable_8h_source.html":[5,0,49],
 "structco_1_1_data_i_stream_archive_1_1use__array__optimization.html":[4,0,0,12,0],
 "structco_1_1_data_i_stream_archive_1_1use__array__optimization_1_1apply.html":[4,0,0,12,0,0],
-"structco_1_1_data_o_stream_archive_1_1use__array__optimization.html":[4,0,0,14,0],
-"structco_1_1_data_o_stream_archive_1_1use__array__optimization_1_1apply.html":[4,0,0,14,0,0]
+"structco_1_1_data_o_stream_archive_1_1use__array__optimization.html":[4,0,0,14,0]
 };

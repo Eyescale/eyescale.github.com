@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -84,116 +84,112 @@
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            : #include &lt;co/api.h&gt;
 <span class="lineNum">      24 </span>            : #include &lt;co/types.h&gt;
-<span class="lineNum">      25 </span>            : #include &lt;lunchbox/bitOperation.h&gt;
-<span class="lineNum">      26 </span>            : #include &lt;lunchbox/stdExt.h&gt;
-<span class="lineNum">      27 </span>            : #include &lt;iostream&gt;
-<span class="lineNum">      28 </span>            : 
-<span class="lineNum">      29 </span>            : namespace co
-<span class="lineNum">      30 </span>            : {
-<span class="lineNum">      31 </span>            : /** Special object version values */
-<span class="lineNum">      32 </span><span class="lineCov">       1007 : static const uint128_t VERSION_NONE( 0, 0 );</span>
-<span class="lineNum">      33 </span><span class="lineCov">       1007 : static const uint128_t VERSION_FIRST( 0, 1 );</span>
-<span class="lineNum">      34 </span><span class="lineCov">       1007 : static const uint128_t VERSION_NEWEST( 0, 0xfffffffffffffffbull );</span>
-<span class="lineNum">      35 </span><span class="lineCov">       1007 : static const uint128_t VERSION_OLDEST( 0, 0xfffffffffffffffcull );</span>
-<span class="lineNum">      36 </span><span class="lineCov">       1007 : static const uint128_t VERSION_NEXT( 0, 0xfffffffffffffffdull );</span>
-<span class="lineNum">      37 </span><span class="lineCov">       1007 : static const uint128_t VERSION_INVALID( 0, 0xfffffffffffffffeull );</span>
-<span class="lineNum">      38 </span><span class="lineCov">       1007 : static const uint128_t VERSION_HEAD( 0, 0xffffffffffffffffull );</span>
-<span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span>            : /**
-<span class="lineNum">      41 </span>            :  * A helper struct bundling an object identifier and version.
-<span class="lineNum">      42 </span>            :  *
-<span class="lineNum">      43 </span>            :  * Primarily used for serialization. The struct either contains the object's
-<span class="lineNum">      44 </span>            :  * identifier and version (if it is registered or mapped), 0 and VERSION_NONE if
-<a name="45"><span class="lineNum">      45 </span>            :  * it is unmapped or if no object was given.</a>
-<span class="lineNum">      46 </span>            :  */
-<span class="lineNum">      47 </span><span class="lineCov">          1 : struct ObjectVersion</span>
-<span class="lineNum">      48 </span>            : {
-<span class="lineNum">      49 </span>            :     /** Construct a new, zero-initialized object version. @version 1.0 */
-<span class="lineNum">      50 </span>            :     CO_API ObjectVersion();
-<span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span>            :     /** Construct a new object version. @version 1.0 */
-<span class="lineNum">      53 </span>            :     CO_API ObjectVersion( const uint128_t&amp; identifier,
-<span class="lineNum">      54 </span>            :                           const uint128_t&amp; version );
-<span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span>            :     /** Construct a new object version. @version 1.0 */
-<span class="lineNum">      57 </span>            :     CO_API explicit ObjectVersion( const Object* object );
-<span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span>            :     /** Construct a new object version. @version 1.2 */
-<span class="lineNum">      60 </span>            :     CO_API explicit ObjectVersion( const Object&amp; object );
-<span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            :     /** Construct a new object version. @version 1.0 */
-<span class="lineNum">      63 </span>            :     template&lt; class R &gt; explicit ObjectVersion( lunchbox::RefPtr&lt; R &gt; object )
-<span class="lineNum">      64 </span>            :         { *this = object.get(); }
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span>            :     /** Assign a new identifier and version. @version 1.0 */
-<span class="lineNum">      67 </span>            :     CO_API ObjectVersion&amp; operator = ( const Object* object );
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :     /** @return true if both structs contain the same values. @version 1.0 */
-<span class="lineNum">      70 </span>            :     bool operator == ( const ObjectVersion&amp; value ) const
-<span class="lineNum">      71 </span>            :     {
-<span class="lineNum">      72 </span>            :         return ( identifier == value.identifier &amp;&amp; version == value.version );
-<span class="lineNum">      73 </span>            :     }
-<a name="74"><span class="lineNum">      74 </span>            : </a>
-<span class="lineNum">      75 </span>            :     /** @return true if both structs have different values. @version 1.0 */
-<span class="lineNum">      76 </span><span class="lineCov">          1 :     bool operator != ( const ObjectVersion&amp; value ) const</span>
-<span class="lineNum">      77 </span>            :     {
-<span class="lineNum">      78 </span><span class="lineCov">          1 :         return ( identifier != value.identifier || version != value.version );</span>
-<span class="lineNum">      79 </span>            :     }
-<span class="lineNum">      80 </span>            : 
-<span class="lineNum">      81 </span>            :     bool operator &lt; ( const ObjectVersion&amp; rhs ) const //!&lt; @internal
-<span class="lineNum">      82 </span>            :     {
-<span class="lineNum">      83 </span>            :         return identifier &lt; rhs.identifier ||
-<span class="lineNum">      84 </span>            :                ( identifier == rhs.identifier &amp;&amp; version &lt; rhs.version );
-<span class="lineNum">      85 </span>            :     }
-<span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span>            :     bool operator &gt; ( const ObjectVersion&amp; rhs ) const //!&lt; @internal
-<span class="lineNum">      88 </span>            :     {
-<span class="lineNum">      89 </span>            :         return identifier &gt; rhs.identifier ||
-<span class="lineNum">      90 </span>            :                ( identifier == rhs.identifier &amp;&amp; version &gt; rhs.version );
-<span class="lineNum">      91 </span>            :     }
-<span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span>            :     /** @return true if the identifier and version are set. */
-<span class="lineNum">      94 </span>            :     explicit operator bool() const
-<span class="lineNum">      95 </span>            :         { return identifier != 0 &amp;&amp; version != VERSION_NONE; }
-<span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span>            :     /** @return true if the identifier or version are not set. */
-<span class="lineNum">      98 </span>            :     bool operator ! () const
-<span class="lineNum">      99 </span>            :         { return identifier == 0 || version == VERSION_NONE; }
-<span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span>            :     uint128_t identifier; //!&lt; the object identifier
-<span class="lineNum">     102 </span>            :     uint128_t version; //!&lt; the object version
-<a name="103"><span class="lineNum">     103 </span>            : };</a>
-<span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineNoCov">          0 : inline std::ostream&amp; operator &lt;&lt; (std::ostream&amp; os, const ObjectVersion&amp; ov)</span>
-<span class="lineNum">     106 </span><span class="lineNoCov">          0 : { return os &lt;&lt; &quot;id &quot; &lt;&lt; ov.identifier &lt;&lt; &quot; v&quot; &lt;&lt; ov.version; }</span>
-<span class="lineNum">     107 </span>            : }
-<span class="lineNum">     108 </span>            : 
-<span class="lineNum">     109 </span>            : LB_STDEXT_NAMESPACE_OPEN
-<span class="lineNum">     110 </span>            : #ifdef LB_STDEXT_MSVC
-<span class="lineNum">     111 </span>            : /** ObjectVersion hash function. */
-<span class="lineNum">     112 </span>            : template&lt;&gt;
-<span class="lineNum">     113 </span>            : inline size_t hash_compare&lt; co::ObjectVersion &gt;::operator()
-<span class="lineNum">     114 </span>            :     ( const co::ObjectVersion&amp; key ) const
-<span class="lineNum">     115 </span>            : {
-<span class="lineNum">     116 </span>            :     const size_t hashVersion = hash_value( key.version );
-<span class="lineNum">     117 </span>            :     const size_t hashID = hash_value( key.identifier );
-<span class="lineNum">     118 </span>            : 
-<span class="lineNum">     119 </span>            :     return hash_value( hashVersion ^ hashID );
-<span class="lineNum">     120 </span>            : }
-<span class="lineNum">     121 </span>            : #else
-<span class="lineNum">     122 </span>            : /** ObjectVersion hash function. */
-<span class="lineNum">     123 </span>            : template&lt;&gt; struct hash&lt; co::ObjectVersion &gt;
-<span class="lineNum">     124 </span>            : {
-<span class="lineNum">     125 </span>            :     template&lt; typename P &gt; size_t operator()( const P&amp; key ) const
-<span class="lineNum">     126 </span>            :         {
-<span class="lineNum">     127 </span>            :             return hash&lt; uint64_t &gt;()( hash_value( key.version ) ^
-<span class="lineNum">     128 </span>            :                                        hash_value( key.identifier ));
-<span class="lineNum">     129 </span>            :         }
-<span class="lineNum">     130 </span>            : };
-<span class="lineNum">     131 </span>            : #endif
-<span class="lineNum">     132 </span>            : LB_STDEXT_NAMESPACE_CLOSE
-<span class="lineNum">     133 </span>            : 
-<span class="lineNum">     134 </span>            : #endif // CO_OBJECT_H
+<span class="lineNum">      25 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      26 </span>            : #include &lt;lunchbox/bitOperation.h&gt;
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : namespace co
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span>            : /** Special object version values */
+<span class="lineNum">      31 </span><span class="lineCov">       1007 : static const uint128_t VERSION_NONE(0, 0);</span>
+<span class="lineNum">      32 </span><span class="lineCov">       1007 : static const uint128_t VERSION_FIRST(0, 1);</span>
+<span class="lineNum">      33 </span><span class="lineCov">       1007 : static const uint128_t VERSION_NEWEST(0, 0xfffffffffffffffbull);</span>
+<span class="lineNum">      34 </span><span class="lineCov">       1007 : static const uint128_t VERSION_OLDEST(0, 0xfffffffffffffffcull);</span>
+<span class="lineNum">      35 </span><span class="lineCov">       1007 : static const uint128_t VERSION_NEXT(0, 0xfffffffffffffffdull);</span>
+<span class="lineNum">      36 </span><span class="lineCov">       1007 : static const uint128_t VERSION_INVALID(0, 0xfffffffffffffffeull);</span>
+<span class="lineNum">      37 </span><span class="lineCov">       1007 : static const uint128_t VERSION_HEAD(0, 0xffffffffffffffffull);</span>
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : /**
+<span class="lineNum">      40 </span>            :  * A helper struct bundling an object identifier and version.
+<span class="lineNum">      41 </span>            :  *
+<span class="lineNum">      42 </span>            :  * Primarily used for serialization. The struct either contains the object's
+<span class="lineNum">      43 </span>            :  * identifier and version (if it is registered or mapped), 0 and VERSION_NONE if
+<a name="44"><span class="lineNum">      44 </span>            :  * it is unmapped or if no object was given.</a>
+<span class="lineNum">      45 </span>            :  */
+<span class="lineNum">      46 </span><span class="lineCov">          1 : struct ObjectVersion</span>
+<span class="lineNum">      47 </span>            : {
+<span class="lineNum">      48 </span>            :     /** Construct a new, zero-initialized object version. @version 1.0 */
+<span class="lineNum">      49 </span>            :     CO_API ObjectVersion();
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :     /** Construct a new object version. @version 1.0 */
+<span class="lineNum">      52 </span>            :     CO_API ObjectVersion(const uint128_t&amp; identifier, const uint128_t&amp; version);
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            :     /** Construct a new object version. @version 1.0 */
+<span class="lineNum">      55 </span>            :     CO_API explicit ObjectVersion(const Object* object);
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :     /** Construct a new object version. @version 1.2 */
+<span class="lineNum">      58 </span>            :     CO_API explicit ObjectVersion(const Object&amp; object);
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     /** Construct a new object version. @version 1.0 */
+<span class="lineNum">      61 </span>            :     template &lt;class R&gt;
+<span class="lineNum">      62 </span>            :     explicit ObjectVersion(lunchbox::RefPtr&lt;R&gt; object)
+<span class="lineNum">      63 </span>            :     {
+<span class="lineNum">      64 </span>            :         *this = object.get();
+<span class="lineNum">      65 </span>            :     }
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :     /** Assign a new identifier and version. @version 1.0 */
+<span class="lineNum">      68 </span>            :     CO_API ObjectVersion&amp; operator=(const Object* object);
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :     /** @return true if both structs contain the same values. @version 1.0 */
+<span class="lineNum">      71 </span>            :     bool operator==(const ObjectVersion&amp; value) const
+<span class="lineNum">      72 </span>            :     {
+<span class="lineNum">      73 </span>            :         return (identifier == value.identifier &amp;&amp; version == value.version);
+<span class="lineNum">      74 </span>            :     }
+<a name="75"><span class="lineNum">      75 </span>            : </a>
+<span class="lineNum">      76 </span>            :     /** @return true if both structs have different values. @version 1.0 */
+<span class="lineNum">      77 </span><span class="lineCov">          1 :     bool operator!=(const ObjectVersion&amp; value) const</span>
+<span class="lineNum">      78 </span>            :     {
+<span class="lineNum">      79 </span><span class="lineCov">          1 :         return (identifier != value.identifier || version != value.version);</span>
+<span class="lineNum">      80 </span>            :     }
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            :     bool operator&lt;(const ObjectVersion&amp; rhs) const //!&lt; @internal
+<span class="lineNum">      83 </span>            :     {
+<span class="lineNum">      84 </span>            :         return identifier &lt; rhs.identifier ||
+<span class="lineNum">      85 </span>            :                (identifier == rhs.identifier &amp;&amp; version &lt; rhs.version);
+<span class="lineNum">      86 </span>            :     }
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     bool operator&gt;(const ObjectVersion&amp; rhs) const //!&lt; @internal
+<span class="lineNum">      89 </span>            :     {
+<span class="lineNum">      90 </span>            :         return identifier &gt; rhs.identifier ||
+<span class="lineNum">      91 </span>            :                (identifier == rhs.identifier &amp;&amp; version &gt; rhs.version);
+<span class="lineNum">      92 </span>            :     }
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            :     /** @return true if the identifier and version are set. */
+<span class="lineNum">      95 </span>            :     explicit operator bool() const
+<span class="lineNum">      96 </span>            :     {
+<span class="lineNum">      97 </span>            :         return identifier != 0 &amp;&amp; version != VERSION_NONE;
+<span class="lineNum">      98 </span>            :     }
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span>            :     /** @return true if the identifier or version are not set. */
+<span class="lineNum">     101 </span>            :     bool operator!() const
+<span class="lineNum">     102 </span>            :     {
+<span class="lineNum">     103 </span>            :         return identifier == 0 || version == VERSION_NONE;
+<span class="lineNum">     104 </span>            :     }
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :     uint128_t identifier; //!&lt; the object identifier
+<span class="lineNum">     107 </span>            :     uint128_t version;    //!&lt; the object version
+<a name="108"><span class="lineNum">     108 </span>            : };</a>
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 : inline std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const ObjectVersion&amp; ov)</span>
+<span class="lineNum">     111 </span>            : {
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     return os &lt;&lt; &quot;id &quot; &lt;&lt; ov.identifier &lt;&lt; &quot; v&quot; &lt;&lt; ov.version;</span>
+<span class="lineNum">     113 </span>            : }
+<span class="lineNum">     114 </span>            : }
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span>            : namespace std
+<span class="lineNum">     117 </span>            : {
+<span class="lineNum">     118 </span>            : /** ObjectVersion hash function. */
+<span class="lineNum">     119 </span>            : template &lt;&gt;
+<span class="lineNum">     120 </span>            : struct hash&lt;co::ObjectVersion&gt;
+<span class="lineNum">     121 </span>            : {
+<span class="lineNum">     122 </span>            :     template &lt;typename P&gt;
+<span class="lineNum">     123 </span>            :     size_t operator()(const P&amp; key) const
+<span class="lineNum">     124 </span>            :     {
+<span class="lineNum">     125 </span>            :         return hash&lt;uint64_t&gt;()(hash_value(key.version) ^
+<span class="lineNum">     126 </span>            :                                 hash_value(key.identifier));
+<span class="lineNum">     127 </span>            :     }
+<span class="lineNum">     128 </span>            : };
+<span class="lineNum">     129 </span>            : }
+<span class="lineNum">     130 </span>            : #endif // CO_OBJECT_H
 </pre>
       </td>
     </tr>

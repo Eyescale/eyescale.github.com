@@ -31,13 +31,13 @@
             <td class="headerValue">Collage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">3</td>
             <td class="headerCovTableEntry">5</td>
-            <td class="headerCovTableEntryMed">60.0 %</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryMed">71.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -83,8 +83,8 @@
 <span class="lineNum">      21 </span>            : #ifndef CO_FULLMASTERCM_H
 <span class="lineNum">      22 </span>            : #define CO_FULLMASTERCM_H
 <span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span>            : #include &quot;versionedMasterCM.h&quot;        // base class
-<span class="lineNum">      25 </span>            : #include &quot;objectInstanceDataOStream.h&quot; // member
+<span class="lineNum">      24 </span>            : #include &quot;objectInstanceDataOStream.h&quot; // member
+<span class="lineNum">      25 </span>            : #include &quot;versionedMasterCM.h&quot;         // base class
 <span class="lineNum">      26 </span>            : 
 <span class="lineNum">      27 </span>            : #include &lt;deque&gt;
 <span class="lineNum">      28 </span>            : 
@@ -100,70 +100,72 @@
 <span class="lineNum">      38 </span>            : class FullMasterCM : public VersionedMasterCM
 <span class="lineNum">      39 </span>            : {
 <span class="lineNum">      40 </span>            : public:
-<span class="lineNum">      41 </span>            :     explicit FullMasterCM( Object* object );
+<span class="lineNum">      41 </span>            :     explicit FullMasterCM(Object* object);
 <span class="lineNum">      42 </span>            :     virtual ~FullMasterCM();
 <span class="lineNum">      43 </span>            : 
 <span class="lineNum">      44 </span>            :     void init() override;
-<span class="lineNum">      45 </span>            :     uint128_t commit( const uint32_t incarnation ) override;
-<span class="lineNum">      46 </span>            :     void push( const uint128_t&amp; groupID, const uint128_t&amp; typeID,
-<span class="lineNum">      47 </span>            :                const Nodes&amp; nodes ) override;
-<span class="lineNum">      48 </span>            :     bool sendSync( const MasterCMCommand&amp; command ) override;
+<span class="lineNum">      45 </span>            :     uint128_t commit(const uint32_t incarnation) override;
+<span class="lineNum">      46 </span>            :     void push(const uint128_t&amp; groupID, const uint128_t&amp; typeID,
+<span class="lineNum">      47 </span>            :               const Nodes&amp; nodes) override;
+<span class="lineNum">      48 </span>            :     bool sendSync(const MasterCMCommand&amp; command) override;
 <span class="lineNum">      49 </span>            : 
 <span class="lineNum">      50 </span>            :     /** @name Versioning */
 <a name="51"><span class="lineNum">      51 </span>            :     //@{</a>
-<span class="lineNum">      52 </span>            :     void setAutoObsolete( const uint32_t count ) override;
+<span class="lineNum">      52 </span>            :     void setAutoObsolete(const uint32_t count) override;
 <span class="lineNum">      53 </span><span class="lineNoCov">          0 :     uint32_t getAutoObsolete() const override { return _nVersions; }</span>
 <span class="lineNum">      54 </span>            :     //@}
 <span class="lineNum">      55 </span>            : 
 <span class="lineNum">      56 </span>            :     /** Speculatively send instance data to all nodes. */
-<span class="lineNum">      57 </span>            :     void sendInstanceData( const Nodes&amp; nodes ) override;
+<span class="lineNum">      57 </span>            :     void sendInstanceData(const Nodes&amp; nodes) override;
 <a name="58"><span class="lineNum">      58 </span>            : </a>
 <span class="lineNum">      59 </span>            : protected:
 <a name="60"><span class="lineNum">      60 </span><span class="lineCov">        121 :     struct InstanceData</span></a>
 <span class="lineNum">      61 </span>            :     {
-<span class="lineNum">      62 </span><span class="lineCov">        121 :         explicit InstanceData( const VersionedMasterCM* cm )</span>
-<span class="lineNum">      63 </span><span class="lineCov">        121 :             : os( cm ), commitCount( 0 ) {}</span>
-<span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span>            :         ObjectInstanceDataOStream os;
-<span class="lineNum">      66 </span>            :         uint32_t commitCount;
-<span class="lineNum">      67 </span>            :     };
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :     bool _initSlave( const MasterCMCommand&amp;, const uint128_t&amp;,
-<span class="lineNum">      70 </span>            :                      bool ) override;
+<span class="lineNum">      62 </span><span class="lineCov">        121 :         explicit InstanceData(const VersionedMasterCM* cm)</span>
+<span class="lineNum">      63 </span><span class="lineCov">        121 :             : os(cm)</span>
+<span class="lineNum">      64 </span><span class="lineCov">        121 :             , commitCount(0)</span>
+<span class="lineNum">      65 </span>            :         {
+<span class="lineNum">      66 </span><span class="lineCov">        121 :         }</span>
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :         ObjectInstanceDataOStream os;
+<span class="lineNum">      69 </span>            :         uint32_t commitCount;
+<span class="lineNum">      70 </span>            :     };
 <span class="lineNum">      71 </span>            : 
-<span class="lineNum">      72 </span>            :     InstanceData* _newInstanceData();
-<span class="lineNum">      73 </span>            :     void _addInstanceData( InstanceData* data );
-<span class="lineNum">      74 </span>            :     void _releaseInstanceData( InstanceData* data );
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span>            :     void _updateCommitCount( const uint32_t incarnation );
-<span class="lineNum">      77 </span>            :     void _obsolete();
-<a name="78"><span class="lineNum">      78 </span>            :     void _checkConsistency() const;</a>
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     bool isBuffered() const override { return true; }</span>
-<span class="lineNum">      81 </span>            :     virtual void _commit();
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span>            : private:
-<span class="lineNum">      84 </span>            :     /** The number of commits, needed for auto-obsoletion. */
-<span class="lineNum">      85 </span>            :     uint32_t _commitCount;
-<span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span>            :     /** The number of old versions to retain. */
-<span class="lineNum">      88 </span>            :     uint32_t _nVersions;
-<span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span>            :     typedef std::deque&lt; InstanceData* &gt; InstanceDataDeque;
-<span class="lineNum">      91 </span>            :     typedef std::vector&lt; InstanceData* &gt; InstanceDatas;
-<span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span>            :     /** The list of full instance datas, head version last. */
-<span class="lineNum">      94 </span>            :     InstanceDataDeque _instanceDatas;
-<span class="lineNum">      95 </span>            :     InstanceDatas _instanceDataCache;
-<span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span>            :     /* The command handlers. */
-<span class="lineNum">      98 </span>            :     bool _cmdCommit( ICommand&amp; command );
-<span class="lineNum">      99 </span>            :     bool _cmdObsolete( ICommand&amp; command );
-<span class="lineNum">     100 </span>            :     bool _cmdPush( ICommand&amp; command );
-<span class="lineNum">     101 </span>            : };
-<span class="lineNum">     102 </span>            : }
-<span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span>            : #endif // CO_FULLMASTERCM_H
+<span class="lineNum">      72 </span>            :     bool _initSlave(const MasterCMCommand&amp;, const uint128_t&amp;, bool) override;
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :     InstanceData* _newInstanceData();
+<span class="lineNum">      75 </span>            :     void _addInstanceData(InstanceData* data);
+<span class="lineNum">      76 </span>            :     void _releaseInstanceData(InstanceData* data);
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            :     void _updateCommitCount(const uint32_t incarnation);
+<span class="lineNum">      79 </span>            :     void _obsolete();
+<a name="80"><span class="lineNum">      80 </span>            :     void _checkConsistency() const;</a>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     bool isBuffered() const override { return true; }</span>
+<span class="lineNum">      83 </span>            :     virtual void _commit();
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            : private:
+<span class="lineNum">      86 </span>            :     /** The number of commits, needed for auto-obsoletion. */
+<span class="lineNum">      87 </span>            :     uint32_t _commitCount;
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            :     /** The number of old versions to retain. */
+<span class="lineNum">      90 </span>            :     uint32_t _nVersions;
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            :     typedef std::deque&lt;InstanceData*&gt; InstanceDataDeque;
+<span class="lineNum">      93 </span>            :     typedef std::vector&lt;InstanceData*&gt; InstanceDatas;
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span>            :     /** The list of full instance datas, head version last. */
+<span class="lineNum">      96 </span>            :     InstanceDataDeque _instanceDatas;
+<span class="lineNum">      97 </span>            :     InstanceDatas _instanceDataCache;
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :     /* The command handlers. */
+<span class="lineNum">     100 </span>            :     bool _cmdCommit(ICommand&amp; command);
+<span class="lineNum">     101 </span>            :     bool _cmdObsolete(ICommand&amp; command);
+<span class="lineNum">     102 </span>            :     bool _cmdPush(ICommand&amp; command);
+<span class="lineNum">     103 </span>            : };
+<span class="lineNum">     104 </span>            : }
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : #endif // CO_FULLMASTERCM_H
 </pre>
       </td>
     </tr>

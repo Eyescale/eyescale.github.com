@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-01-07 01:28:09</td>
+            <td class="headerValue">2017-02-10 01:22:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -82,69 +82,67 @@
 <span class="lineNum">      20 </span>            : #ifndef CO_DATASTREAMARCHIVEEXCEPTION_H
 <span class="lineNum">      21 </span>            : #define CO_DATASTREAMARCHIVEEXCEPTION_H
 <span class="lineNum">      22 </span>            : 
-<span class="lineNum">      23 </span>            : #include &lt;boost/lexical_cast.hpp&gt;
-<span class="lineNum">      24 </span>            : #include &lt;boost/archive/archive_exception.hpp&gt;
+<span class="lineNum">      23 </span>            : #include &lt;boost/archive/archive_exception.hpp&gt;
+<span class="lineNum">      24 </span>            : #include &lt;boost/lexical_cast.hpp&gt;
 <span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span>            : namespace co
-<span class="lineNum">      28 </span>            : {
-<span class="lineNum">      29 </span>            : namespace serialization
-<span class="lineNum">      30 </span>            : {
-<span class="lineNum">      31 </span>            : // @internal flag for fp serialization
-<span class="lineNum">      32 </span>            : const unsigned no_infnan = 64;
-<span class="lineNum">      33 </span>            : }
-<span class="lineNum">      34 </span>            : 
-<span class="lineNum">      35 </span>            : /**
-<span class="lineNum">      36 </span>            :  * \brief Exception thrown when serialization cannot proceed.
-<span class="lineNum">      37 </span>            :  *
-<span class="lineNum">      38 </span>            :  * There are several situations in which the DataStream archives may fail and
-<span class="lineNum">      39 </span>            :  * throw an exception:
-<span class="lineNum">      40 </span>            :  * -# deserialization of an integer value that exceeds the range of the type
-<span class="lineNum">      41 </span>            :  * -# (de)serialization of inf/nan through an archive with no_infnan flag set
-<span class="lineNum">      42 </span>            :  * -# deserialization of a denormalized value without the floating point type
-<span class="lineNum">      43 </span>            :  *    supporting denormalized numbers
-<span class="lineNum">      44 </span>            :  *
-<span class="lineNum">      45 </span>            :  * Note that this exception will also be thrown if you mixed up your stream
-<span class="lineNum">      46 </span>            :  * position and accidentially interpret some value for size data (in this case
-<span class="lineNum">      47 </span>            :  * the reported size will be totally amiss most of the time).
-<span class="lineNum">      48 </span>            :  */
-<span class="lineNum">      49 </span>            : class DataStreamArchiveException : public boost::archive::archive_exception
-<span class="lineNum">      50 </span>            : {
-<span class="lineNum">      51 </span>            :     std::string msg;
-<span class="lineNum">      52 </span>            : 
-<a name="53"><span class="lineNum">      53 </span>            : public:</a>
-<span class="lineNum">      54 </span>            :     //! type size is not large enough for deserialized number
-<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     explicit DataStreamArchiveException( const signed char invalid_size )</span>
-<span class="lineNum">      56 </span><span class="lineNoCov">          0 :         : boost::archive::archive_exception(other_exception)</span>
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         , msg(&quot;requested integer size exceeds type size: &quot;)</span>
-<span class="lineNum">      58 </span>            :     {
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         msg += boost::lexical_cast&lt;std::string, int&gt;(invalid_size);</span>
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :     }</span>
-<a name="61"><span class="lineNum">      61 </span>            : </a>
-<span class="lineNum">      62 </span>            :     //! negative number in unsigned type
-<span class="lineNum">      63 </span><span class="lineNoCov">          0 :     DataStreamArchiveException()</span>
-<span class="lineNum">      64 </span><span class="lineNoCov">          0 :         : boost::archive::archive_exception(other_exception)</span>
-<span class="lineNum">      65 </span><span class="lineNoCov">          0 :         , msg(&quot;cannot read a negative number into an unsigned type&quot;)</span>
-<span class="lineNum">      66 </span>            :     {
-<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">      68 </span>            : 
-<a name="69"><span class="lineNum">      69 </span>            :     //! serialization of inf, nan and denormals</a>
-<span class="lineNum">      70 </span>            :     template &lt;typename T&gt;
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     explicit DataStreamArchiveException( const T&amp; abnormal )</span>
-<span class="lineNum">      72 </span>            :         : boost::archive::archive_exception(other_exception)
-<span class="lineNum">      73 </span><span class="lineNoCov">          0 :         , msg(&quot;serialization of illegal floating point value: &quot;)</span>
-<span class="lineNum">      74 </span>            :     {
-<span class="lineNum">      75 </span><span class="lineNoCov">          0 :         msg += boost::lexical_cast&lt;std::string&gt;(abnormal);</span>
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     }</span>
-<a name="77"><span class="lineNum">      77 </span>            : </a>
-<a name="78"><span class="lineNum">      78 </span>            :     //! override the base class function with our message</a>
-<span class="lineNum">      79 </span><span class="lineNoCov">          0 :     const char* what() const throw() { return msg.c_str(); }</span>
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     ~DataStreamArchiveException() throw() {}</span>
-<span class="lineNum">      81 </span>            : };
+<span class="lineNum">      26 </span>            : namespace co
+<span class="lineNum">      27 </span>            : {
+<span class="lineNum">      28 </span>            : namespace serialization
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span>            : // @internal flag for fp serialization
+<span class="lineNum">      31 </span>            : const unsigned no_infnan = 64;
+<span class="lineNum">      32 </span>            : }
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : /**
+<span class="lineNum">      35 </span>            :  * \brief Exception thrown when serialization cannot proceed.
+<span class="lineNum">      36 </span>            :  *
+<span class="lineNum">      37 </span>            :  * There are several situations in which the DataStream archives may fail and
+<span class="lineNum">      38 </span>            :  * throw an exception:
+<span class="lineNum">      39 </span>            :  * -# deserialization of an integer value that exceeds the range of the type
+<span class="lineNum">      40 </span>            :  * -# (de)serialization of inf/nan through an archive with no_infnan flag set
+<span class="lineNum">      41 </span>            :  * -# deserialization of a denormalized value without the floating point type
+<span class="lineNum">      42 </span>            :  *    supporting denormalized numbers
+<span class="lineNum">      43 </span>            :  *
+<span class="lineNum">      44 </span>            :  * Note that this exception will also be thrown if you mixed up your stream
+<span class="lineNum">      45 </span>            :  * position and accidentially interpret some value for size data (in this case
+<span class="lineNum">      46 </span>            :  * the reported size will be totally amiss most of the time).
+<span class="lineNum">      47 </span>            :  */
+<span class="lineNum">      48 </span>            : class DataStreamArchiveException : public boost::archive::archive_exception
+<span class="lineNum">      49 </span>            : {
+<span class="lineNum">      50 </span>            :     std::string msg;
+<span class="lineNum">      51 </span>            : 
+<a name="52"><span class="lineNum">      52 </span>            : public:</a>
+<span class="lineNum">      53 </span>            :     //! type size is not large enough for deserialized number
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     explicit DataStreamArchiveException(const signed char invalid_size)</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :         : boost::archive::archive_exception(other_exception)</span>
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :         , msg(&quot;requested integer size exceeds type size: &quot;)</span>
+<span class="lineNum">      57 </span>            :     {
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         msg += boost::lexical_cast&lt;std::string, int&gt;(invalid_size);</span>
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :     }</span>
+<a name="60"><span class="lineNum">      60 </span>            : </a>
+<span class="lineNum">      61 </span>            :     //! negative number in unsigned type
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :     DataStreamArchiveException()</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :         : boost::archive::archive_exception(other_exception)</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :         , msg(&quot;cannot read a negative number into an unsigned type&quot;)</span>
+<span class="lineNum">      65 </span>            :     {
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      67 </span>            : 
+<a name="68"><span class="lineNum">      68 </span>            :     //! serialization of inf, nan and denormals</a>
+<span class="lineNum">      69 </span>            :     template &lt;typename T&gt;
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :     explicit DataStreamArchiveException(const T&amp; abnormal)</span>
+<span class="lineNum">      71 </span>            :         : boost::archive::archive_exception(other_exception)
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :         , msg(&quot;serialization of illegal floating point value: &quot;)</span>
+<span class="lineNum">      73 </span>            :     {
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :         msg += boost::lexical_cast&lt;std::string&gt;(abnormal);</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :     }</span>
+<a name="76"><span class="lineNum">      76 </span>            : </a>
+<a name="77"><span class="lineNum">      77 </span>            :     //! override the base class function with our message</a>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     const char* what() const throw() { return msg.c_str(); }</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :     ~DataStreamArchiveException() throw() {}</span>
+<span class="lineNum">      80 </span>            : };
+<span class="lineNum">      81 </span>            : }
 <span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span>            : }
-<span class="lineNum">      84 </span>            : 
-<span class="lineNum">      85 </span>            : #endif //CO_DATAOSTREAMARCHIVE_H
+<span class="lineNum">      83 </span>            : #endif // CO_DATAOSTREAMARCHIVE_H
 </pre>
       </td>
     </tr>
