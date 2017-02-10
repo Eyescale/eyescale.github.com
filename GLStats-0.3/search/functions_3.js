@@ -8,6 +8,7 @@ var searchData=
   ['getpatch',['getPatch',['../class_g_l_stats_1_1_version.html#a8000925fa72961f7c452fcf55d048e1c',1,'GLStats::Version']]],
   ['getrevision',['getRevision',['../class_g_l_stats_1_1_version.html#a236ca568a0010c9d2be5793982634a72',1,'GLStats::Version']]],
   ['getrevstring',['getRevString',['../class_g_l_stats_1_1_version.html#a4cf85d2791b72d30abd6f8ed61065a64',1,'GLStats::Version']]],
+  ['getschema',['getSchema',['../class_g_l_stats_1_1_version.html#a24306d8cd0362371f6e3779bfd578bb4',1,'GLStats::Version']]],
   ['getstring',['getString',['../class_g_l_stats_1_1_version.html#aaea7b670b20c7b7936585a54078c6936',1,'GLStats::Version']]],
   ['gettext',['getText',['../class_g_l_stats_1_1_data.html#adbc24651ffc8c7387248fa6f886fa747',1,'GLStats::Data']]],
   ['getthread',['getThread',['../class_g_l_stats_1_1_data.html#afe02b538877b7c14158b6cab65786003',1,'GLStats::Data']]],

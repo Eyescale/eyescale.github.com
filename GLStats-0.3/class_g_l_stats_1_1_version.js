@@ -7,5 +7,7 @@ var class_g_l_stats_1_1_version =
     [ "getPatch", "class_g_l_stats_1_1_version.html#a8000925fa72961f7c452fcf55d048e1c", null ],
     [ "getRevision", "class_g_l_stats_1_1_version.html#a236ca568a0010c9d2be5793982634a72", null ],
     [ "getRevString", "class_g_l_stats_1_1_version.html#a4cf85d2791b72d30abd6f8ed61065a64", null ],
-    [ "getString", "class_g_l_stats_1_1_version.html#aaea7b670b20c7b7936585a54078c6936", null ]
+    [ "getSchema", "class_g_l_stats_1_1_version.html#a24306d8cd0362371f6e3779bfd578bb4", null ],
+    [ "getString", "class_g_l_stats_1_1_version.html#aaea7b670b20c7b7936585a54078c6936", null ],
+    [ "toJSON", "class_g_l_stats_1_1_version.html#ae9266ee7839cd7dd6cc45e8f99edb01f", null ]
 ];

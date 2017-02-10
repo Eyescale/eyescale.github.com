@@ -1,13 +1,11 @@
 var NAVTREE =
 [
   [ "GLStats", "index.html", [
-    [ "About", "index.html#About", null ],
-    [ "Building from Source", "index.html#Build", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ]
     ] ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],

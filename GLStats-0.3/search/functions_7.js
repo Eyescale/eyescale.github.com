@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7edata',['~Data',['../class_g_l_stats_1_1_data.html#afd9658a8a53ea8bb209884efd27a9a36',1,'GLStats::Data']]],
-  ['_7erenderer',['~Renderer',['../class_g_l_stats_1_1_renderer.html#a18929ecb6523f321dfc8fbe9dbf6ea19',1,'GLStats::Renderer']]]
+  ['tojson',['toJSON',['../class_g_l_stats_1_1_version.html#ae9266ee7839cd7dd6cc45e8f99edb01f',1,'GLStats::Version']]]
 ];
