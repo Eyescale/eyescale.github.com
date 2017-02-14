@@ -28,7 +28,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Changelog.html",
-"classvmml_1_1vector.html#ad2dc8bb34d4caaff048d7e60c09de75a"
+"classvmml_1_1vector.html#adbfd23398314cf17aa7db86157f86b67"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

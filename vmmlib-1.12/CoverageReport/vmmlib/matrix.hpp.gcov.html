@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-12-06 00:10:36</td>
+            <td class="headerValue">2017-02-15 00:09:39</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">37</td>
@@ -339,835 +339,833 @@
 <span class="lineNum">     277 </span><span class="lineNoCov">          0 :         os.setf( std::ios::right, std::ios::adjustfield );</span>
 <span class="lineNum">     278 </span><span class="lineNoCov">          0 :         os.precision( 7 );</span>
 <span class="lineNum">     279 </span>            : 
-<span class="lineNum">     280 </span><span class="lineNoCov">          0 :         for( size_t rowIndex = 0; rowIndex&lt; R; ++rowIndex )</span>
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :         for( size_t rowIndex = 0; rowIndex &lt; R; ++rowIndex )</span>
 <span class="lineNum">     281 </span>            :         {
 <span class="lineNum">     282 </span><span class="lineNoCov">          0 :             os &lt;&lt; &quot;|&quot;;</span>
 <span class="lineNum">     283 </span><span class="lineNoCov">          0 :             for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )</span>
-<span class="lineNum">     284 </span>            :             {
-<span class="lineNum">     285 </span><span class="lineNoCov">          0 :                 os &lt;&lt; std::setw(10) &lt;&lt; matrix( rowIndex, colIndex ) &lt;&lt; &quot; &quot;;</span>
-<span class="lineNum">     286 </span>            :             }
-<span class="lineNum">     287 </span><span class="lineNoCov">          0 :             os &lt;&lt; &quot;|&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     288 </span>            :         }
-<span class="lineNum">     289 </span><span class="lineNoCov">          0 :         os.precision( prec );</span>
-<span class="lineNum">     290 </span><span class="lineNoCov">          0 :         os.setf( flags );</span>
-<span class="lineNum">     291 </span><span class="lineNoCov">          0 :         return os;</span>
-<span class="lineNum">     292 </span>            :     };
-<span class="lineNum">     293 </span>            : 
-<span class="lineNum">     294 </span>            :     T array[ R * C ]; //!&lt; column by column storage
-<span class="lineNum">     295 </span>            : };
-<span class="lineNum">     296 </span>            : }
-<span class="lineNum">     297 </span>            : 
-<span class="lineNum">     298 </span>            : #include &lt;vmmlib/quaternion.hpp&gt;
-<span class="lineNum">     299 </span>            : #include &lt;vmmlib/vector.hpp&gt;
-<span class="lineNum">     300 </span>            : 
-<span class="lineNum">     301 </span>            : namespace vmml
-<span class="lineNum">     302 </span>            : {
-<span class="lineNum">     303 </span>            : /** @name Free matrix functions */
-<a name="304"><span class="lineNum">     304 </span>            : //@{</a>
-<span class="lineNum">     305 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     306 </span><span class="lineNoCov">          0 : inline T computeDeterminant( const Matrix&lt; 1, 1, T &gt;&amp; matrix_ )</span>
-<span class="lineNum">     307 </span>            : {
-<span class="lineNum">     308 </span><span class="lineNoCov">          0 :     return matrix_.array[ 0 ];</span>
-<span class="lineNum">     309 </span>            : }
-<a name="310"><span class="lineNum">     310 </span>            : </a>
-<span class="lineNum">     311 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     312 </span><span class="lineCov">          1 : inline T computeDeterminant( const Matrix&lt; 2, 2, T &gt;&amp; matrix_ )</span>
-<span class="lineNum">     313 </span>            : {
-<span class="lineNum">     314 </span><span class="lineCov">          1 :     return matrix_( 0, 0 ) * matrix_( 1, 1 ) - matrix_( 0, 1 ) * matrix_( 1, 0);</span>
-<span class="lineNum">     315 </span>            : }
-<span class="lineNum">     316 </span>            : 
-<span class="lineNum">     317 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     318 </span>            : inline T computeDeterminant( const Matrix&lt; 3, 3, T &gt;&amp; m_ )
-<span class="lineNum">     319 </span>            : {
-<span class="lineNum">     320 </span>            :     return m_( 0,0 ) * ( m_( 1,1 ) * m_( 2,2 ) - m_( 1,2 ) * m_( 2,1 )) +
-<span class="lineNum">     321 </span>            :            m_( 0,1 ) * ( m_( 1,2 ) * m_( 2,0 ) - m_( 1,0 ) * m_( 2,2 )) +
-<span class="lineNum">     322 </span>            :            m_( 0,2 ) * ( m_( 1,0 ) * m_( 2,1 ) - m_( 1,1 ) * m_( 2,0 ));
-<span class="lineNum">     323 </span>            : }
-<span class="lineNum">     324 </span>            : 
-<span class="lineNum">     325 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     326 </span>            : inline T computeDeterminant( const Matrix&lt; 4, 4, T &gt;&amp; m )
-<span class="lineNum">     327 </span>            : {
-<span class="lineNum">     328 </span>            :     return    m( 0, 3 ) * m( 1, 2 ) * m( 2, 1 ) * m( 3, 0 )
-<span class="lineNum">     329 </span>            :             - m( 0, 2 ) * m( 1, 3 ) * m( 2, 1 ) * m( 3, 0 )
-<span class="lineNum">     330 </span>            :             - m( 0, 3 ) * m( 1, 1 ) * m( 2, 2 ) * m( 3, 0 )
-<span class="lineNum">     331 </span>            :             + m( 0, 1 ) * m( 1, 3 ) * m( 2, 2 ) * m( 3, 0 )
-<span class="lineNum">     332 </span>            :             + m( 0, 2 ) * m( 1, 1 ) * m( 2, 3 ) * m( 3, 0 )
-<span class="lineNum">     333 </span>            :             - m( 0, 1 ) * m( 1, 2 ) * m( 2, 3 ) * m( 3, 0 )
-<span class="lineNum">     334 </span>            :             - m( 0, 3 ) * m( 1, 2 ) * m( 2, 0 ) * m( 3, 1 )
-<span class="lineNum">     335 </span>            :             + m( 0, 2 ) * m( 1, 3 ) * m( 2, 0 ) * m( 3, 1 )
-<span class="lineNum">     336 </span>            :             + m( 0, 3 ) * m( 1, 0 ) * m( 2, 2 ) * m( 3, 1 )
-<span class="lineNum">     337 </span>            :             - m( 0, 0 ) * m( 1, 3 ) * m( 2, 2 ) * m( 3, 1 )
-<span class="lineNum">     338 </span>            :             - m( 0, 2 ) * m( 1, 0 ) * m( 2, 3 ) * m( 3, 1 )
-<span class="lineNum">     339 </span>            :             + m( 0, 0 ) * m( 1, 2 ) * m( 2, 3 ) * m( 3, 1 )
-<span class="lineNum">     340 </span>            :             + m( 0, 3 ) * m( 1, 1 ) * m( 2, 0 ) * m( 3, 2 )
-<span class="lineNum">     341 </span>            :             - m( 0, 1 ) * m( 1, 3 ) * m( 2, 0 ) * m( 3, 2 )
-<span class="lineNum">     342 </span>            :             - m( 0, 3 ) * m( 1, 0 ) * m( 2, 1 ) * m( 3, 2 )
-<span class="lineNum">     343 </span>            :             + m( 0, 0 ) * m( 1, 3 ) * m( 2, 1 ) * m( 3, 2 )
-<span class="lineNum">     344 </span>            :             + m( 0, 1 ) * m( 1, 0 ) * m( 2, 3 ) * m( 3, 2 )
-<span class="lineNum">     345 </span>            :             - m( 0, 0 ) * m( 1, 1 ) * m( 2, 3 ) * m( 3, 2 )
-<span class="lineNum">     346 </span>            :             - m( 0, 2 ) * m( 1, 1 ) * m( 2, 0 ) * m( 3, 3 )
-<span class="lineNum">     347 </span>            :             + m( 0, 1 ) * m( 1, 2 ) * m( 2, 0 ) * m( 3, 3 )
-<span class="lineNum">     348 </span>            :             + m( 0, 2 ) * m( 1, 0 ) * m( 2, 1 ) * m( 3, 3 )
-<span class="lineNum">     349 </span>            :             - m( 0, 0 ) * m( 1, 2 ) * m( 2, 1 ) * m( 3, 3 )
-<span class="lineNum">     350 </span>            :             - m( 0, 1 ) * m( 1, 0 ) * m( 2, 2 ) * m( 3, 3 )
-<span class="lineNum">     351 </span>            :             + m( 0, 0 ) * m( 1, 1 ) * m( 2, 2 ) * m( 3, 3 );
-<span class="lineNum">     352 </span>            : }
-<span class="lineNum">     353 </span>            : 
-<span class="lineNum">     354 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     355 </span>            : Matrix&lt; 1, 1, T &gt; computeInverse( const Matrix&lt; 1, 1, T &gt;&amp; m_ )
-<span class="lineNum">     356 </span>            : {
-<span class="lineNum">     357 </span>            :     return Matrix&lt; 1, 1, T &gt;( std::vector&lt; T &gt;( T(1) / m_( 0, 0 ), 1 ));
-<span class="lineNum">     358 </span>            : }
-<a name="359"><span class="lineNum">     359 </span>            : </a>
-<span class="lineNum">     360 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     361 </span><span class="lineCov">          1 : Matrix&lt; 2, 2, T &gt; computeInverse( const Matrix&lt; 2, 2, T &gt;&amp; m_ )</span>
-<span class="lineNum">     362 </span>            : {
-<span class="lineNum">     363 </span><span class="lineCov">          1 :     const T det = computeDeterminant( m_ );</span>
-<span class="lineNum">     364 </span><span class="lineCov">          1 :     if( std::abs( det ) &lt; std::numeric_limits&lt; T &gt;::epsilon( ))</span>
-<span class="lineNum">     365 </span>            :         return Matrix&lt; 2, 2, T &gt;(
-<span class="lineNum">     366 </span><span class="lineCov">          1 :             std::vector&lt; T &gt;( 4, std::numeric_limits&lt; T &gt;::quiet_NaN( )));</span>
-<span class="lineNum">     367 </span>            : 
-<span class="lineNum">     368 </span><span class="lineNoCov">          0 :     Matrix&lt; 2, 2, T &gt; inverse;</span>
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     m_.getAdjugate( inverse );</span>
-<span class="lineNum">     370 </span><span class="lineNoCov">          0 :     const T detinv = 1 / det;</span>
-<span class="lineNum">     371 </span><span class="lineNoCov">          0 :     inverse( 0, 0 ) *= detinv;</span>
-<span class="lineNum">     372 </span><span class="lineNoCov">          0 :     inverse( 0, 1 ) *= detinv;</span>
-<span class="lineNum">     373 </span><span class="lineNoCov">          0 :     inverse( 1, 0 ) *= detinv;</span>
-<span class="lineNum">     374 </span><span class="lineNoCov">          0 :     inverse( 1, 1 ) *= detinv;</span>
-<span class="lineNum">     375 </span><span class="lineNoCov">          0 :     return inverse;</span>
-<span class="lineNum">     376 </span>            : }
-<a name="377"><span class="lineNum">     377 </span>            : </a>
-<span class="lineNum">     378 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     379 </span><span class="lineCov">          1 : Matrix&lt; 3, 3, T &gt; computeInverse( const Matrix&lt; 3, 3, T &gt;&amp; m_ )</span>
-<span class="lineNum">     380 </span>            : {
-<span class="lineNum">     381 </span>            :     // Invert a 3x3 using cofactors.  This is about 8 times faster than
-<span class="lineNum">     382 </span>            :     // the Numerical Recipes code which uses Gaussian elimination.
-<span class="lineNum">     383 </span><span class="lineCov">          1 :     Matrix&lt; 3, 3, T &gt; inverse;</span>
-<span class="lineNum">     384 </span><span class="lineCov">          1 :     inverse( 0, 0 ) = m_( 1, 1 ) * m_( 2, 2 ) - m_( 1, 2 ) * m_( 2, 1 );</span>
-<span class="lineNum">     385 </span><span class="lineCov">          1 :     inverse( 0, 1 ) = m_( 0, 2 ) * m_( 2, 1 ) - m_( 0, 1 ) * m_( 2, 2 );</span>
-<span class="lineNum">     386 </span><span class="lineCov">          1 :     inverse( 0, 2 ) = m_( 0, 1 ) * m_( 1, 2 ) - m_( 0, 2 ) * m_( 1, 1 );</span>
-<span class="lineNum">     387 </span><span class="lineCov">          1 :     inverse( 1, 0 ) = m_( 1, 2 ) * m_( 2, 0 ) - m_( 1, 0 ) * m_( 2, 2 );</span>
-<span class="lineNum">     388 </span><span class="lineCov">          1 :     inverse( 1, 1 ) = m_( 0, 0 ) * m_( 2, 2 ) - m_( 0, 2 ) * m_( 2, 0 );</span>
-<span class="lineNum">     389 </span><span class="lineCov">          1 :     inverse( 1, 2 ) = m_( 0, 2 ) * m_( 1, 0 ) - m_( 0, 0 ) * m_( 1, 2 );</span>
-<span class="lineNum">     390 </span><span class="lineCov">          1 :     inverse( 2, 0 ) = m_( 1, 0 ) * m_( 2, 1 ) - m_( 1, 1 ) * m_( 2, 0 );</span>
-<span class="lineNum">     391 </span><span class="lineCov">          1 :     inverse( 2, 1 ) = m_( 0, 1 ) * m_( 2, 0 ) - m_( 0, 0 ) * m_( 2, 1 );</span>
-<span class="lineNum">     392 </span><span class="lineCov">          1 :     inverse( 2, 2 ) = m_( 0, 0 ) * m_( 1, 1 ) - m_( 0, 1 ) * m_( 1, 0 );</span>
-<span class="lineNum">     393 </span>            : 
-<span class="lineNum">     394 </span><span class="lineCov">          2 :     const T determinant = m_( 0, 0 ) * inverse( 0, 0 ) +</span>
-<span class="lineNum">     395 </span><span class="lineCov">          1 :                           m_( 0, 1 ) * inverse( 1, 0 ) +</span>
-<span class="lineNum">     396 </span><span class="lineCov">          1 :                           m_( 0, 2 ) * inverse( 2, 0 );</span>
-<span class="lineNum">     397 </span>            : 
-<span class="lineNum">     398 </span><span class="lineCov">          1 :     if ( std::abs( determinant ) &lt;= std::numeric_limits&lt; T &gt;::epsilon( ))</span>
-<span class="lineNum">     399 </span>            :         return Matrix&lt; 3, 3, T &gt;(
-<span class="lineNum">     400 </span><span class="lineCov">          1 :             std::vector&lt; T &gt;( 9, std::numeric_limits&lt; T &gt;::quiet_NaN( )));</span>
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :                 os &lt;&lt; std::setw(10) &lt;&lt; matrix( rowIndex, colIndex ) &lt;&lt; &quot; &quot;;</span>
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :             os &lt;&lt; &quot;|&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     286 </span>            :         }
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :         os.precision( prec );</span>
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 :         os.setf( flags );</span>
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :         return os;</span>
+<span class="lineNum">     290 </span>            :     };
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            :     T array[ R * C ]; //!&lt; column by column storage
+<span class="lineNum">     293 </span>            : };
+<span class="lineNum">     294 </span>            : }
+<span class="lineNum">     295 </span>            : 
+<span class="lineNum">     296 </span>            : #include &lt;vmmlib/quaternion.hpp&gt;
+<span class="lineNum">     297 </span>            : #include &lt;vmmlib/vector.hpp&gt;
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span>            : namespace vmml
+<span class="lineNum">     300 </span>            : {
+<span class="lineNum">     301 </span>            : /** @name Free matrix functions */
+<a name="302"><span class="lineNum">     302 </span>            : //@{</a>
+<span class="lineNum">     303 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 : inline T computeDeterminant( const Matrix&lt; 1, 1, T &gt;&amp; matrix_ )</span>
+<span class="lineNum">     305 </span>            : {
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 :     return matrix_.array[ 0 ];</span>
+<span class="lineNum">     307 </span>            : }
+<a name="308"><span class="lineNum">     308 </span>            : </a>
+<span class="lineNum">     309 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     310 </span><span class="lineCov">          1 : inline T computeDeterminant( const Matrix&lt; 2, 2, T &gt;&amp; matrix_ )</span>
+<span class="lineNum">     311 </span>            : {
+<span class="lineNum">     312 </span><span class="lineCov">          1 :     return matrix_( 0, 0 ) * matrix_( 1, 1 ) - matrix_( 0, 1 ) * matrix_( 1, 0);</span>
+<span class="lineNum">     313 </span>            : }
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     316 </span>            : inline T computeDeterminant( const Matrix&lt; 3, 3, T &gt;&amp; m_ )
+<span class="lineNum">     317 </span>            : {
+<span class="lineNum">     318 </span>            :     return m_( 0,0 ) * ( m_( 1,1 ) * m_( 2,2 ) - m_( 1,2 ) * m_( 2,1 )) +
+<span class="lineNum">     319 </span>            :            m_( 0,1 ) * ( m_( 1,2 ) * m_( 2,0 ) - m_( 1,0 ) * m_( 2,2 )) +
+<span class="lineNum">     320 </span>            :            m_( 0,2 ) * ( m_( 1,0 ) * m_( 2,1 ) - m_( 1,1 ) * m_( 2,0 ));
+<span class="lineNum">     321 </span>            : }
+<span class="lineNum">     322 </span>            : 
+<span class="lineNum">     323 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     324 </span>            : inline T computeDeterminant( const Matrix&lt; 4, 4, T &gt;&amp; m )
+<span class="lineNum">     325 </span>            : {
+<span class="lineNum">     326 </span>            :     return    m( 0, 3 ) * m( 1, 2 ) * m( 2, 1 ) * m( 3, 0 )
+<span class="lineNum">     327 </span>            :             - m( 0, 2 ) * m( 1, 3 ) * m( 2, 1 ) * m( 3, 0 )
+<span class="lineNum">     328 </span>            :             - m( 0, 3 ) * m( 1, 1 ) * m( 2, 2 ) * m( 3, 0 )
+<span class="lineNum">     329 </span>            :             + m( 0, 1 ) * m( 1, 3 ) * m( 2, 2 ) * m( 3, 0 )
+<span class="lineNum">     330 </span>            :             + m( 0, 2 ) * m( 1, 1 ) * m( 2, 3 ) * m( 3, 0 )
+<span class="lineNum">     331 </span>            :             - m( 0, 1 ) * m( 1, 2 ) * m( 2, 3 ) * m( 3, 0 )
+<span class="lineNum">     332 </span>            :             - m( 0, 3 ) * m( 1, 2 ) * m( 2, 0 ) * m( 3, 1 )
+<span class="lineNum">     333 </span>            :             + m( 0, 2 ) * m( 1, 3 ) * m( 2, 0 ) * m( 3, 1 )
+<span class="lineNum">     334 </span>            :             + m( 0, 3 ) * m( 1, 0 ) * m( 2, 2 ) * m( 3, 1 )
+<span class="lineNum">     335 </span>            :             - m( 0, 0 ) * m( 1, 3 ) * m( 2, 2 ) * m( 3, 1 )
+<span class="lineNum">     336 </span>            :             - m( 0, 2 ) * m( 1, 0 ) * m( 2, 3 ) * m( 3, 1 )
+<span class="lineNum">     337 </span>            :             + m( 0, 0 ) * m( 1, 2 ) * m( 2, 3 ) * m( 3, 1 )
+<span class="lineNum">     338 </span>            :             + m( 0, 3 ) * m( 1, 1 ) * m( 2, 0 ) * m( 3, 2 )
+<span class="lineNum">     339 </span>            :             - m( 0, 1 ) * m( 1, 3 ) * m( 2, 0 ) * m( 3, 2 )
+<span class="lineNum">     340 </span>            :             - m( 0, 3 ) * m( 1, 0 ) * m( 2, 1 ) * m( 3, 2 )
+<span class="lineNum">     341 </span>            :             + m( 0, 0 ) * m( 1, 3 ) * m( 2, 1 ) * m( 3, 2 )
+<span class="lineNum">     342 </span>            :             + m( 0, 1 ) * m( 1, 0 ) * m( 2, 3 ) * m( 3, 2 )
+<span class="lineNum">     343 </span>            :             - m( 0, 0 ) * m( 1, 1 ) * m( 2, 3 ) * m( 3, 2 )
+<span class="lineNum">     344 </span>            :             - m( 0, 2 ) * m( 1, 1 ) * m( 2, 0 ) * m( 3, 3 )
+<span class="lineNum">     345 </span>            :             + m( 0, 1 ) * m( 1, 2 ) * m( 2, 0 ) * m( 3, 3 )
+<span class="lineNum">     346 </span>            :             + m( 0, 2 ) * m( 1, 0 ) * m( 2, 1 ) * m( 3, 3 )
+<span class="lineNum">     347 </span>            :             - m( 0, 0 ) * m( 1, 2 ) * m( 2, 1 ) * m( 3, 3 )
+<span class="lineNum">     348 </span>            :             - m( 0, 1 ) * m( 1, 0 ) * m( 2, 2 ) * m( 3, 3 )
+<span class="lineNum">     349 </span>            :             + m( 0, 0 ) * m( 1, 1 ) * m( 2, 2 ) * m( 3, 3 );
+<span class="lineNum">     350 </span>            : }
+<span class="lineNum">     351 </span>            : 
+<span class="lineNum">     352 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     353 </span>            : Matrix&lt; 1, 1, T &gt; computeInverse( const Matrix&lt; 1, 1, T &gt;&amp; m_ )
+<span class="lineNum">     354 </span>            : {
+<span class="lineNum">     355 </span>            :     return Matrix&lt; 1, 1, T &gt;( std::vector&lt; T &gt;( T(1) / m_( 0, 0 ), 1 ));
+<span class="lineNum">     356 </span>            : }
+<a name="357"><span class="lineNum">     357 </span>            : </a>
+<span class="lineNum">     358 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     359 </span><span class="lineCov">          1 : Matrix&lt; 2, 2, T &gt; computeInverse( const Matrix&lt; 2, 2, T &gt;&amp; m_ )</span>
+<span class="lineNum">     360 </span>            : {
+<span class="lineNum">     361 </span><span class="lineCov">          1 :     const T det = computeDeterminant( m_ );</span>
+<span class="lineNum">     362 </span><span class="lineCov">          1 :     if( std::abs( det ) &lt; std::numeric_limits&lt; T &gt;::epsilon( ))</span>
+<span class="lineNum">     363 </span>            :         return Matrix&lt; 2, 2, T &gt;(
+<span class="lineNum">     364 </span><span class="lineCov">          1 :             std::vector&lt; T &gt;( 4, std::numeric_limits&lt; T &gt;::quiet_NaN( )));</span>
+<span class="lineNum">     365 </span>            : 
+<span class="lineNum">     366 </span><span class="lineNoCov">          0 :     Matrix&lt; 2, 2, T &gt; inverse;</span>
+<span class="lineNum">     367 </span><span class="lineNoCov">          0 :     m_.getAdjugate( inverse );</span>
+<span class="lineNum">     368 </span><span class="lineNoCov">          0 :     const T detinv = 1 / det;</span>
+<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     inverse( 0, 0 ) *= detinv;</span>
+<span class="lineNum">     370 </span><span class="lineNoCov">          0 :     inverse( 0, 1 ) *= detinv;</span>
+<span class="lineNum">     371 </span><span class="lineNoCov">          0 :     inverse( 1, 0 ) *= detinv;</span>
+<span class="lineNum">     372 </span><span class="lineNoCov">          0 :     inverse( 1, 1 ) *= detinv;</span>
+<span class="lineNum">     373 </span><span class="lineNoCov">          0 :     return inverse;</span>
+<span class="lineNum">     374 </span>            : }
+<a name="375"><span class="lineNum">     375 </span>            : </a>
+<span class="lineNum">     376 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     377 </span><span class="lineCov">          1 : Matrix&lt; 3, 3, T &gt; computeInverse( const Matrix&lt; 3, 3, T &gt;&amp; m_ )</span>
+<span class="lineNum">     378 </span>            : {
+<span class="lineNum">     379 </span>            :     // Invert a 3x3 using cofactors.  This is about 8 times faster than
+<span class="lineNum">     380 </span>            :     // the Numerical Recipes code which uses Gaussian elimination.
+<span class="lineNum">     381 </span><span class="lineCov">          1 :     Matrix&lt; 3, 3, T &gt; inverse;</span>
+<span class="lineNum">     382 </span><span class="lineCov">          1 :     inverse( 0, 0 ) = m_( 1, 1 ) * m_( 2, 2 ) - m_( 1, 2 ) * m_( 2, 1 );</span>
+<span class="lineNum">     383 </span><span class="lineCov">          1 :     inverse( 0, 1 ) = m_( 0, 2 ) * m_( 2, 1 ) - m_( 0, 1 ) * m_( 2, 2 );</span>
+<span class="lineNum">     384 </span><span class="lineCov">          1 :     inverse( 0, 2 ) = m_( 0, 1 ) * m_( 1, 2 ) - m_( 0, 2 ) * m_( 1, 1 );</span>
+<span class="lineNum">     385 </span><span class="lineCov">          1 :     inverse( 1, 0 ) = m_( 1, 2 ) * m_( 2, 0 ) - m_( 1, 0 ) * m_( 2, 2 );</span>
+<span class="lineNum">     386 </span><span class="lineCov">          1 :     inverse( 1, 1 ) = m_( 0, 0 ) * m_( 2, 2 ) - m_( 0, 2 ) * m_( 2, 0 );</span>
+<span class="lineNum">     387 </span><span class="lineCov">          1 :     inverse( 1, 2 ) = m_( 0, 2 ) * m_( 1, 0 ) - m_( 0, 0 ) * m_( 1, 2 );</span>
+<span class="lineNum">     388 </span><span class="lineCov">          1 :     inverse( 2, 0 ) = m_( 1, 0 ) * m_( 2, 1 ) - m_( 1, 1 ) * m_( 2, 0 );</span>
+<span class="lineNum">     389 </span><span class="lineCov">          1 :     inverse( 2, 1 ) = m_( 0, 1 ) * m_( 2, 0 ) - m_( 0, 0 ) * m_( 2, 1 );</span>
+<span class="lineNum">     390 </span><span class="lineCov">          1 :     inverse( 2, 2 ) = m_( 0, 0 ) * m_( 1, 1 ) - m_( 0, 1 ) * m_( 1, 0 );</span>
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span><span class="lineCov">          2 :     const T determinant = m_( 0, 0 ) * inverse( 0, 0 ) +</span>
+<span class="lineNum">     393 </span><span class="lineCov">          1 :                           m_( 0, 1 ) * inverse( 1, 0 ) +</span>
+<span class="lineNum">     394 </span><span class="lineCov">          1 :                           m_( 0, 2 ) * inverse( 2, 0 );</span>
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span><span class="lineCov">          1 :     if ( std::abs( determinant ) &lt;= std::numeric_limits&lt; T &gt;::epsilon( ))</span>
+<span class="lineNum">     397 </span>            :         return Matrix&lt; 3, 3, T &gt;(
+<span class="lineNum">     398 </span><span class="lineCov">          1 :             std::vector&lt; T &gt;( 9, std::numeric_limits&lt; T &gt;::quiet_NaN( )));</span>
+<span class="lineNum">     399 </span>            : 
+<span class="lineNum">     400 </span><span class="lineNoCov">          0 :     const T detinv = static_cast&lt; T &gt;( 1.0 ) / determinant;</span>
 <span class="lineNum">     401 </span>            : 
-<span class="lineNum">     402 </span><span class="lineNoCov">          0 :     const T detinv = static_cast&lt; T &gt;( 1.0 ) / determinant;</span>
-<span class="lineNum">     403 </span>            : 
-<span class="lineNum">     404 </span><span class="lineNoCov">          0 :     inverse( 0, 0 ) *= detinv;</span>
-<span class="lineNum">     405 </span><span class="lineNoCov">          0 :     inverse( 0, 1 ) *= detinv;</span>
-<span class="lineNum">     406 </span><span class="lineNoCov">          0 :     inverse( 0, 2 ) *= detinv;</span>
-<span class="lineNum">     407 </span><span class="lineNoCov">          0 :     inverse( 1, 0 ) *= detinv;</span>
-<span class="lineNum">     408 </span><span class="lineNoCov">          0 :     inverse( 1, 1 ) *= detinv;</span>
-<span class="lineNum">     409 </span><span class="lineNoCov">          0 :     inverse( 1, 2 ) *= detinv;</span>
-<span class="lineNum">     410 </span><span class="lineNoCov">          0 :     inverse( 2, 0 ) *= detinv;</span>
-<span class="lineNum">     411 </span><span class="lineNoCov">          0 :     inverse( 2, 1 ) *= detinv;</span>
-<span class="lineNum">     412 </span><span class="lineNoCov">          0 :     inverse( 2, 2 ) *= detinv;</span>
-<span class="lineNum">     413 </span><span class="lineNoCov">          0 :     return inverse;</span>
-<span class="lineNum">     414 </span>            : }
-<a name="415"><span class="lineNum">     415 </span>            : </a>
-<span class="lineNum">     416 </span>            : template&lt; typename T &gt;
-<span class="lineNum">     417 </span><span class="lineCov">          3 : Matrix&lt; 4, 4, T &gt; computeInverse( const Matrix&lt; 4, 4, T &gt;&amp; m_ )</span>
-<span class="lineNum">     418 </span>            : {
-<span class="lineNum">     419 </span><span class="lineCov">          3 :     const T* array = m_.array;</span>
-<span class="lineNum">     420 </span>            : 
-<span class="lineNum">     421 </span>            :     // tuned version from Claude Knaus
-<span class="lineNum">     422 </span>            :     /* first set of 2x2 determinants: 12 multiplications, 6 additions */
-<span class="lineNum">     423 </span><span class="lineCov">          3 :     const T t1[6] = { array[ 2] * array[ 7] - array[ 6] * array[ 3],</span>
-<span class="lineNum">     424 </span><span class="lineCov">          3 :                       array[ 2] * array[11] - array[10] * array[ 3],</span>
-<span class="lineNum">     425 </span><span class="lineCov">          3 :                       array[ 2] * array[15] - array[14] * array[ 3],</span>
-<span class="lineNum">     426 </span><span class="lineCov">          3 :                       array[ 6] * array[11] - array[10] * array[ 7],</span>
-<span class="lineNum">     427 </span><span class="lineCov">          3 :                       array[ 6] * array[15] - array[14] * array[ 7],</span>
-<span class="lineNum">     428 </span><span class="lineCov">         15 :                       array[10] * array[15] - array[14] * array[11] };</span>
-<span class="lineNum">     429 </span>            : 
-<span class="lineNum">     430 </span>            :     /* first half of comatrix: 24 multiplications, 16 additions */
-<span class="lineNum">     431 </span><span class="lineCov">          3 :     Matrix&lt; 4, 4, T &gt; inv;</span>
-<span class="lineNum">     432 </span><span class="lineCov">          3 :     inv.array[0] = array[ 5] * t1[5] - array[ 9] * t1[4] + array[13] * t1[3];</span>
-<span class="lineNum">     433 </span><span class="lineCov">          3 :     inv.array[1] = array[ 9] * t1[2] - array[13] * t1[1] - array[ 1] * t1[5];</span>
-<span class="lineNum">     434 </span><span class="lineCov">          3 :     inv.array[2] = array[13] * t1[0] - array[ 5] * t1[2] + array[ 1] * t1[4];</span>
-<span class="lineNum">     435 </span><span class="lineCov">          3 :     inv.array[3] = array[ 5] * t1[1] - array[ 1] * t1[3] - array[ 9] * t1[0];</span>
-<span class="lineNum">     436 </span><span class="lineCov">          3 :     inv.array[4] = array[ 8] * t1[4] - array[ 4] * t1[5] - array[12] * t1[3];</span>
-<span class="lineNum">     437 </span><span class="lineCov">          3 :     inv.array[5] = array[ 0] * t1[5] - array[ 8] * t1[2] + array[12] * t1[1];</span>
-<span class="lineNum">     438 </span><span class="lineCov">          3 :     inv.array[6] = array[ 4] * t1[2] - array[12] * t1[0] - array[ 0] * t1[4];</span>
-<span class="lineNum">     439 </span><span class="lineCov">          3 :     inv.array[7] = array[ 0] * t1[3] - array[ 4] * t1[1] + array[ 8] * t1[0];</span>
-<span class="lineNum">     440 </span>            : 
-<span class="lineNum">     441 </span>            :     /* second set of 2x2 determinants: 12 multiplications, 6 additions */
-<span class="lineNum">     442 </span><span class="lineCov">          3 :     const T t2[6] = { array[ 0] * array[ 5] - array[ 4] * array[ 1],</span>
-<span class="lineNum">     443 </span><span class="lineCov">          3 :                       array[ 0] * array[ 9] - array[ 8] * array[ 1],</span>
-<span class="lineNum">     444 </span><span class="lineCov">          3 :                       array[ 0] * array[13] - array[12] * array[ 1],</span>
-<span class="lineNum">     445 </span><span class="lineCov">          3 :                       array[ 4] * array[ 9] - array[ 8] * array[ 5],</span>
-<span class="lineNum">     446 </span><span class="lineCov">          3 :                       array[ 4] * array[13] - array[12] * array[ 5],</span>
-<span class="lineNum">     447 </span><span class="lineCov">         15 :                       array[ 8] * array[13] - array[12] * array[ 9] };</span>
-<span class="lineNum">     448 </span>            : 
-<span class="lineNum">     449 </span>            :     /* second half of comatrix: 24 multiplications, 16 additions */
-<span class="lineNum">     450 </span><span class="lineCov">          3 :     inv.array[8]  = array[ 7] * t2[5] - array[11] * t2[4] + array[15] * t2[3];</span>
-<span class="lineNum">     451 </span><span class="lineCov">          3 :     inv.array[9]  = array[11] * t2[2] - array[15] * t2[1] - array[ 3] * t2[5];</span>
-<span class="lineNum">     452 </span><span class="lineCov">          3 :     inv.array[10] = array[15] * t2[0] - array[ 7] * t2[2] + array[ 3] * t2[4];</span>
-<span class="lineNum">     453 </span><span class="lineCov">          3 :     inv.array[11] = array[ 7] * t2[1] - array[ 3] * t2[3] - array[11] * t2[0];</span>
-<span class="lineNum">     454 </span><span class="lineCov">          3 :     inv.array[12] = array[10] * t2[4] - array[ 6] * t2[5] - array[14] * t2[3];</span>
-<span class="lineNum">     455 </span><span class="lineCov">          3 :     inv.array[13] = array[ 2] * t2[5] - array[10] * t2[2] + array[14] * t2[1];</span>
-<span class="lineNum">     456 </span><span class="lineCov">          3 :     inv.array[14] = array[ 6] * t2[2] - array[14] * t2[0] - array[ 2] * t2[4];</span>
-<span class="lineNum">     457 </span><span class="lineCov">          3 :     inv.array[15] = array[ 2] * t2[3] - array[ 6] * t2[1] + array[10] * t2[0];</span>
-<span class="lineNum">     458 </span>            : 
-<span class="lineNum">     459 </span>            :    /* determinant: 4 multiplications, 3 additions */
-<span class="lineNum">     460 </span><span class="lineCov">          6 :    const T determinant = array[0] * inv.array[0] + array[4] * inv.array[1] +</span>
-<span class="lineNum">     461 </span><span class="lineCov">          6 :                          array[8] * inv.array[2] + array[12] * inv.array[3];</span>
-<span class="lineNum">     462 </span>            : 
-<span class="lineNum">     463 </span>            :    /* division: 16 multiplications, 1 division */
-<span class="lineNum">     464 </span><span class="lineCov">          3 :    const T detinv = T( 1 ) / determinant;</span>
-<span class="lineNum">     465 </span><span class="lineCov">         51 :    for( size_t i = 0; i != 16; ++i )</span>
-<span class="lineNum">     466 </span><span class="lineCov">         48 :        inv.array[i] *= detinv;</span>
-<span class="lineNum">     467 </span><span class="lineCov">          3 :     return inv;</span>
-<span class="lineNum">     468 </span>            : }
-<a name="469"><span class="lineNum">     469 </span>            : </a>
-<span class="lineNum">     470 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     471 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; computeInverse( const Matrix&lt; R, C, T &gt;&amp; )</span>
-<span class="lineNum">     472 </span>            : {
-<span class="lineNum">     473 </span><span class="lineNoCov">          0 :     throw std::runtime_error( &quot;Can't compute inverse of this matrix&quot; );</span>
-<span class="lineNum">     474 </span>            : }
-<span class="lineNum">     475 </span>            : 
-<a name="476"><span class="lineNum">     476 </span>            : /** @return the transposed of a matrix */</a>
-<span class="lineNum">     477 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
-<span class="lineNum">     478 </span><span class="lineCov">          1 : Matrix&lt; C, R, T &gt; transpose( const Matrix&lt; R, C, T &gt;&amp; matrix )</span>
-<span class="lineNum">     479 </span>            : {
-<span class="lineNum">     480 </span><span class="lineCov">          1 :     Matrix&lt; C, R, T &gt; transposed;</span>
-<span class="lineNum">     481 </span><span class="lineCov">          4 :     for( size_t row = 0; row&lt; R; ++row )</span>
-<span class="lineNum">     482 </span><span class="lineCov">         12 :         for( size_t col = 0; col &lt; C; ++col )</span>
-<span class="lineNum">     483 </span><span class="lineCov">          9 :             transposed( col, row ) = matrix( row, col );</span>
-<span class="lineNum">     484 </span><span class="lineCov">          1 :     return transposed;</span>
-<span class="lineNum">     485 </span>            : }
-<span class="lineNum">     486 </span>            : //@}
-<a name="487"><span class="lineNum">     487 </span>            : </a>
-<span class="lineNum">     488 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     489 </span><span class="lineCov">         13 : Matrix&lt; R, C, T &gt;::Matrix()</span>
-<span class="lineNum">     490 </span><span class="lineCov">         13 :     : array() // http://stackoverflow.com/questions/5602030</span>
-<span class="lineNum">     491 </span>            : {
-<span class="lineNum">     492 </span>            :     if( R == C )
-<span class="lineNum">     493 </span><span class="lineCov">         59 :         for( size_t i = 0; i &lt; R; ++i )</span>
-<span class="lineNum">     494 </span><span class="lineCov">         46 :             (*this)( i, i ) = 1;</span>
-<span class="lineNum">     495 </span><span class="lineCov">         13 : }</span>
-<a name="496"><span class="lineNum">     496 </span>            : </a>
-<span class="lineNum">     497 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     498 </span><span class="lineCov">          2 : Matrix&lt; R, C, T &gt;::Matrix( const T* begin_, const T* end_ )</span>
-<span class="lineNum">     499 </span><span class="lineCov">          2 :     : array() // http://stackoverflow.com/questions/5602030</span>
-<span class="lineNum">     500 </span>            : {
-<span class="lineNum">     501 </span><span class="lineCov">          2 :     const T* to = std::min( end_, begin_ + R * C );</span>
-<span class="lineNum">     502 </span><span class="lineCov">          2 :     ::memcpy( array, begin_, (to - begin_) * sizeof( T ));</span>
-<span class="lineNum">     503 </span><span class="lineCov">          2 : }</span>
-<a name="504"><span class="lineNum">     504 </span>            : </a>
-<span class="lineNum">     505 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     506 </span><span class="lineCov">          2 : Matrix&lt; R, C, T &gt;::Matrix( const std::vector&lt; T &gt;&amp; values )</span>
-<span class="lineNum">     507 </span>            : {
-<span class="lineNum">     508 </span><span class="lineCov">          2 :     *this = values;</span>
-<span class="lineNum">     509 </span><span class="lineCov">          2 : }</span>
-<span class="lineNum">     510 </span>            : 
-<a name="511"><span class="lineNum">     511 </span>            : template&lt; size_t R, size_t C, typename T &gt;</a>
-<span class="lineNum">     512 </span>            : template&lt; size_t P, size_t Q &gt;
-<span class="lineNum">     513 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::Matrix( const Matrix&lt; P, Q, T &gt;&amp; source )</span>
-<span class="lineNum">     514 </span>            : {
-<span class="lineNum">     515 </span><span class="lineCov">          1 :     *this = source;</span>
-<span class="lineNum">     516 </span><span class="lineCov">          1 : }</span>
-<a name="517"><span class="lineNum">     517 </span>            : </a>
-<span class="lineNum">     518 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O &gt;
-<span class="lineNum">     519 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::Matrix( const Quaternion&lt; T &gt;&amp; rotation,</span>
-<span class="lineNum">     520 </span>            :                            const vector&lt; O, T &gt;&amp; translation,
-<span class="lineNum">     521 </span>            :                    typename enable_if&lt; R == O+1 &amp;&amp; C == O+1 &amp;&amp; O == 3 &gt;::type* )
-<span class="lineNum">     522 </span>            : {
-<span class="lineNum">     523 </span><span class="lineCov">          1 :     *this = rotation.getRotationMatrix();</span>
-<span class="lineNum">     524 </span><span class="lineCov">          1 :     setTranslation( translation );</span>
-<span class="lineNum">     525 </span><span class="lineCov">          1 :     (*this)( 3, 0 ) = 0;</span>
-<span class="lineNum">     526 </span><span class="lineCov">          1 :     (*this)( 3, 1 ) = 0;</span>
-<span class="lineNum">     527 </span><span class="lineCov">          1 :     (*this)( 3, 2 ) = 0;</span>
-<span class="lineNum">     528 </span><span class="lineCov">          1 :     (*this)( 3, 3 ) = 1;</span>
-<span class="lineNum">     529 </span><span class="lineCov">          1 : }</span>
-<a name="530"><span class="lineNum">     530 </span>            : </a>
-<span class="lineNum">     531 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t S &gt;
-<span class="lineNum">     532 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::Matrix( const vector&lt; S, T &gt;&amp; eye,</span>
-<span class="lineNum">     533 </span>            :                            const vector&lt; S, T &gt;&amp; lookat,
-<span class="lineNum">     534 </span>            :                            const vector&lt; S, T &gt;&amp; up,
-<span class="lineNum">     535 </span>            :                    typename enable_if&lt; R == S+1 &amp;&amp; C == S+1 &amp;&amp; S == 3 &gt;::type* )
-<span class="lineNum">     536 </span><span class="lineCov">          1 :     : array() // http://stackoverflow.com/questions/5602030</span>
-<span class="lineNum">     537 </span>            : {
-<span class="lineNum">     538 </span><span class="lineCov">          1 :     const vector&lt; 3, T &gt; f( vmml::normalize( lookat - eye ));</span>
-<span class="lineNum">     539 </span><span class="lineCov">          1 :     const vector&lt; 3, T &gt; s( vmml::normalize( vmml::cross( f, up )));</span>
-<span class="lineNum">     540 </span><span class="lineCov">          1 :     const vector&lt; 3, T &gt; u( vmml::cross( s, f ));</span>
-<span class="lineNum">     541 </span>            : 
-<span class="lineNum">     542 </span><span class="lineCov">          1 :     (*this)( 0, 0 ) =  s.x();</span>
-<span class="lineNum">     543 </span><span class="lineCov">          1 :     (*this)( 0, 1 ) =  s.y();</span>
-<span class="lineNum">     544 </span><span class="lineCov">          1 :     (*this)( 0, 2 ) =  s.z();</span>
-<span class="lineNum">     545 </span><span class="lineCov">          1 :     (*this)( 1, 0 ) =  u.x();</span>
-<span class="lineNum">     546 </span><span class="lineCov">          1 :     (*this)( 1, 1 ) =  u.y();</span>
-<span class="lineNum">     547 </span><span class="lineCov">          1 :     (*this)( 1, 2 ) =  u.z();</span>
-<span class="lineNum">     548 </span><span class="lineCov">          1 :     (*this)( 2, 0 ) = -f.x();</span>
-<span class="lineNum">     549 </span><span class="lineCov">          1 :     (*this)( 2, 1 ) = -f.y();</span>
-<span class="lineNum">     550 </span><span class="lineCov">          1 :     (*this)( 2, 2 ) = -f.z();</span>
-<span class="lineNum">     551 </span><span class="lineCov">          1 :     (*this)( 0, 3 ) = -vmml::dot( s, eye );</span>
-<span class="lineNum">     552 </span><span class="lineCov">          1 :     (*this)( 1, 3 ) = -vmml::dot( u, eye );</span>
-<span class="lineNum">     553 </span><span class="lineCov">          1 :     (*this)( 2, 3 ) =  vmml::dot( f, eye );</span>
-<span class="lineNum">     554 </span><span class="lineCov">          1 :     (*this)( 3, 3 ) = 1;</span>
-<span class="lineNum">     555 </span><span class="lineCov">          1 : }</span>
-<a name="556"><span class="lineNum">     556 </span>            : </a>
-<span class="lineNum">     557 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
-<span class="lineNum">     558 </span><span class="lineCov">        160 : T&amp; Matrix&lt; R, C, T &gt;::operator()( size_t rowIndex, size_t colIndex )</span>
-<span class="lineNum">     559 </span>            : {
-<span class="lineNum">     560 </span><span class="lineCov">        160 :     if ( rowIndex &gt;= R || colIndex &gt;= C )</span>
-<span class="lineNum">     561 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;matrix( row, column ) index out of bounds&quot; );</span>
-<span class="lineNum">     562 </span><span class="lineCov">        160 :     return array[ colIndex * R + rowIndex ];</span>
-<span class="lineNum">     563 </span>            : }
-<a name="564"><span class="lineNum">     564 </span>            : </a>
-<span class="lineNum">     565 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
-<span class="lineNum">     566 </span><span class="lineCov">        136 : T Matrix&lt; R, C, T &gt;::operator()( size_t rowIndex, size_t colIndex ) const</span>
-<span class="lineNum">     567 </span>            : {
-<span class="lineNum">     568 </span><span class="lineCov">        136 :     if ( rowIndex &gt;= R || colIndex &gt;= C )</span>
-<span class="lineNum">     569 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;matrix( row, column ) index out of bounds&quot; );</span>
-<span class="lineNum">     570 </span><span class="lineCov">        136 :     return array[ colIndex * R + rowIndex ];</span>
-<span class="lineNum">     571 </span>            : }
-<a name="572"><span class="lineNum">     572 </span>            : </a>
-<span class="lineNum">     573 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     574 </span><span class="lineCov">          1 : bool Matrix&lt; R, C, T &gt;::operator==( const Matrix&lt; R, C, T &gt;&amp; other ) const</span>
-<span class="lineNum">     575 </span>            : {
-<span class="lineNum">     576 </span><span class="lineCov">         17 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
-<span class="lineNum">     577 </span><span class="lineCov">         16 :         if( array[ i ] != other.array[ i ])</span>
-<span class="lineNum">     578 </span><span class="lineNoCov">          0 :             return false;</span>
-<span class="lineNum">     579 </span><span class="lineCov">          1 :     return true;</span>
-<span class="lineNum">     580 </span>            : }
-<a name="581"><span class="lineNum">     581 </span>            : </a>
-<span class="lineNum">     582 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     583 </span><span class="lineNoCov">          0 : bool Matrix&lt; R, C, T &gt;::operator!=( const Matrix&lt; R, C, T &gt;&amp; other ) const</span>
-<span class="lineNum">     584 </span>            : {
-<span class="lineNum">     585 </span><span class="lineNoCov">          0 :     return ! operator==( other );</span>
-<span class="lineNum">     586 </span>            : }
-<a name="587"><span class="lineNum">     587 </span>            : </a>
-<span class="lineNum">     588 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     589 </span><span class="lineNoCov">          0 : bool Matrix&lt; R, C, T &gt;::equals( const Matrix&lt; R, C, T &gt;&amp; other,</span>
-<span class="lineNum">     590 </span>            :                                 const T tolerance ) const
-<span class="lineNum">     591 </span>            : {
-<span class="lineNum">     592 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
-<span class="lineNum">     593 </span><span class="lineNoCov">          0 :         if( std::abs( array[ i ] - other.array[ i ]) &gt; tolerance )</span>
-<span class="lineNum">     594 </span><span class="lineNoCov">          0 :             return false;</span>
-<span class="lineNum">     595 </span><span class="lineNoCov">          0 :     return true;</span>
-<span class="lineNum">     596 </span>            : }
-<a name="597"><span class="lineNum">     597 </span>            : </a>
-<span class="lineNum">     598 </span>            : template&lt; size_t R, size_t C, typename T &gt; const Matrix&lt; R, C, T &gt;&amp;
-<span class="lineNum">     599 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::operator=( const Matrix&lt; R, C, T &gt;&amp; source )</span>
-<span class="lineNum">     600 </span>            : {
-<span class="lineNum">     601 </span><span class="lineCov">          1 :     ::memcpy( array, source.array, R * C * sizeof( T ));</span>
-<span class="lineNum">     602 </span><span class="lineCov">          1 :     return *this;</span>
-<span class="lineNum">     603 </span>            : }
-<span class="lineNum">     604 </span>            : 
-<a name="605"><span class="lineNum">     605 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t P, size_t Q &gt;</a>
-<span class="lineNum">     606 </span>            : const Matrix&lt; R, C, T &gt;&amp;
-<span class="lineNum">     607 </span><span class="lineCov">          2 : Matrix&lt; R, C, T &gt;::operator=( const Matrix&lt; P, Q, T &gt;&amp; source )</span>
-<span class="lineNum">     608 </span>            : {
-<span class="lineNum">     609 </span><span class="lineCov">          2 :     const size_t minL = std::min( P, R );</span>
-<span class="lineNum">     610 </span><span class="lineCov">          2 :     const size_t minC = std::min( Q, C );</span>
-<span class="lineNum">     611 </span>            : 
-<span class="lineNum">     612 </span><span class="lineCov">          8 :     for ( size_t i = 0 ; i &lt; minL ; ++i )</span>
-<span class="lineNum">     613 </span><span class="lineCov">         24 :         for ( size_t j = 0 ; j &lt; minC ; ++j )</span>
-<span class="lineNum">     614 </span><span class="lineCov">         18 :             (*this)( i, j ) = source( i, j );</span>
-<span class="lineNum">     615 </span><span class="lineCov">          3 :     for ( size_t i = minL ; i&lt; R ; ++i )</span>
-<span class="lineNum">     616 </span><span class="lineCov">          2 :         for ( size_t j = minC ; j &lt; C ; ++j )</span>
-<span class="lineNum">     617 </span><span class="lineCov">          1 :             (*this)( i, j ) = 0;</span>
-<span class="lineNum">     618 </span><span class="lineCov">          2 :     return *this;</span>
-<span class="lineNum">     619 </span>            : }
-<a name="620"><span class="lineNum">     620 </span>            : </a>
-<span class="lineNum">     621 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     622 </span><span class="lineCov">          2 : void Matrix&lt; R, C, T &gt;::operator=( const std::vector&lt; T &gt;&amp; values )</span>
-<span class="lineNum">     623 </span>            : {
-<span class="lineNum">     624 </span><span class="lineCov">          2 :     const size_t to = std::min( R * C, values.size( ));</span>
-<span class="lineNum">     625 </span><span class="lineCov">          2 :     ::memcpy( array, values.data(), to * sizeof( T ));</span>
-<span class="lineNum">     626 </span><span class="lineCov">          2 :     if( to &lt; R * C )</span>
-<span class="lineNum">     627 </span>            :     {
-<span class="lineNum">     628 </span>            : #ifdef _WIN32
-<span class="lineNum">     629 </span>            :         ::memset( array + to, 0, (R * C - to) * sizeof( T ));
-<span class="lineNum">     630 </span>            : #else
-<span class="lineNum">     631 </span><span class="lineNoCov">          0 :         ::bzero( array + to, (R * C - to) * sizeof( T ));</span>
-<span class="lineNum">     632 </span>            : #endif
-<span class="lineNum">     633 </span>            :     }
-<span class="lineNum">     634 </span><span class="lineCov">          2 : }</span>
-<span class="lineNum">     635 </span>            : 
-<span class="lineNum">     636 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t P &gt;
-<span class="lineNum">     637 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::multiply( const Matrix&lt; R, P, T &gt;&amp; left,
-<span class="lineNum">     638 </span>            :                                                 const Matrix&lt; P, C, T &gt;&amp; right )
-<span class="lineNum">     639 </span>            : {
-<span class="lineNum">     640 </span>            :     // Create copy for multiplication with self
-<span class="lineNum">     641 </span>            :     if( &amp;left == this )
-<span class="lineNum">     642 </span>            :         return multiply( Matrix&lt; R, P, T &gt;( left ), right );
-<span class="lineNum">     643 </span>            :     if( &amp;right == this )
-<span class="lineNum">     644 </span>            :         return multiply( left, Matrix&lt; R, P, T &gt;( right ));
-<span class="lineNum">     645 </span>            : 
-<span class="lineNum">     646 </span>            :     for( size_t rowIndex = 0; rowIndex&lt; R; ++rowIndex )
-<span class="lineNum">     647 </span>            :     {
-<span class="lineNum">     648 </span>            :         for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )
-<span class="lineNum">     649 </span>            :         {
-<span class="lineNum">     650 </span>            :             T&amp; component = (*this)( rowIndex, colIndex );
-<span class="lineNum">     651 </span>            :             component = static_cast&lt; T &gt;( 0.0 );
-<span class="lineNum">     652 </span>            :             for( size_t p = 0; p &lt; P; p++)
-<span class="lineNum">     653 </span>            :                 component += left( rowIndex, p ) * right( p, colIndex );
-<span class="lineNum">     654 </span>            :         }
-<span class="lineNum">     655 </span>            :     }
-<span class="lineNum">     656 </span>            :     return *this;
-<span class="lineNum">     657 </span>            : }
-<span class="lineNum">     658 </span>            : 
-<span class="lineNum">     659 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t P &gt;
-<span class="lineNum">     660 </span>            : Matrix&lt; R, P, T &gt; Matrix&lt; R, C, T &gt;::operator*( const Matrix&lt; C, P, T &gt;&amp; other )
-<span class="lineNum">     661 </span>            :     const
-<span class="lineNum">     662 </span>            : {
-<span class="lineNum">     663 </span>            :     Matrix&lt; R, P, T &gt; result;
-<span class="lineNum">     664 </span>            :     return result.multiply( *this, other );
-<span class="lineNum">     665 </span>            : }
-<span class="lineNum">     666 </span>            : 
-<span class="lineNum">     667 </span>            : #ifdef VMMLIB_USE_CXX03
-<span class="lineNum">     668 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
-<span class="lineNum">     669 </span>            : typename enable_if&lt; R == C &amp;&amp; O == P &amp;&amp; R == O &gt;::type*
-<span class="lineNum">     670 </span>            : #else
-<span class="lineNum">     671 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P, typename &gt;
-<span class="lineNum">     672 </span>            : Matrix&lt; R, C, T &gt;&amp;
-<span class="lineNum">     673 </span>            : #endif
-<span class="lineNum">     674 </span>            : Matrix&lt; R, C, T &gt;::operator*=( const Matrix&lt; O, P, T &gt;&amp; right )
-<span class="lineNum">     675 </span>            : {
-<span class="lineNum">     676 </span>            :     Matrix&lt; R, C, T &gt; copy( *this );
-<span class="lineNum">     677 </span>            :     multiply( copy, right );
-<span class="lineNum">     678 </span>            : #ifdef VMMLIB_USE_CXX03
-<span class="lineNum">     679 </span>            :     return 0;
-<span class="lineNum">     680 </span>            : #else
-<span class="lineNum">     681 </span>            :     return *this;
-<span class="lineNum">     682 </span>            : #endif
-<span class="lineNum">     683 </span>            : }
-<a name="684"><span class="lineNum">     684 </span>            : </a>
-<span class="lineNum">     685 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     686 </span><span class="lineCov">          3 : vector&lt; R, T &gt; Matrix&lt; R, C, T &gt;::operator*( const vector&lt; C, T &gt;&amp; vec ) const</span>
-<span class="lineNum">     687 </span>            : {
-<span class="lineNum">     688 </span><span class="lineCov">          3 :     vector&lt; R, T &gt; result;</span>
-<span class="lineNum">     689 </span>            : 
-<span class="lineNum">     690 </span>            :     // this &lt; R, 1 &gt; = &lt; R, P &gt; * &lt; P, 1 &gt;
-<span class="lineNum">     691 </span><span class="lineCov">         13 :     for( size_t i = 0; i&lt; R; ++i )</span>
-<span class="lineNum">     692 </span>            :     {
-<span class="lineNum">     693 </span><span class="lineCov">         10 :         T tmp( 0 );</span>
-<span class="lineNum">     694 </span><span class="lineCov">         44 :         for( size_t j = 0; j &lt; C; ++j )</span>
-<span class="lineNum">     695 </span><span class="lineCov">         34 :             tmp += (*this)( i, j ) * vec( j );</span>
-<span class="lineNum">     696 </span><span class="lineCov">         10 :         result( i ) = tmp;</span>
-<span class="lineNum">     697 </span>            :     }
-<span class="lineNum">     698 </span><span class="lineCov">          3 :     return result;</span>
-<span class="lineNum">     699 </span>            : }
-<a name="700"><span class="lineNum">     700 </span>            : </a>
-<span class="lineNum">     701 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
-<span class="lineNum">     702 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::operator-() const</span>
-<span class="lineNum">     703 </span>            : {
-<span class="lineNum">     704 </span><span class="lineNoCov">          0 :     Matrix&lt; R, C, T &gt; result;</span>
-<span class="lineNum">     705 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i&lt; R * C; ++i )</span>
-<span class="lineNum">     706 </span><span class="lineNoCov">          0 :         result.array[ i ] = -array[ i ];</span>
-<span class="lineNum">     707 </span><span class="lineNoCov">          0 :     return result;</span>
-<span class="lineNum">     708 </span>            : }
-<a name="709"><span class="lineNum">     709 </span>            : </a>
-<span class="lineNum">     710 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     711 </span><span class="lineNoCov">          0 : vector&lt; R, T &gt; Matrix&lt; R, C, T &gt;::getColumn( const size_t index ) const</span>
-<span class="lineNum">     712 </span>            : {
-<span class="lineNum">     713 </span><span class="lineNoCov">          0 :     if ( index &gt;= C )</span>
-<span class="lineNum">     714 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;getColumn() - index out of bounds.&quot; );</span>
-<span class="lineNum">     715 </span><span class="lineNoCov">          0 :     vector&lt; R, T &gt; column;</span>
-<span class="lineNum">     716 </span><span class="lineNoCov">          0 :     ::memcpy( &amp;column.array[0], &amp;array[ R * index ], R * sizeof( T ));</span>
-<span class="lineNum">     717 </span><span class="lineNoCov">          0 :     return column;</span>
-<span class="lineNum">     718 </span>            : }
-<a name="719"><span class="lineNum">     719 </span>            : </a>
-<span class="lineNum">     720 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     721 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::setColumn( size_t index, const vector&lt; R, T &gt;&amp; column )</span>
-<span class="lineNum">     722 </span>            : {
-<span class="lineNum">     723 </span><span class="lineNoCov">          0 :     if ( index &gt;= C )</span>
-<span class="lineNum">     724 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;setColumn() - index out of bounds.&quot; );</span>
-<span class="lineNum">     725 </span><span class="lineNoCov">          0 :     memcpy( array + R * index, column.array, R * sizeof( T ) );</span>
-<span class="lineNum">     726 </span><span class="lineNoCov">          0 : }</span>
-<a name="727"><span class="lineNum">     727 </span>            : </a>
-<span class="lineNum">     728 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     729 </span><span class="lineCov">          4 : vector&lt; C, T &gt; Matrix&lt; R, C, T &gt;::getRow( size_t index ) const</span>
-<span class="lineNum">     730 </span>            : {
-<span class="lineNum">     731 </span><span class="lineCov">          4 :     if ( index &gt;= R )</span>
-<span class="lineNum">     732 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;getRow() - index out of bounds.&quot; );</span>
-<span class="lineNum">     733 </span>            : 
-<span class="lineNum">     734 </span><span class="lineCov">          4 :     vector&lt; C, T &gt; row;</span>
-<span class="lineNum">     735 </span><span class="lineCov">         20 :     for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )</span>
-<span class="lineNum">     736 </span><span class="lineCov">         16 :         row( colIndex ) = (*this)( index, colIndex );</span>
-<span class="lineNum">     737 </span><span class="lineCov">          4 :     return row;</span>
-<span class="lineNum">     738 </span>            : }
-<a name="739"><span class="lineNum">     739 </span>            : </a>
-<span class="lineNum">     740 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     741 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::setRow( size_t rowIndex, const vector&lt; C, T &gt;&amp; row )</span>
-<span class="lineNum">     742 </span>            : {
-<span class="lineNum">     743 </span><span class="lineNoCov">          0 :     if ( rowIndex &gt;= R )</span>
-<span class="lineNum">     744 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;setRow() - index out of bounds.&quot; );</span>
-<span class="lineNum">     745 </span>            : 
-<span class="lineNum">     746 </span><span class="lineNoCov">          0 :     for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )</span>
-<span class="lineNum">     747 </span><span class="lineNoCov">          0 :         (*this)( rowIndex, colIndex ) = row( colIndex );</span>
-<span class="lineNum">     748 </span><span class="lineNoCov">          0 : }</span>
-<a name="749"><span class="lineNum">     749 </span>            : </a>
-<span class="lineNum">     750 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
-<span class="lineNum">     751 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::operator+( const Matrix&lt; R, C, T &gt;&amp; other )</span>
-<span class="lineNum">     752 </span>            :     const
-<span class="lineNum">     753 </span>            : {
-<span class="lineNum">     754 </span><span class="lineNoCov">          0 :     Matrix&lt; R, C, T &gt; result( *this );</span>
-<span class="lineNum">     755 </span><span class="lineNoCov">          0 :     result += other;</span>
-<span class="lineNum">     756 </span><span class="lineNoCov">          0 :     return result;</span>
-<span class="lineNum">     757 </span>            : }
-<a name="758"><span class="lineNum">     758 </span>            : </a>
-<span class="lineNum">     759 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     760 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::operator+=( const Matrix&lt; R, C, T &gt;&amp; other )</span>
-<span class="lineNum">     761 </span>            : {
-<span class="lineNum">     762 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
-<span class="lineNum">     763 </span><span class="lineNoCov">          0 :         array[i] += other.array[i];</span>
-<span class="lineNum">     764 </span><span class="lineNoCov">          0 : }</span>
-<a name="765"><span class="lineNum">     765 </span>            : </a>
-<span class="lineNum">     766 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
-<span class="lineNum">     767 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::operator-( const Matrix&lt; R, C, T &gt;&amp; other )</span>
-<span class="lineNum">     768 </span>            :     const
-<span class="lineNum">     769 </span>            : {
-<span class="lineNum">     770 </span><span class="lineNoCov">          0 :     Matrix&lt; R, C, T &gt; result( *this );</span>
-<span class="lineNum">     771 </span><span class="lineNoCov">          0 :     result -= other;</span>
-<span class="lineNum">     772 </span><span class="lineNoCov">          0 :     return result;</span>
-<span class="lineNum">     773 </span>            : }
-<a name="774"><span class="lineNum">     774 </span>            : </a>
-<span class="lineNum">     775 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     776 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::operator-=( const Matrix&lt; R, C, T &gt;&amp; other )</span>
-<span class="lineNum">     777 </span>            : {
-<span class="lineNum">     778 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
-<span class="lineNum">     779 </span><span class="lineNoCov">          0 :         array[i] -= other.array[i];</span>
-<span class="lineNum">     780 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     781 </span>            : 
-<span class="lineNum">     782 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
-<span class="lineNum">     783 </span>            : Matrix&lt; O, P, T &gt; Matrix&lt; R, C, T &gt;::getSubMatrix( size_t rowOffset,
-<span class="lineNum">     784 </span>            :                                                    size_t colOffset,
-<span class="lineNum">     785 </span>            :                            typename enable_if&lt; O &lt;= R &amp;&amp; P &lt;= C &gt;::type* ) const
-<span class="lineNum">     786 </span>            : {
-<span class="lineNum">     787 </span>            :     Matrix&lt; O, P, T &gt; result;
-<span class="lineNum">     788 </span>            :     if ( O + rowOffset &gt; R || P + colOffset &gt; C )
-<span class="lineNum">     789 </span>            :         throw std::runtime_error( &quot;index out of bounds.&quot; );
-<span class="lineNum">     790 </span>            : 
-<span class="lineNum">     791 </span>            :     for( size_t row = 0; row &lt; O; ++row )
-<span class="lineNum">     792 </span>            :         for( size_t col = 0; col &lt; P; ++col )
-<span class="lineNum">     793 </span>            :             result( row, col ) = (*this)( rowOffset + row, colOffset + col );
-<span class="lineNum">     794 </span>            : 
-<span class="lineNum">     795 </span>            :     return result;
-<span class="lineNum">     796 </span>            : }
-<span class="lineNum">     797 </span>            : 
-<span class="lineNum">     798 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
-<span class="lineNum">     799 </span>            : typename enable_if&lt; O &lt;= R &amp;&amp; P &lt;= C &gt;::type*
-<span class="lineNum">     800 </span>            : Matrix&lt; R, C, T &gt;::setSubMatrix( const Matrix&lt; O, P, T &gt;&amp; sub_matrix,
-<span class="lineNum">     801 </span>            :                                  size_t rowOffset, size_t colOffset )
-<span class="lineNum">     802 </span>            : {
-<span class="lineNum">     803 </span>            :     for( size_t row = 0; row &lt; O; ++row )
-<span class="lineNum">     804 </span>            :         for( size_t col = 0; col &lt; P; ++col )
-<span class="lineNum">     805 </span>            :             (*this)( rowOffset + row, colOffset + col ) = sub_matrix( row, col);
-<span class="lineNum">     806 </span>            :     return 0; // for sfinae
-<span class="lineNum">     807 </span>            : }
-<a name="808"><span class="lineNum">     808 </span>            : </a>
-<span class="lineNum">     809 </span>            : template&lt; size_t R, size_t C, typename T &gt;
-<span class="lineNum">     810 </span><span class="lineCov">          5 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::inverse() const</span>
-<span class="lineNum">     811 </span>            : {
-<span class="lineNum">     812 </span><span class="lineCov">          5 :     return computeInverse( *this );</span>
-<span class="lineNum">     813 </span>            : }
-<span class="lineNum">     814 </span>            : 
-<a name="815"><span class="lineNum">     815 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;</a>
-<span class="lineNum">     816 </span>            : typename enable_if&lt; O == P &amp;&amp; R == C &amp;&amp; O == R &amp;&amp; R &gt;= 2 &gt;::type*
-<span class="lineNum">     817 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt;::getAdjugate( Matrix&lt; O, P, T &gt;&amp; adjugate ) const</span>
-<span class="lineNum">     818 </span>            : {
-<span class="lineNum">     819 </span><span class="lineNoCov">          0 :     getCofactors( adjugate );</span>
-<span class="lineNum">     820 </span><span class="lineNoCov">          0 :     adjugate = transpose( adjugate );</span>
-<span class="lineNum">     821 </span><span class="lineNoCov">          0 :     return 0;</span>
-<span class="lineNum">     822 </span>            : }
-<span class="lineNum">     823 </span>            : 
-<a name="824"><span class="lineNum">     824 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;</a>
-<span class="lineNum">     825 </span>            : typename enable_if&lt; O == P &amp;&amp; R == C &amp;&amp; O == R &amp;&amp; R &gt;= 2 &gt;::type*
-<span class="lineNum">     826 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt;::getCofactors( Matrix&lt; O, P, T &gt;&amp; cofactors ) const</span>
-<span class="lineNum">     827 </span>            : {
-<span class="lineNum">     828 </span><span class="lineNoCov">          0 :     Matrix&lt; R-1, C-1, T &gt;   minor_;</span>
-<span class="lineNum">     829 </span>            : 
-<span class="lineNum">     830 </span><span class="lineNoCov">          0 :     const size_t _negate = 1u;</span>
-<span class="lineNum">     831 </span><span class="lineNoCov">          0 :     for( size_t rowIndex = 0; rowIndex&lt; R; ++rowIndex )</span>
-<span class="lineNum">     832 </span><span class="lineNoCov">          0 :         for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )</span>
-<span class="lineNum">     833 </span><span class="lineNoCov">          0 :             if ( ( rowIndex + colIndex ) &amp; _negate )</span>
-<span class="lineNum">     834 </span><span class="lineNoCov">          0 :                 cofactors( rowIndex, colIndex ) = -getMinor( minor_, rowIndex, colIndex );</span>
-<span class="lineNum">     835 </span>            :             else
-<span class="lineNum">     836 </span><span class="lineNoCov">          0 :                 cofactors( rowIndex, colIndex ) = getMinor( minor_, rowIndex, colIndex );</span>
-<span class="lineNum">     837 </span>            : 
-<span class="lineNum">     838 </span><span class="lineNoCov">          0 :     return 0;</span>
-<span class="lineNum">     839 </span>            : }
-<a name="840"><span class="lineNum">     840 </span>            : </a>
-<span class="lineNum">     841 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
-<span class="lineNum">     842 </span><span class="lineNoCov">          0 : T Matrix&lt; R, C, T &gt;::getMinor( Matrix&lt; O, P, T &gt;&amp; minor_, size_t row_to_cut,</span>
-<span class="lineNum">     843 </span>            :                                 size_t col_to_cut,
-<span class="lineNum">     844 </span>            :    typename enable_if&lt; O == R-1 &amp;&amp; P == C-1 &amp;&amp; R == C &amp;&amp; R &gt;= 2 &gt;::type* ) const
-<span class="lineNum">     845 </span>            : {
-<span class="lineNum">     846 </span><span class="lineNoCov">          0 :     size_t rowOffset = 0;</span>
-<span class="lineNum">     847 </span><span class="lineNoCov">          0 :     size_t colOffset = 0;</span>
-<span class="lineNum">     848 </span><span class="lineNoCov">          0 :     for( size_t rowIndex = 0; rowIndex&lt; R; ++rowIndex )</span>
-<span class="lineNum">     849 </span>            :     {
-<span class="lineNum">     850 </span><span class="lineNoCov">          0 :         if ( rowIndex == row_to_cut )</span>
-<span class="lineNum">     851 </span><span class="lineNoCov">          0 :             rowOffset = -1;</span>
-<span class="lineNum">     852 </span>            :         else
-<span class="lineNum">     853 </span>            :         {
-<span class="lineNum">     854 </span><span class="lineNoCov">          0 :             for( size_t colIndex = 0; colIndex &lt; R; ++colIndex )</span>
-<span class="lineNum">     855 </span>            :             {
-<span class="lineNum">     856 </span><span class="lineNoCov">          0 :                 if ( colIndex == col_to_cut )</span>
-<span class="lineNum">     857 </span><span class="lineNoCov">          0 :                     colOffset = -1;</span>
-<span class="lineNum">     858 </span>            :                 else
-<span class="lineNum">     859 </span><span class="lineNoCov">          0 :                     minor_( rowIndex + rowOffset, colIndex + colOffset )</span>
-<span class="lineNum">     860 </span><span class="lineNoCov">          0 :                         = (*this)( rowIndex, colIndex );</span>
-<span class="lineNum">     861 </span>            :             }
-<span class="lineNum">     862 </span><span class="lineNoCov">          0 :             colOffset = 0;</span>
-<span class="lineNum">     863 </span>            :         }
-<span class="lineNum">     864 </span>            :     }
-<span class="lineNum">     865 </span><span class="lineNoCov">          0 :     return computeDeterminant( minor_ );</span>
-<span class="lineNum">     866 </span>            : }
-<span class="lineNum">     867 </span>            : 
-<span class="lineNum">     868 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
-<span class="lineNum">     869 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::rotate_x( const TT angle_,
-<span class="lineNum">     870 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">     871 </span>            : {
-<span class="lineNum">     872 </span>            :     const T angle       = static_cast&lt; T &gt;( angle_ );
-<span class="lineNum">     873 </span>            :     const T sine        = std::sin( angle );
-<span class="lineNum">     874 </span>            :     const T cosine      = std::cos( angle );
+<span class="lineNum">     402 </span><span class="lineNoCov">          0 :     inverse( 0, 0 ) *= detinv;</span>
+<span class="lineNum">     403 </span><span class="lineNoCov">          0 :     inverse( 0, 1 ) *= detinv;</span>
+<span class="lineNum">     404 </span><span class="lineNoCov">          0 :     inverse( 0, 2 ) *= detinv;</span>
+<span class="lineNum">     405 </span><span class="lineNoCov">          0 :     inverse( 1, 0 ) *= detinv;</span>
+<span class="lineNum">     406 </span><span class="lineNoCov">          0 :     inverse( 1, 1 ) *= detinv;</span>
+<span class="lineNum">     407 </span><span class="lineNoCov">          0 :     inverse( 1, 2 ) *= detinv;</span>
+<span class="lineNum">     408 </span><span class="lineNoCov">          0 :     inverse( 2, 0 ) *= detinv;</span>
+<span class="lineNum">     409 </span><span class="lineNoCov">          0 :     inverse( 2, 1 ) *= detinv;</span>
+<span class="lineNum">     410 </span><span class="lineNoCov">          0 :     inverse( 2, 2 ) *= detinv;</span>
+<span class="lineNum">     411 </span><span class="lineNoCov">          0 :     return inverse;</span>
+<span class="lineNum">     412 </span>            : }
+<a name="413"><span class="lineNum">     413 </span>            : </a>
+<span class="lineNum">     414 </span>            : template&lt; typename T &gt;
+<span class="lineNum">     415 </span><span class="lineCov">          3 : Matrix&lt; 4, 4, T &gt; computeInverse( const Matrix&lt; 4, 4, T &gt;&amp; m_ )</span>
+<span class="lineNum">     416 </span>            : {
+<span class="lineNum">     417 </span><span class="lineCov">          3 :     const T* array = m_.array;</span>
+<span class="lineNum">     418 </span>            : 
+<span class="lineNum">     419 </span>            :     // tuned version from Claude Knaus
+<span class="lineNum">     420 </span>            :     /* first set of 2x2 determinants: 12 multiplications, 6 additions */
+<span class="lineNum">     421 </span><span class="lineCov">          3 :     const T t1[6] = { array[ 2] * array[ 7] - array[ 6] * array[ 3],</span>
+<span class="lineNum">     422 </span><span class="lineCov">          3 :                       array[ 2] * array[11] - array[10] * array[ 3],</span>
+<span class="lineNum">     423 </span><span class="lineCov">          3 :                       array[ 2] * array[15] - array[14] * array[ 3],</span>
+<span class="lineNum">     424 </span><span class="lineCov">          3 :                       array[ 6] * array[11] - array[10] * array[ 7],</span>
+<span class="lineNum">     425 </span><span class="lineCov">          3 :                       array[ 6] * array[15] - array[14] * array[ 7],</span>
+<span class="lineNum">     426 </span><span class="lineCov">         15 :                       array[10] * array[15] - array[14] * array[11] };</span>
+<span class="lineNum">     427 </span>            : 
+<span class="lineNum">     428 </span>            :     /* first half of comatrix: 24 multiplications, 16 additions */
+<span class="lineNum">     429 </span><span class="lineCov">          3 :     Matrix&lt; 4, 4, T &gt; inv;</span>
+<span class="lineNum">     430 </span><span class="lineCov">          3 :     inv.array[0] = array[ 5] * t1[5] - array[ 9] * t1[4] + array[13] * t1[3];</span>
+<span class="lineNum">     431 </span><span class="lineCov">          3 :     inv.array[1] = array[ 9] * t1[2] - array[13] * t1[1] - array[ 1] * t1[5];</span>
+<span class="lineNum">     432 </span><span class="lineCov">          3 :     inv.array[2] = array[13] * t1[0] - array[ 5] * t1[2] + array[ 1] * t1[4];</span>
+<span class="lineNum">     433 </span><span class="lineCov">          3 :     inv.array[3] = array[ 5] * t1[1] - array[ 1] * t1[3] - array[ 9] * t1[0];</span>
+<span class="lineNum">     434 </span><span class="lineCov">          3 :     inv.array[4] = array[ 8] * t1[4] - array[ 4] * t1[5] - array[12] * t1[3];</span>
+<span class="lineNum">     435 </span><span class="lineCov">          3 :     inv.array[5] = array[ 0] * t1[5] - array[ 8] * t1[2] + array[12] * t1[1];</span>
+<span class="lineNum">     436 </span><span class="lineCov">          3 :     inv.array[6] = array[ 4] * t1[2] - array[12] * t1[0] - array[ 0] * t1[4];</span>
+<span class="lineNum">     437 </span><span class="lineCov">          3 :     inv.array[7] = array[ 0] * t1[3] - array[ 4] * t1[1] + array[ 8] * t1[0];</span>
+<span class="lineNum">     438 </span>            : 
+<span class="lineNum">     439 </span>            :     /* second set of 2x2 determinants: 12 multiplications, 6 additions */
+<span class="lineNum">     440 </span><span class="lineCov">          3 :     const T t2[6] = { array[ 0] * array[ 5] - array[ 4] * array[ 1],</span>
+<span class="lineNum">     441 </span><span class="lineCov">          3 :                       array[ 0] * array[ 9] - array[ 8] * array[ 1],</span>
+<span class="lineNum">     442 </span><span class="lineCov">          3 :                       array[ 0] * array[13] - array[12] * array[ 1],</span>
+<span class="lineNum">     443 </span><span class="lineCov">          3 :                       array[ 4] * array[ 9] - array[ 8] * array[ 5],</span>
+<span class="lineNum">     444 </span><span class="lineCov">          3 :                       array[ 4] * array[13] - array[12] * array[ 5],</span>
+<span class="lineNum">     445 </span><span class="lineCov">         15 :                       array[ 8] * array[13] - array[12] * array[ 9] };</span>
+<span class="lineNum">     446 </span>            : 
+<span class="lineNum">     447 </span>            :     /* second half of comatrix: 24 multiplications, 16 additions */
+<span class="lineNum">     448 </span><span class="lineCov">          3 :     inv.array[8]  = array[ 7] * t2[5] - array[11] * t2[4] + array[15] * t2[3];</span>
+<span class="lineNum">     449 </span><span class="lineCov">          3 :     inv.array[9]  = array[11] * t2[2] - array[15] * t2[1] - array[ 3] * t2[5];</span>
+<span class="lineNum">     450 </span><span class="lineCov">          3 :     inv.array[10] = array[15] * t2[0] - array[ 7] * t2[2] + array[ 3] * t2[4];</span>
+<span class="lineNum">     451 </span><span class="lineCov">          3 :     inv.array[11] = array[ 7] * t2[1] - array[ 3] * t2[3] - array[11] * t2[0];</span>
+<span class="lineNum">     452 </span><span class="lineCov">          3 :     inv.array[12] = array[10] * t2[4] - array[ 6] * t2[5] - array[14] * t2[3];</span>
+<span class="lineNum">     453 </span><span class="lineCov">          3 :     inv.array[13] = array[ 2] * t2[5] - array[10] * t2[2] + array[14] * t2[1];</span>
+<span class="lineNum">     454 </span><span class="lineCov">          3 :     inv.array[14] = array[ 6] * t2[2] - array[14] * t2[0] - array[ 2] * t2[4];</span>
+<span class="lineNum">     455 </span><span class="lineCov">          3 :     inv.array[15] = array[ 2] * t2[3] - array[ 6] * t2[1] + array[10] * t2[0];</span>
+<span class="lineNum">     456 </span>            : 
+<span class="lineNum">     457 </span>            :    /* determinant: 4 multiplications, 3 additions */
+<span class="lineNum">     458 </span><span class="lineCov">          6 :    const T determinant = array[0] * inv.array[0] + array[4] * inv.array[1] +</span>
+<span class="lineNum">     459 </span><span class="lineCov">          6 :                          array[8] * inv.array[2] + array[12] * inv.array[3];</span>
+<span class="lineNum">     460 </span>            : 
+<span class="lineNum">     461 </span>            :    /* division: 16 multiplications, 1 division */
+<span class="lineNum">     462 </span><span class="lineCov">          3 :    const T detinv = T( 1 ) / determinant;</span>
+<span class="lineNum">     463 </span><span class="lineCov">         51 :    for( size_t i = 0; i != 16; ++i )</span>
+<span class="lineNum">     464 </span><span class="lineCov">         48 :        inv.array[i] *= detinv;</span>
+<span class="lineNum">     465 </span><span class="lineCov">          3 :     return inv;</span>
+<span class="lineNum">     466 </span>            : }
+<a name="467"><span class="lineNum">     467 </span>            : </a>
+<span class="lineNum">     468 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     469 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; computeInverse( const Matrix&lt; R, C, T &gt;&amp; )</span>
+<span class="lineNum">     470 </span>            : {
+<span class="lineNum">     471 </span><span class="lineNoCov">          0 :     throw std::runtime_error( &quot;Can't compute inverse of this matrix&quot; );</span>
+<span class="lineNum">     472 </span>            : }
+<span class="lineNum">     473 </span>            : 
+<a name="474"><span class="lineNum">     474 </span>            : /** @return the transposed of a matrix */</a>
+<span class="lineNum">     475 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
+<span class="lineNum">     476 </span><span class="lineCov">          1 : Matrix&lt; C, R, T &gt; transpose( const Matrix&lt; R, C, T &gt;&amp; matrix )</span>
+<span class="lineNum">     477 </span>            : {
+<span class="lineNum">     478 </span><span class="lineCov">          1 :     Matrix&lt; C, R, T &gt; transposed;</span>
+<span class="lineNum">     479 </span><span class="lineCov">          4 :     for( size_t row = 0; row&lt; R; ++row )</span>
+<span class="lineNum">     480 </span><span class="lineCov">         12 :         for( size_t col = 0; col &lt; C; ++col )</span>
+<span class="lineNum">     481 </span><span class="lineCov">          9 :             transposed( col, row ) = matrix( row, col );</span>
+<span class="lineNum">     482 </span><span class="lineCov">          1 :     return transposed;</span>
+<span class="lineNum">     483 </span>            : }
+<span class="lineNum">     484 </span>            : //@}
+<a name="485"><span class="lineNum">     485 </span>            : </a>
+<span class="lineNum">     486 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     487 </span><span class="lineCov">         13 : Matrix&lt; R, C, T &gt;::Matrix()</span>
+<span class="lineNum">     488 </span><span class="lineCov">         13 :     : array() // http://stackoverflow.com/questions/5602030</span>
+<span class="lineNum">     489 </span>            : {
+<span class="lineNum">     490 </span>            :     if( R == C )
+<span class="lineNum">     491 </span><span class="lineCov">         59 :         for( size_t i = 0; i &lt; R; ++i )</span>
+<span class="lineNum">     492 </span><span class="lineCov">         46 :             (*this)( i, i ) = 1;</span>
+<span class="lineNum">     493 </span><span class="lineCov">         13 : }</span>
+<a name="494"><span class="lineNum">     494 </span>            : </a>
+<span class="lineNum">     495 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     496 </span><span class="lineCov">          2 : Matrix&lt; R, C, T &gt;::Matrix( const T* begin_, const T* end_ )</span>
+<span class="lineNum">     497 </span><span class="lineCov">          2 :     : array() // http://stackoverflow.com/questions/5602030</span>
+<span class="lineNum">     498 </span>            : {
+<span class="lineNum">     499 </span><span class="lineCov">          2 :     const T* to = std::min( end_, begin_ + R * C );</span>
+<span class="lineNum">     500 </span><span class="lineCov">          2 :     ::memcpy( array, begin_, (to - begin_) * sizeof( T ));</span>
+<span class="lineNum">     501 </span><span class="lineCov">          2 : }</span>
+<a name="502"><span class="lineNum">     502 </span>            : </a>
+<span class="lineNum">     503 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     504 </span><span class="lineCov">          2 : Matrix&lt; R, C, T &gt;::Matrix( const std::vector&lt; T &gt;&amp; values )</span>
+<span class="lineNum">     505 </span>            : {
+<span class="lineNum">     506 </span><span class="lineCov">          2 :     *this = values;</span>
+<span class="lineNum">     507 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     508 </span>            : 
+<a name="509"><span class="lineNum">     509 </span>            : template&lt; size_t R, size_t C, typename T &gt;</a>
+<span class="lineNum">     510 </span>            : template&lt; size_t P, size_t Q &gt;
+<span class="lineNum">     511 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::Matrix( const Matrix&lt; P, Q, T &gt;&amp; source )</span>
+<span class="lineNum">     512 </span>            : {
+<span class="lineNum">     513 </span><span class="lineCov">          1 :     *this = source;</span>
+<span class="lineNum">     514 </span><span class="lineCov">          1 : }</span>
+<a name="515"><span class="lineNum">     515 </span>            : </a>
+<span class="lineNum">     516 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O &gt;
+<span class="lineNum">     517 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::Matrix( const Quaternion&lt; T &gt;&amp; rotation,</span>
+<span class="lineNum">     518 </span>            :                            const vector&lt; O, T &gt;&amp; translation,
+<span class="lineNum">     519 </span>            :                    typename enable_if&lt; R == O+1 &amp;&amp; C == O+1 &amp;&amp; O == 3 &gt;::type* )
+<span class="lineNum">     520 </span>            : {
+<span class="lineNum">     521 </span><span class="lineCov">          1 :     *this = rotation.getRotationMatrix();</span>
+<span class="lineNum">     522 </span><span class="lineCov">          1 :     setTranslation( translation );</span>
+<span class="lineNum">     523 </span><span class="lineCov">          1 :     (*this)( 3, 0 ) = 0;</span>
+<span class="lineNum">     524 </span><span class="lineCov">          1 :     (*this)( 3, 1 ) = 0;</span>
+<span class="lineNum">     525 </span><span class="lineCov">          1 :     (*this)( 3, 2 ) = 0;</span>
+<span class="lineNum">     526 </span><span class="lineCov">          1 :     (*this)( 3, 3 ) = 1;</span>
+<span class="lineNum">     527 </span><span class="lineCov">          1 : }</span>
+<a name="528"><span class="lineNum">     528 </span>            : </a>
+<span class="lineNum">     529 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t S &gt;
+<span class="lineNum">     530 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::Matrix( const vector&lt; S, T &gt;&amp; eye,</span>
+<span class="lineNum">     531 </span>            :                            const vector&lt; S, T &gt;&amp; lookat,
+<span class="lineNum">     532 </span>            :                            const vector&lt; S, T &gt;&amp; up,
+<span class="lineNum">     533 </span>            :                    typename enable_if&lt; R == S+1 &amp;&amp; C == S+1 &amp;&amp; S == 3 &gt;::type* )
+<span class="lineNum">     534 </span><span class="lineCov">          1 :     : array() // http://stackoverflow.com/questions/5602030</span>
+<span class="lineNum">     535 </span>            : {
+<span class="lineNum">     536 </span><span class="lineCov">          1 :     const vector&lt; 3, T &gt; f( vmml::normalize( lookat - eye ));</span>
+<span class="lineNum">     537 </span><span class="lineCov">          1 :     const vector&lt; 3, T &gt; s( vmml::normalize( vmml::cross( f, up )));</span>
+<span class="lineNum">     538 </span><span class="lineCov">          1 :     const vector&lt; 3, T &gt; u( vmml::cross( s, f ));</span>
+<span class="lineNum">     539 </span>            : 
+<span class="lineNum">     540 </span><span class="lineCov">          1 :     (*this)( 0, 0 ) =  s.x();</span>
+<span class="lineNum">     541 </span><span class="lineCov">          1 :     (*this)( 0, 1 ) =  s.y();</span>
+<span class="lineNum">     542 </span><span class="lineCov">          1 :     (*this)( 0, 2 ) =  s.z();</span>
+<span class="lineNum">     543 </span><span class="lineCov">          1 :     (*this)( 1, 0 ) =  u.x();</span>
+<span class="lineNum">     544 </span><span class="lineCov">          1 :     (*this)( 1, 1 ) =  u.y();</span>
+<span class="lineNum">     545 </span><span class="lineCov">          1 :     (*this)( 1, 2 ) =  u.z();</span>
+<span class="lineNum">     546 </span><span class="lineCov">          1 :     (*this)( 2, 0 ) = -f.x();</span>
+<span class="lineNum">     547 </span><span class="lineCov">          1 :     (*this)( 2, 1 ) = -f.y();</span>
+<span class="lineNum">     548 </span><span class="lineCov">          1 :     (*this)( 2, 2 ) = -f.z();</span>
+<span class="lineNum">     549 </span><span class="lineCov">          1 :     (*this)( 0, 3 ) = -vmml::dot( s, eye );</span>
+<span class="lineNum">     550 </span><span class="lineCov">          1 :     (*this)( 1, 3 ) = -vmml::dot( u, eye );</span>
+<span class="lineNum">     551 </span><span class="lineCov">          1 :     (*this)( 2, 3 ) =  vmml::dot( f, eye );</span>
+<span class="lineNum">     552 </span><span class="lineCov">          1 :     (*this)( 3, 3 ) = 1;</span>
+<span class="lineNum">     553 </span><span class="lineCov">          1 : }</span>
+<a name="554"><span class="lineNum">     554 </span>            : </a>
+<span class="lineNum">     555 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
+<span class="lineNum">     556 </span><span class="lineCov">        160 : T&amp; Matrix&lt; R, C, T &gt;::operator()( size_t rowIndex, size_t colIndex )</span>
+<span class="lineNum">     557 </span>            : {
+<span class="lineNum">     558 </span><span class="lineCov">        160 :     if ( rowIndex &gt;= R || colIndex &gt;= C )</span>
+<span class="lineNum">     559 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;matrix( row, column ) index out of bounds&quot; );</span>
+<span class="lineNum">     560 </span><span class="lineCov">        160 :     return array[ colIndex * R + rowIndex ];</span>
+<span class="lineNum">     561 </span>            : }
+<a name="562"><span class="lineNum">     562 </span>            : </a>
+<span class="lineNum">     563 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
+<span class="lineNum">     564 </span><span class="lineCov">        136 : T Matrix&lt; R, C, T &gt;::operator()( size_t rowIndex, size_t colIndex ) const</span>
+<span class="lineNum">     565 </span>            : {
+<span class="lineNum">     566 </span><span class="lineCov">        136 :     if ( rowIndex &gt;= R || colIndex &gt;= C )</span>
+<span class="lineNum">     567 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;matrix( row, column ) index out of bounds&quot; );</span>
+<span class="lineNum">     568 </span><span class="lineCov">        136 :     return array[ colIndex * R + rowIndex ];</span>
+<span class="lineNum">     569 </span>            : }
+<a name="570"><span class="lineNum">     570 </span>            : </a>
+<span class="lineNum">     571 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     572 </span><span class="lineCov">          1 : bool Matrix&lt; R, C, T &gt;::operator==( const Matrix&lt; R, C, T &gt;&amp; other ) const</span>
+<span class="lineNum">     573 </span>            : {
+<span class="lineNum">     574 </span><span class="lineCov">         17 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
+<span class="lineNum">     575 </span><span class="lineCov">         16 :         if( array[ i ] != other.array[ i ])</span>
+<span class="lineNum">     576 </span><span class="lineNoCov">          0 :             return false;</span>
+<span class="lineNum">     577 </span><span class="lineCov">          1 :     return true;</span>
+<span class="lineNum">     578 </span>            : }
+<a name="579"><span class="lineNum">     579 </span>            : </a>
+<span class="lineNum">     580 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     581 </span><span class="lineNoCov">          0 : bool Matrix&lt; R, C, T &gt;::operator!=( const Matrix&lt; R, C, T &gt;&amp; other ) const</span>
+<span class="lineNum">     582 </span>            : {
+<span class="lineNum">     583 </span><span class="lineNoCov">          0 :     return ! operator==( other );</span>
+<span class="lineNum">     584 </span>            : }
+<a name="585"><span class="lineNum">     585 </span>            : </a>
+<span class="lineNum">     586 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     587 </span><span class="lineNoCov">          0 : bool Matrix&lt; R, C, T &gt;::equals( const Matrix&lt; R, C, T &gt;&amp; other,</span>
+<span class="lineNum">     588 </span>            :                                 const T tolerance ) const
+<span class="lineNum">     589 </span>            : {
+<span class="lineNum">     590 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
+<span class="lineNum">     591 </span><span class="lineNoCov">          0 :         if( std::abs( array[ i ] - other.array[ i ]) &gt; tolerance )</span>
+<span class="lineNum">     592 </span><span class="lineNoCov">          0 :             return false;</span>
+<span class="lineNum">     593 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     594 </span>            : }
+<a name="595"><span class="lineNum">     595 </span>            : </a>
+<span class="lineNum">     596 </span>            : template&lt; size_t R, size_t C, typename T &gt; const Matrix&lt; R, C, T &gt;&amp;
+<span class="lineNum">     597 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::operator=( const Matrix&lt; R, C, T &gt;&amp; source )</span>
+<span class="lineNum">     598 </span>            : {
+<span class="lineNum">     599 </span><span class="lineCov">          1 :     ::memcpy( array, source.array, R * C * sizeof( T ));</span>
+<span class="lineNum">     600 </span><span class="lineCov">          1 :     return *this;</span>
+<span class="lineNum">     601 </span>            : }
+<span class="lineNum">     602 </span>            : 
+<a name="603"><span class="lineNum">     603 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t P, size_t Q &gt;</a>
+<span class="lineNum">     604 </span>            : const Matrix&lt; R, C, T &gt;&amp;
+<span class="lineNum">     605 </span><span class="lineCov">          2 : Matrix&lt; R, C, T &gt;::operator=( const Matrix&lt; P, Q, T &gt;&amp; source )</span>
+<span class="lineNum">     606 </span>            : {
+<span class="lineNum">     607 </span><span class="lineCov">          2 :     const size_t minL = std::min( P, R );</span>
+<span class="lineNum">     608 </span><span class="lineCov">          2 :     const size_t minC = std::min( Q, C );</span>
+<span class="lineNum">     609 </span>            : 
+<span class="lineNum">     610 </span><span class="lineCov">          8 :     for ( size_t i = 0 ; i &lt; minL ; ++i )</span>
+<span class="lineNum">     611 </span><span class="lineCov">         24 :         for ( size_t j = 0 ; j &lt; minC ; ++j )</span>
+<span class="lineNum">     612 </span><span class="lineCov">         18 :             (*this)( i, j ) = source( i, j );</span>
+<span class="lineNum">     613 </span><span class="lineCov">          3 :     for ( size_t i = minL ; i&lt; R ; ++i )</span>
+<span class="lineNum">     614 </span><span class="lineCov">          2 :         for ( size_t j = minC ; j &lt; C ; ++j )</span>
+<span class="lineNum">     615 </span><span class="lineCov">          1 :             (*this)( i, j ) = 0;</span>
+<span class="lineNum">     616 </span><span class="lineCov">          2 :     return *this;</span>
+<span class="lineNum">     617 </span>            : }
+<a name="618"><span class="lineNum">     618 </span>            : </a>
+<span class="lineNum">     619 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     620 </span><span class="lineCov">          2 : void Matrix&lt; R, C, T &gt;::operator=( const std::vector&lt; T &gt;&amp; values )</span>
+<span class="lineNum">     621 </span>            : {
+<span class="lineNum">     622 </span><span class="lineCov">          2 :     const size_t to = std::min( R * C, values.size( ));</span>
+<span class="lineNum">     623 </span><span class="lineCov">          2 :     ::memcpy( array, values.data(), to * sizeof( T ));</span>
+<span class="lineNum">     624 </span><span class="lineCov">          2 :     if( to &lt; R * C )</span>
+<span class="lineNum">     625 </span>            :     {
+<span class="lineNum">     626 </span>            : #ifdef _WIN32
+<span class="lineNum">     627 </span>            :         ::memset( array + to, 0, (R * C - to) * sizeof( T ));
+<span class="lineNum">     628 </span>            : #else
+<span class="lineNum">     629 </span><span class="lineNoCov">          0 :         ::bzero( array + to, (R * C - to) * sizeof( T ));</span>
+<span class="lineNum">     630 </span>            : #endif
+<span class="lineNum">     631 </span>            :     }
+<span class="lineNum">     632 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     633 </span>            : 
+<span class="lineNum">     634 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t P &gt;
+<span class="lineNum">     635 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::multiply( const Matrix&lt; R, P, T &gt;&amp; left,
+<span class="lineNum">     636 </span>            :                                                 const Matrix&lt; P, C, T &gt;&amp; right )
+<span class="lineNum">     637 </span>            : {
+<span class="lineNum">     638 </span>            :     // Create copy for multiplication with self
+<span class="lineNum">     639 </span>            :     if( &amp;left == this )
+<span class="lineNum">     640 </span>            :         return multiply( Matrix&lt; R, P, T &gt;( left ), right );
+<span class="lineNum">     641 </span>            :     if( &amp;right == this )
+<span class="lineNum">     642 </span>            :         return multiply( left, Matrix&lt; R, P, T &gt;( right ));
+<span class="lineNum">     643 </span>            : 
+<span class="lineNum">     644 </span>            :     for( size_t rowIndex = 0; rowIndex&lt; R; ++rowIndex )
+<span class="lineNum">     645 </span>            :     {
+<span class="lineNum">     646 </span>            :         for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )
+<span class="lineNum">     647 </span>            :         {
+<span class="lineNum">     648 </span>            :             T&amp; component = (*this)( rowIndex, colIndex );
+<span class="lineNum">     649 </span>            :             component = static_cast&lt; T &gt;( 0.0 );
+<span class="lineNum">     650 </span>            :             for( size_t p = 0; p &lt; P; p++)
+<span class="lineNum">     651 </span>            :                 component += left( rowIndex, p ) * right( p, colIndex );
+<span class="lineNum">     652 </span>            :         }
+<span class="lineNum">     653 </span>            :     }
+<span class="lineNum">     654 </span>            :     return *this;
+<span class="lineNum">     655 </span>            : }
+<span class="lineNum">     656 </span>            : 
+<span class="lineNum">     657 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t P &gt;
+<span class="lineNum">     658 </span>            : Matrix&lt; R, P, T &gt; Matrix&lt; R, C, T &gt;::operator*( const Matrix&lt; C, P, T &gt;&amp; other )
+<span class="lineNum">     659 </span>            :     const
+<span class="lineNum">     660 </span>            : {
+<span class="lineNum">     661 </span>            :     Matrix&lt; R, P, T &gt; result;
+<span class="lineNum">     662 </span>            :     return result.multiply( *this, other );
+<span class="lineNum">     663 </span>            : }
+<span class="lineNum">     664 </span>            : 
+<span class="lineNum">     665 </span>            : #ifdef VMMLIB_USE_CXX03
+<span class="lineNum">     666 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
+<span class="lineNum">     667 </span>            : typename enable_if&lt; R == C &amp;&amp; O == P &amp;&amp; R == O &gt;::type*
+<span class="lineNum">     668 </span>            : #else
+<span class="lineNum">     669 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P, typename &gt;
+<span class="lineNum">     670 </span>            : Matrix&lt; R, C, T &gt;&amp;
+<span class="lineNum">     671 </span>            : #endif
+<span class="lineNum">     672 </span>            : Matrix&lt; R, C, T &gt;::operator*=( const Matrix&lt; O, P, T &gt;&amp; right )
+<span class="lineNum">     673 </span>            : {
+<span class="lineNum">     674 </span>            :     Matrix&lt; R, C, T &gt; copy( *this );
+<span class="lineNum">     675 </span>            :     multiply( copy, right );
+<span class="lineNum">     676 </span>            : #ifdef VMMLIB_USE_CXX03
+<span class="lineNum">     677 </span>            :     return 0;
+<span class="lineNum">     678 </span>            : #else
+<span class="lineNum">     679 </span>            :     return *this;
+<span class="lineNum">     680 </span>            : #endif
+<span class="lineNum">     681 </span>            : }
+<a name="682"><span class="lineNum">     682 </span>            : </a>
+<span class="lineNum">     683 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     684 </span><span class="lineCov">          3 : vector&lt; R, T &gt; Matrix&lt; R, C, T &gt;::operator*( const vector&lt; C, T &gt;&amp; vec ) const</span>
+<span class="lineNum">     685 </span>            : {
+<span class="lineNum">     686 </span><span class="lineCov">          3 :     vector&lt; R, T &gt; result;</span>
+<span class="lineNum">     687 </span>            : 
+<span class="lineNum">     688 </span>            :     // this &lt; R, 1 &gt; = &lt; R, P &gt; * &lt; P, 1 &gt;
+<span class="lineNum">     689 </span><span class="lineCov">         13 :     for( size_t i = 0; i&lt; R; ++i )</span>
+<span class="lineNum">     690 </span>            :     {
+<span class="lineNum">     691 </span><span class="lineCov">         10 :         T tmp( 0 );</span>
+<span class="lineNum">     692 </span><span class="lineCov">         44 :         for( size_t j = 0; j &lt; C; ++j )</span>
+<span class="lineNum">     693 </span><span class="lineCov">         34 :             tmp += (*this)( i, j ) * vec( j );</span>
+<span class="lineNum">     694 </span><span class="lineCov">         10 :         result( i ) = tmp;</span>
+<span class="lineNum">     695 </span>            :     }
+<span class="lineNum">     696 </span><span class="lineCov">          3 :     return result;</span>
+<span class="lineNum">     697 </span>            : }
+<a name="698"><span class="lineNum">     698 </span>            : </a>
+<span class="lineNum">     699 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
+<span class="lineNum">     700 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::operator-() const</span>
+<span class="lineNum">     701 </span>            : {
+<span class="lineNum">     702 </span><span class="lineNoCov">          0 :     Matrix&lt; R, C, T &gt; result;</span>
+<span class="lineNum">     703 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i&lt; R * C; ++i )</span>
+<span class="lineNum">     704 </span><span class="lineNoCov">          0 :         result.array[ i ] = -array[ i ];</span>
+<span class="lineNum">     705 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     706 </span>            : }
+<a name="707"><span class="lineNum">     707 </span>            : </a>
+<span class="lineNum">     708 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     709 </span><span class="lineNoCov">          0 : vector&lt; R, T &gt; Matrix&lt; R, C, T &gt;::getColumn( const size_t index ) const</span>
+<span class="lineNum">     710 </span>            : {
+<span class="lineNum">     711 </span><span class="lineNoCov">          0 :     if ( index &gt;= C )</span>
+<span class="lineNum">     712 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;getColumn() - index out of bounds.&quot; );</span>
+<span class="lineNum">     713 </span><span class="lineNoCov">          0 :     vector&lt; R, T &gt; column;</span>
+<span class="lineNum">     714 </span><span class="lineNoCov">          0 :     ::memcpy( &amp;column.array[0], &amp;array[ R * index ], R * sizeof( T ));</span>
+<span class="lineNum">     715 </span><span class="lineNoCov">          0 :     return column;</span>
+<span class="lineNum">     716 </span>            : }
+<a name="717"><span class="lineNum">     717 </span>            : </a>
+<span class="lineNum">     718 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     719 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::setColumn( size_t index, const vector&lt; R, T &gt;&amp; column )</span>
+<span class="lineNum">     720 </span>            : {
+<span class="lineNum">     721 </span><span class="lineNoCov">          0 :     if ( index &gt;= C )</span>
+<span class="lineNum">     722 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;setColumn() - index out of bounds.&quot; );</span>
+<span class="lineNum">     723 </span><span class="lineNoCov">          0 :     memcpy( array + R * index, column.array, R * sizeof( T ) );</span>
+<span class="lineNum">     724 </span><span class="lineNoCov">          0 : }</span>
+<a name="725"><span class="lineNum">     725 </span>            : </a>
+<span class="lineNum">     726 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     727 </span><span class="lineCov">          4 : vector&lt; C, T &gt; Matrix&lt; R, C, T &gt;::getRow( size_t index ) const</span>
+<span class="lineNum">     728 </span>            : {
+<span class="lineNum">     729 </span><span class="lineCov">          4 :     if ( index &gt;= R )</span>
+<span class="lineNum">     730 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;getRow() - index out of bounds.&quot; );</span>
+<span class="lineNum">     731 </span>            : 
+<span class="lineNum">     732 </span><span class="lineCov">          4 :     vector&lt; C, T &gt; row;</span>
+<span class="lineNum">     733 </span><span class="lineCov">         20 :     for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )</span>
+<span class="lineNum">     734 </span><span class="lineCov">         16 :         row( colIndex ) = (*this)( index, colIndex );</span>
+<span class="lineNum">     735 </span><span class="lineCov">          4 :     return row;</span>
+<span class="lineNum">     736 </span>            : }
+<a name="737"><span class="lineNum">     737 </span>            : </a>
+<span class="lineNum">     738 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     739 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::setRow( size_t rowIndex, const vector&lt; C, T &gt;&amp; row )</span>
+<span class="lineNum">     740 </span>            : {
+<span class="lineNum">     741 </span><span class="lineNoCov">          0 :     if ( rowIndex &gt;= R )</span>
+<span class="lineNum">     742 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;setRow() - index out of bounds.&quot; );</span>
+<span class="lineNum">     743 </span>            : 
+<span class="lineNum">     744 </span><span class="lineNoCov">          0 :     for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )</span>
+<span class="lineNum">     745 </span><span class="lineNoCov">          0 :         (*this)( rowIndex, colIndex ) = row( colIndex );</span>
+<span class="lineNum">     746 </span><span class="lineNoCov">          0 : }</span>
+<a name="747"><span class="lineNum">     747 </span>            : </a>
+<span class="lineNum">     748 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
+<span class="lineNum">     749 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::operator+( const Matrix&lt; R, C, T &gt;&amp; other )</span>
+<span class="lineNum">     750 </span>            :     const
+<span class="lineNum">     751 </span>            : {
+<span class="lineNum">     752 </span><span class="lineNoCov">          0 :     Matrix&lt; R, C, T &gt; result( *this );</span>
+<span class="lineNum">     753 </span><span class="lineNoCov">          0 :     result += other;</span>
+<span class="lineNum">     754 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     755 </span>            : }
+<a name="756"><span class="lineNum">     756 </span>            : </a>
+<span class="lineNum">     757 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     758 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::operator+=( const Matrix&lt; R, C, T &gt;&amp; other )</span>
+<span class="lineNum">     759 </span>            : {
+<span class="lineNum">     760 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
+<span class="lineNum">     761 </span><span class="lineNoCov">          0 :         array[i] += other.array[i];</span>
+<span class="lineNum">     762 </span><span class="lineNoCov">          0 : }</span>
+<a name="763"><span class="lineNum">     763 </span>            : </a>
+<span class="lineNum">     764 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
+<span class="lineNum">     765 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::operator-( const Matrix&lt; R, C, T &gt;&amp; other )</span>
+<span class="lineNum">     766 </span>            :     const
+<span class="lineNum">     767 </span>            : {
+<span class="lineNum">     768 </span><span class="lineNoCov">          0 :     Matrix&lt; R, C, T &gt; result( *this );</span>
+<span class="lineNum">     769 </span><span class="lineNoCov">          0 :     result -= other;</span>
+<span class="lineNum">     770 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     771 </span>            : }
+<a name="772"><span class="lineNum">     772 </span>            : </a>
+<span class="lineNum">     773 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     774 </span><span class="lineNoCov">          0 : void Matrix&lt; R, C, T &gt;::operator-=( const Matrix&lt; R, C, T &gt;&amp; other )</span>
+<span class="lineNum">     775 </span>            : {
+<span class="lineNum">     776 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; R * C; ++i )</span>
+<span class="lineNum">     777 </span><span class="lineNoCov">          0 :         array[i] -= other.array[i];</span>
+<span class="lineNum">     778 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     779 </span>            : 
+<span class="lineNum">     780 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
+<span class="lineNum">     781 </span>            : Matrix&lt; O, P, T &gt; Matrix&lt; R, C, T &gt;::getSubMatrix( size_t rowOffset,
+<span class="lineNum">     782 </span>            :                                                    size_t colOffset,
+<span class="lineNum">     783 </span>            :                            typename enable_if&lt; O &lt;= R &amp;&amp; P &lt;= C &gt;::type* ) const
+<span class="lineNum">     784 </span>            : {
+<span class="lineNum">     785 </span>            :     Matrix&lt; O, P, T &gt; result;
+<span class="lineNum">     786 </span>            :     if ( O + rowOffset &gt; R || P + colOffset &gt; C )
+<span class="lineNum">     787 </span>            :         throw std::runtime_error( &quot;index out of bounds.&quot; );
+<span class="lineNum">     788 </span>            : 
+<span class="lineNum">     789 </span>            :     for( size_t row = 0; row &lt; O; ++row )
+<span class="lineNum">     790 </span>            :         for( size_t col = 0; col &lt; P; ++col )
+<span class="lineNum">     791 </span>            :             result( row, col ) = (*this)( rowOffset + row, colOffset + col );
+<span class="lineNum">     792 </span>            : 
+<span class="lineNum">     793 </span>            :     return result;
+<span class="lineNum">     794 </span>            : }
+<span class="lineNum">     795 </span>            : 
+<span class="lineNum">     796 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
+<span class="lineNum">     797 </span>            : typename enable_if&lt; O &lt;= R &amp;&amp; P &lt;= C &gt;::type*
+<span class="lineNum">     798 </span>            : Matrix&lt; R, C, T &gt;::setSubMatrix( const Matrix&lt; O, P, T &gt;&amp; sub_matrix,
+<span class="lineNum">     799 </span>            :                                  size_t rowOffset, size_t colOffset )
+<span class="lineNum">     800 </span>            : {
+<span class="lineNum">     801 </span>            :     for( size_t row = 0; row &lt; O; ++row )
+<span class="lineNum">     802 </span>            :         for( size_t col = 0; col &lt; P; ++col )
+<span class="lineNum">     803 </span>            :             (*this)( rowOffset + row, colOffset + col ) = sub_matrix( row, col);
+<span class="lineNum">     804 </span>            :     return 0; // for sfinae
+<span class="lineNum">     805 </span>            : }
+<a name="806"><span class="lineNum">     806 </span>            : </a>
+<span class="lineNum">     807 </span>            : template&lt; size_t R, size_t C, typename T &gt;
+<span class="lineNum">     808 </span><span class="lineCov">          5 : Matrix&lt; R, C, T &gt; Matrix&lt; R, C, T &gt;::inverse() const</span>
+<span class="lineNum">     809 </span>            : {
+<span class="lineNum">     810 </span><span class="lineCov">          5 :     return computeInverse( *this );</span>
+<span class="lineNum">     811 </span>            : }
+<span class="lineNum">     812 </span>            : 
+<a name="813"><span class="lineNum">     813 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;</a>
+<span class="lineNum">     814 </span>            : typename enable_if&lt; O == P &amp;&amp; R == C &amp;&amp; O == R &amp;&amp; R &gt;= 2 &gt;::type*
+<span class="lineNum">     815 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt;::getAdjugate( Matrix&lt; O, P, T &gt;&amp; adjugate ) const</span>
+<span class="lineNum">     816 </span>            : {
+<span class="lineNum">     817 </span><span class="lineNoCov">          0 :     getCofactors( adjugate );</span>
+<span class="lineNum">     818 </span><span class="lineNoCov">          0 :     adjugate = transpose( adjugate );</span>
+<span class="lineNum">     819 </span><span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">     820 </span>            : }
+<span class="lineNum">     821 </span>            : 
+<a name="822"><span class="lineNum">     822 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;</a>
+<span class="lineNum">     823 </span>            : typename enable_if&lt; O == P &amp;&amp; R == C &amp;&amp; O == R &amp;&amp; R &gt;= 2 &gt;::type*
+<span class="lineNum">     824 </span><span class="lineNoCov">          0 : Matrix&lt; R, C, T &gt;::getCofactors( Matrix&lt; O, P, T &gt;&amp; cofactors ) const</span>
+<span class="lineNum">     825 </span>            : {
+<span class="lineNum">     826 </span><span class="lineNoCov">          0 :     Matrix&lt; R-1, C-1, T &gt;   minor_;</span>
+<span class="lineNum">     827 </span>            : 
+<span class="lineNum">     828 </span><span class="lineNoCov">          0 :     const size_t _negate = 1u;</span>
+<span class="lineNum">     829 </span><span class="lineNoCov">          0 :     for( size_t rowIndex = 0; rowIndex&lt; R; ++rowIndex )</span>
+<span class="lineNum">     830 </span><span class="lineNoCov">          0 :         for( size_t colIndex = 0; colIndex &lt; C; ++colIndex )</span>
+<span class="lineNum">     831 </span><span class="lineNoCov">          0 :             if ( ( rowIndex + colIndex ) &amp; _negate )</span>
+<span class="lineNum">     832 </span><span class="lineNoCov">          0 :                 cofactors( rowIndex, colIndex ) = -getMinor( minor_, rowIndex, colIndex );</span>
+<span class="lineNum">     833 </span>            :             else
+<span class="lineNum">     834 </span><span class="lineNoCov">          0 :                 cofactors( rowIndex, colIndex ) = getMinor( minor_, rowIndex, colIndex );</span>
+<span class="lineNum">     835 </span>            : 
+<span class="lineNum">     836 </span><span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">     837 </span>            : }
+<a name="838"><span class="lineNum">     838 </span>            : </a>
+<span class="lineNum">     839 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t O, size_t P &gt;
+<span class="lineNum">     840 </span><span class="lineNoCov">          0 : T Matrix&lt; R, C, T &gt;::getMinor( Matrix&lt; O, P, T &gt;&amp; minor_, size_t row_to_cut,</span>
+<span class="lineNum">     841 </span>            :                                 size_t col_to_cut,
+<span class="lineNum">     842 </span>            :    typename enable_if&lt; O == R-1 &amp;&amp; P == C-1 &amp;&amp; R == C &amp;&amp; R &gt;= 2 &gt;::type* ) const
+<span class="lineNum">     843 </span>            : {
+<span class="lineNum">     844 </span><span class="lineNoCov">          0 :     size_t rowOffset = 0;</span>
+<span class="lineNum">     845 </span><span class="lineNoCov">          0 :     size_t colOffset = 0;</span>
+<span class="lineNum">     846 </span><span class="lineNoCov">          0 :     for( size_t rowIndex = 0; rowIndex&lt; R; ++rowIndex )</span>
+<span class="lineNum">     847 </span>            :     {
+<span class="lineNum">     848 </span><span class="lineNoCov">          0 :         if ( rowIndex == row_to_cut )</span>
+<span class="lineNum">     849 </span><span class="lineNoCov">          0 :             rowOffset = -1;</span>
+<span class="lineNum">     850 </span>            :         else
+<span class="lineNum">     851 </span>            :         {
+<span class="lineNum">     852 </span><span class="lineNoCov">          0 :             for( size_t colIndex = 0; colIndex &lt; R; ++colIndex )</span>
+<span class="lineNum">     853 </span>            :             {
+<span class="lineNum">     854 </span><span class="lineNoCov">          0 :                 if ( colIndex == col_to_cut )</span>
+<span class="lineNum">     855 </span><span class="lineNoCov">          0 :                     colOffset = -1;</span>
+<span class="lineNum">     856 </span>            :                 else
+<span class="lineNum">     857 </span><span class="lineNoCov">          0 :                     minor_( rowIndex + rowOffset, colIndex + colOffset )</span>
+<span class="lineNum">     858 </span><span class="lineNoCov">          0 :                         = (*this)( rowIndex, colIndex );</span>
+<span class="lineNum">     859 </span>            :             }
+<span class="lineNum">     860 </span><span class="lineNoCov">          0 :             colOffset = 0;</span>
+<span class="lineNum">     861 </span>            :         }
+<span class="lineNum">     862 </span>            :     }
+<span class="lineNum">     863 </span><span class="lineNoCov">          0 :     return computeDeterminant( minor_ );</span>
+<span class="lineNum">     864 </span>            : }
+<span class="lineNum">     865 </span>            : 
+<span class="lineNum">     866 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
+<span class="lineNum">     867 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::rotate_x( const TT angle_,
+<span class="lineNum">     868 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">     869 </span>            : {
+<span class="lineNum">     870 </span>            :     const T angle       = static_cast&lt; T &gt;( angle_ );
+<span class="lineNum">     871 </span>            :     const T sine        = std::sin( angle );
+<span class="lineNum">     872 </span>            :     const T cosine      = std::cos( angle );
+<span class="lineNum">     873 </span>            : 
+<span class="lineNum">     874 </span>            :     T tmp;
 <span class="lineNum">     875 </span>            : 
-<span class="lineNum">     876 </span>            :     T tmp;
-<span class="lineNum">     877 </span>            : 
-<span class="lineNum">     878 </span>            :     tmp         = array[ 4 ] * cosine + array[ 8 ] * sine;
-<span class="lineNum">     879 </span>            :     array[ 8 ]  = - array[ 4 ] * sine + array[ 8 ] * cosine;
-<span class="lineNum">     880 </span>            :     array[ 4 ]  = tmp;
-<span class="lineNum">     881 </span>            : 
-<span class="lineNum">     882 </span>            :     tmp         = array[ 5 ] * cosine + array[ 9 ] * sine;
-<span class="lineNum">     883 </span>            :     array[ 9 ]  = - array[ 5 ] * sine + array[ 9 ] * cosine;
-<span class="lineNum">     884 </span>            :     array[ 5 ]  = tmp;
-<span class="lineNum">     885 </span>            : 
-<span class="lineNum">     886 </span>            :     tmp         = array[ 6 ] * cosine + array[ 10 ] * sine;
-<span class="lineNum">     887 </span>            :     array[ 10 ] = - array[ 6 ] * sine + array[ 10 ] * cosine;
-<span class="lineNum">     888 </span>            :     array[ 6 ]  = tmp;
-<span class="lineNum">     889 </span>            : 
-<span class="lineNum">     890 </span>            :     tmp         = array[ 7 ] * cosine + array[ 11 ] * sine;
-<span class="lineNum">     891 </span>            :     array[ 11 ] = - array[ 7 ] * sine + array[ 11 ] * cosine;
-<span class="lineNum">     892 </span>            :     array[ 7 ]  = tmp;
-<span class="lineNum">     893 </span>            : 
-<span class="lineNum">     894 </span>            :     return *this;
-<span class="lineNum">     895 </span>            : }
-<span class="lineNum">     896 </span>            : 
-<span class="lineNum">     897 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
-<span class="lineNum">     898 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::rotate_y( const TT angle_,
-<span class="lineNum">     899 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">     900 </span>            : {
-<span class="lineNum">     901 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
-<span class="lineNum">     902 </span>            :     const T sine      = std::sin( angle );
-<span class="lineNum">     903 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     876 </span>            :     tmp         = array[ 4 ] * cosine + array[ 8 ] * sine;
+<span class="lineNum">     877 </span>            :     array[ 8 ]  = - array[ 4 ] * sine + array[ 8 ] * cosine;
+<span class="lineNum">     878 </span>            :     array[ 4 ]  = tmp;
+<span class="lineNum">     879 </span>            : 
+<span class="lineNum">     880 </span>            :     tmp         = array[ 5 ] * cosine + array[ 9 ] * sine;
+<span class="lineNum">     881 </span>            :     array[ 9 ]  = - array[ 5 ] * sine + array[ 9 ] * cosine;
+<span class="lineNum">     882 </span>            :     array[ 5 ]  = tmp;
+<span class="lineNum">     883 </span>            : 
+<span class="lineNum">     884 </span>            :     tmp         = array[ 6 ] * cosine + array[ 10 ] * sine;
+<span class="lineNum">     885 </span>            :     array[ 10 ] = - array[ 6 ] * sine + array[ 10 ] * cosine;
+<span class="lineNum">     886 </span>            :     array[ 6 ]  = tmp;
+<span class="lineNum">     887 </span>            : 
+<span class="lineNum">     888 </span>            :     tmp         = array[ 7 ] * cosine + array[ 11 ] * sine;
+<span class="lineNum">     889 </span>            :     array[ 11 ] = - array[ 7 ] * sine + array[ 11 ] * cosine;
+<span class="lineNum">     890 </span>            :     array[ 7 ]  = tmp;
+<span class="lineNum">     891 </span>            : 
+<span class="lineNum">     892 </span>            :     return *this;
+<span class="lineNum">     893 </span>            : }
+<span class="lineNum">     894 </span>            : 
+<span class="lineNum">     895 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
+<span class="lineNum">     896 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::rotate_y( const TT angle_,
+<span class="lineNum">     897 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">     898 </span>            : {
+<span class="lineNum">     899 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
+<span class="lineNum">     900 </span>            :     const T sine      = std::sin( angle );
+<span class="lineNum">     901 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     902 </span>            : 
+<span class="lineNum">     903 </span>            :     T tmp;
 <span class="lineNum">     904 </span>            : 
-<span class="lineNum">     905 </span>            :     T tmp;
-<span class="lineNum">     906 </span>            : 
-<span class="lineNum">     907 </span>            :     tmp         = array[ 0 ] * cosine   - array[ 8 ] * sine;
-<span class="lineNum">     908 </span>            :     array[ 8 ]  = array[ 0 ] * sine     + array[ 8 ] * cosine;
-<span class="lineNum">     909 </span>            :     array[ 0 ]  = tmp;
-<span class="lineNum">     910 </span>            : 
-<span class="lineNum">     911 </span>            :     tmp         = array[ 1 ] * cosine   - array[ 9 ] * sine;
-<span class="lineNum">     912 </span>            :     array[ 9 ]  = array[ 1 ] * sine     + array[ 9 ] * cosine;
-<span class="lineNum">     913 </span>            :     array[ 1 ]  = tmp;
-<span class="lineNum">     914 </span>            : 
-<span class="lineNum">     915 </span>            :     tmp         = array[ 2 ] * cosine   - array[ 10 ] * sine;
-<span class="lineNum">     916 </span>            :     array[ 10 ] = array[ 2 ] * sine     + array[ 10 ] * cosine;
-<span class="lineNum">     917 </span>            :     array[ 2 ]  = tmp;
-<span class="lineNum">     918 </span>            : 
-<span class="lineNum">     919 </span>            :     tmp         = array[ 3 ] * cosine   - array[ 11 ] * sine;
-<span class="lineNum">     920 </span>            :     array[ 11 ] = array[ 3 ] * sine     + array[ 11 ] * cosine;
-<span class="lineNum">     921 </span>            :     array[ 3 ]  = tmp;
-<span class="lineNum">     922 </span>            : 
-<span class="lineNum">     923 </span>            :     return *this;
-<span class="lineNum">     924 </span>            : }
-<span class="lineNum">     925 </span>            : 
-<span class="lineNum">     926 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
-<span class="lineNum">     927 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::rotate_z( const TT angle_,
-<span class="lineNum">     928 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">     929 </span>            : {
-<span class="lineNum">     930 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
-<span class="lineNum">     931 </span>            :     const T sine      = std::sin( angle );
-<span class="lineNum">     932 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     905 </span>            :     tmp         = array[ 0 ] * cosine   - array[ 8 ] * sine;
+<span class="lineNum">     906 </span>            :     array[ 8 ]  = array[ 0 ] * sine     + array[ 8 ] * cosine;
+<span class="lineNum">     907 </span>            :     array[ 0 ]  = tmp;
+<span class="lineNum">     908 </span>            : 
+<span class="lineNum">     909 </span>            :     tmp         = array[ 1 ] * cosine   - array[ 9 ] * sine;
+<span class="lineNum">     910 </span>            :     array[ 9 ]  = array[ 1 ] * sine     + array[ 9 ] * cosine;
+<span class="lineNum">     911 </span>            :     array[ 1 ]  = tmp;
+<span class="lineNum">     912 </span>            : 
+<span class="lineNum">     913 </span>            :     tmp         = array[ 2 ] * cosine   - array[ 10 ] * sine;
+<span class="lineNum">     914 </span>            :     array[ 10 ] = array[ 2 ] * sine     + array[ 10 ] * cosine;
+<span class="lineNum">     915 </span>            :     array[ 2 ]  = tmp;
+<span class="lineNum">     916 </span>            : 
+<span class="lineNum">     917 </span>            :     tmp         = array[ 3 ] * cosine   - array[ 11 ] * sine;
+<span class="lineNum">     918 </span>            :     array[ 11 ] = array[ 3 ] * sine     + array[ 11 ] * cosine;
+<span class="lineNum">     919 </span>            :     array[ 3 ]  = tmp;
+<span class="lineNum">     920 </span>            : 
+<span class="lineNum">     921 </span>            :     return *this;
+<span class="lineNum">     922 </span>            : }
+<span class="lineNum">     923 </span>            : 
+<span class="lineNum">     924 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
+<span class="lineNum">     925 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::rotate_z( const TT angle_,
+<span class="lineNum">     926 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">     927 </span>            : {
+<span class="lineNum">     928 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
+<span class="lineNum">     929 </span>            :     const T sine      = std::sin( angle );
+<span class="lineNum">     930 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     931 </span>            : 
+<span class="lineNum">     932 </span>            :     T tmp;
 <span class="lineNum">     933 </span>            : 
-<span class="lineNum">     934 </span>            :     T tmp;
-<span class="lineNum">     935 </span>            : 
-<span class="lineNum">     936 </span>            :     tmp         = array[ 0 ] * cosine + array[ 4 ] * sine;
-<span class="lineNum">     937 </span>            :     array[ 4 ]  = - array[ 0 ] * sine + array[ 4 ] * cosine;
-<span class="lineNum">     938 </span>            :     array[ 0 ]  = tmp;
-<span class="lineNum">     939 </span>            : 
-<span class="lineNum">     940 </span>            :     tmp         = array[ 1 ] * cosine + array[ 5 ] * sine;
-<span class="lineNum">     941 </span>            :     array[ 5 ]  = - array[ 1 ] * sine + array[ 5 ] * cosine;
-<span class="lineNum">     942 </span>            :     array[ 1 ]  = tmp;
-<span class="lineNum">     943 </span>            : 
-<span class="lineNum">     944 </span>            :     tmp         = array[ 2 ] * cosine + array[ 6 ] * sine;
-<span class="lineNum">     945 </span>            :     array[ 6 ]  = - array[ 2 ] * sine + array[ 6 ] * cosine;
-<span class="lineNum">     946 </span>            :     array[ 2 ]  = tmp;
-<span class="lineNum">     947 </span>            : 
-<span class="lineNum">     948 </span>            :     tmp         = array[ 3 ] * cosine + array[ 7 ] * sine;
-<span class="lineNum">     949 </span>            :     array[ 7 ]  = - array[ 3 ] * sine + array[ 7 ] * cosine;
-<span class="lineNum">     950 </span>            :     array[ 3 ]  = tmp;
-<span class="lineNum">     951 </span>            : 
-<span class="lineNum">     952 </span>            :     return *this;
-<span class="lineNum">     953 </span>            : }
-<span class="lineNum">     954 </span>            : 
-<span class="lineNum">     955 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
-<span class="lineNum">     956 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::pre_rotate_x( const TT angle_,
-<span class="lineNum">     957 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">     958 </span>            : {
-<span class="lineNum">     959 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
-<span class="lineNum">     960 </span>            :     const T sine      = std::sin( angle );
-<span class="lineNum">     961 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     934 </span>            :     tmp         = array[ 0 ] * cosine + array[ 4 ] * sine;
+<span class="lineNum">     935 </span>            :     array[ 4 ]  = - array[ 0 ] * sine + array[ 4 ] * cosine;
+<span class="lineNum">     936 </span>            :     array[ 0 ]  = tmp;
+<span class="lineNum">     937 </span>            : 
+<span class="lineNum">     938 </span>            :     tmp         = array[ 1 ] * cosine + array[ 5 ] * sine;
+<span class="lineNum">     939 </span>            :     array[ 5 ]  = - array[ 1 ] * sine + array[ 5 ] * cosine;
+<span class="lineNum">     940 </span>            :     array[ 1 ]  = tmp;
+<span class="lineNum">     941 </span>            : 
+<span class="lineNum">     942 </span>            :     tmp         = array[ 2 ] * cosine + array[ 6 ] * sine;
+<span class="lineNum">     943 </span>            :     array[ 6 ]  = - array[ 2 ] * sine + array[ 6 ] * cosine;
+<span class="lineNum">     944 </span>            :     array[ 2 ]  = tmp;
+<span class="lineNum">     945 </span>            : 
+<span class="lineNum">     946 </span>            :     tmp         = array[ 3 ] * cosine + array[ 7 ] * sine;
+<span class="lineNum">     947 </span>            :     array[ 7 ]  = - array[ 3 ] * sine + array[ 7 ] * cosine;
+<span class="lineNum">     948 </span>            :     array[ 3 ]  = tmp;
+<span class="lineNum">     949 </span>            : 
+<span class="lineNum">     950 </span>            :     return *this;
+<span class="lineNum">     951 </span>            : }
+<span class="lineNum">     952 </span>            : 
+<span class="lineNum">     953 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
+<span class="lineNum">     954 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::pre_rotate_x( const TT angle_,
+<span class="lineNum">     955 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">     956 </span>            : {
+<span class="lineNum">     957 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
+<span class="lineNum">     958 </span>            :     const T sine      = std::sin( angle );
+<span class="lineNum">     959 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     960 </span>            : 
+<span class="lineNum">     961 </span>            :     T tmp;
 <span class="lineNum">     962 </span>            : 
-<span class="lineNum">     963 </span>            :     T tmp;
-<span class="lineNum">     964 </span>            : 
-<span class="lineNum">     965 </span>            :     tmp         = array[ 1 ];
-<span class="lineNum">     966 </span>            :     array[ 1 ]  = array[ 1 ] * cosine + array[ 2 ] * sine;
-<span class="lineNum">     967 </span>            :     array[ 2 ]  = tmp * -sine + array[ 2 ] * cosine;
-<span class="lineNum">     968 </span>            : 
-<span class="lineNum">     969 </span>            :     tmp         = array[ 5 ];
-<span class="lineNum">     970 </span>            :     array[ 5 ]  = array[ 5 ] * cosine + array[ 6 ] * sine;
-<span class="lineNum">     971 </span>            :     array[ 6 ]  = tmp * -sine + array[ 6 ] * cosine;
-<span class="lineNum">     972 </span>            : 
-<span class="lineNum">     973 </span>            :     tmp         = array[ 9 ];
-<span class="lineNum">     974 </span>            :     array[ 9 ]  = array[ 9 ] * cosine + array[ 10 ] * sine;
-<span class="lineNum">     975 </span>            :     array[ 10 ] = tmp * -sine + array[ 10 ] * cosine;
-<span class="lineNum">     976 </span>            : 
-<span class="lineNum">     977 </span>            :     tmp         = array[ 13 ];
-<span class="lineNum">     978 </span>            :     array[ 13 ] = array[ 13 ] * cosine + array[ 14 ] * sine;
-<span class="lineNum">     979 </span>            :     array[ 14 ] = tmp * -sine + array[ 14 ] * cosine;
-<span class="lineNum">     980 </span>            : 
-<span class="lineNum">     981 </span>            :     return *this;
-<span class="lineNum">     982 </span>            : }
-<span class="lineNum">     983 </span>            : 
-<span class="lineNum">     984 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
-<span class="lineNum">     985 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::pre_rotate_y( const TT angle_,
-<span class="lineNum">     986 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">     987 </span>            : {
-<span class="lineNum">     988 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
-<span class="lineNum">     989 </span>            :     const T sine      = std::sin( angle );
-<span class="lineNum">     990 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     963 </span>            :     tmp         = array[ 1 ];
+<span class="lineNum">     964 </span>            :     array[ 1 ]  = array[ 1 ] * cosine + array[ 2 ] * sine;
+<span class="lineNum">     965 </span>            :     array[ 2 ]  = tmp * -sine + array[ 2 ] * cosine;
+<span class="lineNum">     966 </span>            : 
+<span class="lineNum">     967 </span>            :     tmp         = array[ 5 ];
+<span class="lineNum">     968 </span>            :     array[ 5 ]  = array[ 5 ] * cosine + array[ 6 ] * sine;
+<span class="lineNum">     969 </span>            :     array[ 6 ]  = tmp * -sine + array[ 6 ] * cosine;
+<span class="lineNum">     970 </span>            : 
+<span class="lineNum">     971 </span>            :     tmp         = array[ 9 ];
+<span class="lineNum">     972 </span>            :     array[ 9 ]  = array[ 9 ] * cosine + array[ 10 ] * sine;
+<span class="lineNum">     973 </span>            :     array[ 10 ] = tmp * -sine + array[ 10 ] * cosine;
+<span class="lineNum">     974 </span>            : 
+<span class="lineNum">     975 </span>            :     tmp         = array[ 13 ];
+<span class="lineNum">     976 </span>            :     array[ 13 ] = array[ 13 ] * cosine + array[ 14 ] * sine;
+<span class="lineNum">     977 </span>            :     array[ 14 ] = tmp * -sine + array[ 14 ] * cosine;
+<span class="lineNum">     978 </span>            : 
+<span class="lineNum">     979 </span>            :     return *this;
+<span class="lineNum">     980 </span>            : }
+<span class="lineNum">     981 </span>            : 
+<span class="lineNum">     982 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
+<span class="lineNum">     983 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::pre_rotate_y( const TT angle_,
+<span class="lineNum">     984 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">     985 </span>            : {
+<span class="lineNum">     986 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
+<span class="lineNum">     987 </span>            :     const T sine      = std::sin( angle );
+<span class="lineNum">     988 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     989 </span>            : 
+<span class="lineNum">     990 </span>            :     T tmp;
 <span class="lineNum">     991 </span>            : 
-<span class="lineNum">     992 </span>            :     T tmp;
-<span class="lineNum">     993 </span>            : 
-<span class="lineNum">     994 </span>            :     tmp         = array[ 0 ];
-<span class="lineNum">     995 </span>            :     array[ 0 ]  = array[ 0 ] * cosine - array[ 2 ] * sine;
-<span class="lineNum">     996 </span>            :     array[ 2 ]  = tmp * sine + array[ 2 ] * cosine;
-<span class="lineNum">     997 </span>            : 
-<span class="lineNum">     998 </span>            :     tmp         = array[ 4 ];
-<span class="lineNum">     999 </span>            :     array[ 4 ]  = array[ 4 ] * cosine - array[ 6 ] * sine;
-<span class="lineNum">    1000 </span>            :     array[ 6 ]  = tmp * sine + array[ 6 ] * cosine;
-<span class="lineNum">    1001 </span>            : 
-<span class="lineNum">    1002 </span>            :     tmp         = array[ 8 ];
-<span class="lineNum">    1003 </span>            :     array[ 8 ]  = array[ 8 ] * cosine - array[ 10 ] * sine;
-<span class="lineNum">    1004 </span>            :     array[ 10 ] = tmp * sine + array[ 10 ] * cosine;
-<span class="lineNum">    1005 </span>            : 
-<span class="lineNum">    1006 </span>            :     tmp         = array[ 12 ];
-<span class="lineNum">    1007 </span>            :     array[ 12 ] = array[ 12 ] * cosine - array[ 14 ] * sine;
-<span class="lineNum">    1008 </span>            :     array[ 14 ] = tmp * sine + array[ 14 ] * cosine;
-<span class="lineNum">    1009 </span>            : 
-<span class="lineNum">    1010 </span>            :     return *this;
-<span class="lineNum">    1011 </span>            : }
-<span class="lineNum">    1012 </span>            : 
-<span class="lineNum">    1013 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
-<span class="lineNum">    1014 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::pre_rotate_z( const TT angle_,
-<span class="lineNum">    1015 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">    1016 </span>            : {
-<span class="lineNum">    1017 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
-<span class="lineNum">    1018 </span>            :     const T sine      = std::sin( angle );
-<span class="lineNum">    1019 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">     992 </span>            :     tmp         = array[ 0 ];
+<span class="lineNum">     993 </span>            :     array[ 0 ]  = array[ 0 ] * cosine - array[ 2 ] * sine;
+<span class="lineNum">     994 </span>            :     array[ 2 ]  = tmp * sine + array[ 2 ] * cosine;
+<span class="lineNum">     995 </span>            : 
+<span class="lineNum">     996 </span>            :     tmp         = array[ 4 ];
+<span class="lineNum">     997 </span>            :     array[ 4 ]  = array[ 4 ] * cosine - array[ 6 ] * sine;
+<span class="lineNum">     998 </span>            :     array[ 6 ]  = tmp * sine + array[ 6 ] * cosine;
+<span class="lineNum">     999 </span>            : 
+<span class="lineNum">    1000 </span>            :     tmp         = array[ 8 ];
+<span class="lineNum">    1001 </span>            :     array[ 8 ]  = array[ 8 ] * cosine - array[ 10 ] * sine;
+<span class="lineNum">    1002 </span>            :     array[ 10 ] = tmp * sine + array[ 10 ] * cosine;
+<span class="lineNum">    1003 </span>            : 
+<span class="lineNum">    1004 </span>            :     tmp         = array[ 12 ];
+<span class="lineNum">    1005 </span>            :     array[ 12 ] = array[ 12 ] * cosine - array[ 14 ] * sine;
+<span class="lineNum">    1006 </span>            :     array[ 14 ] = tmp * sine + array[ 14 ] * cosine;
+<span class="lineNum">    1007 </span>            : 
+<span class="lineNum">    1008 </span>            :     return *this;
+<span class="lineNum">    1009 </span>            : }
+<span class="lineNum">    1010 </span>            : 
+<span class="lineNum">    1011 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt;
+<span class="lineNum">    1012 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::pre_rotate_z( const TT angle_,
+<span class="lineNum">    1013 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">    1014 </span>            : {
+<span class="lineNum">    1015 </span>            :     const T angle = static_cast&lt; T &gt;( angle_ );
+<span class="lineNum">    1016 </span>            :     const T sine      = std::sin( angle );
+<span class="lineNum">    1017 </span>            :     const T cosine    = std::cos( angle );
+<span class="lineNum">    1018 </span>            : 
+<span class="lineNum">    1019 </span>            :     T tmp;
 <span class="lineNum">    1020 </span>            : 
-<span class="lineNum">    1021 </span>            :     T tmp;
-<span class="lineNum">    1022 </span>            : 
-<span class="lineNum">    1023 </span>            :     tmp         = array[ 0 ];
-<span class="lineNum">    1024 </span>            :     array[ 0 ]  = array[ 0 ] * cosine + array[ 1 ] * sine;
-<span class="lineNum">    1025 </span>            :     array[ 1 ]  = tmp * -sine + array[ 1 ] * cosine;
-<span class="lineNum">    1026 </span>            : 
-<span class="lineNum">    1027 </span>            :     tmp         = array[ 4 ];
-<span class="lineNum">    1028 </span>            :     array[ 4 ]  = array[ 4 ] * cosine + array[ 5 ] * sine;
-<span class="lineNum">    1029 </span>            :     array[ 5 ]  = tmp * -sine + array[ 5 ] * cosine;
-<span class="lineNum">    1030 </span>            : 
-<span class="lineNum">    1031 </span>            :     tmp         = array[ 8 ];
-<span class="lineNum">    1032 </span>            :     array[ 8 ]  = array[ 8 ] * cosine + array[ 9 ] * sine;
-<span class="lineNum">    1033 </span>            :     array[ 9 ]  = tmp * -sine + array[ 9 ] * cosine;
-<span class="lineNum">    1034 </span>            : 
-<span class="lineNum">    1035 </span>            :     tmp         = array[ 12 ];
-<span class="lineNum">    1036 </span>            :     array[ 12 ] = array[ 12 ] * cosine + array[ 13 ] * sine;
-<span class="lineNum">    1037 </span>            :     array[ 13 ] = tmp * -sine + array[ 13 ] * cosine;
-<span class="lineNum">    1038 </span>            : 
-<span class="lineNum">    1039 </span>            :     return *this;
-<span class="lineNum">    1040 </span>            : }
-<span class="lineNum">    1041 </span>            : 
-<span class="lineNum">    1042 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt; inline
-<span class="lineNum">    1043 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::scale( const vector&lt; 3, TT &gt;&amp; scale_,
-<span class="lineNum">    1044 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">    1045 </span>            : {
-<span class="lineNum">    1046 </span>            :     array[0]  *= scale_[ 0 ];
-<span class="lineNum">    1047 </span>            :     array[1]  *= scale_[ 0 ];
-<span class="lineNum">    1048 </span>            :     array[2]  *= scale_[ 0 ];
-<span class="lineNum">    1049 </span>            :     array[3]  *= scale_[ 0 ];
-<span class="lineNum">    1050 </span>            :     array[4]  *= scale_[ 1 ];
-<span class="lineNum">    1051 </span>            :     array[5]  *= scale_[ 1 ];
-<span class="lineNum">    1052 </span>            :     array[6]  *= scale_[ 1 ];
-<span class="lineNum">    1053 </span>            :     array[7]  *= scale_[ 1 ];
-<span class="lineNum">    1054 </span>            :     array[8]  *= scale_[ 2 ];
-<span class="lineNum">    1055 </span>            :     array[9]  *= scale_[ 2 ];
-<span class="lineNum">    1056 </span>            :     array[10] *= scale_[ 2 ];
-<span class="lineNum">    1057 </span>            :     array[11] *= scale_[ 2 ];
-<span class="lineNum">    1058 </span>            :     return *this;
-<span class="lineNum">    1059 </span>            : }
-<span class="lineNum">    1060 </span>            : 
-<span class="lineNum">    1061 </span>            : 
-<span class="lineNum">    1062 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt; inline
-<span class="lineNum">    1063 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::scaleTranslation(
-<span class="lineNum">    1064 </span>            :     const vector&lt; 3, TT &gt;&amp; scale_,
-<span class="lineNum">    1065 </span>            :     typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
-<span class="lineNum">    1066 </span>            : {
-<span class="lineNum">    1067 </span>            :     array[12] *= static_cast&lt; T &gt;( scale_[0] );
-<span class="lineNum">    1068 </span>            :     array[13] *= static_cast&lt; T &gt;( scale_[1] );
-<span class="lineNum">    1069 </span>            :     array[14] *= static_cast&lt; T &gt;( scale_[2] );
-<span class="lineNum">    1070 </span>            :     return *this;
-<span class="lineNum">    1071 </span>            : }
-<span class="lineNum">    1072 </span>            : 
-<a name="1073"><span class="lineNum">    1073 </span>            : </a>
-<span class="lineNum">    1074 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline Matrix&lt; R, C, T &gt;&amp;
-<span class="lineNum">    1075 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::setTranslation( const vector&lt; C-1, T &gt;&amp; trans )</span>
-<span class="lineNum">    1076 </span>            : {
-<span class="lineNum">    1077 </span><span class="lineCov">          4 :     for( size_t i = 0; i &lt; C-1; ++i )</span>
-<span class="lineNum">    1078 </span><span class="lineCov">          3 :         array[ i + R * (C - 1) ] = trans[ i ];</span>
-<span class="lineNum">    1079 </span><span class="lineCov">          1 :     return *this;</span>
-<span class="lineNum">    1080 </span>            : }
-<a name="1081"><span class="lineNum">    1081 </span>            : </a>
-<span class="lineNum">    1082 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
-<span class="lineNum">    1083 </span><span class="lineNoCov">          0 : vector&lt; C-1, T &gt; Matrix&lt; R, C, T &gt;::getTranslation() const</span>
-<span class="lineNum">    1084 </span>            : {
-<span class="lineNum">    1085 </span><span class="lineNoCov">          0 :     vector&lt; C-1, T &gt; result;</span>
-<span class="lineNum">    1086 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; C-1; ++i )</span>
-<span class="lineNum">    1087 </span><span class="lineNoCov">          0 :         result[ i ] = array[ i + R * (C - 1) ];</span>
-<span class="lineNum">    1088 </span><span class="lineNoCov">          0 :     return result;</span>
-<span class="lineNum">    1089 </span>            : }
-<a name="1090"><span class="lineNum">    1090 </span>            : </a>
-<span class="lineNum">    1091 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t S &gt;
-<span class="lineNum">    1092 </span><span class="lineCov">          1 : void Matrix&lt; R, C, T &gt;::getLookAt( vector&lt; S, T &gt;&amp; eye, vector&lt; S, T &gt;&amp; lookAt,</span>
-<span class="lineNum">    1093 </span>            :                                    vector&lt; S, T &gt;&amp; up,
-<span class="lineNum">    1094 </span>            :              typename enable_if&lt; R == S+1 &amp;&amp; C == S+1 &amp;&amp; S == 3 &gt;::type* ) const
-<span class="lineNum">    1095 </span>            : {
-<span class="lineNum">    1096 </span><span class="lineCov">          1 :     const Matrix&lt; 4, 4, T &gt;&amp; inv = inverse();</span>
-<span class="lineNum">    1097 </span><span class="lineCov">          1 :     const Matrix&lt; 3, 3, T &gt; rotation( transpose( Matrix&lt; 3, 3, T &gt;( *this )));</span>
-<span class="lineNum">    1098 </span>            : 
-<span class="lineNum">    1099 </span><span class="lineCov">          1 :     eye = inv * vector&lt; 3, T &gt;::ZERO;</span>
-<span class="lineNum">    1100 </span><span class="lineCov">          1 :     up = rotation * vector&lt; 3, T &gt;::UP;</span>
-<span class="lineNum">    1101 </span><span class="lineCov">          1 :     lookAt = rotation * vector&lt; 3, T &gt;::FORWARD;</span>
-<span class="lineNum">    1102 </span><span class="lineCov">          1 :     lookAt.normalize();</span>
-<span class="lineNum">    1103 </span><span class="lineCov">          1 :     lookAt = eye + lookAt;</span>
-<span class="lineNum">    1104 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">    1021 </span>            :     tmp         = array[ 0 ];
+<span class="lineNum">    1022 </span>            :     array[ 0 ]  = array[ 0 ] * cosine + array[ 1 ] * sine;
+<span class="lineNum">    1023 </span>            :     array[ 1 ]  = tmp * -sine + array[ 1 ] * cosine;
+<span class="lineNum">    1024 </span>            : 
+<span class="lineNum">    1025 </span>            :     tmp         = array[ 4 ];
+<span class="lineNum">    1026 </span>            :     array[ 4 ]  = array[ 4 ] * cosine + array[ 5 ] * sine;
+<span class="lineNum">    1027 </span>            :     array[ 5 ]  = tmp * -sine + array[ 5 ] * cosine;
+<span class="lineNum">    1028 </span>            : 
+<span class="lineNum">    1029 </span>            :     tmp         = array[ 8 ];
+<span class="lineNum">    1030 </span>            :     array[ 8 ]  = array[ 8 ] * cosine + array[ 9 ] * sine;
+<span class="lineNum">    1031 </span>            :     array[ 9 ]  = tmp * -sine + array[ 9 ] * cosine;
+<span class="lineNum">    1032 </span>            : 
+<span class="lineNum">    1033 </span>            :     tmp         = array[ 12 ];
+<span class="lineNum">    1034 </span>            :     array[ 12 ] = array[ 12 ] * cosine + array[ 13 ] * sine;
+<span class="lineNum">    1035 </span>            :     array[ 13 ] = tmp * -sine + array[ 13 ] * cosine;
+<span class="lineNum">    1036 </span>            : 
+<span class="lineNum">    1037 </span>            :     return *this;
+<span class="lineNum">    1038 </span>            : }
+<span class="lineNum">    1039 </span>            : 
+<span class="lineNum">    1040 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt; inline
+<span class="lineNum">    1041 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::scale( const vector&lt; 3, TT &gt;&amp; scale_,
+<span class="lineNum">    1042 </span>            :                              typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">    1043 </span>            : {
+<span class="lineNum">    1044 </span>            :     array[0]  *= scale_[ 0 ];
+<span class="lineNum">    1045 </span>            :     array[1]  *= scale_[ 0 ];
+<span class="lineNum">    1046 </span>            :     array[2]  *= scale_[ 0 ];
+<span class="lineNum">    1047 </span>            :     array[3]  *= scale_[ 0 ];
+<span class="lineNum">    1048 </span>            :     array[4]  *= scale_[ 1 ];
+<span class="lineNum">    1049 </span>            :     array[5]  *= scale_[ 1 ];
+<span class="lineNum">    1050 </span>            :     array[6]  *= scale_[ 1 ];
+<span class="lineNum">    1051 </span>            :     array[7]  *= scale_[ 1 ];
+<span class="lineNum">    1052 </span>            :     array[8]  *= scale_[ 2 ];
+<span class="lineNum">    1053 </span>            :     array[9]  *= scale_[ 2 ];
+<span class="lineNum">    1054 </span>            :     array[10] *= scale_[ 2 ];
+<span class="lineNum">    1055 </span>            :     array[11] *= scale_[ 2 ];
+<span class="lineNum">    1056 </span>            :     return *this;
+<span class="lineNum">    1057 </span>            : }
+<span class="lineNum">    1058 </span>            : 
+<span class="lineNum">    1059 </span>            : 
+<span class="lineNum">    1060 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; typename TT &gt; inline
+<span class="lineNum">    1061 </span>            : Matrix&lt; R, C, T &gt;&amp; Matrix&lt; R, C, T &gt;::scaleTranslation(
+<span class="lineNum">    1062 </span>            :     const vector&lt; 3, TT &gt;&amp; scale_,
+<span class="lineNum">    1063 </span>            :     typename enable_if&lt; R == C &amp;&amp; R == 4, TT &gt;::type* )
+<span class="lineNum">    1064 </span>            : {
+<span class="lineNum">    1065 </span>            :     array[12] *= static_cast&lt; T &gt;( scale_[0] );
+<span class="lineNum">    1066 </span>            :     array[13] *= static_cast&lt; T &gt;( scale_[1] );
+<span class="lineNum">    1067 </span>            :     array[14] *= static_cast&lt; T &gt;( scale_[2] );
+<span class="lineNum">    1068 </span>            :     return *this;
+<span class="lineNum">    1069 </span>            : }
+<span class="lineNum">    1070 </span>            : 
+<a name="1071"><span class="lineNum">    1071 </span>            : </a>
+<span class="lineNum">    1072 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline Matrix&lt; R, C, T &gt;&amp;
+<span class="lineNum">    1073 </span><span class="lineCov">          1 : Matrix&lt; R, C, T &gt;::setTranslation( const vector&lt; C-1, T &gt;&amp; trans )</span>
+<span class="lineNum">    1074 </span>            : {
+<span class="lineNum">    1075 </span><span class="lineCov">          4 :     for( size_t i = 0; i &lt; C-1; ++i )</span>
+<span class="lineNum">    1076 </span><span class="lineCov">          3 :         array[ i + R * (C - 1) ] = trans[ i ];</span>
+<span class="lineNum">    1077 </span><span class="lineCov">          1 :     return *this;</span>
+<span class="lineNum">    1078 </span>            : }
+<a name="1079"><span class="lineNum">    1079 </span>            : </a>
+<span class="lineNum">    1080 </span>            : template&lt; size_t R, size_t C, typename T &gt; inline
+<span class="lineNum">    1081 </span><span class="lineNoCov">          0 : vector&lt; C-1, T &gt; Matrix&lt; R, C, T &gt;::getTranslation() const</span>
+<span class="lineNum">    1082 </span>            : {
+<span class="lineNum">    1083 </span><span class="lineNoCov">          0 :     vector&lt; C-1, T &gt; result;</span>
+<span class="lineNum">    1084 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; C-1; ++i )</span>
+<span class="lineNum">    1085 </span><span class="lineNoCov">          0 :         result[ i ] = array[ i + R * (C - 1) ];</span>
+<span class="lineNum">    1086 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">    1087 </span>            : }
+<a name="1088"><span class="lineNum">    1088 </span>            : </a>
+<span class="lineNum">    1089 </span>            : template&lt; size_t R, size_t C, typename T &gt; template&lt; size_t S &gt;
+<span class="lineNum">    1090 </span><span class="lineCov">          1 : void Matrix&lt; R, C, T &gt;::getLookAt( vector&lt; S, T &gt;&amp; eye, vector&lt; S, T &gt;&amp; lookAt,</span>
+<span class="lineNum">    1091 </span>            :                                    vector&lt; S, T &gt;&amp; up,
+<span class="lineNum">    1092 </span>            :              typename enable_if&lt; R == S+1 &amp;&amp; C == S+1 &amp;&amp; S == 3 &gt;::type* ) const
+<span class="lineNum">    1093 </span>            : {
+<span class="lineNum">    1094 </span><span class="lineCov">          1 :     const Matrix&lt; 4, 4, T &gt;&amp; inv = inverse();</span>
+<span class="lineNum">    1095 </span><span class="lineCov">          1 :     const Matrix&lt; 3, 3, T &gt; rotation( transpose( Matrix&lt; 3, 3, T &gt;( *this )));</span>
+<span class="lineNum">    1096 </span>            : 
+<span class="lineNum">    1097 </span><span class="lineCov">          1 :     eye = vector&lt; S, T &gt;( inv * vector&lt; 4, T &gt;::zero( ));</span>
+<span class="lineNum">    1098 </span><span class="lineCov">          1 :     up = rotation * vector&lt; 3, T &gt;::up();</span>
+<span class="lineNum">    1099 </span><span class="lineCov">          1 :     lookAt = rotation * vector&lt; 3, T &gt;::forward();</span>
+<span class="lineNum">    1100 </span><span class="lineCov">          1 :     lookAt.normalize();</span>
+<span class="lineNum">    1101 </span><span class="lineCov">          1 :     lookAt = eye + lookAt;</span>
+<span class="lineNum">    1102 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">    1103 </span>            : 
+<span class="lineNum">    1104 </span>            : } // namespace vmml
 <span class="lineNum">    1105 </span>            : 
-<span class="lineNum">    1106 </span>            : } // namespace vmml
-<span class="lineNum">    1107 </span>            : 
-<span class="lineNum">    1108 </span>            : #endif
+<span class="lineNum">    1106 </span>            : #endif
 </pre>
       </td>
     </tr>
