@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-10 01:22:02</td>
+            <td class="headerValue">2017-02-15 01:26:38</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -87,130 +87,129 @@
 <span class="lineNum">      25 </span>            : #include &lt;co/types.h&gt;
 <span class="lineNum">      26 </span>            : 
 <span class="lineNum">      27 </span>            : #include &lt;lunchbox/clock.h&gt;     // member
-<span class="lineNum">      28 </span>            : #include &lt;lunchbox/lock.h&gt;      // member
-<span class="lineNum">      29 </span>            : #include &lt;lunchbox/lockable.h&gt;  // member
-<span class="lineNum">      30 </span>            : #include &lt;lunchbox/thread.h&gt;    // member
-<span class="lineNum">      31 </span>            : #include &lt;lunchbox/uint128_t.h&gt; // member
-<span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span>            : #include &lt;iostream&gt;
-<span class="lineNum">      34 </span>            : #include &lt;unordered_map&gt;
-<span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span>            : namespace co
-<span class="lineNum">      37 </span>            : {
-<span class="lineNum">      38 </span>            : /** @internal A thread-safe cache for object instance data. */
-<span class="lineNum">      39 </span>            : class InstanceCache
-<span class="lineNum">      40 </span>            : {
-<span class="lineNum">      41 </span>            : public:
-<span class="lineNum">      42 </span>            :     /** Construct a new instance cache. */
-<span class="lineNum">      43 </span>            :     CO_API explicit InstanceCache(const uint64_t maxSize = LB_100MB);
-<span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span>            :     /** Destruct this instance cache. */
-<span class="lineNum">      46 </span>            :     CO_API ~InstanceCache();
-<span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span>            :     /**
-<span class="lineNum">      49 </span>            :      * Add a new command to the instance cache.
-<span class="lineNum">      50 </span>            :      *
-<span class="lineNum">      51 </span>            :      * @param rev the object identifier and version.
-<span class="lineNum">      52 </span>            :      * @param instanceID the master instance ID.
-<span class="lineNum">      53 </span>            :      * @param command The command to add.
-<span class="lineNum">      54 </span>            :      * @param usage pre-set usage count.
-<span class="lineNum">      55 </span>            :      * @return true if the command was entered, false if not.
-<span class="lineNum">      56 </span>            :      */
-<span class="lineNum">      57 </span>            :     CO_API bool add(const ObjectVersion&amp; rev, const uint32_t instanceID,
-<span class="lineNum">      58 </span>            :                     ICommand&amp; command, const uint32_t usage = 0);
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     /** Remove all items from the given node. */
-<span class="lineNum">      61 </span>            :     void remove(const NodeID&amp; node);
-<a name="62"><span class="lineNum">      62 </span>            : </a>
-<span class="lineNum">      63 </span>            :     /** One cache entry */
-<span class="lineNum">      64 </span><span class="lineCov">     193481 :     struct Data</span>
-<span class="lineNum">      65 </span>            :     {
-<span class="lineNum">      66 </span>            :         Data();
-<span class="lineNum">      67 </span>            :         CO_API bool operator!=(const Data&amp; rhs) const;
-<span class="lineNum">      68 </span>            :         CO_API bool operator==(const Data&amp; rhs) const;
-<span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span>            :         uint32_t masterInstanceID; //!&lt; The instance ID of the master object
-<span class="lineNum">      71 </span>            :         ObjectDataIStreamDeque versions; //!&lt; all cached data
-<span class="lineNum">      72 </span>            :         CO_API static const Data NONE;   //!&lt; '0' return value
-<span class="lineNum">      73 </span>            :     };
-<span class="lineNum">      74 </span>            : 
-<span class="lineNum">      75 </span>            :     /**
-<span class="lineNum">      76 </span>            :      * Direct access to the cached instance data for the given object id.
-<span class="lineNum">      77 </span>            :      *
-<span class="lineNum">      78 </span>            :      * The instance data for the given object has to be released by the
-<span class="lineNum">      79 </span>            :      * caller, unless 0 has been returned. Not all returned data stream
-<span class="lineNum">      80 </span>            :      * might be ready.
-<span class="lineNum">      81 </span>            :      *
-<span class="lineNum">      82 </span>            :      * @param id the identifier of the object to look up.
-<span class="lineNum">      83 </span>            :      * @return the list of cached instance datas, or Data::NONE if no data
-<span class="lineNum">      84 </span>            :      *         is cached for this object.
-<span class="lineNum">      85 </span>            :      */
-<span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span>            :     CO_API const Data&amp; operator[](const uint128_t&amp; id);
-<span class="lineNum">      88 </span>            : 
-<span class="lineNum">      89 </span>            :     /**
-<span class="lineNum">      90 </span>            :      * Release the retrieved instance data of the given object.
-<span class="lineNum">      91 </span>            :      *
-<span class="lineNum">      92 </span>            :      * @param id the identifier of the object to release.
-<span class="lineNum">      93 </span>            :      * @param count the number of access operations to release
-<span class="lineNum">      94 </span>            :      * @return true if the element was unpinned, false if it is not in the
-<span class="lineNum">      95 </span>            :      *         instance cache.
-<span class="lineNum">      96 </span>            :      */
-<span class="lineNum">      97 </span>            :     CO_API bool release(const uint128_t&amp; id, const uint32_t count);
-<span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span>            :     /**
-<span class="lineNum">     100 </span>            :      * Erase all the data for the given object.
-<span class="lineNum">     101 </span>            :      *
-<span class="lineNum">     102 </span>            :      * The data does not have to be accessed, i.e., release has been called
-<span class="lineNum">     103 </span>            :      * for each previous access.
-<span class="lineNum">     104 </span>            :      *
-<span class="lineNum">     105 </span>            :      * @return true if the element was erased, false otherwise.
-<span class="lineNum">     106 </span>            :      */
-<span class="lineNum">     107 </span>            :     CO_API bool erase(const uint128_t&amp; id);
-<a name="108"><span class="lineNum">     108 </span>            : </a>
-<span class="lineNum">     109 </span>            :     /** @return the number of bytes used by the instance cache. */
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">          3 :     uint64_t getSize() const { return _size; }</span></a>
-<span class="lineNum">     111 </span>            :     /** @return the maximum number of bytes used by the instance cache. */
-<span class="lineNum">     112 </span><span class="lineCov">          2 :     uint64_t getMaxSize() const { return _maxSize; }</span>
-<span class="lineNum">     113 </span>            :     /** Remove all items which are older than the given time. */
-<a name="114"><span class="lineNum">     114 </span>            :     void expire(const int64_t age);</a>
-<span class="lineNum">     115 </span>            : 
-<span class="lineNum">     116 </span><span class="lineCov">        102 :     bool isEmpty() { return _items-&gt;empty(); }</span>
-<a name="117"><span class="lineNum">     117 </span>            : </a>
-<span class="lineNum">     118 </span>            : private:
-<span class="lineNum">     119 </span><span class="lineCov">     193459 :     struct Item</span>
-<span class="lineNum">     120 </span>            :     {
-<span class="lineNum">     121 </span>            :         Item();
-<span class="lineNum">     122 </span>            :         Data data;
-<span class="lineNum">     123 </span>            :         unsigned used;
-<span class="lineNum">     124 </span>            :         unsigned access;
-<span class="lineNum">     125 </span>            :         NodeID from;
-<span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span>            :         typedef std::deque&lt;int64_t&gt; TimeDeque;
-<span class="lineNum">     128 </span>            :         TimeDeque times;
-<span class="lineNum">     129 </span>            :     };
-<span class="lineNum">     130 </span>            : 
-<span class="lineNum">     131 </span>            :     typedef std::unordered_map&lt;uint128_t, Item&gt; ItemHash;
-<span class="lineNum">     132 </span>            :     typedef ItemHash::iterator ItemHashIter;
-<span class="lineNum">     133 </span>            :     lunchbox::Lockable&lt;ItemHash&gt; _items;
-<span class="lineNum">     134 </span>            : 
-<span class="lineNum">     135 </span>            :     const uint64_t _maxSize; //!&lt;high-water mark to start releasing commands
-<span class="lineNum">     136 </span>            :     uint64_t _size;          //!&lt; Current number of bytes stored
-<span class="lineNum">     137 </span>            : 
-<span class="lineNum">     138 </span>            :     const lunchbox::Clock _clock; //!&lt; Clock for item expiration
-<span class="lineNum">     139 </span>            : 
-<span class="lineNum">     140 </span>            :     void _releaseItems(const uint32_t minUsage);
-<span class="lineNum">     141 </span>            :     void _releaseStreams(InstanceCache::Item&amp; item);
-<span class="lineNum">     142 </span>            :     void _releaseStreams(InstanceCache::Item&amp; item, const int64_t minTime);
-<span class="lineNum">     143 </span>            :     void _releaseFirstStream(InstanceCache::Item&amp; item);
-<a name="144"><span class="lineNum">     144 </span>            :     void _deleteStream(ObjectDataIStream* iStream);</a>
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span><span class="lineCov">        110 :     LB_TS_VAR(_thread);</span>
-<span class="lineNum">     147 </span>            : };
-<span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span>            : CO_API std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const InstanceCache&amp;);
-<span class="lineNum">     150 </span>            : }
-<span class="lineNum">     151 </span>            : #endif // CO_INSTANCECACHE_H
+<span class="lineNum">      28 </span>            : #include &lt;lunchbox/lockable.h&gt;  // member
+<span class="lineNum">      29 </span>            : #include &lt;lunchbox/thread.h&gt;    // member
+<span class="lineNum">      30 </span>            : #include &lt;lunchbox/uint128_t.h&gt; // member
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      33 </span>            : #include &lt;unordered_map&gt;
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : namespace co
+<span class="lineNum">      36 </span>            : {
+<span class="lineNum">      37 </span>            : /** @internal A thread-safe cache for object instance data. */
+<span class="lineNum">      38 </span>            : class InstanceCache
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span>            : public:
+<span class="lineNum">      41 </span>            :     /** Construct a new instance cache. */
+<span class="lineNum">      42 </span>            :     CO_API explicit InstanceCache(const uint64_t maxSize = LB_100MB);
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :     /** Destruct this instance cache. */
+<span class="lineNum">      45 </span>            :     CO_API ~InstanceCache();
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :     /**
+<span class="lineNum">      48 </span>            :      * Add a new command to the instance cache.
+<span class="lineNum">      49 </span>            :      *
+<span class="lineNum">      50 </span>            :      * @param rev the object identifier and version.
+<span class="lineNum">      51 </span>            :      * @param instanceID the master instance ID.
+<span class="lineNum">      52 </span>            :      * @param command The command to add.
+<span class="lineNum">      53 </span>            :      * @param usage pre-set usage count.
+<span class="lineNum">      54 </span>            :      * @return true if the command was entered, false if not.
+<span class="lineNum">      55 </span>            :      */
+<span class="lineNum">      56 </span>            :     CO_API bool add(const ObjectVersion&amp; rev, const uint32_t instanceID,
+<span class="lineNum">      57 </span>            :                     ICommand&amp; command, const uint32_t usage = 0);
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            :     /** Remove all items from the given node. */
+<span class="lineNum">      60 </span>            :     void remove(const NodeID&amp; node);
+<a name="61"><span class="lineNum">      61 </span>            : </a>
+<span class="lineNum">      62 </span>            :     /** One cache entry */
+<span class="lineNum">      63 </span><span class="lineCov">     193982 :     struct Data</span>
+<span class="lineNum">      64 </span>            :     {
+<span class="lineNum">      65 </span>            :         Data();
+<span class="lineNum">      66 </span>            :         CO_API bool operator!=(const Data&amp; rhs) const;
+<span class="lineNum">      67 </span>            :         CO_API bool operator==(const Data&amp; rhs) const;
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :         uint32_t masterInstanceID; //!&lt; The instance ID of the master object
+<span class="lineNum">      70 </span>            :         ObjectDataIStreamDeque versions; //!&lt; all cached data
+<span class="lineNum">      71 </span>            :         CO_API static const Data NONE;   //!&lt; '0' return value
+<span class="lineNum">      72 </span>            :     };
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :     /**
+<span class="lineNum">      75 </span>            :      * Direct access to the cached instance data for the given object id.
+<span class="lineNum">      76 </span>            :      *
+<span class="lineNum">      77 </span>            :      * The instance data for the given object has to be released by the
+<span class="lineNum">      78 </span>            :      * caller, unless 0 has been returned. Not all returned data stream
+<span class="lineNum">      79 </span>            :      * might be ready.
+<span class="lineNum">      80 </span>            :      *
+<span class="lineNum">      81 </span>            :      * @param id the identifier of the object to look up.
+<span class="lineNum">      82 </span>            :      * @return the list of cached instance datas, or Data::NONE if no data
+<span class="lineNum">      83 </span>            :      *         is cached for this object.
+<span class="lineNum">      84 </span>            :      */
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :     CO_API const Data&amp; operator[](const uint128_t&amp; id);
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     /**
+<span class="lineNum">      89 </span>            :      * Release the retrieved instance data of the given object.
+<span class="lineNum">      90 </span>            :      *
+<span class="lineNum">      91 </span>            :      * @param id the identifier of the object to release.
+<span class="lineNum">      92 </span>            :      * @param count the number of access operations to release
+<span class="lineNum">      93 </span>            :      * @return true if the element was unpinned, false if it is not in the
+<span class="lineNum">      94 </span>            :      *         instance cache.
+<span class="lineNum">      95 </span>            :      */
+<span class="lineNum">      96 </span>            :     CO_API bool release(const uint128_t&amp; id, const uint32_t count);
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            :     /**
+<span class="lineNum">      99 </span>            :      * Erase all the data for the given object.
+<span class="lineNum">     100 </span>            :      *
+<span class="lineNum">     101 </span>            :      * The data does not have to be accessed, i.e., release has been called
+<span class="lineNum">     102 </span>            :      * for each previous access.
+<span class="lineNum">     103 </span>            :      *
+<span class="lineNum">     104 </span>            :      * @return true if the element was erased, false otherwise.
+<span class="lineNum">     105 </span>            :      */
+<span class="lineNum">     106 </span>            :     CO_API bool erase(const uint128_t&amp; id);
+<a name="107"><span class="lineNum">     107 </span>            : </a>
+<span class="lineNum">     108 </span>            :     /** @return the number of bytes used by the instance cache. */
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          3 :     uint64_t getSize() const { return _size; }</span></a>
+<span class="lineNum">     110 </span>            :     /** @return the maximum number of bytes used by the instance cache. */
+<span class="lineNum">     111 </span><span class="lineCov">          2 :     uint64_t getMaxSize() const { return _maxSize; }</span>
+<span class="lineNum">     112 </span>            :     /** Remove all items which are older than the given time. */
+<a name="113"><span class="lineNum">     113 </span>            :     void expire(const int64_t age);</a>
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineCov">        102 :     bool isEmpty() { return _items-&gt;empty(); }</span>
+<a name="116"><span class="lineNum">     116 </span>            : </a>
+<span class="lineNum">     117 </span>            : private:
+<span class="lineNum">     118 </span><span class="lineCov">     193960 :     struct Item</span>
+<span class="lineNum">     119 </span>            :     {
+<span class="lineNum">     120 </span>            :         Item();
+<span class="lineNum">     121 </span>            :         Data data;
+<span class="lineNum">     122 </span>            :         unsigned used;
+<span class="lineNum">     123 </span>            :         unsigned access;
+<span class="lineNum">     124 </span>            :         NodeID from;
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            :         typedef std::deque&lt;int64_t&gt; TimeDeque;
+<span class="lineNum">     127 </span>            :         TimeDeque times;
+<span class="lineNum">     128 </span>            :     };
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            :     typedef std::unordered_map&lt;uint128_t, Item&gt; ItemHash;
+<span class="lineNum">     131 </span>            :     typedef ItemHash::iterator ItemHashIter;
+<span class="lineNum">     132 </span>            :     lunchbox::Lockable&lt;ItemHash&gt; _items;
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            :     const uint64_t _maxSize; //!&lt;high-water mark to start releasing commands
+<span class="lineNum">     135 </span>            :     uint64_t _size;          //!&lt; Current number of bytes stored
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            :     const lunchbox::Clock _clock; //!&lt; Clock for item expiration
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            :     void _releaseItems(const uint32_t minUsage);
+<span class="lineNum">     140 </span>            :     void _releaseStreams(InstanceCache::Item&amp; item);
+<span class="lineNum">     141 </span>            :     void _releaseStreams(InstanceCache::Item&amp; item, const int64_t minTime);
+<span class="lineNum">     142 </span>            :     void _releaseFirstStream(InstanceCache::Item&amp; item);
+<a name="143"><span class="lineNum">     143 </span>            :     void _deleteStream(ObjectDataIStream* iStream);</a>
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span><span class="lineCov">        110 :     LB_TS_VAR(_thread);</span>
+<span class="lineNum">     146 </span>            : };
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            : CO_API std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const InstanceCache&amp;);
+<span class="lineNum">     149 </span>            : }
+<span class="lineNum">     150 </span>            : #endif // CO_INSTANCECACHE_H
 </pre>
       </td>
     </tr>

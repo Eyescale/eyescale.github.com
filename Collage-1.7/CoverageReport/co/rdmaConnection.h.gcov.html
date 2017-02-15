@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-10 01:22:02</td>
+            <td class="headerValue">2017-02-15 01:26:38</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -110,23 +110,23 @@
 <span class="lineNum">      48 </span>            :     BufferPool(size_t buffer_size);
 <a name="49"><span class="lineNum">      49 </span>            :     ~BufferPool();</a>
 <a name="50"><span class="lineNum">      50 </span>            : </a>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">     260768 :     ibv_mr *getMR() const { return _mr; }</span></a>
-<span class="lineNum">      52 </span><span class="lineCov">     246274 :     size_t getBufferSize() const { return _buffer_size; }</span>
-<span class="lineNum">      53 </span><span class="lineCov">     260768 :     void *getBuffer()</span>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">     252647 :     ibv_mr *getMR() const { return _mr; }</span></a>
+<span class="lineNum">      52 </span><span class="lineCov">     239009 :     size_t getBufferSize() const { return _buffer_size; }</span>
+<span class="lineNum">      53 </span><span class="lineCov">     252647 :     void *getBuffer()</span>
 <span class="lineNum">      54 </span>            :     {
-<span class="lineNum">      55 </span><span class="lineCov">     521536 :         lunchbox::ScopedWrite mutex(_buffer_lock);</span>
+<span class="lineNum">      55 </span><span class="lineCov">     505293 :         lunchbox::ScopedWrite mutex(_buffer_lock);</span>
 <span class="lineNum">      56 </span>            : 
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     521536 :         return (void *)((uintptr_t)_buffer + (_ring.get() * _buffer_size));</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     505294 :         return (void *)((uintptr_t)_buffer + (_ring.get() * _buffer_size));</span></a>
 <span class="lineNum">      58 </span>            :     }
-<span class="lineNum">      59 </span><span class="lineCov">     258701 :     void freeBuffer(void *buf)</span>
+<span class="lineNum">      59 </span><span class="lineCov">     250573 :     void freeBuffer(void *buf)</span>
 <span class="lineNum">      60 </span>            :     {
-<span class="lineNum">      61 </span><span class="lineCov">     517402 :         lunchbox::ScopedWrite mutex(_buffer_lock);</span>
+<span class="lineNum">      61 </span><span class="lineCov">     501156 :         lunchbox::ScopedWrite mutex(_buffer_lock);</span>
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">     258712 :         ::memset(buf, 0xff, _buffer_size); // Paranoid</span>
+<span class="lineNum">      63 </span><span class="lineCov">     250589 :         ::memset(buf, 0xff, _buffer_size); // Paranoid</span>
 <span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span><span class="lineCov">     258712 :         _ring.put(</span>
-<span class="lineNum">      66 </span><span class="lineCov">     517424 :             (uint32_t)(((uintptr_t)buf - (uintptr_t)_buffer) / _buffer_size));</span>
-<span class="lineNum">      67 </span><span class="lineCov">     258720 :     }</span>
+<span class="lineNum">      65 </span><span class="lineCov">     250589 :         _ring.put(</span>
+<span class="lineNum">      66 </span><span class="lineCov">     501178 :             (uint32_t)(((uintptr_t)buf - (uintptr_t)_buffer) / _buffer_size));</span>
+<span class="lineNum">      67 </span><span class="lineCov">     250597 :     }</span>
 <span class="lineNum">      68 </span>            : 
 <span class="lineNum">      69 </span>            :     void clear();
 <span class="lineNum">      70 </span>            :     bool resize(ibv_pd *pd, uint32_t num_bufs);
@@ -137,7 +137,7 @@
 <span class="lineNum">      75 </span>            :     void *_buffer;
 <span class="lineNum">      76 </span>            :     struct ibv_mr *_mr;
 <span class="lineNum">      77 </span>            :     BufferQ&lt;uint32_t&gt; _ring;
-<span class="lineNum">      78 </span>            :     lunchbox::Lock _buffer_lock;
+<span class="lineNum">      78 </span>            :     std::mutex _buffer_lock;
 <span class="lineNum">      79 </span>            : }; // BufferPool
 <span class="lineNum">      80 </span>            : 
 <span class="lineNum">      81 </span>            : /**
@@ -151,9 +151,9 @@
 <span class="lineNum">      89 </span>            :     RingBuffer(int access = 0);
 <a name="90"><span class="lineNum">      90 </span>            :     ~RingBuffer();</a>
 <a name="91"><span class="lineNum">      91 </span>            : </a>
-<a name="92"><span class="lineNum">      92 </span><span class="lineCov">     229741 :     ibv_mr *getMR() const { return _mr; }</span></a>
-<span class="lineNum">      93 </span><span class="lineCov">     373009 :     size_t getSize() const { return _size; }</span>
-<span class="lineNum">      94 </span><span class="lineCov">     829420 :     void *getBase() const { return _map; }</span>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">     223331 :     ibv_mr *getMR() const { return _mr; }</span></a>
+<span class="lineNum">      93 </span><span class="lineCov">     368986 :     size_t getSize() const { return _size; }</span>
+<span class="lineNum">      94 </span><span class="lineCov">     812359 :     void *getBase() const { return _map; }</span>
 <span class="lineNum">      95 </span>            :     void clear();
 <span class="lineNum">      96 </span>            :     bool resize(ibv_pd *pd, size_t size);
 <span class="lineNum">      97 </span>            : 
@@ -337,7 +337,7 @@
 <span class="lineNum">     275 </span>            :     Notifier _notifier;
 <span class="lineNum">     276 </span>            : 
 <span class="lineNum">     277 </span>            :     /* Protect RDMA/Verbs vars from multiple threads */
-<span class="lineNum">     278 </span>            :     lunchbox::Lock _poll_lock;
+<span class="lineNum">     278 </span>            :     std::mutex _poll_lock;
 <span class="lineNum">     279 </span>            : 
 <span class="lineNum">     280 </span>            :     /* Timeout for resolving RDMA address &amp; route */
 <span class="lineNum">     281 </span>            :     const int32_t _timeout;
