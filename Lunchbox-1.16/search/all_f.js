@@ -28,5 +28,5 @@ var searchData=
   ['result',['Result',['../classlunchbox_1_1_result.html#ae82daa1dc22757f6122baa0d9690b9d3',1,'lunchbox::Result']]],
   ['rng',['RNG',['../classlunchbox_1_1_r_n_g.html#ad57546c87290b2e77e422ae54bb1044e',1,'lunchbox::RNG']]],
   ['rng',['RNG',['../classlunchbox_1_1_r_n_g.html',1,'lunchbox']]],
-  ['run',['run',['../classlunchbox_1_1_launcher.html#ac32d9186049d3548b2b9e3ee69d069ef',1,'lunchbox::Launcher::run()'],['../classlunchbox_1_1_thread.html#a83d5f979e5054e3900c360416652bca6',1,'lunchbox::Thread::run()']]]
+  ['run',['run',['../classlunchbox_1_1_thread.html#a83d5f979e5054e3900c360416652bca6',1,'lunchbox::Thread']]]
 ];

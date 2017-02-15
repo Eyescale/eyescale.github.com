@@ -13,15 +13,13 @@ var hierarchy =
         [ "lunchbox::Request< T >::Impl", "classlunchbox_1_1_request_1_1_impl.html", null ]
       ] ],
       [ "lunchbox::LFQueue< T >", "classlunchbox_1_1_l_f_queue.html", null ],
-      [ "lunchbox::Lock", "classlunchbox_1_1_lock.html", null ],
       [ "lunchbox::Lockable< D, L >", "classlunchbox_1_1_lockable.html", null ],
       [ "lunchbox::MemoryMap", "classlunchbox_1_1_memory_map.html", null ],
       [ "lunchbox::PerThreadRef< T >", "classlunchbox_1_1_per_thread_ref.html", null ],
       [ "lunchbox::Pool< T, locked >", "classlunchbox_1_1_pool.html", null ],
       [ "lunchbox::RequestHandler", "classlunchbox_1_1_request_handler.html", null ],
       [ "lunchbox::RNG", "classlunchbox_1_1_r_n_g.html", null ],
-      [ "lunchbox::SpinLock", "classlunchbox_1_1_spin_lock.html", null ],
-      [ "lunchbox::TimedLock", "classlunchbox_1_1_timed_lock.html", null ]
+      [ "lunchbox::SpinLock", "classlunchbox_1_1_spin_lock.html", null ]
     ] ],
     [ "lunchbox::Any", "classlunchbox_1_1_any.html", null ],
     [ "lunchbox::Array< T >", "classlunchbox_1_1_array.html", null ],
@@ -34,7 +32,6 @@ var hierarchy =
     [ "lunchbox::Future< void >", "classlunchbox_1_1_future_3_01void_01_4.html", null ],
     [ "lunchbox::hashRefPtr< T >", "structlunchbox_1_1hash_ref_ptr.html", null ],
     [ "lunchbox::IntervalSet< T >", "classlunchbox_1_1_interval_set.html", null ],
-    [ "lunchbox::Launcher", "classlunchbox_1_1_launcher.html", null ],
     [ "lunchbox::LFVector< T, nSlots >", "classlunchbox_1_1_l_f_vector.html", null ],
     [ "lunchbox::Monitor< T >", "classlunchbox_1_1_monitor.html", null ],
     [ "lunchbox::MTQueue< T, S >", "classlunchbox_1_1_m_t_queue.html", null ],

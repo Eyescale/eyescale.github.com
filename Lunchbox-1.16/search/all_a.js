@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['launcher',['Launcher',['../classlunchbox_1_1_launcher.html',1,'lunchbox']]],
   ['lb_5fmax',['LB_MAX',['../types_8h.html#ad68ab8ea456ab30b7bdfe17ec3d4eb33',1,'types.h']]],
   ['lb_5fmax_5fuint32',['LB_MAX_UINT32',['../types_8h.html#a3b1b0b72ecd87e86483d8684aa2b9a0f',1,'types.h']]],
   ['lb_5fmin',['LB_MIN',['../types_8h.html#a6a78ec50fe9d6fdf1efb293ba6a686bc',1,'types.h']]],
@@ -28,10 +27,9 @@ var searchData=
   ['loadany',['loadAny',['../namespacelunchbox.html#ae74a941f06e7a7c383a9e674a5f83d4b',1,'lunchbox']]],
   ['loadascii',['loadAscii',['../namespacelunchbox.html#a946ab456dfcf4f2c7968f3e7dcbee358',1,'lunchbox']]],
   ['loadbinary',['loadBinary',['../namespacelunchbox.html#a9cee8fce7c6574b54644d68aabd6b3e3',1,'lunchbox']]],
-  ['lock',['lock',['../classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193',1,'lunchbox::Condition::lock()'],['../classlunchbox_1_1_lock.html#a7236eee0aca7430f848a021dffa71df8',1,'lunchbox::Lock::Lock()']]],
-  ['lock',['Lock',['../classlunchbox_1_1_lock.html',1,'lunchbox']]],
-  ['lockable',['Lockable',['../classlunchbox_1_1_lockable.html#a545266d20a7a99f623ef34eea1d86c08',1,'lunchbox::Lockable::Lockable()'],['../classlunchbox_1_1_lockable.html#ad09578bf94a32b3fa346124cd8e1a7b6',1,'lunchbox::Lockable::Lockable(const D &amp;value)'],['../classlunchbox_1_1_lockable.html#ab913952bac275dcfbd74c8d5fdf052c6',1,'lunchbox::Lockable::Lockable(const P1 &amp;p1)']]],
+  ['lock',['lock',['../classlunchbox_1_1_condition.html#a581bc3cb5910fe9211fac870c2631193',1,'lunchbox::Condition']]],
   ['lockable',['Lockable',['../classlunchbox_1_1_lockable.html',1,'lunchbox']]],
+  ['lockable',['Lockable',['../classlunchbox_1_1_lockable.html#a545266d20a7a99f623ef34eea1d86c08',1,'lunchbox::Lockable::Lockable()'],['../classlunchbox_1_1_lockable.html#ad09578bf94a32b3fa346124cd8e1a7b6',1,'lunchbox::Lockable::Lockable(const D &amp;value)'],['../classlunchbox_1_1_lockable.html#ab913952bac275dcfbd74c8d5fdf052c6',1,'lunchbox::Lockable::Lockable(const P1 &amp;p1)']]],
   ['log',['Log',['../classlunchbox_1_1_log.html',1,'lunchbox']]],
   ['log_2eh',['log.h',['../log_8h.html',1,'']]],
   ['log_5fany',['LOG_ANY',['../namespacelunchbox.html#a68115890651a788f5e8e38de12cc6682aaea6b56f6b96fa283b7cd52f0ff290e7',1,'lunchbox']]],

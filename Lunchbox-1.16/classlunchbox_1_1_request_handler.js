@@ -16,6 +16,5 @@ var classlunchbox_1_1_request_handler =
     [ "waitRequest", "classlunchbox_1_1_request_handler.html#ae0b03ec141ef038ca91b4d7c3f09eb45", null ],
     [ "waitRequest", "classlunchbox_1_1_request_handler.html#aac29eb83cd12b24b8862464b1597e81c", null ],
     [ "waitRequest", "classlunchbox_1_1_request_handler.html#a1b82533fa0a2d27e7537ec4db77878fa", null ],
-    [ "waitRequest", "classlunchbox_1_1_request_handler.html#a90f872e6e1819f8d7e962e669c8c7656", null ],
-    [ "operator<<", "classlunchbox_1_1_request_handler.html#a207ff29323cc38f73a9063c6c5b27f7a", null ]
+    [ "waitRequest", "classlunchbox_1_1_request_handler.html#a90f872e6e1819f8d7e962e669c8c7656", null ]
 ];

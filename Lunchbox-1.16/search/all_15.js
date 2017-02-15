@@ -9,7 +9,6 @@ var searchData=
   ['_7efutureimpl',['~FutureImpl',['../classlunchbox_1_1_future_impl.html#a1ee75be9764b89a3a3b7cf6d162c70c6',1,'lunchbox::FutureImpl']]],
   ['_7elfqueue',['~LFQueue',['../classlunchbox_1_1_l_f_queue.html#a7cc3c5bc72dbbfca71c5a2ea8541cc8e',1,'lunchbox::LFQueue']]],
   ['_7elfvector',['~LFVector',['../classlunchbox_1_1_l_f_vector.html#a509fce5075a4dc34a95a8b9a3b61e70c',1,'lunchbox::LFVector']]],
-  ['_7elock',['~Lock',['../classlunchbox_1_1_lock.html#a8c5129cd80a9af362456f1e160a3ecb8',1,'lunchbox::Lock']]],
   ['_7ememorymap',['~MemoryMap',['../classlunchbox_1_1_memory_map.html#adc630e5f52ebe368fbc618acfdf66351',1,'lunchbox::MemoryMap']]],
   ['_7emonitor',['~Monitor',['../classlunchbox_1_1_monitor.html#ad5de0e0cafc67308ffb77db7630df952',1,'lunchbox::Monitor']]],
   ['_7emtqueue',['~MTQueue',['../classlunchbox_1_1_m_t_queue.html#a31c9359912b04c714d11737e9762563a',1,'lunchbox::MTQueue']]],
@@ -27,6 +26,5 @@ var searchData=
   ['_7ethread',['~Thread',['../classlunchbox_1_1_thread.html#a1333026f7be472cea17960fe92337a79',1,'lunchbox::Thread']]],
   ['_7ethreadid',['~ThreadID',['../classlunchbox_1_1_thread_i_d.html#afda1d5cd332c80d5a3378559e8f13abe',1,'lunchbox::ThreadID']]],
   ['_7ethreadpool',['~ThreadPool',['../classlunchbox_1_1_thread_pool.html#a895203c541b728220336ba8c8503dd9e',1,'lunchbox::ThreadPool']]],
-  ['_7etimedlock',['~TimedLock',['../classlunchbox_1_1_timed_lock.html#a1e7da2755b9b809d2fc0ce694c7e31b0',1,'lunchbox::TimedLock']]],
   ['_7etls',['~TLS',['../classlunchbox_1_1_t_l_s.html#ab8ee8aa099d7ca539081d1edb6ad7ab7',1,'lunchbox::TLS']]]
 ];
