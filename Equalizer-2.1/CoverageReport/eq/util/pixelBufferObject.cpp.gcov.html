@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-10 05:05:47</td>
+            <td class="headerValue">2017-02-15 05:12:12</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -61,8 +61,8 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c)      2012, Maxim Makhinya &lt;maxmah@gmail.com&gt;
-<span class="lineNum">       3 </span>            :  *               2012-2013, Stefan Eilemann &lt;eile@eyescale.ch&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2012-2017, Maxim Makhinya &lt;maxmah@gmail.com&gt;
+<span class="lineNum">       3 </span>            :  *                          Stefan Eilemann &lt;eile@eyescale.ch&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * This library is free software; you can redistribute it and/or modify it under
 <span class="lineNum">       6 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
@@ -95,7 +95,7 @@
 <span class="lineNum">      33 </span>            : public:
 <span class="lineNum">      34 </span><span class="lineNoCov">          0 :     PixelBufferObject( const GLEWContext* glewContext,</span>
 <span class="lineNum">      35 </span>            :                        const bool threadSafe )
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :         : lock_( threadSafe ? new lunchbox::Lock : 0 )</span>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :         : lock_( threadSafe ? new std::mutex : 0 )</span>
 <span class="lineNum">      37 </span>            :         , pboID( 0 )
 <span class="lineNum">      38 </span>            :         , size( 0 )
 <span class="lineNum">      39 </span>            :         , _glewContext( glewContext )
@@ -221,10 +221,10 @@
 <span class="lineNum">     159 </span><span class="lineNoCov">          0 :         EQ_GL_CALL( glBindBufferARB( _getName(), 0 ));</span>
 <a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :     }</span></a>
 <a name="161"><span class="lineNum">     161 </span>            : </a>
-<span class="lineNum">     162 </span><span class="lineNoCov">          0 :     void lock()   const { if( lock_ ) lock_-&gt;set();   }</span>
-<span class="lineNum">     163 </span><span class="lineNoCov">          0 :     void unlock() const { if( lock_ ) lock_-&gt;unset(); }</span>
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :     void lock()   const { if( lock_ ) lock_-&gt;lock();   }</span>
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :     void unlock() const { if( lock_ ) lock_-&gt;unlock(); }</span>
 <span class="lineNum">     164 </span>            : 
-<span class="lineNum">     165 </span>            :     mutable lunchbox::Lock* lock_;
+<span class="lineNum">     165 </span>            :     mutable std::mutex* lock_;
 <span class="lineNum">     166 </span>            :     GLuint  pboID; //!&lt; the PBO GL name
 <span class="lineNum">     167 </span>            :     size_t size;  //!&lt; size of the allocated PBO buffer
 <span class="lineNum">     168 </span>            : 

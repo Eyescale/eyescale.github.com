@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-10 05:05:47</td>
+            <td class="headerValue">2017-02-15 05:12:12</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">50</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2016, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2005-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       4 </span>            :  *                          Cedric Stalder &lt;cedric.stalder@gmail.com&gt;
 <span class="lineNum">       5 </span>            :  *
@@ -177,7 +177,7 @@
 <span class="lineNum">     115 </span>            :     }
 <a name="116"><span class="lineNum">     116 </span>            : </a>
 <span class="lineNum">     117 </span>            :     void run() override;
-<span class="lineNum">     118 </span><span class="lineCov">         18 :     bool stopRunning() override { return !_pipe; }</span>
+<span class="lineNum">     118 </span><span class="lineCov">         19 :     bool stopRunning() override { return !_pipe; }</span>
 <span class="lineNum">     119 </span>            : 
 <span class="lineNum">     120 </span>            : private:
 <span class="lineNum">     121 </span>            :     eq::Pipe* _pipe;
@@ -266,7 +266,7 @@
 <span class="lineNum">     204 </span>            : 
 <span class="lineNum">     205 </span>            :     /** The running per-frame statistic clocks. */
 <span class="lineNum">     206 </span>            :     std::deque&lt; int64_t &gt; frameTimes;
-<span class="lineNum">     207 </span>            :     lunchbox::Lock frameTimeMutex;
+<span class="lineNum">     207 </span>            :     std::mutex frameTimeMutex;
 <span class="lineNum">     208 </span>            : 
 <span class="lineNum">     209 </span>            :     /** The base time for the currently active frame. */
 <span class="lineNum">     210 </span>            :     int64_t frameTime;
@@ -1287,9 +1287,9 @@
 <span class="lineNum">    1225 </span><span class="lineNoCov">          0 : bool Pipe::_cmdFrameStartClock( co::ICommand&amp; )</span>
 <span class="lineNum">    1226 </span>            : {
 <span class="lineNum">    1227 </span><span class="lineNoCov">          0 :     LBVERB &lt;&lt; &quot;start frame clock&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">    1228 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.set();</span>
+<span class="lineNum">    1228 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.lock();</span>
 <span class="lineNum">    1229 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimes.push_back( getConfig()-&gt;getTime( ));</span>
-<span class="lineNum">    1230 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.unset();</span>
+<span class="lineNum">    1230 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.unlock();</span>
 <span class="lineNum">    1231 </span><span class="lineNoCov">          0 :     return true;</span>
 <a name="1232"><span class="lineNum">    1232 </span>            : }</a>
 <span class="lineNum">    1233 </span>            : 
@@ -1310,12 +1310,12 @@
 <span class="lineNum">    1248 </span><span class="lineNoCov">          0 :     sync( version );</span>
 <span class="lineNum">    1249 </span><span class="lineNoCov">          0 :     const int64_t lastFrameTime = _impl-&gt;frameTime;</span>
 <span class="lineNum">    1250 </span>            : 
-<span class="lineNum">    1251 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.set();</span>
+<span class="lineNum">    1251 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.lock();</span>
 <span class="lineNum">    1252 </span><span class="lineNoCov">          0 :     LBASSERT( !_impl-&gt;frameTimes.empty( ));</span>
 <span class="lineNum">    1253 </span>            : 
 <span class="lineNum">    1254 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTime = _impl-&gt;frameTimes.front();</span>
 <span class="lineNum">    1255 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimes.pop_front();</span>
-<span class="lineNum">    1256 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.unset();</span>
+<span class="lineNum">    1256 </span><span class="lineNoCov">          0 :     _impl-&gt;frameTimeMutex.unlock();</span>
 <span class="lineNum">    1257 </span>            : 
 <span class="lineNum">    1258 </span><span class="lineNoCov">          0 :     if( lastFrameTime &gt; 0 )</span>
 <span class="lineNum">    1259 </span>            :     {
