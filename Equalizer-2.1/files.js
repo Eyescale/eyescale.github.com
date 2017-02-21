@@ -24,12 +24,6 @@ var files =
     [ "commandQueue.h", "command_queue_8h_source.html", null ],
     [ "commands.h", "commands_8h_source.html", null ],
     [ "compositor.h", "compositor_8h_source.html", null ],
-    [ "compressor.h", "compressor_8h.html", [
-      [ "Compressor", "classeq_1_1plugin_1_1_compressor.html", "classeq_1_1plugin_1_1_compressor" ],
-      [ "Functions", "structeq_1_1plugin_1_1_compressor_1_1_functions.html", "structeq_1_1plugin_1_1_compressor_1_1_functions" ]
-    ] ],
-    [ "compressorReadDrawPixels.h", "compressor_read_draw_pixels_8h_source.html", null ],
-    [ "compressorYUV.h", "compressor_y_u_v_8h_source.html", null ],
     [ "config.h", "config_8h_source.html", null ],
     [ "fabric/config.h", "fabric_2config_8h_source.html", null ],
     [ "configParams.h", "config_params_8h_source.html", null ],

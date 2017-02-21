@@ -2,11 +2,6 @@ var namespaceeq =
 [
     [ "fabric", "namespaceeq_1_1fabric.html", "namespaceeq_1_1fabric" ],
     [ "glx", "namespaceeq_1_1glx.html", "namespaceeq_1_1glx" ],
-    [ "plugin", null, [
-      [ "Compressor", "classeq_1_1plugin_1_1_compressor.html", "classeq_1_1plugin_1_1_compressor" ],
-      [ "CompressorReadDrawPixels", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html", "classeq_1_1plugin_1_1_compressor_read_draw_pixels" ],
-      [ "CompressorYUV", "classeq_1_1plugin_1_1_compressor_y_u_v.html", "classeq_1_1plugin_1_1_compressor_y_u_v" ]
-    ] ],
     [ "qt", "namespaceeq_1_1qt.html", "namespaceeq_1_1qt" ],
     [ "util", "namespaceeq_1_1util.html", "namespaceeq_1_1util" ],
     [ "wgl", "namespaceeq_1_1wgl.html", "namespaceeq_1_1wgl" ],

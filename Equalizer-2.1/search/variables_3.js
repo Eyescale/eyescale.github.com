@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['colorbits',['colorBits',['../structeq_1_1fabric_1_1_drawable_config.html#a7359200cfb974cb231d6284a73586cce',1,'eq::fabric::DrawableConfig']]],
-  ['compresseddata',['compressedData',['../structeq_1_1_pixel_data.html#a9149afb1c7523ee2c76ba190900f8ffa',1,'eq::PixelData']]],
-  ['compressorflags',['compressorFlags',['../structeq_1_1_pixel_data.html#a07aa4936fed4380cd2849b25d9e69712',1,'eq::PixelData']]],
-  ['compressorname',['compressorName',['../structeq_1_1_pixel_data.html#a1cce1dff4768db74c2b93ad17f2df58f',1,'eq::PixelData']]],
-  ['context',['context',['../structeq_1_1fabric_1_1_pointer_event.html#a91dc90321b196c324f1b90067f59602e',1,'eq::fabric::PointerEvent']]],
-  ['coreprofile',['coreProfile',['../structeq_1_1fabric_1_1_drawable_config.html#a3d1f46c163a5405310153b88021842ec',1,'eq::fabric::DrawableConfig']]],
-  ['currentfps',['currentFPS',['../structeq_1_1fabric_1_1_statistic.html#aa24a0dd5e01d7454007de7f44b65e3ae',1,'eq::fabric::Statistic']]]
+  ['device',['device',['../structeq_1_1fabric_1_1_g_p_u_info.html#a54fe13d1ea880cc6c3b485ae02bf8eff',1,'eq::fabric::GPUInfo']]],
+  ['dh',['dh',['../structeq_1_1fabric_1_1_size_event.html#aee1431ea763095732dd99abce0d4dd75',1,'eq::fabric::SizeEvent']]],
+  ['distance',['distance',['../classeq_1_1fabric_1_1_projection.html#ace084e5ec6055db0b28ee0805fe83f52',1,'eq::fabric::Projection']]],
+  ['doublebuffered',['doublebuffered',['../structeq_1_1fabric_1_1_drawable_config.html#ae8dbe2b17a8220b224c411facbd881d1',1,'eq::fabric::DrawableConfig']]],
+  ['dw',['dw',['../structeq_1_1fabric_1_1_size_event.html#a2dac8b357c8321de4987066359e9408b',1,'eq::fabric::SizeEvent']]],
+  ['dx',['dx',['../structeq_1_1fabric_1_1_pointer_event.html#a82110cc3afd5695c64e6144b3d1dcfb2',1,'eq::fabric::PointerEvent']]],
+  ['dy',['dy',['../structeq_1_1fabric_1_1_pointer_event.html#af3da7f3c1ab1c6c583df97347eb61d6a',1,'eq::fabric::PointerEvent']]]
 ];

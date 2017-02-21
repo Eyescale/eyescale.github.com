@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">96</td>
-            <td class="headerCovTableEntry">164</td>
-            <td class="headerCovTableEntryMed">58.5 %</td>
+            <td class="headerCovTableEntry">90</td>
+            <td class="headerCovTableEntry">158</td>
+            <td class="headerCovTableEntryMed">57.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-15 05:12:12</td>
+            <td class="headerValue">2017-02-21 05:04:46</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">8</td>
@@ -206,7 +206,7 @@
 <span class="lineNum">     144 </span><span class="lineCov">          5 :     if( --_initialized &gt; 0 ) // not last</span>
 <span class="lineNum">     145 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span><span class="lineCov">          5 :     BOOST_FOREACH( WindowSystemIF* windowSystem, _windowSystems )</span>
+<span class="lineNum">     147 </span><span class="lineCov">          5 :     for( WindowSystemIF* windowSystem : _windowSystems )</span>
 <span class="lineNum">     148 </span><span class="lineNoCov">          0 :         delete windowSystem;</span>
 <span class="lineNum">     149 </span><span class="lineCov">          5 :     _windowSystems.clear();</span>
 <span class="lineNum">     150 </span>            : 
@@ -358,80 +358,61 @@
 <span class="lineNum">     296 </span><span class="lineCov">          5 :     const char* home = getenv( &quot;HOME&quot; );</span>
 <span class="lineNum">     297 </span><span class="lineCov">          5 :     if( home )</span>
 <span class="lineNum">     298 </span><span class="lineCov">          5 :         plugins.loadDirectory( std::string( home ) + &quot;/.eqPlugins&quot; );</span>
-<span class="lineNum">     299 </span>            : 
-<span class="lineNum">     300 </span>            : #ifdef EQUALIZER_DSO_NAME
-<span class="lineNum">     301 </span><span class="lineCov">          5 :     plugins.loadFile( EQUALIZER_DSO_NAME );</span>
-<span class="lineNum">     302 </span><span class="lineCov">         15 :     std::string absDSO = std::string( EQ_BUILD_DIR ) + &quot;lib/&quot; +</span>
-<span class="lineNum">     303 </span><span class="lineCov">         15 :                          EQUALIZER_DSO_NAME;</span>
-<span class="lineNum">     304 </span><span class="lineCov">          5 :     plugins.loadFile( absDSO );</span>
-<span class="lineNum">     305 </span>            : 
-<span class="lineNum">     306 </span>            : #  ifdef NDEBUG
-<span class="lineNum">     307 </span>            :     absDSO = std::string( EQ_BUILD_DIR ) + &quot;lib/Release/&quot; + EQUALIZER_DSO_NAME;
-<span class="lineNum">     308 </span>            : #  else
-<span class="lineNum">     309 </span><span class="lineCov">          5 :     absDSO = std::string( EQ_BUILD_DIR ) + &quot;lib/Debug/&quot; + EQUALIZER_DSO_NAME;</span>
-<span class="lineNum">     310 </span>            : #  endif
-<span class="lineNum">     311 </span>            : 
-<span class="lineNum">     312 </span><span class="lineCov">          5 :     plugins.loadFile( absDSO );</span>
-<span class="lineNum">     313 </span>            : #else
-<span class="lineNum">     314 </span>            : #  ifndef NDEBUG
-<span class="lineNum">     315 </span>            : #    error &quot;EQUALIZER_DSO_NAME not defined&quot;
-<span class="lineNum">     316 </span>            : #  endif
-<span class="lineNum">     317 </span>            : #endif
-<a name="318"><span class="lineNum">     318 </span><span class="lineCov">          5 : }</span></a>
-<span class="lineNum">     319 </span>            : 
-<span class="lineNum">     320 </span><span class="lineNoCov">          0 : Config* getConfig( const int argc, char** argv )</span>
-<span class="lineNum">     321 </span>            : {
-<span class="lineNum">     322 </span>            :     // 1. initialization of a local client node
-<span class="lineNum">     323 </span><span class="lineNoCov">          0 :     ClientPtr client = new Client;</span>
-<span class="lineNum">     324 </span><span class="lineNoCov">          0 :     if( client-&gt;initLocal( argc, argv ))</span>
-<span class="lineNum">     325 </span>            :     {
-<span class="lineNum">     326 </span>            :         // 2. connect to server
-<span class="lineNum">     327 </span><span class="lineNoCov">          0 :         ServerPtr server = new Server;</span>
-<span class="lineNum">     328 </span><span class="lineNoCov">          0 :         if( client-&gt;connectServer( server ))</span>
-<span class="lineNum">     329 </span>            :         {
-<span class="lineNum">     330 </span>            :             // 3. choose configuration
-<span class="lineNum">     331 </span><span class="lineNoCov">          0 :             fabric::ConfigParams configParams;</span>
-<span class="lineNum">     332 </span><span class="lineNoCov">          0 :             Config* config = server-&gt;chooseConfig( configParams );</span>
-<span class="lineNum">     333 </span><span class="lineNoCov">          0 :             if( config )</span>
-<span class="lineNum">     334 </span><span class="lineNoCov">          0 :                 return config;</span>
-<span class="lineNum">     335 </span>            : 
-<span class="lineNum">     336 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;No matching config on server&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     337 </span>            : 
-<span class="lineNum">     338 </span>            :             // -2. disconnect server
-<span class="lineNum">     339 </span><span class="lineNoCov">          0 :             client-&gt;disconnectServer( server );</span>
-<span class="lineNum">     340 </span>            :         }
-<span class="lineNum">     341 </span>            :         else
-<span class="lineNum">     342 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Can't open server&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     343 </span>            : 
-<span class="lineNum">     344 </span>            :         // -1. exit local client node
-<span class="lineNum">     345 </span><span class="lineNoCov">          0 :         client-&gt;exitLocal();</span>
-<span class="lineNum">     346 </span>            :     }
-<span class="lineNum">     347 </span>            :     else
-<span class="lineNum">     348 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Can't init local client node&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     349 </span>            : 
-<span class="lineNum">     350 </span><span class="lineNoCov">          0 :     return 0;</span>
+<a name="299"><span class="lineNum">     299 </span><span class="lineCov">          5 : }</span></a>
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 : Config* getConfig( const int argc, char** argv )</span>
+<span class="lineNum">     302 </span>            : {
+<span class="lineNum">     303 </span>            :     // 1. initialization of a local client node
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :     ClientPtr client = new Client;</span>
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :     if( client-&gt;initLocal( argc, argv ))</span>
+<span class="lineNum">     306 </span>            :     {
+<span class="lineNum">     307 </span>            :         // 2. connect to server
+<span class="lineNum">     308 </span><span class="lineNoCov">          0 :         ServerPtr server = new Server;</span>
+<span class="lineNum">     309 </span><span class="lineNoCov">          0 :         if( client-&gt;connectServer( server ))</span>
+<span class="lineNum">     310 </span>            :         {
+<span class="lineNum">     311 </span>            :             // 3. choose configuration
+<span class="lineNum">     312 </span><span class="lineNoCov">          0 :             fabric::ConfigParams configParams;</span>
+<span class="lineNum">     313 </span><span class="lineNoCov">          0 :             Config* config = server-&gt;chooseConfig( configParams );</span>
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :             if( config )</span>
+<span class="lineNum">     315 </span><span class="lineNoCov">          0 :                 return config;</span>
+<span class="lineNum">     316 </span>            : 
+<span class="lineNum">     317 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;No matching config on server&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     318 </span>            : 
+<span class="lineNum">     319 </span>            :             // -2. disconnect server
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 :             client-&gt;disconnectServer( server );</span>
+<span class="lineNum">     321 </span>            :         }
+<span class="lineNum">     322 </span>            :         else
+<span class="lineNum">     323 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Can't open server&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span>            :         // -1. exit local client node
+<span class="lineNum">     326 </span><span class="lineNoCov">          0 :         client-&gt;exitLocal();</span>
+<span class="lineNum">     327 </span>            :     }
+<span class="lineNum">     328 </span>            :     else
+<span class="lineNum">     329 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Can't init local client node&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 :     return 0;</span>
+<a name="332"><span class="lineNum">     332 </span>            : }</a>
+<span class="lineNum">     333 </span>            : 
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 : void releaseConfig( Config* config )</span>
+<span class="lineNum">     335 </span>            : {
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :     if( !config )</span>
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     338 </span>            : 
+<span class="lineNum">     339 </span><span class="lineNoCov">          0 :     ServerPtr server = config-&gt;getServer();</span>
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :     LBASSERT( server.isValid( ));</span>
+<span class="lineNum">     341 </span><span class="lineNoCov">          0 :     server-&gt;releaseConfig( config );</span>
+<span class="lineNum">     342 </span>            : 
+<span class="lineNum">     343 </span><span class="lineNoCov">          0 :     ClientPtr client = server-&gt;getClient();</span>
+<span class="lineNum">     344 </span><span class="lineNoCov">          0 :     LBASSERT( client.isValid( ));</span>
+<span class="lineNum">     345 </span>            : 
+<span class="lineNum">     346 </span><span class="lineNoCov">          0 :     client-&gt;disconnectServer( server );</span>
+<span class="lineNum">     347 </span><span class="lineNoCov">          0 :     client-&gt;exitLocal();</span>
+<span class="lineNum">     348 </span>            : 
+<span class="lineNum">     349 </span><span class="lineNoCov">          0 :     LBASSERTINFO( client-&gt;getRefCount() == 1, client-&gt;getRefCount( ));</span>
+<span class="lineNum">     350 </span><span class="lineNoCov">          0 :     LBASSERTINFO( server-&gt;getRefCount() == 1, server-&gt;getRefCount( ));</span>
 <a name="351"><span class="lineNum">     351 </span>            : }</a>
 <span class="lineNum">     352 </span>            : 
-<span class="lineNum">     353 </span><span class="lineNoCov">          0 : void releaseConfig( Config* config )</span>
-<span class="lineNum">     354 </span>            : {
-<span class="lineNum">     355 </span><span class="lineNoCov">          0 :     if( !config )</span>
-<span class="lineNum">     356 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     357 </span>            : 
-<span class="lineNum">     358 </span><span class="lineNoCov">          0 :     ServerPtr server = config-&gt;getServer();</span>
-<span class="lineNum">     359 </span><span class="lineNoCov">          0 :     LBASSERT( server.isValid( ));</span>
-<span class="lineNum">     360 </span><span class="lineNoCov">          0 :     server-&gt;releaseConfig( config );</span>
-<span class="lineNum">     361 </span>            : 
-<span class="lineNum">     362 </span><span class="lineNoCov">          0 :     ClientPtr client = server-&gt;getClient();</span>
-<span class="lineNum">     363 </span><span class="lineNoCov">          0 :     LBASSERT( client.isValid( ));</span>
-<span class="lineNum">     364 </span>            : 
-<span class="lineNum">     365 </span><span class="lineNoCov">          0 :     client-&gt;disconnectServer( server );</span>
-<span class="lineNum">     366 </span><span class="lineNoCov">          0 :     client-&gt;exitLocal();</span>
-<span class="lineNum">     367 </span>            : 
-<span class="lineNum">     368 </span><span class="lineNoCov">          0 :     LBASSERTINFO( client-&gt;getRefCount() == 1, client-&gt;getRefCount( ));</span>
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     LBASSERTINFO( server-&gt;getRefCount() == 1, server-&gt;getRefCount( ));</span>
-<a name="370"><span class="lineNum">     370 </span>            : }</a>
-<span class="lineNum">     371 </span>            : 
-<span class="lineNum">     372 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">     353 </span><span class="lineCov">         36 : }</span>
 </pre>
       </td>
     </tr>

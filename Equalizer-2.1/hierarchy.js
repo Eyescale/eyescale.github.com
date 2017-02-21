@@ -146,11 +146,6 @@ var hierarchy =
       [ "eq::Window", "classeq_1_1_window.html", null ]
     ] ],
     [ "eq::PixelData", "structeq_1_1_pixel_data.html", null ],
-    [ "eq::plugin::Compressor", "classeq_1_1plugin_1_1_compressor.html", [
-      [ "eq::plugin::CompressorReadDrawPixels", "classeq_1_1plugin_1_1_compressor_read_draw_pixels.html", null ],
-      [ "eq::plugin::CompressorYUV", "classeq_1_1plugin_1_1_compressor_y_u_v.html", null ]
-    ] ],
-    [ "eq::plugin::Compressor::Functions", "structeq_1_1plugin_1_1_compressor_1_1_functions.html", null ],
     [ "eq::ResultImageListener", "classeq_1_1_result_image_listener.html", null ],
     [ "eq::StatisticSampler< Owner >", "classeq_1_1_statistic_sampler.html", null ],
     [ "eq::SystemPipe", "classeq_1_1_system_pipe.html", [

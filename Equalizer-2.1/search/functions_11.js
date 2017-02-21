@@ -82,7 +82,6 @@ var searchData=
   ['showstatistics',['showStatistics',['../classseq_1_1_view_data.html#a9e95ed0ad52a631e457e7e11adcaa9b8',1,'seq::ViewData']]],
   ['shutdown',['shutdown',['../classeq_1_1_server.html#a2ed47f8ccbc2cbf3ee0c8e5a5c474448',1,'eq::Server']]],
   ['spinmodel',['spinModel',['../classseq_1_1_view_data.html#ac9614bcf99406bd1f8b4b84e4eec1e2d',1,'seq::ViewData']]],
-  ['startdownload',['startDownload',['../classeq_1_1plugin_1_1_compressor.html#a422fa88a01586d8245c5fa292136eab4',1,'eq::plugin::Compressor']]],
   ['startframe',['startFrame',['../classeq_1_1_channel.html#ace53101eaf8402782ca6265716c44b3b',1,'eq::Channel::startFrame()'],['../classeq_1_1_config.html#afeaf5ab737f8f54845c6f3e96e13e2fe',1,'eq::Config::startFrame()'],['../classeq_1_1_node.html#ae15f81efb3eec6dfa54e697772885a47',1,'eq::Node::startFrame()'],['../classeq_1_1_pipe.html#a88a4c0f637d90b58cef7de0f03417c12',1,'eq::Pipe::startFrame()'],['../classeq_1_1_window.html#aef0c73e72fba4f624f1074267f57f2f5',1,'eq::Window::startFrame()']]],
   ['startreadback',['startReadback',['../classeq_1_1_frame.html#a6820b7d36a7d2186a3661890eb31a762',1,'eq::Frame::startReadback()'],['../classeq_1_1_frame_data.html#ae0773d5af8d6ab1e5fbab7a084680161',1,'eq::FrameData::startReadback()'],['../classeq_1_1_image.html#a0846e18bf3bcafdbdbd304a81a25a1b4',1,'eq::Image::startReadback()']]],
   ['startwaitframes',['startWaitFrames',['../classeq_1_1_compositor.html#a467a923b521eefa659b8bfc411200ed0',1,'eq::Compositor']]],
