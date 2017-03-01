@@ -6,11 +6,13 @@ var classlunchbox_1_1_spin_lock =
     [ "isSetRead", "classlunchbox_1_1_spin_lock.html#acbbcc815a2272b041579b9807aa589ac", null ],
     [ "isSetWrite", "classlunchbox_1_1_spin_lock.html#a8ef0fe73e4a2527722adeddcd6904e78", null ],
     [ "lock", "classlunchbox_1_1_spin_lock.html#a139a55935e974509a353856312f9c6fd", null ],
+    [ "lock_shared", "classlunchbox_1_1_spin_lock.html#ae49b582f128c922a3ee9a1595b80da78", null ],
     [ "set", "classlunchbox_1_1_spin_lock.html#ae7995c53dca44099e561acf88194f27f", null ],
     [ "setRead", "classlunchbox_1_1_spin_lock.html#aaee19eb9a065f7c0d9793c47515e6e1b", null ],
     [ "trySet", "classlunchbox_1_1_spin_lock.html#ac8e5eac2778a44e094ae82719cc316f6", null ],
     [ "trySetRead", "classlunchbox_1_1_spin_lock.html#a07e5b5e5f9fd4442db258d94fc36c27e", null ],
     [ "unlock", "classlunchbox_1_1_spin_lock.html#a3e9f09da382186d28d83f14b77aed8b5", null ],
+    [ "unlock_shared", "classlunchbox_1_1_spin_lock.html#a77683a8ffe65f1b6c86eedf872c4d11b", null ],
     [ "unset", "classlunchbox_1_1_spin_lock.html#a066465ef29572dd8ed5bd249b0e79bfd", null ],
     [ "unsetRead", "classlunchbox_1_1_spin_lock.html#a684805dffdb69933ed3189447d49ec2e", null ]
 ];

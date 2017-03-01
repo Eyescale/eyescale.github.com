@@ -13,7 +13,7 @@ var searchData=
   ['register_5f',['register_',['../classlunchbox_1_1_plugin_factory.html#aeb22f285c3d690cecfc5df395a59a089',1,'lunchbox::PluginFactory']]],
   ['registerrequest',['registerRequest',['../classlunchbox_1_1_request_handler.html#afdcd80fd7e29528c5105b68b093ef3e1',1,'lunchbox::RequestHandler::registerRequest(void *data=0)'],['../classlunchbox_1_1_request_handler.html#a3e2248bad96618d539e7d3a7ba42273d',1,'lunchbox::RequestHandler::registerRequest(void *data=0)']]],
   ['registertypelist',['registerTypelist',['../namespacelunchbox.html#a6df8f7a30947140b28ee3faddd241448',1,'lunchbox']]],
-  ['release',['release',['../classlunchbox_1_1_pool.html#a7f0c5b7d2c434909db3f0df055a34276',1,'lunchbox::Pool']]],
+  ['release',['release',['../classlunchbox_1_1_pool.html#a341d7a8422a5b52d4039c2189139799a',1,'lunchbox::Pool']]],
   ['remap',['remap',['../classlunchbox_1_1_memory_map.html#a688db52f17a4900731ba7c82e9ff64cd',1,'lunchbox::MemoryMap']]],
   ['replace',['replace',['../classlunchbox_1_1_buffer.html#ab76c09eaf723245d92f0fda130d2a465',1,'lunchbox::Buffer::replace(const void *data, const uint64_t size)'],['../classlunchbox_1_1_buffer.html#a00bc8c285e494fba634e880a3bc3f014',1,'lunchbox::Buffer::replace(const Buffer &amp;from)']]],
   ['request',['Request',['../classlunchbox_1_1_request.html',1,'lunchbox']]],

@@ -1,8 +1,8 @@
 var classlunchbox_1_1_pool =
 [
-    [ "Pool", "classlunchbox_1_1_pool.html#a5db45906124ac4d91e8000605d83821c", null ],
-    [ "~Pool", "classlunchbox_1_1_pool.html#a06a4a67d410a662c1c20663da0a25113", null ],
-    [ "alloc", "classlunchbox_1_1_pool.html#aa91ebc18d14b4b1e6fe16f3a3b43c5bf", null ],
-    [ "flush", "classlunchbox_1_1_pool.html#a371e3a6f850a37ca31f40799058f2ab0", null ],
-    [ "release", "classlunchbox_1_1_pool.html#a7f0c5b7d2c434909db3f0df055a34276", null ]
+    [ "Pool", "classlunchbox_1_1_pool.html#a2980352c12755f14ce502b4622dc482b", null ],
+    [ "~Pool", "classlunchbox_1_1_pool.html#ad98fc8b3cc42911860c61c60c8e4ad41", null ],
+    [ "alloc", "classlunchbox_1_1_pool.html#aa8064b54a9ec653106886fd027e99988", null ],
+    [ "flush", "classlunchbox_1_1_pool.html#a8c15d685f04b1a500bb70fa1e57a5325", null ],
+    [ "release", "classlunchbox_1_1_pool.html#a341d7a8422a5b52d4039c2189139799a", null ]
 ];

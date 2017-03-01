@@ -6,7 +6,6 @@ var namespacelunchbox =
     [ "bad_any_cast", "classlunchbox_1_1bad__any__cast.html", "classlunchbox_1_1bad__any__cast" ],
     [ "Buffer", "classlunchbox_1_1_buffer.html", "classlunchbox_1_1_buffer" ],
     [ "Clock", "classlunchbox_1_1_clock.html", "classlunchbox_1_1_clock" ],
-    [ "Condition", "classlunchbox_1_1_condition.html", "classlunchbox_1_1_condition" ],
     [ "DSO", "classlunchbox_1_1_d_s_o.html", "classlunchbox_1_1_d_s_o" ],
     [ "Future", "classlunchbox_1_1_future.html", "classlunchbox_1_1_future" ],
     [ "Future< void >", "classlunchbox_1_1_future_3_01void_01_4.html", "classlunchbox_1_1_future_3_01void_01_4" ],
@@ -39,12 +38,13 @@ var namespacelunchbox =
     [ "RequestHandler", "classlunchbox_1_1_request_handler.html", "classlunchbox_1_1_request_handler" ],
     [ "Result", "classlunchbox_1_1_result.html", "classlunchbox_1_1_result" ],
     [ "RNG", "classlunchbox_1_1_r_n_g.html", "classlunchbox_1_1_r_n_g" ],
-    [ "ScopedMutex", "classlunchbox_1_1_scoped_mutex.html", "classlunchbox_1_1_scoped_mutex" ],
     [ "SpinLock", "classlunchbox_1_1_spin_lock.html", "classlunchbox_1_1_spin_lock" ],
     [ "Thread", "classlunchbox_1_1_thread.html", "classlunchbox_1_1_thread" ],
     [ "ThreadID", "classlunchbox_1_1_thread_i_d.html", "classlunchbox_1_1_thread_i_d" ],
     [ "ThreadPool", "classlunchbox_1_1_thread_pool.html", "classlunchbox_1_1_thread_pool" ],
     [ "TLS", "classlunchbox_1_1_t_l_s.html", "classlunchbox_1_1_t_l_s" ],
+    [ "UniqueLock", "classlunchbox_1_1_unique_lock.html", "classlunchbox_1_1_unique_lock" ],
+    [ "UniqueSharedLock", "classlunchbox_1_1_unique_shared_lock.html", "classlunchbox_1_1_unique_shared_lock" ],
     [ "UnregisteredRequest", "classlunchbox_1_1_unregistered_request.html", "classlunchbox_1_1_unregistered_request" ],
     [ "Version", "classlunchbox_1_1_version.html", "classlunchbox_1_1_version" ]
 ];

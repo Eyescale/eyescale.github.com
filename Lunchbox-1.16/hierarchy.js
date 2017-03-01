@@ -6,7 +6,6 @@ var hierarchy =
         [ "lunchbox::FutureBool< value >", "classlunchbox_1_1_future_bool.html", null ]
       ] ],
       [ "lunchbox::FutureImpl< void >", "classlunchbox_1_1_future_impl.html", null ],
-      [ "lunchbox::Condition", "classlunchbox_1_1_condition.html", null ],
       [ "lunchbox::DSO", "classlunchbox_1_1_d_s_o.html", null ],
       [ "lunchbox::FutureImpl< T >", "classlunchbox_1_1_future_impl.html", [
         [ "lunchbox::FutureFunction< T >", "classlunchbox_1_1_future_function.html", null ],
@@ -16,7 +15,7 @@ var hierarchy =
       [ "lunchbox::Lockable< D, L >", "classlunchbox_1_1_lockable.html", null ],
       [ "lunchbox::MemoryMap", "classlunchbox_1_1_memory_map.html", null ],
       [ "lunchbox::PerThreadRef< T >", "classlunchbox_1_1_per_thread_ref.html", null ],
-      [ "lunchbox::Pool< T, locked >", "classlunchbox_1_1_pool.html", null ],
+      [ "lunchbox::Pool< T >", "classlunchbox_1_1_pool.html", null ],
       [ "lunchbox::RequestHandler", "classlunchbox_1_1_request_handler.html", null ],
       [ "lunchbox::RNG", "classlunchbox_1_1_r_n_g.html", null ],
       [ "lunchbox::SpinLock", "classlunchbox_1_1_spin_lock.html", null ]
@@ -47,11 +46,11 @@ var hierarchy =
     ] ],
     [ "lunchbox::RefPtr< T >", "classlunchbox_1_1_ref_ptr.html", null ],
     [ "lunchbox::Result", "classlunchbox_1_1_result.html", null ],
-    [ "lunchbox::ScopedMutex< L, T >", "classlunchbox_1_1_scoped_mutex.html", null ],
     [ "lunchbox::Thread", "classlunchbox_1_1_thread.html", null ],
     [ "lunchbox::ThreadID", "classlunchbox_1_1_thread_i_d.html", null ],
     [ "lunchbox::ThreadPool", "classlunchbox_1_1_thread_pool.html", null ],
     [ "lunchbox::TLS", "classlunchbox_1_1_t_l_s.html", null ],
+    [ "lunchbox::UniqueSharedLock< L >", "classlunchbox_1_1_unique_shared_lock.html", null ],
     [ "lunchbox::Version", "classlunchbox_1_1_version.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< T > >", "classlunchbox_1_1_ref_ptr.html", null ],
     [ "lunchbox::RefPtr< FutureImpl< void > >", "classlunchbox_1_1_ref_ptr.html", null ],
@@ -79,6 +78,9 @@ var hierarchy =
         [ "lunchbox::LFVectorIterator< V, T >", "classlunchbox_1_1_l_f_vector_iterator.html", null ]
       ] ],
       [ "lunchbox::IndexIterator< S, C, T >", "classlunchbox_1_1_index_iterator.html", null ]
+    ] ],
+    [ "unique_lock", null, [
+      [ "lunchbox::UniqueLock< L >", "classlunchbox_1_1_unique_lock.html", null ]
     ] ],
     [ "std::unordered_map< K, T >", null, [
       [ "lunchbox::PtrHash< K, T >", "classlunchbox_1_1_ptr_hash.html", null ],

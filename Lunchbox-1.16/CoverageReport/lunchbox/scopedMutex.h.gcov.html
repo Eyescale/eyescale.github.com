@@ -31,18 +31,18 @@
             <td class="headerValue">Lunchbox</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">21</td>
-            <td class="headerCovTableEntry">23</td>
-            <td class="headerCovTableEntryHi">91.3 %</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntryLo">38.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-15 05:24:55</td>
+            <td class="headerValue">2017-03-01 05:23:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">12</td>
-            <td class="headerCovTableEntry">17</td>
-            <td class="headerCovTableEntryMed">70.6 %</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryMed">50.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -80,139 +80,106 @@
 <span class="lineNum">      18 </span>            : #ifndef LUNCHBOX_SCOPEDMUTEX_H
 <span class="lineNum">      19 </span>            : #define LUNCHBOX_SCOPEDMUTEX_H
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #include &lt;lunchbox/condition.h&gt; // used in inline method
-<span class="lineNum">      22 </span>            : #include &lt;lunchbox/lockable.h&gt;  // used in inline method
-<span class="lineNum">      23 </span>            : #include &lt;lunchbox/types.h&gt;
-<span class="lineNum">      24 </span>            : #include &lt;mutex&gt;
-<span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span>            : namespace lunchbox
-<span class="lineNum">      27 </span>            : {
-<span class="lineNum">      28 </span>            : class WriteOp;
-<span class="lineNum">      29 </span>            : class ReadOp;
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span>            : /** @cond IGNORE */
-<span class="lineNum">      32 </span>            : template &lt;class L, class T&gt;
-<span class="lineNum">      33 </span>            : struct ScopedMutexLocker
-<span class="lineNum">      34 </span>            : {
-<span class="lineNum">      35 </span>            : };
-<span class="lineNum">      36 </span>            : template &lt;class L&gt;
-<a name="37"><span class="lineNum">      37 </span>            : struct ScopedMutexLocker&lt;L, WriteOp&gt;</a>
-<a name="38"><span class="lineNum">      38 </span>            : {</a>
-<span class="lineNum">      39 </span><span class="lineCov">    5470775 :     static inline void set(L&amp; lock) { lock.lock(); }</span>
-<span class="lineNum">      40 </span><span class="lineCov">    5481839 :     static inline void unset(L&amp; lock) { lock.unlock(); }</span>
-<span class="lineNum">      41 </span>            : };
-<span class="lineNum">      42 </span>            : 
-<span class="lineNum">      43 </span>            : template &lt;class L&gt;
-<a name="44"><span class="lineNum">      44 </span>            : struct ScopedMutexLocker&lt;L, ReadOp&gt;</a>
-<a name="45"><span class="lineNum">      45 </span>            : {</a>
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :     static inline void set(L&amp; lock) { lock.setRead(); }</span>
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     static inline void unset(L&amp; lock) { lock.unsetRead(); }</span>
-<span class="lineNum">      48 </span>            : };
-<span class="lineNum">      49 </span>            : template &lt;&gt;
-<span class="lineNum">      50 </span>            : struct ScopedMutexLocker&lt;std::mutex, ReadOp&gt;
-<span class="lineNum">      51 </span>            : {
-<span class="lineNum">      52 </span>            :     static inline void set(std::mutex&amp; lock) { lock.lock(); }
-<span class="lineNum">      53 </span>            :     static inline void unset(std::mutex&amp; lock) { lock.unlock(); }
-<span class="lineNum">      54 </span>            : };
-<span class="lineNum">      55 </span>            : /** @endcond */
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            : /**
-<span class="lineNum">      58 </span>            :  * A scoped mutex.
-<span class="lineNum">      59 </span>            :  *
-<span class="lineNum">      60 </span>            :  * The mutex is automatically set upon creation, and released when the scoped
-<span class="lineNum">      61 </span>            :  * mutex is destroyed, e.g., when the scope is left. The scoped mutex does
-<span class="lineNum">      62 </span>            :  * nothing if a 0 pointer for the lock is passed.
-<span class="lineNum">      63 </span>            :  * @deprecated Use boost::scoped_lock
-<span class="lineNum">      64 </span>            :  */
-<span class="lineNum">      65 </span>            : template &lt;class L = std::mutex, class T = WriteOp&gt;
-<span class="lineNum">      66 </span>            : class ScopedMutex
-<span class="lineNum">      67 </span>            : {
-<span class="lineNum">      68 </span>            :     typedef ScopedMutexLocker&lt;L, T&gt; LockTraits;
-<span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span>            : public:
-<span class="lineNum">      71 </span>            :     /**
-<span class="lineNum">      72 </span>            :      * Construct a new scoped mutex and set the given lock.
-<span class="lineNum">      73 </span>            :      *
-<span class="lineNum">      74 </span>            :      * Providing no Lock (0) is allowed, in which case the scoped mutex does
-<span class="lineNum">      75 </span>            :      * nothing.
-<span class="lineNum">      76 </span>            :      *
-<span class="lineNum">      77 </span>            :      * @param lock the mutex to set and unset, or 0.
-<a name="78"><span class="lineNum">      78 </span>            :      * @version 1.0</a>
-<span class="lineNum">      79 </span>            :      */
-<span class="lineNum">      80 </span><span class="lineCov">    4183559 :     explicit ScopedMutex(L* lock)</span>
-<span class="lineNum">      81 </span><span class="lineCov">    4183559 :         : _lock(lock)</span>
-<span class="lineNum">      82 </span>            :     {
-<span class="lineNum">      83 </span><span class="lineCov">    4183559 :         if (lock)</span>
-<span class="lineNum">      84 </span><span class="lineCov">     166072 :             LockTraits::set(*lock);</span>
-<span class="lineNum">      85 </span><span class="lineCov">    4183559 :     }</span>
-<a name="86"><span class="lineNum">      86 </span>            : </a>
-<span class="lineNum">      87 </span>            :     /** Construct a new scoped mutex and set the given lock. @version 1.0 */
-<span class="lineNum">      88 </span><span class="lineCov">    5307148 :     explicit ScopedMutex(L&amp; lock)</span>
-<span class="lineNum">      89 </span><span class="lineCov">    5307148 :         : _lock(&amp;lock)</span>
-<span class="lineNum">      90 </span>            :     {
-<span class="lineNum">      91 </span><span class="lineCov">    5307148 :         LockTraits::set(lock);</span>
-<span class="lineNum">      92 </span><span class="lineCov">    5312714 :     }</span>
-<span class="lineNum">      93 </span>            : 
-<span class="lineNum">      94 </span>            :     /** Move lock from rhs to new mutex. @version 1.5 */
-<span class="lineNum">      95 </span>            :     ScopedMutex(const ScopedMutex&amp; rhs)
-<span class="lineNum">      96 </span>            :         : _lock(rhs._lock)
-<span class="lineNum">      97 </span>            :     {
-<span class="lineNum">      98 </span>            :         const_cast&lt;ScopedMutex&amp;&gt;(rhs)._lock = 0;
-<span class="lineNum">      99 </span>            :     }
-<span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span>            :     /** Move lock from rhs to this mutex. @version 1.5 */
-<span class="lineNum">     102 </span>            :     ScopedMutex&amp; operator=(ScopedMutex&amp; rhs)
-<span class="lineNum">     103 </span>            :     {
-<span class="lineNum">     104 </span>            :         if (this != &amp;rhs)
-<span class="lineNum">     105 </span>            :         {
-<span class="lineNum">     106 </span>            :             _lock = rhs._lock;
-<span class="lineNum">     107 </span>            :             rhs._lock = 0;
-<span class="lineNum">     108 </span>            :         }
-<span class="lineNum">     109 </span>            :         return *this;
-<span class="lineNum">     110 </span>            :     }
-<span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span>            :     /**
-<span class="lineNum">     113 </span>            :      * Construct a new scoped mutex for the given Lockable data structure.
-<span class="lineNum">     114 </span>            :      * @version 1.0
-<a name="115"><span class="lineNum">     115 </span>            :      */</a>
-<span class="lineNum">     116 </span>            :     template &lt;typename LB&gt;
-<span class="lineNum">     117 </span><span class="lineCov">       3050 :     explicit ScopedMutex(const LB&amp; lockable)</span>
-<span class="lineNum">     118 </span><span class="lineCov">       3050 :         : _lock(&amp;lockable.lock)</span>
-<span class="lineNum">     119 </span>            :     {
-<span class="lineNum">     120 </span><span class="lineCov">       3050 :         LockTraits::set(lockable.lock);</span>
-<span class="lineNum">     121 </span><span class="lineCov">       3050 :     }</span>
-<a name="122"><span class="lineNum">     122 </span>            : </a>
-<span class="lineNum">     123 </span>            :     /** Destruct the scoped mutex and unset the mutex. @version 1.0 */
-<a name="124"><span class="lineNum">     124 </span><span class="lineCov">    9499325 :     ~ScopedMutex() { leave(); }</span></a>
-<span class="lineNum">     125 </span>            :     /** Leave and unlock the mutex immediately. @version 1.0 */
-<span class="lineNum">     126 </span><span class="lineCov">    9499324 :     void leave()</span>
-<span class="lineNum">     127 </span>            :     {
-<span class="lineNum">     128 </span><span class="lineCov">    9499324 :         if (_lock)</span>
-<span class="lineNum">     129 </span><span class="lineCov">    5481839 :             LockTraits::unset(*_lock);</span>
-<span class="lineNum">     130 </span><span class="lineCov">    9497022 :         _lock = 0;</span>
-<span class="lineNum">     131 </span><span class="lineCov">    9497022 :     }</span>
-<span class="lineNum">     132 </span>            : 
-<span class="lineNum">     133 </span>            : private:
-<span class="lineNum">     134 </span>            :     ScopedMutex();
-<span class="lineNum">     135 </span>            :     L* _lock;
-<span class="lineNum">     136 </span>            : };
-<span class="lineNum">     137 </span>            : 
-<span class="lineNum">     138 </span>            : /** A scoped mutex for a fast uncontended read operation. @version 1.1.2 */
-<span class="lineNum">     139 </span>            : typedef ScopedMutex&lt;SpinLock, ReadOp&gt; ScopedFastRead;
-<span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span>            : /** A scoped mutex for a fast uncontended write operation. @version 1.1.2 */
-<span class="lineNum">     142 </span>            : typedef ScopedMutex&lt;SpinLock, WriteOp&gt; ScopedFastWrite;
-<span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span>            : /** A scoped mutex for a read operation. @version 1.1.5 */
-<span class="lineNum">     145 </span>            : typedef ScopedMutex&lt;std::mutex, ReadOp&gt; ScopedRead;
-<span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span>            : /** A scoped mutex for a write operation. @version 1.1.5 */
-<span class="lineNum">     148 </span>            : typedef ScopedMutex&lt;std::mutex, WriteOp&gt; ScopedWrite;
-<span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span>            : /** A scoped mutex for a write operation on a condition. @version 1.3.6 */
-<span class="lineNum">     151 </span>            : typedef ScopedMutex&lt;Condition, WriteOp&gt; ScopedCondition;
-<span class="lineNum">     152 </span>            : }
-<span class="lineNum">     153 </span>            : #endif // LUNCHBOX_SCOPEDMUTEX_H
+<span class="lineNum">      21 </span>            : #include &lt;lunchbox/lockable.h&gt; // used in inline method
+<span class="lineNum">      22 </span>            : #include &lt;lunchbox/types.h&gt;
+<span class="lineNum">      23 </span>            : #include &lt;mutex&gt;
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : namespace lunchbox
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span>            : /**
+<span class="lineNum">      28 </span>            :  * A scoped shared mutex.
+<span class="lineNum">      29 </span>            :  *
+<span class="lineNum">      30 </span>            :  * The mutex is automatically set upon creation, and released when the scoped
+<span class="lineNum">      31 </span>            :  * mutex is destroyed, e.g., when the scope is left. The scoped mutex does
+<span class="lineNum">      32 </span>            :  * nothing if a nullptr for the lock is passed.
+<span class="lineNum">      33 </span>            :  */
+<span class="lineNum">      34 </span>            : template &lt;class L&gt;
+<span class="lineNum">      35 </span>            : class UniqueSharedLock
+<a name="36"><span class="lineNum">      36 </span>            : {</a>
+<span class="lineNum">      37 </span>            : public:
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :     explicit UniqueSharedLock(L&amp; lock)</span>
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :         : _lock(&amp;lock)</span>
+<span class="lineNum">      40 </span>            :     {
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         lock.lock_shared();</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :     explicit UniqueSharedLock(L* lock)
+<span class="lineNum">      45 </span>            :         : _lock(lock)
+<span class="lineNum">      46 </span>            :     {
+<span class="lineNum">      47 </span>            :         if (lock)
+<span class="lineNum">      48 </span>            :             lock-&gt;lock_shared();
+<span class="lineNum">      49 </span>            :     }
+<a name="50"><span class="lineNum">      50 </span>            : </a>
+<span class="lineNum">      51 </span>            :     template &lt;typename LB&gt;
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     explicit UniqueSharedLock(const LB&amp; lockable)</span>
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :         : UniqueSharedLock(lockable.lock)</span>
+<span class="lineNum">      54 </span>            :     {
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     }</span>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<span class="lineNum">      57 </span>            :     /** Destruct the scoped mutex and unset the mutex. @version 1.0 */
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     ~UniqueSharedLock()</span>
+<span class="lineNum">      59 </span>            :     {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         if (_lock)</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :             _lock-&gt;unlock_shared();</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            : private:
+<span class="lineNum">      65 </span>            :     UniqueSharedLock() = delete;
+<span class="lineNum">      66 </span>            :     UniqueSharedLock(const UniqueSharedLock&amp;) = delete;
+<span class="lineNum">      67 </span>            :     UniqueSharedLock(UniqueSharedLock&amp;&amp;) = delete;
+<span class="lineNum">      68 </span>            :     UniqueSharedLock&amp; operator=(const UniqueSharedLock&amp;) = delete;
+<span class="lineNum">      69 </span>            :     UniqueSharedLock&amp; operator=(UniqueSharedLock&amp;&amp;) = delete;
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :     L* const _lock;
+<span class="lineNum">      72 </span>            : };
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            : /**
+<span class="lineNum">      75 </span>            :  * A scoped mutex.
+<span class="lineNum">      76 </span>            :  *
+<span class="lineNum">      77 </span>            :  * The mutex is automatically set upon creation, and released when the scoped
+<span class="lineNum">      78 </span>            :  * mutex is destroyed, e.g., when the scope is left. The scoped mutex does
+<span class="lineNum">      79 </span>            :  * nothing if a nullptr for the lock is passed.
+<a name="80"><span class="lineNum">      80 </span>            :  */</a>
+<span class="lineNum">      81 </span>            : template &lt;class L&gt;
+<span class="lineNum">      82 </span><span class="lineCov">       8066 : class UniqueLock : public std::unique_lock&lt;L&gt;</span>
+<span class="lineNum">      83 </span>            : {
+<span class="lineNum">      84 </span>            : public:
+<span class="lineNum">      85 </span>            :     UniqueLock(L* lock)
+<span class="lineNum">      86 </span>            :         : std::unique_lock&lt;L&gt;(lock ? std::unique_lock&lt;L&gt;(*lock)
+<span class="lineNum">      87 </span>            :                                    : std::unique_lock&lt;L&gt;())
+<span class="lineNum">      88 </span>            :     {
+<a name="89"><span class="lineNum">      89 </span>            :     }</a>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineCov">       8046 :     UniqueLock(L&amp; lock)</span>
+<span class="lineNum">      92 </span><span class="lineCov">       8046 :         : std::unique_lock&lt;L&gt;(lock)</span>
+<span class="lineNum">      93 </span>            :     {
+<span class="lineNum">      94 </span><span class="lineCov">       8059 :     }</span>
+<a name="95"><span class="lineNum">      95 </span>            : </a>
+<span class="lineNum">      96 </span>            :     template &lt;typename LB&gt;
+<span class="lineNum">      97 </span><span class="lineCov">       3048 :     explicit UniqueLock(const LB&amp; lockable)</span>
+<span class="lineNum">      98 </span><span class="lineCov">       3048 :         : UniqueLock(lockable.lock)</span>
+<span class="lineNum">      99 </span>            :     {
+<span class="lineNum">     100 </span><span class="lineCov">       3049 :     }</span>
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            : private:
+<span class="lineNum">     103 </span>            :     UniqueLock() = delete;
+<span class="lineNum">     104 </span>            :     UniqueLock(const UniqueLock&amp;) = delete;
+<span class="lineNum">     105 </span>            :     UniqueLock&amp; operator=(const UniqueLock&amp;) = delete;
+<span class="lineNum">     106 </span>            : };
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span>            : /** A scoped mutex for a fast uncontended read operation. @version 1.1.2 */
+<span class="lineNum">     109 </span>            : using ScopedFastRead = UniqueSharedLock&lt;SpinLock&gt;;
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span>            : /** A scoped mutex for a fast uncontended write operation. @version 1.1.2 */
+<span class="lineNum">     112 </span>            : using ScopedFastWrite = UniqueLock&lt;SpinLock&gt;;
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            : /** A scoped mutex for a read operation. @version 1.1.5 */
+<span class="lineNum">     115 </span>            : using ScopedRead = UniqueLock&lt;std::mutex&gt;;
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            : /** A scoped mutex for a write operation. @version 1.1.5 */
+<span class="lineNum">     118 </span>            : using ScopedWrite = UniqueLock&lt;std::mutex&gt;;
+<span class="lineNum">     119 </span>            : }
+<span class="lineNum">     120 </span>            : #endif // LUNCHBOX_SCOPEDMUTEX_H
 </pre>
       </td>
     </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-15 05:24:55</td>
+            <td class="headerValue">2017-03-01 05:23:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">8</td>
@@ -89,53 +89,53 @@
 <span class="lineNum">      27 </span>            : class TLS
 <a name="28"><span class="lineNum">      28 </span>            : {</a>
 <span class="lineNum">      29 </span>            : public:
-<span class="lineNum">      30 </span><span class="lineCov">         29 :     explicit TLS(lunchbox::TLS::ThreadDestructor_t df)</span>
-<span class="lineNum">      31 </span><span class="lineCov">         29 :         : dtorFunc(df)</span>
+<span class="lineNum">      30 </span><span class="lineCov">         28 :     explicit TLS(lunchbox::TLS::ThreadDestructor_t df)</span>
+<span class="lineNum">      31 </span><span class="lineCov">         28 :         : dtorFunc(df)</span>
 <span class="lineNum">      32 </span>            :     {
-<span class="lineNum">      33 </span><span class="lineCov">         29 :     }</span>
+<span class="lineNum">      33 </span><span class="lineCov">         28 :     }</span>
 <span class="lineNum">      34 </span>            : 
 <span class="lineNum">      35 </span>            :     pthread_key_t key;
 <span class="lineNum">      36 </span>            :     const lunchbox::TLS::ThreadDestructor_t dtorFunc;
 <span class="lineNum">      37 </span>            : };
 <a name="38"><span class="lineNum">      38 </span>            : }</a>
 <span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span><span class="lineCov">         29 : TLS::TLS(ThreadDestructor_t dtorFunc)</span>
-<span class="lineNum">      41 </span><span class="lineCov">         29 :     : impl_(new detail::TLS(dtorFunc))</span>
+<span class="lineNum">      40 </span><span class="lineCov">         28 : TLS::TLS(ThreadDestructor_t dtorFunc)</span>
+<span class="lineNum">      41 </span><span class="lineCov">         28 :     : impl_(new detail::TLS(dtorFunc))</span>
 <span class="lineNum">      42 </span>            : {
-<span class="lineNum">      43 </span><span class="lineCov">         29 :     const int error = pthread_key_create(&amp;impl_-&gt;key, dtorFunc);</span>
-<span class="lineNum">      44 </span><span class="lineCov">         29 :     if (error)</span>
+<span class="lineNum">      43 </span><span class="lineCov">         28 :     const int error = pthread_key_create(&amp;impl_-&gt;key, dtorFunc);</span>
+<span class="lineNum">      44 </span><span class="lineCov">         28 :     if (error)</span>
 <span class="lineNum">      45 </span>            :     {
 <span class="lineNum">      46 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Can't create thread-specific key: &quot; &lt;&lt; strerror(error)</span>
 <span class="lineNum">      47 </span><span class="lineNoCov">          0 :                 &lt;&lt; std::endl;</span>
 <span class="lineNum">      48 </span><span class="lineNoCov">          0 :         LBASSERT(!error);</span>
 <span class="lineNum">      49 </span>            :     }
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         29 : }</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         28 : }</span></a>
 <span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">         58 : TLS::~TLS()</span>
+<span class="lineNum">      52 </span><span class="lineCov">         56 : TLS::~TLS()</span>
 <span class="lineNum">      53 </span>            : {
-<span class="lineNum">      54 </span><span class="lineCov">         29 :     void* data = get();</span>
-<span class="lineNum">      55 </span><span class="lineCov">         29 :     if (data &amp;&amp; impl_-&gt;dtorFunc)</span>
+<span class="lineNum">      54 </span><span class="lineCov">         28 :     void* data = get();</span>
+<span class="lineNum">      55 </span><span class="lineCov">         28 :     if (data &amp;&amp; impl_-&gt;dtorFunc)</span>
 <span class="lineNum">      56 </span><span class="lineCov">          3 :         impl_-&gt;dtorFunc(data);</span>
 <span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">         29 :     pthread_key_delete(impl_-&gt;key);</span>
-<span class="lineNum">      59 </span><span class="lineCov">         29 :     delete impl_;</span>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">         29 : }</span></a>
+<span class="lineNum">      58 </span><span class="lineCov">         28 :     pthread_key_delete(impl_-&gt;key);</span>
+<span class="lineNum">      59 </span><span class="lineCov">         28 :     delete impl_;</span>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">         28 : }</span></a>
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span><span class="lineCov">       7397 : void TLS::set(const void* data)</span>
+<span class="lineNum">      62 </span><span class="lineCov">       7380 : void TLS::set(const void* data)</span>
 <span class="lineNum">      63 </span>            : {
-<span class="lineNum">      64 </span><span class="lineCov">       7397 :     pthread_setspecific(impl_-&gt;key, data);</span>
-<a name="65"><span class="lineNum">      65 </span><span class="lineCov">       7404 : }</span></a>
+<span class="lineNum">      64 </span><span class="lineCov">       7380 :     pthread_setspecific(impl_-&gt;key, data);</span>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">       7384 : }</span></a>
 <span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineCov">      22648 : void* TLS::get()</span>
+<span class="lineNum">      67 </span><span class="lineCov">      22649 : void* TLS::get()</span>
 <span class="lineNum">      68 </span>            : {
-<span class="lineNum">      69 </span><span class="lineCov">      22648 :     return pthread_getspecific(impl_-&gt;key);</span>
+<span class="lineNum">      69 </span><span class="lineCov">      22649 :     return pthread_getspecific(impl_-&gt;key);</span>
 <a name="70"><span class="lineNum">      70 </span>            : }</a>
 <span class="lineNum">      71 </span>            : 
 <span class="lineNum">      72 </span><span class="lineCov">       2048 : const void* TLS::get() const</span>
 <span class="lineNum">      73 </span>            : {
 <a name="74"><span class="lineNum">      74 </span><span class="lineCov">       2048 :     return pthread_getspecific(impl_-&gt;key);</span></a>
 <span class="lineNum">      75 </span>            : }
-<span class="lineNum">      76 </span><span class="lineCov">         78 : }</span>
+<span class="lineNum">      76 </span><span class="lineCov">         75 : }</span>
 </pre>
       </td>
     </tr>

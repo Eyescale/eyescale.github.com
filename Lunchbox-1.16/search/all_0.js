@@ -4,7 +4,7 @@ var searchData=
   ['a_5fssize_5ft',['a_ssize_t',['../namespacelunchbox.html#ae009aa10147f54224fba9ef3306cca35',1,'lunchbox']]],
   ['addandget',['addAndGet',['../classlunchbox_1_1_atomic.html#a8501225f5fe1e2fa1ab89631ba5f8204',1,'lunchbox::Atomic']]],
   ['affinity',['Affinity',['../classlunchbox_1_1_thread.html#a478df724e8cfb6881d2017b8fac87275',1,'lunchbox::Thread']]],
-  ['alloc',['alloc',['../classlunchbox_1_1_pool.html#aa91ebc18d14b4b1e6fe16f3a3b43c5bf',1,'lunchbox::Pool']]],
+  ['alloc',['alloc',['../classlunchbox_1_1_pool.html#aa8064b54a9ec653106886fd027e99988',1,'lunchbox::Pool']]],
   ['any',['Any',['../classlunchbox_1_1_any.html#aa35d9838e8fd9893ec02a2f1f168d2c4',1,'lunchbox::Any::Any()'],['../classlunchbox_1_1_any.html#a5f81419849314c276660e961781da57f',1,'lunchbox::Any::Any(const ValueType &amp;value)'],['../classlunchbox_1_1_any.html#afb7c122338d15eb14a1c1ddb8e364cfd',1,'lunchbox::Any::Any(const Any &amp;other)']]],
   ['any',['Any',['../classlunchbox_1_1_any.html',1,'lunchbox']]],
   ['any_5fcast',['any_cast',['../classlunchbox_1_1_any.html#ad52fddf4aadae22e9471b6d76cf9749f',1,'lunchbox::Any::any_cast()'],['../namespacelunchbox.html#a7aea7913c27e87795ad4a2b9491e7dc4',1,'lunchbox::any_cast(Any *operand)'],['../namespacelunchbox.html#a00ef0d2f1234fd9f4c31b9b3d226fbd4',1,'lunchbox::any_cast(const Any *operand)'],['../namespacelunchbox.html#ade30adb20a3f6620b60ab6047088f0ad',1,'lunchbox::any_cast(Any &amp;operand)'],['../namespacelunchbox.html#ad53cbc49981ed0a3c9cf88c1d5779764',1,'lunchbox::any_cast(const Any &amp;operand)']]],

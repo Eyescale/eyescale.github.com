@@ -5,7 +5,6 @@ var searchData=
   ['threadpool',['ThreadPool',['../classlunchbox_1_1_thread_pool.html#a38ebb7f60160f883a7b6dda4956fb1c7',1,'lunchbox::ThreadPool']]],
   ['timedpop',['timedPop',['../classlunchbox_1_1_m_t_queue.html#a8ceb8ef85211373130b2310bc5f29934',1,'lunchbox::MTQueue']]],
   ['timedpoprange',['timedPopRange',['../classlunchbox_1_1_m_t_queue.html#aa911b86392a23f86e6c111e1b5987ab9',1,'lunchbox::MTQueue']]],
-  ['timedwait',['timedWait',['../classlunchbox_1_1_condition.html#ada4038bc6e1ba603633808b78907c160',1,'lunchbox::Condition']]],
   ['timedwaiteq',['timedWaitEQ',['../classlunchbox_1_1_monitor.html#ac86a4412245731f5e8b11fdaf9d0ab4a',1,'lunchbox::Monitor']]],
   ['timedwaitge',['timedWaitGE',['../classlunchbox_1_1_monitor.html#a2a8b5c1fc9b3cfdd917a2955aa555b53',1,'lunchbox::Monitor']]],
   ['timedwaitgt',['timedWaitGT',['../classlunchbox_1_1_monitor.html#a8857cfb02fa94ea4b29793a1fa2060be',1,'lunchbox::Monitor']]],

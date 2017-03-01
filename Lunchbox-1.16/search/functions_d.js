@@ -7,7 +7,7 @@ var searchData=
   ['perthreadref',['PerThreadRef',['../classlunchbox_1_1_per_thread_ref.html#abf237e3a7c3b22abccd0db33cfcdeaf1',1,'lunchbox::PerThreadRef']]],
   ['plugin',['Plugin',['../classlunchbox_1_1_plugin.html#a422f584387960db582ac74fae2b78300',1,'lunchbox::Plugin']]],
   ['pluginregisterer',['PluginRegisterer',['../classlunchbox_1_1_plugin_registerer.html#ae251ef93878e8b1528f8e60de9a63f9b',1,'lunchbox::PluginRegisterer']]],
-  ['pool',['Pool',['../classlunchbox_1_1_pool.html#a5db45906124ac4d91e8000605d83821c',1,'lunchbox::Pool']]],
+  ['pool',['Pool',['../classlunchbox_1_1_pool.html#a2980352c12755f14ce502b4622dc482b',1,'lunchbox::Pool']]],
   ['pop',['pop',['../classlunchbox_1_1_l_f_queue.html#aff32197fe03d8398047850e2227bb554',1,'lunchbox::LFQueue::pop()'],['../classlunchbox_1_1_m_t_queue.html#a91510c2c9390818ff86806e5242b8401',1,'lunchbox::MTQueue::pop()']]],
   ['pop_5fback',['pop_back',['../classlunchbox_1_1_l_f_vector.html#ad0366264ecccb336fb94f0bbfc5578d5',1,'lunchbox::LFVector::pop_back()'],['../classlunchbox_1_1_l_f_vector.html#a822c6c9a12e2d33ff8c6ee84834ad39a',1,'lunchbox::LFVector::pop_back(T &amp;element)']]],
   ['popbarrier',['popBarrier',['../classlunchbox_1_1_m_t_queue.html#ab29d5638ab3976e61fe67539fed0583f',1,'lunchbox::MTQueue']]],
