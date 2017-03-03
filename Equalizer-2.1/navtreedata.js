@@ -5,6 +5,7 @@ var NAVTREE =
     [ "Changelog", "Changelog.html", null ],
     [ "Event Handling v2", "md__jenkins_02_workspace_oss.Equalizer.documentation_build_type_Debug_platform_cscsviz-vm_sources_doc_feature_event2.html", null ],
     [ "Screenshot", "md__jenkins_02_workspace_oss.Equalizer.documentation_build_type_Debug_platform_cscsviz-vm_sources_doc_feature_screenshot.html", null ],
+    [ "Application Help", "apps.html", "apps" ],
     [ "Deprecated List", "deprecated.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -43,16 +44,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classeq_1_1_frame.html#a70c9b97413d16d5f68ee0c90f570c005",
-"classeq_1_1_pipe.html#a83de565fbdc7407afa9499ed8558bd6a",
-"classeq_1_1fabric_1_1_canvas.html#ab1e6140747354b7194b6c906d2a0620c",
-"classeq_1_1fabric_1_1_equalizer.html#a614bc1bef81195f374c4993116c272da",
-"classeq_1_1fabric_1_1_observer.html#a4a6a6375b5ece742b0c20e861f1d4282",
-"classeq_1_1fabric_1_1_view.html#a0b6794d64f1083897d702802ccf0338d",
-"classeq_1_1glx_1_1_window.html#acca896d467cdc669d92b1240aec614b3",
-"classeq_1_1wgl_1_1_window.html#accb0dde5e1eb8694a60439d0622fd7b9",
-"fabric_2client_8h_source.html",
-"structeq_1_1fabric_1_1_g_p_u_info.html#a6f4cb49bbdab2874faf01e71fc46c4dc"
+"classeq_1_1_frame.html#a6820b7d36a7d2186a3661890eb31a762",
+"classeq_1_1_pipe.html#a8281183eb14ea544240341e13c41cd54",
+"classeq_1_1fabric_1_1_canvas.html#a95b6899fe275cbe3214d8d41f95fd515",
+"classeq_1_1fabric_1_1_equalizer.html#a3c2828b5c4001f5821cb4ba4aaebf598",
+"classeq_1_1fabric_1_1_observer.html#a3311c5086605798cb4823f21323da04d",
+"classeq_1_1fabric_1_1_view.html#a0098a81f9680fa4694848e0d811d6f76a61f7cc23613e76b5d68c25acad4826d8",
+"classeq_1_1glx_1_1_window.html#a970ba10efbd5e41d78c339def58d6f29",
+"classeq_1_1wgl_1_1_window.html#a9431c6ac3da85d4f229617608a980754",
+"error_registry_8h_source.html",
+"structeq_1_1fabric_1_1_drawable_config.html#aa497ef511d3e9413f64e61f32f524829"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

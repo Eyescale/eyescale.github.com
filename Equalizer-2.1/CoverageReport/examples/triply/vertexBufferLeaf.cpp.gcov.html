@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Equalizer - examples/triply/vertexBufferLeaf.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">examples/triply</a> - vertexBufferLeaf.cpp<span style="font-size: 80%;"> (source / <a href="vertexBufferLeaf.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Equalizer</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">190</td>
+            <td class="headerCovTableEntryLo">0.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2017-03-03 15:54:37</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryLo">16.7 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2016, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
+<span class="lineNum">       3 </span>            :  *                          Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       4 </span>            :  *
+<span class="lineNum">       5 </span>            :  * Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>            :  * modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * - Redistributions of source code must retain the above copyright notice, this
+<span class="lineNum">       9 </span>            :  *   list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>            :  * - Redistributions in binary form must reproduce the above copyright notice,
+<span class="lineNum">      11 </span>            :  *   this list of conditions and the following disclaimer in the documentation
+<span class="lineNum">      12 </span>            :  *   and/or other materials provided with the distribution.
+<span class="lineNum">      13 </span>            :  * - Neither the name of Eyescale Software GmbH nor the names of its
+<span class="lineNum">      14 </span>            :  *   contributors may be used to endorse or promote products derived from this
+<span class="lineNum">      15 </span>            :  *   software without specific prior written permission.
+<span class="lineNum">      16 </span>            :  *
+<span class="lineNum">      17 </span>            :  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+<span class="lineNum">      18 </span>            :  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+<span class="lineNum">      19 </span>            :  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+<span class="lineNum">      20 </span>            :  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+<span class="lineNum">      21 </span>            :  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+<span class="lineNum">      22 </span>            :  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+<span class="lineNum">      23 </span>            :  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+<span class="lineNum">      24 </span>            :  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+<span class="lineNum">      25 </span>            :  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+<span class="lineNum">      26 </span>            :  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+<span class="lineNum">      27 </span>            :  * POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      28 </span>            :  */
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : #include &quot;vertexBufferLeaf.h&quot;
+<span class="lineNum">      32 </span>            : #include &quot;vertexBufferData.h&quot;
+<span class="lineNum">      33 </span>            : #include &quot;vertexBufferState.h&quot;
+<span class="lineNum">      34 </span>            : #include &quot;vertexData.h&quot;
+<span class="lineNum">      35 </span>            : #include &lt;map&gt;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : namespace triply
+<span class="lineNum">      38 </span>            : {
+<a name="39"><span class="lineNum">      39 </span>            : </a>
+<span class="lineNum">      40 </span>            : /*  Finish partial setup - sort, reindex and merge into global data.  */
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::setupTree( VertexData&amp; data, const Index start,</span>
+<span class="lineNum">      42 </span>            :                                   const Index length, const Axis axis,
+<span class="lineNum">      43 </span>            :                                   const size_t depth,
+<span class="lineNum">      44 </span>            :                                   VertexBufferData&amp; globalData,
+<span class="lineNum">      45 </span>            :                                   boost::progress_display&amp; progress )
+<span class="lineNum">      46 </span>            : {
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     data.sort( start, length, axis );</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     _vertexStart = globalData.vertices.size();</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     _vertexLength = 0;</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     _indexStart = globalData.indices.size();</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     _indexLength = 0;</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :     const bool hasColors = !data.colors.empty();</span>
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            :     // stores the new indices (relative to _start)
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :     std::map&lt; Index, ShortIndex &gt; newIndex;</span>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     for( Index t = 0; t &lt; length; ++t )</span>
+<span class="lineNum">      59 </span>            :     {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         for( Index v = 0; v &lt; 3; ++v )</span>
+<span class="lineNum">      61 </span>            :         {
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :             Index i = data.triangles[start + t][v];</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :             if( newIndex.find( i ) == newIndex.end() )</span>
+<span class="lineNum">      64 </span>            :             {
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :                 newIndex[i] = _vertexLength++;</span>
+<span class="lineNum">      66 </span>            :                 // assert number of vertices does not exceed SmallIndex range
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :                 PLYLIBASSERT( _vertexLength );</span>
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :                 globalData.vertices.push_back( data.vertices[i] );</span>
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :                 if( hasColors )</span>
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :                     globalData.colors.push_back( data.colors[i] );</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :                 globalData.normals.push_back( data.normals[i] );</span>
+<span class="lineNum">      72 </span>            :             }
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :             globalData.indices.push_back( newIndex[i] );</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :             ++_indexLength;</span>
+<span class="lineNum">      75 </span>            :         }
+<span class="lineNum">      76 </span>            :     }
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :     if( depth == 3 )</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :         ++progress;</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      80 </span>            : 
+<a name="81"><span class="lineNum">      81 </span>            : </a>
+<span class="lineNum">      82 </span>            : /*  Compute the bounding sphere of the leaf's indexed vertices.  */
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 : const BoundingSphere&amp; VertexBufferLeaf::updateBoundingSphere()</span>
+<span class="lineNum">      84 </span>            : {
+<span class="lineNum">      85 </span>            :     // We determine a bounding sphere by:
+<span class="lineNum">      86 </span>            :     // 1) Using the inner sphere of the dominant axis of the bounding box as an
+<span class="lineNum">      87 </span>            :     //    estimate
+<span class="lineNum">      88 </span>            :     // 2) Test all points to be in that sphere
+<span class="lineNum">      89 </span>            :     // 3) Expand the sphere to contain all points outside.
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            :     // 1a) initialize and compute a bounding box
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :     _boundingBox[0] = _globalData.vertices[ _vertexStart +</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :                                             _globalData.indices[_indexStart] ];</span>
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :     _boundingBox[1] = _globalData.vertices[ _vertexStart +</span>
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :                                             _globalData.indices[_indexStart] ];</span>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :     for( Index i = 1 + _indexStart; i &lt; _indexStart + _indexLength; ++i )</span>
+<span class="lineNum">      99 </span>            :     {
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :         const Vertex&amp; vertex = _globalData.vertices[ _vertexStart +</span>
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :                                                      _globalData.indices[ i ] ];</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :         _boundingBox[0][0] = std::min( _boundingBox[0][0], vertex[0] );</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         _boundingBox[1][0] = std::max( _boundingBox[1][0], vertex[0] );</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         _boundingBox[0][1] = std::min( _boundingBox[0][1], vertex[1] );</span>
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :         _boundingBox[1][1] = std::max( _boundingBox[1][1], vertex[1] );</span>
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :         _boundingBox[0][2] = std::min( _boundingBox[0][2], vertex[2] );</span>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :         _boundingBox[1][2] = std::max( _boundingBox[1][2], vertex[2] );</span>
+<span class="lineNum">     108 </span>            :     }
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span>            :     // 1b) get inner sphere of bounding box as an initial estimate
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     _boundingSphere.x() = ( _boundingBox[0].x() + _boundingBox[1].x() ) * 0.5f;</span>
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     _boundingSphere.y() = ( _boundingBox[0].y() + _boundingBox[1].y() ) * 0.5f;</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     _boundingSphere.z() = ( _boundingBox[0].z() + _boundingBox[1].z() ) * 0.5f;</span>
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :     _boundingSphere.w()  = std::max( _boundingBox[1].x() - _boundingBox[0].x(),</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :                                      _boundingBox[1].y() - _boundingBox[0].y());</span>
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :     _boundingSphere.w()  = std::max( _boundingBox[1].z() - _boundingBox[0].z(),</span>
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :                                      _boundingSphere.w( ));</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     _boundingSphere.w() *= .5f;</span>
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :     float  radius        = _boundingSphere.w();</span>
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :     float  radiusSquared =  radius * radius;</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :     Vertex center( _boundingSphere.array );</span>
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            :     // 2) test all points to be in the estimated bounding sphere
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :     for( Index offset = 0; offset &lt; _indexLength; ++offset )</span>
+<span class="lineNum">     127 </span>            :     {
+<span class="lineNum">     128 </span>            :         const Vertex&amp; vertex =
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :             _globalData.vertices[ _vertexStart +</span>
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :                                   _globalData.indices[_indexStart + offset] ];</span>
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :         const Vertex centerToPoint   = vertex - center;</span>
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :         const float  distanceSquared = centerToPoint.squared_length();</span>
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :         if( distanceSquared &lt;= radiusSquared ) // point is inside existing BS</span>
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :             continue;</span>
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            :         // 3) expand sphere to contain 'outside' points
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 :         const float distance = sqrtf( distanceSquared );</span>
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :         const float delta    = distance - radius;</span>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :         radius        = ( radius + distance ) * .5f;</span>
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         radiusSquared = radius * radius;</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         const Vertex normdelta = normalize( centerToPoint ) * ( 0.5f * delta );</span>
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         center       += normdelta;</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :         LBASSERTINFO( Vertex( vertex-center ).squared_length() &lt;=</span>
+<span class="lineNum">     148 </span>            :                 ( radiusSquared + 2.f * std::numeric_limits&lt;float&gt;::epsilon( )),
+<span class="lineNum">     149 </span>            :                       vertex &lt;&lt; &quot; c &quot; &lt;&lt; center &lt;&lt; &quot; r &quot; &lt;&lt; radius &lt;&lt; &quot; (&quot;
+<span class="lineNum">     150 </span>            :                              &lt;&lt; Vertex( vertex-center ).length() &lt;&lt; &quot;)&quot; );
+<span class="lineNum">     151 </span>            :     }
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            : #ifndef NDEBUG
+<span class="lineNum">     154 </span>            :     // 2a) re-test all points to be in the estimated bounding sphere
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :     for( Index offset = 0; offset &lt; _indexLength; ++offset )</span>
+<span class="lineNum">     156 </span>            :     {
+<span class="lineNum">     157 </span>            :         const Vertex&amp; vertex =
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :             _globalData.vertices[ _vertexStart +</span>
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :                                   _globalData.indices[_indexStart + offset] ];</span>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :         const Vertex centerToPoint   = vertex - center;</span>
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :         const float  distanceSquared = centerToPoint.squared_length();</span>
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :         LBASSERTINFO( distanceSquared &lt;=</span>
+<span class="lineNum">     164 </span>            :                 ( radiusSquared + 2.f * std::numeric_limits&lt;float&gt;::epsilon( )),
+<span class="lineNum">     165 </span>            :                       vertex &lt;&lt; &quot; c &quot; &lt;&lt; center &lt;&lt; &quot; r &quot; &lt;&lt; radius &lt;&lt; &quot; (&quot;
+<span class="lineNum">     166 </span>            :                              &lt;&lt; Vertex( vertex-center ).length() &lt;&lt; &quot;)&quot; );
+<span class="lineNum">     167 </span>            :     }
+<span class="lineNum">     168 </span>            : #endif
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span>            :     // store optimal bounding sphere
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :     _boundingSphere.x() = center.x();</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :     _boundingSphere.y() = center.y();</span>
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :     _boundingSphere.z() = center.z();</span>
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 :     _boundingSphere.w() = radius;</span>
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :     return _boundingSphere;</span>
+<span class="lineNum">     176 </span>            : }
+<span class="lineNum">     177 </span>            : 
+<a name="178"><span class="lineNum">     178 </span>            : </a>
+<span class="lineNum">     179 </span>            : /*  Compute the range of this child.  */
+<span class="lineNum">     180 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::updateRange()</span>
+<span class="lineNum">     181 </span>            : {
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :     _range[0] = 1.0f * _indexStart / _globalData.indices.size();</span>
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 :     _range[1] = _range[0] + 1.0f * _indexLength / _globalData.indices.size();</span>
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : #define glewGetContext state.glewGetContext
+<a name="187"><span class="lineNum">     187 </span>            : </a>
+<span class="lineNum">     188 </span>            : /*  Set up rendering of the leaf nodes.  */
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::setupRendering( VertexBufferState&amp; state,</span>
+<span class="lineNum">     190 </span>            :                                        GLuint* data ) const
+<span class="lineNum">     191 </span>            : {
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :     switch( state.getRenderMode() )</span>
+<span class="lineNum">     193 </span>            :     {
+<span class="lineNum">     194 </span>            :     case RENDER_MODE_IMMEDIATE:
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span>            :     case RENDER_MODE_BUFFER_OBJECT:
+<span class="lineNum">     198 </span>            :     {
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         const char* charThis = reinterpret_cast&lt; const char* &gt;( this );</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :         if( data[VERTEX_OBJECT] == state.INVALID )</span>
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 :             data[VERTEX_OBJECT] = state.newBufferObject( charThis + 0 );</span>
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :         glBindBuffer( GL_ARRAY_BUFFER, data[VERTEX_OBJECT] );</span>
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :         glBufferData( GL_ARRAY_BUFFER, _vertexLength * sizeof( Vertex ),</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :                         &amp;_globalData.vertices[_vertexStart], GL_STATIC_DRAW );</span>
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :         if( data[NORMAL_OBJECT] == state.INVALID )</span>
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :             data[NORMAL_OBJECT] = state.newBufferObject( charThis + 1 );</span>
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :         glBindBuffer( GL_ARRAY_BUFFER, data[NORMAL_OBJECT] );</span>
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :         glBufferData( GL_ARRAY_BUFFER, _vertexLength * sizeof( Normal ),</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :                         &amp;_globalData.normals[_vertexStart], GL_STATIC_DRAW );</span>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :         if( data[COLOR_OBJECT] == state.INVALID )</span>
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :             data[COLOR_OBJECT] = state.newBufferObject( charThis + 2 );</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :         if( state.useColors() )</span>
+<span class="lineNum">     216 </span>            :         {
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :             glBindBuffer( GL_ARRAY_BUFFER, data[COLOR_OBJECT] );</span>
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 :             glBufferData( GL_ARRAY_BUFFER, _vertexLength * sizeof( Color ),</span>
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :                             &amp;_globalData.colors[_vertexStart], GL_STATIC_DRAW );</span>
+<span class="lineNum">     220 </span>            :         }
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span><span class="lineNoCov">          0 :         if( data[INDEX_OBJECT] == state.INVALID )</span>
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :             data[INDEX_OBJECT] = state.newBufferObject( charThis + 3 );</span>
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, data[INDEX_OBJECT] );</span>
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :         glBufferData( GL_ELEMENT_ARRAY_BUFFER,</span>
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :                         _indexLength * sizeof( ShortIndex ),</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :                         &amp;_globalData.indices[_indexStart], GL_STATIC_DRAW );</span>
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     230 </span>            :     }
+<span class="lineNum">     231 </span>            :     case RENDER_MODE_DISPLAY_LIST:
+<span class="lineNum">     232 </span>            :     default:
+<span class="lineNum">     233 </span>            :     {
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :         if( data[0] == state.INVALID )</span>
+<span class="lineNum">     235 </span>            :         {
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :             char* key = (char*)( this );</span>
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :             if( state.useColors( ))</span>
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :                 ++key;</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :             data[0] = state.newDisplayList( key );</span>
+<span class="lineNum">     240 </span>            :         }
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :         glNewList( data[0], GL_COMPILE );</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :         renderImmediate( state );</span>
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :         glEndList();</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     245 </span>            :     }
+<span class="lineNum">     246 </span>            :     }
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 : }</span>
+<a name="248"><span class="lineNum">     248 </span>            : </a>
+<span class="lineNum">     249 </span>            : /*  Draw the leaf.  */
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::draw( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">     251 </span>            : {
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :     if( state.stopRendering( ))</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :     state.updateRegion( _boundingBox );</span>
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :     switch( state.getRenderMode() )</span>
+<span class="lineNum">     257 </span>            :     {
+<span class="lineNum">     258 </span>            :       case RENDER_MODE_IMMEDIATE:
+<span class="lineNum">     259 </span><span class="lineNoCov">          0 :           renderImmediate( state );</span>
+<span class="lineNum">     260 </span><span class="lineNoCov">          0 :           return;</span>
+<span class="lineNum">     261 </span>            :       case RENDER_MODE_BUFFER_OBJECT:
+<span class="lineNum">     262 </span><span class="lineNoCov">          0 :           renderBufferObject( state );</span>
+<span class="lineNum">     263 </span><span class="lineNoCov">          0 :           return;</span>
+<span class="lineNum">     264 </span>            :       case RENDER_MODE_DISPLAY_LIST:
+<span class="lineNum">     265 </span>            :       default:
+<span class="lineNum">     266 </span><span class="lineNoCov">          0 :           renderDisplayList( state );</span>
+<span class="lineNum">     267 </span><span class="lineNoCov">          0 :           return;</span>
+<span class="lineNum">     268 </span>            :     }
+<span class="lineNum">     269 </span>            : }
+<a name="270"><span class="lineNum">     270 </span>            : </a>
+<span class="lineNum">     271 </span>            : /*  Render the leaf with buffer objects.  */
+<span class="lineNum">     272 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::renderBufferObject( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">     273 </span>            : {
+<span class="lineNum">     274 </span>            :     GLuint buffers[4];
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :     for( int i = 0; i &lt; 4; ++i )</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :         buffers[i] =</span>
+<span class="lineNum">     277 </span><span class="lineNoCov">          0 :             state.getBufferObject( reinterpret_cast&lt; const char* &gt;(this) + i );</span>
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :     if( buffers[VERTEX_OBJECT] == state.INVALID ||</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :         buffers[NORMAL_OBJECT] == state.INVALID ||</span>
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :         buffers[COLOR_OBJECT] == state.INVALID ||</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :         buffers[INDEX_OBJECT] == state.INVALID )</span>
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :         setupRendering( state, buffers );</span>
+<span class="lineNum">     284 </span>            : 
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :     if( state.useColors() )</span>
+<span class="lineNum">     286 </span>            :     {
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :         glBindBuffer( GL_ARRAY_BUFFER, buffers[COLOR_OBJECT] );</span>
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 :         glColorPointer( 3, GL_UNSIGNED_BYTE, 0, 0 );</span>
+<span class="lineNum">     289 </span>            :     }
+<span class="lineNum">     290 </span><span class="lineNoCov">          0 :     glBindBuffer( GL_ARRAY_BUFFER, buffers[NORMAL_OBJECT] );</span>
+<span class="lineNum">     291 </span><span class="lineNoCov">          0 :     glNormalPointer( GL_FLOAT, 0, 0 );</span>
+<span class="lineNum">     292 </span><span class="lineNoCov">          0 :     glBindBuffer( GL_ARRAY_BUFFER, buffers[VERTEX_OBJECT] );</span>
+<span class="lineNum">     293 </span><span class="lineNoCov">          0 :     glVertexPointer( 3, GL_FLOAT, 0, 0 );</span>
+<span class="lineNum">     294 </span><span class="lineNoCov">          0 :     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, buffers[INDEX_OBJECT] );</span>
+<span class="lineNum">     295 </span><span class="lineNoCov">          0 :     glDrawElements( GL_TRIANGLES, GLsizei(_indexLength), GL_UNSIGNED_SHORT, 0 );</span>
+<span class="lineNum">     296 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     297 </span>            : 
+<span class="lineNum">     298 </span>            : 
+<a name="299"><span class="lineNum">     299 </span>            : /*  Render the leaf with a display list.  */</a>
+<span class="lineNum">     300 </span>            : inline
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::renderDisplayList( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">     302 </span>            : {
+<span class="lineNum">     303 </span><span class="lineNoCov">          0 :     char* key = (char*)( this );</span>
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :     if( state.useColors( ))</span>
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :         ++key;</span>
+<span class="lineNum">     306 </span>            : 
+<span class="lineNum">     307 </span><span class="lineNoCov">          0 :     GLuint displayList = state.getDisplayList( key );</span>
+<span class="lineNum">     308 </span>            : 
+<span class="lineNum">     309 </span><span class="lineNoCov">          0 :     if( displayList == state.INVALID )</span>
+<span class="lineNum">     310 </span><span class="lineNoCov">          0 :         setupRendering( state, &amp;displayList );</span>
+<span class="lineNum">     311 </span>            : 
+<span class="lineNum">     312 </span><span class="lineNoCov">          0 :     glCallList( displayList );</span>
+<span class="lineNum">     313 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span>            : 
+<a name="316"><span class="lineNum">     316 </span>            : /*  Render the leaf with immediate mode primitives or vertex arrays.  */</a>
+<span class="lineNum">     317 </span>            : inline
+<span class="lineNum">     318 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::renderImmediate( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">     319 </span>            : {
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 :     glBegin( GL_TRIANGLES );</span>
+<span class="lineNum">     321 </span><span class="lineNoCov">          0 :     for( Index offset = 0; offset &lt; _indexLength; ++offset )</span>
+<span class="lineNum">     322 </span>            :     {
+<span class="lineNum">     323 </span><span class="lineNoCov">          0 :         const Index i =_vertexStart + _globalData.indices[_indexStart + offset];</span>
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :         if( state.useColors() )</span>
+<span class="lineNum">     325 </span><span class="lineNoCov">          0 :             glColor3ubv( &amp;_globalData.colors[i][0] );</span>
+<span class="lineNum">     326 </span><span class="lineNoCov">          0 :         glNormal3fv( &amp;_globalData.normals[i][0] );</span>
+<span class="lineNum">     327 </span><span class="lineNoCov">          0 :         glVertex3fv( &amp;_globalData.vertices[i][0] );</span>
+<span class="lineNum">     328 </span>            :     }
+<span class="lineNum">     329 </span><span class="lineNoCov">          0 :     glEnd();</span>
+<span class="lineNum">     330 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     331 </span>            : 
+<a name="332"><span class="lineNum">     332 </span>            : </a>
+<span class="lineNum">     333 </span>            : /*  Read leaf node from memory.  */
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::fromMemory( char** addr, VertexBufferData&amp; globalData )</span>
+<span class="lineNum">     335 </span>            : {
+<span class="lineNum">     336 </span>            :     Type nodeType;
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;nodeType ), addr, sizeof( nodeType ) );</span>
+<span class="lineNum">     338 </span><span class="lineNoCov">          0 :     if( nodeType != Type::leaf )</span>
+<span class="lineNum">     339 </span>            :         throw MeshException( &quot;Error reading binary file. Expected a leaf &quot;
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :                              &quot;node, but found something else instead.&quot; );</span>
+<span class="lineNum">     341 </span><span class="lineNoCov">          0 :     VertexBufferBase::fromMemory( addr, globalData );</span>
+<span class="lineNum">     342 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;_boundingBox ), addr,</span>
+<span class="lineNum">     343 </span><span class="lineNoCov">          0 :              sizeof( BoundingBox ) );</span>
+<span class="lineNum">     344 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;_vertexStart ), addr,</span>
+<span class="lineNum">     345 </span><span class="lineNoCov">          0 :              sizeof( Index ) );</span>
+<span class="lineNum">     346 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;_vertexLength ), addr,</span>
+<span class="lineNum">     347 </span><span class="lineNoCov">          0 :              sizeof( ShortIndex ) );</span>
+<span class="lineNum">     348 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;_indexStart ), addr,</span>
+<span class="lineNum">     349 </span><span class="lineNoCov">          0 :              sizeof( Index ) );</span>
+<span class="lineNum">     350 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;_indexLength ), addr,</span>
+<span class="lineNum">     351 </span><span class="lineNoCov">          0 :              sizeof( Index ) );</span>
+<span class="lineNum">     352 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     353 </span>            : 
+<a name="354"><span class="lineNum">     354 </span>            : </a>
+<span class="lineNum">     355 </span>            : /*  Write leaf node to output stream.  */
+<span class="lineNum">     356 </span><span class="lineNoCov">          0 : void VertexBufferLeaf::toStream( std::ostream&amp; os )</span>
+<span class="lineNum">     357 </span>            : {
+<span class="lineNum">     358 </span><span class="lineNoCov">          0 :     Type nodeType = Type::leaf;</span>
+<span class="lineNum">     359 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; char* &gt;( &amp;nodeType ), sizeof( nodeType ));</span>
+<span class="lineNum">     360 </span><span class="lineNoCov">          0 :     VertexBufferBase::toStream( os );</span>
+<span class="lineNum">     361 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; char* &gt;( &amp;_boundingBox ), sizeof( BoundingBox));</span>
+<span class="lineNum">     362 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; char* &gt;( &amp;_vertexStart ), sizeof( Index ));</span>
+<span class="lineNum">     363 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; char* &gt;( &amp;_vertexLength ),sizeof( ShortIndex ));</span>
+<span class="lineNum">     364 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; char* &gt;( &amp;_indexStart ), sizeof( Index ));</span>
+<span class="lineNum">     365 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; char* &gt;( &amp;_indexLength ), sizeof( Index ));</span>
+<a name="366"><span class="lineNum">     366 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span><span class="lineCov">          9 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

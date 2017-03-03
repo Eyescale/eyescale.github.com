@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">41</td>
-            <td class="headerCovTableEntry">506</td>
-            <td class="headerCovTableEntryLo">8.1 %</td>
+            <td class="headerCovTableEntry">503</td>
+            <td class="headerCovTableEntryLo">8.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-21 05:04:46</td>
+            <td class="headerValue">2017-03-03 15:56:18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -959,54 +959,45 @@
 <span class="lineNum">     897 </span><span class="lineNoCov">          0 :     return i-&gt;second;</span>
 <a name="898"><span class="lineNum">     898 </span>            : }</a>
 <span class="lineNum">     899 </span>            : 
-<span class="lineNum">     900 </span><span class="lineNoCov">          0 : PixelBufferObject* ObjectManager::newEqPixelBufferObject( const void* key,</span>
-<span class="lineNum">     901 </span>            :                                                          const bool threadSafe )
-<span class="lineNum">     902 </span>            : {
-<span class="lineNum">     903 </span><span class="lineNoCov">          0 :     if( _impl-&gt;eqPixelBufferObjects.find( key ) !=</span>
-<span class="lineNum">     904 </span><span class="lineNoCov">          0 :         _impl-&gt;eqPixelBufferObjects.end( ))</span>
-<span class="lineNum">     905 </span>            :     {
-<span class="lineNum">     906 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Requested new eqPixelBufferObject for existing key&quot;</span>
-<span class="lineNum">     907 </span><span class="lineNoCov">          0 :                &lt;&lt; std::endl;</span>
-<span class="lineNum">     908 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     909 </span>            :     }
-<span class="lineNum">     910 </span>            : 
-<span class="lineNum">     911 </span>            :     PixelBufferObject* pixelBufferObject =
-<span class="lineNum">     912 </span><span class="lineNoCov">          0 :         new PixelBufferObject( &amp;_impl-&gt;glewContext, threadSafe );</span>
-<span class="lineNum">     913 </span><span class="lineNoCov">          0 :     _impl-&gt;eqPixelBufferObjects[ key ] = pixelBufferObject;</span>
-<span class="lineNum">     914 </span><span class="lineNoCov">          0 :     return pixelBufferObject;</span>
-<a name="915"><span class="lineNum">     915 </span>            : }</a>
-<span class="lineNum">     916 </span>            : 
-<span class="lineNum">     917 </span><span class="lineNoCov">          0 : PixelBufferObject* ObjectManager::obtainEqPixelBufferObject( const void* key,</span>
-<span class="lineNum">     918 </span>            :                                                          const bool threadSafe )
-<span class="lineNum">     919 </span>            : {
-<span class="lineNum">     920 </span><span class="lineNoCov">          0 :     PixelBufferObject* pixelBufferObject = getEqPixelBufferObject( key );</span>
-<span class="lineNum">     921 </span><span class="lineNoCov">          0 :     if( pixelBufferObject )</span>
-<span class="lineNum">     922 </span>            :     {
-<span class="lineNum">     923 </span><span class="lineNoCov">          0 :         if( pixelBufferObject-&gt;isThreadSafe() != threadSafe )</span>
-<span class="lineNum">     924 </span>            :         {
-<span class="lineNum">     925 </span><span class="lineNoCov">          0 :             LBERROR &lt;&lt; &quot;Wrong sharing option requested!&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     926 </span><span class="lineNoCov">          0 :             return 0;</span>
-<span class="lineNum">     927 </span>            :         }
-<span class="lineNum">     928 </span><span class="lineNoCov">          0 :         return pixelBufferObject;</span>
-<span class="lineNum">     929 </span>            :     }
-<span class="lineNum">     930 </span><span class="lineNoCov">          0 :     return newEqPixelBufferObject( key, threadSafe );</span>
-<a name="931"><span class="lineNum">     931 </span>            : }</a>
+<span class="lineNum">     900 </span><span class="lineNoCov">          0 : PixelBufferObject* ObjectManager::newEqPixelBufferObject( const void* key )</span>
+<span class="lineNum">     901 </span>            : {
+<span class="lineNum">     902 </span><span class="lineNoCov">          0 :     if( _impl-&gt;eqPixelBufferObjects.find( key ) !=</span>
+<span class="lineNum">     903 </span><span class="lineNoCov">          0 :         _impl-&gt;eqPixelBufferObjects.end( ))</span>
+<span class="lineNum">     904 </span>            :     {
+<span class="lineNum">     905 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Requested new eqPixelBufferObject for existing key&quot;</span>
+<span class="lineNum">     906 </span><span class="lineNoCov">          0 :                &lt;&lt; std::endl;</span>
+<span class="lineNum">     907 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     908 </span>            :     }
+<span class="lineNum">     909 </span>            : 
+<span class="lineNum">     910 </span>            :     PixelBufferObject* pixelBufferObject =
+<span class="lineNum">     911 </span><span class="lineNoCov">          0 :         new PixelBufferObject( &amp;_impl-&gt;glewContext );</span>
+<span class="lineNum">     912 </span><span class="lineNoCov">          0 :     _impl-&gt;eqPixelBufferObjects[ key ] = pixelBufferObject;</span>
+<span class="lineNum">     913 </span><span class="lineNoCov">          0 :     return pixelBufferObject;</span>
+<a name="914"><span class="lineNum">     914 </span>            : }</a>
+<span class="lineNum">     915 </span>            : 
+<span class="lineNum">     916 </span><span class="lineNoCov">          0 : PixelBufferObject* ObjectManager::obtainEqPixelBufferObject( const void* key )</span>
+<span class="lineNum">     917 </span>            : {
+<span class="lineNum">     918 </span><span class="lineNoCov">          0 :     PixelBufferObject* pixelBufferObject = getEqPixelBufferObject( key );</span>
+<span class="lineNum">     919 </span><span class="lineNoCov">          0 :     if( pixelBufferObject )</span>
+<span class="lineNum">     920 </span><span class="lineNoCov">          0 :         return pixelBufferObject;</span>
+<span class="lineNum">     921 </span><span class="lineNoCov">          0 :     return newEqPixelBufferObject( key );</span>
+<a name="922"><span class="lineNum">     922 </span>            : }</a>
+<span class="lineNum">     923 </span>            : 
+<span class="lineNum">     924 </span><span class="lineNoCov">          0 : void ObjectManager::deleteEqPixelBufferObject( const void* key )</span>
+<span class="lineNum">     925 </span>            : {
+<span class="lineNum">     926 </span><span class="lineNoCov">          0 :     PBOHash::iterator i = _impl-&gt;eqPixelBufferObjects.find(key);</span>
+<span class="lineNum">     927 </span><span class="lineNoCov">          0 :     if( i == _impl-&gt;eqPixelBufferObjects.end( ))</span>
+<span class="lineNum">     928 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     929 </span>            : 
+<span class="lineNum">     930 </span><span class="lineNoCov">          0 :     PixelBufferObject* pixelBufferObject = i-&gt;second;</span>
+<span class="lineNum">     931 </span><span class="lineNoCov">          0 :     _impl-&gt;eqPixelBufferObjects.erase( i );</span>
 <span class="lineNum">     932 </span>            : 
-<span class="lineNum">     933 </span><span class="lineNoCov">          0 : void ObjectManager::deleteEqPixelBufferObject( const void* key )</span>
-<span class="lineNum">     934 </span>            : {
-<span class="lineNum">     935 </span><span class="lineNoCov">          0 :     PBOHash::iterator i = _impl-&gt;eqPixelBufferObjects.find(key);</span>
-<span class="lineNum">     936 </span><span class="lineNoCov">          0 :     if( i == _impl-&gt;eqPixelBufferObjects.end( ))</span>
-<span class="lineNum">     937 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     938 </span>            : 
-<span class="lineNum">     939 </span><span class="lineNoCov">          0 :     PixelBufferObject* pixelBufferObject = i-&gt;second;</span>
-<span class="lineNum">     940 </span><span class="lineNoCov">          0 :     _impl-&gt;eqPixelBufferObjects.erase( i );</span>
-<span class="lineNum">     941 </span>            : 
-<span class="lineNum">     942 </span><span class="lineNoCov">          0 :     pixelBufferObject-&gt;destroy();</span>
-<span class="lineNum">     943 </span><span class="lineNoCov">          0 :     delete pixelBufferObject;</span>
-<span class="lineNum">     944 </span>            : }
-<a name="945"><span class="lineNum">     945 </span>            : </a>
-<span class="lineNum">     946 </span>            : }
-<span class="lineNum">     947 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">     933 </span><span class="lineNoCov">          0 :     pixelBufferObject-&gt;destroy();</span>
+<span class="lineNum">     934 </span><span class="lineNoCov">          0 :     delete pixelBufferObject;</span>
+<span class="lineNum">     935 </span>            : }
+<a name="936"><span class="lineNum">     936 </span>            : </a>
+<span class="lineNum">     937 </span>            : }
+<span class="lineNum">     938 </span><span class="lineCov">         36 : }</span>
 </pre>
       </td>
     </tr>

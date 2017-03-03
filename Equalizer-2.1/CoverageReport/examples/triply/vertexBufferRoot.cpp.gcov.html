@@ -1,0 +1,526 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Equalizer - examples/triply/vertexBufferRoot.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">examples/triply</a> - vertexBufferRoot.cpp<span style="font-size: 80%;"> (source / <a href="vertexBufferRoot.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Equalizer</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">156</td>
+            <td class="headerCovTableEntryLo">0.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2017-03-03 15:54:37</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryLo">11.8 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2016, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
+<span class="lineNum">       3 </span>            :  *                          Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       4 </span>            :  *
+<span class="lineNum">       5 </span>            :  * Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>            :  * modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * - Redistributions of source code must retain the above copyright notice, this
+<span class="lineNum">       9 </span>            :  *   list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>            :  * - Redistributions in binary form must reproduce the above copyright notice,
+<span class="lineNum">      11 </span>            :  *   this list of conditions and the following disclaimer in the documentation
+<span class="lineNum">      12 </span>            :  *   and/or other materials provided with the distribution.
+<span class="lineNum">      13 </span>            :  * - Neither the name of Eyescale Software GmbH nor the names of its
+<span class="lineNum">      14 </span>            :  *   contributors may be used to endorse or promote products derived from this
+<span class="lineNum">      15 </span>            :  *   software without specific prior written permission.
+<span class="lineNum">      16 </span>            :  *
+<span class="lineNum">      17 </span>            :  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+<span class="lineNum">      18 </span>            :  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+<span class="lineNum">      19 </span>            :  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+<span class="lineNum">      20 </span>            :  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+<span class="lineNum">      21 </span>            :  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+<span class="lineNum">      22 </span>            :  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+<span class="lineNum">      23 </span>            :  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+<span class="lineNum">      24 </span>            :  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+<span class="lineNum">      25 </span>            :  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+<span class="lineNum">      26 </span>            :  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+<span class="lineNum">      27 </span>            :  * POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      28 </span>            : */
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : #include &quot;vertexBufferRoot.h&quot;
+<span class="lineNum">      32 </span>            : #include &quot;vertexBufferState.h&quot;
+<span class="lineNum">      33 </span>            : #include &quot;vertexData.h&quot;
+<span class="lineNum">      34 </span>            : #include &lt;vmmlib/frustumCuller.hpp&gt;
+<span class="lineNum">      35 </span>            : #include &lt;string&gt;
+<span class="lineNum">      36 </span>            : #include &lt;sstream&gt;
+<span class="lineNum">      37 </span>            : #include &lt;fcntl.h&gt;
+<span class="lineNum">      38 </span>            : #include &lt;sys/types.h&gt;
+<span class="lineNum">      39 </span>            : #include &lt;sys/stat.h&gt;
+<span class="lineNum">      40 </span>            : #ifndef _WIN32
+<span class="lineNum">      41 </span>            : #   include &lt;sys/mman.h&gt;
+<span class="lineNum">      42 </span>            : #endif
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            : namespace triply
+<span class="lineNum">      45 </span>            : {
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            : using vmml::FrustumCullerf;
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            : /*  Determine number of bits used by the current architecture.  */
+<span class="lineNum">      50 </span>            : size_t getArchitectureBits();
+<span class="lineNum">      51 </span>            : /*  Determine whether the current architecture is little endian or not.  */
+<span class="lineNum">      52 </span>            : bool isArchitectureLittleEndian();
+<span class="lineNum">      53 </span>            : /*  Construct architecture dependent file name.  */
+<a name="54"><span class="lineNum">      54 </span>            : std::string getArchitectureFilename( const std::string&amp; filename );</a>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 : VertexBufferRoot::VertexBufferRoot( const std::string&amp; filename )</span>
+<span class="lineNum">      57 </span>            :     : VertexBufferNode()
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     , _invertFaces( false )</span>
+<span class="lineNum">      59 </span>            : {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :     if( !readFromFile( filename ))</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :         throw std::runtime_error( &quot;Can't read &quot; + filename );</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 : }</span>
+<a name="63"><span class="lineNum">      63 </span>            : </a>
+<span class="lineNum">      64 </span>            : /*  Begin kd-tree setup, go through full range starting with x axis.  */
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 : void VertexBufferRoot::setupTree( VertexData&amp; data,</span>
+<span class="lineNum">      66 </span>            :                                   boost::progress_display&amp; progress )
+<span class="lineNum">      67 </span>            : {
+<span class="lineNum">      68 </span>            :     // data is VertexData, _data is VertexBufferData
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :     _data.clear();</span>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     const Axis axis = data.getLongestAxis( 0, data.triangles.size() );</span>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :     VertexBufferNode::setupTree( data, 0, data.triangles.size(),</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :                                  axis, 0, _data, progress );</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :     VertexBufferNode::updateBoundingSphere();</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     VertexBufferNode::updateRange();</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 : }</span>
+<a name="78"><span class="lineNum">      78 </span>            : </a>
+<span class="lineNum">      79 </span>            : // #define LOGCULL
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 : void VertexBufferRoot::cullDraw( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">      81 </span>            : {
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     _beginRendering( state );</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : #ifdef LOGCULL
+<span class="lineNum">      85 </span>            :     size_t verticesRendered = 0;
+<span class="lineNum">      86 </span>            :     size_t verticesOverlap  = 0;
+<span class="lineNum">      87 </span>            : #endif
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     const Range&amp; range = state.getRange();</span>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :     const FrustumCullerf culler( state.getProjectionModelViewMatrix( ));</span>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            :     // start with root node
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :     std::vector&lt; const triply::VertexBufferBase* &gt; candidates;</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :     candidates.push_back( this );</span>
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :     while( !candidates.empty() )</span>
+<span class="lineNum">      97 </span>            :     {
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         if( state.stopRendering( ))</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :         const triply::VertexBufferBase* treeNode = candidates.back();</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :         candidates.pop_back();</span>
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            :         // completely out of range check
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :         if( treeNode-&gt;getRange()[0] &gt;= range[1] ||</span>
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :             treeNode-&gt;getRange()[1] &lt; range[0] )</span>
+<span class="lineNum">     107 </span>            :         {
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :             continue;</span>
+<span class="lineNum">     109 </span>            :         }
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span>            :         // bounding sphere view frustum culling
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :         const vmml::Visibility visibility = state.useFrustumCulling() ?</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :                             culler.test( treeNode-&gt;getBoundingSphere( )) :</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :                             vmml::VISIBILITY_FULL;</span>
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         switch( visibility )</span>
+<span class="lineNum">     116 </span>            :         {
+<span class="lineNum">     117 </span>            :             case vmml::VISIBILITY_FULL:
+<span class="lineNum">     118 </span>            :                 // if fully visible and fully in range, render it
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :                 if( treeNode-&gt;getRange()[0] &gt;= range[0] &amp;&amp;</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :                     treeNode-&gt;getRange()[1] &lt;  range[1] )</span>
+<span class="lineNum">     121 </span>            :                 {
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :                     treeNode-&gt;draw( state );</span>
+<span class="lineNum">     123 </span>            :                     //treeNode-&gt;drawBoundingSphere( state );
+<span class="lineNum">     124 </span>            : #ifdef LOGCULL
+<span class="lineNum">     125 </span>            :                     verticesRendered += treeNode-&gt;getNumberOfVertices();
+<span class="lineNum">     126 </span>            : #endif
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :                     break;</span>
+<span class="lineNum">     128 </span>            :                 }
+<span class="lineNum">     129 </span>            :                 // partial range, fall through to partial visibility
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            :             case vmml::VISIBILITY_PARTIAL:
+<span class="lineNum">     132 </span>            :             {
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :                 const triply::VertexBufferBase* left  = treeNode-&gt;getLeft();</span>
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :                 const triply::VertexBufferBase* right = treeNode-&gt;getRight();</span>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :                 if( !left &amp;&amp; !right )</span>
+<span class="lineNum">     137 </span>            :                 {
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 :                     if( treeNode-&gt;getRange()[0] &gt;= range[0] )</span>
+<span class="lineNum">     139 </span>            :                     {
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :                         treeNode-&gt;draw( state );</span>
+<span class="lineNum">     141 </span>            :                         //treeNode-&gt;drawBoundingSphere( state );
+<span class="lineNum">     142 </span>            : #ifdef LOGCULL
+<span class="lineNum">     143 </span>            :                         verticesRendered += treeNode-&gt;getNumberOfVertices();
+<span class="lineNum">     144 </span>            :                         if( visibility == vmml::VISIBILITY_PARTIAL )
+<span class="lineNum">     145 </span>            :                             verticesOverlap  += treeNode-&gt;getNumberOfVertices();
+<span class="lineNum">     146 </span>            : #endif
+<span class="lineNum">     147 </span>            :                     }
+<span class="lineNum">     148 </span>            :                     // else drop, to be drawn by 'previous' channel
+<span class="lineNum">     149 </span>            :                 }
+<span class="lineNum">     150 </span>            :                 else
+<span class="lineNum">     151 </span>            :                 {
+<span class="lineNum">     152 </span><span class="lineNoCov">          0 :                     if( left )</span>
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :                         candidates.push_back( left );</span>
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :                     if( right )</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :                         candidates.push_back( right );</span>
+<span class="lineNum">     156 </span>            :                 }
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :                 break;</span>
+<span class="lineNum">     158 </span>            :             }
+<span class="lineNum">     159 </span>            :             case vmml::VISIBILITY_NONE:
+<span class="lineNum">     160 </span>            :                 // do nothing
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :                 break;</span>
+<span class="lineNum">     162 </span>            :         }
+<span class="lineNum">     163 </span>            :     }
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :     _endRendering( state );</span>
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            : #ifdef LOGCULL
+<span class="lineNum">     168 </span>            :     const size_t verticesTotal = model-&gt;getNumberOfVertices();
+<span class="lineNum">     169 </span>            :     PLYLIBINFO
+<span class="lineNum">     170 </span>            :         &lt;&lt; getName() &lt;&lt; &quot; rendered &quot; &lt;&lt; verticesRendered * 100 / verticesTotal
+<span class="lineNum">     171 </span>            :         &lt;&lt; &quot;% of model, overlap &lt;= &quot; &lt;&lt; verticesOverlap * 100 / verticesTotal
+<span class="lineNum">     172 </span>            :         &lt;&lt; &quot;%&quot; &lt;&lt; std::endl;
+<span class="lineNum">     173 </span>            : #endif
+<span class="lineNum">     174 </span>            : }
+<a name="175"><span class="lineNum">     175 </span>            : </a>
+<span class="lineNum">     176 </span>            : /*  Set up the common OpenGL state for rendering of all nodes.  */
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 : void VertexBufferRoot::_beginRendering( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">     178 </span>            : {
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :     state.resetRegion();</span>
+<span class="lineNum">     180 </span><span class="lineNoCov">          0 :     switch( state.getRenderMode( ))</span>
+<span class="lineNum">     181 </span>            :     {
+<span class="lineNum">     182 </span>            : #ifdef GL_ARB_vertex_buffer_object
+<span class="lineNum">     183 </span>            :     case RENDER_MODE_BUFFER_OBJECT:
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :         glPushClientAttrib( GL_CLIENT_VERTEX_ARRAY_BIT );</span>
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :         glEnableClientState( GL_VERTEX_ARRAY );</span>
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :         glEnableClientState( GL_NORMAL_ARRAY );</span>
+<span class="lineNum">     187 </span><span class="lineNoCov">          0 :         if( state.useColors() )</span>
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :             glEnableClientState( GL_COLOR_ARRAY );</span>
+<span class="lineNum">     189 </span>            : #endif
+<span class="lineNum">     190 </span>            :     case RENDER_MODE_DISPLAY_LIST:
+<span class="lineNum">     191 </span>            :     case RENDER_MODE_IMMEDIATE:
+<span class="lineNum">     192 </span>            :     default:
+<span class="lineNum">     193 </span>            :         ;
+<span class="lineNum">     194 </span>            :     }
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 : }</span>
+<a name="196"><span class="lineNum">     196 </span>            : </a>
+<span class="lineNum">     197 </span>            : /*  Delegate rendering to node routine.  */
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 : void VertexBufferRoot::draw( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">     199 </span>            : {
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :     VertexBufferNode::draw( state );</span>
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     202 </span>            : 
+<a name="203"><span class="lineNum">     203 </span>            : </a>
+<span class="lineNum">     204 </span>            : /*  Tear down the common OpenGL state for rendering of all nodes.  */
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 : void VertexBufferRoot::_endRendering( VertexBufferState&amp; state ) const</span>
+<span class="lineNum">     206 </span>            : {
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :     switch( state.getRenderMode() )</span>
+<span class="lineNum">     208 </span>            :     {
+<span class="lineNum">     209 </span>            : #ifdef GL_ARB_vertex_buffer_object
+<span class="lineNum">     210 </span>            :     case RENDER_MODE_BUFFER_OBJECT:
+<span class="lineNum">     211 </span>            :     {
+<span class="lineNum">     212 </span>            :         // deactivate VBO and EBO use
+<span class="lineNum">     213 </span>            : #define glewGetContext state.glewGetContext
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :         glBindBuffer( GL_ARRAY_BUFFER_ARB, 0);</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :         glBindBuffer( GL_ELEMENT_ARRAY_BUFFER_ARB, 0);</span>
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :         glPopClientAttrib();</span>
+<span class="lineNum">     217 </span>            :     }
+<span class="lineNum">     218 </span>            : #endif
+<span class="lineNum">     219 </span>            :     case RENDER_MODE_DISPLAY_LIST:
+<span class="lineNum">     220 </span>            :     case RENDER_MODE_IMMEDIATE:
+<span class="lineNum">     221 </span>            :     default:
+<span class="lineNum">     222 </span>            :         ;
+<span class="lineNum">     223 </span>            :     }
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 : }</span>
+<a name="225"><span class="lineNum">     225 </span>            : </a>
+<span class="lineNum">     226 </span>            : /*  Determine number of bits used by the current architecture.  */
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 : size_t getArchitectureBits()</span>
+<span class="lineNum">     228 </span>            : {
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :     return ( sizeof( void* ) * 8 );</span>
+<span class="lineNum">     230 </span>            : }
+<a name="231"><span class="lineNum">     231 </span>            : </a>
+<span class="lineNum">     232 </span>            : /*  Determine whether the current architecture is little endian or not.  */
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 : bool isArchitectureLittleEndian()</span>
+<span class="lineNum">     234 </span>            : {
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :     unsigned char test[2] = { 1, 0 };</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :     short* x = reinterpret_cast&lt; short* &gt;( test );</span>
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :     return ( *x == 1 );</span>
+<span class="lineNum">     238 </span>            : }
+<a name="239"><span class="lineNum">     239 </span>            : </a>
+<span class="lineNum">     240 </span>            : /*  Construct architecture dependent file name.  */
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 : std::string getArchitectureFilename( const std::string&amp; filename )</span>
+<span class="lineNum">     242 </span>            : {
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :     std::ostringstream oss;</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :     oss &lt;&lt; filename &lt;&lt; ( isArchitectureLittleEndian() ? &quot;.le&quot; : &quot;.be&quot; );</span>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :     oss &lt;&lt; getArchitectureBits() &lt;&lt; &quot;.bin&quot;;</span>
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :     return oss.str();</span>
+<span class="lineNum">     247 </span>            : }
+<a name="248"><span class="lineNum">     248 </span>            : </a>
+<span class="lineNum">     249 </span>            : /*  Functions extracted out of readFromFile to enhance readability.  */
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 : bool VertexBufferRoot::_constructFromPly( const std::string&amp; filename )</span>
+<span class="lineNum">     251 </span>            : {
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :     PLYLIBINFO &lt;&lt; &quot;Reading PLY file.&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :     boost::progress_display progress( 12 );</span>
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :     VertexData data;</span>
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :     if( _invertFaces )</span>
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :         data.useInvertedFaces();</span>
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :     if( !data.readPlyFile( filename ) )</span>
+<span class="lineNum">     259 </span>            :     {
+<span class="lineNum">     260 </span><span class="lineNoCov">          0 :         PLYLIBERROR &lt;&lt; &quot;Unable to load PLY file.&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     262 </span>            :     }
+<span class="lineNum">     263 </span><span class="lineNoCov">          0 :     ++progress;</span>
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span><span class="lineNoCov">          0 :     data.calculateNormals();</span>
+<span class="lineNum">     266 </span><span class="lineNoCov">          0 :     data.scale( 2.0f );</span>
+<span class="lineNum">     267 </span><span class="lineNoCov">          0 :     ++progress;</span>
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span><span class="lineNoCov">          0 :     setupTree( data, progress );</span>
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :     ++progress;</span>
+<span class="lineNum">     271 </span><span class="lineNoCov">          0 :     if( !writeToFile( filename ))</span>
+<span class="lineNum">     272 </span><span class="lineNoCov">          0 :         PLYLIBWARN &lt;&lt; &quot;Unable to write binary representation.&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     273 </span>            : 
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :     ++progress;</span>
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :     return true;</span>
+<a name="276"><span class="lineNum">     276 </span>            : }</a>
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 : bool VertexBufferRoot::_readBinary( std::string filename )</span>
+<span class="lineNum">     279 </span>            : {
+<span class="lineNum">     280 </span>            : #ifdef WIN32
+<span class="lineNum">     281 </span>            : 
+<span class="lineNum">     282 </span>            :     // replace dir delimiters since '\' is often used as escape char
+<span class="lineNum">     283 </span>            :     for( size_t i=0; i&lt;filename.length(); ++i )
+<span class="lineNum">     284 </span>            :         if( filename[i] == '\\' )
+<span class="lineNum">     285 </span>            :             filename[i] = '/';
+<span class="lineNum">     286 </span>            : 
+<span class="lineNum">     287 </span>            :     // try to open binary file
+<span class="lineNum">     288 </span>            :     HANDLE file = CreateFile( filename.c_str(), GENERIC_READ, FILE_SHARE_READ,
+<span class="lineNum">     289 </span>            :                               0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0 );
+<span class="lineNum">     290 </span>            :     if( file == INVALID_HANDLE_VALUE )
+<span class="lineNum">     291 </span>            :         return false;
+<span class="lineNum">     292 </span>            : 
+<span class="lineNum">     293 </span>            :     PLYLIBINFO &lt;&lt; &quot;Reading cached binary representation.&quot; &lt;&lt; std::endl;
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            :     // create a file mapping
+<span class="lineNum">     296 </span>            :     HANDLE map = CreateFileMapping( file, 0, PAGE_READONLY, 0, 0,
+<span class="lineNum">     297 </span>            :                                     filename.c_str( ));
+<span class="lineNum">     298 </span>            :     CloseHandle( file );
+<span class="lineNum">     299 </span>            :     if( !map )
+<span class="lineNum">     300 </span>            :     {
+<span class="lineNum">     301 </span>            :         PLYLIBERROR &lt;&lt; &quot;Unable to read binary file, file mapping failed.&quot;
+<span class="lineNum">     302 </span>            :                   &lt;&lt; std::endl;
+<span class="lineNum">     303 </span>            :         return false;
+<span class="lineNum">     304 </span>            :     }
+<span class="lineNum">     305 </span>            : 
+<span class="lineNum">     306 </span>            :     // get a view of the mapping
+<span class="lineNum">     307 </span>            :     char* addr   = static_cast&lt; char* &gt;( MapViewOfFile( map, FILE_MAP_READ, 0,
+<span class="lineNum">     308 </span>            :                                                         0, 0 ));
+<span class="lineNum">     309 </span>            :     bool  result = false;
+<span class="lineNum">     310 </span>            : 
+<span class="lineNum">     311 </span>            :     if( addr )
+<span class="lineNum">     312 </span>            :     {
+<span class="lineNum">     313 </span>            :         try
+<span class="lineNum">     314 </span>            :         {
+<span class="lineNum">     315 </span>            :             fromMemory( addr );
+<span class="lineNum">     316 </span>            :             result = true;
+<span class="lineNum">     317 </span>            :         }
+<span class="lineNum">     318 </span>            :         catch( const std::exception&amp; e )
+<span class="lineNum">     319 </span>            :         {
+<span class="lineNum">     320 </span>            :             PLYLIBERROR &lt;&lt; &quot;Unable to read binary file, an exception occured:  &quot;
+<span class="lineNum">     321 </span>            :                       &lt;&lt; e.what() &lt;&lt; std::endl;
+<span class="lineNum">     322 </span>            :         }
+<span class="lineNum">     323 </span>            :         UnmapViewOfFile( addr );
+<span class="lineNum">     324 </span>            :     }
+<span class="lineNum">     325 </span>            :     else
+<span class="lineNum">     326 </span>            :     {
+<span class="lineNum">     327 </span>            :         PLYLIBERROR &lt;&lt; &quot;Unable to read binary file, memory mapping failed.&quot;
+<span class="lineNum">     328 </span>            :                   &lt;&lt; std::endl;
+<span class="lineNum">     329 </span>            :         return false;
+<span class="lineNum">     330 </span>            :     }
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            :     CloseHandle( map );
+<span class="lineNum">     333 </span>            :     return result;
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span>            : #else
+<span class="lineNum">     336 </span>            :     // try to open binary file
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :     int fd = open( filename.c_str(), O_RDONLY );</span>
+<span class="lineNum">     338 </span><span class="lineNoCov">          0 :     if( fd &lt; 0 )</span>
+<span class="lineNum">     339 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     340 </span>            : 
+<span class="lineNum">     341 </span>            :     // retrieving file information
+<span class="lineNum">     342 </span>            :     struct stat status;
+<span class="lineNum">     343 </span><span class="lineNoCov">          0 :     fstat( fd, &amp;status );</span>
+<span class="lineNum">     344 </span>            : 
+<span class="lineNum">     345 </span>            :     // create memory mapped file
+<span class="lineNum">     346 </span><span class="lineNoCov">          0 :     char* addr   = static_cast&lt; char* &gt;( mmap( 0, status.st_size, PROT_READ,</span>
+<span class="lineNum">     347 </span><span class="lineNoCov">          0 :                                                MAP_SHARED, fd, 0 ));</span>
+<span class="lineNum">     348 </span><span class="lineNoCov">          0 :     bool  result = false;</span>
+<span class="lineNum">     349 </span><span class="lineNoCov">          0 :     if( addr != MAP_FAILED )</span>
+<span class="lineNum">     350 </span>            :     {
+<span class="lineNum">     351 </span>            :         try
+<span class="lineNum">     352 </span>            :         {
+<span class="lineNum">     353 </span><span class="lineNoCov">          0 :             fromMemory( addr );</span>
+<span class="lineNum">     354 </span><span class="lineNoCov">          0 :             result = true;</span>
+<span class="lineNum">     355 </span>            :         }
+<span class="lineNum">     356 </span><span class="lineNoCov">          0 :         catch( const std::exception&amp; e )</span>
+<span class="lineNum">     357 </span>            :         {
+<span class="lineNum">     358 </span><span class="lineNoCov">          0 :             PLYLIBERROR &lt;&lt; &quot;Unable to read binary file, an exception occured:  &quot;</span>
+<span class="lineNum">     359 </span><span class="lineNoCov">          0 :                         &lt;&lt; e.what() &lt;&lt; std::endl;</span>
+<span class="lineNum">     360 </span>            :         }
+<span class="lineNum">     361 </span><span class="lineNoCov">          0 :         munmap( addr, status.st_size );</span>
+<span class="lineNum">     362 </span>            :     }
+<span class="lineNum">     363 </span>            :     else
+<span class="lineNum">     364 </span>            :     {
+<span class="lineNum">     365 </span><span class="lineNoCov">          0 :         PLYLIBERROR &lt;&lt; &quot;Unable to read binary file, memory mapping failed.&quot;</span>
+<span class="lineNum">     366 </span><span class="lineNoCov">          0 :                     &lt;&lt; std::endl;</span>
+<span class="lineNum">     367 </span>            :     }
+<span class="lineNum">     368 </span>            : 
+<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     close( fd );</span>
+<span class="lineNum">     370 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     371 </span>            : #endif
+<span class="lineNum">     372 </span>            : }
+<a name="373"><span class="lineNum">     373 </span>            : </a>
+<span class="lineNum">     374 </span>            : /*  Read binary kd-tree representation, construct from ply if unavailable.  */
+<span class="lineNum">     375 </span><span class="lineNoCov">          0 : bool VertexBufferRoot::readFromFile( const std::string&amp; filename )</span>
+<span class="lineNum">     376 </span>            : {
+<span class="lineNum">     377 </span><span class="lineNoCov">          0 :     if( _readBinary( getArchitectureFilename( filename )))</span>
+<span class="lineNum">     378 </span>            :     {
+<span class="lineNum">     379 </span><span class="lineNoCov">          0 :         _name = filename;</span>
+<span class="lineNum">     380 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     381 </span>            :     }
+<span class="lineNum">     382 </span><span class="lineNoCov">          0 :     if( _constructFromPly( filename ))</span>
+<span class="lineNum">     383 </span>            :     {
+<span class="lineNum">     384 </span><span class="lineNoCov">          0 :         _name = filename;</span>
+<span class="lineNum">     385 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     386 </span>            :     }
+<span class="lineNum">     387 </span><span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     388 </span>            : }
+<a name="389"><span class="lineNum">     389 </span>            : </a>
+<span class="lineNum">     390 </span>            : /*  Write binary representation of the kd-tree to file.  */
+<span class="lineNum">     391 </span><span class="lineNoCov">          0 : bool VertexBufferRoot::writeToFile( const std::string&amp; filename )</span>
+<span class="lineNum">     392 </span>            : {
+<span class="lineNum">     393 </span><span class="lineNoCov">          0 :     bool result = false;</span>
+<span class="lineNum">     394 </span>            : 
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :     std::ofstream output( getArchitectureFilename( filename ).c_str(),</span>
+<span class="lineNum">     396 </span><span class="lineNoCov">          0 :                           std::ios::out | std::ios::binary );</span>
+<span class="lineNum">     397 </span><span class="lineNoCov">          0 :     if( output )</span>
+<span class="lineNum">     398 </span>            :     {
+<span class="lineNum">     399 </span>            :         // enable exceptions on stream errors
+<span class="lineNum">     400 </span><span class="lineNoCov">          0 :         output.exceptions( std::ofstream::failbit | std::ofstream::badbit );</span>
+<span class="lineNum">     401 </span>            :         try
+<span class="lineNum">     402 </span>            :         {
+<span class="lineNum">     403 </span><span class="lineNoCov">          0 :             toStream( output );</span>
+<span class="lineNum">     404 </span><span class="lineNoCov">          0 :             result = true;</span>
+<span class="lineNum">     405 </span>            :         }
+<span class="lineNum">     406 </span><span class="lineNoCov">          0 :         catch( const std::exception&amp; e )</span>
+<span class="lineNum">     407 </span>            :         {
+<span class="lineNum">     408 </span><span class="lineNoCov">          0 :             PLYLIBERROR &lt;&lt; &quot;Unable to write binary file, an exception &quot;</span>
+<span class="lineNum">     409 </span><span class="lineNoCov">          0 :                       &lt;&lt; &quot;occured:  &quot; &lt;&lt; e.what() &lt;&lt; std::endl;</span>
+<span class="lineNum">     410 </span>            :         }
+<span class="lineNum">     411 </span><span class="lineNoCov">          0 :         output.close();</span>
+<span class="lineNum">     412 </span>            :     }
+<span class="lineNum">     413 </span>            :     else
+<span class="lineNum">     414 </span>            :     {
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 :         PLYLIBERROR &lt;&lt; &quot;Unable to create binary file.&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     416 </span>            :     }
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     419 </span>            : }
+<a name="420"><span class="lineNum">     420 </span>            : </a>
+<span class="lineNum">     421 </span>            : /*  Read root node from memory and continue with other nodes.  */
+<span class="lineNum">     422 </span><span class="lineNoCov">          0 : void VertexBufferRoot::fromMemory( char* start )</span>
+<span class="lineNum">     423 </span>            : {
+<span class="lineNum">     424 </span><span class="lineNoCov">          0 :     char** addr = &amp;start;</span>
+<span class="lineNum">     425 </span>            :     size_t version;
+<span class="lineNum">     426 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;version ), addr, sizeof( size_t ));</span>
+<span class="lineNum">     427 </span><span class="lineNoCov">          0 :     if( version != FILE_VERSION )</span>
+<span class="lineNum">     428 </span>            :         throw MeshException( &quot;Error reading binary file. Version in file &quot;
+<span class="lineNum">     429 </span><span class="lineNoCov">          0 :                              &quot;does not match the expected version.&quot; );</span>
+<span class="lineNum">     430 </span>            :     Type nodeType;
+<span class="lineNum">     431 </span><span class="lineNoCov">          0 :     memRead( reinterpret_cast&lt; char* &gt;( &amp;nodeType ), addr, sizeof( nodeType ));</span>
+<span class="lineNum">     432 </span><span class="lineNoCov">          0 :     if( nodeType != Type::root )</span>
+<span class="lineNum">     433 </span>            :         throw MeshException( &quot;Error reading binary file. Expected root node, &quot;
+<span class="lineNum">     434 </span><span class="lineNoCov">          0 :                              &quot;got &quot; + std::to_string(unsigned( nodeType )));</span>
+<span class="lineNum">     435 </span><span class="lineNoCov">          0 :     _data.fromMemory( addr );</span>
+<span class="lineNum">     436 </span><span class="lineNoCov">          0 :     VertexBufferNode::fromMemory( addr, _data );</span>
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 : }</span>
+<a name="438"><span class="lineNum">     438 </span>            : </a>
+<span class="lineNum">     439 </span>            : /*  Write root node to output stream and continue with other nodes.  */
+<span class="lineNum">     440 </span><span class="lineNoCov">          0 : void VertexBufferRoot::toStream( std:: ostream&amp; os )</span>
+<span class="lineNum">     441 </span>            : {
+<span class="lineNum">     442 </span><span class="lineNoCov">          0 :     size_t version = FILE_VERSION;</span>
+<span class="lineNum">     443 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; char* &gt;( &amp;version ), sizeof( size_t ));</span>
+<span class="lineNum">     444 </span><span class="lineNoCov">          0 :     const Type nodeType = Type::root;</span>
+<span class="lineNum">     445 </span><span class="lineNoCov">          0 :     os.write( reinterpret_cast&lt; const char* &gt;( &amp;nodeType ), sizeof( nodeType ));</span>
+<span class="lineNum">     446 </span><span class="lineNoCov">          0 :     _data.toStream( os );</span>
+<span class="lineNum">     447 </span><span class="lineNoCov">          0 :     VertexBufferNode::toStream( os );</span>
+<a name="448"><span class="lineNum">     448 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     449 </span>            : 
+<span class="lineNum">     450 </span><span class="lineCov">          9 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

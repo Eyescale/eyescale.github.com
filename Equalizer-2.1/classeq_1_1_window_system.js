@@ -1,6 +1,8 @@
 var classeq_1_1_window_system =
 [
     [ "WindowSystem", "classeq_1_1_window_system.html#a0d4287b692bf88a9c706b4a385743ef8", null ],
+    [ "add", "classeq_1_1_window_system.html#a64a70f58e69577a9b6cddcafca3c1115", null ],
+    [ "clear", "classeq_1_1_window_system.html#a25ac3416873a3e9fd1507965e108bca2", null ],
     [ "configExit", "classeq_1_1_window_system.html#a9247bb98dc54cbed40fc8b8c15181335", null ],
     [ "configInit", "classeq_1_1_window_system.html#af79f3d17386f9078b1b64b1229db1b67", null ],
     [ "createMessagePump", "classeq_1_1_window_system.html#a542736bc5fae73b12cb41432e0605b4b", null ],
