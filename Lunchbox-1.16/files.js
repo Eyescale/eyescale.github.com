@@ -58,6 +58,7 @@ var files =
     [ "servus.h", "servus_8h_source.html", null ],
     [ "sleep.h", "sleep_8h_source.html", null ],
     [ "spinLock.h", "spin_lock_8h_source.html", null ],
+    [ "string.h", "string_8h_source.html", null ],
     [ "term.h", "term_8h_source.html", null ],
     [ "test.h", "test_8h_source.html", null ],
     [ "thread.h", "thread_8h_source.html", null ],
