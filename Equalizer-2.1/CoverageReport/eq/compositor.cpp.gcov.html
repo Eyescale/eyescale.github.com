@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-03 15:56:18</td>
+            <td class="headerValue">2017-03-22 05:07:53</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">13</td>
@@ -352,27 +352,27 @@
 <span class="lineNum">     290 </span>            :     const uint32_t* depth = reinterpret_cast&lt; const uint32_t* &gt;
 <a name="291"><span class="lineNum">     291 </span><span class="lineCov">         21 :         ( image-&gt;getPixelPointer( Frame::Buffer::depth ));</span></a>
 <span class="lineNum">     292 </span>            : 
-<span class="lineNum">     293 </span><span class="lineCov">         79 : #pragma omp parallel for</span>
-<span class="lineNum">     294 </span><span class="lineCov">         58 :     for( int32_t y = 0; y &lt; pvp.h; ++y )</span>
+<span class="lineNum">     293 </span><span class="lineCov">         87 : #pragma omp parallel for</span>
+<span class="lineNum">     294 </span><span class="lineCov">         66 :     for( int32_t y = 0; y &lt; pvp.h; ++y )</span>
 <span class="lineNum">     295 </span>            :     {
-<span class="lineNum">     296 </span><span class="lineCov">      21284 :         const uint32_t skip =  (destY + y) * destPVP.w + destX;</span>
-<span class="lineNum">     297 </span><span class="lineCov">      21284 :         uint32_t* destColorIt = destC + skip;</span>
-<span class="lineNum">     298 </span><span class="lineCov">      21284 :         uint32_t* destDepthIt = destD + skip;</span>
-<span class="lineNum">     299 </span><span class="lineCov">      21284 :         const uint32_t* colorIt = color + y * pvp.w;</span>
-<span class="lineNum">     300 </span><span class="lineCov">      21284 :         const uint32_t* depthIt = depth + y * pvp.w;</span>
+<span class="lineNum">     296 </span><span class="lineCov">      21243 :         const uint32_t skip =  (destY + y) * destPVP.w + destX;</span>
+<span class="lineNum">     297 </span><span class="lineCov">      21243 :         uint32_t* destColorIt = destC + skip;</span>
+<span class="lineNum">     298 </span><span class="lineCov">      21243 :         uint32_t* destDepthIt = destD + skip;</span>
+<span class="lineNum">     299 </span><span class="lineCov">      21243 :         const uint32_t* colorIt = color + y * pvp.w;</span>
+<span class="lineNum">     300 </span><span class="lineCov">      21243 :         const uint32_t* depthIt = depth + y * pvp.w;</span>
 <span class="lineNum">     301 </span>            : 
-<span class="lineNum">     302 </span><span class="lineCov">    5473534 :         for( int32_t x = 0; x &lt; pvp.w; ++x )</span>
+<span class="lineNum">     302 </span><span class="lineCov">    5544238 :         for( int32_t x = 0; x &lt; pvp.w; ++x )</span>
 <span class="lineNum">     303 </span>            :         {
-<span class="lineNum">     304 </span><span class="lineCov">    5452250 :             if( *destDepthIt &gt; *depthIt )</span>
+<span class="lineNum">     304 </span><span class="lineCov">    5522995 :             if( *destDepthIt &gt; *depthIt )</span>
 <span class="lineNum">     305 </span>            :             {
-<span class="lineNum">     306 </span><span class="lineCov">    1442226 :                 *destColorIt = *colorIt;</span>
-<span class="lineNum">     307 </span><span class="lineCov">    1442226 :                 *destDepthIt = *depthIt;</span>
+<span class="lineNum">     306 </span><span class="lineCov">    1242286 :                 *destColorIt = *colorIt;</span>
+<span class="lineNum">     307 </span><span class="lineCov">    1242286 :                 *destDepthIt = *depthIt;</span>
 <span class="lineNum">     308 </span>            :             }
 <span class="lineNum">     309 </span>            : 
-<span class="lineNum">     310 </span><span class="lineCov">    5452250 :             ++destColorIt;</span>
-<span class="lineNum">     311 </span><span class="lineCov">    5452250 :             ++destDepthIt;</span>
-<span class="lineNum">     312 </span><span class="lineCov">    5452250 :             ++colorIt;</span>
-<span class="lineNum">     313 </span><span class="lineCov">    5452250 :             ++depthIt;</span>
+<span class="lineNum">     310 </span><span class="lineCov">    5522995 :             ++destColorIt;</span>
+<span class="lineNum">     311 </span><span class="lineCov">    5522995 :             ++destDepthIt;</span>
+<span class="lineNum">     312 </span><span class="lineCov">    5522995 :             ++colorIt;</span>
+<span class="lineNum">     313 </span><span class="lineCov">    5522995 :             ++depthIt;</span>
 <span class="lineNum">     314 </span>            :         }
 <span class="lineNum">     315 </span>            :     }
 <a name="316"><span class="lineNum">     316 </span><span class="lineCov">         21 : }</span></a>
@@ -397,13 +397,13 @@
 <span class="lineNum">     335 </span><span class="lineCov">         21 :     const size_t pixelSize = image-&gt;getPixelSize( Frame::Buffer::color );</span>
 <a name="336"><span class="lineNum">     336 </span><span class="lineCov">         21 :     const size_t rowLength = pvp.w * pixelSize;</span></a>
 <span class="lineNum">     337 </span>            : 
-<span class="lineNum">     338 </span><span class="lineCov">         71 : #pragma omp parallel for</span>
-<span class="lineNum">     339 </span><span class="lineCov">         50 :     for( int32_t y = 0; y &lt; pvp.h; ++y )</span>
+<span class="lineNum">     338 </span><span class="lineCov">        124 : #pragma omp parallel for</span>
+<span class="lineNum">     339 </span><span class="lineCov">        103 :     for( int32_t y = 0; y &lt; pvp.h; ++y )</span>
 <span class="lineNum">     340 </span>            :     {
-<span class="lineNum">     341 </span><span class="lineCov">      14507 :         const size_t skip = ( (destY + y) * destPVP.w + destX ) * pixelSize;</span>
-<span class="lineNum">     342 </span><span class="lineCov">      14507 :         memcpy( destC + skip, color + y * pvp.w * pixelSize, rowLength);</span>
+<span class="lineNum">     341 </span><span class="lineCov">      16580 :         const size_t skip = ( (destY + y) * destPVP.w + destX ) * pixelSize;</span>
+<span class="lineNum">     342 </span><span class="lineCov">      16580 :         memcpy( destC + skip, color + y * pvp.w * pixelSize, rowLength);</span>
 <span class="lineNum">     343 </span>            :         // clear depth, for depth-assembly into existing FB
-<span class="lineNum">     344 </span><span class="lineCov">      14507 :         if( destD )</span>
+<span class="lineNum">     344 </span><span class="lineCov">      16580 :         if( destD )</span>
 <span class="lineNum">     345 </span><span class="lineNoCov">          0 :             lunchbox::setZero( destD + skip, rowLength );</span>
 <span class="lineNum">     346 </span>            :     }
 <a name="347"><span class="lineNum">     347 </span><span class="lineCov">         21 : }</span></a>
@@ -438,23 +438,23 @@
 <span class="lineNum">     376 </span><span class="lineCov">         21 :     int32_t* destColorStart = destColor + destY*destPVP.w + destX;</span>
 <a name="377"><span class="lineNum">     377 </span><span class="lineCov">         21 :     const uint32_t step = sizeof( int32_t );</span></a>
 <span class="lineNum">     378 </span>            : 
-<span class="lineNum">     379 </span><span class="lineCov">         94 : #pragma omp parallel for</span>
-<span class="lineNum">     380 </span><span class="lineCov">         73 :     for( int32_t y = 0; y &lt; pvp.h; ++y )</span>
+<span class="lineNum">     379 </span><span class="lineCov">         87 : #pragma omp parallel for</span>
+<span class="lineNum">     380 </span><span class="lineCov">         66 :     for( int32_t y = 0; y &lt; pvp.h; ++y )</span>
 <span class="lineNum">     381 </span>            :     {
 <span class="lineNum">     382 </span>            :         const unsigned char* src =
-<span class="lineNum">     383 </span><span class="lineCov">      25107 :             reinterpret_cast&lt; const uint8_t* &gt;( color + pvp.w * y );</span>
+<span class="lineNum">     383 </span><span class="lineCov">      25052 :             reinterpret_cast&lt; const uint8_t* &gt;( color + pvp.w * y );</span>
 <span class="lineNum">     384 </span>            :         unsigned char*       dst =
-<span class="lineNum">     385 </span><span class="lineCov">      25107 :             reinterpret_cast&lt; uint8_t* &gt;( destColorStart + destPVP.w * y );</span>
+<span class="lineNum">     385 </span><span class="lineCov">      25052 :             reinterpret_cast&lt; uint8_t* &gt;( destColorStart + destPVP.w * y );</span>
 <span class="lineNum">     386 </span>            : 
-<span class="lineNum">     387 </span><span class="lineCov">    9607513 :         for( int32_t x = 0; x &lt; pvp.w; ++x )</span>
+<span class="lineNum">     387 </span><span class="lineCov">    8838506 :         for( int32_t x = 0; x &lt; pvp.w; ++x )</span>
 <span class="lineNum">     388 </span>            :         {
-<span class="lineNum">     389 </span><span class="lineCov">    9582406 :             dst[0] = LB_MIN( src[0] + (src[3]*dst[0] &gt;&gt; 8), 255 );</span>
-<span class="lineNum">     390 </span><span class="lineCov">    9582406 :             dst[1] = LB_MIN( src[1] + (src[3]*dst[1] &gt;&gt; 8), 255 );</span>
-<span class="lineNum">     391 </span><span class="lineCov">    9582406 :             dst[2] = LB_MIN( src[2] + (src[3]*dst[2] &gt;&gt; 8), 255 );</span>
-<span class="lineNum">     392 </span><span class="lineCov">    9582406 :             dst[3] =                   src[3]*dst[3] &gt;&gt; 8;</span>
+<span class="lineNum">     389 </span><span class="lineCov">    8813454 :             dst[0] = LB_MIN( src[0] + (src[3]*dst[0] &gt;&gt; 8), 255 );</span>
+<span class="lineNum">     390 </span><span class="lineCov">    8813454 :             dst[1] = LB_MIN( src[1] + (src[3]*dst[1] &gt;&gt; 8), 255 );</span>
+<span class="lineNum">     391 </span><span class="lineCov">    8813454 :             dst[2] = LB_MIN( src[2] + (src[3]*dst[2] &gt;&gt; 8), 255 );</span>
+<span class="lineNum">     392 </span><span class="lineCov">    8813454 :             dst[3] =                   src[3]*dst[3] &gt;&gt; 8;</span>
 <span class="lineNum">     393 </span>            : 
-<span class="lineNum">     394 </span><span class="lineCov">    9582406 :             src += step;</span>
-<span class="lineNum">     395 </span><span class="lineCov">    9582406 :             dst += step;</span>
+<span class="lineNum">     394 </span><span class="lineCov">    8813454 :             src += step;</span>
+<span class="lineNum">     395 </span><span class="lineCov">    8813454 :             dst += step;</span>
 <span class="lineNum">     396 </span>            :         }
 <span class="lineNum">     397 </span>            :     }
 <a name="398"><span class="lineNum">     398 </span><span class="lineCov">         21 : }</span></a>
