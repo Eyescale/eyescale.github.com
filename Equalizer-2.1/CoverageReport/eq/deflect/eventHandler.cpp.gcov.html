@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">5</td>
-            <td class="headerCovTableEntry">152</td>
+            <td class="headerCovTableEntry">151</td>
             <td class="headerCovTableEntryLo">3.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-22 05:07:53</td>
+            <td class="headerValue">2017-03-25 05:09:11</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -206,10 +206,10 @@
 <span class="lineNum">     144 </span>            :     }
 <a name="145"><span class="lineNum">     145 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span><span class="lineCov">         20 : void EventHandler::processEvents( const Proxy* proxy )</span>
+<span class="lineNum">     147 </span><span class="lineCov">         19 : void EventHandler::processEvents( const Proxy* proxy )</span>
 <span class="lineNum">     148 </span>            : {
-<span class="lineNum">     149 </span><span class="lineCov">         20 :     if( !_eventHandlers )</span>
-<span class="lineNum">     150 </span><span class="lineCov">         20 :         return;</span>
+<span class="lineNum">     149 </span><span class="lineCov">         19 :     if( !_eventHandlers )</span>
+<span class="lineNum">     150 </span><span class="lineCov">         19 :         return;</span>
 <span class="lineNum">     151 </span>            : 
 <span class="lineNum">     152 </span><span class="lineNoCov">          0 :     for( EventHandler* handler : *_eventHandlers )</span>
 <span class="lineNum">     153 </span><span class="lineNoCov">          0 :         handler-&gt;_processEvents( proxy );</span>
@@ -227,105 +227,102 @@
 <span class="lineNum">     165 </span>            : 
 <span class="lineNum">     166 </span><span class="lineNoCov">          0 :     while( _proxy-&gt;hasNewEvent( ))</span>
 <span class="lineNum">     167 </span>            :     {
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 :         ::deflect::Event deflectEvent = _proxy-&gt;getEvent();</span>
-<span class="lineNum">     169 </span>            : 
-<span class="lineNum">     170 </span><span class="lineNoCov">          0 :         if( deflectEvent.type == ::deflect::Event::EVT_CLOSE )</span>
-<span class="lineNum">     171 </span>            :         {
-<span class="lineNum">     172 </span><span class="lineNoCov">          0 :             _proxy-&gt;stopRunning();</span>
-<span class="lineNum">     173 </span><span class="lineNoCov">          0 :             window-&gt;getConfig()-&gt;sendEvent( EVENT_EXIT );</span>
-<span class="lineNum">     174 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     175 </span>            :         }
-<span class="lineNum">     176 </span>            : 
-<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         const float x = deflectEvent.mouseX * pvp.w;</span>
-<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         const float y = deflectEvent.mouseY * pvp.h;</span>
-<span class="lineNum">     179 </span>            : 
-<span class="lineNum">     180 </span><span class="lineNoCov">          0 :         switch( deflectEvent.type )</span>
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :         const ::deflect::Event deflectEvent = _proxy-&gt;getEvent();</span>
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :         const float x = deflectEvent.mouseX * pvp.w;</span>
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :         const float y = deflectEvent.mouseY * pvp.h;</span>
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :         switch( deflectEvent.type )</span>
+<span class="lineNum">     173 </span>            :         {
+<span class="lineNum">     174 </span>            :         case ::deflect::Event::EVT_CLOSE:
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :             _proxy-&gt;stopRunning();</span>
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :             window-&gt;processEvent( EVENT_EXIT );</span>
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            :         case ::deflect::Event::EVT_KEY_PRESS:
+<span class="lineNum">     180 </span>            :         case ::deflect::Event::EVT_KEY_RELEASE:
 <span class="lineNum">     181 </span>            :         {
-<span class="lineNum">     182 </span>            :         case ::deflect::Event::EVT_KEY_PRESS:
-<span class="lineNum">     183 </span>            :         case ::deflect::Event::EVT_KEY_RELEASE:
-<span class="lineNum">     184 </span>            :         {
-<span class="lineNum">     185 </span><span class="lineNoCov">          0 :             KeyEvent event;</span>
-<span class="lineNum">     186 </span>            :             const EventType type =
-<span class="lineNum">     187 </span><span class="lineNoCov">          0 :                 deflectEvent.type == ::deflect::Event::EVT_KEY_PRESS ?</span>
-<span class="lineNum">     188 </span><span class="lineNoCov">          0 :                                          EVENT_KEY_PRESS : EVENT_KEY_RELEASE;</span>
-<span class="lineNum">     189 </span><span class="lineNoCov">          0 :             event.key = _getKey(  deflectEvent.key );</span>
-<span class="lineNum">     190 </span><span class="lineNoCov">          0 :             channel.processEvent( type, event );</span>
-<span class="lineNum">     191 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     192 </span>            :         }
-<span class="lineNum">     193 </span>            :         case ::deflect::Event::EVT_PRESS:
-<span class="lineNum">     194 </span>            :         case ::deflect::Event::EVT_RELEASE:
-<span class="lineNum">     195 </span>            :         {
-<span class="lineNum">     196 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
-<span class="lineNum">     197 </span>            :             const EventType type =
-<span class="lineNum">     198 </span><span class="lineNoCov">          0 :                 deflectEvent.type == ::deflect::Event::EVT_PRESS ?</span>
-<span class="lineNum">     199 </span>            :                                          EVENT_CHANNEL_POINTER_BUTTON_PRESS :
-<span class="lineNum">     200 </span><span class="lineNoCov">          0 :                                          EVENT_CHANNEL_POINTER_BUTTON_RELEASE;</span>
-<span class="lineNum">     201 </span><span class="lineNoCov">          0 :             event.x = x;</span>
-<span class="lineNum">     202 </span><span class="lineNoCov">          0 :             event.y = y;</span>
-<span class="lineNum">     203 </span><span class="lineNoCov">          0 :             event.buttons = _getButtons( deflectEvent );</span>
-<span class="lineNum">     204 </span><span class="lineNoCov">          0 :             event.button = event.buttons;</span>
-<span class="lineNum">     205 </span><span class="lineNoCov">          0 :             _computePointerDelta( type, event );</span>
-<span class="lineNum">     206 </span>            : 
-<span class="lineNum">     207 </span><span class="lineNoCov">          0 :             channel.processEvent( type, event );</span>
-<span class="lineNum">     208 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     209 </span>            :         }
-<span class="lineNum">     210 </span>            :         case ::deflect::Event::EVT_MOVE:
-<span class="lineNum">     211 </span>            :         case ::deflect::Event::EVT_PAN:
-<span class="lineNum">     212 </span>            :         {
-<span class="lineNum">     213 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
-<span class="lineNum">     214 </span><span class="lineNoCov">          0 :             event.x = x;</span>
-<span class="lineNum">     215 </span><span class="lineNoCov">          0 :             event.y = y;</span>
-<span class="lineNum">     216 </span><span class="lineNoCov">          0 :             event.dx = deflectEvent.dx * pvp.w;</span>
-<span class="lineNum">     217 </span><span class="lineNoCov">          0 :             event.dy = deflectEvent.dy * pvp.h;</span>
-<span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineNoCov">          0 :             if( deflectEvent.type == ::deflect::Event::EVT_PAN )</span>
-<span class="lineNum">     220 </span><span class="lineNoCov">          0 :                 event.buttons = PTR_BUTTON3;</span>
-<span class="lineNum">     221 </span>            :             else
-<span class="lineNum">     222 </span><span class="lineNoCov">          0 :                 event.buttons = _getButtons( deflectEvent );</span>
-<span class="lineNum">     223 </span><span class="lineNoCov">          0 :             event.button = event.buttons;</span>
-<span class="lineNum">     224 </span>            : 
-<span class="lineNum">     225 </span><span class="lineNoCov">          0 :             channel.processEvent( EVENT_CHANNEL_POINTER_MOTION, event );</span>
-<span class="lineNum">     226 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     227 </span>            :         }
-<span class="lineNum">     228 </span>            :         case ::deflect::Event::EVT_WHEEL:
-<span class="lineNum">     229 </span>            :         {
-<span class="lineNum">     230 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
-<span class="lineNum">     231 </span><span class="lineNoCov">          0 :             event.x = x;</span>
-<span class="lineNum">     232 </span><span class="lineNoCov">          0 :             event.y = pvp.h - y;</span>
-<span class="lineNum">     233 </span><span class="lineNoCov">          0 :             event.xAxis = deflectEvent.dx * wheelFactor;</span>
-<span class="lineNum">     234 </span><span class="lineNoCov">          0 :             event.yAxis = deflectEvent.dy * wheelFactor;</span>
-<span class="lineNum">     235 </span><span class="lineNoCov">          0 :             event.dx = -deflectEvent.dx;</span>
-<span class="lineNum">     236 </span><span class="lineNoCov">          0 :             event.dy = -deflectEvent.dy;</span>
-<span class="lineNum">     237 </span>            : 
-<span class="lineNum">     238 </span><span class="lineNoCov">          0 :             channel.processEvent( EVENT_CHANNEL_POINTER_WHEEL, event );</span>
-<span class="lineNum">     239 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     240 </span>            :         }
-<span class="lineNum">     241 </span>            :         case ::deflect::Event::EVT_PINCH:
-<span class="lineNum">     242 </span>            :         {
-<span class="lineNum">     243 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
-<span class="lineNum">     244 </span><span class="lineNoCov">          0 :             event.x = x;</span>
-<span class="lineNum">     245 </span><span class="lineNoCov">          0 :             event.y = pvp.h - y;</span>
-<span class="lineNum">     246 </span><span class="lineNoCov">          0 :             const auto dx = deflectEvent.dx * pvp.w;</span>
-<span class="lineNum">     247 </span><span class="lineNoCov">          0 :             const auto dy = deflectEvent.dy * pvp.h;</span>
-<span class="lineNum">     248 </span><span class="lineNoCov">          0 :             const auto sign = dx + dy;</span>
-<span class="lineNum">     249 </span><span class="lineNoCov">          0 :             const auto zoom = std::copysign( std::sqrt( dx*dx + dy*dy ), sign );</span>
-<span class="lineNum">     250 </span><span class="lineNoCov">          0 :             event.xAxis = 0.f;</span>
-<span class="lineNum">     251 </span><span class="lineNoCov">          0 :             event.yAxis = zoom * wheelFactor;</span>
-<span class="lineNum">     252 </span>            : 
-<span class="lineNum">     253 </span><span class="lineNoCov">          0 :             channel.processEvent( EVENT_CHANNEL_POINTER_WHEEL, event );</span>
-<span class="lineNum">     254 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     255 </span>            :         }
-<span class="lineNum">     256 </span>            : 
-<span class="lineNum">     257 </span>            :         case ::deflect::Event::EVT_DOUBLECLICK:
-<span class="lineNum">     258 </span>            :         case ::deflect::Event::EVT_NONE:
-<span class="lineNum">     259 </span>            :         default:
-<span class="lineNum">     260 </span><span class="lineNoCov">          0 :             break;</span>
-<span class="lineNum">     261 </span>            :         }
-<span class="lineNum">     262 </span>            :     }
-<span class="lineNum">     263 </span>            : }
-<a name="264"><span class="lineNum">     264 </span>            : </a>
-<span class="lineNum">     265 </span>            : }
-<span class="lineNum">     266 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :             KeyEvent event;</span>
+<span class="lineNum">     183 </span>            :             const EventType type =
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :                 deflectEvent.type == ::deflect::Event::EVT_KEY_PRESS ?</span>
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :                                          EVENT_KEY_PRESS : EVENT_KEY_RELEASE;</span>
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :             event.key = _getKey(  deflectEvent.key );</span>
+<span class="lineNum">     187 </span><span class="lineNoCov">          0 :             channel.processEvent( type, event );</span>
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     189 </span>            :         }
+<span class="lineNum">     190 </span>            :         case ::deflect::Event::EVT_PRESS:
+<span class="lineNum">     191 </span>            :         case ::deflect::Event::EVT_RELEASE:
+<span class="lineNum">     192 </span>            :         {
+<span class="lineNum">     193 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
+<span class="lineNum">     194 </span>            :             const EventType type =
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :                 deflectEvent.type == ::deflect::Event::EVT_PRESS ?</span>
+<span class="lineNum">     196 </span>            :                                          EVENT_CHANNEL_POINTER_BUTTON_PRESS :
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :                                          EVENT_CHANNEL_POINTER_BUTTON_RELEASE;</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :             event.x = x;</span>
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :             event.y = y;</span>
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :             event.buttons = _getButtons( deflectEvent );</span>
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :             event.button = event.buttons;</span>
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 :             _computePointerDelta( type, event );</span>
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :             channel.processEvent( type, event );</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     206 </span>            :         }
+<span class="lineNum">     207 </span>            :         case ::deflect::Event::EVT_MOVE:
+<span class="lineNum">     208 </span>            :         case ::deflect::Event::EVT_PAN:
+<span class="lineNum">     209 </span>            :         {
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :             event.x = x;</span>
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :             event.y = y;</span>
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :             event.dx = deflectEvent.dx * pvp.w;</span>
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :             event.dy = deflectEvent.dy * pvp.h;</span>
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :             if( deflectEvent.type == ::deflect::Event::EVT_PAN )</span>
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :                 event.buttons = PTR_BUTTON3;</span>
+<span class="lineNum">     218 </span>            :             else
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :                 event.buttons = _getButtons( deflectEvent );</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :             event.button = event.buttons;</span>
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span><span class="lineNoCov">          0 :             channel.processEvent( EVENT_CHANNEL_POINTER_MOTION, event );</span>
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     224 </span>            :         }
+<span class="lineNum">     225 </span>            :         case ::deflect::Event::EVT_WHEEL:
+<span class="lineNum">     226 </span>            :         {
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :             event.x = x;</span>
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :             event.y = pvp.h - y;</span>
+<span class="lineNum">     230 </span><span class="lineNoCov">          0 :             event.xAxis = deflectEvent.dx * wheelFactor;</span>
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 :             event.yAxis = deflectEvent.dy * wheelFactor;</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :             event.dx = -deflectEvent.dx;</span>
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 :             event.dy = -deflectEvent.dy;</span>
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :             channel.processEvent( EVENT_CHANNEL_POINTER_WHEEL, event );</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     237 </span>            :         }
+<span class="lineNum">     238 </span>            :         case ::deflect::Event::EVT_PINCH:
+<span class="lineNum">     239 </span>            :         {
+<span class="lineNum">     240 </span><span class="lineNoCov">          0 :             PointerEvent event;</span>
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :             event.x = x;</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :             event.y = pvp.h - y;</span>
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :             const auto dx = deflectEvent.dx * pvp.w;</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :             const auto dy = deflectEvent.dy * pvp.h;</span>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :             const auto sign = dx + dy;</span>
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :             const auto zoom = std::copysign( std::sqrt( dx*dx + dy*dy ), sign );</span>
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :             event.xAxis = 0.f;</span>
+<span class="lineNum">     248 </span><span class="lineNoCov">          0 :             event.yAxis = zoom * wheelFactor;</span>
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :             channel.processEvent( EVENT_CHANNEL_POINTER_WHEEL, event );</span>
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     252 </span>            :         }
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span>            :         case ::deflect::Event::EVT_DOUBLECLICK:
+<span class="lineNum">     255 </span>            :         case ::deflect::Event::EVT_NONE:
+<span class="lineNum">     256 </span>            :         default:
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     258 </span>            :         }
+<span class="lineNum">     259 </span>            :     }
+<span class="lineNum">     260 </span>            : }
+<a name="261"><span class="lineNum">     261 </span>            : </a>
+<span class="lineNum">     262 </span>            : }
+<span class="lineNum">     263 </span><span class="lineCov">         36 : }</span>
 </pre>
       </td>
     </tr>

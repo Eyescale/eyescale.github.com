@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"classeq_1_1wgl_1_1_window.html#a89a3ed89cba0c79d744a3faf0fd5b2d7":[7,0,0,4,3,12],
 "classeq_1_1wgl_1_1_window.html#a9431c6ac3da85d4f229617608a980754":[7,0,0,4,3,3],
 "classeq_1_1wgl_1_1_window.html#aa2a18c645dc59cecda56a87134451a79":[7,0,0,4,3,21],
 "classeq_1_1wgl_1_1_window.html#accb0dde5e1eb8694a60439d0622fd7b9":[7,0,0,4,3,10],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "eq_2wgl_2types_8h_source.html":[8,0,131],
 "eq_8h_source.html":[8,0,33],
 "equalizer_8h_source.html":[8,0,34],
-"equalizer_types_8h_source.html":[8,0,35],
-"error_codes_8h_source.html":[8,0,39]
+"equalizer_types_8h_source.html":[8,0,35]
 };

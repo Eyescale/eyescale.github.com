@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"classeq_1_1fabric_1_1_canvas.html#a9454ee6159f7a1e7c03862abe84dde16":[7,0,0,0,2,27],
 "classeq_1_1fabric_1_1_canvas.html#a95b6899fe275cbe3214d8d41f95fd515":[7,0,0,0,2,3],
 "classeq_1_1fabric_1_1_canvas.html#aa2ba02e09640fe2107984f5368f14928":[7,0,0,0,2,1],
 "classeq_1_1fabric_1_1_canvas.html#aa8058094b356b5f583bd5ae9a2d98c9d":[7,0,0,0,2,38],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "classeq_1_1fabric_1_1_equalizer.html#a08a3c47277a3c91b3d980c39feb5a532":[7,0,0,0,11,17],
 "classeq_1_1fabric_1_1_equalizer.html#a16293e1fcc91f8444ab65de475ca8d11":[7,0,0,0,11,21],
 "classeq_1_1fabric_1_1_equalizer.html#a1a69513167d3b3fe38d72dfaa2555cae":[7,0,0,0,11,18],
-"classeq_1_1fabric_1_1_equalizer.html#a25795a6bcdc2208a96d3eee80c4e9737":[7,0,0,0,11,19],
-"classeq_1_1fabric_1_1_equalizer.html#a25c3c9c6dedbf7bba25cffcb3c059527":[7,0,0,0,11,3]
+"classeq_1_1fabric_1_1_equalizer.html#a25795a6bcdc2208a96d3eee80c4e9737":[7,0,0,0,11,19]
 };
