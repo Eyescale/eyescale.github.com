@@ -35,7 +35,7 @@ var searchData=
   ['getposition',['getPosition',['../classlunchbox_1_1_index_iterator.html#accef379c4b4007e70153905c25830d4e',1,'lunchbox::IndexIterator']]],
   ['getrefcount',['getRefCount',['../classlunchbox_1_1_referenced.html#a9dcfda6594deb51305dd3d5936568f6d',1,'lunchbox::Referenced']]],
   ['getrequestdata',['getRequestData',['../classlunchbox_1_1_request_handler.html#ab81d57dc1b38d2c226406172ea2007af',1,'lunchbox::RequestHandler']]],
-  ['getrevision',['getRevision',['../classlunchbox_1_1_version.html#ae466e7c766b8f9131f47b1a07ad2755c',1,'lunchbox::Version']]],
+  ['getrevision',['getRevision',['../classlunchbox_1_1_version.html#a45f58e16699cb303955358597f5ebfeb',1,'lunchbox::Version']]],
   ['getrevstring',['getRevString',['../classlunchbox_1_1_version.html#a47baacc0cb3a3f70e445e84925b1a676',1,'lunchbox::Version']]],
   ['getrootdir',['getRootDir',['../namespacelunchbox.html#a1ac8c26ba6e5d6baf85414af25ea5f63',1,'lunchbox']]],
   ['getrootpath',['getRootPath',['../namespacelunchbox.html#af1876c263706528aecec4ee737d231a1',1,'lunchbox']]],

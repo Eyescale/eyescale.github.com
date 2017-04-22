@@ -5,7 +5,7 @@ var classlunchbox_1_1_version =
     [ "getMajor", "classlunchbox_1_1_version.html#a9f717653bfc89cfef773be1e6398f10c", null ],
     [ "getMinor", "classlunchbox_1_1_version.html#a1d10573370430ab037f4e5b02c06721e", null ],
     [ "getPatch", "classlunchbox_1_1_version.html#a3ca4936d3d861756c793be88f10ea08e", null ],
-    [ "getRevision", "classlunchbox_1_1_version.html#ae466e7c766b8f9131f47b1a07ad2755c", null ],
+    [ "getRevision", "classlunchbox_1_1_version.html#a45f58e16699cb303955358597f5ebfeb", null ],
     [ "getRevString", "classlunchbox_1_1_version.html#a47baacc0cb3a3f70e445e84925b1a676", null ],
     [ "getSchema", "classlunchbox_1_1_version.html#aa066d3a9c2528909f91d8ea71e025daf", null ],
     [ "getString", "classlunchbox_1_1_version.html#a52c485b52956e7be167f6971230be29d", null ],
