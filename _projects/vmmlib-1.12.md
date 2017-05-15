@@ -4,7 +4,7 @@ version: "1.12"
 major: 1
 minor: 12
 description: Templatized C++ vector and matrix math library
-updated: 15/02/17
+updated: 16/05/17
 homepage: https://github.com/Eyescale/vmmlib
 repository: https://github.com/Eyescale/vmmlib.git
 issuesurl: https://github.com/Eyescale/vmmlib/issues
