@@ -4,7 +4,7 @@ version: "1.16"
 major: 1
 minor: 16
 description: Multi-threaded C++ toolbox library for all application developers creating high-performance multi-threaded programs.
-updated: 22/04/17
+updated: 03/08/17
 homepage: https://github.com/Eyescale/Lunchbox
 repository: https://github.com/Eyescale/Lunchbox.git
 issuesurl: https://github.com/Eyescale/Lunchbox/issues
@@ -73,9 +73,9 @@ environments are tested:
 
 Building from source is as simple as:
 
-    git clone https://github.com/Eyescale/Lunchbox.git
+    git clone --recursive https://github.com/Eyescale/Lunchbox.git
     mkdir Lunchbox/build
     cd Lunchbox/build
-    cmake -GNinja ..
+    cmake -GNinja -DCLONE_SUBPROJECTS=ON ..
     ninja
 
