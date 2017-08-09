@@ -37,7 +37,7 @@ var searchData=
   ['getremainingbuffer',['getRemainingBuffer',['../classco_1_1_data_i_stream.html#aebb79ab3f9c83cac9be932c4e4ecdbd6',1,'co::DataIStream']]],
   ['getremainingbuffersize',['getRemainingBufferSize',['../classco_1_1_data_i_stream.html#ac9403b531f7d38ed2bfa7e64603006d9',1,'co::DataIStream']]],
   ['getremotenode',['getRemoteNode',['../classco_1_1_data_i_stream.html#aed146c31e393a30ff76dd4b4f3fab885',1,'co::DataIStream::getRemoteNode()'],['../classco_1_1_i_command.html#a9a30e67bfac46b49276910d4d5aa0928',1,'co::ICommand::getRemoteNode()']]],
-  ['getrevision',['getRevision',['../classco_1_1_version.html#a66af6aacf958cc275e6437811cc4c8e0',1,'co::Version']]],
+  ['getrevision',['getRevision',['../classco_1_1_version.html#adb62cfa4e18024a9d818b980853bfc1e',1,'co::Version']]],
   ['getrevstring',['getRevString',['../classco_1_1_version.html#a46faa98679c3d86ab84303f9a6511efd',1,'co::Version']]],
   ['getschema',['getSchema',['../classco_1_1_version.html#a778a160157f68a830fe7172e5c58891b',1,'co::Version']]],
   ['getsize',['getSize',['../classco_1_1_buffer_connection.html#a934bb001f47d71fe29cc9d20076b9e51',1,'co::BufferConnection::getSize()'],['../classco_1_1_command_queue.html#a4cf639cffa1b887bd0ad26f80a4c96c3',1,'co::CommandQueue::getSize()'],['../classco_1_1_connection_set.html#aace8fb1b8749efa8db8b9e81cd83b685',1,'co::ConnectionSet::getSize()'],['../classco_1_1_i_command.html#a5404a777cffb9bc612149882587a8530',1,'co::ICommand::getSize()']]],

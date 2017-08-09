@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['icommand',['ICommand',['../classco_1_1_i_command.html',1,'co']]]
+  ['localnode',['LocalNode',['../classco_1_1_local_node.html',1,'co']]]
 ];

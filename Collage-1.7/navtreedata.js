@@ -3,6 +3,7 @@ var NAVTREE =
   [ "Collage", "index.html", [
     [ "Introduction", "index.html", null ],
     [ "Changelog", "Changelog.html", null ],
+    [ "Application Help", "apps.html", "apps" ],
     [ "Deprecated List", "deprecated.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -40,9 +41,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classco_1_1_data_o_stream.html#ad4eea48a07238b49178b7e7e4a5b09e9",
-"classco_1_1_object.html#ac98e060ef02dd0e670cc058590e22c00",
-"structco_1_1_data_o_stream_archive_1_1use__array__optimization_1_1apply.html"
+"classco_1_1_data_o_stream.html#aec5283f578f60be416180b3392f4d916",
+"classco_1_1_object_handler.html#a059b7d0d98c214b65eb4fd8ed590babf",
+"version_8h.html#aa6ba57f914e8dae8be370ab643a03e7e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

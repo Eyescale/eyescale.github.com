@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-15 01:26:38</td>
+            <td class="headerValue">2017-08-10 01:23:00</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">46</td>
@@ -105,41 +105,41 @@
 <span class="lineNum">      43 </span>            :      * Create a new callback to the method on the given object.
 <a name="44"><span class="lineNum">      44 </span>            :      * @version 1.0</a>
 <span class="lineNum">      45 </span>            :      */
-<span class="lineNum">      46 </span><span class="lineCov">    1282832 :     CommandFunc(T* object, bool (T::*func)(ICommand&amp;))</span>
+<span class="lineNum">      46 </span><span class="lineCov">    1244041 :     CommandFunc(T* object, bool (T::*func)(ICommand&amp;))</span>
 <span class="lineNum">      47 </span>            :         : _object(object)
-<span class="lineNum">      48 </span><span class="lineCov">    1282832 :         , _func(func)</span>
+<span class="lineNum">      48 </span><span class="lineCov">    1244041 :         , _func(func)</span>
 <span class="lineNum">      49 </span>            :     {
-<span class="lineNum">      50 </span><span class="lineCov">    1282832 :     }</span>
+<span class="lineNum">      50 </span><span class="lineCov">    1244041 :     }</span>
 <span class="lineNum">      51 </span>            : 
 <span class="lineNum">      52 </span>            :     /**
 <span class="lineNum">      53 </span>            :      * Create a copy of a callback to a different base class.
 <span class="lineNum">      54 </span>            :      * @version 1.0
 <a name="55"><span class="lineNum">      55 </span>            :      */</a>
 <span class="lineNum">      56 </span>            :     template &lt;typename O&gt;
-<span class="lineNum">      57 </span><span class="lineCov">       2544 :     CommandFunc(const CommandFunc&lt;O&gt;&amp; from)</span>
-<span class="lineNum">      58 </span><span class="lineCov">       2544 :         : _object(_convertThis&lt;O&gt;(from._object))</span>
-<span class="lineNum">      59 </span><span class="lineCov">       2544 :         , _func(static_cast&lt;bool (T::*)(ICommand&amp;)&gt;(from._func))</span>
+<span class="lineNum">      57 </span><span class="lineCov">       2454 :     CommandFunc(const CommandFunc&lt;O&gt;&amp; from)</span>
+<span class="lineNum">      58 </span><span class="lineCov">       2454 :         : _object(_convertThis&lt;O&gt;(from._object))</span>
+<span class="lineNum">      59 </span><span class="lineCov">       2454 :         , _func(static_cast&lt;bool (T::*)(ICommand&amp;)&gt;(from._func))</span>
 <span class="lineNum">      60 </span>            :     {
-<span class="lineNum">      61 </span><span class="lineCov">       2544 :     }</span>
+<span class="lineNum">      61 </span><span class="lineCov">       2454 :     }</span>
 <a name="62"><span class="lineNum">      62 </span>            : </a>
 <span class="lineNum">      63 </span>            :     /** @internal Invoke the callback. */
-<span class="lineNum">      64 </span><span class="lineCov">     651773 :     bool operator()(ICommand&amp; command)</span>
+<span class="lineNum">      64 </span><span class="lineCov">     639694 :     bool operator()(ICommand&amp; command)</span>
 <span class="lineNum">      65 </span>            :     {
-<span class="lineNum">      66 </span><span class="lineCov">     651773 :         LBASSERT(_object);</span>
-<span class="lineNum">      67 </span><span class="lineCov">     651768 :         LBASSERT(_func);</span>
-<span class="lineNum">      68 </span><span class="lineCov">     651767 :         return (_object-&gt;*_func)(command);</span>
+<span class="lineNum">      66 </span><span class="lineCov">     639694 :         LBASSERT(_object);</span>
+<span class="lineNum">      67 </span><span class="lineCov">     639686 :         LBASSERT(_func);</span>
+<span class="lineNum">      68 </span><span class="lineCov">     639684 :         return (_object-&gt;*_func)(command);</span>
 <span class="lineNum">      69 </span>            :     }
 <span class="lineNum">      70 </span>            : 
 <span class="lineNum">      71 </span>            :     /** @internal */
 <a name="72"><span class="lineNum">      72 </span>            :     //@{</a>
 <span class="lineNum">      73 </span>            :     /** @internal reset the callback. */
-<span class="lineNum">      74 </span><span class="lineCov">     631155 :     void clear()</span>
+<span class="lineNum">      74 </span><span class="lineCov">     619127 :     void clear()</span>
 <span class="lineNum">      75 </span>            :     {
-<span class="lineNum">      76 </span><span class="lineCov">     631155 :         _object = 0;</span>
-<span class="lineNum">      77 </span><span class="lineCov">     631155 :         _func = 0;</span>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">     631155 :     }</span></a>
+<span class="lineNum">      76 </span><span class="lineCov">     619127 :         _object = 0;</span>
+<span class="lineNum">      77 </span><span class="lineCov">     619127 :         _func = 0;</span>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">     619127 :     }</span></a>
 <span class="lineNum">      79 </span>            :     /** @internal @return true if the callback is valid. */
-<span class="lineNum">      80 </span><span class="lineCov">     631169 :     bool isValid() const { return _object &amp;&amp; _func; }</span>
+<span class="lineNum">      80 </span><span class="lineCov">     619131 :     bool isValid() const { return _object &amp;&amp; _func; }</span>
 <span class="lineNum">      81 </span>            :     // Can't make private because copy constructor needs access. Can't
 <span class="lineNum">      82 </span>            :     // declare friend because C++ does not allow generic template friends in
 <span class="lineNum">      83 </span>            :     // template classes.
@@ -150,13 +150,13 @@
 <span class="lineNum">      88 </span>            : 
 <a name="89"><span class="lineNum">      89 </span>            : private:</a>
 <span class="lineNum">      90 </span>            :     template &lt;class F&gt;
-<span class="lineNum">      91 </span><span class="lineCov">       2544 :     T* _convertThis(F* ptr)</span>
+<span class="lineNum">      91 </span><span class="lineCov">       2454 :     T* _convertThis(F* ptr)</span>
 <span class="lineNum">      92 </span>            :     {
 <span class="lineNum">      93 </span>            : #ifdef _MSC_VER
 <span class="lineNum">      94 </span>            :         // https://github.com/Eyescale/Equalizer/issues/100
 <span class="lineNum">      95 </span>            :         return reinterpret_cast&lt;T*&gt;(ptr);
 <span class="lineNum">      96 </span>            : #else
-<span class="lineNum">      97 </span><span class="lineCov">       2544 :         return ptr;</span>
+<span class="lineNum">      97 </span><span class="lineCov">       2454 :         return ptr;</span>
 <span class="lineNum">      98 </span>            : #endif
 <span class="lineNum">      99 </span>            :     }
 <span class="lineNum">     100 </span>            : };

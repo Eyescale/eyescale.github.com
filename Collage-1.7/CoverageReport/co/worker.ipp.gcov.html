@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-15 01:26:38</td>
+            <td class="headerValue">2017-08-10 01:23:00</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -85,36 +85,36 @@
 <span class="lineNum">      23 </span>            : namespace co
 <a name="24"><span class="lineNum">      24 </span>            : {</a>
 <span class="lineNum">      25 </span>            : template &lt;class Q&gt;
-<span class="lineNum">      26 </span><span class="lineCov">      51678 : void WorkerThread&lt;Q&gt;::run()</span>
+<span class="lineNum">      26 </span><span class="lineCov">      51660 : void WorkerThread&lt;Q&gt;::run()</span>
 <span class="lineNum">      27 </span>            : {
-<span class="lineNum">      28 </span><span class="lineCov">     103306 :     while (!stopRunning())</span>
+<span class="lineNum">      28 </span><span class="lineCov">     103272 :     while (!stopRunning())</span>
 <span class="lineNum">      29 </span>            :     {
-<span class="lineNum">      30 </span><span class="lineCov">      51629 :         while (_commands.isEmpty())</span>
-<span class="lineNum">      31 </span><span class="lineCov">      51559 :             if (!notifyIdle()) // nothing to do</span>
-<span class="lineNum">      32 </span><span class="lineCov">      51559 :                 break;</span>
+<span class="lineNum">      30 </span><span class="lineCov">      51613 :         while (_commands.isEmpty())</span>
+<span class="lineNum">      31 </span><span class="lineCov">      51515 :             if (!notifyIdle()) // nothing to do</span>
+<span class="lineNum">      32 </span><span class="lineCov">      51515 :                 break;</span>
 <span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span><span class="lineCov">     103257 :         const ICommands&amp; commands = _commands.popAll();</span>
-<span class="lineNum">      35 </span><span class="lineCov">      51628 :         LBASSERT(!commands.empty());</span>
+<span class="lineNum">      34 </span><span class="lineCov">     103225 :         const ICommands&amp; commands = _commands.popAll();</span>
+<span class="lineNum">      35 </span><span class="lineCov">      51612 :         LBASSERT(!commands.empty());</span>
 <span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span><span class="lineCov">     103226 :         for (ICommandsCIter i = commands.begin(); i != commands.end(); ++i)</span>
+<span class="lineNum">      37 </span><span class="lineCov">     103184 :         for (ICommandsCIter i = commands.begin(); i != commands.end(); ++i)</span>
 <span class="lineNum">      38 </span>            :         {
 <span class="lineNum">      39 </span>            :             // We want to avoid a non-const copy of commands, hence the cast...
-<span class="lineNum">      40 </span><span class="lineCov">      51647 :             ICommand&amp; command = const_cast&lt;ICommand&amp;&gt;(*i);</span>
-<span class="lineNum">      41 </span><span class="lineCov">      51647 :             if (!command())</span>
+<span class="lineNum">      40 </span><span class="lineCov">      51619 :             ICommand&amp; command = const_cast&lt;ICommand&amp;&gt;(*i);</span>
+<span class="lineNum">      41 </span><span class="lineCov">      51619 :             if (!command())</span>
 <span class="lineNum">      42 </span>            :             {
 <span class="lineNum">      43 </span><span class="lineNoCov">          0 :                 LBABORT(&quot;Error handling &quot; &lt;&lt; command);</span>
 <span class="lineNum">      44 </span>            :             }
-<span class="lineNum">      45 </span><span class="lineCov">      51647 :             if (stopRunning())</span>
-<span class="lineNum">      46 </span><span class="lineCov">         49 :                 break;</span>
+<span class="lineNum">      45 </span><span class="lineCov">      51619 :             if (stopRunning())</span>
+<span class="lineNum">      46 </span><span class="lineCov">         47 :                 break;</span>
 <span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span><span class="lineCov">      51598 :             _commands.pump();</span>
+<span class="lineNum">      48 </span><span class="lineCov">      51572 :             _commands.pump();</span>
 <span class="lineNum">      49 </span>            :         }
 <span class="lineNum">      50 </span>            :     }
 <span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">         49 :     _commands.flush();</span>
-<span class="lineNum">      53 </span><span class="lineCov">         98 :     LBDEBUG &lt;&lt; &quot;Leaving worker thread &quot; &lt;&lt; lunchbox::className(this)</span>
-<span class="lineNum">      54 </span><span class="lineCov">         49 :             &lt;&lt; std::endl;</span>
-<span class="lineNum">      55 </span><span class="lineCov">         49 : }</span>
+<span class="lineNum">      52 </span><span class="lineCov">         47 :     _commands.flush();</span>
+<span class="lineNum">      53 </span><span class="lineCov">         94 :     LBDEBUG &lt;&lt; &quot;Leaving worker thread &quot; &lt;&lt; lunchbox::className(this)</span>
+<span class="lineNum">      54 </span><span class="lineCov">         47 :             &lt;&lt; std::endl;</span>
+<span class="lineNum">      55 </span><span class="lineCov">         47 : }</span>
 <span class="lineNum">      56 </span>            : }
 </pre>
       </td>

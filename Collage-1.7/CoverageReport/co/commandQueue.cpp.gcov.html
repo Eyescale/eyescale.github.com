@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-15 01:26:38</td>
+            <td class="headerValue">2017-08-10 01:23:00</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">13</td>
@@ -92,41 +92,41 @@
 <span class="lineNum">      30 </span>            : {
 <a name="31"><span class="lineNum">      31 </span>            : namespace detail</a>
 <span class="lineNum">      32 </span>            : {
-<span class="lineNum">      33 </span><span class="lineCov">         68 : class CommandQueue</span>
+<span class="lineNum">      33 </span><span class="lineCov">         66 : class CommandQueue</span>
 <a name="34"><span class="lineNum">      34 </span>            : {</a>
 <span class="lineNum">      35 </span>            : public:
-<span class="lineNum">      36 </span><span class="lineCov">         70 :     explicit CommandQueue(const size_t maxSize)</span>
-<span class="lineNum">      37 </span><span class="lineCov">         70 :         : commands(maxSize)</span>
+<span class="lineNum">      36 </span><span class="lineCov">         68 :     explicit CommandQueue(const size_t maxSize)</span>
+<span class="lineNum">      37 </span><span class="lineCov">         68 :         : commands(maxSize)</span>
 <span class="lineNum">      38 </span>            :     {
-<span class="lineNum">      39 </span><span class="lineCov">         70 :     }</span>
+<span class="lineNum">      39 </span><span class="lineCov">         68 :     }</span>
 <span class="lineNum">      40 </span>            : 
 <span class="lineNum">      41 </span>            :     /** Thread-safe buffer queue. */
 <span class="lineNum">      42 </span>            :     lunchbox::MTQueue&lt;co::ICommand&gt; commands;
 <span class="lineNum">      43 </span>            : };
 <a name="44"><span class="lineNum">      44 </span>            : }</a>
 <span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span><span class="lineCov">         70 : CommandQueue::CommandQueue(const size_t maxSize)</span>
-<span class="lineNum">      47 </span><span class="lineCov">         70 :     : _impl(new detail::CommandQueue(maxSize))</span>
+<span class="lineNum">      46 </span><span class="lineCov">         68 : CommandQueue::CommandQueue(const size_t maxSize)</span>
+<span class="lineNum">      47 </span><span class="lineCov">         68 :     : _impl(new detail::CommandQueue(maxSize))</span>
 <span class="lineNum">      48 </span>            : {
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">         70 : }</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">         68 : }</span></a>
 <span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span><span class="lineCov">        136 : CommandQueue::~CommandQueue()</span>
+<span class="lineNum">      51 </span><span class="lineCov">        132 : CommandQueue::~CommandQueue()</span>
 <span class="lineNum">      52 </span>            : {
-<span class="lineNum">      53 </span><span class="lineCov">         68 :     flush();</span>
-<span class="lineNum">      54 </span><span class="lineCov">         68 :     delete _impl;</span>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">         68 : }</span></a>
+<span class="lineNum">      53 </span><span class="lineCov">         66 :     flush();</span>
+<span class="lineNum">      54 </span><span class="lineCov">         66 :     delete _impl;</span>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">         66 : }</span></a>
 <span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span><span class="lineCov">        117 : void CommandQueue::flush()</span>
+<span class="lineNum">      57 </span><span class="lineCov">        113 : void CommandQueue::flush()</span>
 <span class="lineNum">      58 </span>            : {
-<span class="lineNum">      59 </span><span class="lineCov">        117 :     if (!isEmpty())</span>
+<span class="lineNum">      59 </span><span class="lineCov">        113 :     if (!isEmpty())</span>
 <span class="lineNum">      60 </span><span class="lineNoCov">          0 :         LBLOG(LOG_BUG) &lt;&lt; &quot;Flushing non-empty command queue&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span><span class="lineCov">        117 :     _impl-&gt;commands.clear();</span>
-<a name="63"><span class="lineNum">      63 </span><span class="lineCov">        117 : }</span></a>
+<span class="lineNum">      62 </span><span class="lineCov">        113 :     _impl-&gt;commands.clear();</span>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">        113 : }</span></a>
 <span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span><span class="lineCov">      51759 : bool CommandQueue::isEmpty() const</span>
+<span class="lineNum">      65 </span><span class="lineCov">      51739 : bool CommandQueue::isEmpty() const</span>
 <span class="lineNum">      66 </span>            : {
-<span class="lineNum">      67 </span><span class="lineCov">      51759 :     return _impl-&gt;commands.isEmpty();</span>
+<span class="lineNum">      67 </span><span class="lineCov">      51739 :     return _impl-&gt;commands.isEmpty();</span>
 <a name="68"><span class="lineNum">      68 </span>            : }</a>
 <span class="lineNum">      69 </span>            : 
 <span class="lineNum">      70 </span><span class="lineCov">          5 : size_t CommandQueue::getSize() const</span>
@@ -134,10 +134,10 @@
 <span class="lineNum">      72 </span><span class="lineCov">          5 :     return _impl-&gt;commands.getSize();</span>
 <a name="73"><span class="lineNum">      73 </span>            : }</a>
 <span class="lineNum">      74 </span>            : 
-<span class="lineNum">      75 </span><span class="lineCov">     631207 : void CommandQueue::push(const ICommand&amp; command)</span>
+<span class="lineNum">      75 </span><span class="lineCov">     619180 : void CommandQueue::push(const ICommand&amp; command)</span>
 <span class="lineNum">      76 </span>            : {
-<span class="lineNum">      77 </span><span class="lineCov">     631207 :     _impl-&gt;commands.push(command);</span>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">     631207 : }</span></a>
+<span class="lineNum">      77 </span><span class="lineCov">     619180 :     _impl-&gt;commands.push(command);</span>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">     619180 : }</span></a>
 <span class="lineNum">      79 </span>            : 
 <span class="lineNum">      80 </span><span class="lineNoCov">          0 : void CommandQueue::pushFront(const ICommand&amp; command)</span>
 <span class="lineNum">      81 </span>            : {
@@ -145,18 +145,18 @@
 <span class="lineNum">      83 </span><span class="lineNoCov">          0 :     _impl-&gt;commands.pushFront(command);</span>
 <a name="84"><span class="lineNum">      84 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span><span class="lineCov">     579537 : ICommand CommandQueue::pop(const uint32_t timeout)</span>
+<span class="lineNum">      86 </span><span class="lineCov">     567542 : ICommand CommandQueue::pop(const uint32_t timeout)</span>
 <span class="lineNum">      87 </span>            : {
-<span class="lineNum">      88 </span><span class="lineCov">     579537 :     LB_TS_THREAD(_thread);</span>
+<span class="lineNum">      88 </span><span class="lineCov">     567542 :     LB_TS_THREAD(_thread);</span>
 <span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span><span class="lineCov">     579542 :     ICommand command;</span>
-<span class="lineNum">      91 </span><span class="lineCov">     579512 :     _impl-&gt;commands.timedPop(timeout, command);</span>
-<span class="lineNum">      92 </span><span class="lineCov">     579531 :     return command;</span>
+<span class="lineNum">      90 </span><span class="lineCov">     567546 :     ICommand command;</span>
+<span class="lineNum">      91 </span><span class="lineCov">     567545 :     _impl-&gt;commands.timedPop(timeout, command);</span>
+<span class="lineNum">      92 </span><span class="lineCov">     567504 :     return command;</span>
 <a name="93"><span class="lineNum">      93 </span>            : }</a>
 <span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span><span class="lineCov">      51629 : ICommands CommandQueue::popAll(const uint32_t timeout)</span>
+<span class="lineNum">      95 </span><span class="lineCov">      51613 : ICommands CommandQueue::popAll(const uint32_t timeout)</span>
 <span class="lineNum">      96 </span>            : {
-<span class="lineNum">      97 </span><span class="lineCov">      51629 :     return _impl-&gt;commands.timedPopRange(timeout);</span>
+<span class="lineNum">      97 </span><span class="lineCov">      51613 :     return _impl-&gt;commands.timedPopRange(timeout);</span>
 <a name="98"><span class="lineNum">      98 </span>            : }</a>
 <span class="lineNum">      99 </span>            : 
 <span class="lineNum">     100 </span><span class="lineCov">          2 : ICommand CommandQueue::tryPop()</span>
@@ -166,7 +166,7 @@
 <span class="lineNum">     104 </span><span class="lineCov">          2 :     _impl-&gt;commands.tryPop(command);</span>
 <a name="105"><span class="lineNum">     105 </span><span class="lineCov">          2 :     return command;</span></a>
 <span class="lineNum">     106 </span>            : }
-<span class="lineNum">     107 </span><span class="lineCov">         66 : }</span>
+<span class="lineNum">     107 </span><span class="lineCov">         63 : }</span>
 </pre>
       </td>
     </tr>

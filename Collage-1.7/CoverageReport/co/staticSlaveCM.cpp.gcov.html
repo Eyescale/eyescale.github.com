@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-02-15 01:26:38</td>
+            <td class="headerValue">2017-08-10 01:23:00</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -94,48 +94,48 @@
 <span class="lineNum">      32 </span>            : {
 <a name="33"><span class="lineNum">      33 </span>            : typedef CommandFunc&lt;StaticSlaveCM&gt; CmdFunc;</a>
 <span class="lineNum">      34 </span>            : 
-<span class="lineNum">      35 </span><span class="lineCov">          8 : StaticSlaveCM::StaticSlaveCM(Object* object)</span>
+<span class="lineNum">      35 </span><span class="lineCov">          2 : StaticSlaveCM::StaticSlaveCM(Object* object)</span>
 <span class="lineNum">      36 </span>            :     : ObjectCM(object)
-<span class="lineNum">      37 </span><span class="lineCov">          8 :     , _currentIStream(new ObjectDataIStream)</span>
+<span class="lineNum">      37 </span><span class="lineCov">          2 :     , _currentIStream(new ObjectDataIStream)</span>
 <span class="lineNum">      38 </span>            : {
-<span class="lineNum">      39 </span><span class="lineCov">          8 :     LBASSERT(_object);</span>
-<span class="lineNum">      40 </span><span class="lineCov">          8 :     LBASSERT(object-&gt;getLocalNode());</span>
+<span class="lineNum">      39 </span><span class="lineCov">          2 :     LBASSERT(_object);</span>
+<span class="lineNum">      40 </span><span class="lineCov">          2 :     LBASSERT(object-&gt;getLocalNode());</span>
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">          8 :     object-&gt;registerCommand(CMD_OBJECT_INSTANCE,</span>
-<span class="lineNum">      43 </span><span class="lineCov">         16 :                             CmdFunc(this, &amp;StaticSlaveCM::_cmdInstance), 0);</span>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          8 : }</span></a>
+<span class="lineNum">      42 </span><span class="lineCov">          2 :     object-&gt;registerCommand(CMD_OBJECT_INSTANCE,</span>
+<span class="lineNum">      43 </span><span class="lineCov">          4 :                             CmdFunc(this, &amp;StaticSlaveCM::_cmdInstance), 0);</span>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span><span class="lineCov">         24 : StaticSlaveCM::~StaticSlaveCM()</span>
+<span class="lineNum">      46 </span><span class="lineCov">          6 : StaticSlaveCM::~StaticSlaveCM()</span>
 <span class="lineNum">      47 </span>            : {
-<span class="lineNum">      48 </span><span class="lineCov">          8 :     delete _currentIStream;</span>
-<span class="lineNum">      49 </span><span class="lineCov">          8 :     _currentIStream = 0;</span>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         16 : }</span></a>
+<span class="lineNum">      48 </span><span class="lineCov">          2 :     delete _currentIStream;</span>
+<span class="lineNum">      49 </span><span class="lineCov">          2 :     _currentIStream = 0;</span>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">          8 : void StaticSlaveCM::applyMapData(const uint128_t&amp; version LB_UNUSED)</span>
+<span class="lineNum">      52 </span><span class="lineCov">          2 : void StaticSlaveCM::applyMapData(const uint128_t&amp; version LB_UNUSED)</span>
 <span class="lineNum">      53 </span>            : {
-<span class="lineNum">      54 </span><span class="lineCov">          8 :     LBASSERT(_currentIStream);</span>
-<span class="lineNum">      55 </span><span class="lineCov">          8 :     LBASSERTINFO(version == VERSION_FIRST || version == VERSION_NONE, version);</span>
-<span class="lineNum">      56 </span><span class="lineCov">          8 :     _currentIStream-&gt;waitReady();</span>
+<span class="lineNum">      54 </span><span class="lineCov">          2 :     LBASSERT(_currentIStream);</span>
+<span class="lineNum">      55 </span><span class="lineCov">          2 :     LBASSERTINFO(version == VERSION_FIRST || version == VERSION_NONE, version);</span>
+<span class="lineNum">      56 </span><span class="lineCov">          2 :     _currentIStream-&gt;waitReady();</span>
 <span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">          8 :     LBASSERT(_object);</span>
-<span class="lineNum">      59 </span><span class="lineCov">          8 :     LBASSERTINFO(_currentIStream-&gt;getVersion() == VERSION_FIRST ||</span>
+<span class="lineNum">      58 </span><span class="lineCov">          2 :     LBASSERT(_object);</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :     LBASSERTINFO(_currentIStream-&gt;getVersion() == VERSION_FIRST ||</span>
 <span class="lineNum">      60 </span>            :                      _currentIStream-&gt;getVersion() == VERSION_NONE,
 <span class="lineNum">      61 </span>            :                  _currentIStream-&gt;getVersion());
-<span class="lineNum">      62 </span><span class="lineCov">          8 :     LBASSERT(_currentIStream-&gt;hasInstanceData());</span>
+<span class="lineNum">      62 </span><span class="lineCov">          2 :     LBASSERT(_currentIStream-&gt;hasInstanceData());</span>
 <span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span><span class="lineCov">          8 :     if (_currentIStream-&gt;hasData()) // not VERSION_NONE</span>
-<span class="lineNum">      65 </span><span class="lineCov">          7 :         _object-&gt;applyInstanceData(*_currentIStream);</span>
+<span class="lineNum">      64 </span><span class="lineCov">          2 :     if (_currentIStream-&gt;hasData()) // not VERSION_NONE</span>
+<span class="lineNum">      65 </span><span class="lineCov">          1 :         _object-&gt;applyInstanceData(*_currentIStream);</span>
 <span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineCov">          8 :     LBASSERTINFO(!_currentIStream-&gt;hasData(),</span>
+<span class="lineNum">      67 </span><span class="lineCov">          2 :     LBASSERTINFO(!_currentIStream-&gt;hasData(),</span>
 <span class="lineNum">      68 </span>            :                  &quot;Object &quot; &lt;&lt; typeid(*_object).name()
 <span class="lineNum">      69 </span>            :                            &lt;&lt; &quot; did not unpack all data&quot;);
 <span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span><span class="lineCov">          8 :     delete _currentIStream;</span>
-<span class="lineNum">      72 </span><span class="lineCov">          8 :     _currentIStream = 0;</span>
+<span class="lineNum">      71 </span><span class="lineCov">          2 :     delete _currentIStream;</span>
+<span class="lineNum">      72 </span><span class="lineCov">          2 :     _currentIStream = 0;</span>
 <span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span><span class="lineCov">          8 :     LBLOG(LOG_OBJECTS) &lt;&lt; &quot;Mapped initial data for &quot; &lt;&lt; _object-&gt;getID() &lt;&lt; &quot;.&quot;</span>
-<span class="lineNum">      75 </span><span class="lineCov">          8 :                        &lt;&lt; _object-&gt;getInstanceID() &lt;&lt; &quot; ready&quot; &lt;&lt; std::endl;</span>
-<a name="76"><span class="lineNum">      76 </span><span class="lineCov">          8 : }</span></a>
+<span class="lineNum">      74 </span><span class="lineCov">          2 :     LBLOG(LOG_OBJECTS) &lt;&lt; &quot;Mapped initial data for &quot; &lt;&lt; _object-&gt;getID() &lt;&lt; &quot;.&quot;</span>
+<span class="lineNum">      75 </span><span class="lineCov">          2 :                        &lt;&lt; _object-&gt;getInstanceID() &lt;&lt; &quot; ready&quot; &lt;&lt; std::endl;</span>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">      77 </span>            : 
 <span class="lineNum">      78 </span><span class="lineNoCov">          0 : void StaticSlaveCM::addInstanceDatas(const ObjectDataIStreamDeque&amp; cache,</span>
 <span class="lineNum">      79 </span>            :                                      const uint128_t&amp; /* start */)
@@ -163,19 +163,19 @@
 <span class="lineNum">     101 </span>            : //---------------------------------------------------------------------------
 <a name="102"><span class="lineNum">     102 </span>            : // command handlers</a>
 <span class="lineNum">     103 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     104 </span><span class="lineCov">          8 : bool StaticSlaveCM::_cmdInstance(ICommand&amp; command)</span>
+<span class="lineNum">     104 </span><span class="lineCov">          2 : bool StaticSlaveCM::_cmdInstance(ICommand&amp; command)</span>
 <span class="lineNum">     105 </span>            : {
-<span class="lineNum">     106 </span><span class="lineCov">          8 :     LB_TS_THREAD(_rcvThread);</span>
-<span class="lineNum">     107 </span><span class="lineCov">          8 :     LBASSERT(_currentIStream);</span>
-<span class="lineNum">     108 </span><span class="lineCov">          8 :     _currentIStream-&gt;addDataCommand(command);</span>
+<span class="lineNum">     106 </span><span class="lineCov">          2 :     LB_TS_THREAD(_rcvThread);</span>
+<span class="lineNum">     107 </span><span class="lineCov">          2 :     LBASSERT(_currentIStream);</span>
+<span class="lineNum">     108 </span><span class="lineCov">          2 :     _currentIStream-&gt;addDataCommand(command);</span>
 <span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span><span class="lineCov">          8 :     if (_currentIStream-&gt;isReady())</span>
-<span class="lineNum">     111 </span><span class="lineCov">          8 :         LBLOG(LOG_OBJECTS) &lt;&lt; &quot;id &quot; &lt;&lt; _object-&gt;getID() &lt;&lt; &quot;.&quot;</span>
-<span class="lineNum">     112 </span><span class="lineCov">          8 :                            &lt;&lt; _object-&gt;getInstanceID() &lt;&lt; &quot; ready&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     110 </span><span class="lineCov">          2 :     if (_currentIStream-&gt;isReady())</span>
+<span class="lineNum">     111 </span><span class="lineCov">          2 :         LBLOG(LOG_OBJECTS) &lt;&lt; &quot;id &quot; &lt;&lt; _object-&gt;getID() &lt;&lt; &quot;.&quot;</span>
+<span class="lineNum">     112 </span><span class="lineCov">          2 :                            &lt;&lt; _object-&gt;getInstanceID() &lt;&lt; &quot; ready&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     113 </span>            : 
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">          8 :     return true;</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">          2 :     return true;</span></a>
 <span class="lineNum">     115 </span>            : }
-<span class="lineNum">     116 </span><span class="lineCov">         66 : }</span>
+<span class="lineNum">     116 </span><span class="lineCov">         63 : }</span>
 </pre>
       </td>
     </tr>

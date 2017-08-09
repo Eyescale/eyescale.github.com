@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['commandfunc',['CommandFunc',['../classco_1_1_command_func.html',1,'co']]],
-  ['commandqueue',['CommandQueue',['../classco_1_1_command_queue.html',1,'co']]],
-  ['connection',['Connection',['../classco_1_1_connection.html',1,'co']]],
-  ['connectiondescription',['ConnectionDescription',['../classco_1_1_connection_description.html',1,'co']]],
-  ['connectionset',['ConnectionSet',['../classco_1_1_connection_set.html',1,'co']]],
-  ['customicommand',['CustomICommand',['../classco_1_1_custom_i_command.html',1,'co']]],
-  ['customocommand',['CustomOCommand',['../classco_1_1_custom_o_command.html',1,'co']]]
+  ['dataistream',['DataIStream',['../classco_1_1_data_i_stream.html',1,'co']]],
+  ['dataostream',['DataOStream',['../classco_1_1_data_o_stream.html',1,'co']]],
+  ['dispatcher',['Dispatcher',['../classco_1_1_dispatcher.html',1,'co']]],
+  ['distributable',['Distributable',['../classco_1_1_distributable.html',1,'co']]]
 ];

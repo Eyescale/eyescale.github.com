@@ -1,0 +1,446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Collage - tools/nodeperf.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">tools</a> - nodeperf.cpp<span style="font-size: 80%;"> (source / <a href="nodeperf.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Collage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntry">193</td>
+            <td class="headerCovTableEntryLo">21.2 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2017-08-10 01:21:47</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntryLo">15.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2012-2017, Stefan.Eilemann@epfl.ch
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : // Tests network throughput between co::Nodes
+<span class="lineNum">      19 </span>            : // Usage: see 'coNodeperf -h'
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;boost/foreach.hpp&gt;
+<span class="lineNum">      22 </span>            : #include &lt;co/co.h&gt;
+<span class="lineNum">      23 </span>            : #include &lt;lunchbox/clock.h&gt;
+<span class="lineNum">      24 </span>            : #include &lt;lunchbox/scopedMutex.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;lunchbox/sleep.h&gt;
+<span class="lineNum">      26 </span>            : #include &lt;lunchbox/spinLock.h&gt;
+<span class="lineNum">      27 </span>            : #pragma warning(disable : 4275)
+<span class="lineNum">      28 </span>            : #include &lt;boost/program_options.hpp&gt;
+<span class="lineNum">      29 </span>            : #pragma warning(default : 4275)
+<span class="lineNum">      30 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            : #ifndef MIN
+<span class="lineNum">      33 </span>            : #define MIN LB_MIN
+<span class="lineNum">      34 </span>            : #endif
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : namespace po = boost::program_options;
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : namespace
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span>            : class PerfNode;
+<span class="lineNum">      41 </span>            : typedef lunchbox::Lockable&lt;co::Nodes, lunchbox::SpinLock&gt; ConnectedNodes;
+<a name="42"><span class="lineNum">      42 </span>            : typedef lunchbox::Buffer&lt;uint64_t&gt; Buffer;</a>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span><span class="lineCov">          1 : ConnectedNodes nodes_;</span>
+<span class="lineNum">      45 </span>            : std::mutex print_;
+<span class="lineNum">      46 </span><span class="lineCov">          1 : static co::uint128_t _objectID(0x25625429A197D730ull, 0x79F60861189007D5ull);</span>
+<span class="lineNum">      47 </span>            : template &lt;class C&gt;
+<a name="48"><span class="lineNum">      48 </span>            : bool commandHandler(C command, Buffer&amp; buffer, const uint64_t seed);</a>
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 : class Object : public co::Object</span>
+<span class="lineNum">      51 </span>            : {
+<span class="lineNum">      52 </span>            : private:
+<a name="53"><span class="lineNum">      53 </span>            :     Buffer buffer_;</a>
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     void attach(const co::uint128_t&amp; id, const uint32_t instanceID) override</span>
+<span class="lineNum">      56 </span>            :     {
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         co::Object::attach(id, instanceID);</span>
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         registerCommand(co::CMD_OBJECT_CUSTOM,</span>
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :                         co::CommandFunc&lt;Object&gt;(this, &amp;Object::_cmdCustom),</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :                         getLocalNode()-&gt;getCommandThreadQueue());</span>
+<a name="62"><span class="lineNum">      62 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :     bool _cmdCustom(co::ICommand&amp; command)</span>
+<span class="lineNum">      65 </span>            :     {
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :         return commandHandler&lt;co::ObjectICommand&gt;(command, buffer_,</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :                                                   getID().low());</span>
+<span class="lineNum">      68 </span>            :     }
+<a name="69"><span class="lineNum">      69 </span>            : };</a>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 : class PerfNodeProxy : public co::Node</span>
+<a name="72"><span class="lineNum">      72 </span>            : {</a>
+<span class="lineNum">      73 </span>            : public:
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     PerfNodeProxy()</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :         : co::Node(0xC0FFEEu)</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :         , nPackets(0)</span>
+<span class="lineNum">      77 </span>            :     {
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            :     uint32_t nPackets;
+<span class="lineNum">      81 </span>            :     Object object;
+<span class="lineNum">      82 </span>            : };
+<a name="83"><span class="lineNum">      83 </span>            : typedef lunchbox::RefPtr&lt;PerfNodeProxy&gt; PerfNodeProxyPtr;</a>
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 : class PerfNode : public co::LocalNode</span>
+<a name="86"><span class="lineNum">      86 </span>            : {</a>
+<span class="lineNum">      87 </span>            : public:
+<span class="lineNum">      88 </span><span class="lineNoCov">          0 :     PerfNode()</span>
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :         : co::LocalNode(0xC0FFEEu)</span>
+<span class="lineNum">      90 </span>            :     {
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :         registerCommand(co::CMD_NODE_CUSTOM,</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :                         co::CommandFunc&lt;PerfNode&gt;(this, &amp;PerfNode::_cmdCustom),</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :                         getCommandThreadQueue());</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : private:
+<a name="97"><span class="lineNum">      97 </span>            :     Buffer buffer_;</a>
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :     co::NodePtr createNode(const uint32_t type) override</span>
+<span class="lineNum">     100 </span>            :     {
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :         return type == 0xC0FFEEu ? new PerfNodeProxy : new co::Node(type);</span>
+<a name="102"><span class="lineNum">     102 </span>            :     }</a>
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :     void notifyConnect(co::NodePtr node) override</span>
+<span class="lineNum">     105 </span>            :     {
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :         LBINFO &lt;&lt; &quot;Connect from &quot; &lt;&lt; node &lt;&lt; std::endl;</span>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastWrite _mutex(nodes_);</span>
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :         nodes_-&gt;push_back(node);</span>
+<a name="109"><span class="lineNum">     109 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     void notifyDisconnect(co::NodePtr node) override</span>
+<span class="lineNum">     112 </span>            :     {
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastWrite _mutex(nodes_);</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :         co::NodesIter i = std::find(nodes_-&gt;begin(), nodes_-&gt;end(), node);</span>
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         if (i != nodes_-&gt;end())</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :             nodes_-&gt;erase(i);</span>
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :         LBINFO &lt;&lt; &quot;Disconnected from &quot; &lt;&lt; node &lt;&lt; std::endl;</span>
+<a name="118"><span class="lineNum">     118 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     bool _cmdCustom(co::ICommand&amp; command)</span>
+<span class="lineNum">     121 </span>            :     {
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         return commandHandler(command, buffer_, getNodeID().low());</span>
+<span class="lineNum">     123 </span>            :     }
+<span class="lineNum">     124 </span>            : };
+<a name="125"><span class="lineNum">     125 </span>            : </a>
+<span class="lineNum">     126 </span>            : template &lt;class C&gt;
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 : bool commandHandler(C command, Buffer&amp; buffer, const uint64_t seed)</span>
+<span class="lineNum">     128 </span>            : {
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :     co::NodePtr node = command.getNode();</span>
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :     if (node-&gt;getType() != 0xC0FFEEu)</span>
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     PerfNodeProxyPtr peer = static_cast&lt;PerfNodeProxy*&gt;(node.get());</span>
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :     const uint32_t nPackets = command.template get&lt;uint32_t&gt;();</span>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     if (peer-&gt;nPackets != 0 &amp;&amp; peer-&gt;nPackets - 1 != nPackets)</span>
+<span class="lineNum">     137 </span>            :     {
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Got packet &quot; &lt;&lt; nPackets &lt;&lt; &quot;, expected &quot;</span>
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :                 &lt;&lt; peer-&gt;nPackets - 1 &lt;&lt; std::endl;</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     141 </span>            :     }
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :     peer-&gt;nPackets = nPackets;</span>
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :     command &gt;&gt; buffer;</span>
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :     const size_t i = (seed + nPackets) % buffer.getSize();</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :     if (buffer[i] != nPackets)</span>
+<span class="lineNum">     147 </span>            :     {
+<span class="lineNum">     148 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Got &quot; &lt;&lt; buffer[i] &lt;&lt; &quot; @ &quot; &lt;&lt; i &lt;&lt; &quot;, expected &quot;</span>
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :                 &lt;&lt; nPackets &lt;&lt; &quot; in buffer of size &quot; &lt;&lt; buffer.getSize()</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :                 &lt;&lt; std::endl;</span>
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     152 </span>            :     }
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     154 </span>            : }
+<a name="155"><span class="lineNum">     155 </span>            : }</a>
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span><span class="lineCov">          1 : int main(int argc, char** argv)</span>
+<span class="lineNum">     158 </span>            : {
+<span class="lineNum">     159 </span><span class="lineCov">          1 :     if (!co::init(argc, argv))</span>
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :         return EXIT_FAILURE;</span>
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span><span class="lineCov">          2 :     co::ConnectionDescriptionPtr remote;</span>
+<span class="lineNum">     163 </span><span class="lineCov">          1 :     size_t packetSize = 1048576u; // needs to be modulo 8</span>
+<span class="lineNum">     164 </span><span class="lineCov">          1 :     uint32_t nPackets = 0xFFFFFFFFu;</span>
+<span class="lineNum">     165 </span><span class="lineCov">          1 :     uint32_t waitTime = 0;</span>
+<span class="lineNum">     166 </span><span class="lineCov">          1 :     bool useZeroconf = true;</span>
+<span class="lineNum">     167 </span><span class="lineCov">          1 :     bool useObjects = false;</span>
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span>            :     try // command line parsing
+<span class="lineNum">     170 </span>            :     {
+<span class="lineNum">     171 </span>            :         po::options_description options(
+<span class="lineNum">     172 </span><span class="lineCov">          2 :             &quot;nodeperf - Collage node-to-node network benchmark tool &quot; +</span>
+<span class="lineNum">     173 </span><span class="lineCov">          3 :             co::Version::getString());</span>
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">          1 :         std::string remoteString(&quot;&quot;);</span>
+<span class="lineNum">     176 </span><span class="lineCov">          1 :         bool showHelp(false);</span>
+<span class="lineNum">     177 </span><span class="lineCov">          1 :         bool disableZeroconf(false);</span>
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span><span class="lineCov">          2 :         options.add_options()(&quot;help,h&quot;,</span>
+<span class="lineNum">     180 </span><span class="lineCov">          2 :                               po::bool_switch(&amp;showHelp)-&gt;default_value(false),</span>
+<span class="lineNum">     181 </span><span class="lineCov">          1 :                               &quot;show help message&quot;)(</span>
+<span class="lineNum">     182 </span><span class="lineCov">          1 :             &quot;connect,c&quot;, po::value&lt;std::string&gt;(&amp;remoteString),</span>
+<span class="lineNum">     183 </span>            :             &quot;connect to remote node, implies --disableZeroconf. Format &quot;
+<span class="lineNum">     184 </span><span class="lineCov">          1 :             &quot;IP[:port][:protocol]&quot;)(</span>
+<span class="lineNum">     185 </span>            :             &quot;disableZeroconf,d&quot;,
+<span class="lineNum">     186 </span><span class="lineCov">          2 :             po::bool_switch(&amp;disableZeroconf)-&gt;default_value(false),</span>
+<span class="lineNum">     187 </span><span class="lineCov">          1 :             &quot;Disable automatic connect using zeroconf&quot;)(</span>
+<span class="lineNum">     188 </span><span class="lineCov">          2 :             &quot;object,o&quot;, po::bool_switch(&amp;useObjects)-&gt;default_value(false),</span>
+<span class="lineNum">     189 </span><span class="lineCov">          1 :             &quot;Benchmark object-object instead of node-node communication&quot;)(</span>
+<span class="lineNum">     190 </span><span class="lineCov">          2 :             &quot;packetSize,p&quot;, po::value&lt;std::size_t&gt;(&amp;packetSize), &quot;packet size&quot;)(</span>
+<span class="lineNum">     191 </span><span class="lineCov">          1 :             &quot;numPackets,n&quot;, po::value&lt;uint32_t&gt;(&amp;nPackets),</span>
+<span class="lineNum">     192 </span><span class="lineCov">          1 :             &quot;number of packets to send&quot;)(&quot;wait,w&quot;,</span>
+<span class="lineNum">     193 </span><span class="lineCov">          1 :                                          po::value&lt;uint32_t&gt;(&amp;waitTime),</span>
+<span class="lineNum">     194 </span><span class="lineCov">          1 :                                          &quot;wait time (ms) between sends&quot;);</span>
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            :         // parse program options
+<span class="lineNum">     197 </span><span class="lineCov">          1 :         po::variables_map variableMap;</span>
+<span class="lineNum">     198 </span><span class="lineCov">          2 :         po::store(po::command_line_parser(argc, argv)</span>
+<span class="lineNum">     199 </span><span class="lineCov">          1 :                       .options(options)</span>
+<span class="lineNum">     200 </span><span class="lineCov">          1 :                       .allow_unregistered()</span>
+<span class="lineNum">     201 </span><span class="lineCov">          2 :                       .run(),</span>
+<span class="lineNum">     202 </span><span class="lineCov">          1 :                   variableMap);</span>
+<span class="lineNum">     203 </span><span class="lineCov">          1 :         po::notify(variableMap);</span>
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span>            :         // evaluate parsed arguments
+<span class="lineNum">     206 </span><span class="lineCov">          1 :         if (showHelp)</span>
+<span class="lineNum">     207 </span>            :         {
+<span class="lineNum">     208 </span><span class="lineCov">          1 :             std::cout &lt;&lt; options &lt;&lt; std::endl;</span>
+<span class="lineNum">     209 </span><span class="lineCov">          1 :             co::exit();</span>
+<span class="lineNum">     210 </span><span class="lineCov">          1 :             return EXIT_SUCCESS;</span>
+<span class="lineNum">     211 </span>            :         }
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :         if (variableMap.count(&quot;connect&quot;) == 1)</span>
+<span class="lineNum">     214 </span>            :         {
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :             remote = new co::ConnectionDescription;</span>
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :             remote-&gt;port = 4242;</span>
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :             remote-&gt;fromString(remoteString);</span>
+<span class="lineNum">     218 </span>            :         }
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :         if (disableZeroconf)</span>
+<span class="lineNum">     221 </span><span class="lineNoCov">          0 :             useZeroconf = false;</span>
+<span class="lineNum">     222 </span>            :     }
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :     catch (std::exception&amp; exception)</span>
+<span class="lineNum">     224 </span>            :     {
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :         std::cerr &lt;&lt; &quot;Command line parse error: &quot; &lt;&lt; exception.what()</span>
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :                   &lt;&lt; std::endl;</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :         co::exit();</span>
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :         return EXIT_FAILURE;</span>
+<span class="lineNum">     229 </span>            :     }
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span>            :     // Set up local node
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :     co::LocalNodePtr localNode = new PerfNode;</span>
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 :     if (!localNode-&gt;initLocal(argc, argv))</span>
+<span class="lineNum">     234 </span>            :     {
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :         co::exit();</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :         return EXIT_FAILURE;</span>
+<span class="lineNum">     237 </span>            :     }
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :     localNode-&gt;getZeroconf().set(&quot;coNodeperf&quot;, co::Version::getString());</span>
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span><span class="lineNoCov">          0 :     Object object;</span>
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :     object.setID(co::uint128_t(_objectID + localNode-&gt;getNodeID()));</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :     LBCHECK(localNode-&gt;registerObject(&amp;object));</span>
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span>            :     // run
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :     if (remote)</span>
+<span class="lineNum">     246 </span>            :     {
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :         co::NodePtr node = new PerfNodeProxy;</span>
+<span class="lineNum">     248 </span><span class="lineNoCov">          0 :         node-&gt;addConnectionDescription(remote);</span>
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :         localNode-&gt;connect(node);</span>
+<span class="lineNum">     250 </span>            :     }
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 :     else if (useZeroconf)</span>
+<span class="lineNum">     252 </span>            :     {
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :         co::Zeroconf zeroconf = localNode-&gt;getZeroconf();</span>
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :         const co::Strings&amp; instances = localNode-&gt;getZeroconf().getInstances();</span>
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :         BOOST_FOREACH (const std::string&amp; instance, instances)</span>
+<span class="lineNum">     256 </span>            :         {
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :             if (!zeroconf.get(instance, &quot;coNodeperf&quot;).empty())</span>
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :                 localNode-&gt;connect(co::NodeID(instance));</span>
+<span class="lineNum">     259 </span>            :         }
+<span class="lineNum">     260 </span>            :     }
+<span class="lineNum">     261 </span>            :     {
+<span class="lineNum">     262 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastRead _mutex(nodes_);</span>
+<span class="lineNum">     263 </span><span class="lineNoCov">          0 :         if (nodes_-&gt;empty())</span>
+<span class="lineNum">     264 </span>            :             // Add default listener so others can connect to me
+<span class="lineNum">     265 </span><span class="lineNoCov">          0 :             localNode-&gt;addListener(new co::ConnectionDescription);</span>
+<span class="lineNum">     266 </span>            :     }
+<span class="lineNum">     267 </span>            : 
+<span class="lineNum">     268 </span><span class="lineNoCov">          0 :     co::Nodes nodes;</span>
+<span class="lineNum">     269 </span>            :     while (true)
+<span class="lineNum">     270 </span>            :     {
+<span class="lineNum">     271 </span><span class="lineNoCov">          0 :         lunchbox::Thread::yield();</span>
+<span class="lineNum">     272 </span>            : 
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastRead _mutex(nodes_);</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :         if (!nodes_-&gt;empty())</span>
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :     Buffer buffer;</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :     const size_t bufferElems = packetSize / sizeof(uint64_t);</span>
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :     buffer.resize(bufferElems);</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :     for (size_t i = 0; i &lt; bufferElems; ++i)</span>
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 :         buffer[i] = i;</span>
+<span class="lineNum">     283 </span>            : 
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :     const float mBytesSec = buffer.getNumBytes() / 1024.0f / 1024.0f * 1000.0f;</span>
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :     lunchbox::Clock clock;</span>
+<span class="lineNum">     286 </span><span class="lineNoCov">          0 :     size_t sentPackets = 0;</span>
+<span class="lineNum">     287 </span>            : 
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 :     clock.reset();</span>
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :     while (nPackets--)</span>
+<span class="lineNum">     290 </span>            :     {
+<span class="lineNum">     291 </span>            :         {
+<span class="lineNum">     292 </span><span class="lineNoCov">          0 :             lunchbox::ScopedFastRead _mutex(nodes_);</span>
+<span class="lineNum">     293 </span><span class="lineNoCov">          0 :             if (nodes != *nodes_)</span>
+<span class="lineNum">     294 </span>            :             {
+<span class="lineNum">     295 </span><span class="lineNoCov">          0 :                 for (co::NodesCIter i = nodes_-&gt;begin(); i != nodes_-&gt;end();</span>
+<span class="lineNum">     296 </span>            :                      ++i)
+<span class="lineNum">     297 </span>            :                 {
+<span class="lineNum">     298 </span><span class="lineNoCov">          0 :                     co::NodePtr node = *i;</span>
+<span class="lineNum">     299 </span><span class="lineNoCov">          0 :                     co::NodesCIter j = lunchbox::find(nodes, node);</span>
+<span class="lineNum">     300 </span><span class="lineNoCov">          0 :                     if (j == nodes.end())</span>
+<span class="lineNum">     301 </span>            :                     {
+<span class="lineNum">     302 </span>            :                         // new node, map perf object
+<span class="lineNum">     303 </span><span class="lineNoCov">          0 :                         LBASSERT(node-&gt;getType() == 0xC0FFEEu);</span>
+<span class="lineNum">     304 </span>            :                         PerfNodeProxyPtr peer =
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :                             static_cast&lt;PerfNodeProxy*&gt;(node.get());</span>
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 :                         LBCHECK(localNode-&gt;mapObject(</span>
+<span class="lineNum">     307 </span>            :                             &amp;peer-&gt;object,
+<span class="lineNum">     308 </span>            :                             co::uint128_t(_objectID + peer-&gt;getNodeID())));
+<span class="lineNum">     309 </span>            :                     }
+<span class="lineNum">     310 </span>            :                 }
+<span class="lineNum">     311 </span><span class="lineNoCov">          0 :                 nodes = *nodes_;</span>
+<span class="lineNum">     312 </span>            :             }
+<span class="lineNum">     313 </span>            :         }
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :         if (nodes.empty())</span>
+<span class="lineNum">     315 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     316 </span>            : 
+<span class="lineNum">     317 </span><span class="lineNoCov">          0 :         for (co::NodesCIter i = nodes.begin(); i != nodes.end(); ++i)</span>
+<span class="lineNum">     318 </span>            :         {
+<span class="lineNum">     319 </span><span class="lineNoCov">          0 :             co::NodePtr node = *i;</span>
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 :             if (node-&gt;getType() != 0xC0FFEEu)</span>
+<span class="lineNum">     321 </span><span class="lineNoCov">          0 :                 continue;</span>
+<span class="lineNum">     322 </span>            : 
+<span class="lineNum">     323 </span><span class="lineNoCov">          0 :             if (useObjects)</span>
+<span class="lineNum">     324 </span>            :             {
+<span class="lineNum">     325 </span>            :                 const size_t j =
+<span class="lineNum">     326 </span><span class="lineNoCov">          0 :                     (object.getID().low() + nPackets) % bufferElems;</span>
+<span class="lineNum">     327 </span><span class="lineNoCov">          0 :                 buffer[j] = nPackets;</span>
+<span class="lineNum">     328 </span><span class="lineNoCov">          0 :                 object.send(node, co::CMD_OBJECT_CUSTOM) &lt;&lt; nPackets &lt;&lt; buffer;</span>
+<span class="lineNum">     329 </span><span class="lineNoCov">          0 :                 buffer[j] = 0xDEADBEEFu;</span>
+<span class="lineNum">     330 </span>            :             }
+<span class="lineNum">     331 </span>            :             else
+<span class="lineNum">     332 </span>            :             {
+<span class="lineNum">     333 </span>            :                 const size_t j =
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 :                     (node-&gt;getNodeID().low() + nPackets) % bufferElems;</span>
+<span class="lineNum">     335 </span><span class="lineNoCov">          0 :                 buffer[j] = nPackets;</span>
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :                 node-&gt;send(co::CMD_NODE_CUSTOM) &lt;&lt; nPackets &lt;&lt; buffer;</span>
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :                 buffer[j] = 0xDEADBEEFu;</span>
+<span class="lineNum">     338 </span>            :             }
+<span class="lineNum">     339 </span><span class="lineNoCov">          0 :             ++sentPackets;</span>
+<span class="lineNum">     340 </span>            : 
+<span class="lineNum">     341 </span><span class="lineNoCov">          0 :             if (waitTime &gt; 0)</span>
+<span class="lineNum">     342 </span><span class="lineNoCov">          0 :                 lunchbox::sleep(waitTime);</span>
+<span class="lineNum">     343 </span>            :         }
+<span class="lineNum">     344 </span>            : 
+<span class="lineNum">     345 </span><span class="lineNoCov">          0 :         const float time = clock.getTimef();</span>
+<span class="lineNum">     346 </span><span class="lineNoCov">          0 :         if (time &gt; 1000.f)</span>
+<span class="lineNum">     347 </span>            :         {
+<span class="lineNum">     348 </span><span class="lineNoCov">          0 :             const lunchbox::ScopedWrite mutex(print_);</span>
+<span class="lineNum">     349 </span><span class="lineNoCov">          0 :             std::cerr &lt;&lt; &quot;Send perf: &quot; &lt;&lt; mBytesSec / time * sentPackets</span>
+<span class="lineNum">     350 </span><span class="lineNoCov">          0 :                       &lt;&lt; &quot;MB/s (&quot; &lt;&lt; sentPackets / time * 1000.f &lt;&lt; &quot;pps)&quot;</span>
+<span class="lineNum">     351 </span><span class="lineNoCov">          0 :                       &lt;&lt; std::endl;</span>
+<span class="lineNum">     352 </span><span class="lineNoCov">          0 :             sentPackets = 0;</span>
+<span class="lineNum">     353 </span><span class="lineNoCov">          0 :             clock.reset();</span>
+<span class="lineNum">     354 </span>            :         }
+<span class="lineNum">     355 </span>            :     }
+<span class="lineNum">     356 </span>            : 
+<span class="lineNum">     357 </span><span class="lineNoCov">          0 :     const float time = clock.getTimef();</span>
+<span class="lineNum">     358 </span><span class="lineNoCov">          0 :     if (time &gt; 1000.f)</span>
+<span class="lineNum">     359 </span>            :     {
+<span class="lineNum">     360 </span><span class="lineNoCov">          0 :         const lunchbox::ScopedWrite mutex(print_);</span>
+<span class="lineNum">     361 </span><span class="lineNoCov">          0 :         std::cerr &lt;&lt; &quot;Send perf: &quot; &lt;&lt; mBytesSec / time * sentPackets &lt;&lt; &quot;MB/s (&quot;</span>
+<span class="lineNum">     362 </span><span class="lineNoCov">          0 :                   &lt;&lt; sentPackets / time * 1000.f &lt;&lt; &quot;pps)&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     363 </span><span class="lineNoCov">          0 :         clock.reset();</span>
+<span class="lineNum">     364 </span>            :     }
+<span class="lineNum">     365 </span>            : 
+<span class="lineNum">     366 </span><span class="lineNoCov">          0 :     localNode-&gt;deregisterObject(&amp;object);</span>
+<span class="lineNum">     367 </span><span class="lineNoCov">          0 :     LBCHECK(localNode-&gt;exitLocal());</span>
+<a name="368"><span class="lineNum">     368 </span><span class="lineNoCov">          0 :     LBCHECK(co::exit());</span></a>
+<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     return EXIT_SUCCESS;</span>
+<span class="lineNum">     370 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

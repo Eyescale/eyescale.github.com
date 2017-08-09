@@ -1,17 +1,5 @@
 var hierarchy =
 [
-    [ "archive_exception", null, [
-      [ "co::DataStreamArchiveException", "classco_1_1_data_stream_archive_exception.html", null ]
-    ] ],
-    [ "basic_binary_iarchive", null, [
-      [ "co::DataIStreamArchive", "classco_1_1_data_i_stream_archive.html", null ]
-    ] ],
-    [ "basic_binary_oarchive", null, [
-      [ "co::DataOStreamArchive", "classco_1_1_data_o_stream_archive.html", null ]
-    ] ],
-    [ "shared_ptr_helper", null, [
-      [ "co::DataIStreamArchive", "classco_1_1_data_i_stream_archive.html", null ]
-    ] ],
     [ "noncopyable", null, [
       [ "co::CommandQueue", "classco_1_1_command_queue.html", null ],
       [ "co::Connection", "classco_1_1_connection.html", [
@@ -27,10 +15,6 @@ var hierarchy =
       ] ],
       [ "co::SendToken", "classco_1_1_send_token.html", null ]
     ] ],
-    [ "is_bitwise_serializable", null, [
-      [ "co::DataIStreamArchive::use_array_optimization::apply< T >", "structco_1_1_data_i_stream_archive_1_1use__array__optimization_1_1apply.html", null ],
-      [ "co::DataOStreamArchive::use_array_optimization::apply< T >", "structco_1_1_data_o_stream_archive_1_1use__array__optimization_1_1apply.html", null ]
-    ] ],
     [ "co::BufferListener", "classco_1_1_buffer_listener.html", null ],
     [ "co::CommandFunc< T >", "classco_1_1_command_func.html", null ],
     [ "co::DataIStream", "classco_1_1_data_i_stream.html", [
@@ -39,8 +23,6 @@ var hierarchy =
         [ "co::ObjectICommand", "classco_1_1_object_i_command.html", null ]
       ] ]
     ] ],
-    [ "co::DataIStreamArchive::use_array_optimization", "structco_1_1_data_i_stream_archive_1_1use__array__optimization.html", null ],
-    [ "co::DataOStreamArchive::use_array_optimization", "structco_1_1_data_o_stream_archive_1_1use__array__optimization.html", null ],
     [ "co::Dispatcher", "classco_1_1_dispatcher.html", [
       [ "co::Node", "classco_1_1_node.html", [
         [ "co::LocalNode", "classco_1_1_local_node.html", null ]

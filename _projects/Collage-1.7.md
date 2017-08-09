@@ -4,7 +4,7 @@ version: "1.7"
 major: 1
 minor: 7
 description: High-performance C++ library for developing object-oriented distributed applications.
-updated: 15/02/17
+updated: 10/08/17
 homepage: https://github.com/Eyescale/Collage
 repository: https://github.com/Eyescale/Collage.git
 issuesurl: https://github.com/Eyescale/Collage/issues
@@ -72,9 +72,9 @@ environments are tested:
 
 Building from source is as simple as:
 
-    git clone https://github.com/Eyescale/Collage.git
+    git clone --recursive https://github.com/Eyescale/Collage.git
     mkdir Collage/build
     cd Collage/build
-    cmake -GNinja ..
+    cmake -GNinja .. -DCLONE_SUBPROJECTS=ON
     ninja
 
