@@ -247,9 +247,9 @@ Data Access</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A system window for CPU rendering on X11. </p>
-<p>Example usage: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2009-2015, Stefan.Eilemann@epfl.ch</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * Redistribution and use in source and binary forms, with or without</span></div><div class="line"><span class="comment"> * modification, are permitted provided that the following conditions are met:</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * - Redistributions of source code must retain the above copyright notice, this</span></div><div class="line"><span class="comment"> *   list of conditions and the following disclaimer.</span></div><div class="line"><span class="comment"> * - Redistributions in binary form must reproduce the above copyright notice,</span></div><div class="line"><span class="comment"> *   this list of conditions and the following disclaimer in the documentation</span></div><div class="line"><span class="comment"> *   and/or other materials provided with the distribution.</span></div><div class="line"><span class="comment"> * - Neither the name of Eyescale Software GmbH nor the names of its</span></div><div class="line"><span class="comment"> *   contributors may be used to endorse or promote products derived from this</span></div><div class="line"><span class="comment"> *   software without specific prior written permission.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div><div class="line"><span class="comment"> * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div><div class="line"><span class="comment"> * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE</span></div><div class="line"><span class="comment"> * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE</span></div><div class="line"><span class="comment"> * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR</span></div><div class="line"><span class="comment"> * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF</span></div><div class="line"><span class="comment"> * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS</span></div><div class="line"><span class="comment"> * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN</span></div><div class="line"><span class="comment"> * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)</span></div><div class="line"><span class="comment"> * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span></div><div class="line"><span class="comment"> * POSSIBILITY OF SUCH DAMAGE.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &quot;window.h&quot;</span></div><div class="line"><span class="preprocessor">#include &lt;eq/glx/pipe.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;eq/x11/window.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;eq/pipe.h&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">namespace </span>eqCpu</div><div class="line">{</div><div class="line"></div><div class="line">Window::Window( <a class="code" href="classeq_1_1_pipe.html">eq::Pipe</a>* parent )</div><div class="line">    : <a class="code" href="namespaceeq.html">eq</a>::Window( parent )</div><div class="line">{</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">bool</span> <a class="code" href="classeq_1_1_window.html#a6d278c7a3c57065ea1dc19c9ff297e1b">Window::configInitSystemWindow</a>( <span class="keyword">const</span> eq::uint128_t&amp; initID )</div><div class="line">{</div><div class="line">    <a class="code" href="classeq_1_1_pipe.html">eq::Pipe</a>* pipe = <a class="code" href="classeq_1_1fabric_1_1_window.html#ae20cb71c07cddbd45a7e67eb8dacd95e">getPipe</a>();</div><div class="line">    <a class="code" href="classeq_1_1glx_1_1_pipe.html">eq::glx::Pipe</a>* glxPipe = <span class="keyword">dynamic_cast&lt;</span> <a class="code" href="classeq_1_1glx_1_1_pipe.html">eq::glx::Pipe</a>* <span class="keyword">&gt;</span>(</div><div class="line">        pipe-&gt;<a class="code" href="classeq_1_1_pipe.html#a0c8b1fe9d3a42933a5e63ac99fe13a96">getSystemPipe</a>( ));</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span>( !glxPipe )</div><div class="line">        <span class="keywordflow">return</span> <a class="code" href="classeq_1_1_window.html#a6d278c7a3c57065ea1dc19c9ff297e1b">eq::Window::configInitSystemWindow</a>( initID );</div><div class="line"></div><div class="line">    <a class="code" href="classeq_1_1x11_1_1_window.html">eq::x11::Window</a>* systemWindow =</div><div class="line">        <span class="keyword">new</span> <a class="code" href="classeq_1_1x11_1_1_window.html">eq::x11::Window</a>( *<span class="keyword">this</span>, <a class="code" href="classeq_1_1fabric_1_1_window.html#aedf9f15423e2cb9804dcba704f18f0d7">getSettings</a>(), glxPipe-&gt;<a class="code" href="classeq_1_1glx_1_1_pipe.html#af8b041b4acce937d60dd690b4140fc40">getXDisplay</a>( ));</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span>( !systemWindow-&gt;<a class="code" href="classeq_1_1x11_1_1_window.html#a96e2971a2b0163e744ce537225758e76">configInit</a>( ))</div><div class="line">    {</div><div class="line">        <span class="keyword">delete</span> systemWindow;</div><div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <a class="code" href="classeq_1_1_window.html#a005bd74fcbb9e7118fac6be2e60c08c6">setSystemWindow</a>( systemWindow );</div><div class="line">    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line">}</div><div class="line"></div><div class="line">}</div></div><!-- fragment --> <dl class="section version"><dt>Version</dt><dd>1.9 </dd></dl>
+<p>Example usage: </p><div class="fragment"><div class="line"></div><div class="line"><span class="comment">/* Copyright (c) 2009-2015, Stefan.Eilemann@epfl.ch</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * Redistribution and use in source and binary forms, with or without</span></div><div class="line"><span class="comment"> * modification, are permitted provided that the following conditions are met:</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * - Redistributions of source code must retain the above copyright notice, this</span></div><div class="line"><span class="comment"> *   list of conditions and the following disclaimer.</span></div><div class="line"><span class="comment"> * - Redistributions in binary form must reproduce the above copyright notice,</span></div><div class="line"><span class="comment"> *   this list of conditions and the following disclaimer in the documentation</span></div><div class="line"><span class="comment"> *   and/or other materials provided with the distribution.</span></div><div class="line"><span class="comment"> * - Neither the name of Eyescale Software GmbH nor the names of its</span></div><div class="line"><span class="comment"> *   contributors may be used to endorse or promote products derived from this</span></div><div class="line"><span class="comment"> *   software without specific prior written permission.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div><div class="line"><span class="comment"> * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div><div class="line"><span class="comment"> * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE</span></div><div class="line"><span class="comment"> * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE</span></div><div class="line"><span class="comment"> * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR</span></div><div class="line"><span class="comment"> * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF</span></div><div class="line"><span class="comment"> * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS</span></div><div class="line"><span class="comment"> * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN</span></div><div class="line"><span class="comment"> * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)</span></div><div class="line"><span class="comment"> * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span></div><div class="line"><span class="comment"> * POSSIBILITY OF SUCH DAMAGE.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &quot;window.h&quot;</span></div><div class="line"><span class="preprocessor">#include &lt;eq/glx/pipe.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;eq/pipe.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;eq/x11/window.h&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">namespace </span>eqCpu</div><div class="line">{</div><div class="line">Window::Window(<a class="code" href="classeq_1_1_pipe.html">eq::Pipe</a>* parent)</div><div class="line">    : <a class="code" href="namespaceeq.html">eq</a>::Window(parent)</div><div class="line">{</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">bool</span> <a class="code" href="classeq_1_1_window.html#a6d278c7a3c57065ea1dc19c9ff297e1b">Window::configInitSystemWindow</a>(<span class="keyword">const</span> eq::uint128_t&amp; initID)</div><div class="line">{</div><div class="line">    <a class="code" href="classeq_1_1_pipe.html">eq::Pipe</a>* pipe = <a class="code" href="classeq_1_1fabric_1_1_window.html#ae20cb71c07cddbd45a7e67eb8dacd95e">getPipe</a>();</div><div class="line">    <a class="code" href="classeq_1_1glx_1_1_pipe.html">eq::glx::Pipe</a>* glxPipe =</div><div class="line">        <span class="keyword">dynamic_cast&lt;</span><a class="code" href="classeq_1_1glx_1_1_pipe.html">eq::glx::Pipe</a>*<span class="keyword">&gt;</span>(pipe-&gt;<a class="code" href="classeq_1_1_pipe.html#a0c8b1fe9d3a42933a5e63ac99fe13a96">getSystemPipe</a>());</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> (!glxPipe)</div><div class="line">        <span class="keywordflow">return</span> <a class="code" href="classeq_1_1_window.html#a6d278c7a3c57065ea1dc19c9ff297e1b">eq::Window::configInitSystemWindow</a>(initID);</div><div class="line"></div><div class="line">    <a class="code" href="classeq_1_1x11_1_1_window.html">eq::x11::Window</a>* systemWindow =</div><div class="line">        <span class="keyword">new</span> <a class="code" href="classeq_1_1x11_1_1_window.html">eq::x11::Window</a>(*<span class="keyword">this</span>, <a class="code" href="classeq_1_1fabric_1_1_window.html#aedf9f15423e2cb9804dcba704f18f0d7">getSettings</a>(), glxPipe-&gt;<a class="code" href="classeq_1_1glx_1_1_pipe.html#af8b041b4acce937d60dd690b4140fc40">getXDisplay</a>());</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> (!systemWindow-&gt;<a class="code" href="classeq_1_1x11_1_1_window.html#a96e2971a2b0163e744ce537225758e76">configInit</a>())</div><div class="line">    {</div><div class="line">        <span class="keyword">delete</span> systemWindow;</div><div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <a class="code" href="classeq_1_1_window.html#a005bd74fcbb9e7118fac6be2e60c08c6">setSystemWindow</a>(systemWindow);</div><div class="line">    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line">}</div><div class="line">}</div></div><!-- fragment --> <dl class="section version"><dt>Version</dt><dd>1.9 </dd></dl>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00039">39</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00038">38</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aafb8fa88dbfaca358a6744b9d07e0e47"></a>
 <div class="memitem">
@@ -277,7 +277,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#a9e594902c8bcd0c70eca54c9825d4118">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00050">50</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00049">49</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -307,7 +307,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#a48cc9c18284f624614f14fded60deadf">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00049">49</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00048">48</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -395,7 +395,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#aaa4b70f78481b877ca135ffff3aafeda">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00048">48</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00047">47</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -425,7 +425,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#a1cbcc919db60a809a9be3c26f23e5f87">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00056">56</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00055">55</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 <p>References <a class="el" href="classeq_1_1x11_1_1_window.html#acc18fa82b571edcdc392ab20f362bee2">flush()</a>, and <a class="el" href="classeq_1_1x11_1_1_window.html#af4be7dd8df4de6e07922d11dba60c755">getXDisplay()</a>.</p>
 
@@ -547,7 +547,7 @@ Data Access</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>the X11 drawable ID. </dd></dl>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00062">62</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00060">60</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -596,7 +596,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#a055ea5d409568f2177581a9283c8966e">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00053">53</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00052">52</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 <p>References <a class="el" href="classeq_1_1x11_1_1_window.html#acc18fa82b571edcdc392ab20f362bee2">flush()</a>, and <a class="el" href="classeq_1_1x11_1_1_window.html#a074ce48d9c7e80823f3525bd29e6e74c">queryDrawableConfig()</a>.</p>
 
@@ -642,7 +642,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#a4f4214cab1221fe76590e0d831a29b05">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00047">47</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00046">46</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -720,7 +720,7 @@ Data Access</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00074">74</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00071">71</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -750,7 +750,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#a29e00bd15296b876bc63c267c07950a2">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00052">52</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00051">51</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -780,7 +780,7 @@ Data Access</h2></td></tr>
 
 <p>Implements <a class="el" href="classeq_1_1_system_window.html#a56a3074fd9a4380548f9924cab707357">eq::SystemWindow</a>.</p>
 
-<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00051">51</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
+<p>Definition at line <a class="el" href="x11_2window_8h_source.html#l00050">50</a> of file <a class="el" href="x11_2window_8h_source.html">x11/window.h</a>.</p>
 
 </div>
 </div>
@@ -793,7 +793,7 @@ Data Access</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceeq.html">eq</a></li><li class="navelem"><a class="el" href="namespaceeq_1_1x11.html">x11</a></li><li class="navelem"><a class="el" href="classeq_1_1x11_1_1_window.html">Window</a></li>
-    <li class="footer">Generated on Sat Mar 25 2017 05:09:24 for Equalizer by
+    <li class="footer">Generated on Fri Aug 18 2017 16:09:59 for Equalizer by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

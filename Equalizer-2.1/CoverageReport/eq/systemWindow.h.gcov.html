@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -98,8 +98,8 @@
 <span class="lineNum">      36 </span>            : {
 <span class="lineNum">      37 </span>            : public:
 <span class="lineNum">      38 </span>            :     /** Create a new SystemWindow for the given eq::Window. @version 1.7.2 */
-<span class="lineNum">      39 </span>            :     EQ_API SystemWindow( NotifierInterface&amp; parent,
-<span class="lineNum">      40 </span>            :                          const WindowSettings&amp; settings );
+<span class="lineNum">      39 </span>            :     EQ_API SystemWindow(NotifierInterface&amp; parent,
+<span class="lineNum">      40 </span>            :                         const WindowSettings&amp; settings);
 <span class="lineNum">      41 </span>            : 
 <span class="lineNum">      42 </span>            :     /** Destroy the SystemWindow. @version 1.0 */
 <span class="lineNum">      43 </span>            :     EQ_API virtual ~SystemWindow();
@@ -133,7 +133,7 @@
 <span class="lineNum">      71 </span>            :      * This function invalidates the pipe's make current cache.
 <span class="lineNum">      72 </span>            :      * @version 1.0
 <span class="lineNum">      73 </span>            :      */
-<span class="lineNum">      74 </span>            :     EQ_API virtual void makeCurrent( const bool cache = true ) const = 0;
+<span class="lineNum">      74 </span>            :     EQ_API virtual void makeCurrent(const bool cache = true) const = 0;
 <span class="lineNum">      75 </span>            : 
 <span class="lineNum">      76 </span>            :     /**
 <span class="lineNum">      77 </span>            :      * This results in no context being current in the current thread.
@@ -171,117 +171,117 @@
 <span class="lineNum">     109 </span>            :      * @param barrier the swap barrier name.
 <span class="lineNum">     110 </span>            :      * @version 1.0
 <span class="lineNum">     111 </span>            :      */
-<span class="lineNum">     112 </span>            :     EQ_API virtual void joinNVSwapBarrier( const uint32_t group,
-<span class="lineNum">     113 </span>            :                                            const uint32_t barrier ) = 0;
+<span class="lineNum">     112 </span>            :     EQ_API virtual void joinNVSwapBarrier(const uint32_t group,
+<span class="lineNum">     113 </span>            :                                           const uint32_t barrier) = 0;
 <span class="lineNum">     114 </span>            :     //@}
 <span class="lineNum">     115 </span>            : 
 <span class="lineNum">     116 </span>            :     /** @name Frame Buffer Object support. */
 <a name="117"><span class="lineNum">     117 </span>            :     //@{</a>
 <span class="lineNum">     118 </span>            :     /** @return the FBO of this window, or 0. @version 1.0 */
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     virtual const util::FrameBufferObject* getFrameBufferObject()</span>
-<a name="120"><span class="lineNum">     120 </span><span class="lineNoCov">          0 :         const { return 0; }</span></a>
-<span class="lineNum">     121 </span>            :     /** @return the FBO of this window, or 0. @version 1.0 */
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 :     virtual util::FrameBufferObject* getFrameBufferObject() { return 0; }</span>
-<span class="lineNum">     123 </span>            :     //@}
-<span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span>            :     /**
-<span class="lineNum">     126 </span>            :      * Set up the given drawable based on the current context.
-<span class="lineNum">     127 </span>            :      * @version 1.0
-<span class="lineNum">     128 </span>            :      */
-<span class="lineNum">     129 </span>            :     EQ_API virtual void queryDrawableConfig( DrawableConfig&amp; dc ) = 0;
-<span class="lineNum">     130 </span>            : 
-<span class="lineNum">     131 </span>            :     /**
-<span class="lineNum">     132 </span>            :      * Get the GLEW context for this window.
-<span class="lineNum">     133 </span>            :      *
-<span class="lineNum">     134 </span>            :      * The glew context is initialized during window initialization, and
-<span class="lineNum">     135 </span>            :      * provides access to OpenGL extensions. This function does not follow the
-<span class="lineNum">     136 </span>            :      * Equalizer naming conventions, since GLEW uses a function of this name to
-<span class="lineNum">     137 </span>            :      * automatically resolve OpenGL function entry points. Therefore, any
-<span class="lineNum">     138 </span>            :      * supported GL function can be called directly from an initialized
-<span class="lineNum">     139 </span>            :      * SystemWindow.
-<span class="lineNum">     140 </span>            :      *
-<span class="lineNum">     141 </span>            :      * @return the extended OpenGL function table for the window's OpenGL
-<span class="lineNum">     142 </span>            :      *         context.
-<a name="143"><span class="lineNum">     143 </span>            :      * @version 1.0</a>
-<span class="lineNum">     144 </span>            :      */
-<span class="lineNum">     145 </span><span class="lineNoCov">          0 :     virtual const GLEWContext* glewGetContext() const { return 0; }</span>
-<span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span>            :     /**
-<span class="lineNum">     148 </span>            :      * Send a window error event to the application node.
-<span class="lineNum">     149 </span>            :      *
-<span class="lineNum">     150 </span>            :      * @param error the error code.
-<span class="lineNum">     151 </span>            :      * @version 1.7.1
-<span class="lineNum">     152 </span>            :      */
-<span class="lineNum">     153 </span>            :     EQ_API EventOCommand sendError( const uint32_t error );
-<span class="lineNum">     154 </span>            : 
-<span class="lineNum">     155 </span>            :     /** Process a stateless event. @return true if the event was handled. */
-<span class="lineNum">     156 </span>            :     EQ_API bool processEvent( EventType type );
-<span class="lineNum">     157 </span>            : 
-<span class="lineNum">     158 </span>            :     /** Process a (re)size event. @return true if the event was handled. */
-<span class="lineNum">     159 </span>            :     EQ_API bool processEvent( EventType type, SizeEvent&amp; event );
-<span class="lineNum">     160 </span>            : 
-<span class="lineNum">     161 </span>            :     /** Process a mouse event. @return true if the event was handled. */
-<span class="lineNum">     162 </span>            :     EQ_API bool processEvent( EventType type, PointerEvent&amp; event );
-<span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span>            :     /** Process a keyboard event. @return true if the event was handled. */
-<span class="lineNum">     165 </span>            :     EQ_API bool processEvent( EventType type, KeyEvent&amp; event );
-<span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span>            :     /** Process an axis event. @return true if the event was handled. */
-<span class="lineNum">     168 </span>            :     EQ_API bool processEvent( AxisEvent&amp; event );
-<span class="lineNum">     169 </span>            : 
-<span class="lineNum">     170 </span>            :     /** Process a button event. @return true if the event was handled. */
-<span class="lineNum">     171 </span>            :     EQ_API bool processEvent( ButtonEvent&amp; event );
-<span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span>            :     /**
-<span class="lineNum">     174 </span>            :      * Set the window's pixel viewport wrt its parent pipe.
-<span class="lineNum">     175 </span>            :      *
-<span class="lineNum">     176 </span>            :      * @param pvp the viewport in pixels.
-<span class="lineNum">     177 </span>            :      * @version 1.7.2
-<span class="lineNum">     178 </span>            :      */
-<span class="lineNum">     179 </span>            :     EQ_API void setPixelViewport( const PixelViewport&amp; pvp );
-<span class="lineNum">     180 </span>            : 
-<span class="lineNum">     181 </span>            :     /**
-<span class="lineNum">     182 </span>            :      * @return the window's pixel viewport wrt the parent pipe.
-<span class="lineNum">     183 </span>            :      * @version 1.7.2
-<span class="lineNum">     184 </span>            :      */
-<span class="lineNum">     185 </span>            :     EQ_API const PixelViewport&amp; getPixelViewport() const;
-<span class="lineNum">     186 </span>            : 
-<span class="lineNum">     187 </span>            :     /**
-<span class="lineNum">     188 </span>            :      * Resize the underlying frame buffer to the given size.
-<span class="lineNum">     189 </span>            :      *
-<span class="lineNum">     190 </span>            :      * @param pvp the viewport in pixels.
-<span class="lineNum">     191 </span>            :      * @version 2.1
-<span class="lineNum">     192 </span>            :      */
-<span class="lineNum">     193 </span>            :     EQ_API virtual void resize( const PixelViewport&amp; pvp ) = 0;
-<span class="lineNum">     194 </span>            : 
-<span class="lineNum">     195 </span>            :     /**
-<span class="lineNum">     196 </span>            :      * @internal
-<span class="lineNum">     197 </span>            :      * @return the OpenGL texture format corresponding to the window's color
-<span class="lineNum">     198 </span>            :      *         drawable configuration
-<span class="lineNum">     199 </span>            :      */
-<span class="lineNum">     200 </span>            :     EQ_API uint32_t getColorFormat() const;
-<span class="lineNum">     201 </span>            : 
-<span class="lineNum">     202 </span>            :     /** Set the window's name. @version 1.7.2 */
-<span class="lineNum">     203 </span>            :     EQ_API void setName( const std::string&amp; name );
-<span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span>            :     /** @return the window's name. @version 1.7.2 */
-<span class="lineNum">     206 </span>            :     EQ_API const std::string&amp; getName() const;
-<span class="lineNum">     207 </span>            : 
-<span class="lineNum">     208 </span>            :     /** @return the value of an integer attribute. @version 1.7.2 */
-<span class="lineNum">     209 </span>            :     EQ_API int32_t getIAttribute( const WindowSettings::IAttribute attr ) const;
-<span class="lineNum">     210 </span>            : 
-<span class="lineNum">     211 </span>            :     /**
-<span class="lineNum">     212 </span>            :      * @return the window with which this window shares the GL context.
-<span class="lineNum">     213 </span>            :      * @version 1.7.2
-<span class="lineNum">     214 </span>            :      */
-<span class="lineNum">     215 </span>            :     EQ_API const SystemWindow* getSharedContextWindow() const;
-<span class="lineNum">     216 </span>            : 
-<span class="lineNum">     217 </span>            : private:
-<span class="lineNum">     218 </span>            :     NotifierInterface&amp; _parent;
-<span class="lineNum">     219 </span>            :     WindowSettings _settings;
-<span class="lineNum">     220 </span>            : };
-<span class="lineNum">     221 </span>            : }
-<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     virtual const util::FrameBufferObject* getFrameBufferObject() const</span>
+<span class="lineNum">     120 </span>            :     {
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :         return 0;</span>
+<a name="122"><span class="lineNum">     122 </span>            :     }</a>
+<span class="lineNum">     123 </span>            :     /** @return the FBO of this window, or 0. @version 1.0 */
+<span class="lineNum">     124 </span><span class="lineNoCov">          0 :     virtual util::FrameBufferObject* getFrameBufferObject() { return 0; }</span>
+<span class="lineNum">     125 </span>            :     //@}
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            :     /**
+<span class="lineNum">     128 </span>            :      * Set up the given drawable based on the current context.
+<span class="lineNum">     129 </span>            :      * @version 1.0
+<span class="lineNum">     130 </span>            :      */
+<span class="lineNum">     131 </span>            :     EQ_API virtual void queryDrawableConfig(DrawableConfig&amp; dc) = 0;
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            :     /**
+<span class="lineNum">     134 </span>            :      * Get the GLEW context for this window.
+<span class="lineNum">     135 </span>            :      *
+<span class="lineNum">     136 </span>            :      * The glew context is initialized during window initialization, and
+<span class="lineNum">     137 </span>            :      * provides access to OpenGL extensions. This function does not follow the
+<span class="lineNum">     138 </span>            :      * Equalizer naming conventions, since GLEW uses a function of this name to
+<span class="lineNum">     139 </span>            :      * automatically resolve OpenGL function entry points. Therefore, any
+<span class="lineNum">     140 </span>            :      * supported GL function can be called directly from an initialized
+<span class="lineNum">     141 </span>            :      * SystemWindow.
+<span class="lineNum">     142 </span>            :      *
+<span class="lineNum">     143 </span>            :      * @return the extended OpenGL function table for the window's OpenGL
+<span class="lineNum">     144 </span>            :      *         context.
+<a name="145"><span class="lineNum">     145 </span>            :      * @version 1.0</a>
+<span class="lineNum">     146 </span>            :      */
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :     virtual const GLEWContext* glewGetContext() const { return 0; }</span>
+<span class="lineNum">     148 </span>            :     /**
+<span class="lineNum">     149 </span>            :      * Send a window error event to the application node.
+<span class="lineNum">     150 </span>            :      *
+<span class="lineNum">     151 </span>            :      * @param error the error code.
+<span class="lineNum">     152 </span>            :      * @version 1.7.1
+<span class="lineNum">     153 </span>            :      */
+<span class="lineNum">     154 </span>            :     EQ_API EventOCommand sendError(const uint32_t error);
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            :     /** Process a stateless event. @return true if the event was handled. */
+<span class="lineNum">     157 </span>            :     EQ_API bool processEvent(EventType type);
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span>            :     /** Process a (re)size event. @return true if the event was handled. */
+<span class="lineNum">     160 </span>            :     EQ_API bool processEvent(EventType type, SizeEvent&amp; event);
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span>            :     /** Process a mouse event. @return true if the event was handled. */
+<span class="lineNum">     163 </span>            :     EQ_API bool processEvent(EventType type, PointerEvent&amp; event);
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span>            :     /** Process a keyboard event. @return true if the event was handled. */
+<span class="lineNum">     166 </span>            :     EQ_API bool processEvent(EventType type, KeyEvent&amp; event);
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            :     /** Process an axis event. @return true if the event was handled. */
+<span class="lineNum">     169 </span>            :     EQ_API bool processEvent(AxisEvent&amp; event);
+<span class="lineNum">     170 </span>            : 
+<span class="lineNum">     171 </span>            :     /** Process a button event. @return true if the event was handled. */
+<span class="lineNum">     172 </span>            :     EQ_API bool processEvent(ButtonEvent&amp; event);
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span>            :     /**
+<span class="lineNum">     175 </span>            :      * Set the window's pixel viewport wrt its parent pipe.
+<span class="lineNum">     176 </span>            :      *
+<span class="lineNum">     177 </span>            :      * @param pvp the viewport in pixels.
+<span class="lineNum">     178 </span>            :      * @version 1.7.2
+<span class="lineNum">     179 </span>            :      */
+<span class="lineNum">     180 </span>            :     EQ_API void setPixelViewport(const PixelViewport&amp; pvp);
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span>            :     /**
+<span class="lineNum">     183 </span>            :      * @return the window's pixel viewport wrt the parent pipe.
+<span class="lineNum">     184 </span>            :      * @version 1.7.2
+<span class="lineNum">     185 </span>            :      */
+<span class="lineNum">     186 </span>            :     EQ_API const PixelViewport&amp; getPixelViewport() const;
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            :     /**
+<span class="lineNum">     189 </span>            :      * Resize the underlying frame buffer to the given size.
+<span class="lineNum">     190 </span>            :      *
+<span class="lineNum">     191 </span>            :      * @param pvp the viewport in pixels.
+<span class="lineNum">     192 </span>            :      * @version 2.1
+<span class="lineNum">     193 </span>            :      */
+<span class="lineNum">     194 </span>            :     EQ_API virtual void resize(const PixelViewport&amp; pvp) = 0;
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            :     /**
+<span class="lineNum">     197 </span>            :      * @internal
+<span class="lineNum">     198 </span>            :      * @return the OpenGL texture format corresponding to the window's color
+<span class="lineNum">     199 </span>            :      *         drawable configuration
+<span class="lineNum">     200 </span>            :      */
+<span class="lineNum">     201 </span>            :     EQ_API uint32_t getColorFormat() const;
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            :     /** Set the window's name. @version 1.7.2 */
+<span class="lineNum">     204 </span>            :     EQ_API void setName(const std::string&amp; name);
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            :     /** @return the window's name. @version 1.7.2 */
+<span class="lineNum">     207 </span>            :     EQ_API const std::string&amp; getName() const;
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            :     /** @return the value of an integer attribute. @version 1.7.2 */
+<span class="lineNum">     210 </span>            :     EQ_API int32_t getIAttribute(const WindowSettings::IAttribute attr) const;
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span>            :     /**
+<span class="lineNum">     213 </span>            :      * @return the window with which this window shares the GL context.
+<span class="lineNum">     214 </span>            :      * @version 1.7.2
+<span class="lineNum">     215 </span>            :      */
+<span class="lineNum">     216 </span>            :     EQ_API const SystemWindow* getSharedContextWindow() const;
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            : private:
+<span class="lineNum">     219 </span>            :     NotifierInterface&amp; _parent;
+<span class="lineNum">     220 </span>            :     WindowSettings _settings;
+<span class="lineNum">     221 </span>            : };
+<span class="lineNum">     222 </span>            : }
 <span class="lineNum">     223 </span>            : 
 <span class="lineNum">     224 </span>            : #endif // EQ_SYSTEM_WINDOW_H
 </pre>

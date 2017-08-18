@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">52</td>
-            <td class="headerCovTableEntry">72</td>
-            <td class="headerCovTableEntryMed">72.2 %</td>
+            <td class="headerCovTableEntry">51</td>
+            <td class="headerCovTableEntry">71</td>
+            <td class="headerCovTableEntryMed">71.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">11</td>
@@ -88,8 +88,8 @@
 <span class="lineNum">      26 </span>            : #include &quot;view.h&quot;
 <span class="lineNum">      27 </span>            : #include &quot;window.h&quot;
 <span class="lineNum">      28 </span>            : 
-<span class="lineNum">      29 </span>            : #include &lt;eq/fabric/paths.h&gt;
-<span class="lineNum">      30 </span>            : #include &lt;co/dataOStream.h&gt;
+<span class="lineNum">      29 </span>            : #include &lt;co/dataOStream.h&gt;
+<span class="lineNum">      30 </span>            : #include &lt;eq/fabric/paths.h&gt;
 <span class="lineNum">      31 </span>            : 
 <span class="lineNum">      32 </span>            : #include &lt;boost/foreach.hpp&gt;
 <span class="lineNum">      33 </span>            : 
@@ -97,143 +97,139 @@
 <span class="lineNum">      35 </span>            : {
 <span class="lineNum">      36 </span>            : namespace server
 <span class="lineNum">      37 </span>            : {
-<span class="lineNum">      38 </span>            : 
-<a name="39"><span class="lineNum">      39 </span>            : typedef fabric::Segment&lt; Canvas, Segment, Channel &gt; Super;</a>
-<span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span><span class="lineCov">        730 : Segment::Segment( Canvas* parent )</span>
-<span class="lineNum">      42 </span>            :         : Super( parent )
-<span class="lineNum">      43 </span><span class="lineCov">        730 :         , _private( 0 )</span>
-<span class="lineNum">      44 </span>            : {
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">        730 : }</span></a>
-<span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span><span class="lineCov">       2184 : Segment::~Segment()</span>
-<span class="lineNum">      48 </span>            : {
-<span class="lineNum">      49 </span>            :     ConfigDestCompoundVisitor visitor( _destinationChannels,
-<span class="lineNum">      50 </span><span class="lineCov">       1456 :                                        false /*activeOnly*/ );</span>
-<span class="lineNum">      51 </span><span class="lineCov">        728 :     getConfig()-&gt;accept( visitor );</span>
-<span class="lineNum">      52 </span><span class="lineCov">        728 :     const Compounds&amp; compounds = visitor.getResult();</span>
-<span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span><span class="lineCov">       2184 :     for( Compounds::const_iterator i = compounds.begin();</span>
-<span class="lineNum">      55 </span><span class="lineCov">       1456 :          i != compounds.end(); ++i )</span>
-<span class="lineNum">      56 </span>            :     {
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         Compound* compound = *i;</span>
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         while( compound )</span>
-<span class="lineNum">      59 </span>            :         {
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :             Compound* parent = compound-&gt;getParent();</span>
-<span class="lineNum">      61 </span><span class="lineNoCov">          0 :             delete compound;</span>
-<span class="lineNum">      62 </span><span class="lineNoCov">          0 :             if( parent &amp;&amp; parent-&gt;isLeaf( )) // empty parent now</span>
-<span class="lineNum">      63 </span><span class="lineNoCov">          0 :                 compound = parent;</span>
-<span class="lineNum">      64 </span>            :             else
-<span class="lineNum">      65 </span><span class="lineNoCov">          0 :                 compound = 0;</span>
-<span class="lineNum">      66 </span>            :         }
-<span class="lineNum">      67 </span>            :     }
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :     // Use copy - Channel::unsetOutput modifies vector
-<span class="lineNum">      70 </span><span class="lineCov">       1456 :     Channels destinationChannels = _destinationChannels;</span>
-<span class="lineNum">      71 </span><span class="lineCov">       5628 :     for( Channels::const_iterator i = destinationChannels.begin();</span>
-<span class="lineNum">      72 </span><span class="lineCov">       3752 :          i != destinationChannels.end(); ++i )</span>
-<span class="lineNum">      73 </span>            :     {
-<span class="lineNum">      74 </span><span class="lineCov">       1148 :         Channel* channel = *i;</span>
-<span class="lineNum">      75 </span><span class="lineCov">       1148 :         LBASSERT( channel );</span>
-<span class="lineNum">      76 </span><span class="lineCov">       1148 :         channel-&gt;unsetOutput();</span>
-<span class="lineNum">      77 </span>            :     }
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineCov">        728 :     LBASSERT( _destinationChannels.empty( ));</span>
-<span class="lineNum">      80 </span><span class="lineCov">        728 :     _destinationChannels.clear();</span>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">       1456 : }</span></a>
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span><span class="lineNoCov">          0 : void Segment::updateFrustum()</span>
-<span class="lineNum">      84 </span>            : {
-<span class="lineNum">      85 </span><span class="lineNoCov">          0 :     BOOST_FOREACH( Channel* channel, _destinationChannels )</span>
-<span class="lineNum">      86 </span>            :     {
-<span class="lineNum">      87 </span><span class="lineNoCov">          0 :         View* view = channel-&gt;getView();</span>
-<span class="lineNum">      88 </span><span class="lineNoCov">          0 :         view-&gt;updateFrusta();</span>
-<span class="lineNum">      89 </span>            :     }
-<a name="90"><span class="lineNum">      90 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span><span class="lineCov">        732 : Config* Segment::getConfig()</span>
-<span class="lineNum">      93 </span>            : {
-<span class="lineNum">      94 </span><span class="lineCov">        732 :     Canvas* canvas = getCanvas();</span>
-<span class="lineNum">      95 </span><span class="lineCov">        732 :     LBASSERT( canvas );</span>
-<span class="lineNum">      96 </span><span class="lineCov">        732 :     return canvas ? canvas-&gt;getConfig() : 0;</span>
-<span class="lineNum">      97 </span>            : }
-<a name="98"><span class="lineNum">      98 </span>            : </a>
-<span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span><span class="lineCov">        366 : const Config* Segment::getConfig() const</span>
-<span class="lineNum">     101 </span>            : {
-<span class="lineNum">     102 </span><span class="lineCov">        366 :     const Canvas* canvas = getCanvas();</span>
-<span class="lineNum">     103 </span><span class="lineCov">        366 :     LBASSERT( canvas );</span>
-<span class="lineNum">     104 </span><span class="lineCov">        366 :     return canvas ? canvas-&gt;getConfig() : 0;</span>
-<a name="105"><span class="lineNum">     105 </span>            : }</a>
-<span class="lineNum">     106 </span>            : 
-<span class="lineNum">     107 </span><span class="lineCov">          4 : ServerPtr Segment::getServer()</span>
-<span class="lineNum">     108 </span>            : {
-<span class="lineNum">     109 </span><span class="lineCov">          4 :     Canvas* canvas = getCanvas();</span>
-<span class="lineNum">     110 </span><span class="lineCov">          4 :     LBASSERT( canvas );</span>
-<span class="lineNum">     111 </span><span class="lineCov">          4 :     return ( canvas ? canvas-&gt;getServer() : 0 );</span>
-<a name="112"><span class="lineNum">     112 </span>            : }</a>
-<span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span><span class="lineCov">       1150 : void Segment::addDestinationChannel( Channel* channel )</span>
-<span class="lineNum">     115 </span>            : {
-<span class="lineNum">     116 </span><span class="lineCov">       1150 :     LBASSERT( channel );</span>
-<span class="lineNum">     117 </span><span class="lineCov">       1150 :     LBASSERT( std::find( _destinationChannels.begin(),</span>
-<span class="lineNum">     118 </span>            :                          _destinationChannels.end(), channel ) ==
-<span class="lineNum">     119 </span>            :               _destinationChannels.end( ));
+<a name="38"><span class="lineNum">      38 </span>            : typedef fabric::Segment&lt;Canvas, Segment, Channel&gt; Super;</a>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineCov">        794 : Segment::Segment(Canvas* parent)</span>
+<span class="lineNum">      41 </span>            :     : Super(parent)
+<span class="lineNum">      42 </span><span class="lineCov">        794 :     , _private(0)</span>
+<span class="lineNum">      43 </span>            : {
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">        794 : }</span></a>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span><span class="lineCov">       2376 : Segment::~Segment()</span>
+<span class="lineNum">      47 </span>            : {
+<span class="lineNum">      48 </span>            :     ConfigDestCompoundVisitor visitor(_destinationChannels,
+<span class="lineNum">      49 </span><span class="lineCov">       1584 :                                       false /*activeOnly*/);</span>
+<span class="lineNum">      50 </span><span class="lineCov">        792 :     getConfig()-&gt;accept(visitor);</span>
+<span class="lineNum">      51 </span><span class="lineCov">        792 :     const Compounds&amp; compounds = visitor.getResult();</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">        792 :     for (Compounds::const_iterator i = compounds.begin(); i != compounds.end();</span>
+<span class="lineNum">      54 </span>            :          ++i)
+<span class="lineNum">      55 </span>            :     {
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :         Compound* compound = *i;</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         while (compound)</span>
+<span class="lineNum">      58 </span>            :         {
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :             Compound* parent = compound-&gt;getParent();</span>
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :             delete compound;</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :             if (parent &amp;&amp; parent-&gt;isLeaf()) // empty parent now</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :                 compound = parent;</span>
+<span class="lineNum">      63 </span>            :             else
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :                 compound = 0;</span>
+<span class="lineNum">      65 </span>            :         }
+<span class="lineNum">      66 </span>            :     }
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :     // Use copy - Channel::unsetOutput modifies vector
+<span class="lineNum">      69 </span><span class="lineCov">       1584 :     Channels destinationChannels = _destinationChannels;</span>
+<span class="lineNum">      70 </span><span class="lineCov">       6012 :     for (Channels::const_iterator i = destinationChannels.begin();</span>
+<span class="lineNum">      71 </span><span class="lineCov">       4008 :          i != destinationChannels.end(); ++i)</span>
+<span class="lineNum">      72 </span>            :     {
+<span class="lineNum">      73 </span><span class="lineCov">       1212 :         Channel* channel = *i;</span>
+<span class="lineNum">      74 </span><span class="lineCov">       1212 :         LBASSERT(channel);</span>
+<span class="lineNum">      75 </span><span class="lineCov">       1212 :         channel-&gt;unsetOutput();</span>
+<span class="lineNum">      76 </span>            :     }
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span><span class="lineCov">        792 :     LBASSERT(_destinationChannels.empty());</span>
+<span class="lineNum">      79 </span><span class="lineCov">        792 :     _destinationChannels.clear();</span>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">       1584 : }</span></a>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 : void Segment::updateFrustum()</span>
+<span class="lineNum">      83 </span>            : {
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     BOOST_FOREACH (Channel* channel, _destinationChannels)</span>
+<span class="lineNum">      85 </span>            :     {
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         View* view = channel-&gt;getView();</span>
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :         view-&gt;updateFrusta();</span>
+<span class="lineNum">      88 </span>            :     }
+<a name="89"><span class="lineNum">      89 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineCov">        796 : Config* Segment::getConfig()</span>
+<span class="lineNum">      92 </span>            : {
+<span class="lineNum">      93 </span><span class="lineCov">        796 :     Canvas* canvas = getCanvas();</span>
+<span class="lineNum">      94 </span><span class="lineCov">        796 :     LBASSERT(canvas);</span>
+<span class="lineNum">      95 </span><span class="lineCov">        796 :     return canvas ? canvas-&gt;getConfig() : 0;</span>
+<a name="96"><span class="lineNum">      96 </span>            : }</a>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineCov">        398 : const Config* Segment::getConfig() const</span>
+<span class="lineNum">      99 </span>            : {
+<span class="lineNum">     100 </span><span class="lineCov">        398 :     const Canvas* canvas = getCanvas();</span>
+<span class="lineNum">     101 </span><span class="lineCov">        398 :     LBASSERT(canvas);</span>
+<span class="lineNum">     102 </span><span class="lineCov">        398 :     return canvas ? canvas-&gt;getConfig() : 0;</span>
+<a name="103"><span class="lineNum">     103 </span>            : }</a>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span><span class="lineCov">          4 : ServerPtr Segment::getServer()</span>
+<span class="lineNum">     106 </span>            : {
+<span class="lineNum">     107 </span><span class="lineCov">          4 :     Canvas* canvas = getCanvas();</span>
+<span class="lineNum">     108 </span><span class="lineCov">          4 :     LBASSERT(canvas);</span>
+<span class="lineNum">     109 </span><span class="lineCov">          4 :     return (canvas ? canvas-&gt;getServer() : 0);</span>
+<a name="110"><span class="lineNum">     110 </span>            : }</a>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineCov">       1214 : void Segment::addDestinationChannel(Channel* channel)</span>
+<span class="lineNum">     113 </span>            : {
+<span class="lineNum">     114 </span><span class="lineCov">       1214 :     LBASSERT(channel);</span>
+<span class="lineNum">     115 </span><span class="lineCov">       1214 :     LBASSERT(std::find(_destinationChannels.begin(), _destinationChannels.end(),</span>
+<span class="lineNum">     116 </span>            :                        channel) == _destinationChannels.end());
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span><span class="lineCov">       1214 :     _destinationChannels.push_back(channel);</span>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       1214 : }</span></a>
 <span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span><span class="lineCov">       1150 :     _destinationChannels.push_back( channel );</span>
-<a name="122"><span class="lineNum">     122 </span><span class="lineCov">       1150 : }</span></a>
-<span class="lineNum">     123 </span>            : 
-<span class="lineNum">     124 </span><span class="lineCov">       1148 : bool Segment::removeDestinationChannel( Channel* channel )</span>
-<span class="lineNum">     125 </span>            : {
-<span class="lineNum">     126 </span><span class="lineCov">       1148 :     Channels::iterator i = lunchbox::find( _destinationChannels, channel );</span>
-<span class="lineNum">     127 </span>            : 
-<span class="lineNum">     128 </span><span class="lineCov">       1148 :     LBASSERT( i !=  _destinationChannels.end( ));</span>
-<span class="lineNum">     129 </span><span class="lineCov">       1148 :     if( i == _destinationChannels.end( ))</span>
-<span class="lineNum">     130 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     131 </span>            : 
-<span class="lineNum">     132 </span><span class="lineCov">       1148 :     _destinationChannels.erase( i );</span>
-<span class="lineNum">     133 </span>            : 
-<span class="lineNum">     134 </span><span class="lineCov">       1148 :     LBASSERT( lunchbox::find( _destinationChannels, channel ) ==</span>
-<span class="lineNum">     135 </span>            :               _destinationChannels.end( ));
-<span class="lineNum">     136 </span><span class="lineCov">       1148 :     return true;</span>
-<a name="137"><span class="lineNum">     137 </span>            : }</a>
-<span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span><span class="lineNoCov">          0 : void Segment::findDestinationChannels( const Layout* layout,</span>
-<span class="lineNum">     140 </span>            :                                        Channels&amp; result ) const
-<span class="lineNum">     141 </span>            : {
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :     for( Channels::const_iterator i = _destinationChannels.begin();</span>
-<span class="lineNum">     143 </span><span class="lineNoCov">          0 :          i != _destinationChannels.end(); ++i )</span>
-<span class="lineNum">     144 </span>            :     {
-<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         Channel* channel = *i;</span>
-<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         if( channel-&gt;getLayout() == layout )</span>
-<span class="lineNum">     147 </span><span class="lineNoCov">          0 :             result.push_back( channel );</span>
-<span class="lineNum">     148 </span>            :     }
-<a name="149"><span class="lineNum">     149 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     150 </span>            : 
-<span class="lineNum">     151 </span><span class="lineCov">        582 : SegmentPath Segment::getPath() const</span>
-<span class="lineNum">     152 </span>            : {
-<span class="lineNum">     153 </span><span class="lineCov">        582 :     const Canvas* canvas = getCanvas();</span>
-<span class="lineNum">     154 </span><span class="lineCov">        582 :     LBASSERT( canvas );</span>
-<span class="lineNum">     155 </span><span class="lineCov">        582 :     SegmentPath path( canvas-&gt;getPath( ));</span>
-<span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span><span class="lineCov">        582 :     const Segments&amp; segments = canvas-&gt;getSegments();</span>
-<span class="lineNum">     158 </span>            :     Segments::const_iterator i = std::find( segments.begin(), segments.end(),
-<span class="lineNum">     159 </span><span class="lineCov">        582 :                                             this );</span>
-<span class="lineNum">     160 </span><span class="lineCov">        582 :     LBASSERT( i != segments.end( ));</span>
-<span class="lineNum">     161 </span><span class="lineCov">        582 :     path.segmentIndex = std::distance( segments.begin(), i );</span>
-<span class="lineNum">     162 </span><span class="lineCov">        582 :     return path;</span>
-<span class="lineNum">     163 </span>            : }
-<span class="lineNum">     164 </span>            : 
-<span class="lineNum">     165 </span>            : }
-<span class="lineNum">     166 </span>            : }
-<span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span>            : #include &quot;../fabric/segment.ipp&quot;
-<span class="lineNum">     169 </span>            : template class eq::fabric::Segment&lt; eq::server::Canvas, eq::server::Segment,
-<span class="lineNum">     170 </span>            :                                     eq::server::Channel &gt;;
-<a name="171"><span class="lineNum">     171 </span>            : /** @cond IGNORE */</a>
-<span class="lineNum">     172 </span>            : template std::ostream&amp; eq::fabric::operator &lt;&lt; ( std::ostream&amp;,
-<span class="lineNum">     173 </span><span class="lineCov">         72 :                                                  const eq::server::Super&amp; );</span>
-<span class="lineNum">     174 </span>            : /** @endcond */
+<span class="lineNum">     121 </span><span class="lineCov">       1212 : bool Segment::removeDestinationChannel(Channel* channel)</span>
+<span class="lineNum">     122 </span>            : {
+<span class="lineNum">     123 </span><span class="lineCov">       1212 :     Channels::iterator i = lunchbox::find(_destinationChannels, channel);</span>
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span><span class="lineCov">       1212 :     LBASSERT(i != _destinationChannels.end());</span>
+<span class="lineNum">     126 </span><span class="lineCov">       1212 :     if (i == _destinationChannels.end())</span>
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span><span class="lineCov">       1212 :     _destinationChannels.erase(i);</span>
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span><span class="lineCov">       1212 :     LBASSERT(lunchbox::find(_destinationChannels, channel) ==</span>
+<span class="lineNum">     132 </span>            :              _destinationChannels.end());
+<span class="lineNum">     133 </span><span class="lineCov">       1212 :     return true;</span>
+<a name="134"><span class="lineNum">     134 </span>            : }</a>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 : void Segment::findDestinationChannels(const Layout* layout,</span>
+<span class="lineNum">     137 </span>            :                                       Channels&amp; result) const
+<span class="lineNum">     138 </span>            : {
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :     for (Channels::const_iterator i = _destinationChannels.begin();</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :          i != _destinationChannels.end(); ++i)</span>
+<span class="lineNum">     141 </span>            :     {
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :         Channel* channel = *i;</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         if (channel-&gt;getLayout() == layout)</span>
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :             result.push_back(channel);</span>
+<span class="lineNum">     145 </span>            :     }
+<a name="146"><span class="lineNum">     146 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span><span class="lineCov">        614 : SegmentPath Segment::getPath() const</span>
+<span class="lineNum">     149 </span>            : {
+<span class="lineNum">     150 </span><span class="lineCov">        614 :     const Canvas* canvas = getCanvas();</span>
+<span class="lineNum">     151 </span><span class="lineCov">        614 :     LBASSERT(canvas);</span>
+<span class="lineNum">     152 </span><span class="lineCov">        614 :     SegmentPath path(canvas-&gt;getPath());</span>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineCov">        614 :     const Segments&amp; segments = canvas-&gt;getSegments();</span>
+<span class="lineNum">     155 </span>            :     Segments::const_iterator i =
+<span class="lineNum">     156 </span><span class="lineCov">        614 :         std::find(segments.begin(), segments.end(), this);</span>
+<span class="lineNum">     157 </span><span class="lineCov">        614 :     LBASSERT(i != segments.end());</span>
+<span class="lineNum">     158 </span><span class="lineCov">        614 :     path.segmentIndex = std::distance(segments.begin(), i);</span>
+<span class="lineNum">     159 </span><span class="lineCov">        614 :     return path;</span>
+<span class="lineNum">     160 </span>            : }
+<span class="lineNum">     161 </span>            : }
+<span class="lineNum">     162 </span>            : }
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            : #include &quot;../fabric/segment.ipp&quot;
+<span class="lineNum">     165 </span>            : template class eq::fabric::Segment&lt;eq::server::Canvas, eq::server::Segment,
+<span class="lineNum">     166 </span>            :                                    eq::server::Channel&gt;;
+<a name="167"><span class="lineNum">     167 </span>            : /** @cond IGNORE */</a>
+<span class="lineNum">     168 </span>            : template std::ostream&amp; eq::fabric::operator&lt;&lt;(std::ostream&amp;,
+<span class="lineNum">     169 </span><span class="lineCov">         72 :                                               const eq::server::Super&amp;);</span>
+<span class="lineNum">     170 </span>            : /** @endcond */
 </pre>
       </td>
     </tr>

@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">11</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -100,9 +100,9 @@
 <span class="lineNum">      38 </span>            :      * automatically created.
 <span class="lineNum">      39 </span>            :      * @version 1.0
 <span class="lineNum">      40 </span>            :      */
-<span class="lineNum">      41 </span>            :     EQ_API FrameBufferObject( const GLEWContext* const glewContext,
-<span class="lineNum">      42 </span>            :                               const unsigned textureTarget = 0x84F5
-<span class="lineNum">      43 </span>            :                               /*GL_TEXTURE_RECTANGLE_ARB*/ );
+<span class="lineNum">      41 </span>            :     EQ_API FrameBufferObject(const GLEWContext* const glewContext,
+<span class="lineNum">      42 </span>            :                              const unsigned textureTarget = 0x84F5
+<span class="lineNum">      43 </span>            :                              /*GL_TEXTURE_RECTANGLE_ARB*/);
 <span class="lineNum">      44 </span>            : 
 <span class="lineNum">      45 </span>            :     /** Destruct the Frame Buffer Object. @version 1.0 */
 <span class="lineNum">      46 </span>            :     EQ_API ~FrameBufferObject();
@@ -134,83 +134,84 @@
 <span class="lineNum">      72 </span>            :      * @sa resize()
 <span class="lineNum">      73 </span>            :      * @version 1.0
 <span class="lineNum">      74 </span>            :      */
-<span class="lineNum">      75 </span>            :     EQ_API Error init( const int32_t width, const int32_t height,
-<span class="lineNum">      76 </span>            :                        const unsigned colorFormat, const int32_t depthSize,
-<span class="lineNum">      77 </span>            :                        const int32_t stencilSize,
-<span class="lineNum">      78 </span>            :                        const int32_t samplesSize = 1 );
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span>            :     /** De-initialize the Frame Buffer Object. @version 1.0 */
-<span class="lineNum">      81 </span>            :     EQ_API void exit();
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span>            :     /**
-<span class="lineNum">      84 </span>            :      * Bind to the Frame Buffer Object.
-<span class="lineNum">      85 </span>            :      *
-<span class="lineNum">      86 </span>            :      * The FBO becomes the read and/or draw buffer of the current context,
-<span class="lineNum">      87 </span>            :      * depending on the given target.
-<span class="lineNum">      88 </span>            :      * @param target the framebuffer target to bind, default read and draw
-<span class="lineNum">      89 </span>            :      * @version 1.0
-<span class="lineNum">      90 </span>            :      */
-<span class="lineNum">      91 </span>            :     EQ_API void bind( const uint32_t target = 0x8D40 /*GL_FRAMEBUFFER_EXT*/ );
-<span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span>            :     /**
-<span class="lineNum">      94 </span>            :      * Unbind any Frame Buffer Object and use the default drawable for the
-<span class="lineNum">      95 </span>            :      * current context.
-<span class="lineNum">      96 </span>            :      * @param target the framebuffer target to unbind, default read and draw
-<span class="lineNum">      97 </span>            :      * @version 1.0
-<span class="lineNum">      98 </span>            :      */
-<span class="lineNum">      99 </span>            :     EQ_API void unbind( const uint32_t target = 0x8D40 /*GL_FRAMEBUFFER_EXT*/ );
-<span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span>            :     /**
-<span class="lineNum">     102 </span>            :      * Resize the FBO.
-<span class="lineNum">     103 </span>            :      *
-<span class="lineNum">     104 </span>            :      * The FBO has to be initialized and bound. It is not changed if the size
-<span class="lineNum">     105 </span>            :      * does not change.
-<span class="lineNum">     106 </span>            :      *
-<span class="lineNum">     107 </span>            :      * @return true on success, false on error.
-<span class="lineNum">     108 </span>            :      * @return ERROR_NONE on success, Error code on failure.
-<span class="lineNum">     109 </span>            :      * @version 1.0
-<span class="lineNum">     110 </span>            :      */
-<span class="lineNum">     111 </span>            :     EQ_API Error resize( const int32_t width, const int32_t height );
-<a name="112"><span class="lineNum">     112 </span>            : </a>
-<span class="lineNum">     113 </span>            :     /** @return the current width. @version 1.0 */
-<span class="lineNum">     114 </span><span class="lineNoCov">          0 :     int32_t getWidth() const</span>
-<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         { LBASSERT( !_colors.empty( )); return _colors.front()-&gt;getWidth();}</span>
-<a name="116"><span class="lineNum">     116 </span>            : </a>
-<span class="lineNum">     117 </span>            :     /** @return the current height. @version 1.0 */
-<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     int32_t getHeight() const</span>
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :         { LBASSERT( !_colors.empty()); return _colors.front()-&gt;getHeight();}</span>
-<a name="120"><span class="lineNum">     120 </span>            : </a>
-<span class="lineNum">     121 </span>            :     /** @return the vector of color textures. @version 1.0 */
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 :     const Textures&amp; getColorTextures() const { return _colors; }</span>
-<a name="123"><span class="lineNum">     123 </span>            : </a>
-<span class="lineNum">     124 </span>            :     /** @return the depth texture. @version 1.0 */
-<span class="lineNum">     125 </span><span class="lineNoCov">          0 :     const Texture&amp; getDepthTexture() const { return _depth; }</span>
-<a name="126"><span class="lineNum">     126 </span>            : </a>
-<span class="lineNum">     127 </span>            :     /** @return the GLEW context. @version 1.0 */
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     const GLEWContext* glewGetContext() const { return _glewContext; }</span>
-<a name="129"><span class="lineNum">     129 </span>            : </a>
-<span class="lineNum">     130 </span>            :     /** @return true if the fbo is valid. @version 1.0 */
-<span class="lineNum">     131 </span><span class="lineNoCov">          0 :     bool isValid() const { return _valid; }</span>
-<span class="lineNum">     132 </span>            : 
-<span class="lineNum">     133 </span>            : private:
-<span class="lineNum">     134 </span>            :     unsigned _fboID; //!&lt; the FBO GL name
-<span class="lineNum">     135 </span>            : 
-<span class="lineNum">     136 </span>            :     Textures _colors; //!&lt; Multiple color textures
-<span class="lineNum">     137 </span>            :     Texture _depth;
-<span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span>            :     const GLEWContext* const _glewContext;
-<span class="lineNum">     140 </span>            : 
-<a name="141"><span class="lineNum">     141 </span>            :     bool _valid;</a>
-<span class="lineNum">     142 </span>            : 
-<span class="lineNum">     143 </span><span class="lineNoCov">          0 :     LB_TS_VAR( _thread );</span>
-<span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span>            :     /** Check the result after changes to an FBO and set the _valid flag. */
-<span class="lineNum">     146 </span>            :     Error _checkStatus();
-<span class="lineNum">     147 </span>            : };
-<span class="lineNum">     148 </span>            : }
+<span class="lineNum">      75 </span>            :     EQ_API Error init(const int32_t width, const int32_t height,
+<span class="lineNum">      76 </span>            :                       const unsigned colorFormat, const int32_t depthSize,
+<span class="lineNum">      77 </span>            :                       const int32_t stencilSize, const int32_t samplesSize = 1);
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :     /** De-initialize the Frame Buffer Object. @version 1.0 */
+<span class="lineNum">      80 </span>            :     EQ_API void exit();
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            :     /**
+<span class="lineNum">      83 </span>            :      * Bind to the Frame Buffer Object.
+<span class="lineNum">      84 </span>            :      *
+<span class="lineNum">      85 </span>            :      * The FBO becomes the read and/or draw buffer of the current context,
+<span class="lineNum">      86 </span>            :      * depending on the given target.
+<span class="lineNum">      87 </span>            :      * @param target the framebuffer target to bind, default read and draw
+<span class="lineNum">      88 </span>            :      * @version 1.0
+<span class="lineNum">      89 </span>            :      */
+<span class="lineNum">      90 </span>            :     EQ_API void bind(const uint32_t target = 0x8D40 /*GL_FRAMEBUFFER_EXT*/);
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            :     /**
+<span class="lineNum">      93 </span>            :      * Unbind any Frame Buffer Object and use the default drawable for the
+<span class="lineNum">      94 </span>            :      * current context.
+<span class="lineNum">      95 </span>            :      * @param target the framebuffer target to unbind, default read and draw
+<span class="lineNum">      96 </span>            :      * @version 1.0
+<span class="lineNum">      97 </span>            :      */
+<span class="lineNum">      98 </span>            :     EQ_API void unbind(const uint32_t target = 0x8D40 /*GL_FRAMEBUFFER_EXT*/);
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span>            :     /**
+<span class="lineNum">     101 </span>            :      * Resize the FBO.
+<span class="lineNum">     102 </span>            :      *
+<span class="lineNum">     103 </span>            :      * The FBO has to be initialized and bound. It is not changed if the size
+<span class="lineNum">     104 </span>            :      * does not change.
+<span class="lineNum">     105 </span>            :      *
+<span class="lineNum">     106 </span>            :      * @return true on success, false on error.
+<span class="lineNum">     107 </span>            :      * @return ERROR_NONE on success, Error code on failure.
+<span class="lineNum">     108 </span>            :      * @version 1.0
+<span class="lineNum">     109 </span>            :      */
+<span class="lineNum">     110 </span>            :     EQ_API Error resize(const int32_t width, const int32_t height);
+<a name="111"><span class="lineNum">     111 </span>            : </a>
+<span class="lineNum">     112 </span>            :     /** @return the current width. @version 1.0 */
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     int32_t getWidth() const</span>
+<span class="lineNum">     114 </span>            :     {
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         LBASSERT(!_colors.empty());</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :         return _colors.front()-&gt;getWidth();</span>
+<span class="lineNum">     117 </span>            :     }
+<a name="118"><span class="lineNum">     118 </span>            : </a>
+<span class="lineNum">     119 </span>            :     /** @return the current height. @version 1.0 */
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     int32_t getHeight() const</span>
+<span class="lineNum">     121 </span>            :     {
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         LBASSERT(!_colors.empty());</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :         return _colors.front()-&gt;getHeight();</span>
+<span class="lineNum">     124 </span>            :     }
+<a name="125"><span class="lineNum">     125 </span>            : </a>
+<span class="lineNum">     126 </span>            :     /** @return the vector of color textures. @version 1.0 */
+<a name="127"><span class="lineNum">     127 </span><span class="lineNoCov">          0 :     const Textures&amp; getColorTextures() const { return _colors; }</span></a>
+<span class="lineNum">     128 </span>            :     /** @return the depth texture. @version 1.0 */
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :     const Texture&amp; getDepthTexture() const { return _depth; }</span></a>
+<span class="lineNum">     130 </span>            :     /** @return the GLEW context. @version 1.0 */
+<a name="131"><span class="lineNum">     131 </span><span class="lineNoCov">          0 :     const GLEWContext* glewGetContext() const { return _glewContext; }</span></a>
+<span class="lineNum">     132 </span>            :     /** @return true if the fbo is valid. @version 1.0 */
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     bool isValid() const { return _valid; }</span>
+<span class="lineNum">     134 </span>            : private:
+<span class="lineNum">     135 </span>            :     unsigned _fboID; //!&lt; the FBO GL name
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            :     Textures _colors; //!&lt; Multiple color textures
+<span class="lineNum">     138 </span>            :     Texture _depth;
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span>            :     const GLEWContext* const _glewContext;
+<span class="lineNum">     141 </span>            : 
+<a name="142"><span class="lineNum">     142 </span>            :     bool _valid;</a>
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :     LB_TS_VAR(_thread);</span>
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            :     /** Check the result after changes to an FBO and set the _valid flag. */
+<span class="lineNum">     147 </span>            :     Error _checkStatus();
+<span class="lineNum">     148 </span>            : };
 <span class="lineNum">     149 </span>            : }
-<span class="lineNum">     150 </span>            : 
-<span class="lineNum">     151 </span>            : #endif // EQUTIL_FRAMEBUFFEROBJECT_H
+<span class="lineNum">     150 </span>            : }
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span>            : #endif // EQUTIL_FRAMEBUFFEROBJECT_H
 </pre>
       </td>
     </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -79,13 +79,13 @@
 <span class="lineNum">      17 </span>            : 
 <span class="lineNum">      18 </span>            : #include &quot;statistic.h&quot;
 <span class="lineNum">      19 </span>            : 
-<span class="lineNum">      20 </span>            : #include &lt;vmmlib/vector.hpp&gt;
-<span class="lineNum">      21 </span>            : #include &lt;string&gt;
+<span class="lineNum">      20 </span>            : #include &lt;string&gt;
+<span class="lineNum">      21 </span>            : #include &lt;vmmlib/vector.hpp&gt;
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            : #ifdef _WIN32
-<span class="lineNum">      24 </span>            : #  define bzero( ptr, size ) memset( ptr, 0, size );
+<span class="lineNum">      24 </span>            : #define bzero(ptr, size) memset(ptr, 0, size);
 <span class="lineNum">      25 </span>            : #else
-<span class="lineNum">      26 </span>            : #  include &lt;strings.h&gt;
+<span class="lineNum">      26 </span>            : #include &lt;strings.h&gt;
 <span class="lineNum">      27 </span>            : #endif
 <span class="lineNum">      28 </span>            : 
 <span class="lineNum">      29 </span>            : namespace eq
@@ -101,83 +101,63 @@
 <span class="lineNum">      39 </span>            :     const Vector3f color;
 <a name="40"><span class="lineNum">      40 </span>            : };</a>
 <span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">         48 : static StatisticData _statisticData[] =</span>
-<span class="lineNum">      43 </span>            : {{ Statistic::NONE,
-<span class="lineNum">      44 </span>            :    &quot;NO EVENT&quot;,     Vector3f( 0.f, 0.f, 0.f ) },
-<span class="lineNum">      45 </span>            :  { Statistic::CHANNEL_CLEAR,
-<span class="lineNum">      46 </span>            :    &quot;clear&quot;,        Vector3f( .5f, 1.0f, .5f ) },
-<span class="lineNum">      47 </span>            :  { Statistic::CHANNEL_DRAW,
-<span class="lineNum">      48 </span>            :    &quot;draw&quot;,         Vector3f( 0.f, .9f, 0.f ) },
-<span class="lineNum">      49 </span>            :  { Statistic::CHANNEL_DRAW_FINISH,
-<span class="lineNum">      50 </span>            :    &quot;finish draw&quot;,  Vector3f( 0.f, .5f, 0.f ) },
-<span class="lineNum">      51 </span>            :  { Statistic::CHANNEL_ASSEMBLE,
-<span class="lineNum">      52 </span>            :    &quot;assemble&quot;,     Vector3f( 1.0f, 1.0f, 0.f ) },
-<span class="lineNum">      53 </span>            :  { Statistic::CHANNEL_FRAME_WAIT_READY,
-<span class="lineNum">      54 </span>            :    &quot;wait frame&quot;,   Vector3f( 1.0f, 0.f, 0.f ) },
-<span class="lineNum">      55 </span>            :  { Statistic::CHANNEL_READBACK,
-<span class="lineNum">      56 </span>            :    &quot;readback&quot;,     Vector3f( 1.0f, .5f, .5f ) },
-<span class="lineNum">      57 </span>            :  { Statistic::CHANNEL_ASYNC_READBACK,
-<span class="lineNum">      58 </span>            :    &quot;readback&quot;,     Vector3f( 1.0f, .5f, .5f ) },
-<span class="lineNum">      59 </span>            :  { Statistic::CHANNEL_VIEW_FINISH,
-<span class="lineNum">      60 </span>            :    &quot;view finish&quot;,  Vector3f( 1.f, 0.f, 1.0f ) },
-<span class="lineNum">      61 </span>            :  { Statistic::CHANNEL_FRAME_TRANSMIT,
-<span class="lineNum">      62 </span>            :    &quot;transmit&quot;,     Vector3f( 0.f, 0.f, 1.0f ) },
-<span class="lineNum">      63 </span>            :  { Statistic::CHANNEL_FRAME_COMPRESS,
-<span class="lineNum">      64 </span>            :    &quot;compress&quot;,     Vector3f( 0.f, .7f, 1.f ) },
-<span class="lineNum">      65 </span>            :  { Statistic::CHANNEL_FRAME_WAIT_SENDTOKEN,
-<span class="lineNum">      66 </span>            :    &quot;wait send token&quot;, Vector3f( 1.f, 0.f, 0.f ) },
-<span class="lineNum">      67 </span>            :  { Statistic::WINDOW_FINISH,
-<span class="lineNum">      68 </span>            :    &quot;finish&quot;,       Vector3f( 1.0f, 1.0f, 0.f ) },
-<span class="lineNum">      69 </span>            :  { Statistic::WINDOW_THROTTLE_FRAMERATE,
-<span class="lineNum">      70 </span>            :    &quot;throttle&quot;,     Vector3f( 1.0f, 0.f, 1.f ) },
-<span class="lineNum">      71 </span>            :  { Statistic::WINDOW_SWAP_BARRIER,
-<span class="lineNum">      72 </span>            :    &quot;barrier&quot;,      Vector3f( 1.0f, 0.f, 0.f ) },
-<span class="lineNum">      73 </span>            :  { Statistic::WINDOW_SWAP,
-<span class="lineNum">      74 </span>            :    &quot;swap&quot;,         Vector3f( 1.f, 1.f, 1.f ) },
-<span class="lineNum">      75 </span>            :  { Statistic::WINDOW_FPS,
-<span class="lineNum">      76 </span>            :    &quot;FPS&quot;,          Vector3f( 1.f, 1.f, 1.f ) },
-<span class="lineNum">      77 </span>            :  { Statistic::PIPE_IDLE,
-<span class="lineNum">      78 </span>            :    &quot;pipe idle&quot;,    Vector3f( 1.f, 1.f, 1.f ) },
-<span class="lineNum">      79 </span>            :  { Statistic::NODE_FRAME_DECOMPRESS,
-<span class="lineNum">      80 </span>            :    &quot;decompress&quot;,   Vector3f( 0.f, .7f, 1.f ) },
-<span class="lineNum">      81 </span>            :  { Statistic::CONFIG_START_FRAME,
-<span class="lineNum">      82 </span>            :    &quot;start frame&quot;,  Vector3f( .5f, 1.0f, .5f ) },
-<span class="lineNum">      83 </span>            :  { Statistic::CONFIG_FINISH_FRAME,
-<span class="lineNum">      84 </span>            :    &quot;finish frame&quot;, Vector3f( .5f, .5f, .5f ) },
-<span class="lineNum">      85 </span>            :  { Statistic::CONFIG_WAIT_FINISH_FRAME,
-<span class="lineNum">      86 </span>            :    &quot;wait finish&quot;,  Vector3f( 1.0f, 0.f, 0.f ) },
-<span class="lineNum">      87 </span>            :  { Statistic::ALL,
-<span class="lineNum">      88 </span><span class="lineCov">         24 :    &quot;ALL EVENTS&quot;,   Vector3f( 0.0f, 0.f, 0.f ) }} ;</span>
-<a name="89"><span class="lineNum">      89 </span>            : }</a>
-<span class="lineNum">      90 </span>            : 
-<span class="lineNum">      91 </span><span class="lineNoCov">          0 : const std::string&amp; Statistic::getName( const Type type )</span>
-<span class="lineNum">      92 </span>            : {
-<span class="lineNum">      93 </span><span class="lineNoCov">          0 :     LBASSERTINFO( _statisticData[ type ].type == type, int( type ));</span>
-<span class="lineNum">      94 </span><span class="lineNoCov">          0 :     return _statisticData[ type ].name;</span>
-<a name="95"><span class="lineNum">      95 </span>            : }</a>
-<span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 : const Vector3f&amp; Statistic::getColor( const Type type )</span>
-<span class="lineNum">      98 </span>            : {
-<span class="lineNum">      99 </span><span class="lineNoCov">          0 :     LBASSERTINFO( _statisticData[ type ].type == type, type );</span>
-<span class="lineNum">     100 </span><span class="lineNoCov">          0 :     return _statisticData[ type ].color;</span>
-<a name="101"><span class="lineNum">     101 </span>            : }</a>
-<span class="lineNum">     102 </span>            : 
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Statistic::Type&amp; type )</span>
-<span class="lineNum">     104 </span>            : {
-<span class="lineNum">     105 </span><span class="lineNoCov">          0 :     os &lt;&lt; Statistic::getName( type );</span>
-<span class="lineNum">     106 </span><span class="lineNoCov">          0 :     return os;</span>
-<a name="107"><span class="lineNum">     107 </span>            : }</a>
-<span class="lineNum">     108 </span>            : 
-<span class="lineNum">     109 </span><span class="lineNoCov">          0 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Statistic&amp; event )</span>
-<span class="lineNum">     110 </span>            : {
-<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     os &lt;&lt; event.resourceName &lt;&lt; &quot;: &quot; &lt;&lt; event.type &lt;&lt; ' ' &lt;&lt; event.frameNumber</span>
-<span class="lineNum">     112 </span><span class="lineNoCov">          0 :        &lt;&lt; ' ' &lt;&lt; event.task &lt;&lt; ' ' &lt;&lt; event.startTime &lt;&lt; &quot; - &quot; &lt;&lt; event.endTime</span>
-<span class="lineNum">     113 </span><span class="lineNoCov">          0 :        &lt;&lt; ' ' &lt;&lt; event.idleTime &lt;&lt; '/' &lt;&lt; event.totalTime;</span>
-<span class="lineNum">     114 </span><span class="lineNoCov">          0 :     return os;</span>
-<span class="lineNum">     115 </span>            : }
-<a name="116"><span class="lineNum">     116 </span>            : </a>
-<span class="lineNum">     117 </span>            : }
-<span class="lineNum">     118 </span><span class="lineCov">         72 : }</span>
+<span class="lineNum">      42 </span><span class="lineCov">         48 : static StatisticData _statisticData[] = {</span>
+<span class="lineNum">      43 </span>            :     {Statistic::NONE, &quot;NO EVENT&quot;, Vector3f(0.f, 0.f, 0.f)},
+<span class="lineNum">      44 </span>            :     {Statistic::CHANNEL_CLEAR, &quot;clear&quot;, Vector3f(.5f, 1.0f, .5f)},
+<span class="lineNum">      45 </span>            :     {Statistic::CHANNEL_DRAW, &quot;draw&quot;, Vector3f(0.f, .9f, 0.f)},
+<span class="lineNum">      46 </span>            :     {Statistic::CHANNEL_DRAW_FINISH, &quot;finish draw&quot;, Vector3f(0.f, .5f, 0.f)},
+<span class="lineNum">      47 </span>            :     {Statistic::CHANNEL_ASSEMBLE, &quot;assemble&quot;, Vector3f(1.0f, 1.0f, 0.f)},
+<span class="lineNum">      48 </span>            :     {Statistic::CHANNEL_FRAME_WAIT_READY, &quot;wait frame&quot;,
+<span class="lineNum">      49 </span>            :      Vector3f(1.0f, 0.f, 0.f)},
+<span class="lineNum">      50 </span>            :     {Statistic::CHANNEL_READBACK, &quot;readback&quot;, Vector3f(1.0f, .5f, .5f)},
+<span class="lineNum">      51 </span>            :     {Statistic::CHANNEL_ASYNC_READBACK, &quot;readback&quot;, Vector3f(1.0f, .5f, .5f)},
+<span class="lineNum">      52 </span>            :     {Statistic::CHANNEL_VIEW_FINISH, &quot;view finish&quot;, Vector3f(1.f, 0.f, 1.0f)},
+<span class="lineNum">      53 </span>            :     {Statistic::CHANNEL_FRAME_TRANSMIT, &quot;transmit&quot;, Vector3f(0.f, 0.f, 1.0f)},
+<span class="lineNum">      54 </span>            :     {Statistic::CHANNEL_FRAME_COMPRESS, &quot;compress&quot;, Vector3f(0.f, .7f, 1.f)},
+<span class="lineNum">      55 </span>            :     {Statistic::CHANNEL_FRAME_WAIT_SENDTOKEN, &quot;wait send token&quot;,
+<span class="lineNum">      56 </span>            :      Vector3f(1.f, 0.f, 0.f)},
+<span class="lineNum">      57 </span>            :     {Statistic::WINDOW_FINISH, &quot;finish&quot;, Vector3f(1.0f, 1.0f, 0.f)},
+<span class="lineNum">      58 </span>            :     {Statistic::WINDOW_THROTTLE_FRAMERATE, &quot;throttle&quot;,
+<span class="lineNum">      59 </span>            :      Vector3f(1.0f, 0.f, 1.f)},
+<span class="lineNum">      60 </span>            :     {Statistic::WINDOW_SWAP_BARRIER, &quot;barrier&quot;, Vector3f(1.0f, 0.f, 0.f)},
+<span class="lineNum">      61 </span>            :     {Statistic::WINDOW_SWAP, &quot;swap&quot;, Vector3f(1.f, 1.f, 1.f)},
+<span class="lineNum">      62 </span>            :     {Statistic::WINDOW_FPS, &quot;FPS&quot;, Vector3f(1.f, 1.f, 1.f)},
+<span class="lineNum">      63 </span>            :     {Statistic::PIPE_IDLE, &quot;pipe idle&quot;, Vector3f(1.f, 1.f, 1.f)},
+<span class="lineNum">      64 </span>            :     {Statistic::NODE_FRAME_DECOMPRESS, &quot;decompress&quot;, Vector3f(0.f, .7f, 1.f)},
+<span class="lineNum">      65 </span>            :     {Statistic::CONFIG_START_FRAME, &quot;start frame&quot;, Vector3f(.5f, 1.0f, .5f)},
+<span class="lineNum">      66 </span>            :     {Statistic::CONFIG_FINISH_FRAME, &quot;finish frame&quot;, Vector3f(.5f, .5f, .5f)},
+<span class="lineNum">      67 </span>            :     {Statistic::CONFIG_WAIT_FINISH_FRAME, &quot;wait finish&quot;,
+<span class="lineNum">      68 </span>            :      Vector3f(1.0f, 0.f, 0.f)},
+<span class="lineNum">      69 </span><span class="lineCov">         24 :     {Statistic::ALL, &quot;ALL EVENTS&quot;, Vector3f(0.0f, 0.f, 0.f)}};</span>
+<a name="70"><span class="lineNum">      70 </span>            : }</a>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 : const std::string&amp; Statistic::getName(const Type type)</span>
+<span class="lineNum">      73 </span>            : {
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     LBASSERTINFO(_statisticData[type].type == type, int(type));</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :     return _statisticData[type].name;</span>
+<a name="76"><span class="lineNum">      76 </span>            : }</a>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 : const Vector3f&amp; Statistic::getColor(const Type type)</span>
+<span class="lineNum">      79 </span>            : {
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     LBASSERTINFO(_statisticData[type].type == type, type);</span>
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :     return _statisticData[type].color;</span>
+<a name="82"><span class="lineNum">      82 </span>            : }</a>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Statistic::Type&amp; type)</span>
+<span class="lineNum">      85 </span>            : {
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :     os &lt;&lt; Statistic::getName(type);</span>
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :     return os;</span>
+<a name="88"><span class="lineNum">      88 </span>            : }</a>
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Statistic&amp; event)</span>
+<span class="lineNum">      91 </span>            : {
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :     os &lt;&lt; event.resourceName &lt;&lt; &quot;: &quot; &lt;&lt; event.type &lt;&lt; ' ' &lt;&lt; event.frameNumber</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :        &lt;&lt; ' ' &lt;&lt; event.task &lt;&lt; ' ' &lt;&lt; event.startTime &lt;&lt; &quot; - &quot; &lt;&lt; event.endTime</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :        &lt;&lt; ' ' &lt;&lt; event.idleTime &lt;&lt; '/' &lt;&lt; event.totalTime;</span>
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :     return os;</span>
+<a name="96"><span class="lineNum">      96 </span>            : }</a>
+<span class="lineNum">      97 </span>            : }
+<span class="lineNum">      98 </span><span class="lineCov">         72 : }</span>
 </pre>
       </td>
     </tr>

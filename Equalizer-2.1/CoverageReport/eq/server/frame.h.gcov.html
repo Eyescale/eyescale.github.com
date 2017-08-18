@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">11</td>
             <td class="headerCovTableEntry">21</td>
-            <td class="headerCovTableEntryMed">47.6 %</td>
+            <td class="headerCovTableEntryMed">52.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">8</td>
@@ -84,7 +84,7 @@
 <span class="lineNum">      22 </span>            : #include &quot;compound.h&quot;
 <span class="lineNum">      23 </span>            : #include &quot;types.h&quot;
 <span class="lineNum">      24 </span>            : 
-<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/frame.h&gt; // base class
+<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/frame.h&gt;       // base class
 <span class="lineNum">      26 </span>            : #include &lt;lunchbox/bitOperation.h&gt; // function getIndexOfLastBit
 <span class="lineNum">      27 </span>            : 
 <span class="lineNum">      28 </span>            : namespace eq
@@ -98,50 +98,50 @@
 <span class="lineNum">      36 </span>            :     /** Construct a new Frame. */
 <span class="lineNum">      37 </span>            :     EQSERVER_API Frame();
 <span class="lineNum">      38 </span>            :     EQSERVER_API virtual ~Frame();
-<span class="lineNum">      39 </span>            :     Frame( const Frame&amp; from );
+<span class="lineNum">      39 </span>            :     Frame(const Frame&amp; from);
 <span class="lineNum">      40 </span>            : 
 <a name="41"><span class="lineNum">      41 </span>            :     /** @name Data Access */</a>
 <span class="lineNum">      42 </span>            :     //@{
-<a name="43"><span class="lineNum">      43 </span><span class="lineCov">       5484 :     void setCompound( Compound* compound )</span></a>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">       5484 :     { LBASSERT( !_compound ); _compound = compound; }</span></a>
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     Compound* getCompound() const { return _compound; }</span>
-<a name="46"><span class="lineNum">      46 </span><span class="lineNoCov">          0 :     Channel* getChannel() const</span></a>
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     { return _compound ? _compound-&gt;getChannel() : 0; }</span>
-<a name="48"><span class="lineNum">      48 </span><span class="lineNoCov">          0 :     Node* getNode() const { return _compound ? _compound-&gt;getNode() : 0; }</span></a>
-<a name="49"><span class="lineNum">      49 </span>            : </a>
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     FrameData* getMasterData() const { return _masterFrameData; }</span>
-<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     bool hasData( const Eye eye ) const</span>
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :         { return ( _frameData[ lunchbox::getIndexOfLastBit(eye) ] != 0 ); }</span>
-<span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span>            :     /**
-<span class="lineNum">      55 </span>            :      * Set the frame's viewport wrt the compound (output frames) or wrt the
-<span class="lineNum">      56 </span>            :      * corresponding output frame (input frames).
-<span class="lineNum">      57 </span>            :      *
-<a name="58"><span class="lineNum">      58 </span>            :      * @param vp the fractional viewport.</a>
-<span class="lineNum">      59 </span>            :      */
-<span class="lineNum">      60 </span><span class="lineCov">       1476 :     void setViewport( const Viewport&amp; vp ) { _vp = vp; }</span>
-<a name="61"><span class="lineNum">      61 </span>            : </a>
-<span class="lineNum">      62 </span>            :     /** @return the fractional viewport. */
-<span class="lineNum">      63 </span><span class="lineCov">       2742 :     const Viewport&amp; getViewport() const { return _vp; }</span>
-<span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span>            :     /**
-<span class="lineNum">      66 </span>            :      * Set the frame buffers to be read or write by this frame.
-<span class="lineNum">      67 </span>            :      *
-<a name="68"><span class="lineNum">      68 </span>            :      * @param buffers a bitwise combination of the buffers.</a>
-<span class="lineNum">      69 </span>            :      */
-<span class="lineNum">      70 </span><span class="lineCov">        248 :     void setBuffers( const fabric::Frame::Buffer buffers )</span>
-<span class="lineNum">      71 </span><span class="lineCov">        248 :         { _buffers = buffers; }</span>
-<a name="72"><span class="lineNum">      72 </span>            : </a>
-<span class="lineNum">      73 </span>            :     /** return the frame storage type. */
-<span class="lineNum">      74 </span><span class="lineCov">       2742 :     Type getType() const { return _type; }</span>
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span>            :     /**
-<span class="lineNum">      77 </span>            :      * Set the frame storage type.
-<span class="lineNum">      78 </span>            :      *
-<a name="79"><span class="lineNum">      79 </span>            :      * @param type frame storage type.</a>
-<span class="lineNum">      80 </span>            :      */
-<span class="lineNum">      81 </span><span class="lineCov">        124 :     void setType( const Type type ) { _type = type; }</span>
-<a name="82"><span class="lineNum">      82 </span>            : </a>
+<span class="lineNum">      43 </span><span class="lineCov">       5484 :     void setCompound(Compound* compound)</span>
+<span class="lineNum">      44 </span>            :     {
+<span class="lineNum">      45 </span><span class="lineCov">       5484 :         LBASSERT(!_compound);</span>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">       5484 :         _compound = compound;</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">       5484 :     }</span></a>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     Compound* getCompound() const { return _compound; }</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     Channel* getChannel() const</span>
+<span class="lineNum">      50 </span>            :     {
+<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :         return _compound ? _compound-&gt;getChannel() : 0;</span></a>
+<a name="52"><span class="lineNum">      52 </span>            :     }</a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineNoCov">          0 :     Node* getNode() const { return _compound ? _compound-&gt;getNode() : 0; }</span></a>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     FrameData* getMasterData() const { return _masterFrameData; }</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     bool hasData(const Eye eye) const</span>
+<span class="lineNum">      56 </span>            :     {
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         return (_frameData[lunchbox::getIndexOfLastBit(eye)] != 0);</span>
+<span class="lineNum">      58 </span>            :     }
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     /**
+<span class="lineNum">      61 </span>            :      * Set the frame's viewport wrt the compound (output frames) or wrt the
+<span class="lineNum">      62 </span>            :      * corresponding output frame (input frames).
+<span class="lineNum">      63 </span>            :      *
+<a name="64"><span class="lineNum">      64 </span>            :      * @param vp the fractional viewport.</a>
+<span class="lineNum">      65 </span>            :      */
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">       1476 :     void setViewport(const Viewport&amp; vp) { _vp = vp; }</span></a>
+<span class="lineNum">      67 </span>            :     /** @return the fractional viewport. */
+<span class="lineNum">      68 </span><span class="lineCov">       2742 :     const Viewport&amp; getViewport() const { return _vp; }</span>
+<span class="lineNum">      69 </span>            :     /**
+<span class="lineNum">      70 </span>            :      * Set the frame buffers to be read or write by this frame.
+<span class="lineNum">      71 </span>            :      *
+<a name="72"><span class="lineNum">      72 </span>            :      * @param buffers a bitwise combination of the buffers.</a>
+<span class="lineNum">      73 </span>            :      */
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">        248 :     void setBuffers(const fabric::Frame::Buffer buffers) { _buffers = buffers; }</span></a>
+<span class="lineNum">      75 </span>            :     /** return the frame storage type. */
+<span class="lineNum">      76 </span><span class="lineCov">       2742 :     Type getType() const { return _type; }</span>
+<span class="lineNum">      77 </span>            :     /**
+<span class="lineNum">      78 </span>            :      * Set the frame storage type.
+<span class="lineNum">      79 </span>            :      *
+<a name="80"><span class="lineNum">      80 </span>            :      * @param type frame storage type.</a>
+<span class="lineNum">      81 </span>            :      */
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">        124 :     void setType(const Type type) { _type = type; }</span></a>
 <span class="lineNum">      83 </span>            :     /** @return the frame buffers used by this frame. */
 <span class="lineNum">      84 </span><span class="lineCov">       2742 :     fabric::Frame::Buffer getBuffers() const { return _buffers; }</span>
 <span class="lineNum">      85 </span>            :     //@}
@@ -152,8 +152,8 @@
 <span class="lineNum">      90 </span>            :     void commitData();
 <span class="lineNum">      91 </span>            : 
 <span class="lineNum">      92 </span>            :     /** Commit the frame */
-<span class="lineNum">      93 </span>            :     EQSERVER_API virtual uint128_t commit( const uint32_t incarnation =
-<span class="lineNum">      94 </span>            :                                            CO_COMMIT_NEXT );
+<span class="lineNum">      93 </span>            :     EQSERVER_API virtual uint128_t commit(
+<span class="lineNum">      94 </span>            :         const uint32_t incarnation = CO_COMMIT_NEXT);
 <span class="lineNum">      95 </span>            : 
 <span class="lineNum">      96 </span>            :     /**
 <span class="lineNum">      97 </span>            :      * Cycle the current FrameData.
@@ -164,7 +164,7 @@
 <span class="lineNum">     102 </span>            :      * @param frameNumber the current frame number.
 <span class="lineNum">     103 </span>            :      * @param compound the compound holding the output frame.
 <span class="lineNum">     104 </span>            :      */
-<span class="lineNum">     105 </span>            :     void cycleData( const uint32_t frameNumber, const Compound* compound );
+<span class="lineNum">     105 </span>            :     void cycleData(const uint32_t frameNumber, const Compound* compound);
 <span class="lineNum">     106 </span>            : 
 <span class="lineNum">     107 </span>            :     /**
 <span class="lineNum">     108 </span>            :      * Add an input frame to this (output) frame
@@ -172,72 +172,70 @@
 <span class="lineNum">     110 </span>            :      * @param frame the input frame.
 <span class="lineNum">     111 </span>            :      * @param compound the compound holding the input frame.
 <span class="lineNum">     112 </span>            :      */
-<span class="lineNum">     113 </span>            :     void addInputFrame( Frame* frame, const Compound* compound );
+<span class="lineNum">     113 </span>            :     void addInputFrame(Frame* frame, const Compound* compound);
 <span class="lineNum">     114 </span>            : 
 <span class="lineNum">     115 </span>            :     /** @return the vector of current input frames. */
-<span class="lineNum">     116 </span>            :     const Frames&amp; getInputFrames( const Eye eye ) const
-<span class="lineNum">     117 </span>            :     { return _inputFrames[ lunchbox::getIndexOfLastBit( eye ) ]; }
-<span class="lineNum">     118 </span>            : 
-<span class="lineNum">     119 </span>            :     /** Unset the frame data. */
-<span class="lineNum">     120 </span>            :     void unsetData();
-<span class="lineNum">     121 </span>            : 
-<span class="lineNum">     122 </span>            :     /** Reset the frame and delete all frame datas. */
-<span class="lineNum">     123 </span>            :     void flush();
-<span class="lineNum">     124 </span>            :     //@}
-<span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span>            :     /**
-<span class="lineNum">     127 </span>            :      * @name Native data access.
-<span class="lineNum">     128 </span>            :      *
-<span class="lineNum">     129 </span>            :      * Native data is the raw data based on which the actual data used is
-<span class="lineNum">     130 </span>            :      * computed each frame and set using the non-native methods.
-<span class="lineNum">     131 </span>            :      */
-<span class="lineNum">     132 </span>            :     //@{
-<span class="lineNum">     133 </span>            :     /**
-<span class="lineNum">     134 </span>            :      * Set the offset of the frame.
-<span class="lineNum">     135 </span>            :      *
-<span class="lineNum">     136 </span>            :      * The offset defines relative data position wrt to the current
-<a name="137"><span class="lineNum">     137 </span>            :      * destination channel of the source.</a>
-<span class="lineNum">     138 </span>            :      */
-<span class="lineNum">     139 </span><span class="lineNoCov">          0 :     void setNativeOffset( const Vector2i&amp; offset )</span>
-<span class="lineNum">     140 </span><span class="lineNoCov">          0 :     { _native.setOffset( offset ); }</span>
-<a name="141"><span class="lineNum">     141 </span>            : </a>
+<span class="lineNum">     116 </span>            :     const Frames&amp; getInputFrames(const Eye eye) const
+<span class="lineNum">     117 </span>            :     {
+<span class="lineNum">     118 </span>            :         return _inputFrames[lunchbox::getIndexOfLastBit(eye)];
+<span class="lineNum">     119 </span>            :     }
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            :     /** Unset the frame data. */
+<span class="lineNum">     122 </span>            :     void unsetData();
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span>            :     /** Reset the frame and delete all frame datas. */
+<span class="lineNum">     125 </span>            :     void flush();
+<span class="lineNum">     126 </span>            :     //@}
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span>            :     /**
+<span class="lineNum">     129 </span>            :      * @name Native data access.
+<span class="lineNum">     130 </span>            :      *
+<span class="lineNum">     131 </span>            :      * Native data is the raw data based on which the actual data used is
+<span class="lineNum">     132 </span>            :      * computed each frame and set using the non-native methods.
+<span class="lineNum">     133 </span>            :      */
+<span class="lineNum">     134 </span>            :     //@{
+<span class="lineNum">     135 </span>            :     /**
+<span class="lineNum">     136 </span>            :      * Set the offset of the frame.
+<span class="lineNum">     137 </span>            :      *
+<span class="lineNum">     138 </span>            :      * The offset defines relative data position wrt to the current
+<a name="139"><span class="lineNum">     139 </span>            :      * destination channel of the source.</a>
+<span class="lineNum">     140 </span>            :      */
+<a name="141"><span class="lineNum">     141 </span><span class="lineNoCov">          0 :     void setNativeOffset(const Vector2i&amp; offset) { _native.setOffset(offset); }</span></a>
 <span class="lineNum">     142 </span>            :     /** @return the frame's effective offset. */
-<span class="lineNum">     143 </span><span class="lineNoCov">          0 :     const Vector2i&amp; getNativeOffset() const { return _native.getOffset(); }</span>
-<a name="144"><span class="lineNum">     144 </span>            : </a>
-<span class="lineNum">     145 </span>            :     /** Set the native frame zoom factor. */
-<span class="lineNum">     146 </span><span class="lineCov">       5484 :     void setNativeZoom( const Zoom&amp; zoom ) { _native.setZoom( zoom ); }</span>
-<a name="147"><span class="lineNum">     147 </span>            : </a>
-<span class="lineNum">     148 </span>            :     /** @return the native zoom factor. */
-<span class="lineNum">     149 </span><span class="lineNoCov">          0 :     const Zoom&amp; getNativeZoom() const { return _native.getZoom(); }</span>
-<span class="lineNum">     150 </span>            :     //@}
-<span class="lineNum">     151 </span>            : 
-<span class="lineNum">     152 </span>            : private:
-<span class="lineNum">     153 </span>            :     /** The parent compound. */
-<span class="lineNum">     154 </span>            :     Compound* _compound;
-<span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span>            :     /** Frame-specific data. */
-<span class="lineNum">     157 </span>            :     Viewport _vp;
-<span class="lineNum">     158 </span>            :     fabric::Frame::Buffer _buffers;
-<span class="lineNum">     159 </span>            :     Type _type;
-<span class="lineNum">     160 </span>            : 
-<span class="lineNum">     161 </span>            :     /** The configured frame data (base class contains inherit values). */
-<span class="lineNum">     162 </span>            :     fabric::Frame _native;
-<span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span>            :     /** All framedatas ever allocated, used for recycling old datas. */
-<span class="lineNum">     165 </span>            :     std::deque&lt;FrameData*&gt; _datas;
-<span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span>            :     /** Current frame data. */
-<span class="lineNum">     168 </span>            :     FrameData* _masterFrameData;
-<span class="lineNum">     169 </span>            :     FrameData* _frameData[ fabric::NUM_EYES ];
-<span class="lineNum">     170 </span>            : 
-<span class="lineNum">     171 </span>            :     /** Vector of current input frames. */
-<span class="lineNum">     172 </span>            :     Frames _inputFrames[ fabric::NUM_EYES ];
-<span class="lineNum">     173 </span>            : };
-<span class="lineNum">     174 </span>            : 
-<span class="lineNum">     175 </span>            : EQSERVER_API std::ostream&amp; operator &lt;&lt; ( std::ostream&amp;, const Frame&amp; );
-<span class="lineNum">     176 </span>            : }
-<span class="lineNum">     177 </span>            : }
-<span class="lineNum">     178 </span>            : #endif // EQSERVER_FRAME_H
+<a name="143"><span class="lineNum">     143 </span><span class="lineNoCov">          0 :     const Vector2i&amp; getNativeOffset() const { return _native.getOffset(); }</span></a>
+<span class="lineNum">     144 </span>            :     /** Set the native frame zoom factor. */
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">       5484 :     void setNativeZoom(const Zoom&amp; zoom) { _native.setZoom(zoom); }</span></a>
+<span class="lineNum">     146 </span>            :     /** @return the native zoom factor. */
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :     const Zoom&amp; getNativeZoom() const { return _native.getZoom(); }</span>
+<span class="lineNum">     148 </span>            :     //@}
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            : private:
+<span class="lineNum">     151 </span>            :     /** The parent compound. */
+<span class="lineNum">     152 </span>            :     Compound* _compound;
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            :     /** Frame-specific data. */
+<span class="lineNum">     155 </span>            :     Viewport _vp;
+<span class="lineNum">     156 </span>            :     fabric::Frame::Buffer _buffers;
+<span class="lineNum">     157 </span>            :     Type _type;
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span>            :     /** The configured frame data (base class contains inherit values). */
+<span class="lineNum">     160 </span>            :     fabric::Frame _native;
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span>            :     /** All framedatas ever allocated, used for recycling old datas. */
+<span class="lineNum">     163 </span>            :     std::deque&lt;FrameData*&gt; _datas;
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span>            :     /** Current frame data. */
+<span class="lineNum">     166 </span>            :     FrameData* _masterFrameData;
+<span class="lineNum">     167 </span>            :     FrameData* _frameData[fabric::NUM_EYES];
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span>            :     /** Vector of current input frames. */
+<span class="lineNum">     170 </span>            :     Frames _inputFrames[fabric::NUM_EYES];
+<span class="lineNum">     171 </span>            : };
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span>            : EQSERVER_API std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const Frame&amp;);
+<span class="lineNum">     174 </span>            : }
+<span class="lineNum">     175 </span>            : }
+<span class="lineNum">     176 </span>            : #endif // EQSERVER_FRAME_H
 </pre>
       </td>
     </tr>

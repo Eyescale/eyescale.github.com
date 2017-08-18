@@ -1,6 +1,6 @@
 var classeq_1_1_config =
 [
-    [ "Super", "classeq_1_1_config.html#a39e01fa25f0165925890593031920850", null ],
+    [ "Super", "classeq_1_1_config.html#a15818d7fc710c54381f65c99dd86cd67", null ],
     [ "Config", "classeq_1_1_config.html#a6e16d09d3123ec7d879f338f238eb9da", null ],
     [ "~Config", "classeq_1_1_config.html#a694907535af68cc00cd1933b234d53f6", null ],
     [ "addStatistic", "classeq_1_1_config.html#ab098337c93b99572071c3adcd4d95fff", null ],

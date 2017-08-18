@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -80,7 +80,7 @@
 <span class="lineNum">      18 </span>            : #ifndef EQFABRIC_LAYOUT_H
 <span class="lineNum">      19 </span>            : #define EQFABRIC_LAYOUT_H
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #include &lt;eq/fabric/object.h&gt;         // base class
+<span class="lineNum">      21 </span>            : #include &lt;eq/fabric/object.h&gt;        // base class
 <span class="lineNum">      22 </span>            : #include &lt;eq/fabric/pixelViewport.h&gt; // member
 <span class="lineNum">      23 </span>            : #include &lt;eq/fabric/types.h&gt;
 <span class="lineNum">      24 </span>            : #include &lt;string&gt;
@@ -91,144 +91,145 @@
 <span class="lineNum">      29 </span>            : {
 <span class="lineNum">      30 </span>            : /** Base data transport class for layouts. @sa eq::Layout */
 <span class="lineNum">      31 </span>            : // cppcheck-suppress noConstructor
-<span class="lineNum">      32 </span>            : template&lt; class C, class L, class V &gt; class Layout : public Object
-<span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span>            : public:
-<span class="lineNum">      35 </span>            :     /** @name Data Access */
-<span class="lineNum">      36 </span>            :     //@{
-<span class="lineNum">      37 </span>            :     /** A vector of pointers to views. @version 1.0 */
-<span class="lineNum">      38 </span>            :     typedef std::vector&lt; V* &gt; Views;
-<span class="lineNum">      39 </span>            :     /** The layout visitor type. @version 1.0 */
-<span class="lineNum">      40 </span>            :     typedef ElementVisitor&lt; L, LeafVisitor&lt; V &gt; &gt; Visitor;
-<a name="41"><span class="lineNum">      41 </span>            : </a>
-<span class="lineNum">      42 </span>            :     /** @return the current config. @version 1.0 */
-<span class="lineNum">      43 </span><span class="lineCov">       2342 :     C* getConfig() { return _config; }</span>
-<a name="44"><span class="lineNum">      44 </span>            : </a>
+<span class="lineNum">      32 </span>            : template &lt;class C, class L, class V&gt;
+<span class="lineNum">      33 </span>            : class Layout : public Object
+<span class="lineNum">      34 </span>            : {
+<span class="lineNum">      35 </span>            : public:
+<span class="lineNum">      36 </span>            :     /** @name Data Access */
+<span class="lineNum">      37 </span>            :     //@{
+<span class="lineNum">      38 </span>            :     /** A vector of pointers to views. @version 1.0 */
+<span class="lineNum">      39 </span>            :     typedef std::vector&lt;V*&gt; Views;
+<span class="lineNum">      40 </span>            :     /** The layout visitor type. @version 1.0 */
+<span class="lineNum">      41 </span>            :     typedef ElementVisitor&lt;L, LeafVisitor&lt;V&gt;&gt; Visitor;
+<a name="42"><span class="lineNum">      42 </span>            : </a>
+<span class="lineNum">      43 </span>            :     /** @return the current config. @version 1.0 */
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">       2356 :     C* getConfig() { return _config; }</span></a>
 <span class="lineNum">      45 </span>            :     /** @return the current config. @version 1.0 */
-<span class="lineNum">      46 </span><span class="lineCov">        338 :     const C* getConfig() const { return _config; }</span>
-<a name="47"><span class="lineNum">      47 </span>            : </a>
-<span class="lineNum">      48 </span>            :     /** Get the list of views. @version 1.0 */
-<span class="lineNum">      49 </span><span class="lineCov">      18257 :     const Views&amp; getViews() const { return _views; }</span>
-<span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span>            :     /**
-<span class="lineNum">      52 </span>            :      * @return true if the layout is activated in at least one canvas.
-<span class="lineNum">      53 </span>            :      * @version 1.1.5
-<span class="lineNum">      54 </span>            :      */
-<span class="lineNum">      55 </span>            :     EQFABRIC_INL bool isActive() const;
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            :     /** @internal @return the view of the given path. */
-<span class="lineNum">      58 </span>            :     V* getView( const ViewPath&amp; path );
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     /** @internal @return the first view of the given name. */
-<span class="lineNum">      61 </span>            :     V* findView( const std::string&amp; name );
-<span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span>            :     /** @internal @return the index path to this layout. */
-<span class="lineNum">      64 </span>            :     LayoutPath getPath() const;
-<span class="lineNum">      65 </span>            :     //@}
-<span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span>            :     /** @name Operations */
-<span class="lineNum">      68 </span>            :     //@{
-<span class="lineNum">      69 </span>            :     /**
-<span class="lineNum">      70 </span>            :      * Traverse this layout and all children using a layout visitor.
-<span class="lineNum">      71 </span>            :      *
-<span class="lineNum">      72 </span>            :      * @param visitor the visitor.
-<span class="lineNum">      73 </span>            :      * @return the result of the visitor traversal.
-<span class="lineNum">      74 </span>            :      * @version 1.0
-<span class="lineNum">      75 </span>            :      */
-<span class="lineNum">      76 </span>            :     EQFABRIC_INL VisitorResult accept( Visitor&amp; visitor );
-<span class="lineNum">      77 </span>            : 
-<span class="lineNum">      78 </span>            :     /** Const-version of accept(). @version 1.0 */
-<span class="lineNum">      79 </span>            :     EQFABRIC_INL VisitorResult accept( Visitor&amp; visitor ) const;
-<span class="lineNum">      80 </span>            : 
-<span class="lineNum">      81 </span>            :     /**
-<span class="lineNum">      82 </span>            :      * Resize the underlying channels to form a layout of the given size.
-<span class="lineNum">      83 </span>            :      *
-<span class="lineNum">      84 </span>            :      * Resizes the virtual canvas so that the union of output channels covers
-<span class="lineNum">      85 </span>            :      * the given pixel viewport. Relative or absolute addressing of the
-<span class="lineNum">      86 </span>            :      * channel's viewport or pixel viewport is retained. Windows are resized as
-<span class="lineNum">      87 </span>            :      * necessary, so that the channel has the correct size (for channels with
-<span class="lineNum">      88 </span>            :      * relative viewports) or the channel fits into the window (for channels
-<span class="lineNum">      89 </span>            :      * with absolute pixel viewports).
-<span class="lineNum">      90 </span>            :      *
-<span class="lineNum">      91 </span>            :      * @param pvp the full layout size in pixels.
-<span class="lineNum">      92 </span>            :      * @version 2.1
-<span class="lineNum">      93 </span>            :      */
-<span class="lineNum">      94 </span>            :     EQFABRIC_INL void setPixelViewport( const PixelViewport&amp; pvp );
-<span class="lineNum">      95 </span>            : 
-<span class="lineNum">      96 </span>            :     /** @return the last set pixel viewport. @version 2.1 */
-<span class="lineNum">      97 </span>            :     EQFABRIC_INL const PixelViewport&amp; getPixelViewport() const;
-<span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span>            :     void create( V** view ); //!&lt; @internal
-<span class="lineNum">     100 </span>            :     void release( V* view ); //!&lt; @internal
-<span class="lineNum">     101 </span>            :     //@}
-<span class="lineNum">     102 </span>            : 
-<span class="lineNum">     103 </span>            : protected:
-<span class="lineNum">     104 </span>            :     /** @internal Construct a new layout. */
-<span class="lineNum">     105 </span>            :     EQFABRIC_INL explicit Layout( C* config );
-<span class="lineNum">     106 </span>            : 
-<span class="lineNum">     107 </span>            :     /** @internal Destruct this layout. */
-<span class="lineNum">     108 </span>            :     EQFABRIC_INL virtual ~Layout();
-<span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span>            :     /** @internal */
-<span class="lineNum">     111 </span>            :     EQFABRIC_INL virtual void attach( const uint128_t&amp; id,
-<span class="lineNum">     112 </span>            :                                       const uint32_t instanceID );
-<span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span>            :     /** @internal */
-<span class="lineNum">     115 </span>            :     EQFABRIC_INL virtual void serialize( co::DataOStream&amp; os,
-<span class="lineNum">     116 </span>            :                                          const uint64_t dirtyBits );
-<span class="lineNum">     117 </span>            :     /** @internal */
-<span class="lineNum">     118 </span>            :     EQFABRIC_INL virtual void deserialize( co::DataIStream&amp; is,
-<span class="lineNum">     119 </span>            :                                            const uint64_t dirtyBits );
-<a name="120"><span class="lineNum">     120 </span>            : </a>
-<span class="lineNum">     121 </span>            :     EQFABRIC_INL virtual void notifyDetach(); //!&lt; @internal
-<span class="lineNum">     122 </span><span class="lineCov">          2 :     virtual void notifyViewportChanged() {} //!&lt; @internal</span>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">        340 :     const C* getConfig() const { return _config; }</span></a>
+<span class="lineNum">      47 </span>            :     /** Get the list of views. @version 1.0 */
+<span class="lineNum">      48 </span><span class="lineCov">      18457 :     const Views&amp; getViews() const { return _views; }</span>
+<span class="lineNum">      49 </span>            :     /**
+<span class="lineNum">      50 </span>            :      * @return true if the layout is activated in at least one canvas.
+<span class="lineNum">      51 </span>            :      * @version 1.1.5
+<span class="lineNum">      52 </span>            :      */
+<span class="lineNum">      53 </span>            :     EQFABRIC_INL bool isActive() const;
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            :     /** @internal @return the view of the given path. */
+<span class="lineNum">      56 </span>            :     V* getView(const ViewPath&amp; path);
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :     /** @internal @return the first view of the given name. */
+<span class="lineNum">      59 </span>            :     V* findView(const std::string&amp; name);
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :     /** @internal @return the index path to this layout. */
+<span class="lineNum">      62 </span>            :     LayoutPath getPath() const;
+<span class="lineNum">      63 </span>            :     //@}
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :     /** @name Operations */
+<span class="lineNum">      66 </span>            :     //@{
+<span class="lineNum">      67 </span>            :     /**
+<span class="lineNum">      68 </span>            :      * Traverse this layout and all children using a layout visitor.
+<span class="lineNum">      69 </span>            :      *
+<span class="lineNum">      70 </span>            :      * @param visitor the visitor.
+<span class="lineNum">      71 </span>            :      * @return the result of the visitor traversal.
+<span class="lineNum">      72 </span>            :      * @version 1.0
+<span class="lineNum">      73 </span>            :      */
+<span class="lineNum">      74 </span>            :     EQFABRIC_INL VisitorResult accept(Visitor&amp; visitor);
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            :     /** Const-version of accept(). @version 1.0 */
+<span class="lineNum">      77 </span>            :     EQFABRIC_INL VisitorResult accept(Visitor&amp; visitor) const;
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :     /**
+<span class="lineNum">      80 </span>            :      * Resize the underlying channels to form a layout of the given size.
+<span class="lineNum">      81 </span>            :      *
+<span class="lineNum">      82 </span>            :      * Resizes the virtual canvas so that the union of output channels covers
+<span class="lineNum">      83 </span>            :      * the given pixel viewport. Relative or absolute addressing of the
+<span class="lineNum">      84 </span>            :      * channel's viewport or pixel viewport is retained. Windows are resized as
+<span class="lineNum">      85 </span>            :      * necessary, so that the channel has the correct size (for channels with
+<span class="lineNum">      86 </span>            :      * relative viewports) or the channel fits into the window (for channels
+<span class="lineNum">      87 </span>            :      * with absolute pixel viewports).
+<span class="lineNum">      88 </span>            :      *
+<span class="lineNum">      89 </span>            :      * @param pvp the full layout size in pixels.
+<span class="lineNum">      90 </span>            :      * @version 2.1
+<span class="lineNum">      91 </span>            :      */
+<span class="lineNum">      92 </span>            :     EQFABRIC_INL void setPixelViewport(const PixelViewport&amp; pvp);
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            :     /** @return the last set pixel viewport. @version 2.1 */
+<span class="lineNum">      95 </span>            :     EQFABRIC_INL const PixelViewport&amp; getPixelViewport() const;
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            :     void create(V** view); //!&lt; @internal
+<span class="lineNum">      98 </span>            :     void release(V* view); //!&lt; @internal
+<span class="lineNum">      99 </span>            :     //@}
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span>            : protected:
+<span class="lineNum">     102 </span>            :     /** @internal Construct a new layout. */
+<span class="lineNum">     103 </span>            :     EQFABRIC_INL explicit Layout(C* config);
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            :     /** @internal Destruct this layout. */
+<span class="lineNum">     106 </span>            :     EQFABRIC_INL virtual ~Layout();
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span>            :     /** @internal */
+<span class="lineNum">     109 </span>            :     EQFABRIC_INL virtual void attach(const uint128_t&amp; id,
+<span class="lineNum">     110 </span>            :                                      const uint32_t instanceID);
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            :     /** @internal */
+<span class="lineNum">     113 </span>            :     EQFABRIC_INL virtual void serialize(co::DataOStream&amp; os,
+<span class="lineNum">     114 </span>            :                                         const uint64_t dirtyBits);
+<span class="lineNum">     115 </span>            :     /** @internal */
+<span class="lineNum">     116 </span>            :     EQFABRIC_INL virtual void deserialize(co::DataIStream&amp; is,
+<span class="lineNum">     117 </span>            :                                           const uint64_t dirtyBits);
+<a name="118"><span class="lineNum">     118 </span>            : </a>
+<span class="lineNum">     119 </span>            :     EQFABRIC_INL virtual void notifyDetach(); //!&lt; @internal
+<span class="lineNum">     120 </span><span class="lineCov">          2 :     virtual void notifyViewportChanged() {}   //!&lt; @internal</span>
+<span class="lineNum">     121 </span>            :     /** @internal */
+<span class="lineNum">     122 </span>            :     EQFABRIC_INL virtual void setDirty(const uint64_t bits);
 <span class="lineNum">     123 </span>            : 
 <span class="lineNum">     124 </span>            :     /** @internal */
-<span class="lineNum">     125 </span>            :     EQFABRIC_INL virtual void setDirty( const uint64_t bits );
-<span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span>            :     /** @internal */
-<span class="lineNum">     128 </span>            :     enum DirtyBits
-<span class="lineNum">     129 </span>            :     {
-<span class="lineNum">     130 </span>            :         DIRTY_VIEWS      = Object::DIRTY_CUSTOM &lt;&lt; 0,
-<span class="lineNum">     131 </span>            :         DIRTY_VIEWPORT   = Object::DIRTY_CUSTOM &lt;&lt; 1,
-<span class="lineNum">     132 </span>            :         DIRTY_LAYOUT_BITS = DIRTY_VIEWS | DIRTY_VIEWPORT | DIRTY_OBJECT_BITS
-<span class="lineNum">     133 </span>            :     };
-<a name="134"><span class="lineNum">     134 </span>            : </a>
-<span class="lineNum">     135 </span>            :     /** @internal @return the bits to be re-committed by the master. */
-<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     virtual uint64_t getRedistributableBits() const</span>
-<span class="lineNum">     137 </span><span class="lineNoCov">          0 :     { return DIRTY_LAYOUT_BITS; }</span>
-<span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span>            : private:
-<span class="lineNum">     140 </span>            :     /** The parent Config. */
-<span class="lineNum">     141 </span>            :     C* const _config;
-<span class="lineNum">     142 </span>            : 
-<span class="lineNum">     143 </span>            :     /** Child views on this layout. */
-<span class="lineNum">     144 </span>            :     Views _views;
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span>            :     PixelViewport _pvp; //!&lt; application-provided pixel viewport
-<span class="lineNum">     147 </span>            : 
-<span class="lineNum">     148 </span>            :     template&lt; class, class, class &gt; friend class View;
+<span class="lineNum">     125 </span>            :     enum DirtyBits
+<span class="lineNum">     126 </span>            :     {
+<span class="lineNum">     127 </span>            :         DIRTY_VIEWS = Object::DIRTY_CUSTOM &lt;&lt; 0,
+<span class="lineNum">     128 </span>            :         DIRTY_VIEWPORT = Object::DIRTY_CUSTOM &lt;&lt; 1,
+<span class="lineNum">     129 </span>            :         DIRTY_LAYOUT_BITS = DIRTY_VIEWS | DIRTY_VIEWPORT | DIRTY_OBJECT_BITS
+<span class="lineNum">     130 </span>            :     };
+<a name="131"><span class="lineNum">     131 </span>            : </a>
+<span class="lineNum">     132 </span>            :     /** @internal @return the bits to be re-committed by the master. */
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     virtual uint64_t getRedistributableBits() const</span>
+<span class="lineNum">     134 </span>            :     {
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :         return DIRTY_LAYOUT_BITS;</span>
+<span class="lineNum">     136 </span>            :     }
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            : private:
+<span class="lineNum">     139 </span>            :     /** The parent Config. */
+<span class="lineNum">     140 </span>            :     C* const _config;
+<span class="lineNum">     141 </span>            : 
+<span class="lineNum">     142 </span>            :     /** Child views on this layout. */
+<span class="lineNum">     143 </span>            :     Views _views;
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span>            :     PixelViewport _pvp; //!&lt; application-provided pixel viewport
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            :     template &lt;class, class, class&gt;
+<span class="lineNum">     148 </span>            :     friend class View;
 <span class="lineNum">     149 </span>            :     friend class Object;
-<span class="lineNum">     150 </span>            :     void _addChild( V* view );
-<span class="lineNum">     151 </span>            :     bool _removeChild( V* view );
+<span class="lineNum">     150 </span>            :     void _addChild(V* view);
+<span class="lineNum">     151 </span>            :     bool _removeChild(V* view);
 <span class="lineNum">     152 </span>            : 
 <span class="lineNum">     153 </span>            :     /** @internal */
-<span class="lineNum">     154 </span>            :     EQFABRIC_INL virtual uint128_t commit( const uint32_t incarnation );
+<span class="lineNum">     154 </span>            :     EQFABRIC_INL virtual uint128_t commit(const uint32_t incarnation);
 <span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span>            :     template&lt; class O &gt; void _removeObserver( const O* observer );
-<span class="lineNum">     157 </span>            :     template&lt; class, class, class, class, class, class,
-<span class="lineNum">     158 </span>            :               class &gt; friend class Config;
-<span class="lineNum">     159 </span>            : 
-<span class="lineNum">     160 </span>            :     typedef co::CommandFunc&lt; Layout&lt; C, L, V &gt; &gt; CmdFunc;
-<span class="lineNum">     161 </span>            :     bool _cmdNewView( co::ICommand&amp; command );
-<span class="lineNum">     162 </span>            :     bool _cmdNewViewReply( co::ICommand&amp; command );
-<span class="lineNum">     163 </span>            : };
-<span class="lineNum">     164 </span>            : 
-<span class="lineNum">     165 </span>            : template&lt; class C, class L, class V &gt;
-<span class="lineNum">     166 </span>            : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp;, const Layout&lt; C, L, V &gt;&amp; );
-<span class="lineNum">     167 </span>            : }
+<span class="lineNum">     156 </span>            :     template &lt;class O&gt;
+<span class="lineNum">     157 </span>            :     void _removeObserver(const O* observer);
+<span class="lineNum">     158 </span>            :     template &lt;class, class, class, class, class, class, class&gt;
+<span class="lineNum">     159 </span>            :     friend class Config;
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            :     typedef co::CommandFunc&lt;Layout&lt;C, L, V&gt;&gt; CmdFunc;
+<span class="lineNum">     162 </span>            :     bool _cmdNewView(co::ICommand&amp; command);
+<span class="lineNum">     163 </span>            :     bool _cmdNewViewReply(co::ICommand&amp; command);
+<span class="lineNum">     164 </span>            : };
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span>            : template &lt;class C, class L, class V&gt;
+<span class="lineNum">     167 </span>            : std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const Layout&lt;C, L, V&gt;&amp;);
 <span class="lineNum">     168 </span>            : }
-<span class="lineNum">     169 </span>            : #endif // EQFABRIC_LAYOUT_H
+<span class="lineNum">     169 </span>            : }
+<span class="lineNum">     170 </span>            : #endif // EQFABRIC_LAYOUT_H
 </pre>
       </td>
     </tr>

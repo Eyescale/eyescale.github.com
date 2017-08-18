@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntry">108</td>
+            <td class="headerCovTableEntry">114</td>
             <td class="headerCovTableEntryLo">0.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -81,208 +81,215 @@
 <span class="lineNum">      19 </span>            : 
 <span class="lineNum">      20 </span>            : #include &quot;viewData.h&quot;
 <span class="lineNum">      21 </span>            : 
-<span class="lineNum">      22 </span>            : #include &lt;eq/fabric/axisEvent.h&gt;
-<span class="lineNum">      23 </span>            : #include &lt;eq/fabric/keyEvent.h&gt;
-<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/pointerEvent.h&gt;
-<span class="lineNum">      25 </span>            : #include &lt;eq/eventICommand.h&gt;
-<span class="lineNum">      26 </span>            : #include &lt;eq/view.h&gt;
-<span class="lineNum">      27 </span>            : #include &lt;co/dataIStream.h&gt;
-<span class="lineNum">      28 </span>            : #include &lt;co/dataOStream.h&gt;
+<span class="lineNum">      22 </span>            : #include &lt;co/dataIStream.h&gt;
+<span class="lineNum">      23 </span>            : #include &lt;co/dataOStream.h&gt;
+<span class="lineNum">      24 </span>            : #include &lt;eq/eventICommand.h&gt;
+<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/axisEvent.h&gt;
+<span class="lineNum">      26 </span>            : #include &lt;eq/fabric/keyEvent.h&gt;
+<span class="lineNum">      27 </span>            : #include &lt;eq/fabric/pointerEvent.h&gt;
+<span class="lineNum">      28 </span>            : #include &lt;eq/view.h&gt;
 <span class="lineNum">      29 </span>            : 
 <a name="30"><span class="lineNum">      30 </span>            : namespace seq</a>
 <span class="lineNum">      31 </span>            : {
-<span class="lineNum">      32 </span><span class="lineNoCov">          0 : ViewData::ViewData( View&amp; view )</span>
-<span class="lineNum">      33 </span>            :     : _view( view )
-<span class="lineNum">      34 </span>            :     , _spinX( 5 )
-<span class="lineNum">      35 </span>            :     , _spinY( 5 )
-<span class="lineNum">      36 </span>            :     , _advance( 0 )
-<span class="lineNum">      37 </span>            :     , _statistics( false )
-<span class="lineNum">      38 </span><span class="lineNoCov">          0 :     , _ortho( false )</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 : ViewData::ViewData(View&amp; view)</span>
+<span class="lineNum">      33 </span>            :     : _view(view)
+<span class="lineNum">      34 </span>            :     , _spinX(5)
+<span class="lineNum">      35 </span>            :     , _spinY(5)
+<span class="lineNum">      36 </span>            :     , _advance(0)
+<span class="lineNum">      37 </span>            :     , _statistics(false)
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :     , _ortho(false)</span>
 <span class="lineNum">      39 </span>            : {
-<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     moveModel( 0.f, 0.f, -2.f );</span>
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     moveModel(0.f, 0.f, -2.f);</span>
 <a name="41"><span class="lineNum">      41 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">      42 </span>            : 
 <span class="lineNum">      43 </span><span class="lineNoCov">          0 : ViewData::~ViewData()</span>
-<a name="44"><span class="lineNum">      44 </span><span class="lineNoCov">          0 : {}</span></a>
-<span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 : void ViewData::serialize( co::DataOStream&amp; os, const uint64_t dirtyBits )</span>
-<span class="lineNum">      47 </span>            : {
-<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     if( dirtyBits &amp; DIRTY_MODELMATRIX )</span>
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :         os &lt;&lt; _modelMatrix;</span>
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     if( dirtyBits &amp; DIRTY_STATISTICS )</span>
-<span class="lineNum">      51 </span><span class="lineNoCov">          0 :         os &lt;&lt; _statistics;</span>
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     if( dirtyBits &amp; DIRTY_ORTHO )</span>
-<span class="lineNum">      53 </span><span class="lineNoCov">          0 :         os &lt;&lt; _ortho;</span>
-<a name="54"><span class="lineNum">      54 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span><span class="lineNoCov">          0 : void ViewData::deserialize( co::DataIStream&amp; is, const uint64_t dirtyBits )</span>
-<span class="lineNum">      57 </span>            : {
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     if( dirtyBits &amp; DIRTY_MODELMATRIX )</span>
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         is &gt;&gt; _modelMatrix;</span>
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :     if( dirtyBits &amp; DIRTY_STATISTICS )</span>
-<span class="lineNum">      61 </span><span class="lineNoCov">          0 :         is &gt;&gt; _statistics;</span>
-<span class="lineNum">      62 </span><span class="lineNoCov">          0 :     if( dirtyBits &amp; DIRTY_ORTHO )</span>
-<span class="lineNum">      63 </span><span class="lineNoCov">          0 :         is &gt;&gt; _ortho;</span>
-<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent( const eq::EventType, const SizeEvent&amp; )</span>
-<span class="lineNum">      67 </span>            : {
-<span class="lineNum">      68 </span><span class="lineNoCov">          0 :     return true;</span>
-<a name="69"><span class="lineNum">      69 </span>            : }</a>
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent( const eq::EventType type, const PointerEvent&amp; event )</span>
-<span class="lineNum">      72 </span>            : {
-<span class="lineNum">      73 </span><span class="lineNoCov">          0 :     switch( type )</span>
-<span class="lineNum">      74 </span>            :     {
-<span class="lineNum">      75 </span>            :     case EVENT_CHANNEL_POINTER_BUTTON_RELEASE:
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :         if( event.buttons == eq::PTR_BUTTON_NONE )</span>
-<span class="lineNum">      77 </span>            :         {
-<span class="lineNum">      78 </span><span class="lineNoCov">          0 :             if( event.button == eq::PTR_BUTTON1 )</span>
-<span class="lineNum">      79 </span>            :             {
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :                 _spinX = event.dy;</span>
-<span class="lineNum">      81 </span><span class="lineNoCov">          0 :                 _spinY = event.dx;</span>
-<span class="lineNum">      82 </span><span class="lineNoCov">          0 :                 return true;</span>
-<span class="lineNum">      83 </span>            :             }
-<span class="lineNum">      84 </span><span class="lineNoCov">          0 :             if( event.button == eq::PTR_BUTTON2 )</span>
-<span class="lineNum">      85 </span>            :             {
-<span class="lineNum">      86 </span><span class="lineNoCov">          0 :                 _advance = -event.dy;</span>
-<span class="lineNum">      87 </span><span class="lineNoCov">          0 :                 return true;</span>
-<span class="lineNum">      88 </span>            :             }
-<span class="lineNum">      89 </span>            :         }
-<span class="lineNum">      90 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">      91 </span>            : 
-<span class="lineNum">      92 </span>            :     case EVENT_CHANNEL_POINTER_MOTION:
-<span class="lineNum">      93 </span><span class="lineNoCov">          0 :         switch( event.buttons )</span>
-<span class="lineNum">      94 </span>            :         {
-<span class="lineNum">      95 </span>            :         case eq::PTR_BUTTON1:
-<span class="lineNum">      96 </span><span class="lineNoCov">          0 :             _spinX = 0;</span>
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :             _spinY = 0;</span>
-<span class="lineNum">      98 </span><span class="lineNoCov">          0 :             spinModel( -0.005f * event.dy, -0.005f * event.dx, 0.f );</span>
-<span class="lineNum">      99 </span><span class="lineNoCov">          0 :             return true;</span>
-<span class="lineNum">     100 </span>            : 
-<span class="lineNum">     101 </span>            :         case eq::PTR_BUTTON2:
-<span class="lineNum">     102 </span><span class="lineNoCov">          0 :             _advance = -event.dy;</span>
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 :             moveModel( 0.f, 0.f, .005f * _advance );</span>
-<span class="lineNum">     104 </span><span class="lineNoCov">          0 :             return true;</span>
-<span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span>            :         case eq::PTR_BUTTON3:
-<span class="lineNum">     107 </span><span class="lineNoCov">          0 :             moveModel( .0005f * event.dx, -.0005f * event.dy, 0.f );</span>
-<span class="lineNum">     108 </span><span class="lineNoCov">          0 :             return true;</span>
-<span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span>            :         default:
-<span class="lineNum">     111 </span><span class="lineNoCov">          0 :             return false;</span>
-<span class="lineNum">     112 </span>            :         }
-<span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span>            :     case EVENT_CHANNEL_POINTER_WHEEL:
-<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         moveModel( -0.05f * event.xAxis, 0.f, 0.05f * event.yAxis );</span>
-<span class="lineNum">     116 </span><span class="lineNoCov">          0 :         return true;</span>
-<span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span>            :     default:
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     120 </span>            :     }
-<a name="121"><span class="lineNum">     121 </span>            : }</a>
-<span class="lineNum">     122 </span>            : 
-<span class="lineNum">     123 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent( const eq::EventType type, const KeyEvent&amp; event )</span>
-<span class="lineNum">     124 </span>            : {
-<span class="lineNum">     125 </span><span class="lineNoCov">          0 :     switch( type )</span>
-<span class="lineNum">     126 </span>            :     {
-<span class="lineNum">     127 </span>            :     case EVENT_KEY_PRESS:
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :         switch( event.key )</span>
-<span class="lineNum">     129 </span>            :         {
-<span class="lineNum">     130 </span>            :         case 's':
-<span class="lineNum">     131 </span><span class="lineNoCov">          0 :             showStatistics( !getStatistics( ));</span>
-<span class="lineNum">     132 </span><span class="lineNoCov">          0 :             return true;</span>
-<span class="lineNum">     133 </span>            :         case 'o':
-<span class="lineNum">     134 </span><span class="lineNoCov">          0 :             setOrtho( !useOrtho( ));</span>
-<span class="lineNum">     135 </span><span class="lineNoCov">          0 :             return true;</span>
-<span class="lineNum">     136 </span>            :         }
-<span class="lineNum">     137 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span>            :     default:
-<span class="lineNum">     140 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     141 </span>            :     }
-<a name="142"><span class="lineNum">     142 </span>            : }</a>
-<span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent( const AxisEvent&amp; event )</span>
-<span class="lineNum">     145 </span>            : {
-<span class="lineNum">     146 </span><span class="lineNoCov">          0 :     _spinX = 0;</span>
-<span class="lineNum">     147 </span><span class="lineNoCov">          0 :     _spinY = 0;</span>
-<span class="lineNum">     148 </span><span class="lineNoCov">          0 :     _advance = 0;</span>
-<span class="lineNum">     149 </span><span class="lineNoCov">          0 :     spinModel( 0.0001f * event.zRotation, -0.0001f * event.xRotation,</span>
-<span class="lineNum">     150 </span><span class="lineNoCov">          0 :                -0.0001f * event.yRotation );</span>
-<span class="lineNum">     151 </span><span class="lineNoCov">          0 :     moveModel( 0.0001f * event.xAxis, -0.0001f * event.zAxis,</span>
-<span class="lineNum">     152 </span><span class="lineNoCov">          0 :                0.0001f * event.yAxis );</span>
-<span class="lineNum">     153 </span><span class="lineNoCov">          0 :     return true;</span>
-<a name="154"><span class="lineNum">     154 </span>            : }</a>
-<span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent( const ButtonEvent&amp; )</span>
-<span class="lineNum">     157 </span>            : {
-<span class="lineNum">     158 </span><span class="lineNoCov">          0 :     return false;</span>
-<a name="159"><span class="lineNum">     159 </span>            : }</a>
-<span class="lineNum">     160 </span>            : 
-<span class="lineNum">     161 </span><span class="lineNoCov">          0 : void ViewData::spinModel( const float x, const float y, const float z )</span>
-<span class="lineNum">     162 </span>            : {
-<span class="lineNum">     163 </span><span class="lineNoCov">          0 :     if( x == 0.f &amp;&amp; y == 0.f &amp;&amp; z == 0.f )</span>
-<span class="lineNum">     164 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     165 </span>            : 
-<span class="lineNum">     166 </span><span class="lineNoCov">          0 :     const Vector3f translation = _modelMatrix.getTranslation();</span>
-<span class="lineNum">     167 </span><span class="lineNoCov">          0 :     _modelMatrix.setTranslation( Vector3f( ));</span>
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 :     _modelMatrix.pre_rotate_x( x );</span>
-<span class="lineNum">     169 </span><span class="lineNoCov">          0 :     _modelMatrix.pre_rotate_y( y );</span>
-<span class="lineNum">     170 </span><span class="lineNoCov">          0 :     _modelMatrix.pre_rotate_z( z );</span>
-<span class="lineNum">     171 </span><span class="lineNoCov">          0 :     _modelMatrix.setTranslation( translation);</span>
-<span class="lineNum">     172 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_MODELMATRIX );</span>
-<a name="173"><span class="lineNum">     173 </span>            : }</a>
-<span class="lineNum">     174 </span>            : 
-<span class="lineNum">     175 </span><span class="lineNoCov">          0 : void ViewData::moveModel( const float x, const float y, const float z )</span>
-<span class="lineNum">     176 </span>            : {
-<span class="lineNum">     177 </span><span class="lineNoCov">          0 :     if( x == 0.f &amp;&amp; y == 0.f &amp;&amp; z == 0.f )</span>
-<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     179 </span>            : 
-<span class="lineNum">     180 </span><span class="lineNoCov">          0 :     const float unit = _view.getModelUnit();</span>
-<span class="lineNum">     181 </span><span class="lineNoCov">          0 :     _modelMatrix.setTranslation( _modelMatrix.getTranslation() +</span>
-<span class="lineNum">     182 </span><span class="lineNoCov">          0 :                                  Vector3f( x * unit, y * unit, z * unit ));</span>
-<span class="lineNum">     183 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_MODELMATRIX );</span>
-<a name="184"><span class="lineNum">     184 </span>            : }</a>
-<span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span><span class="lineNoCov">          0 : void ViewData::showStatistics( const bool on )</span>
-<span class="lineNum">     187 </span>            : {
-<span class="lineNum">     188 </span><span class="lineNoCov">          0 :     if( _statistics == on )</span>
-<span class="lineNum">     189 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     190 </span>            : 
-<span class="lineNum">     191 </span><span class="lineNoCov">          0 :     _statistics = on;</span>
-<span class="lineNum">     192 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_STATISTICS );</span>
-<a name="193"><span class="lineNum">     193 </span>            : }</a>
-<span class="lineNum">     194 </span>            : 
-<span class="lineNum">     195 </span><span class="lineNoCov">          0 : void ViewData::setOrtho( const bool on )</span>
-<span class="lineNum">     196 </span>            : {
-<span class="lineNum">     197 </span><span class="lineNoCov">          0 :     if( _ortho == on )</span>
-<span class="lineNum">     198 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineNoCov">          0 :     _ortho = on;</span>
-<span class="lineNum">     201 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_ORTHO );</span>
-<a name="202"><span class="lineNum">     202 </span>            : }</a>
-<span class="lineNum">     203 </span>            : 
-<span class="lineNum">     204 </span><span class="lineNoCov">          0 : void ViewData::setModelMatrix( const Matrix4f&amp; matrix )</span>
-<span class="lineNum">     205 </span>            : {
-<span class="lineNum">     206 </span><span class="lineNoCov">          0 :     if( _modelMatrix == matrix )</span>
-<span class="lineNum">     207 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     208 </span>            : 
-<span class="lineNum">     209 </span><span class="lineNoCov">          0 :     _modelMatrix = matrix;</span>
-<span class="lineNum">     210 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_MODELMATRIX );</span>
-<a name="211"><span class="lineNum">     211 </span>            : }</a>
-<span class="lineNum">     212 </span>            : 
-<span class="lineNum">     213 </span><span class="lineNoCov">          0 : bool ViewData::update()</span>
-<span class="lineNum">     214 </span>            : {
-<span class="lineNum">     215 </span><span class="lineNoCov">          0 :     if( _spinX == 0 &amp;&amp; _spinY == 0 &amp;&amp; _advance == 0 )</span>
-<span class="lineNum">     216 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     217 </span>            : 
-<span class="lineNum">     218 </span><span class="lineNoCov">          0 :     spinModel( -0.001f * _spinX, -0.001f * _spinY, 0.f );</span>
-<span class="lineNum">     219 </span><span class="lineNoCov">          0 :     moveModel( 0.0f, 0.0f, 0.001f * _advance );</span>
-<span class="lineNum">     220 </span><span class="lineNoCov">          0 :     return true;</span>
-<a name="221"><span class="lineNum">     221 </span>            : }</a>
-<span class="lineNum">     222 </span>            : 
-<span class="lineNum">     223 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">      44 </span>            : {
+<a name="45"><span class="lineNum">      45 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 : void ViewData::serialize(co::DataOStream&amp; os, const uint64_t dirtyBits)</span>
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_MODELMATRIX)</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :         os &lt;&lt; _modelMatrix;</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_STATISTICS)</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :         os &lt;&lt; _statistics;</span>
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_ORTHO)</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         os &lt;&lt; _ortho;</span>
+<a name="55"><span class="lineNum">      55 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 : void ViewData::deserialize(co::DataIStream&amp; is, const uint64_t dirtyBits)</span>
+<span class="lineNum">      58 </span>            : {
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_MODELMATRIX)</span>
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         is &gt;&gt; _modelMatrix;</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_STATISTICS)</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :         is &gt;&gt; _statistics;</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_ORTHO)</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :         is &gt;&gt; _ortho;</span>
+<a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent(const eq::EventType, const SizeEvent&amp;)</span>
+<span class="lineNum">      68 </span>            : {
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :     return true;</span>
+<a name="70"><span class="lineNum">      70 </span>            : }</a>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent(const eq::EventType type, const PointerEvent&amp; event)</span>
+<span class="lineNum">      73 </span>            : {
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     switch (type)</span>
+<span class="lineNum">      75 </span>            :     {
+<span class="lineNum">      76 </span>            :     case EVENT_CHANNEL_POINTER_BUTTON_RELEASE:
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :         if (event.buttons == eq::PTR_BUTTON_NONE)</span>
+<span class="lineNum">      78 </span>            :         {
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :             if (event.button == eq::PTR_BUTTON1)</span>
+<span class="lineNum">      80 </span>            :             {
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :                 _spinX = event.dy;</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :                 _spinY = event.dx;</span>
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :                 return true;</span>
+<span class="lineNum">      84 </span>            :             }
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :             if (event.button == eq::PTR_BUTTON2)</span>
+<span class="lineNum">      86 </span>            :             {
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :                 _advance = -event.dy;</span>
+<span class="lineNum">      88 </span><span class="lineNoCov">          0 :                 return true;</span>
+<span class="lineNum">      89 </span>            :             }
+<span class="lineNum">      90 </span>            :         }
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            :     case EVENT_CHANNEL_POINTER_MOTION:
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :         switch (event.buttons)</span>
+<span class="lineNum">      95 </span>            :         {
+<span class="lineNum">      96 </span>            :         case eq::PTR_BUTTON1:
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :             _spinX = 0;</span>
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :             _spinY = 0;</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :             spinModel(-0.005f * event.dy, -0.005f * event.dx, 0.f);</span>
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :             return true;</span>
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            :         case eq::PTR_BUTTON2:
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :             _advance = -event.dy;</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :             moveModel(0.f, 0.f, .005f * _advance);</span>
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :             return true;</span>
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span>            :         case eq::PTR_BUTTON3:
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :             moveModel(.0005f * event.dx, -.0005f * event.dy, 0.f);</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :             return true;</span>
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span>            :         default:
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :             return false;</span>
+<span class="lineNum">     113 </span>            :         }
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span>            :     case EVENT_CHANNEL_POINTER_WHEEL:
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :         moveModel(-0.05f * event.xAxis, 0.f, 0.05f * event.yAxis);</span>
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span>            :     default:
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     121 </span>            :     }
+<a name="122"><span class="lineNum">     122 </span>            : }</a>
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent(const eq::EventType type, const KeyEvent&amp; event)</span>
+<span class="lineNum">     125 </span>            : {
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :     switch (type)</span>
+<span class="lineNum">     127 </span>            :     {
+<span class="lineNum">     128 </span>            :     case EVENT_KEY_PRESS:
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :         switch (event.key)</span>
+<span class="lineNum">     130 </span>            :         {
+<span class="lineNum">     131 </span>            :         case 's':
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :             showStatistics(!getStatistics());</span>
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :             return true;</span>
+<span class="lineNum">     134 </span>            :         case 'o':
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :             setOrtho(!useOrtho());</span>
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :             return true;</span>
+<span class="lineNum">     137 </span>            :         case ' ':
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 :             _spinX = 0;</span>
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :             _spinY = 0;</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :             _advance = 0;</span>
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :             _modelMatrix = eq::Matrix4f();</span>
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :             moveModel(0.f, 0.f, -2.f);</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :             return true;</span>
+<span class="lineNum">     144 </span>            :         }
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            :     default:
+<span class="lineNum">     148 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     149 </span>            :     }
+<a name="150"><span class="lineNum">     150 </span>            : }</a>
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent(const AxisEvent&amp; event)</span>
+<span class="lineNum">     153 </span>            : {
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :     _spinX = 0;</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :     _spinY = 0;</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :     _advance = 0;</span>
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :     spinModel(0.0001f * event.zRotation, -0.0001f * event.xRotation,</span>
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :               -0.0001f * event.yRotation);</span>
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :     moveModel(0.0001f * event.xAxis, -0.0001f * event.zAxis,</span>
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :               0.0001f * event.yAxis);</span>
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :     return true;</span>
+<a name="162"><span class="lineNum">     162 </span>            : }</a>
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 : bool ViewData::handleEvent(const ButtonEvent&amp;)</span>
+<span class="lineNum">     165 </span>            : {
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :     return false;</span>
+<a name="167"><span class="lineNum">     167 </span>            : }</a>
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 : void ViewData::spinModel(const float x, const float y, const float z)</span>
+<span class="lineNum">     170 </span>            : {
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :     if (x == 0.f &amp;&amp; y == 0.f &amp;&amp; z == 0.f)</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 :     const Vector3f translation = _modelMatrix.getTranslation();</span>
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :     _modelMatrix.setTranslation(Vector3f());</span>
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :     _modelMatrix.pre_rotate_x(x);</span>
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :     _modelMatrix.pre_rotate_y(y);</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :     _modelMatrix.pre_rotate_z(z);</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :     _modelMatrix.setTranslation(translation);</span>
+<span class="lineNum">     180 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_MODELMATRIX);</span>
+<a name="181"><span class="lineNum">     181 </span>            : }</a>
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 : void ViewData::moveModel(const float x, const float y, const float z)</span>
+<span class="lineNum">     184 </span>            : {
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :     if (x == 0.f &amp;&amp; y == 0.f &amp;&amp; z == 0.f)</span>
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :     const float unit = _view.getModelUnit();</span>
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 :     _modelMatrix.setTranslation(_modelMatrix.getTranslation() +</span>
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :                                 Vector3f(x * unit, y * unit, z * unit));</span>
+<span class="lineNum">     191 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_MODELMATRIX);</span>
+<a name="192"><span class="lineNum">     192 </span>            : }</a>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 : void ViewData::showStatistics(const bool on)</span>
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :     if (_statistics == on)</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :     _statistics = on;</span>
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_STATISTICS);</span>
+<a name="201"><span class="lineNum">     201 </span>            : }</a>
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 : void ViewData::setOrtho(const bool on)</span>
+<span class="lineNum">     204 </span>            : {
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :     if (_ortho == on)</span>
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :     _ortho = on;</span>
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_ORTHO);</span>
+<a name="210"><span class="lineNum">     210 </span>            : }</a>
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 : void ViewData::setModelMatrix(const Matrix4f&amp; matrix)</span>
+<span class="lineNum">     213 </span>            : {
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :     if (_modelMatrix == matrix)</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :     _modelMatrix = matrix;</span>
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_MODELMATRIX);</span>
+<a name="219"><span class="lineNum">     219 </span>            : }</a>
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span><span class="lineNoCov">          0 : bool ViewData::update()</span>
+<span class="lineNum">     222 </span>            : {
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :     if (_spinX == 0 &amp;&amp; _spinY == 0 &amp;&amp; _advance == 0)</span>
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :     spinModel(-0.001f * _spinX, -0.001f * _spinY, 0.f);</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     moveModel(0.0f, 0.0f, 0.001f * _advance);</span>
+<a name="228"><span class="lineNum">     228 </span><span class="lineNoCov">          0 :     return true;</span></a>
+<span class="lineNum">     229 </span>            : }
+<span class="lineNum">     230 </span><span class="lineCov">         36 : }</span>
 </pre>
       </td>
     </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:07:24</td>
+            <td class="headerValue">2017-08-18 16:07:54</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -89,56 +89,54 @@
 <span class="lineNum">      27 </span>            :  * POSSIBILITY OF SUCH DAMAGE.
 <span class="lineNum">      28 </span>            :  */
 <span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span>            : #ifndef PLYLIB_VERTEXBUFFERROOT_H
-<span class="lineNum">      32 </span>            : #define PLYLIB_VERTEXBUFFERROOT_H
-<span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span>            : #include &lt;triply/api.h&gt;
-<span class="lineNum">      35 </span>            : #include &quot;vertexBufferData.h&quot;
-<span class="lineNum">      36 </span>            : #include &quot;vertexBufferNode.h&quot;
-<span class="lineNum">      37 </span>            : 
-<span class="lineNum">      38 </span>            : namespace triply
-<a name="39"><span class="lineNum">      39 </span>            : {</a>
-<span class="lineNum">      40 </span>            : /*  The class for kd-tree root nodes.  */
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 : class VertexBufferRoot : public VertexBufferNode</span>
-<span class="lineNum">      42 </span>            : {
-<span class="lineNum">      43 </span>            : public:
-<span class="lineNum">      44 </span>            :     VertexBufferRoot() : VertexBufferNode(), _invertFaces(false) {}
-<span class="lineNum">      45 </span>            :     TRIPLY_API VertexBufferRoot( const std::string&amp; filename );
-<span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span>            :     TRIPLY_API virtual void cullDraw( VertexBufferState&amp; state ) const;
-<span class="lineNum">      48 </span>            :     TRIPLY_API virtual void draw( VertexBufferState&amp; state ) const;
+<span class="lineNum">      30 </span>            : #ifndef PLYLIB_VERTEXBUFFERROOT_H
+<span class="lineNum">      31 </span>            : #define PLYLIB_VERTEXBUFFERROOT_H
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : #include &quot;vertexBufferData.h&quot;
+<span class="lineNum">      34 </span>            : #include &quot;vertexBufferNode.h&quot;
+<span class="lineNum">      35 </span>            : #include &lt;triply/api.h&gt;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : namespace triply
+<a name="38"><span class="lineNum">      38 </span>            : {</a>
+<span class="lineNum">      39 </span>            : /*  The class for kd-tree root nodes.  */
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 : class VertexBufferRoot : public VertexBufferNode</span>
+<span class="lineNum">      41 </span>            : {
+<span class="lineNum">      42 </span>            : public:
+<span class="lineNum">      43 </span>            :     VertexBufferRoot()
+<span class="lineNum">      44 </span>            :         : VertexBufferNode()
+<span class="lineNum">      45 </span>            :         , _invertFaces(false)
+<span class="lineNum">      46 </span>            :     {
+<span class="lineNum">      47 </span>            :     }
+<span class="lineNum">      48 </span>            :     TRIPLY_API VertexBufferRoot(const std::string&amp; filename);
 <span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            :     TRIPLY_API void setupTree( VertexData&amp; data, boost::progress_display&amp; );
-<span class="lineNum">      51 </span>            :     TRIPLY_API bool writeToFile( const std::string&amp; filename );
-<span class="lineNum">      52 </span>            :     TRIPLY_API bool readFromFile( const std::string&amp; filename );
-<span class="lineNum">      53 </span>            :     bool hasColors() const { return !_data.colors.empty(); }
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span>            :     void useInvertedFaces() { _invertFaces = true; }
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            :     const std::string&amp; getName() const { return _name; }
-<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      50 </span>            :     TRIPLY_API virtual void cullDraw(VertexBufferState&amp; state) const;
+<span class="lineNum">      51 </span>            :     TRIPLY_API virtual void draw(VertexBufferState&amp; state) const;
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :     TRIPLY_API void setupTree(VertexData&amp; data, boost::progress_display&amp;);
+<span class="lineNum">      54 </span>            :     TRIPLY_API bool writeToFile(const std::string&amp; filename);
+<span class="lineNum">      55 </span>            :     TRIPLY_API bool readFromFile(const std::string&amp; filename);
+<span class="lineNum">      56 </span>            :     bool hasColors() const { return !_data.colors.empty(); }
+<span class="lineNum">      57 </span>            :     void useInvertedFaces() { _invertFaces = true; }
+<span class="lineNum">      58 </span>            :     const std::string&amp; getName() const { return _name; }
 <span class="lineNum">      59 </span>            : protected:
-<a name="60"><span class="lineNum">      60 </span>            :     TRIPLY_API void toStream( std::ostream&amp; os ) final;</a>
-<span class="lineNum">      61 </span>            :     TRIPLY_API void fromMemory( char* start );
+<a name="60"><span class="lineNum">      60 </span>            :     TRIPLY_API void toStream(std::ostream&amp; os) final;</a>
+<span class="lineNum">      61 </span>            :     TRIPLY_API void fromMemory(char* start);
 <span class="lineNum">      62 </span><span class="lineNoCov">          0 :     Type getType() const final { return Type::root; }</span>
-<span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span>            : private:
-<span class="lineNum">      65 </span>            :     bool _constructFromPly( const std::string&amp; filename );
-<span class="lineNum">      66 </span>            :     bool _readBinary( std::string filename );
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span>            :     void _beginRendering( VertexBufferState&amp; state ) const;
-<span class="lineNum">      69 </span>            :     void _endRendering( VertexBufferState&amp; state ) const;
-<span class="lineNum">      70 </span>            : 
-<span class="lineNum">      71 </span>            :     friend class VertexBufferDist;
-<span class="lineNum">      72 </span>            :     VertexBufferData _data;
-<span class="lineNum">      73 </span>            :     bool             _invertFaces;
-<span class="lineNum">      74 </span>            :     std::string      _name;
-<span class="lineNum">      75 </span>            : };
-<span class="lineNum">      76 </span>            : }
-<span class="lineNum">      77 </span>            : 
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span>            : #endif // PLYLIB_VERTEXBUFFERROOT_H
+<span class="lineNum">      63 </span>            : private:
+<span class="lineNum">      64 </span>            :     bool _constructFromPly(const std::string&amp; filename);
+<span class="lineNum">      65 </span>            :     bool _readBinary(std::string filename);
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :     void _beginRendering(VertexBufferState&amp; state) const;
+<span class="lineNum">      68 </span>            :     void _endRendering(VertexBufferState&amp; state) const;
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :     friend class VertexBufferDist;
+<span class="lineNum">      71 </span>            :     VertexBufferData _data;
+<span class="lineNum">      72 </span>            :     bool _invertFaces;
+<span class="lineNum">      73 </span>            :     std::string _name;
+<span class="lineNum">      74 </span>            : };
+<span class="lineNum">      75 </span>            : }
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            : #endif // PLYLIB_VERTEXBUFFERROOT_H
 </pre>
       </td>
     </tr>

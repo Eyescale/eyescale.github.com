@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">34</td>
@@ -95,495 +95,491 @@
 <span class="lineNum">      33 </span>            : namespace eq
 <span class="lineNum">      34 </span>            : {
 <span class="lineNum">      35 </span>            : namespace fabric
-<span class="lineNum">      36 </span>            : {
-<a name="37"><span class="lineNum">      37 </span>            : </a>
-<span class="lineNum">      38 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">      39 </span><span class="lineCov">        420 : Canvas&lt; CFG, C, S, L &gt;::Canvas( CFG* config )</span>
-<span class="lineNum">      40 </span><span class="lineCov">        420 :         : _config( config )</span>
-<span class="lineNum">      41 </span>            : {
-<span class="lineNum">      42 </span><span class="lineCov">        420 :     LBASSERT( config );</span>
-<span class="lineNum">      43 </span><span class="lineCov">        420 :     setWall( Wall( )); // default frustum</span>
-<span class="lineNum">      44 </span><span class="lineCov">        420 :     config-&gt;_addCanvas( static_cast&lt; C* &gt;( this ));</span>
-<span class="lineNum">      45 </span><span class="lineCov">        420 :     LBLOG( LOG_INIT ) &lt;&lt; &quot;New &quot; &lt;&lt; lunchbox::className( this ) &lt;&lt; std::endl;</span>
-<span class="lineNum">      46 </span><span class="lineCov">        420 : }</span>
-<a name="47"><span class="lineNum">      47 </span>            : </a>
-<span class="lineNum">      48 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">      49 </span><span class="lineCov">        418 : Canvas&lt; CFG, C, S, L &gt;::~Canvas()</span>
-<span class="lineNum">      50 </span>            : {
-<span class="lineNum">      51 </span><span class="lineCov">        418 :     LBLOG( LOG_INIT ) &lt;&lt; &quot;Delete &quot; &lt;&lt; lunchbox::className( this ) &lt;&lt; std::endl;</span>
-<span class="lineNum">      52 </span><span class="lineCov">       1874 :     while( !_segments.empty( ))</span>
-<span class="lineNum">      53 </span>            :     {
-<span class="lineNum">      54 </span><span class="lineCov">        728 :         S* segment = _segments.back();</span>
-<span class="lineNum">      55 </span><span class="lineCov">        728 :         _removeChild( segment );</span>
-<span class="lineNum">      56 </span><span class="lineCov">        728 :         release( segment );</span>
-<span class="lineNum">      57 </span>            :     }
-<span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineCov">        418 :     _data.activeLayout = 0;</span>
-<span class="lineNum">      60 </span><span class="lineCov">        418 :     _layouts.clear();</span>
-<span class="lineNum">      61 </span><span class="lineCov">        418 :     _config-&gt;_removeCanvas( static_cast&lt; C* &gt;( this ));</span>
-<span class="lineNum">      62 </span><span class="lineCov">        836 : }</span>
-<a name="63"><span class="lineNum">      63 </span>            : </a>
-<span class="lineNum">      64 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">      65 </span><span class="lineCov">          4 : void Canvas&lt; CFG, C, S, L &gt;::backup()</span>
-<span class="lineNum">      66 </span>            : {
-<span class="lineNum">      67 </span><span class="lineCov">          4 :     _backup = _data;</span>
-<span class="lineNum">      68 </span><span class="lineCov">          4 :     Object::backup();</span>
-<span class="lineNum">      69 </span><span class="lineCov">          4 :     Frustum::backup();</span>
-<span class="lineNum">      70 </span><span class="lineCov">          4 : }</span>
-<a name="71"><span class="lineNum">      71 </span>            : </a>
-<span class="lineNum">      72 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">      73 </span><span class="lineCov">          4 : void Canvas&lt; CFG, C, S, L &gt;::restore()</span>
-<span class="lineNum">      74 </span>            : {
-<span class="lineNum">      75 </span><span class="lineCov">          4 :     Frustum::restore();</span>
-<span class="lineNum">      76 </span><span class="lineCov">          4 :     Object::restore();</span>
-<span class="lineNum">      77 </span><span class="lineCov">          4 :     activateLayout( _backup.activeLayout );</span>
-<span class="lineNum">      78 </span><span class="lineCov">          4 :     _data = _backup;</span>
-<span class="lineNum">      79 </span><span class="lineCov">          4 :     setDirty( DIRTY_LAYOUT );</span>
-<span class="lineNum">      80 </span><span class="lineCov">          4 : }</span>
-<a name="81"><span class="lineNum">      81 </span>            : </a>
-<span class="lineNum">      82 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">      83 </span><span class="lineCov">          6 : void Canvas&lt; CFG, C, S, L &gt;::attach( const uint128_t&amp; id,</span>
-<span class="lineNum">      84 </span>            :                                      const uint32_t instanceID )
-<span class="lineNum">      85 </span>            : {
-<span class="lineNum">      86 </span><span class="lineCov">          6 :     Object::attach( id, instanceID );</span>
-<span class="lineNum">      87 </span>            : 
-<span class="lineNum">      88 </span><span class="lineCov">          6 :     co::CommandQueue* queue = _config-&gt;getMainThreadQueue();</span>
-<span class="lineNum">      89 </span><span class="lineCov">          6 :     LBASSERT( queue );</span>
-<span class="lineNum">      90 </span>            : 
-<span class="lineNum">      91 </span><span class="lineCov">          6 :     registerCommand( CMD_CANVAS_NEW_SEGMENT,</span>
-<span class="lineNum">      92 </span>            :                      CmdFunc( this, &amp;Canvas&lt; CFG, C, S, L &gt;::_cmdNewSegment ),
-<span class="lineNum">      93 </span>            :                      queue );
-<span class="lineNum">      94 </span><span class="lineCov">          6 :     registerCommand( CMD_CANVAS_NEW_SEGMENT_REPLY,</span>
-<span class="lineNum">      95 </span>            :                   CmdFunc( this, &amp;Canvas&lt; CFG, C, S, L &gt;::_cmdNewSegmentReply ),
-<span class="lineNum">      96 </span>            :                      0 );
-<span class="lineNum">      97 </span><span class="lineCov">          6 : }</span>
-<a name="98"><span class="lineNum">      98 </span>            : </a>
-<span class="lineNum">      99 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     100 </span><span class="lineCov">         20 : uint128_t Canvas&lt; CFG, C, S, L &gt;::commit( const uint32_t incarnation )</span>
-<span class="lineNum">     101 </span>            : {
-<span class="lineNum">     102 </span><span class="lineCov">         20 :     if( Serializable::isDirty( DIRTY_SEGMENTS ))</span>
-<span class="lineNum">     103 </span><span class="lineCov">          6 :         commitChildren&lt; S &gt;( _segments, CMD_CANVAS_NEW_SEGMENT, incarnation );</span>
-<span class="lineNum">     104 </span><span class="lineCov">         20 :     return Object::commit( incarnation );</span>
-<span class="lineNum">     105 </span>            : }
-<a name="106"><span class="lineNum">     106 </span>            : </a>
-<span class="lineNum">     107 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     108 </span><span class="lineCov">         12 : void Canvas&lt; CFG, C, S, L &gt;::serialize( co::DataOStream&amp; os,</span>
-<span class="lineNum">     109 </span>            :                                         const uint64_t dirtyBits )
-<span class="lineNum">     110 </span>            : {
-<span class="lineNum">     111 </span><span class="lineCov">         12 :     Object::serialize( os, dirtyBits );</span>
-<span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span><span class="lineCov">         12 :     if( dirtyBits &amp; DIRTY_LAYOUT )</span>
-<span class="lineNum">     114 </span><span class="lineCov">         10 :         os &lt;&lt; _data.activeLayout;</span>
-<span class="lineNum">     115 </span><span class="lineCov">         12 :     if( dirtyBits &amp; DIRTY_SEGMENTS &amp;&amp; isMaster( ))</span>
-<span class="lineNum">     116 </span><span class="lineCov">         12 :         os.serializeChildren( _segments );</span>
-<span class="lineNum">     117 </span><span class="lineCov">         12 :     if( dirtyBits &amp; DIRTY_LAYOUTS )</span>
-<span class="lineNum">     118 </span><span class="lineCov">         10 :         os.serializeChildren( _layouts );</span>
-<span class="lineNum">     119 </span><span class="lineCov">         12 :     if( dirtyBits &amp; DIRTY_FRUSTUM )</span>
-<span class="lineNum">     120 </span><span class="lineCov">         10 :         Frustum::serialize( os );</span>
-<span class="lineNum">     121 </span><span class="lineCov">         12 : }</span>
-<a name="122"><span class="lineNum">     122 </span>            : </a>
-<span class="lineNum">     123 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     124 </span><span class="lineCov">          3 : void Canvas&lt; CFG, C, S, L &gt;::deserialize( co::DataIStream&amp; is,</span>
-<span class="lineNum">     125 </span>            :                                           const uint64_t dirtyBits )
-<span class="lineNum">     126 </span>            : {
-<span class="lineNum">     127 </span><span class="lineCov">          3 :     Object::deserialize( is, dirtyBits );</span>
-<span class="lineNum">     128 </span>            : 
-<span class="lineNum">     129 </span><span class="lineCov">          3 :     if( dirtyBits &amp; DIRTY_LAYOUT )</span>
-<span class="lineNum">     130 </span>            :     {
-<span class="lineNum">     131 </span><span class="lineCov">          2 :         uint32_t index( 0 );</span>
-<span class="lineNum">     132 </span><span class="lineCov">          2 :         is &gt;&gt; index;</span>
-<span class="lineNum">     133 </span><span class="lineCov">          2 :         activateLayout( index );</span>
-<span class="lineNum">     134 </span>            :     }
-<span class="lineNum">     135 </span>            : 
-<span class="lineNum">     136 </span><span class="lineCov">          3 :     if( dirtyBits &amp; DIRTY_SEGMENTS )</span>
-<span class="lineNum">     137 </span>            :     {
-<span class="lineNum">     138 </span><span class="lineCov">          3 :         if( isMaster( ))</span>
-<span class="lineNum">     139 </span><span class="lineNoCov">          0 :             syncChildren( _segments );</span>
-<span class="lineNum">     140 </span>            :         else
-<span class="lineNum">     141 </span>            :         {
-<span class="lineNum">     142 </span><span class="lineCov">          6 :             Segments result;</span>
-<span class="lineNum">     143 </span><span class="lineCov">          3 :             is.deserializeChildren( this, _segments, result );</span>
-<span class="lineNum">     144 </span><span class="lineCov">          3 :             _segments.swap( result );</span>
-<span class="lineNum">     145 </span><span class="lineCov">          3 :             LBASSERT( _segments.size() == result.size( ));</span>
-<span class="lineNum">     146 </span>            :         }
-<span class="lineNum">     147 </span>            :     }
-<span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span><span class="lineCov">          3 :     if( dirtyBits &amp; DIRTY_LAYOUTS )</span>
-<span class="lineNum">     150 </span>            :     {
-<span class="lineNum">     151 </span><span class="lineCov">          2 :         _layouts.clear();</span>
-<span class="lineNum">     152 </span><span class="lineCov">          4 :         co::ObjectVersions layouts;</span>
-<span class="lineNum">     153 </span><span class="lineCov">          2 :         is &gt;&gt; layouts;</span>
-<span class="lineNum">     154 </span><span class="lineCov">         12 :         for( co::ObjectVersions::const_iterator i = layouts.begin();</span>
-<span class="lineNum">     155 </span><span class="lineCov">          8 :              i != layouts.end(); ++i )</span>
-<span class="lineNum">     156 </span>            :         {
-<span class="lineNum">     157 </span><span class="lineCov">          2 :             const uint128_t&amp; id = (*i).identifier;</span>
-<span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span><span class="lineCov">          2 :             if( id == 0 )</span>
-<span class="lineNum">     160 </span><span class="lineNoCov">          0 :                 _layouts.push_back( 0 );</span>
-<span class="lineNum">     161 </span>            :             else
-<span class="lineNum">     162 </span>            :             {
-<span class="lineNum">     163 </span><span class="lineCov">          2 :                 L* layout = 0;</span>
-<span class="lineNum">     164 </span><span class="lineCov">          2 :                 _config-&gt;find( id, &amp;layout );</span>
-<span class="lineNum">     165 </span><span class="lineCov">          2 :                 LBASSERT( layout );</span>
-<span class="lineNum">     166 </span><span class="lineCov">          2 :                 _layouts.push_back( layout );</span>
-<span class="lineNum">     167 </span>            :             }
-<span class="lineNum">     168 </span>            :         }
-<span class="lineNum">     169 </span>            : 
-<span class="lineNum">     170 </span><span class="lineCov">          2 :         _config-&gt;updateCanvas( static_cast&lt; C* &gt;( this ));</span>
-<span class="lineNum">     171 </span>            :     }
-<span class="lineNum">     172 </span><span class="lineCov">          3 :     if( dirtyBits &amp; DIRTY_FRUSTUM )</span>
-<span class="lineNum">     173 </span><span class="lineCov">          2 :         Frustum::deserialize( is );</span>
-<span class="lineNum">     174 </span><span class="lineCov">          3 : }</span>
-<a name="175"><span class="lineNum">     175 </span>            : </a>
-<span class="lineNum">     176 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     177 </span><span class="lineCov">       4518 : void Canvas&lt; CFG, C, S, L &gt;::setDirty( const uint64_t dirtyBits )</span>
-<span class="lineNum">     178 </span>            : {
-<span class="lineNum">     179 </span><span class="lineCov">       4518 :     Object::setDirty( dirtyBits );</span>
-<span class="lineNum">     180 </span><span class="lineCov">       4518 :     _config-&gt;setDirty( CFG::DIRTY_CANVASES );</span>
-<span class="lineNum">     181 </span><span class="lineCov">       4518 : }</span>
-<a name="182"><span class="lineNum">     182 </span>            : </a>
-<span class="lineNum">     183 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     184 </span><span class="lineCov">          2 : void Canvas&lt; CFG, C, S, L &gt;::create( S** segment )</span>
-<span class="lineNum">     185 </span>            : {
-<span class="lineNum">     186 </span><span class="lineCov">          2 :     *segment = _config-&gt;getServer()-&gt;getNodeFactory()-&gt;createSegment(</span>
-<span class="lineNum">     187 </span>            :         static_cast&lt; C* &gt;( this ));
-<span class="lineNum">     188 </span><span class="lineCov">          2 : }</span>
-<a name="189"><span class="lineNum">     189 </span>            : </a>
-<span class="lineNum">     190 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     191 </span><span class="lineCov">        730 : void Canvas&lt; CFG, C, S, L &gt;::release( S* segment )</span>
-<span class="lineNum">     192 </span>            : {
-<span class="lineNum">     193 </span><span class="lineCov">        730 :     _config-&gt;getServer()-&gt;getNodeFactory()-&gt;releaseSegment( segment );</span>
-<span class="lineNum">     194 </span><span class="lineCov">        730 : }</span>
-<a name="195"><span class="lineNum">     195 </span>            : </a>
-<span class="lineNum">     196 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     197 </span><span class="lineCov">          6 : void Canvas&lt; CFG, C, S, L &gt;::notifyDetach()</span>
-<span class="lineNum">     198 </span>            : {
-<span class="lineNum">     199 </span><span class="lineCov">          6 :     Object::notifyDetach();</span>
-<span class="lineNum">     200 </span><span class="lineCov">          6 :     releaseChildren&lt; C, S &gt;( _segments );</span>
-<span class="lineNum">     201 </span><span class="lineCov">          6 : }</span>
-<a name="202"><span class="lineNum">     202 </span>            : </a>
-<span class="lineNum">     203 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     204 </span><span class="lineCov">        732 : void Canvas&lt; CFG, C, S, L &gt;::_addChild( S* segment )</span>
-<span class="lineNum">     205 </span>            : {
-<span class="lineNum">     206 </span><span class="lineCov">        732 :     LBASSERT( segment );</span>
-<span class="lineNum">     207 </span><span class="lineCov">        732 :     LBASSERT( segment-&gt;getCanvas() == this );</span>
-<span class="lineNum">     208 </span><span class="lineCov">        732 :     _segments.push_back( segment );</span>
-<span class="lineNum">     209 </span><span class="lineCov">        732 :     setDirty( DIRTY_SEGMENTS );</span>
-<span class="lineNum">     210 </span><span class="lineCov">        732 : }</span>
-<a name="211"><span class="lineNum">     211 </span>            : </a>
-<span class="lineNum">     212 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     213 </span><span class="lineCov">       1460 : bool Canvas&lt; CFG, C, S, L &gt;::_removeChild( S* segment )</span>
-<span class="lineNum">     214 </span>            : {
-<span class="lineNum">     215 </span><span class="lineCov">       1460 :     typename Segments::iterator i = lunchbox::find( _segments, segment );</span>
-<span class="lineNum">     216 </span><span class="lineCov">       1460 :     if( i == _segments.end( ))</span>
-<span class="lineNum">     217 </span><span class="lineCov">        730 :         return false;</span>
-<span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineCov">        730 :     LBASSERT( segment-&gt;getCanvas() == this );</span>
-<span class="lineNum">     220 </span><span class="lineCov">        730 :     _segments.erase( i );</span>
-<span class="lineNum">     221 </span><span class="lineCov">        730 :     setDirty( DIRTY_SEGMENTS );</span>
-<span class="lineNum">     222 </span><span class="lineCov">        730 :     if( isAttached() &amp;&amp; !isMaster( ))</span>
-<span class="lineNum">     223 </span><span class="lineCov">          2 :         postRemove( segment );</span>
-<span class="lineNum">     224 </span><span class="lineCov">        730 :     return true;</span>
-<span class="lineNum">     225 </span>            : }
-<a name="226"><span class="lineNum">     226 </span>            : </a>
-<span class="lineNum">     227 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     228 </span><span class="lineCov">          2 : bool Canvas&lt; CFG, C, S, L &gt;::_mapViewObjects()</span>
-<span class="lineNum">     229 </span>            : {
-<span class="lineNum">     230 </span><span class="lineCov">          2 :     return static_cast&lt; typename CFG::Super* &gt;( _config )-&gt;mapViewObjects();</span>
-<span class="lineNum">     231 </span>            : }
-<a name="232"><span class="lineNum">     232 </span>            : </a>
-<span class="lineNum">     233 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     234 </span><span class="lineCov">       1150 : CanvasPath Canvas&lt; CFG, C, S, L &gt;::getPath() const</span>
-<span class="lineNum">     235 </span>            : {
-<span class="lineNum">     236 </span><span class="lineCov">       1150 :     const CFG* config = getConfig();</span>
-<span class="lineNum">     237 </span><span class="lineCov">       1150 :     LBASSERT( config );</span>
-<span class="lineNum">     238 </span>            : 
-<span class="lineNum">     239 </span><span class="lineCov">       1150 :     const Canvases&amp; canvases = config-&gt;getCanvases();</span>
-<span class="lineNum">     240 </span><span class="lineCov">       2300 :     typename Canvases::const_iterator i = std::find( canvases.begin(),</span>
-<span class="lineNum">     241 </span>            :                                                      canvases.end(),
-<span class="lineNum">     242 </span><span class="lineCov">       1150 :                                                      this );</span>
-<span class="lineNum">     243 </span><span class="lineCov">       1150 :     LBASSERT( i != canvases.end( ));</span>
-<span class="lineNum">     244 </span>            : 
-<span class="lineNum">     245 </span><span class="lineCov">       1150 :     CanvasPath path;</span>
-<span class="lineNum">     246 </span><span class="lineCov">       1150 :     path.canvasIndex = std::distance( canvases.begin(), i );</span>
-<span class="lineNum">     247 </span><span class="lineCov">       1150 :     return path;</span>
-<span class="lineNum">     248 </span>            : }
-<a name="249"><span class="lineNum">     249 </span>            : </a>
-<span class="lineNum">     250 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     251 </span><span class="lineNoCov">          0 : S* Canvas&lt; CFG, C, S, L &gt;::findSegment( const std::string&amp; name )</span>
-<span class="lineNum">     252 </span>            : {
-<span class="lineNum">     253 </span><span class="lineNoCov">          0 :     NameFinder&lt; S, Visitor &gt; finder( name );</span>
-<span class="lineNum">     254 </span><span class="lineNoCov">          0 :     accept( finder );</span>
-<span class="lineNum">     255 </span><span class="lineNoCov">          0 :     return finder.getResult();</span>
-<span class="lineNum">     256 </span>            : }
-<a name="257"><span class="lineNum">     257 </span>            : </a>
-<span class="lineNum">     258 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     259 </span><span class="lineNoCov">          0 : const S* Canvas&lt; CFG, C, S, L &gt;::findSegment( const std::string&amp; name ) const</span>
-<span class="lineNum">     260 </span>            : {
-<span class="lineNum">     261 </span><span class="lineNoCov">          0 :     NameFinder&lt; const S, Visitor &gt; finder( name );</span>
-<span class="lineNum">     262 </span><span class="lineNoCov">          0 :     accept( finder );</span>
-<span class="lineNum">     263 </span><span class="lineNoCov">          0 :     return finder.getResult();</span>
-<span class="lineNum">     264 </span>            : }
-<a name="265"><span class="lineNum">     265 </span>            : </a>
-<span class="lineNum">     266 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     267 </span><span class="lineCov">        642 : void Canvas&lt; CFG, C, S, L &gt;::addLayout( L* layout )</span>
-<span class="lineNum">     268 </span>            : {
-<span class="lineNum">     269 </span><span class="lineCov">        642 :     LBASSERT( lunchbox::find( _layouts, layout ) == _layouts.end( ));</span>
-<span class="lineNum">     270 </span>            : 
-<span class="lineNum">     271 </span>            :     // dest channel creation is done be Config::addCanvas
-<span class="lineNum">     272 </span><span class="lineCov">        642 :     _layouts.push_back( layout );</span>
-<span class="lineNum">     273 </span><span class="lineCov">        642 :     setDirty( DIRTY_LAYOUTS );</span>
-<span class="lineNum">     274 </span><span class="lineCov">        642 : }</span>
-<a name="275"><span class="lineNum">     275 </span>            : </a>
-<span class="lineNum">     276 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     277 </span><span class="lineNoCov">          0 : bool Canvas&lt; CFG, C, S, L &gt;::removeLayout( L* layout )</span>
-<span class="lineNum">     278 </span>            : {
-<span class="lineNum">     279 </span><span class="lineNoCov">          0 :     typename Layouts::iterator i = lunchbox::find( _layouts, layout );</span>
-<span class="lineNum">     280 </span><span class="lineNoCov">          0 :     if( i == _layouts.end( ))</span>
-<span class="lineNum">     281 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     282 </span>            : 
-<span class="lineNum">     283 </span><span class="lineNoCov">          0 :     if( getActiveLayout() == layout )</span>
-<span class="lineNum">     284 </span>            :     {
-<span class="lineNum">     285 </span><span class="lineNoCov">          0 :         _data.activeLayout = 0;</span>
-<span class="lineNum">     286 </span><span class="lineNoCov">          0 :         setDirty( DIRTY_LAYOUT );</span>
-<span class="lineNum">     287 </span>            :     }
-<span class="lineNum">     288 </span>            : 
-<span class="lineNum">     289 </span><span class="lineNoCov">          0 :     _layouts.erase( i );</span>
-<span class="lineNum">     290 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_LAYOUTS );</span>
-<span class="lineNum">     291 </span><span class="lineNoCov">          0 :     return true;</span>
-<span class="lineNum">     292 </span>            : }
-<a name="293"><span class="lineNum">     293 </span>            : </a>
-<span class="lineNum">     294 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     295 </span><span class="lineCov">          8 : const L* Canvas&lt; CFG, C, S, L &gt;::getActiveLayout() const</span>
-<span class="lineNum">     296 </span>            : {
-<span class="lineNum">     297 </span><span class="lineCov">          8 :     LBASSERTINFO( _data.activeLayout &lt; _layouts.size(),</span>
-<span class="lineNum">     298 </span>            :                   _data.activeLayout &lt;&lt; &quot; &gt;= &quot; &lt;&lt; _layouts.size( ));
-<span class="lineNum">     299 </span><span class="lineCov">          8 :     return _layouts[ _data.activeLayout ];</span>
-<span class="lineNum">     300 </span>            : }
-<a name="301"><span class="lineNum">     301 </span>            : </a>
-<span class="lineNum">     302 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     303 </span><span class="lineNoCov">          0 : L* Canvas&lt; CFG, C, S, L &gt;::getActiveLayout()</span>
-<span class="lineNum">     304 </span>            : {
-<span class="lineNum">     305 </span><span class="lineNoCov">          0 :     LBASSERTINFO( _data.activeLayout &lt; _layouts.size(),</span>
-<span class="lineNum">     306 </span>            :                   _data.activeLayout &lt;&lt; &quot; &gt;= &quot; &lt;&lt; _layouts.size( ));
-<span class="lineNum">     307 </span><span class="lineNoCov">          0 :     return _layouts[ _data.activeLayout ];</span>
-<span class="lineNum">     308 </span>            : }
-<a name="309"><span class="lineNum">     309 </span>            : </a>
-<span class="lineNum">     310 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     311 </span><span class="lineNoCov">          0 : bool Canvas&lt; CFG, C, S, L &gt;::useLayout( const uint32_t index )</span>
-<span class="lineNum">     312 </span>            : {
-<span class="lineNum">     313 </span><span class="lineNoCov">          0 :     LBASSERT( index &lt; _layouts.size( ));</span>
-<span class="lineNum">     314 </span><span class="lineNoCov">          0 :     if( _data.activeLayout == index )</span>
-<span class="lineNum">     315 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     316 </span>            : 
-<span class="lineNum">     317 </span><span class="lineNoCov">          0 :     _data.activeLayout = index;</span>
-<span class="lineNum">     318 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_LAYOUT );</span>
-<span class="lineNum">     319 </span><span class="lineNoCov">          0 :     return true;</span>
-<span class="lineNum">     320 </span>            : }
-<a name="321"><span class="lineNum">     321 </span>            : </a>
-<span class="lineNum">     322 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     323 </span><span class="lineCov">          4 : void Canvas&lt; CFG, C, S, L &gt;::setSwapBarrier( SwapBarrierPtr barrier )</span>
-<span class="lineNum">     324 </span>            : {
-<span class="lineNum">     325 </span><span class="lineCov">          4 :     if( barrier.isValid() &amp;&amp; barrier-&gt;getName().empty( ))</span>
-<span class="lineNum">     326 </span>            :     {
-<span class="lineNum">     327 </span><span class="lineCov">          2 :         const std::string&amp; name = getName();</span>
-<span class="lineNum">     328 </span><span class="lineCov">          4 :         std::stringstream out;</span>
-<span class="lineNum">     329 </span><span class="lineCov">          2 :         out &lt;&lt; &quot;barrier.canvas.&quot;;</span>
-<span class="lineNum">     330 </span><span class="lineCov">          2 :         if( name.empty( ))</span>
-<span class="lineNum">     331 </span><span class="lineCov">          2 :             if( getConfig( ))</span>
-<span class="lineNum">     332 </span><span class="lineCov">          2 :                 out &lt;&lt; getPath().canvasIndex;</span>
-<span class="lineNum">     333 </span>            :             else
-<span class="lineNum">     334 </span><span class="lineNoCov">          0 :                 out &lt;&lt; (void*)this;</span>
-<span class="lineNum">     335 </span>            :         else
-<span class="lineNum">     336 </span><span class="lineNoCov">          0 :             out &lt;&lt; name;</span>
-<span class="lineNum">     337 </span>            : 
-<span class="lineNum">     338 </span><span class="lineCov">          2 :         barrier-&gt;setName( out.str( ));</span>
-<span class="lineNum">     339 </span>            :     }
-<span class="lineNum">     340 </span>            : 
-<span class="lineNum">     341 </span><span class="lineCov">          4 :     _swapBarrier = barrier;</span>
-<span class="lineNum">     342 </span><span class="lineCov">          4 : }</span>
-<span class="lineNum">     343 </span>            : 
-<span class="lineNum">     344 </span>            : namespace
-<a name="345"><span class="lineNum">     345 </span>            : {</a>
-<span class="lineNum">     346 </span>            : template&lt; class C, class V &gt;
-<span class="lineNum">     347 </span><span class="lineCov">       2327 : VisitorResult _accept( C* canvas, V&amp; visitor )</span>
-<span class="lineNum">     348 </span>            : {
-<span class="lineNum">     349 </span><span class="lineCov">       2327 :     VisitorResult result = visitor.visitPre( canvas );</span>
-<span class="lineNum">     350 </span><span class="lineCov">       2327 :     if( result != TRAVERSE_CONTINUE )</span>
-<span class="lineNum">     351 </span><span class="lineCov">         32 :         return result;</span>
-<span class="lineNum">     352 </span>            : 
-<span class="lineNum">     353 </span><span class="lineCov">       2295 :     const typename C::Segments&amp; segments = canvas-&gt;getSegments();</span>
-<span class="lineNum">     354 </span><span class="lineCov">      26514 :     for( typename C::Segments::const_iterator i = segments.begin();</span>
-<span class="lineNum">     355 </span><span class="lineCov">      17676 :          i != segments.end(); ++i )</span>
-<span class="lineNum">     356 </span>            :     {
-<span class="lineNum">     357 </span><span class="lineCov">       6543 :         switch( (*i)-&gt;accept( visitor ))</span>
-<span class="lineNum">     358 </span>            :         {
-<span class="lineNum">     359 </span>            :             case TRAVERSE_TERMINATE:
-<span class="lineNum">     360 </span><span class="lineNoCov">          0 :                 return TRAVERSE_TERMINATE;</span>
-<span class="lineNum">     361 </span>            : 
-<span class="lineNum">     362 </span>            :             case TRAVERSE_PRUNE:
-<span class="lineNum">     363 </span><span class="lineNoCov">          0 :                 result = TRAVERSE_PRUNE;</span>
-<span class="lineNum">     364 </span><span class="lineNoCov">          0 :                 break;</span>
-<span class="lineNum">     365 </span>            : 
-<span class="lineNum">     366 </span>            :             case TRAVERSE_CONTINUE:
-<span class="lineNum">     367 </span>            :             default:
-<span class="lineNum">     368 </span><span class="lineCov">       6543 :                 break;</span>
-<span class="lineNum">     369 </span>            :         }
-<span class="lineNum">     370 </span>            :     }
-<span class="lineNum">     371 </span>            : 
-<span class="lineNum">     372 </span><span class="lineCov">       2295 :     switch( visitor.visitPost( canvas ))</span>
-<span class="lineNum">     373 </span>            :     {
-<span class="lineNum">     374 </span>            :         case TRAVERSE_TERMINATE:
-<span class="lineNum">     375 </span><span class="lineNoCov">          0 :             return TRAVERSE_TERMINATE;</span>
-<span class="lineNum">     376 </span>            : 
-<span class="lineNum">     377 </span>            :         case TRAVERSE_PRUNE:
-<span class="lineNum">     378 </span><span class="lineNoCov">          0 :             return TRAVERSE_PRUNE;</span>
-<span class="lineNum">     379 </span>            : 
-<span class="lineNum">     380 </span>            :         case TRAVERSE_CONTINUE:
-<span class="lineNum">     381 </span>            :         default:
-<span class="lineNum">     382 </span><span class="lineCov">       2295 :             break;</span>
-<span class="lineNum">     383 </span>            :     }
-<span class="lineNum">     384 </span>            : 
-<span class="lineNum">     385 </span><span class="lineCov">       2295 :     return result;</span>
-<span class="lineNum">     386 </span>            : }
-<span class="lineNum">     387 </span>            : }
-<a name="388"><span class="lineNum">     388 </span>            : </a>
-<span class="lineNum">     389 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     390 </span><span class="lineCov">       2327 : VisitorResult Canvas&lt; CFG, C, S, L &gt;::accept( Visitor&amp; visitor )</span>
-<span class="lineNum">     391 </span>            : {
-<span class="lineNum">     392 </span><span class="lineCov">       2327 :     return _accept( static_cast&lt; C* &gt;( this ), visitor );</span>
-<span class="lineNum">     393 </span>            : }
-<a name="394"><span class="lineNum">     394 </span>            : </a>
-<span class="lineNum">     395 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     396 </span><span class="lineNoCov">          0 : VisitorResult Canvas&lt; CFG, C, S, L &gt;::accept( Visitor&amp; visitor ) const</span>
-<span class="lineNum">     397 </span>            : {
-<span class="lineNum">     398 </span><span class="lineNoCov">          0 :     return _accept( static_cast&lt; const C* &gt;( this ), visitor );</span>
-<span class="lineNum">     399 </span>            : }
-<a name="400"><span class="lineNum">     400 </span>            : </a>
-<span class="lineNum">     401 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     402 </span><span class="lineCov">        812 : void Canvas&lt; CFG, C, S, L &gt;::setWall( const Wall&amp; wall )</span>
-<span class="lineNum">     403 </span>            : {
-<span class="lineNum">     404 </span><span class="lineCov">        812 :     if( getWall() == wall &amp;&amp; getCurrentType() == TYPE_WALL )</span>
-<span class="lineNum">     405 </span><span class="lineCov">        288 :         return;</span>
-<span class="lineNum">     406 </span>            : 
-<span class="lineNum">     407 </span><span class="lineCov">        524 :     Frustum::setWall( wall );</span>
-<span class="lineNum">     408 </span><span class="lineCov">        524 :     setDirty( DIRTY_FRUSTUM );</span>
-<span class="lineNum">     409 </span><span class="lineCov">       1572 :     for( typename Segments::const_iterator i = _segments.begin();</span>
-<span class="lineNum">     410 </span><span class="lineCov">       1048 :          i != _segments.end(); ++i )</span>
-<span class="lineNum">     411 </span>            :     {
-<span class="lineNum">     412 </span><span class="lineNoCov">          0 :         (*i)-&gt;inheritFrustum();</span>
-<span class="lineNum">     413 </span>            :     }
-<span class="lineNum">     414 </span>            : }
-<a name="415"><span class="lineNum">     415 </span>            : </a>
-<span class="lineNum">     416 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     417 </span><span class="lineNoCov">          0 : void Canvas&lt; CFG, C, S, L &gt;::setProjection( const Projection&amp; projection )</span>
-<span class="lineNum">     418 </span>            : {
-<span class="lineNum">     419 </span><span class="lineNoCov">          0 :     if( getProjection() == projection &amp;&amp; getCurrentType() == TYPE_PROJECTION )</span>
-<span class="lineNum">     420 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     421 </span>            : 
-<span class="lineNum">     422 </span><span class="lineNoCov">          0 :     Frustum::setProjection( projection );</span>
-<span class="lineNum">     423 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_FRUSTUM );</span>
-<span class="lineNum">     424 </span><span class="lineNoCov">          0 :     for( typename Segments::const_iterator i = _segments.begin();</span>
-<span class="lineNum">     425 </span><span class="lineNoCov">          0 :          i != _segments.end(); ++i )</span>
-<span class="lineNum">     426 </span>            :     {
-<span class="lineNum">     427 </span><span class="lineNoCov">          0 :         (*i)-&gt;inheritFrustum();</span>
-<span class="lineNum">     428 </span>            :     }
-<span class="lineNum">     429 </span>            : }
-<a name="430"><span class="lineNum">     430 </span>            : </a>
-<span class="lineNum">     431 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     432 </span><span class="lineNoCov">          0 : void Canvas&lt; CFG, C, S, L &gt;::unsetFrustum()</span>
-<span class="lineNum">     433 </span>            : {
-<span class="lineNum">     434 </span><span class="lineNoCov">          0 :     if( getCurrentType() == TYPE_NONE )</span>
-<span class="lineNum">     435 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     436 </span>            : 
-<span class="lineNum">     437 </span><span class="lineNoCov">          0 :     Frustum::unsetFrustum();</span>
-<span class="lineNum">     438 </span><span class="lineNoCov">          0 :     setDirty( DIRTY_FRUSTUM );</span>
-<span class="lineNum">     439 </span>            : }
-<span class="lineNum">     440 </span>            : 
-<span class="lineNum">     441 </span>            : //----------------------------------------------------------------------
-<span class="lineNum">     442 </span>            : // ICommand handlers
-<a name="443"><span class="lineNum">     443 </span>            : //----------------------------------------------------------------------</a>
-<span class="lineNum">     444 </span>            : template&lt; class CFG, class C, class S, class L &gt; bool
-<span class="lineNum">     445 </span><span class="lineNoCov">          0 : Canvas&lt; CFG, C, S, L &gt;::_cmdNewSegment( co::ICommand&amp; cmd )</span>
-<span class="lineNum">     446 </span>            : {
-<span class="lineNum">     447 </span><span class="lineNoCov">          0 :     co::ObjectICommand command( cmd );</span>
-<span class="lineNum">     448 </span>            : 
-<span class="lineNum">     449 </span><span class="lineNoCov">          0 :     S* segment = 0;</span>
-<span class="lineNum">     450 </span><span class="lineNoCov">          0 :     create( &amp;segment );</span>
-<span class="lineNum">     451 </span><span class="lineNoCov">          0 :     LBASSERT( segment );</span>
-<span class="lineNum">     452 </span>            : 
-<span class="lineNum">     453 </span><span class="lineNoCov">          0 :     getLocalNode()-&gt;registerObject( segment );</span>
-<span class="lineNum">     454 </span><span class="lineNoCov">          0 :     segment-&gt;setAutoObsolete( _config-&gt;getLatency() + 1 );</span>
-<span class="lineNum">     455 </span><span class="lineNoCov">          0 :     LBASSERT( segment-&gt;isAttached() );</span>
-<span class="lineNum">     456 </span>            : 
-<span class="lineNum">     457 </span><span class="lineNoCov">          0 :     send( command.getRemoteNode(), CMD_CANVAS_NEW_SEGMENT_REPLY )</span>
-<span class="lineNum">     458 </span><span class="lineNoCov">          0 :             &lt;&lt; command.read&lt; uint32_t &gt;() &lt;&lt; segment-&gt;getID();</span>
-<span class="lineNum">     459 </span>            : 
-<span class="lineNum">     460 </span><span class="lineNoCov">          0 :     return true;</span>
-<span class="lineNum">     461 </span>            : }
-<a name="462"><span class="lineNum">     462 </span>            : </a>
-<span class="lineNum">     463 </span>            : template&lt; class CFG, class C, class S, class L &gt; bool
-<span class="lineNum">     464 </span><span class="lineNoCov">          0 : Canvas&lt; CFG, C, S, L &gt;::_cmdNewSegmentReply( co::ICommand&amp; cmd )</span>
-<span class="lineNum">     465 </span>            : {
-<span class="lineNum">     466 </span><span class="lineNoCov">          0 :     co::ObjectICommand command( cmd );</span>
-<span class="lineNum">     467 </span>            : 
-<span class="lineNum">     468 </span><span class="lineNoCov">          0 :     const uint32_t requestID = command.read&lt; uint32_t &gt;();</span>
-<span class="lineNum">     469 </span><span class="lineNoCov">          0 :     const uint128_t&amp; result = command.read&lt; uint128_t &gt;();</span>
+<a name="36"><span class="lineNum">      36 </span>            : {</a>
+<span class="lineNum">      37 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">      38 </span><span class="lineCov">        424 : Canvas&lt;CFG, C, S, L&gt;::Canvas(CFG* config)</span>
+<span class="lineNum">      39 </span><span class="lineCov">        424 :     : _config(config)</span>
+<span class="lineNum">      40 </span>            : {
+<span class="lineNum">      41 </span><span class="lineCov">        424 :     LBASSERT(config);</span>
+<span class="lineNum">      42 </span><span class="lineCov">        424 :     setWall(Wall()); // default frustum</span>
+<span class="lineNum">      43 </span><span class="lineCov">        424 :     config-&gt;_addCanvas(static_cast&lt;C*&gt;(this));</span>
+<span class="lineNum">      44 </span><span class="lineCov">        424 :     LBLOG(LOG_INIT) &lt;&lt; &quot;New &quot; &lt;&lt; lunchbox::className(this) &lt;&lt; std::endl;</span>
+<span class="lineNum">      45 </span><span class="lineCov">        424 : }</span>
+<a name="46"><span class="lineNum">      46 </span>            : </a>
+<span class="lineNum">      47 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">      48 </span><span class="lineCov">        422 : Canvas&lt;CFG, C, S, L&gt;::~Canvas()</span>
+<span class="lineNum">      49 </span>            : {
+<span class="lineNum">      50 </span><span class="lineCov">        422 :     LBLOG(LOG_INIT) &lt;&lt; &quot;Delete &quot; &lt;&lt; lunchbox::className(this) &lt;&lt; std::endl;</span>
+<span class="lineNum">      51 </span><span class="lineCov">       2006 :     while (!_segments.empty())</span>
+<span class="lineNum">      52 </span>            :     {
+<span class="lineNum">      53 </span><span class="lineCov">        792 :         S* segment = _segments.back();</span>
+<span class="lineNum">      54 </span><span class="lineCov">        792 :         _removeChild(segment);</span>
+<span class="lineNum">      55 </span><span class="lineCov">        792 :         release(segment);</span>
+<span class="lineNum">      56 </span>            :     }
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">        422 :     _data.activeLayout = 0;</span>
+<span class="lineNum">      59 </span><span class="lineCov">        422 :     _layouts.clear();</span>
+<span class="lineNum">      60 </span><span class="lineCov">        422 :     _config-&gt;_removeCanvas(static_cast&lt;C*&gt;(this));</span>
+<span class="lineNum">      61 </span><span class="lineCov">        844 : }</span>
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<span class="lineNum">      63 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">      64 </span><span class="lineCov">          4 : void Canvas&lt;CFG, C, S, L&gt;::backup()</span>
+<span class="lineNum">      65 </span>            : {
+<span class="lineNum">      66 </span><span class="lineCov">          4 :     _backup = _data;</span>
+<span class="lineNum">      67 </span><span class="lineCov">          4 :     Object::backup();</span>
+<span class="lineNum">      68 </span><span class="lineCov">          4 :     Frustum::backup();</span>
+<span class="lineNum">      69 </span><span class="lineCov">          4 : }</span>
+<a name="70"><span class="lineNum">      70 </span>            : </a>
+<span class="lineNum">      71 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">      72 </span><span class="lineCov">          4 : void Canvas&lt;CFG, C, S, L&gt;::restore()</span>
+<span class="lineNum">      73 </span>            : {
+<span class="lineNum">      74 </span><span class="lineCov">          4 :     Frustum::restore();</span>
+<span class="lineNum">      75 </span><span class="lineCov">          4 :     Object::restore();</span>
+<span class="lineNum">      76 </span><span class="lineCov">          4 :     activateLayout(_backup.activeLayout);</span>
+<span class="lineNum">      77 </span><span class="lineCov">          4 :     _data = _backup;</span>
+<span class="lineNum">      78 </span><span class="lineCov">          4 :     setDirty(DIRTY_LAYOUT);</span>
+<span class="lineNum">      79 </span><span class="lineCov">          4 : }</span>
+<a name="80"><span class="lineNum">      80 </span>            : </a>
+<span class="lineNum">      81 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">      82 </span><span class="lineCov">          6 : void Canvas&lt;CFG, C, S, L&gt;::attach(const uint128_t&amp; id,</span>
+<span class="lineNum">      83 </span>            :                                   const uint32_t instanceID)
+<span class="lineNum">      84 </span>            : {
+<span class="lineNum">      85 </span><span class="lineCov">          6 :     Object::attach(id, instanceID);</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span><span class="lineCov">          6 :     co::CommandQueue* queue = _config-&gt;getMainThreadQueue();</span>
+<span class="lineNum">      88 </span><span class="lineCov">          6 :     LBASSERT(queue);</span>
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineCov">          6 :     registerCommand(CMD_CANVAS_NEW_SEGMENT,</span>
+<span class="lineNum">      91 </span>            :                     CmdFunc(this, &amp;Canvas&lt;CFG, C, S, L&gt;::_cmdNewSegment),
+<span class="lineNum">      92 </span>            :                     queue);
+<span class="lineNum">      93 </span><span class="lineCov">          6 :     registerCommand(CMD_CANVAS_NEW_SEGMENT_REPLY,</span>
+<span class="lineNum">      94 </span>            :                     CmdFunc(this, &amp;Canvas&lt;CFG, C, S, L&gt;::_cmdNewSegmentReply),
+<span class="lineNum">      95 </span>            :                     0);
+<span class="lineNum">      96 </span><span class="lineCov">          6 : }</span>
+<a name="97"><span class="lineNum">      97 </span>            : </a>
+<span class="lineNum">      98 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">      99 </span><span class="lineCov">         20 : uint128_t Canvas&lt;CFG, C, S, L&gt;::commit(const uint32_t incarnation)</span>
+<span class="lineNum">     100 </span>            : {
+<span class="lineNum">     101 </span><span class="lineCov">         20 :     if (Serializable::isDirty(DIRTY_SEGMENTS))</span>
+<span class="lineNum">     102 </span><span class="lineCov">          6 :         commitChildren&lt;S&gt;(_segments, CMD_CANVAS_NEW_SEGMENT, incarnation);</span>
+<span class="lineNum">     103 </span><span class="lineCov">         20 :     return Object::commit(incarnation);</span>
+<span class="lineNum">     104 </span>            : }
+<a name="105"><span class="lineNum">     105 </span>            : </a>
+<span class="lineNum">     106 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     107 </span><span class="lineCov">         12 : void Canvas&lt;CFG, C, S, L&gt;::serialize(co::DataOStream&amp; os,</span>
+<span class="lineNum">     108 </span>            :                                      const uint64_t dirtyBits)
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span><span class="lineCov">         12 :     Object::serialize(os, dirtyBits);</span>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineCov">         12 :     if (dirtyBits &amp; DIRTY_LAYOUT)</span>
+<span class="lineNum">     113 </span><span class="lineCov">         10 :         os &lt;&lt; _data.activeLayout;</span>
+<span class="lineNum">     114 </span><span class="lineCov">         12 :     if (dirtyBits &amp; DIRTY_SEGMENTS &amp;&amp; isMaster())</span>
+<span class="lineNum">     115 </span><span class="lineCov">         12 :         os.serializeChildren(_segments);</span>
+<span class="lineNum">     116 </span><span class="lineCov">         12 :     if (dirtyBits &amp; DIRTY_LAYOUTS)</span>
+<span class="lineNum">     117 </span><span class="lineCov">         10 :         os.serializeChildren(_layouts);</span>
+<span class="lineNum">     118 </span><span class="lineCov">         12 :     if (dirtyBits &amp; DIRTY_FRUSTUM)</span>
+<span class="lineNum">     119 </span><span class="lineCov">         10 :         Frustum::serialize(os);</span>
+<span class="lineNum">     120 </span><span class="lineCov">         12 : }</span>
+<a name="121"><span class="lineNum">     121 </span>            : </a>
+<span class="lineNum">     122 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     123 </span><span class="lineCov">          3 : void Canvas&lt;CFG, C, S, L&gt;::deserialize(co::DataIStream&amp; is,</span>
+<span class="lineNum">     124 </span>            :                                        const uint64_t dirtyBits)
+<span class="lineNum">     125 </span>            : {
+<span class="lineNum">     126 </span><span class="lineCov">          3 :     Object::deserialize(is, dirtyBits);</span>
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span><span class="lineCov">          3 :     if (dirtyBits &amp; DIRTY_LAYOUT)</span>
+<span class="lineNum">     129 </span>            :     {
+<span class="lineNum">     130 </span><span class="lineCov">          2 :         uint32_t index(0);</span>
+<span class="lineNum">     131 </span><span class="lineCov">          2 :         is &gt;&gt; index;</span>
+<span class="lineNum">     132 </span><span class="lineCov">          2 :         activateLayout(index);</span>
+<span class="lineNum">     133 </span>            :     }
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span><span class="lineCov">          3 :     if (dirtyBits &amp; DIRTY_SEGMENTS)</span>
+<span class="lineNum">     136 </span>            :     {
+<span class="lineNum">     137 </span><span class="lineCov">          3 :         if (isMaster())</span>
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 :             syncChildren(_segments);</span>
+<span class="lineNum">     139 </span>            :         else
+<span class="lineNum">     140 </span>            :         {
+<span class="lineNum">     141 </span><span class="lineCov">          6 :             Segments result;</span>
+<span class="lineNum">     142 </span><span class="lineCov">          3 :             is.deserializeChildren(this, _segments, result);</span>
+<span class="lineNum">     143 </span><span class="lineCov">          3 :             _segments.swap(result);</span>
+<span class="lineNum">     144 </span><span class="lineCov">          3 :             LBASSERT(_segments.size() == result.size());</span>
+<span class="lineNum">     145 </span>            :         }
+<span class="lineNum">     146 </span>            :     }
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span><span class="lineCov">          3 :     if (dirtyBits &amp; DIRTY_LAYOUTS)</span>
+<span class="lineNum">     149 </span>            :     {
+<span class="lineNum">     150 </span><span class="lineCov">          2 :         _layouts.clear();</span>
+<span class="lineNum">     151 </span><span class="lineCov">          4 :         co::ObjectVersions layouts;</span>
+<span class="lineNum">     152 </span><span class="lineCov">          2 :         is &gt;&gt; layouts;</span>
+<span class="lineNum">     153 </span><span class="lineCov">         12 :         for (co::ObjectVersions::const_iterator i = layouts.begin();</span>
+<span class="lineNum">     154 </span><span class="lineCov">          8 :              i != layouts.end(); ++i)</span>
+<span class="lineNum">     155 </span>            :         {
+<span class="lineNum">     156 </span><span class="lineCov">          2 :             const uint128_t&amp; id = (*i).identifier;</span>
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span><span class="lineCov">          2 :             if (id == 0)</span>
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :                 _layouts.push_back(0);</span>
+<span class="lineNum">     160 </span>            :             else
+<span class="lineNum">     161 </span>            :             {
+<span class="lineNum">     162 </span><span class="lineCov">          2 :                 L* layout = 0;</span>
+<span class="lineNum">     163 </span><span class="lineCov">          2 :                 _config-&gt;find(id, &amp;layout);</span>
+<span class="lineNum">     164 </span><span class="lineCov">          2 :                 LBASSERT(layout);</span>
+<span class="lineNum">     165 </span><span class="lineCov">          2 :                 _layouts.push_back(layout);</span>
+<span class="lineNum">     166 </span>            :             }
+<span class="lineNum">     167 </span>            :         }
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span><span class="lineCov">          2 :         _config-&gt;updateCanvas(static_cast&lt;C*&gt;(this));</span>
+<span class="lineNum">     170 </span>            :     }
+<span class="lineNum">     171 </span><span class="lineCov">          3 :     if (dirtyBits &amp; DIRTY_FRUSTUM)</span>
+<span class="lineNum">     172 </span><span class="lineCov">          2 :         Frustum::deserialize(is);</span>
+<span class="lineNum">     173 </span><span class="lineCov">          3 : }</span>
+<a name="174"><span class="lineNum">     174 </span>            : </a>
+<span class="lineNum">     175 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     176 </span><span class="lineCov">       5078 : void Canvas&lt;CFG, C, S, L&gt;::setDirty(const uint64_t dirtyBits)</span>
+<span class="lineNum">     177 </span>            : {
+<span class="lineNum">     178 </span><span class="lineCov">       5078 :     Object::setDirty(dirtyBits);</span>
+<span class="lineNum">     179 </span><span class="lineCov">       5078 :     _config-&gt;setDirty(CFG::DIRTY_CANVASES);</span>
+<span class="lineNum">     180 </span><span class="lineCov">       5078 : }</span>
+<a name="181"><span class="lineNum">     181 </span>            : </a>
+<span class="lineNum">     182 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     183 </span><span class="lineCov">          2 : void Canvas&lt;CFG, C, S, L&gt;::create(S** segment)</span>
+<span class="lineNum">     184 </span>            : {
+<span class="lineNum">     185 </span><span class="lineCov">          2 :     *segment = _config-&gt;getServer()-&gt;getNodeFactory()-&gt;createSegment(</span>
+<span class="lineNum">     186 </span>            :         static_cast&lt;C*&gt;(this));
+<span class="lineNum">     187 </span><span class="lineCov">          2 : }</span>
+<a name="188"><span class="lineNum">     188 </span>            : </a>
+<span class="lineNum">     189 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     190 </span><span class="lineCov">        794 : void Canvas&lt;CFG, C, S, L&gt;::release(S* segment)</span>
+<span class="lineNum">     191 </span>            : {
+<span class="lineNum">     192 </span><span class="lineCov">        794 :     _config-&gt;getServer()-&gt;getNodeFactory()-&gt;releaseSegment(segment);</span>
+<span class="lineNum">     193 </span><span class="lineCov">        794 : }</span>
+<a name="194"><span class="lineNum">     194 </span>            : </a>
+<span class="lineNum">     195 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     196 </span><span class="lineCov">          6 : void Canvas&lt;CFG, C, S, L&gt;::notifyDetach()</span>
+<span class="lineNum">     197 </span>            : {
+<span class="lineNum">     198 </span><span class="lineCov">          6 :     Object::notifyDetach();</span>
+<span class="lineNum">     199 </span><span class="lineCov">          6 :     releaseChildren&lt;C, S&gt;(_segments);</span>
+<span class="lineNum">     200 </span><span class="lineCov">          6 : }</span>
+<a name="201"><span class="lineNum">     201 </span>            : </a>
+<span class="lineNum">     202 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     203 </span><span class="lineCov">        796 : void Canvas&lt;CFG, C, S, L&gt;::_addChild(S* segment)</span>
+<span class="lineNum">     204 </span>            : {
+<span class="lineNum">     205 </span><span class="lineCov">        796 :     LBASSERT(segment);</span>
+<span class="lineNum">     206 </span><span class="lineCov">        796 :     LBASSERT(segment-&gt;getCanvas() == this);</span>
+<span class="lineNum">     207 </span><span class="lineCov">        796 :     _segments.push_back(segment);</span>
+<span class="lineNum">     208 </span><span class="lineCov">        796 :     setDirty(DIRTY_SEGMENTS);</span>
+<span class="lineNum">     209 </span><span class="lineCov">        796 : }</span>
+<a name="210"><span class="lineNum">     210 </span>            : </a>
+<span class="lineNum">     211 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     212 </span><span class="lineCov">       1588 : bool Canvas&lt;CFG, C, S, L&gt;::_removeChild(S* segment)</span>
+<span class="lineNum">     213 </span>            : {
+<span class="lineNum">     214 </span><span class="lineCov">       1588 :     typename Segments::iterator i = lunchbox::find(_segments, segment);</span>
+<span class="lineNum">     215 </span><span class="lineCov">       1588 :     if (i == _segments.end())</span>
+<span class="lineNum">     216 </span><span class="lineCov">        794 :         return false;</span>
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span><span class="lineCov">        794 :     LBASSERT(segment-&gt;getCanvas() == this);</span>
+<span class="lineNum">     219 </span><span class="lineCov">        794 :     _segments.erase(i);</span>
+<span class="lineNum">     220 </span><span class="lineCov">        794 :     setDirty(DIRTY_SEGMENTS);</span>
+<span class="lineNum">     221 </span><span class="lineCov">        794 :     if (isAttached() &amp;&amp; !isMaster())</span>
+<span class="lineNum">     222 </span><span class="lineCov">          2 :         postRemove(segment);</span>
+<span class="lineNum">     223 </span><span class="lineCov">        794 :     return true;</span>
+<span class="lineNum">     224 </span>            : }
+<a name="225"><span class="lineNum">     225 </span>            : </a>
+<span class="lineNum">     226 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     227 </span><span class="lineCov">          2 : bool Canvas&lt;CFG, C, S, L&gt;::_mapViewObjects()</span>
+<span class="lineNum">     228 </span>            : {
+<span class="lineNum">     229 </span><span class="lineCov">          2 :     return static_cast&lt;typename CFG::Super*&gt;(_config)-&gt;mapViewObjects();</span>
+<span class="lineNum">     230 </span>            : }
+<a name="231"><span class="lineNum">     231 </span>            : </a>
+<span class="lineNum">     232 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     233 </span><span class="lineCov">       1216 : CanvasPath Canvas&lt;CFG, C, S, L&gt;::getPath() const</span>
+<span class="lineNum">     234 </span>            : {
+<span class="lineNum">     235 </span><span class="lineCov">       1216 :     const CFG* config = getConfig();</span>
+<span class="lineNum">     236 </span><span class="lineCov">       1216 :     LBASSERT(config);</span>
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span><span class="lineCov">       1216 :     const Canvases&amp; canvases = config-&gt;getCanvases();</span>
+<span class="lineNum">     239 </span>            :     typename Canvases::const_iterator i =
+<span class="lineNum">     240 </span><span class="lineCov">       1216 :         std::find(canvases.begin(), canvases.end(), this);</span>
+<span class="lineNum">     241 </span><span class="lineCov">       1216 :     LBASSERT(i != canvases.end());</span>
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineCov">       1216 :     CanvasPath path;</span>
+<span class="lineNum">     244 </span><span class="lineCov">       1216 :     path.canvasIndex = std::distance(canvases.begin(), i);</span>
+<span class="lineNum">     245 </span><span class="lineCov">       1216 :     return path;</span>
+<span class="lineNum">     246 </span>            : }
+<a name="247"><span class="lineNum">     247 </span>            : </a>
+<span class="lineNum">     248 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 : S* Canvas&lt;CFG, C, S, L&gt;::findSegment(const std::string&amp; name)</span>
+<span class="lineNum">     250 </span>            : {
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 :     NameFinder&lt;S, Visitor&gt; finder(name);</span>
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :     accept(finder);</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :     return finder.getResult();</span>
+<span class="lineNum">     254 </span>            : }
+<a name="255"><span class="lineNum">     255 </span>            : </a>
+<span class="lineNum">     256 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 : const S* Canvas&lt;CFG, C, S, L&gt;::findSegment(const std::string&amp; name) const</span>
+<span class="lineNum">     258 </span>            : {
+<span class="lineNum">     259 </span><span class="lineNoCov">          0 :     NameFinder&lt;const S, Visitor&gt; finder(name);</span>
+<span class="lineNum">     260 </span><span class="lineNoCov">          0 :     accept(finder);</span>
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :     return finder.getResult();</span>
+<span class="lineNum">     262 </span>            : }
+<a name="263"><span class="lineNum">     263 </span>            : </a>
+<span class="lineNum">     264 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     265 </span><span class="lineCov">        646 : void Canvas&lt;CFG, C, S, L&gt;::addLayout(L* layout)</span>
+<span class="lineNum">     266 </span>            : {
+<span class="lineNum">     267 </span><span class="lineCov">        646 :     LBASSERT(lunchbox::find(_layouts, layout) == _layouts.end());</span>
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span>            :     // dest channel creation is done be Config::addCanvas
+<span class="lineNum">     270 </span><span class="lineCov">        646 :     _layouts.push_back(layout);</span>
+<span class="lineNum">     271 </span><span class="lineCov">        646 :     setDirty(DIRTY_LAYOUTS);</span>
+<span class="lineNum">     272 </span><span class="lineCov">        646 : }</span>
+<a name="273"><span class="lineNum">     273 </span>            : </a>
+<span class="lineNum">     274 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 : bool Canvas&lt;CFG, C, S, L&gt;::removeLayout(L* layout)</span>
+<span class="lineNum">     276 </span>            : {
+<span class="lineNum">     277 </span><span class="lineNoCov">          0 :     typename Layouts::iterator i = lunchbox::find(_layouts, layout);</span>
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :     if (i == _layouts.end())</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     280 </span>            : 
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :     if (getActiveLayout() == layout)</span>
+<span class="lineNum">     282 </span>            :     {
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :         _data.activeLayout = 0;</span>
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :         setDirty(DIRTY_LAYOUT);</span>
+<span class="lineNum">     285 </span>            :     }
+<span class="lineNum">     286 </span>            : 
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :     _layouts.erase(i);</span>
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_LAYOUTS);</span>
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     290 </span>            : }
+<a name="291"><span class="lineNum">     291 </span>            : </a>
+<span class="lineNum">     292 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     293 </span><span class="lineCov">          8 : const L* Canvas&lt;CFG, C, S, L&gt;::getActiveLayout() const</span>
+<span class="lineNum">     294 </span>            : {
+<span class="lineNum">     295 </span><span class="lineCov">          8 :     LBASSERTINFO(_data.activeLayout &lt; _layouts.size(),</span>
+<span class="lineNum">     296 </span>            :                  _data.activeLayout &lt;&lt; &quot; &gt;= &quot; &lt;&lt; _layouts.size());
+<span class="lineNum">     297 </span><span class="lineCov">          8 :     return _layouts[_data.activeLayout];</span>
+<span class="lineNum">     298 </span>            : }
+<a name="299"><span class="lineNum">     299 </span>            : </a>
+<span class="lineNum">     300 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 : L* Canvas&lt;CFG, C, S, L&gt;::getActiveLayout()</span>
+<span class="lineNum">     302 </span>            : {
+<span class="lineNum">     303 </span><span class="lineNoCov">          0 :     LBASSERTINFO(_data.activeLayout &lt; _layouts.size(),</span>
+<span class="lineNum">     304 </span>            :                  _data.activeLayout &lt;&lt; &quot; &gt;= &quot; &lt;&lt; _layouts.size());
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :     return _layouts[_data.activeLayout];</span>
+<span class="lineNum">     306 </span>            : }
+<a name="307"><span class="lineNum">     307 </span>            : </a>
+<span class="lineNum">     308 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     309 </span><span class="lineNoCov">          0 : bool Canvas&lt;CFG, C, S, L&gt;::useLayout(const uint32_t index)</span>
+<span class="lineNum">     310 </span>            : {
+<span class="lineNum">     311 </span><span class="lineNoCov">          0 :     LBASSERT(index &lt; _layouts.size());</span>
+<span class="lineNum">     312 </span><span class="lineNoCov">          0 :     if (_data.activeLayout == index)</span>
+<span class="lineNum">     313 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span><span class="lineNoCov">          0 :     _data.activeLayout = index;</span>
+<span class="lineNum">     316 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_LAYOUT);</span>
+<span class="lineNum">     317 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     318 </span>            : }
+<a name="319"><span class="lineNum">     319 </span>            : </a>
+<span class="lineNum">     320 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     321 </span><span class="lineCov">          8 : void Canvas&lt;CFG, C, S, L&gt;::setSwapBarrier(SwapBarrierPtr barrier)</span>
+<span class="lineNum">     322 </span>            : {
+<span class="lineNum">     323 </span><span class="lineCov">          8 :     if (barrier.isValid() &amp;&amp; barrier-&gt;getName().empty())</span>
+<span class="lineNum">     324 </span>            :     {
+<span class="lineNum">     325 </span><span class="lineCov">          4 :         const std::string&amp; name = getName();</span>
+<span class="lineNum">     326 </span><span class="lineCov">          8 :         std::stringstream out;</span>
+<span class="lineNum">     327 </span><span class="lineCov">          4 :         out &lt;&lt; &quot;barrier.canvas.&quot;;</span>
+<span class="lineNum">     328 </span><span class="lineCov">          4 :         if (name.empty())</span>
+<span class="lineNum">     329 </span><span class="lineCov">          4 :             if (getConfig())</span>
+<span class="lineNum">     330 </span><span class="lineCov">          4 :                 out &lt;&lt; getPath().canvasIndex;</span>
+<span class="lineNum">     331 </span>            :             else
+<span class="lineNum">     332 </span><span class="lineNoCov">          0 :                 out &lt;&lt; (void*)this;</span>
+<span class="lineNum">     333 </span>            :         else
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 :             out &lt;&lt; name;</span>
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span><span class="lineCov">          4 :         barrier-&gt;setName(out.str());</span>
+<span class="lineNum">     337 </span>            :     }
+<span class="lineNum">     338 </span>            : 
+<span class="lineNum">     339 </span><span class="lineCov">          8 :     _swapBarrier = barrier;</span>
+<span class="lineNum">     340 </span><span class="lineCov">          8 : }</span>
+<span class="lineNum">     341 </span>            : 
+<span class="lineNum">     342 </span>            : namespace
+<a name="343"><span class="lineNum">     343 </span>            : {</a>
+<span class="lineNum">     344 </span>            : template &lt;class C, class V&gt;
+<span class="lineNum">     345 </span><span class="lineCov">       2425 : VisitorResult _accept(C* canvas, V&amp; visitor)</span>
+<span class="lineNum">     346 </span>            : {
+<span class="lineNum">     347 </span><span class="lineCov">       2425 :     VisitorResult result = visitor.visitPre(canvas);</span>
+<span class="lineNum">     348 </span><span class="lineCov">       2425 :     if (result != TRAVERSE_CONTINUE)</span>
+<span class="lineNum">     349 </span><span class="lineCov">         32 :         return result;</span>
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span><span class="lineCov">       2393 :     const typename C::Segments&amp; segments = canvas-&gt;getSegments();</span>
+<span class="lineNum">     352 </span><span class="lineCov">      31512 :     for (typename C::Segments::const_iterator i = segments.begin();</span>
+<span class="lineNum">     353 </span><span class="lineCov">      21008 :          i != segments.end(); ++i)</span>
+<span class="lineNum">     354 </span>            :     {
+<span class="lineNum">     355 </span><span class="lineCov">       8111 :         switch ((*i)-&gt;accept(visitor))</span>
+<span class="lineNum">     356 </span>            :         {
+<span class="lineNum">     357 </span>            :         case TRAVERSE_TERMINATE:
+<span class="lineNum">     358 </span><span class="lineNoCov">          0 :             return TRAVERSE_TERMINATE;</span>
+<span class="lineNum">     359 </span>            : 
+<span class="lineNum">     360 </span>            :         case TRAVERSE_PRUNE:
+<span class="lineNum">     361 </span><span class="lineNoCov">          0 :             result = TRAVERSE_PRUNE;</span>
+<span class="lineNum">     362 </span><span class="lineNoCov">          0 :             break;</span>
+<span class="lineNum">     363 </span>            : 
+<span class="lineNum">     364 </span>            :         case TRAVERSE_CONTINUE:
+<span class="lineNum">     365 </span>            :         default:
+<span class="lineNum">     366 </span><span class="lineCov">       8111 :             break;</span>
+<span class="lineNum">     367 </span>            :         }
+<span class="lineNum">     368 </span>            :     }
+<span class="lineNum">     369 </span>            : 
+<span class="lineNum">     370 </span><span class="lineCov">       2393 :     switch (visitor.visitPost(canvas))</span>
+<span class="lineNum">     371 </span>            :     {
+<span class="lineNum">     372 </span>            :     case TRAVERSE_TERMINATE:
+<span class="lineNum">     373 </span><span class="lineNoCov">          0 :         return TRAVERSE_TERMINATE;</span>
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span>            :     case TRAVERSE_PRUNE:
+<span class="lineNum">     376 </span><span class="lineNoCov">          0 :         return TRAVERSE_PRUNE;</span>
+<span class="lineNum">     377 </span>            : 
+<span class="lineNum">     378 </span>            :     case TRAVERSE_CONTINUE:
+<span class="lineNum">     379 </span>            :     default:
+<span class="lineNum">     380 </span><span class="lineCov">       2393 :         break;</span>
+<span class="lineNum">     381 </span>            :     }
+<span class="lineNum">     382 </span>            : 
+<span class="lineNum">     383 </span><span class="lineCov">       2393 :     return result;</span>
+<span class="lineNum">     384 </span>            : }
+<span class="lineNum">     385 </span>            : }
+<a name="386"><span class="lineNum">     386 </span>            : </a>
+<span class="lineNum">     387 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     388 </span><span class="lineCov">       2425 : VisitorResult Canvas&lt;CFG, C, S, L&gt;::accept(Visitor&amp; visitor)</span>
+<span class="lineNum">     389 </span>            : {
+<span class="lineNum">     390 </span><span class="lineCov">       2425 :     return _accept(static_cast&lt;C*&gt;(this), visitor);</span>
+<span class="lineNum">     391 </span>            : }
+<a name="392"><span class="lineNum">     392 </span>            : </a>
+<span class="lineNum">     393 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     394 </span><span class="lineNoCov">          0 : VisitorResult Canvas&lt;CFG, C, S, L&gt;::accept(Visitor&amp; visitor) const</span>
+<span class="lineNum">     395 </span>            : {
+<span class="lineNum">     396 </span><span class="lineNoCov">          0 :     return _accept(static_cast&lt;const C*&gt;(this), visitor);</span>
+<span class="lineNum">     397 </span>            : }
+<a name="398"><span class="lineNum">     398 </span>            : </a>
+<span class="lineNum">     399 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     400 </span><span class="lineCov">        818 : void Canvas&lt;CFG, C, S, L&gt;::setWall(const Wall&amp; wall)</span>
+<span class="lineNum">     401 </span>            : {
+<span class="lineNum">     402 </span><span class="lineCov">        818 :     if (getWall() == wall &amp;&amp; getCurrentType() == TYPE_WALL)</span>
+<span class="lineNum">     403 </span><span class="lineCov">        290 :         return;</span>
+<span class="lineNum">     404 </span>            : 
+<span class="lineNum">     405 </span><span class="lineCov">        528 :     Frustum::setWall(wall);</span>
+<span class="lineNum">     406 </span><span class="lineCov">        528 :     setDirty(DIRTY_FRUSTUM);</span>
+<span class="lineNum">     407 </span><span class="lineCov">       1584 :     for (typename Segments::const_iterator i = _segments.begin();</span>
+<span class="lineNum">     408 </span><span class="lineCov">       1056 :          i != _segments.end(); ++i)</span>
+<span class="lineNum">     409 </span>            :     {
+<span class="lineNum">     410 </span><span class="lineNoCov">          0 :         (*i)-&gt;inheritFrustum();</span>
+<span class="lineNum">     411 </span>            :     }
+<span class="lineNum">     412 </span>            : }
+<a name="413"><span class="lineNum">     413 </span>            : </a>
+<span class="lineNum">     414 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 : void Canvas&lt;CFG, C, S, L&gt;::setProjection(const Projection&amp; projection)</span>
+<span class="lineNum">     416 </span>            : {
+<span class="lineNum">     417 </span><span class="lineNoCov">          0 :     if (getProjection() == projection &amp;&amp; getCurrentType() == TYPE_PROJECTION)</span>
+<span class="lineNum">     418 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     419 </span>            : 
+<span class="lineNum">     420 </span><span class="lineNoCov">          0 :     Frustum::setProjection(projection);</span>
+<span class="lineNum">     421 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_FRUSTUM);</span>
+<span class="lineNum">     422 </span><span class="lineNoCov">          0 :     for (typename Segments::const_iterator i = _segments.begin();</span>
+<span class="lineNum">     423 </span><span class="lineNoCov">          0 :          i != _segments.end(); ++i)</span>
+<span class="lineNum">     424 </span>            :     {
+<span class="lineNum">     425 </span><span class="lineNoCov">          0 :         (*i)-&gt;inheritFrustum();</span>
+<span class="lineNum">     426 </span>            :     }
+<span class="lineNum">     427 </span>            : }
+<a name="428"><span class="lineNum">     428 </span>            : </a>
+<span class="lineNum">     429 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     430 </span><span class="lineNoCov">          0 : void Canvas&lt;CFG, C, S, L&gt;::unsetFrustum()</span>
+<span class="lineNum">     431 </span>            : {
+<span class="lineNum">     432 </span><span class="lineNoCov">          0 :     if (getCurrentType() == TYPE_NONE)</span>
+<span class="lineNum">     433 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     434 </span>            : 
+<span class="lineNum">     435 </span><span class="lineNoCov">          0 :     Frustum::unsetFrustum();</span>
+<span class="lineNum">     436 </span><span class="lineNoCov">          0 :     setDirty(DIRTY_FRUSTUM);</span>
+<span class="lineNum">     437 </span>            : }
+<span class="lineNum">     438 </span>            : 
+<span class="lineNum">     439 </span>            : //----------------------------------------------------------------------
+<span class="lineNum">     440 </span>            : // ICommand handlers
+<a name="441"><span class="lineNum">     441 </span>            : //----------------------------------------------------------------------</a>
+<span class="lineNum">     442 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     443 </span><span class="lineNoCov">          0 : bool Canvas&lt;CFG, C, S, L&gt;::_cmdNewSegment(co::ICommand&amp; cmd)</span>
+<span class="lineNum">     444 </span>            : {
+<span class="lineNum">     445 </span><span class="lineNoCov">          0 :     co::ObjectICommand command(cmd);</span>
+<span class="lineNum">     446 </span>            : 
+<span class="lineNum">     447 </span><span class="lineNoCov">          0 :     S* segment = 0;</span>
+<span class="lineNum">     448 </span><span class="lineNoCov">          0 :     create(&amp;segment);</span>
+<span class="lineNum">     449 </span><span class="lineNoCov">          0 :     LBASSERT(segment);</span>
+<span class="lineNum">     450 </span>            : 
+<span class="lineNum">     451 </span><span class="lineNoCov">          0 :     getLocalNode()-&gt;registerObject(segment);</span>
+<span class="lineNum">     452 </span><span class="lineNoCov">          0 :     segment-&gt;setAutoObsolete(_config-&gt;getLatency() + 1);</span>
+<span class="lineNum">     453 </span><span class="lineNoCov">          0 :     LBASSERT(segment-&gt;isAttached());</span>
+<span class="lineNum">     454 </span>            : 
+<span class="lineNum">     455 </span><span class="lineNoCov">          0 :     send(command.getRemoteNode(), CMD_CANVAS_NEW_SEGMENT_REPLY)</span>
+<span class="lineNum">     456 </span><span class="lineNoCov">          0 :         &lt;&lt; command.read&lt;uint32_t&gt;() &lt;&lt; segment-&gt;getID();</span>
+<span class="lineNum">     457 </span>            : 
+<span class="lineNum">     458 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     459 </span>            : }
+<a name="460"><span class="lineNum">     460 </span>            : </a>
+<span class="lineNum">     461 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     462 </span><span class="lineNoCov">          0 : bool Canvas&lt;CFG, C, S, L&gt;::_cmdNewSegmentReply(co::ICommand&amp; cmd)</span>
+<span class="lineNum">     463 </span>            : {
+<span class="lineNum">     464 </span><span class="lineNoCov">          0 :     co::ObjectICommand command(cmd);</span>
+<span class="lineNum">     465 </span>            : 
+<span class="lineNum">     466 </span><span class="lineNoCov">          0 :     const uint32_t requestID = command.read&lt;uint32_t&gt;();</span>
+<span class="lineNum">     467 </span><span class="lineNoCov">          0 :     const uint128_t&amp; result = command.read&lt;uint128_t&gt;();</span>
+<span class="lineNum">     468 </span>            : 
+<span class="lineNum">     469 </span><span class="lineNoCov">          0 :     getLocalNode()-&gt;serveRequest(requestID, result);</span>
 <span class="lineNum">     470 </span>            : 
-<span class="lineNum">     471 </span><span class="lineNoCov">          0 :     getLocalNode()-&gt;serveRequest( requestID, result );</span>
-<span class="lineNum">     472 </span>            : 
-<span class="lineNum">     473 </span><span class="lineNoCov">          0 :     return true;</span>
-<span class="lineNum">     474 </span>            : }
-<a name="475"><span class="lineNum">     475 </span>            : </a>
-<span class="lineNum">     476 </span>            : template&lt; class CFG, class C, class S, class L &gt;
-<span class="lineNum">     477 </span><span class="lineCov">        210 : std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os,</span>
-<span class="lineNum">     478 </span>            :                             const Canvas&lt; CFG, C, S, L &gt;&amp; canvas )
-<span class="lineNum">     479 </span>            : {
-<span class="lineNum">     480 </span><span class="lineCov">        210 :     os &lt;&lt; lunchbox::disableFlush &lt;&lt; lunchbox::disableHeader &lt;&lt; &quot;canvas&quot;</span>
-<span class="lineNum">     481 </span>            :        &lt;&lt; std::endl;
-<span class="lineNum">     482 </span><span class="lineCov">        210 :     os &lt;&lt; &quot;{&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::indent;</span>
-<span class="lineNum">     483 </span>            : 
-<span class="lineNum">     484 </span><span class="lineCov">        210 :     const std::string&amp; name = canvas.getName();</span>
-<span class="lineNum">     485 </span><span class="lineCov">        210 :     if( !name.empty( ))</span>
-<span class="lineNum">     486 </span><span class="lineCov">          6 :         os &lt;&lt; &quot;name     \&quot;&quot; &lt;&lt; name &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     487 </span>            : 
-<span class="lineNum">     488 </span><span class="lineCov">        210 :     const std::vector&lt; L* &gt;&amp; layouts = canvas.getLayouts();</span>
-<span class="lineNum">     489 </span><span class="lineCov">       1596 :     for( typename std::vector&lt; L* &gt;::const_iterator i = layouts.begin();</span>
-<span class="lineNum">     490 </span><span class="lineCov">       1064 :          i != layouts.end(); ++i )</span>
-<span class="lineNum">     491 </span>            :     {
-<span class="lineNum">     492 </span><span class="lineCov">        322 :         L* layout = *i;</span>
-<span class="lineNum">     493 </span><span class="lineCov">        322 :         if( layout )</span>
-<span class="lineNum">     494 </span>            :         {
-<span class="lineNum">     495 </span><span class="lineCov">        320 :             const CFG* config = layout-&gt;getConfig();</span>
-<span class="lineNum">     496 </span><span class="lineCov">        320 :             const std::string&amp; layoutName = layout-&gt;getName();</span>
-<span class="lineNum">     497 </span><span class="lineCov">        320 :             const L* foundLayout = 0;</span>
-<span class="lineNum">     498 </span><span class="lineCov">        320 :             config-&gt;find( layoutName, &amp;foundLayout );</span>
-<span class="lineNum">     499 </span><span class="lineCov">        320 :             if( foundLayout == layout )</span>
-<span class="lineNum">     500 </span><span class="lineCov">        318 :                 os &lt;&lt; &quot;layout   \&quot;&quot; &lt;&lt; layoutName &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     501 </span>            :             else
-<span class="lineNum">     502 </span><span class="lineCov">          2 :                 os &lt;&lt; layout-&gt;getPath() &lt;&lt; std::endl;</span>
-<span class="lineNum">     503 </span>            :         }
-<span class="lineNum">     504 </span>            :         else
-<span class="lineNum">     505 </span><span class="lineCov">          2 :             os &lt;&lt; &quot;layout   OFF&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     506 </span>            :     }
-<span class="lineNum">     507 </span>            : 
-<span class="lineNum">     508 </span><span class="lineCov">        210 :     if( canvas.getSwapBarrier().isValid( ))</span>
-<span class="lineNum">     509 </span><span class="lineCov">          2 :         os &lt;&lt; *canvas.getSwapBarrier();</span>
-<span class="lineNum">     510 </span><span class="lineCov">        210 :     os &lt;&lt; static_cast&lt; const Frustum&amp; &gt;( canvas );</span>
-<span class="lineNum">     511 </span>            : 
-<span class="lineNum">     512 </span><span class="lineCov">        210 :     const std::vector&lt; S* &gt;&amp; segments = canvas.getSegments();</span>
-<span class="lineNum">     513 </span><span class="lineCov">       1728 :     for( typename std::vector&lt; S* &gt;::const_iterator i = segments.begin();</span>
-<span class="lineNum">     514 </span><span class="lineCov">       1152 :          i != segments.end(); ++i )</span>
-<span class="lineNum">     515 </span>            :     {
-<span class="lineNum">     516 </span><span class="lineCov">        366 :         os &lt;&lt; **i;</span>
-<span class="lineNum">     517 </span>            :     }
-<span class="lineNum">     518 </span><span class="lineCov">        210 :     os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::enableHeader</span>
-<span class="lineNum">     519 </span>            :        &lt;&lt; lunchbox::enableFlush;
-<span class="lineNum">     520 </span><span class="lineCov">        210 :     return os;</span>
-<span class="lineNum">     521 </span>            : }
-<span class="lineNum">     522 </span>            : 
-<span class="lineNum">     523 </span>            : }
-<span class="lineNum">     524 </span>            : }
+<span class="lineNum">     471 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     472 </span>            : }
+<a name="473"><span class="lineNum">     473 </span>            : </a>
+<span class="lineNum">     474 </span>            : template &lt;class CFG, class C, class S, class L&gt;
+<span class="lineNum">     475 </span><span class="lineCov">        212 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Canvas&lt;CFG, C, S, L&gt;&amp; canvas)</span>
+<span class="lineNum">     476 </span>            : {
+<span class="lineNum">     477 </span><span class="lineCov">        212 :     os &lt;&lt; lunchbox::disableFlush &lt;&lt; lunchbox::disableHeader &lt;&lt; &quot;canvas&quot;</span>
+<span class="lineNum">     478 </span>            :        &lt;&lt; std::endl;
+<span class="lineNum">     479 </span><span class="lineCov">        212 :     os &lt;&lt; &quot;{&quot; &lt;&lt; std::endl &lt;&lt; lunchbox::indent;</span>
+<span class="lineNum">     480 </span>            : 
+<span class="lineNum">     481 </span><span class="lineCov">        212 :     const std::string&amp; name = canvas.getName();</span>
+<span class="lineNum">     482 </span><span class="lineCov">        212 :     if (!name.empty())</span>
+<span class="lineNum">     483 </span><span class="lineCov">          6 :         os &lt;&lt; &quot;name     \&quot;&quot; &lt;&lt; name &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     484 </span>            : 
+<span class="lineNum">     485 </span><span class="lineCov">        212 :     const std::vector&lt;L*&gt;&amp; layouts = canvas.getLayouts();</span>
+<span class="lineNum">     486 </span><span class="lineCov">       1608 :     for (typename std::vector&lt;L*&gt;::const_iterator i = layouts.begin();</span>
+<span class="lineNum">     487 </span><span class="lineCov">       1072 :          i != layouts.end(); ++i)</span>
+<span class="lineNum">     488 </span>            :     {
+<span class="lineNum">     489 </span><span class="lineCov">        324 :         L* layout = *i;</span>
+<span class="lineNum">     490 </span><span class="lineCov">        324 :         if (layout)</span>
+<span class="lineNum">     491 </span>            :         {
+<span class="lineNum">     492 </span><span class="lineCov">        322 :             const CFG* config = layout-&gt;getConfig();</span>
+<span class="lineNum">     493 </span><span class="lineCov">        322 :             const std::string&amp; layoutName = layout-&gt;getName();</span>
+<span class="lineNum">     494 </span><span class="lineCov">        322 :             const L* foundLayout = 0;</span>
+<span class="lineNum">     495 </span><span class="lineCov">        322 :             config-&gt;find(layoutName, &amp;foundLayout);</span>
+<span class="lineNum">     496 </span><span class="lineCov">        322 :             if (foundLayout == layout)</span>
+<span class="lineNum">     497 </span><span class="lineCov">        320 :                 os &lt;&lt; &quot;layout   \&quot;&quot; &lt;&lt; layoutName &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     498 </span>            :             else
+<span class="lineNum">     499 </span><span class="lineCov">          2 :                 os &lt;&lt; layout-&gt;getPath() &lt;&lt; std::endl;</span>
+<span class="lineNum">     500 </span>            :         }
+<span class="lineNum">     501 </span>            :         else
+<span class="lineNum">     502 </span><span class="lineCov">          2 :             os &lt;&lt; &quot;layout   OFF&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     503 </span>            :     }
+<span class="lineNum">     504 </span>            : 
+<span class="lineNum">     505 </span><span class="lineCov">        212 :     if (canvas.getSwapBarrier().isValid())</span>
+<span class="lineNum">     506 </span><span class="lineCov">          4 :         os &lt;&lt; *canvas.getSwapBarrier();</span>
+<span class="lineNum">     507 </span><span class="lineCov">        212 :     os &lt;&lt; static_cast&lt;const Frustum&amp;&gt;(canvas);</span>
+<span class="lineNum">     508 </span>            : 
+<span class="lineNum">     509 </span><span class="lineCov">        212 :     const std::vector&lt;S*&gt;&amp; segments = canvas.getSegments();</span>
+<span class="lineNum">     510 </span><span class="lineCov">       1830 :     for (typename std::vector&lt;S*&gt;::const_iterator i = segments.begin();</span>
+<span class="lineNum">     511 </span><span class="lineCov">       1220 :          i != segments.end(); ++i)</span>
+<span class="lineNum">     512 </span>            :     {
+<span class="lineNum">     513 </span><span class="lineCov">        398 :         os &lt;&lt; **i;</span>
+<span class="lineNum">     514 </span>            :     }
+<span class="lineNum">     515 </span><span class="lineCov">        424 :     os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; std::endl</span>
+<span class="lineNum">     516 </span><span class="lineCov">        212 :        &lt;&lt; lunchbox::enableHeader &lt;&lt; lunchbox::enableFlush;</span>
+<span class="lineNum">     517 </span><span class="lineCov">        212 :     return os;</span>
+<span class="lineNum">     518 </span>            : }
+<span class="lineNum">     519 </span>            : }
+<span class="lineNum">     520 </span>            : }
 </pre>
       </td>
     </tr>

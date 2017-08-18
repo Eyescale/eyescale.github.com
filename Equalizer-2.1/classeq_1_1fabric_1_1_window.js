@@ -1,7 +1,7 @@
 var classeq_1_1fabric_1_1_window =
 [
-    [ "Channels", "classeq_1_1fabric_1_1_window.html#a1ea47ec88c8a3f1d3236f464ce2eb530", null ],
-    [ "Visitor", "classeq_1_1fabric_1_1_window.html#a7a62d967c5413fe38ff50b0290527a6f", null ],
+    [ "Channels", "classeq_1_1fabric_1_1_window.html#ab9ab7bae18927da8c848060a4fee2ce5", null ],
+    [ "Visitor", "classeq_1_1fabric_1_1_window.html#a81e825e1e749e10c62208e5a68926e59", null ],
     [ "DirtyBits", "classeq_1_1fabric_1_1_window.html#a493eb8f330e0c4272a6b5b187b0f9476", [
       [ "DIRTY_SETTINGS", "classeq_1_1fabric_1_1_window.html#a493eb8f330e0c4272a6b5b187b0f9476ab52cba8f641189066635541bdffdaa88", null ],
       [ "DIRTY_CHANNELS", "classeq_1_1fabric_1_1_window.html#a493eb8f330e0c4272a6b5b187b0f9476a399a981cbf64d5de53c01eba9a3d2402", null ],

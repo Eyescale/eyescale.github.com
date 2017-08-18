@@ -1,9 +1,9 @@
 var classeq_1_1fabric_1_1_canvas =
 [
-    [ "Canvases", "classeq_1_1fabric_1_1_canvas.html#a6a67e9740720e6d423a7c046c6792523", null ],
-    [ "Layouts", "classeq_1_1fabric_1_1_canvas.html#aa2ba02e09640fe2107984f5368f14928", null ],
-    [ "Segments", "classeq_1_1fabric_1_1_canvas.html#af8784510d513b46d6a17981dbda687ca", null ],
-    [ "Visitor", "classeq_1_1fabric_1_1_canvas.html#a95b6899fe275cbe3214d8d41f95fd515", null ],
+    [ "Canvases", "classeq_1_1fabric_1_1_canvas.html#a4a64fa6dc0bae780d475fc121a028058", null ],
+    [ "Layouts", "classeq_1_1fabric_1_1_canvas.html#a3fb06e13d38f10efe1a9f7d5ea718b2d", null ],
+    [ "Segments", "classeq_1_1fabric_1_1_canvas.html#a1a0a170ea03facfcaeb6f23703b2e38a", null ],
+    [ "Visitor", "classeq_1_1fabric_1_1_canvas.html#a6d4718d80c1dec3be58285d7a94a0160", null ],
     [ "Canvas", "classeq_1_1fabric_1_1_canvas.html#ab76c5c0835a408c41abce1608aa28735", null ],
     [ "~Canvas", "classeq_1_1fabric_1_1_canvas.html#a8025946d815808fff70cb7deffe25e41", null ],
     [ "accept", "classeq_1_1fabric_1_1_canvas.html#affe95b4bbe1909168fca3eaa2bfef1d8", null ],

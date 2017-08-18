@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">5</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -88,50 +88,55 @@
 <span class="lineNum">      26 </span>            : {
 <span class="lineNum">      27 </span>            : namespace fabric
 <a name="28"><span class="lineNum">      28 </span>            : {</a>
-<span class="lineNum">      29 </span>            :     /** A structure containing GPU-specific information. */
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 :     struct GPUInfo</span>
-<a name="31"><span class="lineNum">      31 </span>            :     {</a>
-<span class="lineNum">      32 </span>            :         /** Default constructor pointing to default display. */
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         GPUInfo() : port( LB_UNDEFINED_UINT32 ), device( LB_UNDEFINED_UINT32 )</span>
-<span class="lineNum">      34 </span><span class="lineNoCov">          0 :             {}</span>
-<span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span>            :         /** @return true if both infos are identical. @version 1.0 */
-<span class="lineNum">      37 </span>            :         bool operator == ( const GPUInfo&amp; rhs ) const
-<span class="lineNum">      38 </span>            :             { return port==rhs.port &amp;&amp; device==rhs.device &amp;&amp; pvp==rhs.pvp; }
-<span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span>            :         /** @return true if both infos are not identical. @version 1.0 */
-<span class="lineNum">      41 </span>            :         bool operator != ( const GPUInfo&amp; rhs ) const
-<span class="lineNum">      42 </span>            :             { return port!=rhs.port || device!=rhs.device || pvp!=rhs.pvp; }
-<span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span>            :         /** The display (GLX) or ignored (Win32, AGL). */
-<span class="lineNum">      45 </span>            :         uint32_t port;
-<span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span>            :         /** The screen (GLX), GPU (Win32) or virtual screen (AGL). */
-<span class="lineNum">      48 </span>            :         uint32_t device;
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            :         /** The size and location of the GPU. */
-<span class="lineNum">      51 </span>            :         PixelViewport pvp;
-<span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span>            :         std::string hostname; //!&lt; remote system  hostname, empty for local GPUs
-<span class="lineNum">      54 </span>            :     };
-<span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span>            :     inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const GPUInfo&amp; info )
-<span class="lineNum">      57 </span>            :     {
-<span class="lineNum">      58 </span>            :         if( !info.hostname.empty( ))
-<span class="lineNum">      59 </span>            :             os &lt;&lt; &quot;hostname &quot; &lt;&lt; info.hostname &lt;&lt; std::endl;
-<span class="lineNum">      60 </span>            :         if( info.port != LB_UNDEFINED_UINT32 )
-<span class="lineNum">      61 </span>            :             os &lt;&lt; &quot;port     &quot; &lt;&lt; info.port &lt;&lt; std::endl;
-<span class="lineNum">      62 </span>            :         if( info.device != LB_UNDEFINED_UINT32 )
-<span class="lineNum">      63 </span>            :             os &lt;&lt; &quot;device   &quot; &lt;&lt; info.device &lt;&lt; std::endl;
-<span class="lineNum">      64 </span>            :         if( info.pvp.isValid( ))
-<span class="lineNum">      65 </span>            :             os &lt;&lt; &quot;viewport &quot; &lt;&lt; info.pvp &lt;&lt; std::endl;
-<span class="lineNum">      66 </span>            :         return os;
-<span class="lineNum">      67 </span>            :     }
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            : }
-<span class="lineNum">      70 </span>            : }
-<span class="lineNum">      71 </span>            : #endif // EQFABRIC_GPUINFO_H
-<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      29 </span>            : /** A structure containing GPU-specific information. */
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 : struct GPUInfo</span>
+<a name="31"><span class="lineNum">      31 </span>            : {</a>
+<span class="lineNum">      32 </span>            :     /** Default constructor pointing to default display. */
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :     GPUInfo()</span>
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         : port(LB_UNDEFINED_UINT32)</span>
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         , device(LB_UNDEFINED_UINT32)</span>
+<span class="lineNum">      36 </span>            :     {
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            :     /** @return true if both infos are identical. @version 1.0 */
+<span class="lineNum">      40 </span>            :     bool operator==(const GPUInfo&amp; rhs) const
+<span class="lineNum">      41 </span>            :     {
+<span class="lineNum">      42 </span>            :         return port == rhs.port &amp;&amp; device == rhs.device &amp;&amp; pvp == rhs.pvp;
+<span class="lineNum">      43 </span>            :     }
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            :     /** @return true if both infos are not identical. @version 1.0 */
+<span class="lineNum">      46 </span>            :     bool operator!=(const GPUInfo&amp; rhs) const
+<span class="lineNum">      47 </span>            :     {
+<span class="lineNum">      48 </span>            :         return port != rhs.port || device != rhs.device || pvp != rhs.pvp;
+<span class="lineNum">      49 </span>            :     }
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :     /** The display (GLX) or ignored (Win32, AGL). */
+<span class="lineNum">      52 </span>            :     uint32_t port;
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            :     /** The screen (GLX), GPU (Win32) or virtual screen (AGL). */
+<span class="lineNum">      55 </span>            :     uint32_t device;
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :     /** The size and location of the GPU. */
+<span class="lineNum">      58 </span>            :     PixelViewport pvp;
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     std::string hostname; //!&lt; remote system  hostname, empty for local GPUs
+<span class="lineNum">      61 </span>            : };
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : inline std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const GPUInfo&amp; info)
+<span class="lineNum">      64 </span>            : {
+<span class="lineNum">      65 </span>            :     if (!info.hostname.empty())
+<span class="lineNum">      66 </span>            :         os &lt;&lt; &quot;hostname &quot; &lt;&lt; info.hostname &lt;&lt; std::endl;
+<span class="lineNum">      67 </span>            :     if (info.port != LB_UNDEFINED_UINT32)
+<span class="lineNum">      68 </span>            :         os &lt;&lt; &quot;port     &quot; &lt;&lt; info.port &lt;&lt; std::endl;
+<span class="lineNum">      69 </span>            :     if (info.device != LB_UNDEFINED_UINT32)
+<span class="lineNum">      70 </span>            :         os &lt;&lt; &quot;device   &quot; &lt;&lt; info.device &lt;&lt; std::endl;
+<span class="lineNum">      71 </span>            :     if (info.pvp.isValid())
+<span class="lineNum">      72 </span>            :         os &lt;&lt; &quot;viewport &quot; &lt;&lt; info.pvp &lt;&lt; std::endl;
+<span class="lineNum">      73 </span>            :     return os;
+<span class="lineNum">      74 </span>            : }
+<span class="lineNum">      75 </span>            : }
+<span class="lineNum">      76 </span>            : }
+<span class="lineNum">      77 </span>            : #endif // EQFABRIC_GPUINFO_H
 </pre>
       </td>
     </tr>

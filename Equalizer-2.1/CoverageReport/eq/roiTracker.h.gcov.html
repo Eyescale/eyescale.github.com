@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -80,14 +80,14 @@
 <span class="lineNum">      18 </span>            : #ifndef EQ_ROI_TRACKER_H
 <span class="lineNum">      19 </span>            : #define EQ_ROI_TRACKER_H
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #include &lt;eq/types.h&gt;
-<span class="lineNum">      22 </span>            : #include &lt;eq/fabric/pixelViewport.h&gt; // member
+<span class="lineNum">      21 </span>            : #include &lt;eq/fabric/pixelViewport.h&gt; // member
+<span class="lineNum">      22 </span>            : #include &lt;eq/types.h&gt;
 <span class="lineNum">      23 </span>            : 
 <span class="lineNum">      24 </span>            : #include &lt;co/types.h&gt;
 <span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span>            : #include &lt;vector&gt;
-<span class="lineNum">      27 </span>            : #include &lt;string&gt;
-<span class="lineNum">      28 </span>            : #include &lt;unordered_map&gt;
+<span class="lineNum">      26 </span>            : #include &lt;string&gt;
+<span class="lineNum">      27 </span>            : #include &lt;unordered_map&gt;
+<span class="lineNum">      28 </span>            : #include &lt;vector&gt;
 <span class="lineNum">      29 </span>            : 
 <span class="lineNum">      30 </span>            : namespace eq
 <span class="lineNum">      31 </span>            : {
@@ -117,63 +117,60 @@
 <span class="lineNum">      55 </span>            :      *
 <span class="lineNum">      56 </span>            :      * @return true if ROIFinder should be called for given region.
 <span class="lineNum">      57 </span>            :      */
-<span class="lineNum">      58 </span>            :     bool useROIFinder( const PixelViewport&amp;   pvp,
-<span class="lineNum">      59 </span>            :                        const uint32_t        stage,
-<span class="lineNum">      60 </span>            :                        const uint128_t&amp;      frameID,
-<span class="lineNum">      61 </span>            :                        uint8_t*&amp;       ticket );
-<span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span>            :     /**
-<span class="lineNum">      64 </span>            :      * Has to be called once after every positive result from useROIFinder.
-<span class="lineNum">      65 </span>            :      * Shouldn't be called otherwise
-<span class="lineNum">      66 </span>            :      *
-<span class="lineNum">      67 </span>            :      * It checks how much space ROIFinder was able to discard and if it is not
-<span class="lineNum">      68 </span>            :      * enough it will disable usage of ROIFinder for several next frames. If
-<span class="lineNum">      69 </span>            :      * ROIFinder was able to cut-off enought it will reset failure statistics
-<span class="lineNum">      70 </span>            :      * for that region.
-<span class="lineNum">      71 </span>            :      *
-<span class="lineNum">      72 </span>            :      * @param  pvps    result from ROIFinder
-<span class="lineNum">      73 </span>            :      * @param  ticket  value from useROIFinder
-<span class="lineNum">      74 </span>            :      */
-<span class="lineNum">      75 </span>            :     void updateDelay( const PixelViewports&amp; pvps, const uint8_t* ticket );
-<span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span>            : private:
-<span class="lineNum">      78 </span>            :     ROITracker( const ROITracker&amp; ) = delete;
-<span class="lineNum">      79 </span>            :     ROITracker&amp; operator=( const ROITracker&amp; ) = delete;
-<span class="lineNum">      80 </span>            : 
-<span class="lineNum">      81 </span>            :     /** Area of readback */
-<span class="lineNum">      82 </span>            :     struct Area
-<span class="lineNum">      83 </span>            :     {
-<span class="lineNum">      84 </span>            :         Area( const PixelViewport&amp; pvp_,
-<span class="lineNum">      85 </span>            :               uint32_t       lastSkip_ = 0,
-<span class="lineNum">      86 </span>            :               uint32_t       skip_     = 0 );
-<span class="lineNum">      87 </span>            : 
-<span class="lineNum">      88 </span>            :         PixelViewport pvp;
-<span class="lineNum">      89 </span>            :         uint32_t      lastSkip; //!&lt; Previousely skiped number of frames
-<span class="lineNum">      90 </span>            :         uint32_t      skip;     //!&lt; Number of frames to skip ROIFinder
-<a name="91"><span class="lineNum">      91 </span>            :     };</a>
-<span class="lineNum">      92 </span>            :     /** Set of readback areas per compositiong stage */
-<span class="lineNum">      93 </span><span class="lineNoCov">          0 :     struct Stage</span>
-<span class="lineNum">      94 </span>            :     {
-<span class="lineNum">      95 </span>            :         std::vector&lt; Area &gt; areas;
-<span class="lineNum">      96 </span>            :     };
-<span class="lineNum">      97 </span>            :     /** Areas for different compositiong stages for current frame.
-<span class="lineNum">      98 </span>            :         This data if filled during useROIFinder calls, it uses
-<span class="lineNum">      99 </span>            :         useROIFinder parameters and _prvFrame data as refference */
-<span class="lineNum">     100 </span>            :     std::unordered_map&lt; uint32_t, Stage &gt;* _curFrame;
+<span class="lineNum">      58 </span>            :     bool useROIFinder(const PixelViewport&amp; pvp, const uint32_t stage,
+<span class="lineNum">      59 </span>            :                       const uint128_t&amp; frameID, uint8_t*&amp; ticket);
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :     /**
+<span class="lineNum">      62 </span>            :      * Has to be called once after every positive result from useROIFinder.
+<span class="lineNum">      63 </span>            :      * Shouldn't be called otherwise
+<span class="lineNum">      64 </span>            :      *
+<span class="lineNum">      65 </span>            :      * It checks how much space ROIFinder was able to discard and if it is not
+<span class="lineNum">      66 </span>            :      * enough it will disable usage of ROIFinder for several next frames. If
+<span class="lineNum">      67 </span>            :      * ROIFinder was able to cut-off enought it will reset failure statistics
+<span class="lineNum">      68 </span>            :      * for that region.
+<span class="lineNum">      69 </span>            :      *
+<span class="lineNum">      70 </span>            :      * @param  pvps    result from ROIFinder
+<span class="lineNum">      71 </span>            :      * @param  ticket  value from useROIFinder
+<span class="lineNum">      72 </span>            :      */
+<span class="lineNum">      73 </span>            :     void updateDelay(const PixelViewports&amp; pvps, const uint8_t* ticket);
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            : private:
+<span class="lineNum">      76 </span>            :     ROITracker(const ROITracker&amp;) = delete;
+<span class="lineNum">      77 </span>            :     ROITracker&amp; operator=(const ROITracker&amp;) = delete;
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :     /** Area of readback */
+<span class="lineNum">      80 </span>            :     struct Area
+<span class="lineNum">      81 </span>            :     {
+<span class="lineNum">      82 </span>            :         Area(const PixelViewport&amp; pvp_, uint32_t lastSkip_ = 0,
+<span class="lineNum">      83 </span>            :              uint32_t skip_ = 0);
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            :         PixelViewport pvp;
+<span class="lineNum">      86 </span>            :         uint32_t lastSkip; //!&lt; Previousely skiped number of frames
+<span class="lineNum">      87 </span>            :         uint32_t skip;     //!&lt; Number of frames to skip ROIFinder
+<a name="88"><span class="lineNum">      88 </span>            :     };</a>
+<span class="lineNum">      89 </span>            :     /** Set of readback areas per compositiong stage */
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :     struct Stage</span>
+<span class="lineNum">      91 </span>            :     {
+<span class="lineNum">      92 </span>            :         std::vector&lt;Area&gt; areas;
+<span class="lineNum">      93 </span>            :     };
+<span class="lineNum">      94 </span>            :     /** Areas for different compositiong stages for current frame.
+<span class="lineNum">      95 </span>            :         This data if filled during useROIFinder calls, it uses
+<span class="lineNum">      96 </span>            :         useROIFinder parameters and _prvFrame data as refference */
+<span class="lineNum">      97 </span>            :     std::unordered_map&lt;uint32_t, Stage&gt;* _curFrame;
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :     /** Areas for different compositiong stages for previous frame. */
+<span class="lineNum">     100 </span>            :     std::unordered_map&lt;uint32_t, Stage&gt;* _prvFrame;
 <span class="lineNum">     101 </span>            : 
-<span class="lineNum">     102 </span>            :     /** Areas for different compositiong stages for previous frame. */
-<span class="lineNum">     103 </span>            :     std::unordered_map&lt; uint32_t, Stage &gt;* _prvFrame;
-<span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span>            :     uint8_t* _ticket;//!&lt; returned on getDelay, should match on updateDelay
-<span class="lineNum">     106 </span>            :     bool     _needsUpdate;//!&lt; true after getDelay, false after updateDelay
-<span class="lineNum">     107 </span>            :     uint128_t _lastFrameID;//!&lt; used to determine new frames
-<span class="lineNum">     108 </span>            :     uint32_t _lastStage;  //!&lt; used in updateDelay to find last added area
-<span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span>            :     bool _returnPositive( uint8_t*&amp; ticket );
-<span class="lineNum">     111 </span>            : };
-<span class="lineNum">     112 </span>            : }
-<span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span>            : #endif //EQ_ROI_TRACKER_H
+<span class="lineNum">     102 </span>            :     uint8_t* _ticket;  //!&lt; returned on getDelay, should match on updateDelay
+<span class="lineNum">     103 </span>            :     bool _needsUpdate; //!&lt; true after getDelay, false after updateDelay
+<span class="lineNum">     104 </span>            :     uint128_t _lastFrameID; //!&lt; used to determine new frames
+<span class="lineNum">     105 </span>            :     uint32_t _lastStage;    //!&lt; used in updateDelay to find last added area
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span>            :     bool _returnPositive(uint8_t*&amp; ticket);
+<span class="lineNum">     108 </span>            : };
+<span class="lineNum">     109 </span>            : }
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span>            : #endif // EQ_ROI_TRACKER_H
 </pre>
       </td>
     </tr>

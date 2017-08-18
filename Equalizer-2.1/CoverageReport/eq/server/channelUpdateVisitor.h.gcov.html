@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -83,68 +83,63 @@
 <span class="lineNum">      21 </span>            : #include &quot;compoundVisitor.h&quot; // base class
 <span class="lineNum">      22 </span>            : #include &quot;types.h&quot;
 <span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/eye.h&gt;         // member
+<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/eye.h&gt; // member
 <span class="lineNum">      25 </span>            : 
 <span class="lineNum">      26 </span>            : namespace eq
 <span class="lineNum">      27 </span>            : {
 <span class="lineNum">      28 </span>            : namespace server
 <span class="lineNum">      29 </span>            : {
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span>            : /** The compound visitor generating the draw tasks for a channel. */
-<span class="lineNum">      32 </span>            : class ChannelUpdateVisitor : public CompoundVisitor
-<span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span>            : public:
-<a name="35"><span class="lineNum">      35 </span>            :     ChannelUpdateVisitor( Channel* channel, const uint128_t frameID,</a>
-<span class="lineNum">      36 </span>            :                           const uint32_t frameNumber );
-<a name="37"><span class="lineNum">      37 </span><span class="lineNoCov">          0 :     virtual ~ChannelUpdateVisitor() {}</span></a>
-<span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span><span class="lineNoCov">          0 :     void setEye( const fabric::Eye eye ) { _eye = eye; }</span>
-<span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span>            :     /** Visit a non-leaf compound on the down traversal. */
-<span class="lineNum">      42 </span>            :     virtual VisitorResult visitPre( const Compound* compound );
-<span class="lineNum">      43 </span>            :     /** Visit a leaf compound. */
-<span class="lineNum">      44 </span>            :     virtual VisitorResult visitLeaf( const Compound* compound );
-<span class="lineNum">      45 </span>            :     /** Visit a non-leaf compound on the up traversal. */
-<a name="46"><span class="lineNum">      46 </span>            :     virtual VisitorResult visitPost( const Compound* compound );</a>
-<span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     bool isUpdated() const { return _updated; }</span>
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            : private:
-<span class="lineNum">      51 </span>            :     Channel*        _channel;
-<span class="lineNum">      52 </span>            :     fabric::Eye     _eye;
-<span class="lineNum">      53 </span>            :     const uint128_t _frameID;
-<span class="lineNum">      54 </span>            :     const uint32_t  _frameNumber;
-<span class="lineNum">      55 </span>            :     bool            _updated;
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            :     bool _skipCompound( const Compound* compound );
-<span class="lineNum">      58 </span>            :     void _sendClear( const RenderContext&amp; context );
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     void _updateDraw( const Compound* compound,
-<span class="lineNum">      61 </span>            :                       const RenderContext&amp; context );
-<span class="lineNum">      62 </span>            :     void _updateDrawTiles( const Compound* compound,
-<span class="lineNum">      63 </span>            :                            const RenderContext&amp; context );
-<span class="lineNum">      64 </span>            :     void _updateDrawFinish( const Compound* compound ) const;
-<span class="lineNum">      65 </span>            :     void _updateFrameRate( const Compound* compound ) const;
+<span class="lineNum">      30 </span>            : /** The compound visitor generating the draw tasks for a channel. */
+<span class="lineNum">      31 </span>            : class ChannelUpdateVisitor : public CompoundVisitor
+<span class="lineNum">      32 </span>            : {
+<span class="lineNum">      33 </span>            : public:
+<a name="34"><span class="lineNum">      34 </span>            :     ChannelUpdateVisitor(Channel* channel, const uint128_t frameID,</a>
+<a name="35"><span class="lineNum">      35 </span>            :                          const uint32_t frameNumber);</a>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :     virtual ~ChannelUpdateVisitor() {}</span>
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :     void setEye(const fabric::Eye eye) { _eye = eye; }</span>
+<span class="lineNum">      38 </span>            :     /** Visit a non-leaf compound on the down traversal. */
+<span class="lineNum">      39 </span>            :     virtual VisitorResult visitPre(const Compound* compound);
+<span class="lineNum">      40 </span>            :     /** Visit a leaf compound. */
+<span class="lineNum">      41 </span>            :     virtual VisitorResult visitLeaf(const Compound* compound);
+<span class="lineNum">      42 </span>            :     /** Visit a non-leaf compound on the up traversal. */
+<a name="43"><span class="lineNum">      43 </span>            :     virtual VisitorResult visitPost(const Compound* compound);</a>
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     bool isUpdated() const { return _updated; }</span>
+<span class="lineNum">      46 </span>            : private:
+<span class="lineNum">      47 </span>            :     Channel* _channel;
+<span class="lineNum">      48 </span>            :     fabric::Eye _eye;
+<span class="lineNum">      49 </span>            :     const uint128_t _frameID;
+<span class="lineNum">      50 </span>            :     const uint32_t _frameNumber;
+<span class="lineNum">      51 </span>            :     bool _updated;
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :     bool _skipCompound(const Compound* compound);
+<span class="lineNum">      54 </span>            :     void _sendClear(const RenderContext&amp; context);
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            :     void _updateDraw(const Compound* compound, const RenderContext&amp; context);
+<span class="lineNum">      57 </span>            :     void _updateDrawTiles(const Compound* compound,
+<span class="lineNum">      58 </span>            :                           const RenderContext&amp; context);
+<span class="lineNum">      59 </span>            :     void _updateDrawFinish(const Compound* compound) const;
+<span class="lineNum">      60 </span>            :     void _updateFrameRate(const Compound* compound) const;
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :     uint32_t _getDrawBuffer(const Compound* compound) const;
+<span class="lineNum">      63 </span>            :     fabric::ColorMask _getDrawBufferMask(const Compound* compound) const;
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :     RenderContext _setupRenderContext(const Compound* compound);
 <span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span>            :     uint32_t _getDrawBuffer( const Compound* compound ) const;
-<span class="lineNum">      68 </span>            :     fabric::ColorMask _getDrawBufferMask( const Compound* compound ) const;
-<span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span>            :     RenderContext _setupRenderContext( const Compound* compound );
-<span class="lineNum">      71 </span>            : 
-<span class="lineNum">      72 </span>            :     void _updatePostDraw( const Compound* compound,
-<span class="lineNum">      73 </span>            :                           const fabric::RenderContext&amp; context );
-<span class="lineNum">      74 </span>            :     void _updateAssemble( const Compound* compound,
-<span class="lineNum">      75 </span>            :                           const fabric::RenderContext&amp; context );
-<span class="lineNum">      76 </span>            :     void _updateReadback( const Compound* compound,
-<span class="lineNum">      77 </span>            :                           const fabric::RenderContext&amp; context );
-<span class="lineNum">      78 </span>            :     void _updateViewStart( const Compound* compound,
-<span class="lineNum">      79 </span>            :                            const fabric::RenderContext&amp; context );
-<span class="lineNum">      80 </span>            :     void _updateViewFinish( const Compound* compound,
-<span class="lineNum">      81 </span>            :                             const fabric::RenderContext&amp; context );
-<span class="lineNum">      82 </span>            : };
-<span class="lineNum">      83 </span>            : }
-<span class="lineNum">      84 </span>            : }
-<span class="lineNum">      85 </span>            : #endif // EQSERVER_CONSTCOMPOUNDVISITOR_H
+<span class="lineNum">      67 </span>            :     void _updatePostDraw(const Compound* compound,
+<span class="lineNum">      68 </span>            :                          const fabric::RenderContext&amp; context);
+<span class="lineNum">      69 </span>            :     void _updateAssemble(const Compound* compound,
+<span class="lineNum">      70 </span>            :                          const fabric::RenderContext&amp; context);
+<span class="lineNum">      71 </span>            :     void _updateReadback(const Compound* compound,
+<span class="lineNum">      72 </span>            :                          const fabric::RenderContext&amp; context);
+<span class="lineNum">      73 </span>            :     void _updateViewStart(const Compound* compound,
+<span class="lineNum">      74 </span>            :                           const fabric::RenderContext&amp; context);
+<span class="lineNum">      75 </span>            :     void _updateViewFinish(const Compound* compound,
+<span class="lineNum">      76 </span>            :                            const fabric::RenderContext&amp; context);
+<span class="lineNum">      77 </span>            : };
+<span class="lineNum">      78 </span>            : }
+<span class="lineNum">      79 </span>            : }
+<span class="lineNum">      80 </span>            : #endif // EQSERVER_CONSTCOMPOUNDVISITOR_H
 </pre>
       </td>
     </tr>

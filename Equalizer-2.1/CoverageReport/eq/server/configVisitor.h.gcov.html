@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">8</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -80,49 +80,48 @@
 <span class="lineNum">      18 </span>            : #ifndef EQSERVER_CONFIGVISITOR_H
 <span class="lineNum">      19 </span>            : #define EQSERVER_CONFIGVISITOR_H
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #include &quot;compoundVisitor.h&quot;           // base class
+<span class="lineNum">      21 </span>            : #include &quot;compoundVisitor.h&quot; // base class
 <span class="lineNum">      22 </span>            : #include &quot;types.h&quot;
 <span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/elementVisitor.h&gt;  // base classes
-<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/leafVisitor.h&gt;     // base class
+<span class="lineNum">      24 </span>            : #include &lt;eq/fabric/elementVisitor.h&gt; // base classes
+<span class="lineNum">      25 </span>            : #include &lt;eq/fabric/leafVisitor.h&gt;    // base class
 <span class="lineNum">      26 </span>            : 
 <span class="lineNum">      27 </span>            : namespace eq
 <span class="lineNum">      28 </span>            : {
 <span class="lineNum">      29 </span>            : namespace server
 <span class="lineNum">      30 </span>            : {
-<span class="lineNum">      31 </span>            :     /** A visitor to traverse configs and children. */
-<span class="lineNum">      32 </span>            :     class ConfigVisitor : public NodeVisitor,
-<span class="lineNum">      33 </span>            :                           public CompoundVisitor,
-<span class="lineNum">      34 </span>            :                           public ObserverVisitor,
-<span class="lineNum">      35 </span>            :                           public LayoutVisitor,
-<span class="lineNum">      36 </span>            :                           public CanvasVisitor
-<span class="lineNum">      37 </span>            :     {
-<a name="38"><span class="lineNum">      38 </span>            :     public:</a>
-<span class="lineNum">      39 </span>            :         /** Constructs a new ConfigVisitor. */
-<span class="lineNum">      40 </span><span class="lineCov">      10456 :         ConfigVisitor(){}</span>
-<a name="41"><span class="lineNum">      41 </span>            : </a>
-<span class="lineNum">      42 </span>            :         /** Destruct the ConfigVisitor */
-<span class="lineNum">      43 </span><span class="lineCov">      10456 :         virtual ~ConfigVisitor(){}</span>
-<a name="44"><span class="lineNum">      44 </span>            : </a>
-<span class="lineNum">      45 </span>            :         /** Visit a config on the down traversal. */
-<span class="lineNum">      46 </span><span class="lineCov">       7390 :         virtual VisitorResult visitPre( Config* config )</span>
-<span class="lineNum">      47 </span><span class="lineCov">       7390 :             { return visitPre( static_cast&lt; const Config* &gt;( config )); }</span>
+<span class="lineNum">      31 </span>            : /** A visitor to traverse configs and children. */
+<span class="lineNum">      32 </span>            : class ConfigVisitor : public NodeVisitor,
+<span class="lineNum">      33 </span>            :                       public CompoundVisitor,
+<span class="lineNum">      34 </span>            :                       public ObserverVisitor,
+<span class="lineNum">      35 </span>            :                       public LayoutVisitor,
+<span class="lineNum">      36 </span>            :                       public CanvasVisitor
+<span class="lineNum">      37 </span>            : {
+<a name="38"><span class="lineNum">      38 </span>            : public:</a>
+<span class="lineNum">      39 </span>            :     /** Constructs a new ConfigVisitor. */
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">      10828 :     ConfigVisitor() {}</span></a>
+<span class="lineNum">      41 </span>            :     /** Destruct the ConfigVisitor */
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">      10828 :     virtual ~ConfigVisitor() {}</span></a>
+<span class="lineNum">      43 </span>            :     /** Visit a config on the down traversal. */
+<span class="lineNum">      44 </span><span class="lineCov">       7686 :     virtual VisitorResult visitPre(Config* config)</span>
+<span class="lineNum">      45 </span>            :     {
+<span class="lineNum">      46 </span><span class="lineCov">       7686 :         return visitPre(static_cast&lt;const Config*&gt;(config));</span>
+<span class="lineNum">      47 </span>            :     }
 <a name="48"><span class="lineNum">      48 </span>            : </a>
-<span class="lineNum">      49 </span>            :         /** Visit a config on the up traversal. */
-<span class="lineNum">      50 </span><span class="lineCov">       2450 :         virtual VisitorResult visitPost( Config* config )</span>
-<span class="lineNum">      51 </span><span class="lineCov">       2450 :             { return visitPost( static_cast&lt; const Config* &gt;( config )); }</span>
-<a name="52"><span class="lineNum">      52 </span>            : </a>
-<span class="lineNum">      53 </span>            :         /** Visit a config on the down traversal. */
-<span class="lineNum">      54 </span><span class="lineCov">      10132 :         virtual VisitorResult visitPre( const Config* )</span>
-<span class="lineNum">      55 </span><span class="lineCov">      10132 :             { return TRAVERSE_CONTINUE; }</span>
-<a name="56"><span class="lineNum">      56 </span>            : </a>
-<span class="lineNum">      57 </span>            :         /** Visit a config on the up traversal. */
-<span class="lineNum">      58 </span><span class="lineCov">       2450 :         virtual VisitorResult visitPost( const Config* )</span>
-<span class="lineNum">      59 </span><span class="lineCov">       2450 :             { return TRAVERSE_CONTINUE; }</span>
-<span class="lineNum">      60 </span>            :     };
+<span class="lineNum">      49 </span>            :     /** Visit a config on the up traversal. */
+<span class="lineNum">      50 </span><span class="lineCov">       2612 :     virtual VisitorResult visitPost(Config* config)</span>
+<span class="lineNum">      51 </span>            :     {
+<span class="lineNum">      52 </span><span class="lineCov">       2612 :         return visitPost(static_cast&lt;const Config*&gt;(config));</span>
+<span class="lineNum">      53 </span>            :     }
+<a name="54"><span class="lineNum">      54 </span>            : </a>
+<span class="lineNum">      55 </span>            :     /** Visit a config on the down traversal. */
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">      10528 :     virtual VisitorResult visitPre(const Config*) { return TRAVERSE_CONTINUE; }</span></a>
+<span class="lineNum">      57 </span>            :     /** Visit a config on the up traversal. */
+<span class="lineNum">      58 </span><span class="lineCov">       2612 :     virtual VisitorResult visitPost(const Config*) { return TRAVERSE_CONTINUE; }</span>
+<span class="lineNum">      59 </span>            : };
+<span class="lineNum">      60 </span>            : }
 <span class="lineNum">      61 </span>            : }
-<span class="lineNum">      62 </span>            : }
-<span class="lineNum">      63 </span>            : #endif // EQSERVER_CONFIGVISITOR_H
+<span class="lineNum">      62 </span>            : #endif // EQSERVER_CONFIGVISITOR_H
 </pre>
       </td>
     </tr>

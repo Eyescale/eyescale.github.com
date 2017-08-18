@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -60,9 +60,40 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>            : //Generated file - Edit yuv420readback.glsl!</a>
+<a name="1"><span class="lineNum">       1 </span>            : // Generated file - Edit yuv420readback.glsl!</a>
 <span class="lineNum">       2 </span>            : #include &lt;string&gt;
-<span class="lineNum">       3 </span><span class="lineCov">         10 : static const std::string yuv420readback_glsl = &quot;/* Copyright (c) 2009       Maxim Makhinya\n  *\n  * This library is free software; you can redistribute it and/or modify it under\n  * the terms of the GNU Lesser General Public License as published by the Free\n  * Software Foundation; either version 2.1 of the License, or (at your option)\n  * any later version.\n  *  \n  * This library is distributed in the hope that it will be useful, but WITHOUT\n  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS\n  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more\n  * details.\n  * \n  * You should have received a copy of the GNU Lesser General Public License\n  * along with this library; if not, write to the Free Software Foundation, Inc.,\n  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n  */\n \n uniform sampler2DRect color;\n \n vec4 yMul = vec4( 0.299 , 0.587 , 0.114 , 0.0 );\n vec4 uMul = vec4(-0.147 ,-0.289 , 0.436 , 0.0 );\n vec4 vMul = vec4( 0.4996,-0.4184,-0.0812, 0.0 );\n /*vec4 vMul = vec4( 0.2896,-0.2084,-0.0802, 0.0 );*/\n \n vec4 test = vec4( 1.0, 1.0, 1.0, 0.0 );\n \n void main(void)\n {\n     vec2 pos = gl_FragCoord.xy - vec2( 0.5, 0.5 );\n     pos.x = pos.x * 2.0;\n \n     float odd = fract( pos.y*0.5 );\n     float hor;\n     if( odd &lt; 0.5 )\n         hor =  1.0;\n     else\n         hor = -1.0;\n \n     vec4 p1 = texture2DRect( color, pos );\n     vec4 p2 = texture2DRect( color, pos + vec2( 1.0, 0.0 ));\n     vec4 p3 = texture2DRect( color, pos + vec2( 0.0, hor ));\n     vec4 p4 = texture2DRect( color, pos + vec2( 1.0, hor ));\n \n     float n = 0.0;\n     vec4  p = vec4( .0, .0, .0, .0 );\n \n     if( dot( p1, test ) &gt; .0 ) { n += 1.0; p += p1; }\n     if( dot( p2, test ) &gt; .0 ) { n += 1.0; p += p2; }\n     if( dot( p3, test ) &gt; .0 ) { n += 1.0; p += p3; }\n     if( dot( p4, test ) &gt; .0 ) { n += 1.0; p += p4; }\n \n     float cVal = 0.0;\n     if( n &gt; 0.0 )\n     {\n         p /= n;\n \n         if( odd &lt; 0.5 )\n             cVal = dot(p,uMul);\n         else\n             cVal = dot(p,vMul);\n     }\n //    cVal = 0.0;\n     gl_FragColor = vec4( dot(p1,yMul), dot(p2,yMul), cVal+0.5, (p1.a+p2.a)/2.0 );\n }\n \n &quot;;</span>
+<span class="lineNum">       3 </span><span class="lineCov">         10 : static const std::string yuv420readback_glsl =</span>
+<span class="lineNum">       4 </span>            :     &quot;/* Copyright (c) 2009       Maxim Makhinya\n  *\n  * This library is free &quot;
+<span class="lineNum">       5 </span>            :     &quot;software; you can redistribute it and/or modify it under\n  * the terms &quot;
+<span class="lineNum">       6 </span>            :     &quot;of the GNU Lesser General Public License as published by the Free\n  * &quot;
+<span class="lineNum">       7 </span>            :     &quot;Software Foundation; either version 2.1 of the License, or (at your &quot;
+<span class="lineNum">       8 </span>            :     &quot;option)\n  * any later version.\n  *  \n  * This library is distributed &quot;
+<span class="lineNum">       9 </span>            :     &quot;in the hope that it will be useful, but WITHOUT\n  * ANY WARRANTY; &quot;
+<span class="lineNum">      10 </span>            :     &quot;without even the implied warranty of MERCHANTABILITY or FITNESS\n  * FOR &quot;
+<span class="lineNum">      11 </span>            :     &quot;A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for &quot;
+<span class="lineNum">      12 </span>            :     &quot;more\n  * details.\n  * \n  * You should have received a copy of the GNU &quot;
+<span class="lineNum">      13 </span>            :     &quot;Lesser General Public License\n  * along with this library; if not, write &quot;
+<span class="lineNum">      14 </span>            :     &quot;to the Free Software Foundation, Inc.,\n  * 51 Franklin Street, Fifth &quot;
+<span class="lineNum">      15 </span>            :     &quot;Floor, Boston, MA 02110-1301 USA.\n  */\n \n uniform sampler2DRect &quot;
+<span class="lineNum">      16 </span>            :     &quot;color;\n \n vec4 yMul = vec4( 0.299 , 0.587 , 0.114 , 0.0 );\n vec4 uMul &quot;
+<span class="lineNum">      17 </span>            :     &quot;= vec4(-0.147 ,-0.289 , 0.436 , 0.0 );\n vec4 vMul = vec4( &quot;
+<span class="lineNum">      18 </span>            :     &quot;0.4996,-0.4184,-0.0812, 0.0 );\n /*vec4 vMul = vec4( &quot;
+<span class="lineNum">      19 </span>            :     &quot;0.2896,-0.2084,-0.0802, 0.0 );*/\n \n vec4 test = vec4( 1.0, 1.0, 1.0, &quot;
+<span class="lineNum">      20 </span>            :     &quot;0.0 );\n \n void main(void)\n {\n     vec2 pos = gl_FragCoord.xy - vec2( &quot;
+<span class="lineNum">      21 </span>            :     &quot;0.5, 0.5 );\n     pos.x = pos.x * 2.0;\n \n     float odd = fract( &quot;
+<span class="lineNum">      22 </span>            :     &quot;pos.y*0.5 );\n     float hor;\n     if( odd &lt; 0.5 )\n         hor =  &quot;
+<span class="lineNum">      23 </span>            :     &quot;1.0;\n     else\n         hor = -1.0;\n \n     vec4 p1 = texture2DRect( &quot;
+<span class="lineNum">      24 </span>            :     &quot;color, pos );\n     vec4 p2 = texture2DRect( color, pos + vec2( 1.0, 0.0 &quot;
+<span class="lineNum">      25 </span>            :     &quot;));\n     vec4 p3 = texture2DRect( color, pos + vec2( 0.0, hor ));\n     &quot;
+<span class="lineNum">      26 </span>            :     &quot;vec4 p4 = texture2DRect( color, pos + vec2( 1.0, hor ));\n \n     float n &quot;
+<span class="lineNum">      27 </span>            :     &quot;= 0.0;\n     vec4  p = vec4( .0, .0, .0, .0 );\n \n     if( dot( p1, test &quot;
+<span class="lineNum">      28 </span>            :     &quot;) &gt; .0 ) { n += 1.0; p += p1; }\n     if( dot( p2, test ) &gt; .0 ) { n += &quot;
+<span class="lineNum">      29 </span>            :     &quot;1.0; p += p2; }\n     if( dot( p3, test ) &gt; .0 ) { n += 1.0; p += p3; }\n &quot;
+<span class="lineNum">      30 </span>            :     &quot;    if( dot( p4, test ) &gt; .0 ) { n += 1.0; p += p4; }\n \n     float cVal &quot;
+<span class="lineNum">      31 </span>            :     &quot;= 0.0;\n     if( n &gt; 0.0 )\n     {\n         p /= n;\n \n         if( odd &quot;
+<span class="lineNum">      32 </span>            :     &quot;&lt; 0.5 )\n             cVal = dot(p,uMul);\n         else\n             &quot;
+<span class="lineNum">      33 </span>            :     &quot;cVal = dot(p,vMul);\n     }\n //    cVal = 0.0;\n     gl_FragColor = &quot;
+<span class="lineNum">      34 </span>            :     &quot;vec4( dot(p1,yMul), dot(p2,yMul), cVal+0.5, (p1.a+p2.a)/2.0 );\n }\n \n &quot;;
 </pre>
       </td>
     </tr>

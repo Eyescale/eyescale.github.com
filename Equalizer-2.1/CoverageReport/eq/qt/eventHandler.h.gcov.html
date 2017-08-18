@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -80,46 +80,44 @@
 <span class="lineNum">      18 </span>            : #ifndef EQ_QT_EVENTHANDLER_H
 <span class="lineNum">      19 </span>            : #define EQ_QT_EVENTHANDLER_H
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #include &lt;eq/qt/types.h&gt;
+<span class="lineNum">      21 </span>            : #include &lt;QObject&gt;           // base class
 <span class="lineNum">      22 </span>            : #include &lt;eq/eventHandler.h&gt; // base class
-<span class="lineNum">      23 </span>            : #include &lt;QObject&gt; // base class
+<span class="lineNum">      23 </span>            : #include &lt;eq/qt/types.h&gt;
 <span class="lineNum">      24 </span>            : 
 <span class="lineNum">      25 </span>            : namespace eq
 <span class="lineNum">      26 </span>            : {
 <span class="lineNum">      27 </span>            : namespace qt
 <span class="lineNum">      28 </span>            : {
-<span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span>            : /** The event handler for Qt windows.
-<span class="lineNum">      31 </span>            :  *
-<span class="lineNum">      32 </span>            :  * If needed, reposts Qt events to the thread which called the constructor
-<span class="lineNum">      33 </span>            :  * before processing them.
-<span class="lineNum">      34 </span>            :  */
-<span class="lineNum">      35 </span>            : class EventHandler : public QObject, public eq::EventHandler
-<span class="lineNum">      36 </span>            : {
-<span class="lineNum">      37 </span>            : public:
-<span class="lineNum">      38 </span>            :     /** Construct a new Qt event handler. @version 1.7.3 */
-<span class="lineNum">      39 </span>            :     explicit EventHandler( WindowIF&amp; window );
-<span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span>            :     /** Destruct the Qt event handler. @version  1.7.3 */
-<span class="lineNum">      42 </span>            :     ~EventHandler() final;
-<a name="43"><span class="lineNum">      43 </span>            : </a>
-<span class="lineNum">      44 </span>            :     /** @return the handled parent window */
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     WindowIF&amp; getWindow() { return _window; }</span>
-<span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span>            : private:
-<span class="lineNum">      48 </span>            :     WindowIF&amp; _window;
+<span class="lineNum">      29 </span>            : /** The event handler for Qt windows.
+<span class="lineNum">      30 </span>            :  *
+<span class="lineNum">      31 </span>            :  * If needed, reposts Qt events to the thread which called the constructor
+<span class="lineNum">      32 </span>            :  * before processing them.
+<span class="lineNum">      33 </span>            :  */
+<span class="lineNum">      34 </span>            : class EventHandler : public QObject, public eq::EventHandler
+<span class="lineNum">      35 </span>            : {
+<span class="lineNum">      36 </span>            : public:
+<span class="lineNum">      37 </span>            :     /** Construct a new Qt event handler. @version 1.7.3 */
+<span class="lineNum">      38 </span>            :     explicit EventHandler(WindowIF&amp; window);
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            :     /** Destruct the Qt event handler. @version  1.7.3 */
+<span class="lineNum">      41 </span>            :     ~EventHandler() final;
+<a name="42"><span class="lineNum">      42 </span>            : </a>
+<span class="lineNum">      43 </span>            :     /** @return the handled parent window */
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     WindowIF&amp; getWindow() { return _window; }</span>
+<span class="lineNum">      45 </span>            : private:
+<span class="lineNum">      46 </span>            :     WindowIF&amp; _window;
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            :     bool event(QEvent* evt) override;
 <span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            :     bool event( QEvent* evt ) override;
-<span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span>            :     bool _processEvent( QEvent* event );
-<span class="lineNum">      53 </span>            :     bool _processSizeEvent( EventType, QEvent* );
-<span class="lineNum">      54 </span>            :     bool _processPointerEvent( EventType, QEvent* );
-<span class="lineNum">      55 </span>            :     bool _processWheelEvent( QEvent* );
-<span class="lineNum">      56 </span>            :     bool _processKeyEvent( EventType, QEvent* );
-<span class="lineNum">      57 </span>            : };
-<span class="lineNum">      58 </span>            : }
-<span class="lineNum">      59 </span>            : }
-<span class="lineNum">      60 </span>            : #endif // EQ_QT_EVENTHANDLER_H
+<span class="lineNum">      50 </span>            :     bool _processEvent(QEvent* event);
+<span class="lineNum">      51 </span>            :     bool _processSizeEvent(EventType, QEvent*);
+<span class="lineNum">      52 </span>            :     bool _processPointerEvent(EventType, QEvent*);
+<span class="lineNum">      53 </span>            :     bool _processWheelEvent(QEvent*);
+<span class="lineNum">      54 </span>            :     bool _processKeyEvent(EventType, QEvent*);
+<span class="lineNum">      55 </span>            : };
+<span class="lineNum">      56 </span>            : }
+<span class="lineNum">      57 </span>            : }
+<span class="lineNum">      58 </span>            : #endif // EQ_QT_EVENTHANDLER_H
 </pre>
       </td>
     </tr>

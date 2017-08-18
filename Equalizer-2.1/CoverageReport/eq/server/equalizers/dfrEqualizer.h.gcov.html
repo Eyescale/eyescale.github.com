@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -81,7 +81,7 @@
 <span class="lineNum">      19 </span>            : #define EQS_DFREQUALIZER_H
 <span class="lineNum">      20 </span>            : 
 <span class="lineNum">      21 </span>            : #include &quot;../channelListener.h&quot; // base class
-<span class="lineNum">      22 </span>            : #include &quot;equalizer.h&quot;       // base class
+<span class="lineNum">      22 </span>            : #include &quot;equalizer.h&quot;          // base class
 <span class="lineNum">      23 </span>            : 
 <span class="lineNum">      24 </span>            : #include &lt;deque&gt;
 <span class="lineNum">      25 </span>            : #include &lt;map&gt;
@@ -90,44 +90,38 @@
 <span class="lineNum">      28 </span>            : {
 <span class="lineNum">      29 </span>            : namespace server
 <span class="lineNum">      30 </span>            : {
-<span class="lineNum">      31 </span>            :     std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const DFREqualizer* );
+<span class="lineNum">      31 </span>            : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const DFREqualizer*);
 <span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span>            :     /** Tries to maintain a constant frame rate by adapting the compound zoom.*/
-<span class="lineNum">      34 </span>            :     class DFREqualizer : public Equalizer, protected ChannelListener
-<span class="lineNum">      35 </span>            :     {
-<span class="lineNum">      36 </span>            :     public:
-<a name="37"><span class="lineNum">      37 </span>            :         DFREqualizer();</a>
-<span class="lineNum">      38 </span>            :         virtual ~DFREqualizer();
-<span class="lineNum">      39 </span><span class="lineCov">          8 :         void toStream( std::ostream&amp; os ) const final { os &lt;&lt; this; }</span>
-<span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span>            :         /** @sa Equalizer::attach */
-<span class="lineNum">      42 </span>            :         void attach( Compound* compound ) final;
-<span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span>            :         /** @sa CompoundListener::notifyUpdatePre */
-<span class="lineNum">      45 </span>            :         void notifyUpdatePre( Compound* compound,
-<span class="lineNum">      46 </span>            :                               const uint32_t frameNumber ) final;
-<span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span>            :         /** @sa ChannelListener::notifyLoadData */
-<span class="lineNum">      49 </span>            :         void notifyLoadData( Channel* channel,
-<span class="lineNum">      50 </span>            :                              uint32_t frameNumber,
-<span class="lineNum">      51 </span>            :                              const Statistics&amp; statistics,
-<a name="52"><span class="lineNum">      52 </span>            :                              const Viewport&amp; region ) final;</a>
-<span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         uint32_t getType() const final { return fabric::DFR_EQUALIZER; }</span>
-<a name="55"><span class="lineNum">      55 </span>            : </a>
-<a name="56"><span class="lineNum">      56 </span>            :     protected:</a>
-<span class="lineNum">      57 </span><span class="lineCov">         20 :         void notifyChildAdded( Compound*, Compound* ) override {}</span>
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         void notifyChildRemove( Compound*, Compound* ) override {}</span>
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     private:
-<span class="lineNum">      61 </span>            :         float _current; //!&lt; Framerate of the last finished frame
-<span class="lineNum">      62 </span>            :         int64_t _lastTime; //!&lt; Last frames' timestamp
-<span class="lineNum">      63 </span>            :     };
-<span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span>            : }
-<span class="lineNum">      66 </span>            : }
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span>            : #endif // EQS_DFREQUALIZER_H
+<span class="lineNum">      33 </span>            : /** Tries to maintain a constant frame rate by adapting the compound zoom.*/
+<span class="lineNum">      34 </span>            : class DFREqualizer : public Equalizer, protected ChannelListener
+<span class="lineNum">      35 </span>            : {
+<span class="lineNum">      36 </span>            : public:
+<a name="37"><span class="lineNum">      37 </span>            :     DFREqualizer();</a>
+<span class="lineNum">      38 </span>            :     virtual ~DFREqualizer();
+<span class="lineNum">      39 </span><span class="lineCov">          8 :     void toStream(std::ostream&amp; os) const final { os &lt;&lt; this; }</span>
+<span class="lineNum">      40 </span>            :     /** @sa Equalizer::attach */
+<span class="lineNum">      41 </span>            :     void attach(Compound* compound) final;
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            :     /** @sa CompoundListener::notifyUpdatePre */
+<span class="lineNum">      44 </span>            :     void notifyUpdatePre(Compound* compound, const uint32_t frameNumber) final;
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :     /** @sa ChannelListener::notifyLoadData */
+<span class="lineNum">      47 </span>            :     void notifyLoadData(Channel* channel, uint32_t frameNumber,
+<span class="lineNum">      48 </span>            :                         const Statistics&amp; statistics,
+<a name="49"><span class="lineNum">      49 </span>            :                         const Viewport&amp; region) final;</a>
+<span class="lineNum">      50 </span>            : 
+<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :     uint32_t getType() const final { return fabric::DFR_EQUALIZER; }</span></a>
+<a name="52"><span class="lineNum">      52 </span>            : protected:</a>
+<span class="lineNum">      53 </span><span class="lineCov">         20 :     void notifyChildAdded(Compound*, Compound*) override {}</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     void notifyChildRemove(Compound*, Compound*) override {}</span>
+<span class="lineNum">      55 </span>            : private:
+<span class="lineNum">      56 </span>            :     float _current;    //!&lt; Framerate of the last finished frame
+<span class="lineNum">      57 </span>            :     int64_t _lastTime; //!&lt; Last frames' timestamp
+<span class="lineNum">      58 </span>            : };
+<span class="lineNum">      59 </span>            : }
+<span class="lineNum">      60 </span>            : }
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            : #endif // EQS_DFREQUALIZER_H
 </pre>
       </td>
     </tr>

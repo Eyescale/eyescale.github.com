@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:07:24</td>
+            <td class="headerValue">2017-08-18 16:07:54</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -61,8 +61,8 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2007, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
-<span class="lineNum">       3 </span>            :  *               2009-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2017, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
+<span class="lineNum">       3 </span>            :  *                          Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * Redistribution and use in source and binary forms, with or without
 <span class="lineNum">       6 </span>            :  * modification, are permitted provided that the following conditions are met:
@@ -89,53 +89,48 @@
 <span class="lineNum">      27 </span>            :  * POSSIBILITY OF SUCH DAMAGE.
 <span class="lineNum">      28 </span>            : */
 <span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span>            : 
-<span class="lineNum">      31 </span>            : #ifndef PLYLIB_VERTEXDATA_H
-<span class="lineNum">      32 </span>            : #define PLYLIB_VERTEXDATA_H
-<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      30 </span>            : #ifndef PLYLIB_VERTEXDATA_H
+<span class="lineNum">      31 </span>            : #define PLYLIB_VERTEXDATA_H
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : #include &quot;typedefs.h&quot;
 <span class="lineNum">      34 </span>            : #include &lt;triply/api.h&gt;
-<span class="lineNum">      35 </span>            : #include &quot;typedefs.h&quot;
-<span class="lineNum">      36 </span>            : #include &lt;vector&gt;
-<span class="lineNum">      37 </span>            : 
-<span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span>            : // defined elsewhere
-<span class="lineNum">      40 </span>            : struct PlyFile;
-<span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span>            : namespace triply
-<a name="43"><span class="lineNum">      43 </span>            : {</a>
-<span class="lineNum">      44 </span>            :     /*  Holds the flat data and offers routines to read, scale and sort it.  */
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     class VertexData</span>
-<span class="lineNum">      46 </span>            :     {
-<span class="lineNum">      47 </span>            :     public:
-<span class="lineNum">      48 </span>            :         TRIPLY_API VertexData();
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            :         TRIPLY_API bool readPlyFile( const std::string&amp; file );
-<span class="lineNum">      51 </span>            :         TRIPLY_API void sort( const Index start, const Index length, const Axis axis );
-<span class="lineNum">      52 </span>            :         TRIPLY_API void scale( const float baseSize = 2.0f );
-<span class="lineNum">      53 </span>            :         TRIPLY_API void calculateNormals();
-<span class="lineNum">      54 </span>            :         TRIPLY_API void calculateBoundingBox();
-<span class="lineNum">      55 </span>            :         const BoundingBox&amp; getBoundingBox() const { return _boundingBox; }
-<a name="56"><span class="lineNum">      56 </span>            :         TRIPLY_API Axis getLongestAxis( const size_t start, const size_t elements ) const;</a>
-<span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         void useInvertedFaces() { _invertFaces = true; }</span>
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :         std::vector&lt; Vertex &gt;   vertices;
-<span class="lineNum">      61 </span>            :         std::vector&lt; Color &gt;    colors;
-<span class="lineNum">      62 </span>            :         std::vector&lt; Normal &gt;   normals;
-<span class="lineNum">      63 </span>            :         std::vector&lt; Triangle &gt; triangles;
-<span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span>            :     private:
-<span class="lineNum">      66 </span>            :         void readVertices( PlyFile* file, const int nVertices,
-<span class="lineNum">      67 </span>            :                            const bool readColors );
-<span class="lineNum">      68 </span>            :         void readTriangles( PlyFile* file, const int nFaces );
-<span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span>            :         BoundingBox _boundingBox;
-<span class="lineNum">      71 </span>            :         bool        _invertFaces;
-<span class="lineNum">      72 </span>            :     };
-<span class="lineNum">      73 </span>            : }
-<span class="lineNum">      74 </span>            : 
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span>            : #endif // PLYLIB_VERTEXDATA_H
+<span class="lineNum">      35 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : // defined elsewhere
+<span class="lineNum">      38 </span>            : struct PlyFile;
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : namespace triply
+<a name="41"><span class="lineNum">      41 </span>            : {</a>
+<span class="lineNum">      42 </span>            : /*  Holds the flat data and offers routines to read, scale and sort it.  */
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 : class VertexData</span>
+<span class="lineNum">      44 </span>            : {
+<span class="lineNum">      45 </span>            : public:
+<span class="lineNum">      46 </span>            :     TRIPLY_API VertexData();
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            :     TRIPLY_API bool readPlyFile(const std::string&amp; file);
+<span class="lineNum">      49 </span>            :     TRIPLY_API void sort(const Index start, const Index length,
+<span class="lineNum">      50 </span>            :                          const Axis axis);
+<span class="lineNum">      51 </span>            :     TRIPLY_API void scale(const float baseSize = 2.0f);
+<span class="lineNum">      52 </span>            :     TRIPLY_API void calculateNormals();
+<span class="lineNum">      53 </span>            :     TRIPLY_API Axis getLongestAxis(const size_t start,
+<a name="54"><span class="lineNum">      54 </span>            :                                    const size_t elements) const;</a>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :     void useInvertedFaces() { _invertFaces = true; }</span>
+<span class="lineNum">      57 </span>            :     std::vector&lt;Vertex&gt; vertices;
+<span class="lineNum">      58 </span>            :     std::vector&lt;Color&gt; colors;
+<span class="lineNum">      59 </span>            :     std::vector&lt;Normal&gt; normals;
+<span class="lineNum">      60 </span>            :     std::vector&lt;Triangle&gt; triangles;
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            : private:
+<span class="lineNum">      63 </span>            :     void readVertices(PlyFile* file, const int nVertices,
+<span class="lineNum">      64 </span>            :                       const bool readColors);
+<span class="lineNum">      65 </span>            :     void readTriangles(PlyFile* file, const int nFaces);
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :     bool _invertFaces;
+<span class="lineNum">      68 </span>            : };
+<span class="lineNum">      69 </span>            : }
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            : #endif // PLYLIB_VERTEXDATA_H
 </pre>
       </td>
     </tr>

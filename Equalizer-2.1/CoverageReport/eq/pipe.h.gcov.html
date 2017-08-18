@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -83,12 +83,12 @@
 <span class="lineNum">      21 </span>            : #define EQ_PIPE_H
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            : #include &lt;eq/api.h&gt;
-<span class="lineNum">      24 </span>            : #include &lt;eq/eye.h&gt;            // Eye enum
+<span class="lineNum">      24 </span>            : #include &lt;eq/eye.h&gt; // Eye enum
 <span class="lineNum">      25 </span>            : #include &lt;eq/types.h&gt;
-<span class="lineNum">      26 </span>            : #include &lt;eq/visitorResult.h&gt;  // enum
+<span class="lineNum">      26 </span>            : #include &lt;eq/visitorResult.h&gt; // enum
 <span class="lineNum">      27 </span>            : 
-<span class="lineNum">      28 </span>            : #include &lt;eq/fabric/pipe.h&gt;           // base class
-<span class="lineNum">      29 </span>            : #include &lt;co/objectVersion.h&gt;
+<span class="lineNum">      28 </span>            : #include &lt;co/objectVersion.h&gt;
+<span class="lineNum">      29 </span>            : #include &lt;eq/fabric/pipe.h&gt; // base class
 <span class="lineNum">      30 </span>            : 
 <span class="lineNum">      31 </span>            : namespace eq
 <span class="lineNum">      32 </span>            : {
@@ -109,11 +109,11 @@
 <span class="lineNum">      47 </span>            :  *
 <span class="lineNum">      48 </span>            :  * @sa fabric::Pipe
 <span class="lineNum">      49 </span>            :  */
-<span class="lineNum">      50 </span>            : class Pipe : public fabric::Pipe&lt; Node, Pipe, eq::Window, PipeVisitor &gt;
+<span class="lineNum">      50 </span>            : class Pipe : public fabric::Pipe&lt;Node, Pipe, eq::Window, PipeVisitor&gt;
 <span class="lineNum">      51 </span>            : {
 <span class="lineNum">      52 </span>            : public:
 <span class="lineNum">      53 </span>            :     /** Construct a new pipe. @version 1.0 */
-<span class="lineNum">      54 </span>            :     EQ_API explicit Pipe( Node* parent );
+<span class="lineNum">      54 </span>            :     EQ_API explicit Pipe(Node* parent);
 <span class="lineNum">      55 </span>            : 
 <span class="lineNum">      56 </span>            :     /** Destruct the pipe. @version 1.0 */
 <span class="lineNum">      57 </span>            :     EQ_API virtual ~Pipe();
@@ -121,9 +121,9 @@
 <span class="lineNum">      59 </span>            :     /** @name Data Access. */
 <span class="lineNum">      60 </span>            :     //@{
 <span class="lineNum">      61 </span>            :     EQ_API co::CommandQueue* getPipeThreadQueue(); //!&lt; @internal
-<span class="lineNum">      62 </span>            :     co::CommandQueue* getMainThreadQueue(); //!&lt; @internal
-<span class="lineNum">      63 </span>            :     co::CommandQueue* getCommandThreadQueue(); //!&lt; @internal
-<span class="lineNum">      64 </span>            :     co::CommandQueue* getTransferThreadQueue(); //!&lt; @internal
+<span class="lineNum">      62 </span>            :     co::CommandQueue* getMainThreadQueue();        //!&lt; @internal
+<span class="lineNum">      63 </span>            :     co::CommandQueue* getCommandThreadQueue();     //!&lt; @internal
+<span class="lineNum">      64 </span>            :     co::CommandQueue* getTransferThreadQueue();    //!&lt; @internal
 <span class="lineNum">      65 </span>            : 
 <span class="lineNum">      66 </span>            :     /** @return the parent configuration. @version 1.0 */
 <span class="lineNum">      67 </span>            :     EQ_API Config* getConfig();
@@ -183,24 +183,24 @@
 <span class="lineNum">     121 </span>            :      * @param output true if an output frame, false if input frame
 <span class="lineNum">     122 </span>            :      * @return the frame.
 <span class="lineNum">     123 </span>            :      */
-<span class="lineNum">     124 </span>            :     Frame* getFrame( const co::ObjectVersion&amp; frameVersion,
-<span class="lineNum">     125 </span>            :                      const Eye eye, const bool output );
+<span class="lineNum">     124 </span>            :     Frame* getFrame(const co::ObjectVersion&amp; frameVersion, const Eye eye,
+<span class="lineNum">     125 </span>            :                     const bool output);
 <span class="lineNum">     126 </span>            : 
 <span class="lineNum">     127 </span>            :     /** @internal @return the queue for the given identifier and version. */
-<span class="lineNum">     128 </span>            :     co::QueueSlave* getQueue( const uint128_t&amp; queueID );
+<span class="lineNum">     128 </span>            :     co::QueueSlave* getQueue(const uint128_t&amp; queueID);
 <span class="lineNum">     129 </span>            : 
 <span class="lineNum">     130 </span>            :     /** @internal Clear the frame cache and delete all frames. */
-<span class="lineNum">     131 </span>            :     void flushFrames( util::ObjectManager&amp; om );
+<span class="lineNum">     131 </span>            :     void flushFrames(util::ObjectManager&amp; om);
 <span class="lineNum">     132 </span>            : 
 <span class="lineNum">     133 </span>            :     /** @internal @return the view for the given identifier and version. */
-<span class="lineNum">     134 </span>            :     const View* getView( const co::ObjectVersion&amp; viewVersion ) const;
+<span class="lineNum">     134 </span>            :     const View* getView(const co::ObjectVersion&amp; viewVersion) const;
 <span class="lineNum">     135 </span>            : 
 <span class="lineNum">     136 </span>            :     /** @internal @return the view for the given identifier and version. */
-<span class="lineNum">     137 </span>            :     View* getView( const co::ObjectVersion&amp; viewVersion );
+<span class="lineNum">     137 </span>            :     View* getView(const co::ObjectVersion&amp; viewVersion);
 <span class="lineNum">     138 </span>            :     //@}
 <span class="lineNum">     139 </span>            : 
 <span class="lineNum">     140 </span>            :     void waitExited() const; //!&lt;  @internal Wait for the pipe to be exited
-<span class="lineNum">     141 </span>            :     void notifyMapped(); //!&lt; @internal
+<span class="lineNum">     141 </span>            :     void notifyMapped();     //!&lt; @internal
 <span class="lineNum">     142 </span>            : 
 <span class="lineNum">     143 </span>            :     /**
 <span class="lineNum">     144 </span>            :      * @internal
@@ -209,7 +209,7 @@
 <span class="lineNum">     147 </span>            :      * @param frameNumber the frame number.
 <span class="lineNum">     148 </span>            :      * @sa releaseFrame()
 <span class="lineNum">     149 </span>            :      */
-<span class="lineNum">     150 </span>            :     EQ_API void waitFrameFinished( const uint32_t frameNumber );
+<span class="lineNum">     150 </span>            :     EQ_API void waitFrameFinished(const uint32_t frameNumber);
 <span class="lineNum">     151 </span>            : 
 <span class="lineNum">     152 </span>            :     /**
 <span class="lineNum">     153 </span>            :      * Send a pipe error event to the application node.
@@ -217,7 +217,7 @@
 <span class="lineNum">     155 </span>            :      * @param error the error code.
 <span class="lineNum">     156 </span>            :      * @version 1.7.1
 <span class="lineNum">     157 </span>            :      */
-<span class="lineNum">     158 </span>            :     EQ_API EventOCommand sendError( const uint32_t error );
+<span class="lineNum">     158 </span>            :     EQ_API EventOCommand sendError(const uint32_t error);
 <span class="lineNum">     159 </span>            : 
 <span class="lineNum">     160 </span>            :     /**
 <span class="lineNum">     161 </span>            :      * @internal
@@ -226,9 +226,9 @@
 <span class="lineNum">     164 </span>            :      * @param frameNumber the frame number.
 <span class="lineNum">     165 </span>            :      * @sa releaseFrameLocal()
 <span class="lineNum">     166 </span>            :      */
-<span class="lineNum">     167 </span>            :     EQ_API void waitFrameLocal( const uint32_t frameNumber ) const;
+<span class="lineNum">     167 </span>            :     EQ_API void waitFrameLocal(const uint32_t frameNumber) const;
 <span class="lineNum">     168 </span>            : 
-<span class="lineNum">     169 </span>            :     EQ_API bool processEvent( Statistic&amp; event );
+<span class="lineNum">     169 </span>            :     EQ_API bool processEvent(Statistic&amp; event);
 <span class="lineNum">     170 </span>            : 
 <span class="lineNum">     171 </span>            :     /** @internal Start the pipe thread. */
 <span class="lineNum">     172 </span>            :     void startThread();
@@ -259,7 +259,7 @@
 <span class="lineNum">     197 </span>            :      * The os-specific pipe has to be initialized.
 <span class="lineNum">     198 </span>            :      * @version 1.0
 <span class="lineNum">     199 </span>            :      */
-<span class="lineNum">     200 </span>            :     EQ_API void setSystemPipe( SystemPipe* pipe );
+<span class="lineNum">     200 </span>            :     EQ_API void setSystemPipe(SystemPipe* pipe);
 <span class="lineNum">     201 </span>            : 
 <span class="lineNum">     202 </span>            :     /** @return the OS-specific pipe implementation. @version 1.0 */
 <span class="lineNum">     203 </span>            :     EQ_API SystemPipe* getSystemPipe();
@@ -289,7 +289,7 @@
 <span class="lineNum">     227 </span>            :     //@}
 <span class="lineNum">     228 </span>            : 
 <span class="lineNum">     229 </span>            :     /** @internal @sa Serializable::setDirty() */
-<span class="lineNum">     230 </span>            :     EQ_API virtual void setDirty( const uint64_t bits );
+<span class="lineNum">     230 </span>            :     EQ_API virtual void setDirty(const uint64_t bits);
 <span class="lineNum">     231 </span>            : 
 <span class="lineNum">     232 </span>            : protected:
 <span class="lineNum">     233 </span>            :     /** @name Information queries */
@@ -299,7 +299,7 @@
 <span class="lineNum">     237 </span>            :      *         port and device.
 <span class="lineNum">     238 </span>            :      * @version 1.11
 <span class="lineNum">     239 </span>            :      */
-<span class="lineNum">     240 </span>            :     EQ_API bool isWindowSystemAvailable( const std::string&amp; name ) const;
+<span class="lineNum">     240 </span>            :     EQ_API bool isWindowSystemAvailable(const std::string&amp; name) const;
 <span class="lineNum">     241 </span>            :     //@}
 <span class="lineNum">     242 </span>            : 
 <span class="lineNum">     243 </span>            :     /** @name Operations */
@@ -310,7 +310,7 @@
 <span class="lineNum">     248 </span>            :      * @param frameNumber the frame to start.
 <span class="lineNum">     249 </span>            :      * @version 1.0
 <span class="lineNum">     250 </span>            :      */
-<span class="lineNum">     251 </span>            :     EQ_API void startFrame( const uint32_t frameNumber );
+<span class="lineNum">     251 </span>            :     EQ_API void startFrame(const uint32_t frameNumber);
 <span class="lineNum">     252 </span>            : 
 <span class="lineNum">     253 </span>            :     /**
 <span class="lineNum">     254 </span>            :      * Signal the completion of a frame to the parent.
@@ -318,7 +318,7 @@
 <span class="lineNum">     256 </span>            :      * @param frameNumber the frame to end.
 <span class="lineNum">     257 </span>            :      * @version 1.0
 <span class="lineNum">     258 </span>            :      */
-<span class="lineNum">     259 </span>            :     EQ_API void releaseFrame( const uint32_t frameNumber );
+<span class="lineNum">     259 </span>            :     EQ_API void releaseFrame(const uint32_t frameNumber);
 <span class="lineNum">     260 </span>            : 
 <span class="lineNum">     261 </span>            :     /**
 <span class="lineNum">     262 </span>            :      * Release the local synchronization of the parent for a frame.
@@ -326,7 +326,7 @@
 <span class="lineNum">     264 </span>            :      * @param frameNumber the frame to release.
 <span class="lineNum">     265 </span>            :      * @version 1.0
 <span class="lineNum">     266 </span>            :      */
-<span class="lineNum">     267 </span>            :     EQ_API void releaseFrameLocal( const uint32_t frameNumber );
+<span class="lineNum">     267 </span>            :     EQ_API void releaseFrameLocal(const uint32_t frameNumber);
 <span class="lineNum">     268 </span>            :     //@}
 <span class="lineNum">     269 </span>            : 
 <span class="lineNum">     270 </span>            :     /**
@@ -353,7 +353,7 @@
 <span class="lineNum">     291 </span>            :      * @param initID the init identifier.
 <span class="lineNum">     292 </span>            :      * @version 1.0
 <span class="lineNum">     293 </span>            :      */
-<span class="lineNum">     294 </span>            :     EQ_API virtual bool configInit( const uint128_t&amp; initID );
+<span class="lineNum">     294 </span>            :     EQ_API virtual bool configInit(const uint128_t&amp; initID);
 <span class="lineNum">     295 </span>            : 
 <span class="lineNum">     296 </span>            :     /**
 <span class="lineNum">     297 </span>            :      * Initialize the OS-specific pipe.
@@ -361,7 +361,7 @@
 <span class="lineNum">     299 </span>            :      * @sa setSystemPipe()
 <span class="lineNum">     300 </span>            :      * @version 1.0
 <span class="lineNum">     301 </span>            :      */
-<span class="lineNum">     302 </span>            :     EQ_API virtual bool configInitSystemPipe( const uint128_t&amp; initID );
+<span class="lineNum">     302 </span>            :     EQ_API virtual bool configInitSystemPipe(const uint128_t&amp; initID);
 <span class="lineNum">     303 </span>            : 
 <span class="lineNum">     304 </span>            :     /**
 <span class="lineNum">     305 </span>            :      * De-initialize this pipe.
@@ -385,8 +385,8 @@
 <span class="lineNum">     323 </span>            :      *     Node::waitFrameStarted()
 <span class="lineNum">     324 </span>            :      * @version 1.0
 <span class="lineNum">     325 </span>            :      */
-<span class="lineNum">     326 </span>            :     EQ_API virtual void frameStart( const uint128_t&amp; frameID,
-<span class="lineNum">     327 </span>            :                                     const uint32_t frameNumber );
+<span class="lineNum">     326 </span>            :     EQ_API virtual void frameStart(const uint128_t&amp; frameID,
+<span class="lineNum">     327 </span>            :                                    const uint32_t frameNumber);
 <span class="lineNum">     328 </span>            : 
 <span class="lineNum">     329 </span>            :     /**
 <span class="lineNum">     330 </span>            :      * Finish rendering a frame.
@@ -402,8 +402,8 @@
 <span class="lineNum">     340 </span>            :      * @param frameNumber the frame to finish.
 <span class="lineNum">     341 </span>            :      * @version 1.0
 <span class="lineNum">     342 </span>            :      */
-<span class="lineNum">     343 </span>            :     EQ_API virtual void frameFinish( const uint128_t&amp; frameID,
-<span class="lineNum">     344 </span>            :                                      const uint32_t frameNumber );
+<span class="lineNum">     343 </span>            :     EQ_API virtual void frameFinish(const uint128_t&amp; frameID,
+<span class="lineNum">     344 </span>            :                                     const uint32_t frameNumber);
 <span class="lineNum">     345 </span>            : 
 <span class="lineNum">     346 </span>            :     /**
 <span class="lineNum">     347 </span>            :      * Finish drawing.
@@ -415,11 +415,11 @@
 <span class="lineNum">     353 </span>            :      * @param frameNumber the frame to finished with draw.
 <span class="lineNum">     354 </span>            :      * @version 1.0
 <span class="lineNum">     355 </span>            :      */
-<span class="lineNum">     356 </span>            :     EQ_API virtual void frameDrawFinish( const uint128_t&amp; frameID,
-<span class="lineNum">     357 </span>            :                                          const uint32_t frameNumber );
+<span class="lineNum">     356 </span>            :     EQ_API virtual void frameDrawFinish(const uint128_t&amp; frameID,
+<span class="lineNum">     357 </span>            :                                         const uint32_t frameNumber);
 <span class="lineNum">     358 </span>            : 
 <span class="lineNum">     359 </span>            :     /** @internal */
-<span class="lineNum">     360 </span>            :     EQ_API virtual void attach( const uint128_t&amp; id, const uint32_t instanceID );
+<span class="lineNum">     360 </span>            :     EQ_API virtual void attach(const uint128_t&amp; id, const uint32_t instanceID);
 <span class="lineNum">     361 </span>            : 
 <span class="lineNum">     362 </span>            : private:
 <span class="lineNum">     363 </span>            :     detail::Pipe* const _impl;
@@ -434,7 +434,7 @@
 <span class="lineNum">     372 </span>            :     EQ_API int32_t _getAutoAffinity() const;
 <span class="lineNum">     373 </span>            :     friend class detail::ThreadAffinityVisitor;
 <span class="lineNum">     374 </span>            : 
-<span class="lineNum">     375 </span>            :     //friend class Window;
+<span class="lineNum">     375 </span>            :     // friend class Window;
 <span class="lineNum">     376 </span>            : 
 <span class="lineNum">     377 </span>            :     void _stopTransferThread();
 <span class="lineNum">     378 </span>            : 
@@ -448,19 +448,19 @@
 <span class="lineNum">     386 </span>            :     void _flushQueues();
 <span class="lineNum">     387 </span>            : 
 <span class="lineNum">     388 </span>            :     /* The command functions. */
-<span class="lineNum">     389 </span>            :     bool _cmdCreateWindow( co::ICommand&amp; command );
-<span class="lineNum">     390 </span>            :     bool _cmdDestroyWindow( co::ICommand&amp; command );
-<span class="lineNum">     391 </span>            :     bool _cmdConfigInit( co::ICommand&amp; command );
-<span class="lineNum">     392 </span>            :     bool _cmdConfigExit( co::ICommand&amp; command );
-<span class="lineNum">     393 </span>            :     bool _cmdFrameStartClock( co::ICommand&amp; command );
-<span class="lineNum">     394 </span>            :     bool _cmdFrameStart( co::ICommand&amp; command );
-<span class="lineNum">     395 </span>            :     bool _cmdFrameFinish( co::ICommand&amp; command );
-<span class="lineNum">     396 </span>            :     bool _cmdFrameDrawFinish( co::ICommand&amp; command );
-<span class="lineNum">     397 </span>            :     bool _cmdExitThread( co::ICommand&amp; command );
-<span class="lineNum">     398 </span>            :     bool _cmdDetachView( co::ICommand&amp; command );
-<a name="399"><span class="lineNum">     399 </span>            :     bool _cmdExitTransferThread( co::ICommand&amp; command );</a>
+<span class="lineNum">     389 </span>            :     bool _cmdCreateWindow(co::ICommand&amp; command);
+<span class="lineNum">     390 </span>            :     bool _cmdDestroyWindow(co::ICommand&amp; command);
+<span class="lineNum">     391 </span>            :     bool _cmdConfigInit(co::ICommand&amp; command);
+<span class="lineNum">     392 </span>            :     bool _cmdConfigExit(co::ICommand&amp; command);
+<span class="lineNum">     393 </span>            :     bool _cmdFrameStartClock(co::ICommand&amp; command);
+<span class="lineNum">     394 </span>            :     bool _cmdFrameStart(co::ICommand&amp; command);
+<span class="lineNum">     395 </span>            :     bool _cmdFrameFinish(co::ICommand&amp; command);
+<span class="lineNum">     396 </span>            :     bool _cmdFrameDrawFinish(co::ICommand&amp; command);
+<span class="lineNum">     397 </span>            :     bool _cmdExitThread(co::ICommand&amp; command);
+<span class="lineNum">     398 </span>            :     bool _cmdDetachView(co::ICommand&amp; command);
+<a name="399"><span class="lineNum">     399 </span>            :     bool _cmdExitTransferThread(co::ICommand&amp; command);</a>
 <span class="lineNum">     400 </span>            : 
-<span class="lineNum">     401 </span><span class="lineCov">         92 :     LB_TS_VAR( _pipeThread );</span>
+<span class="lineNum">     401 </span><span class="lineCov">         92 :     LB_TS_VAR(_pipeThread);</span>
 <span class="lineNum">     402 </span>            : };
 <span class="lineNum">     403 </span>            : }
 <span class="lineNum">     404 </span>            : 

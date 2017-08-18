@@ -32,17 +32,17 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntry">177</td>
-            <td class="headerCovTableEntryLo">0.6 %</td>
+            <td class="headerCovTableEntry">153</td>
+            <td class="headerCovTableEntryLo">0.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:07:24</td>
+            <td class="headerValue">2017-08-18 16:07:54</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
-            <td class="headerCovTableEntry">16</td>
-            <td class="headerCovTableEntryLo">12.5 %</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryLo">13.3 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -61,8 +61,8 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2007, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
-<span class="lineNum">       3 </span>            :  *               2009-2012, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2017, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
+<span class="lineNum">       3 </span>            :  *                          Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * Redistribution and use in source and binary forms, with or without
 <span class="lineNum">       6 </span>            :  * modification, are permitted provided that the following conditions are met:
@@ -92,11 +92,11 @@
 <span class="lineNum">      30 </span>            : #include &quot;vertexData.h&quot;
 <span class="lineNum">      31 </span>            : #include &quot;ply.h&quot;
 <span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span>            : #include &lt;cstdlib&gt;
-<span class="lineNum">      34 </span>            : #include &lt;algorithm&gt;
+<span class="lineNum">      33 </span>            : #include &lt;algorithm&gt;
+<span class="lineNum">      34 </span>            : #include &lt;cstdlib&gt;
 <span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span>            : #if (( __GNUC__ &gt; 4 ) || ((__GNUC__ == 4) &amp;&amp; (__GNUC_MINOR__ &gt;= 4)) )
-<span class="lineNum">      37 </span>            : #  include &lt;parallel/algorithm&gt;
+<span class="lineNum">      36 </span>            : #if ((__GNUC__ &gt; 4) || ((__GNUC__ == 4) &amp;&amp; (__GNUC_MINOR__ &gt;= 4)))
+<span class="lineNum">      37 </span>            : #include &lt;parallel/algorithm&gt;
 <span class="lineNum">      38 </span>            : using __gnu_parallel::sort;
 <span class="lineNum">      39 </span>            : #else
 <span class="lineNum">      40 </span>            : using std::sort;
@@ -106,370 +106,324 @@
 <a name="44"><span class="lineNum">      44 </span>            : </a>
 <span class="lineNum">      45 </span>            : /*  Contructor.  */
 <span class="lineNum">      46 </span><span class="lineNoCov">          0 : VertexData::VertexData()</span>
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     : _invertFaces( false )</span>
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     : _invertFaces(false)</span>
 <span class="lineNum">      48 </span>            : {
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     _boundingBox[0] = Vertex( 0.0f );</span>
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     _boundingBox[1] = Vertex( 0.0f );</span>
-<span class="lineNum">      51 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">      52 </span>            : 
-<a name="53"><span class="lineNum">      53 </span>            : </a>
-<span class="lineNum">      54 </span>            : /*  Read the vertex and (if available/wanted) color data from the open file.  */
-<span class="lineNum">      55 </span><span class="lineNoCov">          0 : void VertexData::readVertices( PlyFile* file, const int nVertices,</span>
-<span class="lineNum">      56 </span>            :                                const bool readColors )
-<span class="lineNum">      57 </span>            : {
-<span class="lineNum">      58 </span>            :     // temporary vertex structure for ply loading
-<span class="lineNum">      59 </span>            :     struct _Vertex
-<span class="lineNum">      60 </span>            :     {
-<span class="lineNum">      61 </span>            :         float           x;
-<span class="lineNum">      62 </span>            :         float           y;
-<span class="lineNum">      63 </span>            :         float           z;
-<span class="lineNum">      64 </span>            :         unsigned char   r;
-<span class="lineNum">      65 </span>            :         unsigned char   g;
-<span class="lineNum">      66 </span>            :         unsigned char   b;
-<span class="lineNum">      67 </span>            :     } vertex;
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :     PlyProperty vertexProps[] =
-<span class="lineNum">      70 </span>            :     {
-<span class="lineNum">      71 </span>            :         { &quot;x&quot;, PLY_FLOAT, PLY_FLOAT, offsetof( _Vertex, x ), 0, 0, 0, 0 },
-<span class="lineNum">      72 </span>            :         { &quot;y&quot;, PLY_FLOAT, PLY_FLOAT, offsetof( _Vertex, y ), 0, 0, 0, 0 },
-<span class="lineNum">      73 </span>            :         { &quot;z&quot;, PLY_FLOAT, PLY_FLOAT, offsetof( _Vertex, z ), 0, 0, 0, 0 },
-<span class="lineNum">      74 </span>            :         { &quot;red&quot;, PLY_UCHAR, PLY_UCHAR, offsetof( _Vertex, r ), 0, 0, 0, 0 },
-<span class="lineNum">      75 </span>            :         { &quot;green&quot;, PLY_UCHAR, PLY_UCHAR, offsetof( _Vertex, g ), 0, 0, 0, 0 },
-<span class="lineNum">      76 </span>            :         { &quot;blue&quot;, PLY_UCHAR, PLY_UCHAR, offsetof( _Vertex, b ), 0, 0, 0, 0 }
-<span class="lineNum">      77 </span><span class="lineNoCov">          0 :     };</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 : }</span>
+<a name="50"><span class="lineNum">      50 </span>            : </a>
+<span class="lineNum">      51 </span>            : /*  Read the vertex and (if available/wanted) color data from the open file.  */
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 : void VertexData::readVertices(PlyFile* file, const int nVertices,</span>
+<span class="lineNum">      53 </span>            :                               const bool readColors)
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span>            :     // temporary vertex structure for ply loading
+<span class="lineNum">      56 </span>            :     struct _Vertex
+<span class="lineNum">      57 </span>            :     {
+<span class="lineNum">      58 </span>            :         float x;
+<span class="lineNum">      59 </span>            :         float y;
+<span class="lineNum">      60 </span>            :         float z;
+<span class="lineNum">      61 </span>            :         unsigned char r;
+<span class="lineNum">      62 </span>            :         unsigned char g;
+<span class="lineNum">      63 </span>            :         unsigned char b;
+<span class="lineNum">      64 </span>            :     } vertex;
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            :     PlyProperty vertexProps[] = {
+<span class="lineNum">      67 </span>            :         {&quot;x&quot;, PLY_FLOAT, PLY_FLOAT, offsetof(_Vertex, x), 0, 0, 0, 0},
+<span class="lineNum">      68 </span>            :         {&quot;y&quot;, PLY_FLOAT, PLY_FLOAT, offsetof(_Vertex, y), 0, 0, 0, 0},
+<span class="lineNum">      69 </span>            :         {&quot;z&quot;, PLY_FLOAT, PLY_FLOAT, offsetof(_Vertex, z), 0, 0, 0, 0},
+<span class="lineNum">      70 </span>            :         {&quot;red&quot;, PLY_UCHAR, PLY_UCHAR, offsetof(_Vertex, r), 0, 0, 0, 0},
+<span class="lineNum">      71 </span>            :         {&quot;green&quot;, PLY_UCHAR, PLY_UCHAR, offsetof(_Vertex, g), 0, 0, 0, 0},
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :         {&quot;blue&quot;, PLY_UCHAR, PLY_UCHAR, offsetof(_Vertex, b), 0, 0, 0, 0}};</span>
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :     // use all 6 properties when reading colors, only the first 3 otherwise
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :     int limit = readColors ? 6 : 3;</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     for (int i = 0; i &lt; limit; ++i)</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :         ply_get_property(file, &quot;vertex&quot;, &amp;vertexProps[i]);</span>
 <span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span>            :     // use all 6 properties when reading colors, only the first 3 otherwise
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     int limit = readColors ? 6 : 3;</span>
-<span class="lineNum">      81 </span><span class="lineNoCov">          0 :     for( int i = 0; i &lt; limit; ++i )</span>
-<span class="lineNum">      82 </span><span class="lineNoCov">          0 :         ply_get_property( file, &quot;vertex&quot;, &amp;vertexProps[i] );</span>
-<span class="lineNum">      83 </span>            : 
-<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     vertices.clear();</span>
-<span class="lineNum">      85 </span><span class="lineNoCov">          0 :     vertices.reserve( nVertices );</span>
-<span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span><span class="lineNoCov">          0 :     if( readColors )</span>
-<span class="lineNum">      88 </span>            :     {
-<span class="lineNum">      89 </span><span class="lineNoCov">          0 :         colors.clear();</span>
-<span class="lineNum">      90 </span><span class="lineNoCov">          0 :         colors.reserve( nVertices );</span>
-<span class="lineNum">      91 </span>            :     }
-<span class="lineNum">      92 </span>            : 
-<span class="lineNum">      93 </span>            :     // read in the vertices
-<span class="lineNum">      94 </span><span class="lineNoCov">          0 :     for( int i = 0; i &lt; nVertices; ++i )</span>
-<span class="lineNum">      95 </span>            :     {
-<span class="lineNum">      96 </span><span class="lineNoCov">          0 :         ply_get_element( file, static_cast&lt; void* &gt;( &amp;vertex ) );</span>
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :         vertices.push_back( Vertex( vertex.x, vertex.y, vertex.z ) );</span>
-<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         if( readColors )</span>
-<span class="lineNum">      99 </span><span class="lineNoCov">          0 :             colors.push_back( Color( vertex.r, vertex.g, vertex.b ) );</span>
-<span class="lineNum">     100 </span>            :     }
-<span class="lineNum">     101 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     102 </span>            : 
-<a name="103"><span class="lineNum">     103 </span>            : </a>
-<span class="lineNum">     104 </span>            : /*  Read the index data from the open file.  */
-<span class="lineNum">     105 </span><span class="lineNoCov">          0 : void VertexData::readTriangles( PlyFile* file, const int nFaces )</span>
-<span class="lineNum">     106 </span>            : {
-<span class="lineNum">     107 </span>            :     // temporary face structure for ply loading
-<span class="lineNum">     108 </span>            :     struct _Face
-<span class="lineNum">     109 </span>            :     {
-<span class="lineNum">     110 </span>            :         unsigned char   nVertices;
-<span class="lineNum">     111 </span>            :         int*            vertices;
-<span class="lineNum">     112 </span>            :     } face;
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :     vertices.clear();</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     vertices.reserve(nVertices);</span>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     if (readColors)</span>
+<span class="lineNum">      83 </span>            :     {
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :         colors.clear();</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         colors.reserve(nVertices);</span>
+<span class="lineNum">      86 </span>            :     }
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     // read in the vertices
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     for (int i = 0; i &lt; nVertices; ++i)</span>
+<span class="lineNum">      90 </span>            :     {
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :         ply_get_element(file, static_cast&lt;void*&gt;(&amp;vertex));</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :         vertices.push_back(Vertex(vertex.x, vertex.y, vertex.z));</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :         if (readColors)</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :             colors.push_back(Color(vertex.r, vertex.g, vertex.b));</span>
+<span class="lineNum">      95 </span>            :     }
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 : }</span>
+<a name="97"><span class="lineNum">      97 </span>            : </a>
+<span class="lineNum">      98 </span>            : /*  Read the index data from the open file.  */
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 : void VertexData::readTriangles(PlyFile* file, const int nFaces)</span>
+<span class="lineNum">     100 </span>            : {
+<span class="lineNum">     101 </span>            :     // temporary face structure for ply loading
+<span class="lineNum">     102 </span>            :     struct _Face
+<span class="lineNum">     103 </span>            :     {
+<span class="lineNum">     104 </span>            :         unsigned char nVertices;
+<span class="lineNum">     105 </span>            :         int* vertices;
+<span class="lineNum">     106 </span>            :     } face;
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span>            :     PlyProperty faceProps[] = {{&quot;vertex_indices&quot;, PLY_INT, PLY_INT,
+<span class="lineNum">     109 </span>            :                                 offsetof(_Face, vertices), 1, PLY_UCHAR,
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :                                 PLY_UCHAR, offsetof(_Face, nVertices)}};</span>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     ply_get_property(file, &quot;face&quot;, &amp;faceProps[0]);</span>
 <span class="lineNum">     113 </span>            : 
-<span class="lineNum">     114 </span>            :     PlyProperty faceProps[] =
-<span class="lineNum">     115 </span>            :     {
-<span class="lineNum">     116 </span>            :         { &quot;vertex_indices&quot;, PLY_INT, PLY_INT, offsetof( _Face, vertices ),
-<span class="lineNum">     117 </span>            :           1, PLY_UCHAR, PLY_UCHAR, offsetof( _Face, nVertices ) }
-<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     };</span>
-<span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     ply_get_property( file, &quot;face&quot;, &amp;faceProps[0] );</span>
-<span class="lineNum">     121 </span>            : 
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 :     triangles.clear();</span>
-<span class="lineNum">     123 </span><span class="lineNoCov">          0 :     triangles.reserve( nFaces );</span>
-<span class="lineNum">     124 </span>            : 
-<span class="lineNum">     125 </span>            :     // read in the faces, asserting that they are only triangles
-<span class="lineNum">     126 </span><span class="lineNoCov">          0 :     uint8_t ind1 = _invertFaces ? 2 : 0;</span>
-<span class="lineNum">     127 </span><span class="lineNoCov">          0 :     uint8_t ind3 = _invertFaces ? 0 : 2;</span>
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     for( int i = 0; i &lt; nFaces; ++i )</span>
-<span class="lineNum">     129 </span>            :     {
-<span class="lineNum">     130 </span><span class="lineNoCov">          0 :         ply_get_element( file, static_cast&lt; void* &gt;( &amp;face ) );</span>
-<span class="lineNum">     131 </span><span class="lineNoCov">          0 :         PLYLIBASSERT( face.vertices != 0 );</span>
-<span class="lineNum">     132 </span><span class="lineNoCov">          0 :         if( face.nVertices != 3 )</span>
-<span class="lineNum">     133 </span>            :         {
-<span class="lineNum">     134 </span><span class="lineNoCov">          0 :             free( face.vertices );</span>
-<span class="lineNum">     135 </span>            :             throw MeshException( &quot;Error reading PLY file. Encountered a &quot;
-<span class="lineNum">     136 </span><span class="lineNoCov">          0 :                                  &quot;face which does not have three vertices.&quot; );</span>
-<span class="lineNum">     137 </span>            :         }
-<span class="lineNum">     138 </span><span class="lineNoCov">          0 :         triangles.push_back( Triangle( face.vertices[ind1],</span>
-<span class="lineNum">     139 </span><span class="lineNoCov">          0 :                                        face.vertices[1],</span>
-<span class="lineNum">     140 </span><span class="lineNoCov">          0 :                                        face.vertices[ind3] ) );</span>
-<span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span>            :         // free the memory that was allocated by ply_get_element
-<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         free( face.vertices );</span>
-<span class="lineNum">     144 </span>            :     }
-<span class="lineNum">     145 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     146 </span>            : 
-<a name="147"><span class="lineNum">     147 </span>            : </a>
-<span class="lineNum">     148 </span>            : /*  Open a PLY file and read vertex, color and index data.  */
-<span class="lineNum">     149 </span><span class="lineNoCov">          0 : bool VertexData::readPlyFile( const std::string&amp; filename )</span>
-<span class="lineNum">     150 </span>            : {
-<span class="lineNum">     151 </span>            :     int     nPlyElems;
-<span class="lineNum">     152 </span>            :     char**  elemNames;
-<span class="lineNum">     153 </span>            :     int     fileType;
-<span class="lineNum">     154 </span>            :     float   version;
-<span class="lineNum">     155 </span><span class="lineNoCov">          0 :     bool    result = false;</span>
-<span class="lineNum">     156 </span>            : 
-<span class="lineNum">     157 </span><span class="lineNoCov">          0 :     PlyFile* file = ply_open_for_reading( const_cast&lt;char*&gt;( filename.c_str( )),</span>
-<span class="lineNum">     158 </span>            :                                           &amp;nPlyElems, &amp;elemNames,
-<span class="lineNum">     159 </span><span class="lineNoCov">          0 :                                           &amp;fileType, &amp;version );</span>
-<span class="lineNum">     160 </span><span class="lineNoCov">          0 :     if( !file )</span>
-<span class="lineNum">     161 </span>            :     {
-<span class="lineNum">     162 </span><span class="lineNoCov">          0 :         PLYLIBERROR &lt;&lt; &quot;Unable to open PLY file &quot; &lt;&lt; filename</span>
-<span class="lineNum">     163 </span><span class="lineNoCov">          0 :                   &lt;&lt; &quot; for reading.&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     164 </span><span class="lineNoCov">          0 :         return result;</span>
-<span class="lineNum">     165 </span>            :     }
-<span class="lineNum">     166 </span><span class="lineNoCov">          0 :     PLYLIBASSERT( elemNames != 0 );</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :     triangles.clear();</span>
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :     triangles.reserve(nFaces);</span>
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            :     // read in the faces, asserting that they are only triangles
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     uint8_t ind1 = _invertFaces ? 2 : 0;</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     uint8_t ind3 = _invertFaces ? 0 : 2;</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     for (int i = 0; i &lt; nFaces; ++i)</span>
+<span class="lineNum">     121 </span>            :     {
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         ply_get_element(file, static_cast&lt;void*&gt;(&amp;face));</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :         PLYLIBASSERT(face.vertices != 0);</span>
+<span class="lineNum">     124 </span><span class="lineNoCov">          0 :         if (face.nVertices != 3)</span>
+<span class="lineNum">     125 </span>            :         {
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :             free(face.vertices);</span>
+<span class="lineNum">     127 </span>            :             throw MeshException(
+<span class="lineNum">     128 </span>            :                 &quot;Error reading PLY file. Encountered a &quot;
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :                 &quot;face which does not have three vertices.&quot;);</span>
+<span class="lineNum">     130 </span>            :         }
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 :         triangles.push_back(Triangle(face.vertices[ind1], face.vertices[1],</span>
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :                                      face.vertices[ind3]));</span>
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            :         // free the memory that was allocated by ply_get_element
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :         free(face.vertices);</span>
+<span class="lineNum">     136 </span>            :     }
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 : }</span>
+<a name="138"><span class="lineNum">     138 </span>            : </a>
+<span class="lineNum">     139 </span>            : /*  Open a PLY file and read vertex, color and index data.  */
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 : bool VertexData::readPlyFile(const std::string&amp; filename)</span>
+<span class="lineNum">     141 </span>            : {
+<span class="lineNum">     142 </span>            :     int nPlyElems;
+<span class="lineNum">     143 </span>            :     char** elemNames;
+<span class="lineNum">     144 </span>            :     int fileType;
+<span class="lineNum">     145 </span>            :     float version;
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :     bool result = false;</span>
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :     PlyFile* file =
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :         ply_open_for_reading(const_cast&lt;char*&gt;(filename.c_str()), &amp;nPlyElems,</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :                              &amp;elemNames, &amp;fileType, &amp;version);</span>
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :     if (!file)</span>
+<span class="lineNum">     152 </span>            :     {
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :         PLYLIBERROR &lt;&lt; &quot;Unable to open PLY file &quot; &lt;&lt; filename &lt;&lt; &quot; for reading.&quot;</span>
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :                     &lt;&lt; std::endl;</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :         return result;</span>
+<span class="lineNum">     156 </span>            :     }
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :     PLYLIBASSERT(elemNames != 0);</span>
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :     for (int i = 0; i &lt; nPlyElems; ++i)</span>
+<span class="lineNum">     160 </span>            :     {
+<span class="lineNum">     161 </span>            :         int nElems;
+<span class="lineNum">     162 </span>            :         int nProps;
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            :         PlyProperty** props =
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :             ply_get_element_description(file, elemNames[i], &amp;nElems, &amp;nProps);</span>
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :         PLYLIBASSERT(props != 0);</span>
 <span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 :     for( int i = 0; i &lt; nPlyElems; ++i )</span>
-<span class="lineNum">     169 </span>            :     {
-<span class="lineNum">     170 </span>            :         int nElems;
-<span class="lineNum">     171 </span>            :         int nProps;
-<span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span><span class="lineNoCov">          0 :         PlyProperty** props = ply_get_element_description( file, elemNames[i],</span>
-<span class="lineNum">     174 </span><span class="lineNoCov">          0 :                                                            &amp;nElems, &amp;nProps );</span>
-<span class="lineNum">     175 </span><span class="lineNoCov">          0 :         PLYLIBASSERT( props != 0 );</span>
-<span class="lineNum">     176 </span>            : 
-<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         if( equal_strings( elemNames[i], &quot;vertex&quot; ) )</span>
-<span class="lineNum">     178 </span>            :         {
-<span class="lineNum">     179 </span><span class="lineNoCov">          0 :             bool hasColors = false;</span>
-<span class="lineNum">     180 </span>            :             // determine if the file stores vertex colors
-<span class="lineNum">     181 </span><span class="lineNoCov">          0 :             for( int j = 0; j &lt; nProps; ++j )</span>
-<span class="lineNum">     182 </span><span class="lineNoCov">          0 :                 if( equal_strings( props[j]-&gt;name, &quot;red&quot; ) )</span>
-<span class="lineNum">     183 </span><span class="lineNoCov">          0 :                     hasColors = true;</span>
-<span class="lineNum">     184 </span>            : 
-<span class="lineNum">     185 </span><span class="lineNoCov">          0 :             readVertices( file, nElems, hasColors );</span>
-<span class="lineNum">     186 </span><span class="lineNoCov">          0 :             PLYLIBASSERT( vertices.size() == static_cast&lt; size_t &gt;( nElems ) );</span>
-<span class="lineNum">     187 </span><span class="lineNoCov">          0 :             if( hasColors )</span>
-<span class="lineNum">     188 </span>            :             {
-<span class="lineNum">     189 </span><span class="lineNoCov">          0 :                 PLYLIBASSERT( colors.size() == static_cast&lt; size_t &gt;( nElems ));</span>
-<span class="lineNum">     190 </span>            :             }
-<span class="lineNum">     191 </span>            :         }
-<span class="lineNum">     192 </span><span class="lineNoCov">          0 :         else if( equal_strings( elemNames[i], &quot;face&quot; ) )</span>
-<span class="lineNum">     193 </span>            :         try
-<span class="lineNum">     194 </span>            :         {
-<span class="lineNum">     195 </span><span class="lineNoCov">          0 :             readTriangles( file, nElems );</span>
-<span class="lineNum">     196 </span><span class="lineNoCov">          0 :             PLYLIBASSERT( triangles.size() == static_cast&lt; size_t &gt;( nElems ) );</span>
-<span class="lineNum">     197 </span><span class="lineNoCov">          0 :             result = true;</span>
-<span class="lineNum">     198 </span>            :         }
-<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         catch( const std::exception&amp; e )</span>
-<span class="lineNum">     200 </span>            :         {
-<span class="lineNum">     201 </span><span class="lineNoCov">          0 :             PLYLIBERROR &lt;&lt; &quot;Unable to read PLY file, an exception occured:  &quot;</span>
-<span class="lineNum">     202 </span><span class="lineNoCov">          0 :                       &lt;&lt; e.what() &lt;&lt; std::endl;</span>
-<span class="lineNum">     203 </span>            :             // stop for loop by setting the loop variable to break condition
-<span class="lineNum">     204 </span>            :             // this way resources still get released even on error cases
-<span class="lineNum">     205 </span><span class="lineNoCov">          0 :             i = nPlyElems;</span>
-<span class="lineNum">     206 </span>            :         }
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :         if (equal_strings(elemNames[i], &quot;vertex&quot;))</span>
+<span class="lineNum">     169 </span>            :         {
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :             bool hasColors = false;</span>
+<span class="lineNum">     171 </span>            :             // determine if the file stores vertex colors
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :             for (int j = 0; j &lt; nProps; ++j)</span>
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :                 if (equal_strings(props[j]-&gt;name, &quot;red&quot;))</span>
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 :                     hasColors = true;</span>
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :             readVertices(file, nElems, hasColors);</span>
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :             PLYLIBASSERT(vertices.size() == static_cast&lt;size_t&gt;(nElems));</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :             if (hasColors)</span>
+<span class="lineNum">     179 </span>            :             {
+<span class="lineNum">     180 </span><span class="lineNoCov">          0 :                 PLYLIBASSERT(colors.size() == static_cast&lt;size_t&gt;(nElems));</span>
+<span class="lineNum">     181 </span>            :             }
+<span class="lineNum">     182 </span>            :         }
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 :         else if (equal_strings(elemNames[i], &quot;face&quot;))</span>
+<span class="lineNum">     184 </span>            :             try
+<span class="lineNum">     185 </span>            :             {
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :                 readTriangles(file, nElems);</span>
+<span class="lineNum">     187 </span><span class="lineNoCov">          0 :                 PLYLIBASSERT(triangles.size() == static_cast&lt;size_t&gt;(nElems));</span>
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :                 result = true;</span>
+<span class="lineNum">     189 </span>            :             }
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :             catch (const std::exception&amp; e)</span>
+<span class="lineNum">     191 </span>            :             {
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :                 PLYLIBERROR</span>
+<span class="lineNum">     193 </span>            :                     &lt;&lt; &quot;Unable to read PLY file, an exception occured:  &quot;
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :                     &lt;&lt; e.what() &lt;&lt; std::endl;</span>
+<span class="lineNum">     195 </span>            :                 // stop for loop by setting the loop variable to break condition
+<span class="lineNum">     196 </span>            :                 // this way resources still get released even on error cases
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :                 i = nPlyElems;</span>
+<span class="lineNum">     198 </span>            :             }
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            :         // free the memory that was allocated by ply_get_element_description
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :         for (int j = 0; j &lt; nProps; ++j)</span>
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 :             free(props[j]);</span>
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :         free(props);</span>
+<span class="lineNum">     204 </span>            :     }
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :     ply_close(file);</span>
 <span class="lineNum">     207 </span>            : 
-<span class="lineNum">     208 </span>            :         // free the memory that was allocated by ply_get_element_description
-<span class="lineNum">     209 </span><span class="lineNoCov">          0 :         for( int j = 0; j &lt; nProps; ++j )</span>
-<span class="lineNum">     210 </span><span class="lineNoCov">          0 :             free( props[j] );</span>
-<span class="lineNum">     211 </span><span class="lineNoCov">          0 :         free( props );</span>
-<span class="lineNum">     212 </span>            :     }
-<span class="lineNum">     213 </span>            : 
-<span class="lineNum">     214 </span><span class="lineNoCov">          0 :     ply_close( file );</span>
-<span class="lineNum">     215 </span>            : 
-<span class="lineNum">     216 </span>            :     // free the memory that was allocated by ply_open_for_reading
-<span class="lineNum">     217 </span><span class="lineNoCov">          0 :     for( int i = 0; i &lt; nPlyElems; ++i )</span>
-<span class="lineNum">     218 </span><span class="lineNoCov">          0 :         free( elemNames[i] );</span>
-<span class="lineNum">     219 </span><span class="lineNoCov">          0 :     free( elemNames );</span>
-<span class="lineNum">     220 </span>            : 
-<span class="lineNum">     221 </span><span class="lineNoCov">          0 :     return result;</span>
-<span class="lineNum">     222 </span>            : }
-<span class="lineNum">     223 </span>            : 
-<a name="224"><span class="lineNum">     224 </span>            : </a>
-<span class="lineNum">     225 </span>            : /*  Calculate the face or vertex normals of the current vertex data.  */
-<span class="lineNum">     226 </span><span class="lineNoCov">          0 : void VertexData::calculateNormals()</span>
-<span class="lineNum">     227 </span>            : {
-<span class="lineNum">     228 </span>            : #ifndef NDEBUG
-<span class="lineNum">     229 </span><span class="lineNoCov">          0 :     int wrongNormals = 0;</span>
-<span class="lineNum">     230 </span>            : #endif
-<span class="lineNum">     231 </span>            : 
-<span class="lineNum">     232 </span><span class="lineNoCov">          0 :     normals.clear();</span>
-<span class="lineNum">     233 </span><span class="lineNoCov">          0 :     normals.reserve( vertices.size() );</span>
-<span class="lineNum">     234 </span>            : 
-<span class="lineNum">     235 </span>            :     // initialize all normals to zero
-<span class="lineNum">     236 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; vertices.size(); ++i )</span>
-<span class="lineNum">     237 </span><span class="lineNoCov">          0 :         normals.push_back( Normal( 0, 0, 0 ) );</span>
-<a name="238"><span class="lineNum">     238 </span>            : </a>
-<span class="lineNum">     239 </span>            :     // iterate over all triangles and add their normals to adjacent vertices
-<span class="lineNum">     240 </span><span class="lineNoCov">          0 : #pragma omp parallel for</span>
-<span class="lineNum">     241 </span><span class="lineNoCov">          0 :     for( ssize_t i = 0; i &lt; ssize_t( triangles.size( )); ++i )</span>
-<span class="lineNum">     242 </span>            :     {
-<span class="lineNum">     243 </span><span class="lineNoCov">          0 :         const Index i0 = triangles[i][0];</span>
-<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         const Index i1 = triangles[i][1];</span>
-<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         const Index i2 = triangles[i][2];</span>
-<span class="lineNum">     246 </span><span class="lineNoCov">          0 :         const Normal normal = vmml::compute_normal( vertices[i0], vertices[i1],</span>
-<span class="lineNum">     247 </span><span class="lineNoCov">          0 :                                                     vertices[i2] );</span>
-<span class="lineNum">     248 </span>            : #ifndef NDEBUG
-<span class="lineNum">     249 </span>            :         // count emtpy normals in debug mode
-<span class="lineNum">     250 </span><span class="lineNoCov">          0 :         if( normal.length() == 0.0f )</span>
-<span class="lineNum">     251 </span><span class="lineNoCov">          0 :             ++wrongNormals; // racy with OpenMP, but not critical</span>
-<span class="lineNum">     252 </span>            : #endif
-<span class="lineNum">     253 </span>            : 
-<span class="lineNum">     254 </span><span class="lineNoCov">          0 :         normals[i0] += normal;</span>
-<span class="lineNum">     255 </span><span class="lineNoCov">          0 :         normals[i1] += normal;</span>
-<span class="lineNum">     256 </span><span class="lineNoCov">          0 :         normals[i2] += normal;</span>
-<span class="lineNum">     257 </span>            :     }
-<a name="258"><span class="lineNum">     258 </span>            : </a>
-<span class="lineNum">     259 </span>            :     // normalize all the normals
-<span class="lineNum">     260 </span><span class="lineNoCov">          0 : #pragma omp parallel for</span>
-<span class="lineNum">     261 </span><span class="lineNoCov">          0 :     for( ssize_t i = 0; i &lt; ssize_t( vertices.size( )); ++i )</span>
-<span class="lineNum">     262 </span><span class="lineNoCov">          0 :         normals[i].normalize();</span>
-<span class="lineNum">     263 </span>            : 
-<span class="lineNum">     264 </span>            : #ifndef NDEBUG
-<span class="lineNum">     265 </span><span class="lineNoCov">          0 :     if( wrongNormals &gt; 0 )</span>
-<span class="lineNum">     266 </span><span class="lineNoCov">          0 :         PLYLIBINFO &lt;&lt; wrongNormals &lt;&lt; &quot; faces have no valid normal.&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     267 </span>            : #endif
-<span class="lineNum">     268 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     269 </span>            : 
-<a name="270"><span class="lineNum">     270 </span>            : </a>
-<span class="lineNum">     271 </span>            : /*  Calculate the bounding box of the current vertex data.  */
-<span class="lineNum">     272 </span><span class="lineNoCov">          0 : void VertexData::calculateBoundingBox()</span>
-<span class="lineNum">     273 </span>            : {
-<span class="lineNum">     274 </span><span class="lineNoCov">          0 :     _boundingBox[0] = vertices[0];</span>
-<span class="lineNum">     275 </span><span class="lineNoCov">          0 :     _boundingBox[1] = vertices[0];</span>
-<span class="lineNum">     276 </span><span class="lineNoCov">          0 :     for( size_t v = 1; v &lt; vertices.size(); ++v )</span>
-<span class="lineNum">     277 </span><span class="lineNoCov">          0 :         for( size_t i = 0; i &lt; 3; ++i )</span>
-<span class="lineNum">     278 </span>            :         {
-<span class="lineNum">     279 </span><span class="lineNoCov">          0 :             _boundingBox[0][i] = std::min( _boundingBox[0][i], vertices[v][i] );</span>
-<span class="lineNum">     280 </span><span class="lineNoCov">          0 :             _boundingBox[1][i] = std::max( _boundingBox[1][i], vertices[v][i] );</span>
-<span class="lineNum">     281 </span>            :         }
-<span class="lineNum">     282 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     283 </span>            : 
-<a name="284"><span class="lineNum">     284 </span>            : </a>
-<span class="lineNum">     285 </span>            : /* Calculates longest axis for a set of triangles */
-<span class="lineNum">     286 </span><span class="lineNoCov">          0 : Axis VertexData::getLongestAxis( const size_t start,</span>
-<span class="lineNum">     287 </span>            :                                  const size_t elements ) const
-<span class="lineNum">     288 </span>            : {
-<span class="lineNum">     289 </span><span class="lineNoCov">          0 :     if( start + elements &gt; triangles.size() )</span>
-<span class="lineNum">     290 </span>            :     {
-<span class="lineNum">     291 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;incorrect request to getLongestAxis&quot; &lt;&lt; std::endl</span>
-<span class="lineNum">     292 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;start:     &quot; &lt;&lt; start                &lt;&lt; std::endl</span>
-<span class="lineNum">     293 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;elements:  &quot; &lt;&lt; elements             &lt;&lt; std::endl</span>
-<span class="lineNum">     294 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;sum:       &quot; &lt;&lt; start+elements       &lt;&lt; std::endl</span>
-<span class="lineNum">     295 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;data size: &quot; &lt;&lt; triangles.size()     &lt;&lt; std::endl;</span>
-<span class="lineNum">     296 </span><span class="lineNoCov">          0 :         return AXIS_X;</span>
-<span class="lineNum">     297 </span>            :     }
+<span class="lineNum">     208 </span>            :     // free the memory that was allocated by ply_open_for_reading
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :     for (int i = 0; i &lt; nPlyElems; ++i)</span>
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :         free(elemNames[i]);</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :     free(elemNames);</span>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :     return result;</span>
+<span class="lineNum">     214 </span>            : }
+<a name="215"><span class="lineNum">     215 </span>            : </a>
+<span class="lineNum">     216 </span>            : /*  Calculate the face or vertex normals of the current vertex data.  */
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 : void VertexData::calculateNormals()</span>
+<span class="lineNum">     218 </span>            : {
+<span class="lineNum">     219 </span>            : #ifndef NDEBUG
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :     int wrongNormals = 0;</span>
+<span class="lineNum">     221 </span>            : #endif
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :     normals.clear();</span>
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :     normals.reserve(vertices.size());</span>
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span>            :     // initialize all normals to zero
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     for (size_t i = 0; i &lt; vertices.size(); ++i)</span>
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :         normals.push_back(Normal(0, 0, 0));</span>
+<a name="229"><span class="lineNum">     229 </span>            : </a>
+<span class="lineNum">     230 </span>            : // iterate over all triangles and add their normals to adjacent vertices
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 : #pragma omp parallel for</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :     for (ssize_t i = 0; i &lt; ssize_t(triangles.size()); ++i)</span>
+<span class="lineNum">     233 </span>            :     {
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :         const Index i0 = triangles[i][0];</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :         const Index i1 = triangles[i][1];</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :         const Index i2 = triangles[i][2];</span>
+<span class="lineNum">     237 </span>            :         const Normal normal =
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :             vmml::compute_normal(vertices[i0], vertices[i1], vertices[i2]);</span>
+<span class="lineNum">     239 </span>            : #ifndef NDEBUG
+<span class="lineNum">     240 </span>            :         // count emtpy normals in debug mode
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :         if (normal.length() == 0.0f)</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :             ++wrongNormals; // racy with OpenMP, but not critical</span>
+<span class="lineNum">     243 </span>            : #endif
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         normals[i0] += normal;</span>
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :         normals[i1] += normal;</span>
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :         normals[i2] += normal;</span>
+<span class="lineNum">     248 </span>            :     }
+<a name="249"><span class="lineNum">     249 </span>            : </a>
+<span class="lineNum">     250 </span>            : // normalize all the normals
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 : #pragma omp parallel for</span>
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :     for (ssize_t i = 0; i &lt; ssize_t(vertices.size()); ++i)</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :         normals[i].normalize();</span>
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span>            : #ifndef NDEBUG
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :     if (wrongNormals &gt; 0)</span>
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :         PLYLIBINFO &lt;&lt; wrongNormals &lt;&lt; &quot; faces have no valid normal.&quot;</span>
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :                    &lt;&lt; std::endl;</span>
+<span class="lineNum">     259 </span>            : #endif
+<span class="lineNum">     260 </span><span class="lineNoCov">          0 : }</span>
+<a name="261"><span class="lineNum">     261 </span>            : </a>
+<span class="lineNum">     262 </span>            : /* Calculates longest axis for a set of triangles */
+<span class="lineNum">     263 </span><span class="lineNoCov">          0 : Axis VertexData::getLongestAxis(const size_t start, const size_t elements) const</span>
+<span class="lineNum">     264 </span>            : {
+<span class="lineNum">     265 </span><span class="lineNoCov">          0 :     if (start + elements &gt; triangles.size())</span>
+<span class="lineNum">     266 </span>            :     {
+<span class="lineNum">     267 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;incorrect request to getLongestAxis&quot; &lt;&lt; std::endl</span>
+<span class="lineNum">     268 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;start:     &quot; &lt;&lt; start &lt;&lt; std::endl</span>
+<span class="lineNum">     269 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;elements:  &quot; &lt;&lt; elements &lt;&lt; std::endl</span>
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;sum:       &quot; &lt;&lt; start + elements &lt;&lt; std::endl</span>
+<span class="lineNum">     271 </span><span class="lineNoCov">          0 :                 &lt;&lt; &quot;data size: &quot; &lt;&lt; triangles.size() &lt;&lt; std::endl;</span>
+<span class="lineNum">     272 </span><span class="lineNoCov">          0 :         return AXIS_X;</span>
+<span class="lineNum">     273 </span>            :     }
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :     BoundingBox bb{vertices[triangles[start][0]],</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :                    vertices[triangles[start][0]]};</span>
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :     for (size_t t = start; t &lt; start + elements; ++t)</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :         for (size_t v = 0; v &lt; 3; ++v)</span>
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :             bb.merge(vertices[triangles[t][v]]);</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :     const auto size = bb.getSize();</span>
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :     if (size.x() &gt;= size.y() &amp;&amp; size.x() &gt;= size.z())</span>
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :         return AXIS_X;</span>
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span><span class="lineNoCov">          0 :     if (size.y() &gt;= size.x() &amp;&amp; size.y() &gt;= size.z())</span>
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :         return AXIS_Y;</span>
+<span class="lineNum">     288 </span>            : 
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :     return AXIS_Z;</span>
+<span class="lineNum">     290 </span>            : }
+<a name="291"><span class="lineNum">     291 </span>            : </a>
+<span class="lineNum">     292 </span>            : /*  Scales the data to be within +- baseSize/2 (default 2.0) coordinates.  */
+<span class="lineNum">     293 </span><span class="lineNoCov">          0 : void VertexData::scale(const float baseSize)</span>
+<span class="lineNum">     294 </span>            : {
+<span class="lineNum">     295 </span><span class="lineNoCov">          0 :     BoundingBox boundingBox{vertices[0], vertices[0]};</span>
+<span class="lineNum">     296 </span><span class="lineNoCov">          0 :     for (size_t v = 1; v &lt; vertices.size(); ++v)</span>
+<span class="lineNum">     297 </span><span class="lineNoCov">          0 :         boundingBox.merge(vertices[v]);</span>
 <span class="lineNum">     298 </span>            : 
-<span class="lineNum">     299 </span><span class="lineNoCov">          0 :     BoundingBox bb;</span>
-<span class="lineNum">     300 </span><span class="lineNoCov">          0 :     bb[0] = vertices[ triangles[start][0] ];</span>
-<span class="lineNum">     301 </span><span class="lineNoCov">          0 :     bb[1] = vertices[ triangles[start][0] ];</span>
-<span class="lineNum">     302 </span>            : 
-<span class="lineNum">     303 </span><span class="lineNoCov">          0 :     for( size_t t = start; t &lt; start+elements; ++t )</span>
-<span class="lineNum">     304 </span><span class="lineNoCov">          0 :         for( size_t v = 0; v &lt; 3; ++v )</span>
-<span class="lineNum">     305 </span><span class="lineNoCov">          0 :             for( size_t i = 0; i &lt; 3; ++i )</span>
-<span class="lineNum">     306 </span>            :             {
-<span class="lineNum">     307 </span><span class="lineNoCov">          0 :                 bb[0][i] = std::min( bb[0][i], vertices[ triangles[t][v] ][i] );</span>
-<span class="lineNum">     308 </span><span class="lineNoCov">          0 :                 bb[1][i] = std::max( bb[1][i], vertices[ triangles[t][v] ][i] );</span>
-<span class="lineNum">     309 </span>            :             }
-<span class="lineNum">     310 </span>            : 
-<span class="lineNum">     311 </span><span class="lineNoCov">          0 :     const GLfloat bbX = bb[1][0] - bb[0][0];</span>
-<span class="lineNum">     312 </span><span class="lineNoCov">          0 :     const GLfloat bbY = bb[1][1] - bb[0][1];</span>
-<span class="lineNum">     313 </span><span class="lineNoCov">          0 :     const GLfloat bbZ = bb[1][2] - bb[0][2];</span>
-<span class="lineNum">     314 </span>            : 
-<span class="lineNum">     315 </span><span class="lineNoCov">          0 :     if( bbX &gt;= bbY &amp;&amp; bbX &gt;= bbZ )</span>
-<span class="lineNum">     316 </span><span class="lineNoCov">          0 :         return AXIS_X;</span>
-<span class="lineNum">     317 </span>            : 
-<span class="lineNum">     318 </span><span class="lineNoCov">          0 :     if( bbY &gt;= bbX &amp;&amp; bbY &gt;= bbZ )</span>
-<span class="lineNum">     319 </span><span class="lineNoCov">          0 :         return AXIS_Y;</span>
-<span class="lineNum">     320 </span>            : 
-<span class="lineNum">     321 </span><span class="lineNoCov">          0 :     return AXIS_Z;</span>
-<span class="lineNum">     322 </span>            : }
+<span class="lineNum">     299 </span>            :     // find largest dimension and determine scale factor
+<span class="lineNum">     300 </span><span class="lineNoCov">          0 :     const float factor = baseSize / boundingBox.getSize().find_max();</span>
+<span class="lineNum">     301 </span>            : 
+<span class="lineNum">     302 </span>            :     // determine scale offset
+<span class="lineNum">     303 </span><span class="lineNoCov">          0 :     const Vertex offset = boundingBox.getCenter();</span>
+<a name="304"><span class="lineNum">     304 </span>            : </a>
+<span class="lineNum">     305 </span>            : // scale the data
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 : #pragma omp parallel for</span>
+<span class="lineNum">     307 </span><span class="lineNoCov">          0 :     for (ssize_t v = 0; v &lt; ssize_t(vertices.size()); ++v)</span>
+<span class="lineNum">     308 </span>            :     {
+<span class="lineNum">     309 </span><span class="lineNoCov">          0 :         vertices[v] -= offset;</span>
+<span class="lineNum">     310 </span><span class="lineNoCov">          0 :         vertices[v] *= factor;</span>
+<span class="lineNum">     311 </span>            :     }
+<span class="lineNum">     312 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     313 </span>            : 
+<span class="lineNum">     314 </span>            : /** @cond IGNORE */
+<span class="lineNum">     315 </span>            : /*  Helper structure to sort Triangles with standard library sort function.  */
+<a name="316"><span class="lineNum">     316 </span>            : struct _TriangleSort</a>
+<span class="lineNum">     317 </span>            : {
+<span class="lineNum">     318 </span><span class="lineNoCov">          0 :     _TriangleSort(const VertexData&amp; data, const Axis axis)</span>
+<span class="lineNum">     319 </span><span class="lineNoCov">          0 :         : _data(data)</span>
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 :         , _axis(axis)</span>
+<span class="lineNum">     321 </span>            :     {
+<a name="322"><span class="lineNum">     322 </span><span class="lineNoCov">          0 :     }</span></a>
 <span class="lineNum">     323 </span>            : 
-<a name="324"><span class="lineNum">     324 </span>            : </a>
-<span class="lineNum">     325 </span>            : /*  Scales the data to be within +- baseSize/2 (default 2.0) coordinates.  */
-<span class="lineNum">     326 </span><span class="lineNoCov">          0 : void VertexData::scale( const float baseSize )</span>
-<span class="lineNum">     327 </span>            : {
-<span class="lineNum">     328 </span>            :     // calculate bounding box if not yet done
-<span class="lineNum">     329 </span><span class="lineNoCov">          0 :     if( _boundingBox[0].length() == 0.0f &amp;&amp; _boundingBox[1].length() == 0.0f )</span>
-<span class="lineNum">     330 </span><span class="lineNoCov">          0 :         calculateBoundingBox();</span>
-<span class="lineNum">     331 </span>            : 
-<span class="lineNum">     332 </span>            :     // find largest dimension and determine scale factor
-<span class="lineNum">     333 </span><span class="lineNoCov">          0 :     float factor = 0.0f;</span>
-<span class="lineNum">     334 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; 3; ++i )</span>
-<span class="lineNum">     335 </span><span class="lineNoCov">          0 :         factor = std::max( factor, _boundingBox[1][i] - _boundingBox[0][i] );</span>
-<span class="lineNum">     336 </span><span class="lineNoCov">          0 :     factor = baseSize / factor;</span>
-<span class="lineNum">     337 </span>            : 
-<span class="lineNum">     338 </span>            :     // determine scale offset
-<span class="lineNum">     339 </span><span class="lineNoCov">          0 :     Vertex offset;</span>
-<span class="lineNum">     340 </span><span class="lineNoCov">          0 :     for( size_t i = 0; i &lt; 3; ++i )</span>
-<span class="lineNum">     341 </span><span class="lineNoCov">          0 :         offset[i] = ( _boundingBox[0][i] + _boundingBox[1][i] ) * 0.5f;</span>
-<a name="342"><span class="lineNum">     342 </span>            : </a>
-<span class="lineNum">     343 </span>            :     // scale the data
-<span class="lineNum">     344 </span><span class="lineNoCov">          0 : #pragma omp parallel for</span>
-<span class="lineNum">     345 </span><span class="lineNoCov">          0 :     for( ssize_t v = 0; v &lt; ssize_t( vertices.size( )); ++v )</span>
-<span class="lineNum">     346 </span><span class="lineNoCov">          0 :         for( size_t i = 0; i &lt; 3; ++i )</span>
-<span class="lineNum">     347 </span>            :         {
-<span class="lineNum">     348 </span><span class="lineNoCov">          0 :             vertices[v][i] -= offset[i];</span>
-<span class="lineNum">     349 </span><span class="lineNoCov">          0 :             vertices[v][i] *= factor;</span>
-<span class="lineNum">     350 </span>            :         }
-<span class="lineNum">     351 </span>            : 
-<span class="lineNum">     352 </span>            :     // scale the bounding box
-<span class="lineNum">     353 </span><span class="lineNoCov">          0 :     for( size_t v = 0; v &lt; 2; ++v )</span>
-<span class="lineNum">     354 </span><span class="lineNoCov">          0 :         for( size_t i = 0; i &lt; 3; ++i )</span>
-<span class="lineNum">     355 </span>            :         {
-<span class="lineNum">     356 </span><span class="lineNoCov">          0 :             _boundingBox[v][i] -= offset[i];</span>
-<span class="lineNum">     357 </span><span class="lineNoCov">          0 :             _boundingBox[v][i] *= factor;</span>
-<span class="lineNum">     358 </span>            :         }
-<span class="lineNum">     359 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">     360 </span>            : 
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :     bool operator()(const Triangle&amp; t1, const Triangle&amp; t2)</span>
+<span class="lineNum">     325 </span>            :     {
+<span class="lineNum">     326 </span>            :         // references to both triangles' three vertices
+<span class="lineNum">     327 </span><span class="lineNoCov">          0 :         const Vertex&amp; v11 = _data.vertices[t1[0]];</span>
+<span class="lineNum">     328 </span><span class="lineNoCov">          0 :         const Vertex&amp; v12 = _data.vertices[t1[1]];</span>
+<span class="lineNum">     329 </span><span class="lineNoCov">          0 :         const Vertex&amp; v13 = _data.vertices[t1[2]];</span>
+<span class="lineNum">     330 </span><span class="lineNoCov">          0 :         const Vertex&amp; v21 = _data.vertices[t2[0]];</span>
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 :         const Vertex&amp; v22 = _data.vertices[t2[1]];</span>
+<span class="lineNum">     332 </span><span class="lineNoCov">          0 :         const Vertex&amp; v23 = _data.vertices[t2[2]];</span>
+<span class="lineNum">     333 </span>            : 
+<span class="lineNum">     334 </span>            :         // compare first by given axis
+<span class="lineNum">     335 </span><span class="lineNoCov">          0 :         int axis = _axis;</span>
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :         do</span>
+<span class="lineNum">     337 </span>            :         {
+<span class="lineNum">     338 </span>            :             // test median of 'axis' component of all three vertices
+<span class="lineNum">     339 </span><span class="lineNoCov">          0 :             const float median1 = (v11[axis] + v12[axis] + v13[axis]) / 3.0f;</span>
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :             const float median2 = (v21[axis] + v22[axis] + v23[axis]) / 3.0f;</span>
+<span class="lineNum">     341 </span><span class="lineNoCov">          0 :             if (median1 != median2)</span>
+<span class="lineNum">     342 </span><span class="lineNoCov">          0 :                 return (median1 &lt; median2);</span>
+<span class="lineNum">     343 </span>            : 
+<span class="lineNum">     344 </span>            :             // if still equal, move on to the next axis
+<span class="lineNum">     345 </span><span class="lineNoCov">          0 :             axis = (axis + 1) % 3;</span>
+<span class="lineNum">     346 </span><span class="lineNoCov">          0 :         } while (axis != _axis);</span>
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     349 </span>            :     }
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span>            :     const VertexData&amp; _data;
+<span class="lineNum">     352 </span>            :     const Axis _axis;
+<span class="lineNum">     353 </span>            : };
+<span class="lineNum">     354 </span>            : /** @endcond */
+<a name="355"><span class="lineNum">     355 </span>            : </a>
+<span class="lineNum">     356 </span>            : /*  Sort the index data from start to start + length along the given axis.  */
+<span class="lineNum">     357 </span><span class="lineNoCov">          0 : void VertexData::sort(const Index start, const Index length, const Axis axis)</span>
+<span class="lineNum">     358 </span>            : {
+<span class="lineNum">     359 </span><span class="lineNoCov">          0 :     PLYLIBASSERT(length &gt; 0);</span>
+<span class="lineNum">     360 </span><span class="lineNoCov">          0 :     PLYLIBASSERT(start + length &lt;= triangles.size());</span>
 <span class="lineNum">     361 </span>            : 
-<span class="lineNum">     362 </span>            : /** @cond IGNORE */
-<span class="lineNum">     363 </span>            : /*  Helper structure to sort Triangles with standard library sort function.  */
-<a name="364"><span class="lineNum">     364 </span>            : struct _TriangleSort</a>
-<span class="lineNum">     365 </span>            : {
-<span class="lineNum">     366 </span><span class="lineNoCov">          0 :     _TriangleSort( const VertexData&amp; data, const Axis axis ) : _data( data ),</span>
-<a name="367"><span class="lineNum">     367 </span><span class="lineNoCov">          0 :                                                                _axis( axis ) {}</span></a>
-<span class="lineNum">     368 </span>            : 
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     bool operator() ( const Triangle&amp; t1, const Triangle&amp; t2 )</span>
-<span class="lineNum">     370 </span>            :     {
-<span class="lineNum">     371 </span>            :         // references to both triangles' three vertices
-<span class="lineNum">     372 </span><span class="lineNoCov">          0 :         const Vertex&amp; v11 = _data.vertices[ t1[0] ];</span>
-<span class="lineNum">     373 </span><span class="lineNoCov">          0 :         const Vertex&amp; v12 = _data.vertices[ t1[1] ];</span>
-<span class="lineNum">     374 </span><span class="lineNoCov">          0 :         const Vertex&amp; v13 = _data.vertices[ t1[2] ];</span>
-<span class="lineNum">     375 </span><span class="lineNoCov">          0 :         const Vertex&amp; v21 = _data.vertices[ t2[0] ];</span>
-<span class="lineNum">     376 </span><span class="lineNoCov">          0 :         const Vertex&amp; v22 = _data.vertices[ t2[1] ];</span>
-<span class="lineNum">     377 </span><span class="lineNoCov">          0 :         const Vertex&amp; v23 = _data.vertices[ t2[2] ];</span>
-<span class="lineNum">     378 </span>            : 
-<span class="lineNum">     379 </span>            :         // compare first by given axis
-<span class="lineNum">     380 </span><span class="lineNoCov">          0 :         int axis = _axis;</span>
-<span class="lineNum">     381 </span><span class="lineNoCov">          0 :         do</span>
-<span class="lineNum">     382 </span>            :         {
-<span class="lineNum">     383 </span>            :             // test median of 'axis' component of all three vertices
-<span class="lineNum">     384 </span><span class="lineNoCov">          0 :             const float median1 = (v11[axis] + v12[axis] + v13[axis] ) / 3.0f;</span>
-<span class="lineNum">     385 </span><span class="lineNoCov">          0 :             const float median2 = (v21[axis] + v22[axis] + v23[axis] ) / 3.0f;</span>
-<span class="lineNum">     386 </span><span class="lineNoCov">          0 :             if( median1 != median2 )</span>
-<span class="lineNum">     387 </span><span class="lineNoCov">          0 :                 return ( median1 &lt; median2 );</span>
-<span class="lineNum">     388 </span>            : 
-<span class="lineNum">     389 </span>            :             // if still equal, move on to the next axis
-<span class="lineNum">     390 </span><span class="lineNoCov">          0 :             axis = ( axis + 1 ) % 3;</span>
-<span class="lineNum">     391 </span>            :         }
-<span class="lineNum">     392 </span><span class="lineNoCov">          0 :         while( axis != _axis );</span>
-<span class="lineNum">     393 </span>            : 
-<span class="lineNum">     394 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     395 </span>            :     }
-<span class="lineNum">     396 </span>            : 
-<span class="lineNum">     397 </span>            :     const VertexData&amp;   _data;
-<span class="lineNum">     398 </span>            :     const Axis          _axis;
-<span class="lineNum">     399 </span>            : };
-<span class="lineNum">     400 </span>            : /** @endcond */
-<a name="401"><span class="lineNum">     401 </span>            : </a>
-<span class="lineNum">     402 </span>            : /*  Sort the index data from start to start + length along the given axis.  */
-<span class="lineNum">     403 </span><span class="lineNoCov">          0 : void VertexData::sort( const Index start, const Index length, const Axis axis )</span>
-<span class="lineNum">     404 </span>            : {
-<span class="lineNum">     405 </span><span class="lineNoCov">          0 :     PLYLIBASSERT( length &gt; 0 );</span>
-<span class="lineNum">     406 </span><span class="lineNoCov">          0 :     PLYLIBASSERT( start + length &lt;= triangles.size() );</span>
-<span class="lineNum">     407 </span>            : 
-<a name="408"><span class="lineNum">     408 </span><span class="lineNoCov">          0 :     ::sort( triangles.begin() + start, triangles.begin() + start + length,</span></a>
-<span class="lineNum">     409 </span><span class="lineNoCov">          0 :             _TriangleSort( *this, axis ) );</span>
-<span class="lineNum">     410 </span><span class="lineCov">          9 : }</span>
+<a name="362"><span class="lineNum">     362 </span><span class="lineNoCov">          0 :     ::sort(triangles.begin() + start, triangles.begin() + start + length,</span></a>
+<span class="lineNum">     363 </span><span class="lineNoCov">          0 :            _TriangleSort(*this, axis));</span>
+<span class="lineNum">     364 </span><span class="lineCov">          9 : }</span>
 </pre>
       </td>
     </tr>

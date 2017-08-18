@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:07:24</td>
+            <td class="headerValue">2017-08-18 16:07:54</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2016, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2007-2017, Tobias Wolf &lt;twolf@access.unizh.ch&gt;
 <span class="lineNum">       3 </span>            :  *                          Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
 <span class="lineNum">       4 </span>            :  *
 <span class="lineNum">       5 </span>            :  * Redistribution and use in source and binary forms, with or without
@@ -87,7 +87,7 @@
 <span class="lineNum">      25 </span>            :  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 <span class="lineNum">      26 </span>            :  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 <span class="lineNum">      27 </span>            :  * POSSIBILITY OF SUCH DAMAGE.
-<span class="lineNum">      28 </span>            : */
+<span class="lineNum">      28 </span>            :  */
 <span class="lineNum">      29 </span>            : 
 <span class="lineNum">      30 </span>            : #ifndef PLYLIB_VERTEXBUFFERLEAF_H
 <span class="lineNum">      31 </span>            : #define PLYLIB_VERTEXBUFFERLEAF_H
@@ -100,42 +100,43 @@
 <span class="lineNum">      38 </span>            : class VertexBufferLeaf : public VertexBufferBase
 <a name="39"><span class="lineNum">      39 </span>            : {</a>
 <span class="lineNum">      40 </span>            : public:
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     explicit VertexBufferLeaf( VertexBufferData&amp; data )</span>
-<a name="42"><span class="lineNum">      42 </span><span class="lineNoCov">          0 :         : _globalData( data ), _vertexStart( 0 ), _indexStart( 0 )</span></a>
-<span class="lineNum">      43 </span><span class="lineNoCov">          0 :         , _indexLength( 0 ), _vertexLength( 0 ) {}</span>
-<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     virtual ~VertexBufferLeaf() {}</span>
-<a name="45"><span class="lineNum">      45 </span>            : </a>
-<span class="lineNum">      46 </span>            :     virtual void draw( VertexBufferState&amp; state ) const;
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     virtual Index getNumberOfVertices() const { return _indexLength; }</span>
-<span class="lineNum">      48 </span>            : 
-<span class="lineNum">      49 </span>            : protected:
-<span class="lineNum">      50 </span>            :     void toStream( std::ostream&amp; os ) final;
-<span class="lineNum">      51 </span>            :     void fromMemory( char** addr, VertexBufferData&amp; globalData ) final;
-<span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span>            :     void setupTree( VertexData&amp; data, Index start, Index length, Axis axis,
-<span class="lineNum">      54 </span>            :                     size_t depth, VertexBufferData&amp; globalData,
-<span class="lineNum">      55 </span>            :                     boost::progress_display&amp; ) final;
-<a name="56"><span class="lineNum">      56 </span>            :     const BoundingSphere&amp; updateBoundingSphere() final;</a>
-<span class="lineNum">      57 </span>            :     void updateRange() final;
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     Type getType() const final { return Type::leaf; }</span>
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            : private:
-<span class="lineNum">      61 </span>            :     void setupRendering( VertexBufferState&amp; state, GLuint* data ) const;
-<span class="lineNum">      62 </span>            :     void renderImmediate( VertexBufferState&amp; state ) const;
-<span class="lineNum">      63 </span>            :     void renderDisplayList( VertexBufferState&amp; state ) const;
-<span class="lineNum">      64 </span>            :     void renderBufferObject( VertexBufferState&amp; state ) const;
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span>            :     friend class VertexBufferDist;
-<span class="lineNum">      67 </span>            :     VertexBufferData&amp;   _globalData;
-<span class="lineNum">      68 </span>            :     BoundingBox         _boundingBox;
-<span class="lineNum">      69 </span>            :     Index               _vertexStart;
-<span class="lineNum">      70 </span>            :     Index               _indexStart;
-<span class="lineNum">      71 </span>            :     Index               _indexLength;
-<span class="lineNum">      72 </span>            :     ShortIndex          _vertexLength;
-<span class="lineNum">      73 </span>            : };
-<span class="lineNum">      74 </span>            : }
-<span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span>            : #endif // PLYLIB_VERTEXBUFFERLEAF_H
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     explicit VertexBufferLeaf(VertexBufferData&amp; data)</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :         : _globalData(data)</span>
+<span class="lineNum">      43 </span>            :         , _vertexStart(0)
+<span class="lineNum">      44 </span>            :         , _indexStart(0)
+<span class="lineNum">      45 </span>            :         , _indexLength(0)
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :         , _vertexLength(0)</span>
+<a name="47"><span class="lineNum">      47 </span>            :     {</a>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     }</span>
+<a name="49"><span class="lineNum">      49 </span><span class="lineNoCov">          0 :     virtual ~VertexBufferLeaf() {}</span></a>
+<span class="lineNum">      50 </span>            :     virtual void draw(VertexBufferState&amp; state) const;
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     virtual Index getNumberOfVertices() const { return _indexLength; }</span>
+<span class="lineNum">      52 </span>            : protected:
+<span class="lineNum">      53 </span>            :     void toStream(std::ostream&amp; os) final;
+<span class="lineNum">      54 </span>            :     void fromMemory(char** addr, VertexBufferData&amp; globalData) final;
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            :     void setupTree(VertexData&amp; data, Index start, Index length, Axis axis,
+<span class="lineNum">      57 </span>            :                    size_t depth, VertexBufferData&amp; globalData,
+<span class="lineNum">      58 </span>            :                    boost::progress_display&amp;) final;
+<a name="59"><span class="lineNum">      59 </span>            :     void updateBounds() final;</a>
+<span class="lineNum">      60 </span>            :     void updateRange() final;
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     Type getType() const final { return Type::leaf; }</span>
+<span class="lineNum">      62 </span>            : private:
+<span class="lineNum">      63 </span>            :     void setupRendering(VertexBufferState&amp; state, GLuint* data) const;
+<span class="lineNum">      64 </span>            :     void renderImmediate(VertexBufferState&amp; state) const;
+<span class="lineNum">      65 </span>            :     void renderDisplayList(VertexBufferState&amp; state) const;
+<span class="lineNum">      66 </span>            :     void renderBufferObject(VertexBufferState&amp; state) const;
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :     friend class VertexBufferDist;
+<span class="lineNum">      69 </span>            :     VertexBufferData&amp; _globalData;
+<span class="lineNum">      70 </span>            :     Index _vertexStart;
+<span class="lineNum">      71 </span>            :     Index _indexStart;
+<span class="lineNum">      72 </span>            :     Index _indexLength;
+<span class="lineNum">      73 </span>            :     ShortIndex _vertexLength;
+<span class="lineNum">      74 </span>            : };
+<span class="lineNum">      75 </span>            : }
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            : #endif // PLYLIB_VERTEXBUFFERLEAF_H
 </pre>
       </td>
     </tr>

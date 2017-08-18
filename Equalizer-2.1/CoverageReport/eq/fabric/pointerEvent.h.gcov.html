@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">5</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -90,49 +90,70 @@
 <span class="lineNum">      28 </span>            : /** Event for a pointer (mouse) motion or click. */
 <a name="29"><span class="lineNum">      29 </span><span class="lineNoCov">          0 : struct PointerEvent : public Event</span></a>
 <span class="lineNum">      30 </span>            : {
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     PointerEvent() : x(0), y(0), dx(0), dy(0), buttons(0), button(0), xAxis(0)</span>
-<span class="lineNum">      32 </span><span class="lineNoCov">          0 :                    , yAxis(0) {}</span>
-<span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span>            :     int32_t x;        //!&lt; X position relative to entity
-<span class="lineNum">      35 </span>            :     int32_t y;        //!&lt; Y position relative to entity (0 is on top)
-<span class="lineNum">      36 </span>            :     int32_t dx;       //!&lt; X position change since last event
-<span class="lineNum">      37 </span>            :     int32_t dy;       //!&lt; Y position change since last event
-<span class="lineNum">      38 </span>            :     uint32_t buttons; //!&lt; current state of all buttons
-<span class="lineNum">      39 </span>            :     uint32_t button;  //!&lt; fired button
-<span class="lineNum">      40 </span>            :     KeyModifier modifiers; //!&lt; state of modifier keys
-<span class="lineNum">      41 </span>            :     float xAxis;      //!&lt; x wheel rotation in clicks
-<span class="lineNum">      42 </span>            :     float yAxis;      //!&lt; y wheel rotation in clicks
-<span class="lineNum">      43 </span>            :     RenderContext context; //!&lt; The last rendering context at position
-<span class="lineNum">      44 </span>            : };
-<span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span>            : /** Print the pointer event to the given output stream. @version 1.0 */
-<span class="lineNum">      47 </span>            : inline std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const PointerEvent&amp; event )
-<span class="lineNum">      48 </span>            : {
-<span class="lineNum">      49 </span>            :     os &lt;&lt; static_cast&lt; const Event&amp; &gt;( event ) &lt;&lt; &quot; [&quot; &lt;&lt; event.x &lt;&lt; &quot;], [&quot;
-<span class="lineNum">      50 </span>            :        &lt;&lt; event.y &lt;&lt; &quot;] d(&quot; &lt;&lt; event.dx &lt;&lt; &quot;, &quot; &lt;&lt; event.dy &lt;&lt; ')' &lt;&lt; &quot; wheel &quot;
-<span class="lineNum">      51 </span>            :        &lt;&lt; '[' &lt;&lt; event.xAxis &lt;&lt; &quot;, &quot; &lt;&lt; event.yAxis &lt;&lt; &quot;] buttons &quot;;
-<span class="lineNum">      52 </span>            : 
-<span class="lineNum">      53 </span>            :     if( event.buttons == PTR_BUTTON_NONE ) os &lt;&lt; &quot;none&quot;;
-<span class="lineNum">      54 </span>            :     if( event.buttons &amp; PTR_BUTTON1 ) os &lt;&lt; &quot;1&quot;;
-<span class="lineNum">      55 </span>            :     if( event.buttons &amp; PTR_BUTTON2 ) os &lt;&lt; &quot;2&quot;;
-<span class="lineNum">      56 </span>            :     if( event.buttons &amp; PTR_BUTTON3 ) os &lt;&lt; &quot;3&quot;;
-<span class="lineNum">      57 </span>            :     if( event.buttons &amp; PTR_BUTTON4 ) os &lt;&lt; &quot;4&quot;;
-<span class="lineNum">      58 </span>            :     if( event.buttons &amp; PTR_BUTTON5 ) os &lt;&lt; &quot;5&quot;;
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span>            :     os &lt;&lt; event.modifiers &lt;&lt; &quot; fired &quot;;
-<span class="lineNum">      61 </span>            :     if( event.button == PTR_BUTTON_NONE ) os &lt;&lt; &quot;none&quot;;
-<span class="lineNum">      62 </span>            :     if( event.button &amp; PTR_BUTTON1 ) os &lt;&lt; &quot;1&quot;;
-<span class="lineNum">      63 </span>            :     if( event.button &amp; PTR_BUTTON2 ) os &lt;&lt; &quot;2&quot;;
-<span class="lineNum">      64 </span>            :     if( event.button &amp; PTR_BUTTON3 ) os &lt;&lt; &quot;3&quot;;
-<span class="lineNum">      65 </span>            :     if( event.button &amp; PTR_BUTTON4 ) os &lt;&lt; &quot;4&quot;;
-<span class="lineNum">      66 </span>            :     if( event.button &amp; PTR_BUTTON5 ) os &lt;&lt; &quot;5&quot;;
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span>            :     return os &lt;&lt; &quot; context &quot; &lt;&lt; event.context;
-<span class="lineNum">      69 </span>            : }
-<span class="lineNum">      70 </span>            : }
-<span class="lineNum">      71 </span>            : }
-<span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span>            : #endif // EQFABRIC_EVENT_H
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     PointerEvent()</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :         : x(0)</span>
+<span class="lineNum">      33 </span>            :         , y(0)
+<span class="lineNum">      34 </span>            :         , dx(0)
+<span class="lineNum">      35 </span>            :         , dy(0)
+<span class="lineNum">      36 </span>            :         , buttons(0)
+<span class="lineNum">      37 </span>            :         , button(0)
+<span class="lineNum">      38 </span>            :         , xAxis(0)
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :         , yAxis(0)</span>
+<span class="lineNum">      40 </span>            :     {
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            :     int32_t x;             //!&lt; X position relative to entity
+<span class="lineNum">      44 </span>            :     int32_t y;             //!&lt; Y position relative to entity (0 is on top)
+<span class="lineNum">      45 </span>            :     int32_t dx;            //!&lt; X position change since last event
+<span class="lineNum">      46 </span>            :     int32_t dy;            //!&lt; Y position change since last event
+<span class="lineNum">      47 </span>            :     uint32_t buttons;      //!&lt; current state of all buttons
+<span class="lineNum">      48 </span>            :     uint32_t button;       //!&lt; fired button
+<span class="lineNum">      49 </span>            :     KeyModifier modifiers; //!&lt; state of modifier keys
+<span class="lineNum">      50 </span>            :     float xAxis;           //!&lt; x wheel rotation in clicks
+<span class="lineNum">      51 </span>            :     float yAxis;           //!&lt; y wheel rotation in clicks
+<span class="lineNum">      52 </span>            :     RenderContext context; //!&lt; The last rendering context at position
+<span class="lineNum">      53 </span>            : };
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            : /** Print the pointer event to the given output stream. @version 1.0 */
+<span class="lineNum">      56 </span>            : inline std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const PointerEvent&amp; event)
+<span class="lineNum">      57 </span>            : {
+<span class="lineNum">      58 </span>            :     os &lt;&lt; static_cast&lt;const Event&amp;&gt;(event) &lt;&lt; &quot; [&quot; &lt;&lt; event.x &lt;&lt; &quot;], [&quot;
+<span class="lineNum">      59 </span>            :        &lt;&lt; event.y &lt;&lt; &quot;] d(&quot; &lt;&lt; event.dx &lt;&lt; &quot;, &quot; &lt;&lt; event.dy &lt;&lt; ')' &lt;&lt; &quot; wheel &quot;
+<span class="lineNum">      60 </span>            :        &lt;&lt; '[' &lt;&lt; event.xAxis &lt;&lt; &quot;, &quot; &lt;&lt; event.yAxis &lt;&lt; &quot;] buttons &quot;;
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :     if (event.buttons == PTR_BUTTON_NONE)
+<span class="lineNum">      63 </span>            :         os &lt;&lt; &quot;none&quot;;
+<span class="lineNum">      64 </span>            :     if (event.buttons &amp; PTR_BUTTON1)
+<span class="lineNum">      65 </span>            :         os &lt;&lt; &quot;1&quot;;
+<span class="lineNum">      66 </span>            :     if (event.buttons &amp; PTR_BUTTON2)
+<span class="lineNum">      67 </span>            :         os &lt;&lt; &quot;2&quot;;
+<span class="lineNum">      68 </span>            :     if (event.buttons &amp; PTR_BUTTON3)
+<span class="lineNum">      69 </span>            :         os &lt;&lt; &quot;3&quot;;
+<span class="lineNum">      70 </span>            :     if (event.buttons &amp; PTR_BUTTON4)
+<span class="lineNum">      71 </span>            :         os &lt;&lt; &quot;4&quot;;
+<span class="lineNum">      72 </span>            :     if (event.buttons &amp; PTR_BUTTON5)
+<span class="lineNum">      73 </span>            :         os &lt;&lt; &quot;5&quot;;
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :     os &lt;&lt; event.modifiers &lt;&lt; &quot; fired &quot;;
+<span class="lineNum">      76 </span>            :     if (event.button == PTR_BUTTON_NONE)
+<span class="lineNum">      77 </span>            :         os &lt;&lt; &quot;none&quot;;
+<span class="lineNum">      78 </span>            :     if (event.button &amp; PTR_BUTTON1)
+<span class="lineNum">      79 </span>            :         os &lt;&lt; &quot;1&quot;;
+<span class="lineNum">      80 </span>            :     if (event.button &amp; PTR_BUTTON2)
+<span class="lineNum">      81 </span>            :         os &lt;&lt; &quot;2&quot;;
+<span class="lineNum">      82 </span>            :     if (event.button &amp; PTR_BUTTON3)
+<span class="lineNum">      83 </span>            :         os &lt;&lt; &quot;3&quot;;
+<span class="lineNum">      84 </span>            :     if (event.button &amp; PTR_BUTTON4)
+<span class="lineNum">      85 </span>            :         os &lt;&lt; &quot;4&quot;;
+<span class="lineNum">      86 </span>            :     if (event.button &amp; PTR_BUTTON5)
+<span class="lineNum">      87 </span>            :         os &lt;&lt; &quot;5&quot;;
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            :     return os &lt;&lt; &quot; context &quot; &lt;&lt; event.context;
+<span class="lineNum">      90 </span>            : }
+<span class="lineNum">      91 </span>            : }
+<span class="lineNum">      92 </span>            : }
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            : #endif // EQFABRIC_EVENT_H
 </pre>
       </td>
     </tr>

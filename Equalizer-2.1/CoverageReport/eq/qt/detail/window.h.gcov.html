@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">121</td>
+            <td class="headerCovTableEntry">115</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : </a>
-<span class="lineNum">       2 </span>            : /* Copyright (c) 2014-2016, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2014-2017, Daniel Nachbaur &lt;danielnachbaur@gmail.com&gt;
 <span class="lineNum">       3 </span>            :  *                          Juan Hernando &lt;jhernando@fi.upm.es&gt;
 <span class="lineNum">       4 </span>            :  *                          Stefan.Eilemann@epfl.ch
 <span class="lineNum">       5 </span>            :  *
@@ -89,8 +89,8 @@
 <span class="lineNum">      27 </span>            : 
 <span class="lineNum">      28 </span>            : #include &lt;QApplication&gt;
 <span class="lineNum">      29 </span>            : #include &lt;QExposeEvent&gt;
-<span class="lineNum">      30 </span>            : #include &lt;QOpenGLContext&gt;
-<span class="lineNum">      31 </span>            : #include &lt;QOffscreenSurface&gt;
+<span class="lineNum">      30 </span>            : #include &lt;QOffscreenSurface&gt;
+<span class="lineNum">      31 </span>            : #include &lt;QOpenGLContext&gt;
 <span class="lineNum">      32 </span>            : #include &lt;QWindow&gt;
 <span class="lineNum">      33 </span>            : 
 <span class="lineNum">      34 </span>            : namespace eq
@@ -101,74 +101,74 @@
 <span class="lineNum">      39 </span>            : {
 <span class="lineNum">      40 </span>            : namespace
 <span class="lineNum">      41 </span>            : {
-<a name="42"><span class="lineNum">      42 </span>            : #define getAttribute( attr ) settings.getIAttribute( WindowSettings::attr )</a>
+<a name="42"><span class="lineNum">      42 </span>            : #define getAttribute(attr) settings.getIAttribute(WindowSettings::attr)</a>
 <span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span><span class="lineNoCov">          0 : QSurfaceFormat _createFormat( const WindowSettings&amp; settings )</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 : QSurfaceFormat _createFormat(const WindowSettings&amp; settings)</span>
 <span class="lineNum">      45 </span>            : {
 <span class="lineNum">      46 </span>            :     // defaults: http://doc.qt.io/qt-5/qsurfaceformat.html
 <span class="lineNum">      47 </span><span class="lineNoCov">          0 :     QSurfaceFormat format;</span>
 <span class="lineNum">      48 </span>            : 
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     const int coreProfile = getAttribute( IATTR_HINT_CORE_PROFILE );</span>
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     if( coreProfile == ON )</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     const int coreProfile = getAttribute(IATTR_HINT_CORE_PROFILE);</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     if (coreProfile == ON)</span>
 <span class="lineNum">      51 </span>            :     {
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :         format.setMajorVersion( getAttribute( IATTR_HINT_OPENGL_MAJOR ));</span>
-<span class="lineNum">      53 </span><span class="lineNoCov">          0 :         format.setMinorVersion( getAttribute( IATTR_HINT_OPENGL_MINOR ));</span>
-<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         format.setProfile( QSurfaceFormat::CoreProfile );</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :         format.setMajorVersion(getAttribute(IATTR_HINT_OPENGL_MAJOR));</span>
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :         format.setMinorVersion(getAttribute(IATTR_HINT_OPENGL_MINOR));</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         format.setProfile(QSurfaceFormat::CoreProfile);</span>
 <span class="lineNum">      55 </span>            :     }
 <span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     const int colorSize = getAttribute( IATTR_PLANES_COLOR );</span>
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     if( colorSize &gt; 0 || colorSize == eq::AUTO )</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     const int colorSize = getAttribute(IATTR_PLANES_COLOR);</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     if (colorSize &gt; 0 || colorSize == eq::AUTO)</span>
 <span class="lineNum">      59 </span>            :     {
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         const int colorBits = ( colorSize &gt; 0 ? colorSize : 8 );</span>
-<span class="lineNum">      61 </span><span class="lineNoCov">          0 :         format.setRedBufferSize( colorBits );</span>
-<span class="lineNum">      62 </span><span class="lineNoCov">          0 :         format.setGreenBufferSize( colorBits );</span>
-<span class="lineNum">      63 </span><span class="lineNoCov">          0 :         format.setBlueBufferSize( colorBits );</span>
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         const int colorBits = (colorSize &gt; 0 ? colorSize : 8);</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :         format.setRedBufferSize(colorBits);</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :         format.setGreenBufferSize(colorBits);</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :         format.setBlueBufferSize(colorBits);</span>
 <span class="lineNum">      64 </span>            :     }
 <span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     const int alphaPlanes = getAttribute( IATTR_PLANES_ALPHA );</span>
-<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     if( alphaPlanes &gt; 0 || alphaPlanes == eq::AUTO )</span>
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     const int alphaPlanes = getAttribute(IATTR_PLANES_ALPHA);</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     if (alphaPlanes &gt; 0 || alphaPlanes == eq::AUTO)</span>
 <span class="lineNum">      68 </span>            :     {
-<span class="lineNum">      69 </span><span class="lineNoCov">          0 :         const int alphaBits = ( alphaPlanes &gt; 0 ? alphaPlanes : 8 );</span>
-<span class="lineNum">      70 </span><span class="lineNoCov">          0 :         format.setAlphaBufferSize( alphaBits );</span>
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :         const int alphaBits = (alphaPlanes &gt; 0 ? alphaPlanes : 8);</span>
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :         format.setAlphaBufferSize(alphaBits);</span>
 <span class="lineNum">      71 </span>            :     }
 <span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span><span class="lineNoCov">          0 :     const int depthPlanes = getAttribute( IATTR_PLANES_DEPTH );</span>
-<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     if( depthPlanes &gt; 0  || depthPlanes == eq::AUTO )</span>
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :     const int depthPlanes = getAttribute(IATTR_PLANES_DEPTH);</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     if (depthPlanes &gt; 0 || depthPlanes == eq::AUTO)</span>
 <span class="lineNum">      75 </span>            :     {
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :         const int depthBits = ( depthPlanes &gt; 0 ? depthPlanes : 8 );</span>
-<span class="lineNum">      77 </span><span class="lineNoCov">          0 :         format.setDepthBufferSize( depthBits );</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :         const int depthBits = (depthPlanes &gt; 0 ? depthPlanes : 8);</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :         format.setDepthBufferSize(depthBits);</span>
 <span class="lineNum">      78 </span>            :     }
 <span class="lineNum">      79 </span>            :     else
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :         format.setDepthBufferSize( 0 );</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :         format.setDepthBufferSize(0);</span>
 <span class="lineNum">      81 </span>            : 
-<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     const int stencilPlanes = getAttribute( IATTR_PLANES_STENCIL );</span>
-<span class="lineNum">      83 </span><span class="lineNoCov">          0 :     if( stencilPlanes &gt; 0 || stencilPlanes == eq::AUTO )</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     const int stencilPlanes = getAttribute(IATTR_PLANES_STENCIL);</span>
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :     if (stencilPlanes &gt; 0 || stencilPlanes == eq::AUTO)</span>
 <span class="lineNum">      84 </span>            :     {
-<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         const int stencilBits = ( stencilPlanes &gt; 0 ? stencilPlanes : 8 );</span>
-<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         format.setStencilBufferSize( stencilBits );</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         const int stencilBits = (stencilPlanes &gt; 0 ? stencilPlanes : 8);</span>
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         format.setStencilBufferSize(stencilBits);</span>
 <span class="lineNum">      87 </span>            :     }
 <span class="lineNum">      88 </span>            :     else
-<span class="lineNum">      89 </span><span class="lineNoCov">          0 :         format.setStencilBufferSize( 0 );</span>
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :         format.setStencilBufferSize(0);</span>
 <span class="lineNum">      90 </span>            : 
-<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     const int samplesPlanes  = getAttribute( IATTR_PLANES_SAMPLES );</span>
-<span class="lineNum">      92 </span><span class="lineNoCov">          0 :     if( samplesPlanes &gt;= 0 )</span>
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     const int samplesPlanes = getAttribute(IATTR_PLANES_SAMPLES);</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :     if (samplesPlanes &gt;= 0)</span>
 <span class="lineNum">      93 </span>            :     {
-<span class="lineNum">      94 </span><span class="lineNoCov">          0 :         format.setSamples( samplesPlanes );</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :         format.setSamples(samplesPlanes);</span>
 <span class="lineNum">      95 </span>            :     }
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :     if( getAttribute( IATTR_HINT_STEREO ) == eq::ON )</span>
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :     if (getAttribute(IATTR_HINT_STEREO) == eq::ON)</span>
 <span class="lineNum">      98 </span>            :     {
-<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         format.setStereo( true );</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         format.setStereo(true);</span>
 <span class="lineNum">     100 </span>            :     }
 <span class="lineNum">     101 </span>            : 
-<span class="lineNum">     102 </span><span class="lineNoCov">          0 :     if( getAttribute( IATTR_HINT_DOUBLEBUFFER ) == eq::ON ||</span>
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         ( getAttribute( IATTR_HINT_DOUBLEBUFFER ) == eq::AUTO &amp;&amp;</span>
-<span class="lineNum">     104 </span><span class="lineNoCov">          0 :           getAttribute( IATTR_HINT_DRAWABLE ) == eq::WINDOW ))</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :     if (getAttribute(IATTR_HINT_DOUBLEBUFFER) == eq::ON ||</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         (getAttribute(IATTR_HINT_DOUBLEBUFFER) == eq::AUTO &amp;&amp;</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :          getAttribute(IATTR_HINT_DRAWABLE) == eq::WINDOW))</span>
 <span class="lineNum">     105 </span>            :     {
-<span class="lineNum">     106 </span><span class="lineNoCov">          0 :         format.setSwapBehavior( QSurfaceFormat::DoubleBuffer );</span>
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :         format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);</span>
 <span class="lineNum">     107 </span>            :     }
 <span class="lineNum">     108 </span>            :     else
-<span class="lineNum">     109 </span><span class="lineNoCov">          0 :         format.setSwapBehavior( QSurfaceFormat::SingleBuffer );</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :         format.setSwapBehavior(QSurfaceFormat::SingleBuffer);</span>
 <span class="lineNum">     110 </span>            : 
 <span class="lineNum">     111 </span><span class="lineNoCov">          0 :     return format;</span>
 <span class="lineNum">     112 </span>            : }
@@ -178,11 +178,11 @@
 <span class="lineNum">     116 </span>            : class Window
 <a name="117"><span class="lineNum">     117 </span>            : {</a>
 <span class="lineNum">     118 </span>            : public:
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     Window( WindowIF&amp; window, QThread* qThread )</span>
-<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         : _eventHandler( window )</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     Window(WindowIF&amp; window, QThread* qThread)</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         : _eventHandler(window)</span>
 <span class="lineNum">     121 </span>            :     {
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         if( qThread )</span>
-<span class="lineNum">     123 </span><span class="lineNoCov">          0 :             _eventHandler.moveToThread( qThread );</span>
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         if (qThread)</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :             _eventHandler.moveToThread(qThread);</span>
 <a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :     }</span></a>
 <span class="lineNum">     125 </span>            : 
 <span class="lineNum">     126 </span><span class="lineNoCov">          0 :     virtual ~Window() {}</span>
@@ -191,160 +191,140 @@
 <span class="lineNum">     129 </span>            :     virtual void makeCurrent() = 0;
 <a name="130"><span class="lineNum">     130 </span>            :     virtual void doneCurrent() = 0;</a>
 <a name="131"><span class="lineNum">     131 </span>            :     virtual void swapBuffers() = 0;</a>
-<span class="lineNum">     132 </span><span class="lineNoCov">          0 :     virtual void resize( const PixelViewport&amp; ) {};</span>
-<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     virtual QObject *getEventProcessor() { return &amp;_eventHandler; }</span>
-<span class="lineNum">     134 </span>            : 
-<span class="lineNum">     135 </span>            : protected:
-<span class="lineNum">     136 </span>            :     EventHandler _eventHandler;
-<a name="137"><span class="lineNum">     137 </span>            : };</a>
-<span class="lineNum">     138 </span>            : 
-<span class="lineNum">     139 </span><span class="lineNoCov">          0 : class QWindowWrapper : public Window, public QWindow</span>
-<a name="140"><span class="lineNum">     140 </span>            : {</a>
-<span class="lineNum">     141 </span>            : public:
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :     QWindowWrapper( WindowIF&amp; window, QThread* qThread,</span>
-<span class="lineNum">     143 </span>            :                     const WindowSettings&amp; settings, QScreen* screen_,
-<span class="lineNum">     144 </span>            :                     QOpenGLContext* shareContext )
-<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         : detail::Window( window, qThread )</span>
-<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         , _context( new QOpenGLContext )</span>
-<span class="lineNum">     147 </span><span class="lineNoCov">          0 :         , _realized( false )</span>
-<span class="lineNum">     148 </span>            :     {
-<span class="lineNum">     149 </span><span class="lineNoCov">          0 :         setScreen( screen_ );</span>
-<span class="lineNum">     150 </span><span class="lineNoCov">          0 :         const QSurfaceFormat&amp; format_ = _createFormat( settings );</span>
-<span class="lineNum">     151 </span><span class="lineNoCov">          0 :         setFormat( format_ );</span>
-<span class="lineNum">     152 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = settings.getPixelViewport();</span>
-<span class="lineNum">     153 </span><span class="lineNoCov">          0 :         setGeometry( pvp.x, pvp.y, pvp.w, pvp.h );</span>
-<span class="lineNum">     154 </span><span class="lineNoCov">          0 :         setSurfaceType( QSurface::OpenGLSurface );</span>
-<span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span><span class="lineNoCov">          0 :         _context-&gt;setFormat( format( ));</span>
-<span class="lineNum">     157 </span><span class="lineNoCov">          0 :         _context-&gt;setShareContext( shareContext );</span>
-<span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span><span class="lineNoCov">          0 :         if( settings.getIAttribute(</span>
-<span class="lineNum">     160 </span>            :                 WindowSettings::IATTR_HINT_FULLSCREEN ) == eq::ON )
-<span class="lineNum">     161 </span>            :         {
-<span class="lineNum">     162 </span><span class="lineNoCov">          0 :             showFullScreen();</span>
-<span class="lineNum">     163 </span>            :         }
-<span class="lineNum">     164 </span>            :         else
-<span class="lineNum">     165 </span><span class="lineNoCov">          0 :             show();</span>
-<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineNoCov">          0 :     QOpenGLContext* getContext() const final</span>
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :     virtual void resize(const PixelViewport&amp;){};</span>
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     virtual QObject* getEventProcessor() { return &amp;_eventHandler; }</span>
+<span class="lineNum">     134 </span>            : protected:
+<span class="lineNum">     135 </span>            :     EventHandler _eventHandler;
+<a name="136"><span class="lineNum">     136 </span>            : };</a>
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span><span class="lineNoCov">          0 : class QWindowWrapper : public Window, public QWindow</span>
+<a name="139"><span class="lineNum">     139 </span>            : {</a>
+<span class="lineNum">     140 </span>            : public:
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :     QWindowWrapper(WindowIF&amp; window, QThread* qThread,</span>
+<span class="lineNum">     142 </span>            :                    const WindowSettings&amp; settings, QScreen* screen_,
+<span class="lineNum">     143 </span>            :                    QOpenGLContext* shareContext)
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :         : detail::Window(window, qThread)</span>
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :         , _context(new QOpenGLContext)</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         , _realized(false)</span>
+<span class="lineNum">     147 </span>            :     {
+<span class="lineNum">     148 </span><span class="lineNoCov">          0 :         setScreen(screen_);</span>
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :         const QSurfaceFormat&amp; format_ = _createFormat(settings);</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :         setFormat(format_);</span>
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :         const PixelViewport&amp; pvp = settings.getPixelViewport();</span>
+<span class="lineNum">     152 </span><span class="lineNoCov">          0 :         setGeometry(pvp.x, pvp.y, pvp.w, pvp.h);</span>
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :         setSurfaceType(QSurface::OpenGLSurface);</span>
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :         _context-&gt;setFormat(format());</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :         _context-&gt;setShareContext(shareContext);</span>
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :         if (settings.getIAttribute(WindowSettings::IATTR_HINT_FULLSCREEN) ==</span>
+<span class="lineNum">     159 </span>            :             eq::ON)
+<span class="lineNum">     160 </span>            :         {
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :             showFullScreen();</span>
+<span class="lineNum">     162 </span>            :         }
+<span class="lineNum">     163 </span>            :         else
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :             show();</span>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="166"><span class="lineNum">     166 </span>            : </a>
+<span class="lineNum">     167 </span><span class="lineNoCov">          0 :     QOpenGLContext* getContext() const final { return _context.data(); }</span>
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :     void makeCurrent() final</span>
 <span class="lineNum">     169 </span>            :     {
-<span class="lineNum">     170 </span><span class="lineNoCov">          0 :         return _context.data();</span>
-<a name="171"><span class="lineNum">     171 </span>            :     }</a>
-<span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span><span class="lineNoCov">          0 :     void makeCurrent() final</span>
-<span class="lineNum">     174 </span>            :     {
-<span class="lineNum">     175 </span><span class="lineNoCov">          0 :         if( !_context-&gt;makeCurrent( this ))</span>
-<span class="lineNum">     176 </span><span class="lineNoCov">          0 :             LBWARN &lt;&lt; &quot;QOpenGLContext::makeCurrent failed: &quot;</span>
-<span class="lineNum">     177 </span><span class="lineNoCov">          0 :                    &lt;&lt; _context.data() &lt;&lt; std::endl;</span>
-<a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     179 </span>            : 
-<span class="lineNum">     180 </span><span class="lineNoCov">          0 :     void doneCurrent() final</span>
-<span class="lineNum">     181 </span>            :     {
-<span class="lineNum">     182 </span><span class="lineNoCov">          0 :         _context-&gt;doneCurrent();</span>
-<a name="183"><span class="lineNum">     183 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     184 </span>            : 
-<span class="lineNum">     185 </span><span class="lineNoCov">          0 :     void swapBuffers() final</span>
-<span class="lineNum">     186 </span>            :     {
-<span class="lineNum">     187 </span><span class="lineNoCov">          0 :         if( isExposed( ))</span>
-<span class="lineNum">     188 </span><span class="lineNoCov">          0 :             _context-&gt;swapBuffers( this );</span>
-<a name="189"><span class="lineNum">     189 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     190 </span>            : 
-<span class="lineNum">     191 </span><span class="lineNoCov">          0 :     void resize( const PixelViewport&amp; pvp ) final</span>
-<span class="lineNum">     192 </span>            :     {
-<span class="lineNum">     193 </span><span class="lineNoCov">          0 :         setPosition( pvp.x, pvp.y );</span>
-<span class="lineNum">     194 </span><span class="lineNoCov">          0 :         QWindow::resize( pvp.w, pvp.h );</span>
-<a name="195"><span class="lineNum">     195 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :         if (!_context-&gt;makeCurrent(this))</span>
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :             LBWARN &lt;&lt; &quot;QOpenGLContext::makeCurrent failed: &quot; &lt;&lt; _context.data()</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :                    &lt;&lt; std::endl;</span>
+<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="174"><span class="lineNum">     174 </span>            : </a>
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :     void doneCurrent() final { _context-&gt;doneCurrent(); }</span>
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :     void swapBuffers() final</span>
+<span class="lineNum">     177 </span>            :     {
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         if (isExposed())</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :             _context-&gt;swapBuffers(this);</span>
+<a name="180"><span class="lineNum">     180 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :     void resize(const PixelViewport&amp; pvp) final</span>
+<span class="lineNum">     183 </span>            :     {
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :         setPosition(pvp.x, pvp.y);</span>
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :         QWindow::resize(pvp.w, pvp.h);</span>
+<a name="186"><span class="lineNum">     186 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :     bool configInit() final</span>
+<span class="lineNum">     189 </span>            :     {
+<span class="lineNum">     190 </span>            :         // The application thread must be running the event loop somewhere
+<span class="lineNum">     191 </span>            :         // else. Otherwise this code will wait forever.
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :         _realized.waitEQ(true);</span>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :         if (!_context-&gt;create())</span>
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :             return false;</span>
 <span class="lineNum">     196 </span>            : 
-<span class="lineNum">     197 </span><span class="lineNoCov">          0 :     bool configInit() final</span>
-<span class="lineNum">     198 </span>            :     {
-<span class="lineNum">     199 </span>            :         // The application thread must be running the event loop somewhere
-<span class="lineNum">     200 </span>            :         // else. Otherwise this code will wait forever.
-<span class="lineNum">     201 </span><span class="lineNoCov">          0 :         _realized.waitEQ( true );</span>
-<span class="lineNum">     202 </span>            : 
-<span class="lineNum">     203 </span><span class="lineNoCov">          0 :         if( !_context-&gt;create( ))</span>
-<span class="lineNum">     204 </span><span class="lineNoCov">          0 :             return false;</span>
-<span class="lineNum">     205 </span>            : 
-<span class="lineNum">     206 </span>            :         // Adjusting the actual window viewport in case the window manager
-<span class="lineNum">     207 </span>            :         // disobeyed the requested geometry.
-<span class="lineNum">     208 </span><span class="lineNoCov">          0 :         WindowIF&amp; window = _eventHandler.getWindow();</span>
-<span class="lineNum">     209 </span><span class="lineNoCov">          0 :         window.setPixelViewport( PixelViewport( x(), y(), width(), height( )));</span>
-<span class="lineNum">     210 </span><span class="lineNoCov">          0 :         return true;</span>
-<a name="211"><span class="lineNum">     211 </span>            :     }</a>
-<span class="lineNum">     212 </span>            : 
-<span class="lineNum">     213 </span><span class="lineNoCov">          0 :     QObject *getEventProcessor() final { return this; }</span>
-<a name="214"><span class="lineNum">     214 </span>            : </a>
-<span class="lineNum">     215 </span>            : protected:
-<span class="lineNum">     216 </span><span class="lineNoCov">          0 :     bool event( QEvent *qevent ) final</span>
-<span class="lineNum">     217 </span>            :     {
-<span class="lineNum">     218 </span><span class="lineNoCov">          0 :         if( qevent-&gt;type() == QEvent::Expose )</span>
-<span class="lineNum">     219 </span>            :         {
-<span class="lineNum">     220 </span><span class="lineNoCov">          0 :             const QExposeEvent* expose = static_cast&lt; QExposeEvent* &gt;( qevent );</span>
-<span class="lineNum">     221 </span><span class="lineNoCov">          0 :             _realized = !expose-&gt;region().isEmpty();</span>
-<span class="lineNum">     222 </span>            :         }
+<span class="lineNum">     197 </span>            :         // Adjusting the actual window viewport in case the window manager
+<span class="lineNum">     198 </span>            :         // disobeyed the requested geometry.
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         WindowIF&amp; window = _eventHandler.getWindow();</span>
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :         window.setPixelViewport(PixelViewport(x(), y(), width(), height()));</span>
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :         return true;</span>
+<a name="202"><span class="lineNum">     202 </span>            :     }</a>
+<span class="lineNum">     203 </span>            : 
+<a name="204"><span class="lineNum">     204 </span><span class="lineNoCov">          0 :     QObject* getEventProcessor() final { return this; }</span></a>
+<span class="lineNum">     205 </span>            : protected:
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :     bool event(QEvent* qevent) final</span>
+<span class="lineNum">     207 </span>            :     {
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :         if (qevent-&gt;type() == QEvent::Expose)</span>
+<span class="lineNum">     209 </span>            :         {
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :             const QExposeEvent* expose = static_cast&lt;QExposeEvent*&gt;(qevent);</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :             _realized = !expose-&gt;region().isEmpty();</span>
+<span class="lineNum">     212 </span>            :         }
+<span class="lineNum">     213 </span>            : 
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :         QApplication::sendEvent(&amp;_eventHandler, qevent);</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     216 </span>            :     }
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            : private:
+<span class="lineNum">     219 </span>            :     QScopedPointer&lt;QOpenGLContext&gt; _context;
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span>            :     lunchbox::Monitorb _realized;
+<a name="222"><span class="lineNum">     222 </span>            : };</a>
 <span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         QApplication::sendEvent( &amp;_eventHandler, qevent );</span>
-<span class="lineNum">     225 </span><span class="lineNoCov">          0 :         return true;</span>
-<span class="lineNum">     226 </span>            :     }
-<span class="lineNum">     227 </span>            : 
-<span class="lineNum">     228 </span>            : private:
-<span class="lineNum">     229 </span>            :     QScopedPointer&lt; QOpenGLContext &gt; _context;
-<span class="lineNum">     230 </span>            : 
-<span class="lineNum">     231 </span>            :     lunchbox::Monitorb _realized;
-<a name="232"><span class="lineNum">     232 </span>            : };</a>
-<span class="lineNum">     233 </span>            : 
-<span class="lineNum">     234 </span><span class="lineNoCov">          0 : class QOffscreenSurfaceWrapper : public Window, public QOffscreenSurface</span>
-<a name="235"><span class="lineNum">     235 </span>            : {</a>
-<span class="lineNum">     236 </span>            : public:
-<span class="lineNum">     237 </span><span class="lineNoCov">          0 :     QOffscreenSurfaceWrapper( WindowIF&amp; window, QThread* qThread,</span>
-<span class="lineNum">     238 </span>            :                               const WindowSettings&amp; settings, QScreen* screen_,
-<span class="lineNum">     239 </span>            :                               QOpenGLContext* shareContext )
-<span class="lineNum">     240 </span><span class="lineNoCov">          0 :         : detail::Window( window, qThread )</span>
-<span class="lineNum">     241 </span><span class="lineNoCov">          0 :         , _context( new QOpenGLContext )</span>
-<span class="lineNum">     242 </span>            :     {
-<span class="lineNum">     243 </span><span class="lineNoCov">          0 :         setScreen( screen_ );</span>
-<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         const QSurfaceFormat&amp; format_ = _createFormat( settings );</span>
-<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         setFormat( format_ );</span>
-<span class="lineNum">     246 </span>            : 
-<span class="lineNum">     247 </span><span class="lineNoCov">          0 :         _context-&gt;setFormat( format( ));</span>
-<span class="lineNum">     248 </span><span class="lineNoCov">          0 :         _context-&gt;setShareContext( shareContext );</span>
-<span class="lineNum">     249 </span><span class="lineNoCov">          0 :         create();</span>
-<a name="250"><span class="lineNum">     250 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     251 </span>            : 
-<a name="252"><span class="lineNum">     252 </span><span class="lineNoCov">          0 :     QOpenGLContext* getContext() const final { return _context.data(); }</span></a>
-<span class="lineNum">     253 </span>            : 
-<span class="lineNum">     254 </span><span class="lineNoCov">          0 :     void makeCurrent() final</span>
-<span class="lineNum">     255 </span>            :     {
-<span class="lineNum">     256 </span><span class="lineNoCov">          0 :         if( !_context-&gt;makeCurrent( this ))</span>
-<span class="lineNum">     257 </span><span class="lineNoCov">          0 :             LBWARN &lt;&lt; &quot;QOpenGLContext::makeCurrent failed: &quot;</span>
-<span class="lineNum">     258 </span><span class="lineNoCov">          0 :                    &lt;&lt; _context.data() &lt;&lt; std::endl;</span>
-<a name="259"><span class="lineNum">     259 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     260 </span>            : 
-<span class="lineNum">     261 </span><span class="lineNoCov">          0 :     void doneCurrent() final</span>
-<span class="lineNum">     262 </span>            :     {
-<span class="lineNum">     263 </span><span class="lineNoCov">          0 :         _context-&gt;doneCurrent();</span>
-<a name="264"><span class="lineNum">     264 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     265 </span>            : 
-<span class="lineNum">     266 </span><span class="lineNoCov">          0 :     void swapBuffers() final</span>
-<span class="lineNum">     267 </span>            :     {
-<span class="lineNum">     268 </span><span class="lineNoCov">          0 :         if( isValid( ))</span>
-<span class="lineNum">     269 </span><span class="lineNoCov">          0 :             _context-&gt;swapBuffers( this );</span>
-<a name="270"><span class="lineNum">     270 </span><span class="lineNoCov">          0 :     }</span></a>
-<span class="lineNum">     271 </span>            : 
-<span class="lineNum">     272 </span><span class="lineNoCov">          0 :     bool configInit() final</span>
-<span class="lineNum">     273 </span>            :     {
-<span class="lineNum">     274 </span><span class="lineNoCov">          0 :         return isValid() &amp;&amp; _context-&gt;create();</span>
-<span class="lineNum">     275 </span>            :     }
-<span class="lineNum">     276 </span>            : 
-<span class="lineNum">     277 </span>            : private:
-<span class="lineNum">     278 </span>            :     QScopedPointer&lt; QOpenGLContext &gt; _context;
-<span class="lineNum">     279 </span>            : };
-<span class="lineNum">     280 </span>            : 
-<span class="lineNum">     281 </span>            : }
-<span class="lineNum">     282 </span>            : }
-<span class="lineNum">     283 </span>            : }
-<span class="lineNum">     284 </span>            : 
-<span class="lineNum">     285 </span>            : #endif
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 : class QOffscreenSurfaceWrapper : public Window, public QOffscreenSurface</span>
+<a name="225"><span class="lineNum">     225 </span>            : {</a>
+<span class="lineNum">     226 </span>            : public:
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     QOffscreenSurfaceWrapper(WindowIF&amp; window, QThread* qThread,</span>
+<span class="lineNum">     228 </span>            :                              const WindowSettings&amp; settings, QScreen* screen_,
+<span class="lineNum">     229 </span>            :                              QOpenGLContext* shareContext)
+<span class="lineNum">     230 </span><span class="lineNoCov">          0 :         : detail::Window(window, qThread)</span>
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 :         , _context(new QOpenGLContext)</span>
+<span class="lineNum">     232 </span>            :     {
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 :         setScreen(screen_);</span>
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :         const QSurfaceFormat&amp; format_ = _createFormat(settings);</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :         setFormat(format_);</span>
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :         _context-&gt;setFormat(format());</span>
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :         _context-&gt;setShareContext(shareContext);</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :         create();</span>
+<a name="240"><span class="lineNum">     240 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="241"><span class="lineNum">     241 </span>            : </a>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :     QOpenGLContext* getContext() const final { return _context.data(); }</span>
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :     void makeCurrent() final</span>
+<span class="lineNum">     244 </span>            :     {
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         if (!_context-&gt;makeCurrent(this))</span>
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :             LBWARN &lt;&lt; &quot;QOpenGLContext::makeCurrent failed: &quot; &lt;&lt; _context.data()</span>
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :                    &lt;&lt; std::endl;</span>
+<a name="248"><span class="lineNum">     248 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="249"><span class="lineNum">     249 </span>            : </a>
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :     void doneCurrent() final { _context-&gt;doneCurrent(); }</span>
+<span class="lineNum">     251 </span><span class="lineNoCov">          0 :     void swapBuffers() final</span>
+<span class="lineNum">     252 </span>            :     {
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :         if (isValid())</span>
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :             _context-&gt;swapBuffers(this);</span>
+<a name="255"><span class="lineNum">     255 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :     bool configInit() final { return isValid() &amp;&amp; _context-&gt;create(); }</span>
+<span class="lineNum">     258 </span>            : private:
+<span class="lineNum">     259 </span>            :     QScopedPointer&lt;QOpenGLContext&gt; _context;
+<span class="lineNum">     260 </span>            : };
+<span class="lineNum">     261 </span>            : }
+<span class="lineNum">     262 </span>            : }
+<span class="lineNum">     263 </span>            : }
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : #endif
 </pre>
       </td>
     </tr>

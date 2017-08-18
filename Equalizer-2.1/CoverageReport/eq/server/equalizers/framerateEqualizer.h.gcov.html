@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">3</td>
-            <td class="headerCovTableEntry">7</td>
-            <td class="headerCovTableEntryMed">42.9 %</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryMed">44.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -90,68 +90,68 @@
 <span class="lineNum">      28 </span>            : {
 <span class="lineNum">      29 </span>            : namespace server
 <span class="lineNum">      30 </span>            : {
-<span class="lineNum">      31 </span>            :     std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const FramerateEqualizer* );
+<span class="lineNum">      31 </span>            : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const FramerateEqualizer*);
 <span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span>            :     /**
-<span class="lineNum">      34 </span>            :      * Adapts the frame rate of a compound to smoothen its output.
-<span class="lineNum">      35 </span>            :      *
-<span class="lineNum">      36 </span>            :      * Does not support period settings underneath a child. One channel should
-<span class="lineNum">      37 </span>            :      * not be used in compounds with a different inherit period.
-<span class="lineNum">      38 </span>            :      */
-<span class="lineNum">      39 </span>            :     class FramerateEqualizer : public Equalizer
-<span class="lineNum">      40 </span>            :     {
-<span class="lineNum">      41 </span>            :     public:
-<span class="lineNum">      42 </span>            :         EQSERVER_API FramerateEqualizer();
-<a name="43"><span class="lineNum">      43 </span>            :         FramerateEqualizer( const FramerateEqualizer&amp; from );</a>
-<span class="lineNum">      44 </span>            :         virtual ~FramerateEqualizer();
-<span class="lineNum">      45 </span><span class="lineCov">         14 :         void toStream( std::ostream&amp; os ) const final { os &lt;&lt; this; }</span>
-<span class="lineNum">      46 </span>            : 
-<span class="lineNum">      47 </span>            :         /** @sa Equalizer::attach */
-<span class="lineNum">      48 </span>            :         void attach( Compound* compound ) final;
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span>            :         /** @sa CompoundListener::notifyUpdatePre */
-<span class="lineNum">      51 </span>            :         void notifyUpdatePre( Compound* compound,
-<a name="52"><span class="lineNum">      52 </span>            :                               const uint32_t frameNumber ) final;</a>
-<span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         uint32_t getType() const final { return fabric::FRAMERATE_EQUALIZER; }</span>
-<a name="55"><span class="lineNum">      55 </span>            : </a>
-<span class="lineNum">      56 </span>            :     protected:
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">         68 :         void notifyChildAdded( Compound*, Compound* ) override</span></a>
-<span class="lineNum">      58 </span><span class="lineCov">         68 :             { LBASSERT( _nSamples == 0 ); }</span>
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         void notifyChildRemove( Compound*, Compound* ) override</span>
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :             { LBASSERT( _nSamples == 0 ); }</span>
-<span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            :     private:
-<span class="lineNum">      63 </span>            :         /** Frame number with max time. */
-<span class="lineNum">      64 </span>            :         typedef std::pair&lt; uint32_t, float &gt; FrameTime;
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span>            :         /** Historical data to compute new frame rate. */
-<span class="lineNum">      67 </span>            :         std::deque&lt; FrameTime &gt; _times;
-<a name="68"><span class="lineNum">      68 </span>            : </a>
-<span class="lineNum">      69 </span>            :         /** Helper class connecting on child tree for load gathering. */
-<span class="lineNum">      70 </span><span class="lineNoCov">          0 :         class LoadListener : public ChannelListener</span>
-<span class="lineNum">      71 </span>            :         {
-<span class="lineNum">      72 </span>            :         public:
-<span class="lineNum">      73 </span>            :             /** @sa ChannelListener::notifyLoadData */
-<span class="lineNum">      74 </span>            :             virtual void notifyLoadData( Channel* channel,
-<span class="lineNum">      75 </span>            :                                          uint32_t frameNumber,
-<span class="lineNum">      76 </span>            :                                          const Statistics&amp; statistics,
-<span class="lineNum">      77 </span>            :                                          const Viewport&amp; region );
+<span class="lineNum">      33 </span>            : /**
+<span class="lineNum">      34 </span>            :  * Adapts the frame rate of a compound to smoothen its output.
+<span class="lineNum">      35 </span>            :  *
+<span class="lineNum">      36 </span>            :  * Does not support period settings underneath a child. One channel should
+<span class="lineNum">      37 </span>            :  * not be used in compounds with a different inherit period.
+<span class="lineNum">      38 </span>            :  */
+<span class="lineNum">      39 </span>            : class FramerateEqualizer : public Equalizer
+<span class="lineNum">      40 </span>            : {
+<span class="lineNum">      41 </span>            : public:
+<span class="lineNum">      42 </span>            :     EQSERVER_API FramerateEqualizer();
+<a name="43"><span class="lineNum">      43 </span>            :     FramerateEqualizer(const FramerateEqualizer&amp; from);</a>
+<span class="lineNum">      44 </span>            :     virtual ~FramerateEqualizer();
+<span class="lineNum">      45 </span><span class="lineCov">         14 :     void toStream(std::ostream&amp; os) const final { os &lt;&lt; this; }</span>
+<span class="lineNum">      46 </span>            :     /** @sa Equalizer::attach */
+<span class="lineNum">      47 </span>            :     void attach(Compound* compound) final;
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            :     /** @sa CompoundListener::notifyUpdatePre */
+<a name="50"><span class="lineNum">      50 </span>            :     void notifyUpdatePre(Compound* compound, const uint32_t frameNumber) final;</a>
+<span class="lineNum">      51 </span>            : 
+<a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 :     uint32_t getType() const final { return fabric::FRAMERATE_EQUALIZER; }</span></a>
+<span class="lineNum">      53 </span>            : protected:
+<span class="lineNum">      54 </span><span class="lineCov">         68 :     void notifyChildAdded(Compound*, Compound*) override</span>
+<span class="lineNum">      55 </span>            :     {
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">         68 :         LBASSERT(_nSamples == 0);</span></a>
+<span class="lineNum">      57 </span><span class="lineCov">         68 :     }</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     void notifyChildRemove(Compound*, Compound*) override</span>
+<span class="lineNum">      59 </span>            :     {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         LBASSERT(_nSamples == 0);</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : private:
+<span class="lineNum">      64 </span>            :     /** Frame number with max time. */
+<span class="lineNum">      65 </span>            :     typedef std::pair&lt;uint32_t, float&gt; FrameTime;
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :     /** Historical data to compute new frame rate. */
+<span class="lineNum">      68 </span>            :     std::deque&lt;FrameTime&gt; _times;
+<a name="69"><span class="lineNum">      69 </span>            : </a>
+<span class="lineNum">      70 </span>            :     /** Helper class connecting on child tree for load gathering. */
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :     class LoadListener : public ChannelListener</span>
+<span class="lineNum">      72 </span>            :     {
+<span class="lineNum">      73 </span>            :     public:
+<span class="lineNum">      74 </span>            :         /** @sa ChannelListener::notifyLoadData */
+<span class="lineNum">      75 </span>            :         virtual void notifyLoadData(Channel* channel, uint32_t frameNumber,
+<span class="lineNum">      76 </span>            :                                     const Statistics&amp; statistics,
+<span class="lineNum">      77 </span>            :                                     const Viewport&amp; region);
 <span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span>            :             FramerateEqualizer* parent;
-<span class="lineNum">      80 </span>            :             uint32_t period;
-<span class="lineNum">      81 </span>            :         };
+<span class="lineNum">      79 </span>            :         FramerateEqualizer* parent;
+<span class="lineNum">      80 </span>            :         uint32_t period;
+<span class="lineNum">      81 </span>            :     };
 <span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span>            :         /** One listener for each compound child. */
-<span class="lineNum">      84 </span>            :         std::vector&lt; LoadListener &gt; _loadListeners;
-<span class="lineNum">      85 </span>            :         friend class LoadListener;
+<span class="lineNum">      83 </span>            :     /** One listener for each compound child. */
+<span class="lineNum">      84 </span>            :     std::vector&lt;LoadListener&gt; _loadListeners;
+<span class="lineNum">      85 </span>            :     friend class LoadListener;
 <span class="lineNum">      86 </span>            : 
-<span class="lineNum">      87 </span>            :         /** The number of samples to use from _times. */
-<span class="lineNum">      88 </span>            :         uint32_t _nSamples;
+<span class="lineNum">      87 </span>            :     /** The number of samples to use from _times. */
+<span class="lineNum">      88 </span>            :     uint32_t _nSamples;
 <span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span>            :         void _init();
-<span class="lineNum">      91 </span>            :         void _exit();
-<span class="lineNum">      92 </span>            :     };
+<span class="lineNum">      90 </span>            :     void _init();
+<span class="lineNum">      91 </span>            :     void _exit();
+<span class="lineNum">      92 </span>            : };
 <span class="lineNum">      93 </span>            : }
 <span class="lineNum">      94 </span>            : }
 <span class="lineNum">      95 </span>            : 

@@ -31,13 +31,13 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">8</td>
-            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">10</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-03-25 05:09:11</td>
+            <td class="headerValue">2017-08-18 16:09:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">8</td>
@@ -80,9 +80,9 @@
 <span class="lineNum">      18 </span>            : #ifndef EQFABRIC_FRUSTUM_H
 <span class="lineNum">      19 </span>            : #define EQFABRIC_FRUSTUM_H
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span>            : #include &lt;eq/fabric/projection.h&gt; // member
-<span class="lineNum">      22 </span>            : #include &lt;eq/fabric/wall.h&gt;       // member
-<span class="lineNum">      23 </span>            : #include &lt;eq/fabric/api.h&gt;       // decl
+<span class="lineNum">      21 </span>            : #include &lt;eq/fabric/api.h&gt;        // decl
+<span class="lineNum">      22 </span>            : #include &lt;eq/fabric/projection.h&gt; // member
+<span class="lineNum">      23 </span>            : #include &lt;eq/fabric/wall.h&gt;       // member
 <span class="lineNum">      24 </span>            : 
 <span class="lineNum">      25 </span>            : namespace eq
 <span class="lineNum">      26 </span>            : {
@@ -101,60 +101,58 @@
 <span class="lineNum">      39 </span>            :     /** The type of the last specified frustum. @version 1.0 */
 <span class="lineNum">      40 </span>            :     enum Type
 <span class="lineNum">      41 </span>            :     {
-<span class="lineNum">      42 </span>            :         TYPE_NONE,        //!&lt; No frustum has been specified
-<span class="lineNum">      43 </span>            :         TYPE_WALL,        //!&lt; A wall description has been set last
-<span class="lineNum">      44 </span>            :         TYPE_PROJECTION   //!&lt; A projection description has been set last
+<span class="lineNum">      42 </span>            :         TYPE_NONE,      //!&lt; No frustum has been specified
+<span class="lineNum">      43 </span>            :         TYPE_WALL,      //!&lt; A wall description has been set last
+<span class="lineNum">      44 </span>            :         TYPE_PROJECTION //!&lt; A projection description has been set last
 <span class="lineNum">      45 </span>            :     };
 <span class="lineNum">      46 </span>            : 
 <span class="lineNum">      47 </span>            :     /** Set the frustum using a wall description. @version 1.0 */
-<span class="lineNum">      48 </span>            :     EQFABRIC_API void setWall( const Wall&amp; wall );
+<span class="lineNum">      48 </span>            :     EQFABRIC_API void setWall(const Wall&amp; wall);
 <span class="lineNum">      49 </span>            : 
 <span class="lineNum">      50 </span>            :     /** Set the frustum using a projection description. @version 1.0 */
-<span class="lineNum">      51 </span>            :     EQFABRIC_API void setProjection( const Projection&amp; projection );
+<span class="lineNum">      51 </span>            :     EQFABRIC_API void setProjection(const Projection&amp; projection);
 <a name="52"><span class="lineNum">      52 </span>            : </a>
 <span class="lineNum">      53 </span>            :     /** @return the last specified frustum as a wall. @version 1.0 */
-<span class="lineNum">      54 </span><span class="lineCov">       2146 :     const Wall&amp; getWall() const { return _data.wall; }</span>
-<a name="55"><span class="lineNum">      55 </span>            : </a>
-<span class="lineNum">      56 </span>            :     /** @return the last specified frustum as a projection. @version 1.0 */
-<span class="lineNum">      57 </span><span class="lineCov">         18 :     const Projection&amp; getProjection() const { return _data.projection; }</span>
-<a name="58"><span class="lineNum">      58 </span>            : </a>
-<span class="lineNum">      59 </span>            :     /** @return the type of the latest specified frustum. @version 1.0 */
-<span class="lineNum">      60 </span><span class="lineCov">       8624 :     Type getCurrentType() const { return _data.current; }</span>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">       2278 :     const Wall&amp; getWall() const { return _data.wall; }</span></a>
+<span class="lineNum">      55 </span>            :     /** @return the last specified frustum as a projection. @version 1.0 */
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">        102 :     const Projection&amp; getProjection() const { return _data.projection; }</span></a>
+<span class="lineNum">      57 </span>            :     /** @return the type of the latest specified frustum. @version 1.0 */
+<span class="lineNum">      58 </span><span class="lineCov">       8936 :     Type getCurrentType() const { return _data.current; }</span>
+<span class="lineNum">      59 </span>            :     /** Set the last specified frustum to TYPE_NONE. @version 1.0 */
+<span class="lineNum">      60 </span>            :     EQFABRIC_API void unsetFrustum();
 <span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span>            :     /** Set the last specified frustum to TYPE_NONE. @version 1.0 */
-<span class="lineNum">      63 </span>            :     EQFABRIC_API void unsetFrustum();
+<span class="lineNum">      62 </span>            :     EQFABRIC_API void serialize(co::DataOStream&amp; os);   //!&lt; @internal
+<span class="lineNum">      63 </span>            :     EQFABRIC_API void deserialize(co::DataIStream&amp; is); //!&lt; @internal
 <span class="lineNum">      64 </span>            : 
-<span class="lineNum">      65 </span>            :     EQFABRIC_API void serialize( co::DataOStream&amp; os ); //!&lt; @internal
-<span class="lineNum">      66 </span>            :     EQFABRIC_API void deserialize( co::DataIStream&amp; is ); //!&lt; @internal
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span>            :     EQFABRIC_API virtual void backup(); //!&lt; @internal
-<span class="lineNum">      69 </span>            :     EQFABRIC_API virtual void restore(); //!&lt; @internal
-<a name="70"><span class="lineNum">      70 </span>            : </a>
-<a name="71"><span class="lineNum">      71 </span>            : protected:</a>
-<span class="lineNum">      72 </span><span class="lineCov">         14 :     virtual void updateFrustum() {}</span>
-<span class="lineNum">      73 </span><span class="lineCov">        526 :     virtual void notifyFrustumChanged() {}</span>
-<a name="74"><span class="lineNum">      74 </span>            : </a>
-<span class="lineNum">      75 </span>            : private:
-<a name="76"><span class="lineNum">      76 </span><span class="lineCov">         16 :     struct BackupData</span></a>
-<span class="lineNum">      77 </span>            :     {
-<span class="lineNum">      78 </span><span class="lineCov">      11764 :         BackupData() : current( TYPE_NONE ) {}</span>
-<span class="lineNum">      79 </span>            : 
-<span class="lineNum">      80 </span>            :         /** The frustum description as a wall. */
-<span class="lineNum">      81 </span>            :         Wall wall;
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span>            :         /** The frustum description as a projection. */
-<span class="lineNum">      84 </span>            :         Projection projection;
-<span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span>            :         /** The type of the last specified frustum description. */
-<span class="lineNum">      87 </span>            :         Type current;
-<span class="lineNum">      88 </span>            :     }
-<span class="lineNum">      89 </span>            :         _data, _backup;
-<span class="lineNum">      90 </span>            : };
-<span class="lineNum">      91 </span>            : EQFABRIC_API std::ostream&amp; operator &lt;&lt; ( std::ostream&amp; os, const Frustum&amp; );
-<span class="lineNum">      92 </span>            : }
-<span class="lineNum">      93 </span>            : }
-<span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span>            : #endif // EQFABRIC_FRUSTUM_H
+<span class="lineNum">      65 </span>            :     EQFABRIC_API virtual void backup();  //!&lt; @internal
+<span class="lineNum">      66 </span>            :     EQFABRIC_API virtual void restore(); //!&lt; @internal
+<a name="67"><span class="lineNum">      67 </span>            : </a>
+<a name="68"><span class="lineNum">      68 </span>            : protected:</a>
+<span class="lineNum">      69 </span><span class="lineCov">         14 :     virtual void updateFrustum() {}</span>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">        530 :     virtual void notifyFrustumChanged() {}</span></a>
+<span class="lineNum">      71 </span>            : private:
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">         16 :     struct BackupData</span></a>
+<span class="lineNum">      73 </span>            :     {
+<span class="lineNum">      74 </span><span class="lineCov">      12044 :         BackupData()</span>
+<span class="lineNum">      75 </span><span class="lineCov">      12044 :             : current(TYPE_NONE)</span>
+<span class="lineNum">      76 </span>            :         {
+<span class="lineNum">      77 </span><span class="lineCov">      12044 :         }</span>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :         /** The frustum description as a wall. */
+<span class="lineNum">      80 </span>            :         Wall wall;
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            :         /** The frustum description as a projection. */
+<span class="lineNum">      83 </span>            :         Projection projection;
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            :         /** The type of the last specified frustum description. */
+<span class="lineNum">      86 </span>            :         Type current;
+<span class="lineNum">      87 </span>            :     } _data, _backup;
+<span class="lineNum">      88 </span>            : };
+<span class="lineNum">      89 </span>            : EQFABRIC_API std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Frustum&amp;);
+<span class="lineNum">      90 </span>            : }
+<span class="lineNum">      91 </span>            : }
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            : #endif // EQFABRIC_FRUSTUM_H
 </pre>
       </td>
     </tr>
