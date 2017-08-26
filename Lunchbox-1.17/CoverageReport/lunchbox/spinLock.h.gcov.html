@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Lunchbox - lunchbox/spinLock.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">lunchbox</a> - spinLock.h<span style="font-size: 80%;"> (source / <a href="spinLock.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Lunchbox</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryMed">50.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2017-08-26 05:25:05</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryMed">50.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /* Copyright (c) 2010-2017, Stefan Eilemann &lt;eile@equalizergraphics.com&gt;
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * This library is free software; you can redistribute it and/or modify it under
+<span class="lineNum">       5 </span>            :  * the terms of the GNU Lesser General Public License version 2.1 as published
+<span class="lineNum">       6 </span>            :  * by the Free Software Foundation.
+<span class="lineNum">       7 </span>            :  *
+<span class="lineNum">       8 </span>            :  * This library is distributed in the hope that it will be useful, but WITHOUT
+<span class="lineNum">       9 </span>            :  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+<span class="lineNum">      10 </span>            :  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+<span class="lineNum">      11 </span>            :  * details.
+<span class="lineNum">      12 </span>            :  *
+<span class="lineNum">      13 </span>            :  * You should have received a copy of the GNU Lesser General Public License
+<span class="lineNum">      14 </span>            :  * along with this library; if not, write to the Free Software Foundation, Inc.,
+<span class="lineNum">      15 </span>            :  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+<span class="lineNum">      16 </span>            :  */
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #ifndef LUNCHBOX_SPINLOCK_H
+<span class="lineNum">      19 </span>            : #define LUNCHBOX_SPINLOCK_H
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;lunchbox/atomic.h&gt; // member
+<span class="lineNum">      22 </span>            : #include &lt;lunchbox/thread.h&gt; // used in inline method
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &lt;memory&gt;
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : namespace lunchbox
+<span class="lineNum">      27 </span>            : {
+<span class="lineNum">      28 </span>            : /**
+<span class="lineNum">      29 </span>            :  * A fast lock for uncontended memory access.
+<span class="lineNum">      30 </span>            :  *
+<span class="lineNum">      31 </span>            :  * If Thread::yield() does not work, priority inversion is possible. If used as
+<span class="lineNum">      32 </span>            :  * a read-write lock, readers or writers will starve on high contention.
+<span class="lineNum">      33 </span>            :  *
+<span class="lineNum">      34 </span>            :  * @sa ScopedMutex
+<span class="lineNum">      35 </span>            :  *
+<span class="lineNum">      36 </span>            :  * Example: @include tests/perf/lock.cpp
+<span class="lineNum">      37 </span>            :  */
+<span class="lineNum">      38 </span>            : class SpinLock : public boost::noncopyable
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span>            : public:
+<span class="lineNum">      41 </span>            :     /** Construct a new lock. @version 1.0 */
+<span class="lineNum">      42 </span>            :     LUNCHBOX_API SpinLock();
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :     /** Destruct the lock. @version 1.0 */
+<span class="lineNum">      45 </span>            :     LUNCHBOX_API ~SpinLock();
+<span class="lineNum">      46 </span>            : 
+<a name="47"><span class="lineNum">      47 </span>            :     /** Acquire the lock exclusively. @version 1.0 */</a>
+<span class="lineNum">      48 </span>            :     LUNCHBOX_API void set();
+<span class="lineNum">      49 </span><span class="lineCov">       8031 :     void lock() { set(); }</span>
+<a name="50"><span class="lineNum">      50 </span>            :     /** Release an exclusive lock. @version 1.0 */</a>
+<span class="lineNum">      51 </span>            :     LUNCHBOX_API void unset();
+<span class="lineNum">      52 </span><span class="lineCov">       8033 :     void unlock() { unset(); }</span>
+<span class="lineNum">      53 </span>            :     /**
+<span class="lineNum">      54 </span>            :      * Attempt to acquire the lock exclusively.
+<span class="lineNum">      55 </span>            :      *
+<span class="lineNum">      56 </span>            :      * @return true if the lock was set, false if it was not set.
+<span class="lineNum">      57 </span>            :      * @version 1.0
+<span class="lineNum">      58 </span>            :      */
+<span class="lineNum">      59 </span>            :     LUNCHBOX_API bool trySet();
+<span class="lineNum">      60 </span>            : 
+<a name="61"><span class="lineNum">      61 </span>            :     /** Acquire the lock shared with other readers. @version 1.1.2 */</a>
+<span class="lineNum">      62 </span>            :     LUNCHBOX_API void setRead();
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :     void lock_shared() { setRead(); }</span>
+<a name="64"><span class="lineNum">      64 </span>            :     /** Release a shared read lock. @version 1.1.2 */</a>
+<span class="lineNum">      65 </span>            :     LUNCHBOX_API void unsetRead();
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     void unlock_shared() { unsetRead(); }</span>
+<span class="lineNum">      67 </span>            :     /**
+<span class="lineNum">      68 </span>            :      * Attempt to acquire the lock shared with other readers.
+<span class="lineNum">      69 </span>            :      *
+<span class="lineNum">      70 </span>            :      * @return true if the lock was set, false if it was not set.
+<span class="lineNum">      71 </span>            :      * @version 1.1.2
+<span class="lineNum">      72 </span>            :      */
+<span class="lineNum">      73 </span>            :     LUNCHBOX_API bool trySetRead();
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :     /**
+<span class="lineNum">      76 </span>            :      * Test if the lock is set.
+<span class="lineNum">      77 </span>            :      *
+<span class="lineNum">      78 </span>            :      * @return true if the lock is set, false if it is not set.
+<span class="lineNum">      79 </span>            :      * @version 1.0
+<span class="lineNum">      80 </span>            :      */
+<span class="lineNum">      81 </span>            :     LUNCHBOX_API bool isSet();
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :     /**
+<span class="lineNum">      84 </span>            :      * Test if the lock is set exclusively.
+<span class="lineNum">      85 </span>            :      *
+<span class="lineNum">      86 </span>            :      * @return true if the lock is set, false if it is not set.
+<span class="lineNum">      87 </span>            :      * @version 1.1.2
+<span class="lineNum">      88 </span>            :      */
+<span class="lineNum">      89 </span>            :     LUNCHBOX_API bool isSetWrite();
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            :     /**
+<span class="lineNum">      92 </span>            :      * Test if the lock is set shared.
+<span class="lineNum">      93 </span>            :      *
+<span class="lineNum">      94 </span>            :      * @return true if the lock is set, false if it is not set.
+<span class="lineNum">      95 </span>            :      * @version 1.1.2
+<span class="lineNum">      96 </span>            :      */
+<span class="lineNum">      97 </span>            :     LUNCHBOX_API bool isSetRead();
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            : private:
+<span class="lineNum">     100 </span>            :     class Impl;
+<span class="lineNum">     101 </span>            :     std::unique_ptr&lt;Impl&gt; _impl;
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            :     SpinLock(const SpinLock&amp;) = delete;
+<span class="lineNum">     104 </span>            :     SpinLock(SpinLock&amp;&amp;) = delete;
+<span class="lineNum">     105 </span>            :     SpinLock&amp; operator=(const SpinLock&amp;) = delete;
+<span class="lineNum">     106 </span>            :     SpinLock&amp; operator=(SpinLock&amp;&amp;) = delete;
+<span class="lineNum">     107 </span>            : };
+<span class="lineNum">     108 </span>            : }
+<span class="lineNum">     109 </span>            : #endif // LUNCHBOX_SPINLOCK_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.11</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
