@@ -4,7 +4,7 @@ version: "1.13"
 major: 1
 minor: 13
 description: Templatized C++ vector and matrix math library
-updated: 08/06/17
+updated: 12/09/17
 homepage: https://github.com/Eyescale/vmmlib
 repository: https://github.com/Eyescale/vmmlib.git
 issuesurl: https://github.com/Eyescale/vmmlib/issues
@@ -12,7 +12,7 @@ packageurl: https://launchpad.net/~eilemann/+archive/equalizer-dev
 license: BSD
 maturity: EP
 maintainers: Stefan Eilemann (eile@eyescale.ch)
-contributors: Stefan Eilemann
+contributors: steiner-
 readmetype: text/x-markdown
 ---
 [TOC]
