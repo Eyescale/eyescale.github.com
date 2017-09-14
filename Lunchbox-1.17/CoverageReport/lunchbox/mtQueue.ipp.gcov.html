@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-26 05:25:05</td>
+            <td class="headerValue">2017-09-14 05:20:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">9</td>
@@ -138,7 +138,7 @@
 <span class="lineNum">      76 </span><span class="lineCov">          6 : T MTQueue&lt;T, S&gt;::pop()</span>
 <a name="77"><span class="lineNum">      77 </span>            : {</a>
 <span class="lineNum">      78 </span><span class="lineCov">         12 :     std::unique_lock&lt;std::mutex&gt; lock(_mutex);</span>
-<span class="lineNum">      79 </span><span class="lineCov">         15 :     _condition.wait(lock, [&amp;] { return !_queue.empty(); });</span>
+<span class="lineNum">      79 </span><span class="lineCov">         16 :     _condition.wait(lock, [&amp;] { return !_queue.empty(); });</span>
 <span class="lineNum">      80 </span>            : 
 <span class="lineNum">      81 </span><span class="lineCov">          6 :     T element = _queue.front();</span>
 <span class="lineNum">      82 </span><span class="lineCov">          6 :     _queue.pop_front();</span>
@@ -238,15 +238,15 @@
 <span class="lineNum">     176 </span>            : };
 <a name="177"><span class="lineNum">     177 </span>            : </a>
 <span class="lineNum">     178 </span>            : template &lt;typename T, size_t S&gt;
-<span class="lineNum">     179 </span><span class="lineCov">      99596 : bool MTQueue&lt;T, S&gt;::popBarrier(T&amp; element, Group&amp; barrier)</span>
+<span class="lineNum">     179 </span><span class="lineCov">      99620 : bool MTQueue&lt;T, S&gt;::popBarrier(T&amp; element, Group&amp; barrier)</span>
 <span class="lineNum">     180 </span>            : {
-<span class="lineNum">     181 </span><span class="lineCov">      99596 :     LBASSERT(barrier.height_ &gt; 0)</span>
+<span class="lineNum">     181 </span><span class="lineCov">      99620 :     LBASSERT(barrier.height_ &gt; 0)</span>
 <span class="lineNum">     182 </span>            : 
-<a name="183"><span class="lineNum">     183 </span><span class="lineCov">     199658 :     std::unique_lock&lt;std::mutex&gt; lock(_mutex);</span></a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">     199695 :     std::unique_lock&lt;std::mutex&gt; lock(_mutex);</span></a>
 <span class="lineNum">     184 </span><span class="lineCov">     100004 :     ++barrier.waiting_;</span>
-<span class="lineNum">     185 </span><span class="lineCov">     283205 :     _condition.wait(lock, [&amp;] {</span>
-<span class="lineNum">     186 </span><span class="lineCov">     183201 :         return !_queue.empty() || barrier.waiting_ &gt;= barrier.height_;</span>
-<span class="lineNum">     187 </span><span class="lineCov">     183201 :     });</span>
+<span class="lineNum">     185 </span><span class="lineCov">     287913 :     _condition.wait(lock, [&amp;] {</span>
+<span class="lineNum">     186 </span><span class="lineCov">     187909 :         return !_queue.empty() || barrier.waiting_ &gt;= barrier.height_;</span>
+<span class="lineNum">     187 </span><span class="lineCov">     187909 :     });</span>
 <span class="lineNum">     188 </span>            : 
 <span class="lineNum">     189 </span><span class="lineCov">     100004 :     if (_queue.empty())</span>
 <span class="lineNum">     190 </span>            :     {

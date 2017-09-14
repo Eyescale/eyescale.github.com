@@ -158,10 +158,12 @@ var NAVTREEINDEX1 =
 "classlunchbox_1_1_plugin.html":[5,0,0,26],
 "classlunchbox_1_1_plugin.html#a37860024a07779cbad06ee2a41efb180":[5,0,0,26,2],
 "classlunchbox_1_1_plugin.html#a422f584387960db582ac74fae2b78300":[5,0,0,26,3],
+"classlunchbox_1_1_plugin.html#a4c69bf46ec087299455fe034c22591d9":[5,0,0,26,7],
 "classlunchbox_1_1_plugin.html#a5866adff97b25b81320de4beece83f54":[5,0,0,26,5],
 "classlunchbox_1_1_plugin.html#a918c4220cc64e1ad9a8544e89de20b58":[5,0,0,26,4],
 "classlunchbox_1_1_plugin.html#aac443945489e2dc8d28ad2c8c85bf1f1":[5,0,0,26,6],
 "classlunchbox_1_1_plugin.html#ac4670caf961c5737faf7d57bc9d901c9":[5,0,0,26,1],
+"classlunchbox_1_1_plugin.html#aec2574ae65d008658b6a37b4e321092b":[5,0,0,26,8],
 "classlunchbox_1_1_plugin.html#af0b94f2b0640ece5f95d7013b9d10f52":[5,0,0,26,0],
 "classlunchbox_1_1_plugin_factory.html":[5,0,0,27],
 "classlunchbox_1_1_plugin_factory.html#a0671cbef975e4e6b0e76470d0c8c84e4":[5,0,0,27,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "classlunchbox_1_1_request_handler.html#a2fce76fcdaae4a13e90bf6ac91fd26a1":[5,0,0,35,9],
 "classlunchbox_1_1_request_handler.html#a3e2248bad96618d539e7d3a7ba42273d":[5,0,0,35,6],
 "classlunchbox_1_1_request_handler.html#a5af1982404dd0268c587a4aa13ddf951":[5,0,0,35,8],
-"classlunchbox_1_1_request_handler.html#a5b626d6be7aebd0722e00b50830e860d":[5,0,0,35,11],
-"classlunchbox_1_1_request_handler.html#a74fde02591482ec369dcf58a8a964c3e":[5,0,0,35,0],
-"classlunchbox_1_1_request_handler.html#a7e16fc07718a149d631bab2e15644938":[5,0,0,35,4]
+"classlunchbox_1_1_request_handler.html#a5b626d6be7aebd0722e00b50830e860d":[5,0,0,35,11]
 };

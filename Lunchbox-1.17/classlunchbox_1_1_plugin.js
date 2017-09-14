@@ -6,5 +6,7 @@ var classlunchbox_1_1_plugin =
     [ "Plugin", "classlunchbox_1_1_plugin.html#a422f584387960db582ac74fae2b78300", null ],
     [ "construct", "classlunchbox_1_1_plugin.html#a918c4220cc64e1ad9a8544e89de20b58", null ],
     [ "getDescription", "classlunchbox_1_1_plugin.html#a5866adff97b25b81320de4beece83f54", null ],
-    [ "handles", "classlunchbox_1_1_plugin.html#aac443945489e2dc8d28ad2c8c85bf1f1", null ]
+    [ "handles", "classlunchbox_1_1_plugin.html#aac443945489e2dc8d28ad2c8c85bf1f1", null ],
+    [ "operator!=", "classlunchbox_1_1_plugin.html#a4c69bf46ec087299455fe034c22591d9", null ],
+    [ "operator==", "classlunchbox_1_1_plugin.html#aec2574ae65d008658b6a37b4e321092b", null ]
 ];
