@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">8</td>
@@ -138,7 +138,7 @@
 <span class="lineNum">      76 </span>            : {
 <a name="77"><span class="lineNum">      77 </span>            : namespace</a>
 <span class="lineNum">      78 </span>            : {
-<span class="lineNum">      79 </span><span class="lineCov">         12 : static lunchbox::a_int32_t _initialized;</span>
+<span class="lineNum">      79 </span><span class="lineCov">         10 : static lunchbox::a_int32_t _initialized;</span>
 <span class="lineNum">      80 </span>            : }
 <span class="lineNum">      81 </span>            : 
 <span class="lineNum">      82 </span>            : const char EQ_HELP[] = &quot;eq-help&quot;;
@@ -153,113 +153,113 @@
 <span class="lineNum">      91 </span>            : static bool _parseArguments(const int argc, char** argv);
 <a name="92"><span class="lineNum">      92 </span>            : static void _initPlugins();</a>
 <span class="lineNum">      93 </span>            : 
-<span class="lineNum">      94 </span><span class="lineCov">          5 : bool _init(const int argc, char** argv, NodeFactory* nodeFactory)</span>
+<span class="lineNum">      94 </span><span class="lineCov">          3 : bool _init(const int argc, char** argv, NodeFactory* nodeFactory)</span>
 <span class="lineNum">      95 </span>            : {
-<span class="lineNum">      96 </span><span class="lineCov">          5 :     const char* env = getenv(&quot;EQ_LOG_LEVEL&quot;);</span>
-<span class="lineNum">      97 </span><span class="lineCov">          5 :     if (env)</span>
+<span class="lineNum">      96 </span><span class="lineCov">          3 :     const char* env = getenv(&quot;EQ_LOG_LEVEL&quot;);</span>
+<span class="lineNum">      97 </span><span class="lineCov">          3 :     if (env)</span>
 <span class="lineNum">      98 </span><span class="lineNoCov">          0 :         lunchbox::Log::level = lunchbox::Log::getLogLevel(env);</span>
 <span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span><span class="lineCov">          5 :     env = getenv(&quot;EQ_LOG_TOPICS&quot;);</span>
-<span class="lineNum">     101 </span><span class="lineCov">          5 :     if (env)</span>
+<span class="lineNum">     100 </span><span class="lineCov">          3 :     env = getenv(&quot;EQ_LOG_TOPICS&quot;);</span>
+<span class="lineNum">     101 </span><span class="lineCov">          3 :     if (env)</span>
 <span class="lineNum">     102 </span><span class="lineNoCov">          0 :         lunchbox::Log::topics |= atoll(env);</span>
 <span class="lineNum">     103 </span>            : 
-<span class="lineNum">     104 </span><span class="lineCov">          5 :     lunchbox::Log::instance().setThreadName(&quot;Main&quot;);</span>
+<span class="lineNum">     104 </span><span class="lineCov">          3 :     lunchbox::Log::instance().setThreadName(&quot;Main&quot;);</span>
 <span class="lineNum">     105 </span>            : 
-<span class="lineNum">     106 </span><span class="lineCov">          5 :     if (++_initialized &gt; 1) // not first</span>
+<span class="lineNum">     106 </span><span class="lineCov">          3 :     if (++_initialized &gt; 1) // not first</span>
 <span class="lineNum">     107 </span>            :     {
 <span class="lineNum">     108 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Equalizer client library initialized more than once&quot;</span>
 <span class="lineNum">     109 </span><span class="lineNoCov">          0 :                 &lt;&lt; std::endl;</span>
 <span class="lineNum">     110 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     111 </span>            :     }
 <span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span><span class="lineCov">          5 :     if (!_parseArguments(argc, argv))</span>
+<span class="lineNum">     113 </span><span class="lineCov">          3 :     if (!_parseArguments(argc, argv))</span>
 <span class="lineNum">     114 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">     115 </span><span class="lineCov">         25 :     LBDEBUG &lt;&lt; &quot;Equalizer v&quot; &lt;&lt; Version::getString() &lt;&lt; &quot; initializing&quot;</span>
-<span class="lineNum">     116 </span><span class="lineCov">         20 :             &lt;&lt; std::endl;</span>
+<span class="lineNum">     115 </span><span class="lineCov">         15 :     LBDEBUG &lt;&lt; &quot;Equalizer v&quot; &lt;&lt; Version::getString() &lt;&lt; &quot; initializing&quot;</span>
+<span class="lineNum">     116 </span><span class="lineCov">         12 :             &lt;&lt; std::endl;</span>
 <span class="lineNum">     117 </span>            : 
 <span class="lineNum">     118 </span>            : #ifdef AGL
 <span class="lineNum">     119 </span>            :     GetCurrentEventQueue();
 <span class="lineNum">     120 </span>            :     WindowSystem::add(WindowSystemImpl(new agl::WindowSystem));
 <span class="lineNum">     121 </span>            : #endif
 <span class="lineNum">     122 </span>            : #ifdef GLX
-<span class="lineNum">     123 </span><span class="lineCov">          5 :     ::XInitThreads();</span>
-<span class="lineNum">     124 </span><span class="lineCov">          5 :     WindowSystem::add(WindowSystemImpl(new glx::WindowSystem));</span>
+<span class="lineNum">     123 </span><span class="lineCov">          3 :     ::XInitThreads();</span>
+<span class="lineNum">     124 </span><span class="lineCov">          3 :     WindowSystem::add(WindowSystemImpl(new glx::WindowSystem));</span>
 <span class="lineNum">     125 </span>            : #endif
 <span class="lineNum">     126 </span>            : #ifdef WGL
 <span class="lineNum">     127 </span>            :     WindowSystem::add(WindowSystemImpl(new wgl::WindowSystem));
 <span class="lineNum">     128 </span>            : #endif
 <span class="lineNum">     129 </span>            : #ifdef EQUALIZER_USE_QT5WIDGETS
-<span class="lineNum">     130 </span><span class="lineCov">          5 :     if (QApplication::instance())</span>
+<span class="lineNum">     130 </span><span class="lineCov">          3 :     if (QApplication::instance())</span>
 <span class="lineNum">     131 </span><span class="lineNoCov">          0 :         WindowSystem::add(WindowSystemImpl(new qt::WindowSystem));</span>
 <span class="lineNum">     132 </span>            : #endif
 <span class="lineNum">     133 </span>            : 
-<span class="lineNum">     134 </span><span class="lineCov">          5 :     LBASSERT(nodeFactory);</span>
-<span class="lineNum">     135 </span><span class="lineCov">          5 :     Global::_nodeFactory = nodeFactory;</span>
+<span class="lineNum">     134 </span><span class="lineCov">          3 :     LBASSERT(nodeFactory);</span>
+<span class="lineNum">     135 </span><span class="lineCov">          3 :     Global::_nodeFactory = nodeFactory;</span>
 <span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span><span class="lineCov">          5 :     const std::string&amp; programName = Global::getProgramName();</span>
-<span class="lineNum">     138 </span><span class="lineCov">          5 :     if (programName.empty() &amp;&amp; argc &gt; 0)</span>
-<span class="lineNum">     139 </span><span class="lineCov">          3 :         Global::setProgramName(argv[0]);</span>
+<span class="lineNum">     137 </span><span class="lineCov">          3 :     const std::string&amp; programName = Global::getProgramName();</span>
+<span class="lineNum">     138 </span><span class="lineCov">          3 :     if (programName.empty() &amp;&amp; argc &gt; 0)</span>
+<span class="lineNum">     139 </span><span class="lineCov">          2 :         Global::setProgramName(argv[0]);</span>
 <span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineCov">          5 :     const std::string&amp; workDir = Global::getWorkDir();</span>
-<span class="lineNum">     142 </span><span class="lineCov">          5 :     if (workDir.empty())</span>
-<span class="lineNum">     143 </span><span class="lineCov">          5 :         Global::setWorkDir(lunchbox::getWorkDir());</span>
+<span class="lineNum">     141 </span><span class="lineCov">          3 :     const std::string&amp; workDir = Global::getWorkDir();</span>
+<span class="lineNum">     142 </span><span class="lineCov">          3 :     if (workDir.empty())</span>
+<span class="lineNum">     143 </span><span class="lineCov">          3 :         Global::setWorkDir(lunchbox::getWorkDir());</span>
 <span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span><span class="lineCov">          5 :     _initPlugins();</span>
-<span class="lineNum">     146 </span><span class="lineCov">          5 :     return fabric::init(argc, argv);</span>
+<span class="lineNum">     145 </span><span class="lineCov">          3 :     _initPlugins();</span>
+<span class="lineNum">     146 </span><span class="lineCov">          3 :     return fabric::init(argc, argv);</span>
 <a name="147"><span class="lineNum">     147 </span>            : }</a>
 <span class="lineNum">     148 </span>            : 
-<span class="lineNum">     149 </span><span class="lineCov">          5 : bool exit()</span>
+<span class="lineNum">     149 </span><span class="lineCov">          3 : bool exit()</span>
 <span class="lineNum">     150 </span>            : {
-<span class="lineNum">     151 </span><span class="lineCov">          5 :     if (_initialized &lt;= 0)</span>
+<span class="lineNum">     151 </span><span class="lineCov">          3 :     if (_initialized &lt;= 0)</span>
 <span class="lineNum">     152 </span>            :     {
 <span class="lineNum">     153 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;Equalizer client library not initialized&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     154 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     155 </span>            :     }
-<span class="lineNum">     156 </span><span class="lineCov">          5 :     if (--_initialized &gt; 0) // not last</span>
+<span class="lineNum">     156 </span><span class="lineCov">          3 :     if (--_initialized &gt; 0) // not last</span>
 <span class="lineNum">     157 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     158 </span>            : 
-<span class="lineNum">     159 </span><span class="lineCov">          5 :     WindowSystem::clear();</span>
-<span class="lineNum">     160 </span><span class="lineCov">          5 :     Global::_nodeFactory = 0;</span>
-<span class="lineNum">     161 </span><span class="lineCov">          5 :     return fabric::exit();</span>
+<span class="lineNum">     159 </span><span class="lineCov">          3 :     WindowSystem::clear();</span>
+<span class="lineNum">     160 </span><span class="lineCov">          3 :     Global::_nodeFactory = 0;</span>
+<span class="lineNum">     161 </span><span class="lineCov">          3 :     return fabric::exit();</span>
 <span class="lineNum">     162 </span>            : }
 <span class="lineNum">     163 </span>            : 
 <span class="lineNum">     164 </span>            : namespace
 <span class="lineNum">     165 </span>            : {
 <a name="166"><span class="lineNum">     166 </span>            : using Flags = std::unordered_map&lt;std::string, uint32_t&gt;;</a>
 <span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineCov">          5 : Flags _getConfigFlags()</span>
+<span class="lineNum">     168 </span><span class="lineCov">          3 : Flags _getConfigFlags()</span>
 <span class="lineNum">     169 </span>            : {
-<span class="lineNum">     170 </span><span class="lineCov">          5 :     Flags configFlags;</span>
-<span class="lineNum">     171 </span><span class="lineCov">          5 :     configFlags[&quot;multiprocess&quot;] = fabric::ConfigParams::FLAG_MULTIPROCESS;</span>
-<span class="lineNum">     172 </span><span class="lineCov">          5 :     configFlags[&quot;multiprocess_db&quot;] = fabric::ConfigParams::FLAG_MULTIPROCESS_DB;</span>
-<span class="lineNum">     173 </span><span class="lineCov">          5 :     configFlags[&quot;ethernet&quot;] = fabric::ConfigParams::FLAG_NETWORK_ETHERNET;</span>
-<span class="lineNum">     174 </span><span class="lineCov">          5 :     configFlags[&quot;infiniband&quot;] = fabric::ConfigParams::FLAG_NETWORK_INFINIBAND;</span>
-<span class="lineNum">     175 </span><span class="lineCov">          5 :     configFlags[&quot;2D_horizontal&quot;] =</span>
+<span class="lineNum">     170 </span><span class="lineCov">          3 :     Flags configFlags;</span>
+<span class="lineNum">     171 </span><span class="lineCov">          3 :     configFlags[&quot;multiprocess&quot;] = fabric::ConfigParams::FLAG_MULTIPROCESS;</span>
+<span class="lineNum">     172 </span><span class="lineCov">          3 :     configFlags[&quot;multiprocess_db&quot;] = fabric::ConfigParams::FLAG_MULTIPROCESS_DB;</span>
+<span class="lineNum">     173 </span><span class="lineCov">          3 :     configFlags[&quot;ethernet&quot;] = fabric::ConfigParams::FLAG_NETWORK_ETHERNET;</span>
+<span class="lineNum">     174 </span><span class="lineCov">          3 :     configFlags[&quot;infiniband&quot;] = fabric::ConfigParams::FLAG_NETWORK_INFINIBAND;</span>
+<span class="lineNum">     175 </span><span class="lineCov">          3 :     configFlags[&quot;2D_horizontal&quot;] =</span>
 <span class="lineNum">     176 </span>            :         fabric::ConfigParams::FLAG_LOAD_EQ_HORIZONTAL;
-<span class="lineNum">     177 </span><span class="lineCov">          5 :     configFlags[&quot;2D_vertical&quot;] = fabric::ConfigParams::FLAG_LOAD_EQ_VERTICAL;</span>
-<span class="lineNum">     178 </span><span class="lineCov">          5 :     configFlags[&quot;2D_tiles&quot;] = fabric::ConfigParams::FLAG_LOAD_EQ_2D;</span>
-<span class="lineNum">     179 </span><span class="lineCov">          5 :     return configFlags;</span>
+<span class="lineNum">     177 </span><span class="lineCov">          3 :     configFlags[&quot;2D_vertical&quot;] = fabric::ConfigParams::FLAG_LOAD_EQ_VERTICAL;</span>
+<span class="lineNum">     178 </span><span class="lineCov">          3 :     configFlags[&quot;2D_tiles&quot;] = fabric::ConfigParams::FLAG_LOAD_EQ_2D;</span>
+<span class="lineNum">     179 </span><span class="lineCov">          3 :     return configFlags;</span>
 <a name="180"><span class="lineNum">     180 </span>            : }</a>
 <span class="lineNum">     181 </span>            : 
-<span class="lineNum">     182 </span><span class="lineCov">          5 : arg::options_description _getProgramOptions()</span>
+<span class="lineNum">     182 </span><span class="lineCov">          3 : arg::options_description _getProgramOptions()</span>
 <span class="lineNum">     183 </span>            : {
-<span class="lineNum">     184 </span><span class="lineCov">         10 :     const Flags configFlags = _getConfigFlags();</span>
+<span class="lineNum">     184 </span><span class="lineCov">          6 :     const Flags configFlags = _getConfigFlags();</span>
 <span class="lineNum">     185 </span>            :     arg::options_description options(&quot;Equalizer library options&quot;,
-<span class="lineNum">     186 </span><span class="lineCov">          5 :                                      lunchbox::term::getSize().first);</span>
-<span class="lineNum">     187 </span><span class="lineCov">         10 :     options.add_options()(EQ_HELP, &quot;Display usage information and exit&quot;)(</span>
-<span class="lineNum">     188 </span><span class="lineCov">          5 :         EQ_LOGFILE, arg::value&lt;std::string&gt;(),</span>
-<span class="lineNum">     189 </span><span class="lineCov">          5 :         &quot;Redirect log output to given file&quot;)(EQ_SERVER,</span>
-<span class="lineNum">     190 </span><span class="lineCov">          5 :                                              arg::value&lt;std::string&gt;(),</span>
-<span class="lineNum">     191 </span><span class="lineCov">          5 :                                              &quot;The server address&quot;)(</span>
-<span class="lineNum">     192 </span><span class="lineCov">          5 :         EQ_CONFIG, arg::value&lt;std::string&gt;(),</span>
-<span class="lineNum">     193 </span><span class="lineCov">          5 :         &quot;Configuration filename or autoconfig session name&quot;)(</span>
-<span class="lineNum">     194 </span><span class="lineCov">          5 :         EQ_CONFIG_FLAGS, arg::value&lt;Strings&gt;()-&gt;multitoken(),</span>
-<span class="lineNum">     195 </span><span class="lineCov">          5 :         &quot;Autoconfiguration flags&quot;)(</span>
-<span class="lineNum">     196 </span><span class="lineCov">          5 :         EQ_CONFIG_PREFIXES, arg::value&lt;Strings&gt;()-&gt;multitoken(),</span>
+<span class="lineNum">     186 </span><span class="lineCov">          3 :                                      lunchbox::term::getSize().first);</span>
+<span class="lineNum">     187 </span><span class="lineCov">          6 :     options.add_options()(EQ_HELP, &quot;Display usage information and exit&quot;)(</span>
+<span class="lineNum">     188 </span><span class="lineCov">          3 :         EQ_LOGFILE, arg::value&lt;std::string&gt;(),</span>
+<span class="lineNum">     189 </span><span class="lineCov">          3 :         &quot;Redirect log output to given file&quot;)(EQ_SERVER,</span>
+<span class="lineNum">     190 </span><span class="lineCov">          3 :                                              arg::value&lt;std::string&gt;(),</span>
+<span class="lineNum">     191 </span><span class="lineCov">          3 :                                              &quot;The server address&quot;)(</span>
+<span class="lineNum">     192 </span><span class="lineCov">          3 :         EQ_CONFIG, arg::value&lt;std::string&gt;(),</span>
+<span class="lineNum">     193 </span><span class="lineCov">          3 :         &quot;Configuration filename or autoconfig session name&quot;)(</span>
+<span class="lineNum">     194 </span><span class="lineCov">          3 :         EQ_CONFIG_FLAGS, arg::value&lt;Strings&gt;()-&gt;multitoken(),</span>
+<span class="lineNum">     195 </span><span class="lineCov">          3 :         &quot;Autoconfiguration flags&quot;)(</span>
+<span class="lineNum">     196 </span><span class="lineCov">          3 :         EQ_CONFIG_PREFIXES, arg::value&lt;Strings&gt;()-&gt;multitoken(),</span>
 <span class="lineNum">     197 </span>            :         &quot;The network prefix filter(s) in CIDR notation for autoconfig &quot;
-<span class="lineNum">     198 </span><span class="lineCov">         10 :         &quot;(white-space separated)&quot;)(EQ_RENDER_CLIENT, arg::value&lt;std::string&gt;(),</span>
-<span class="lineNum">     199 </span><span class="lineCov">          5 :                                    &quot;The render client executable filename&quot;);</span>
-<span class="lineNum">     200 </span><span class="lineCov">         10 :     return options;</span>
+<span class="lineNum">     198 </span><span class="lineCov">          6 :         &quot;(white-space separated)&quot;)(EQ_RENDER_CLIENT, arg::value&lt;std::string&gt;(),</span>
+<span class="lineNum">     199 </span><span class="lineCov">          3 :                                    &quot;The render client executable filename&quot;);</span>
+<span class="lineNum">     200 </span><span class="lineCov">          6 :     return options;</span>
 <span class="lineNum">     201 </span>            : }
 <a name="202"><span class="lineNum">     202 </span>            : }</a>
 <span class="lineNum">     203 </span>            : 
@@ -270,24 +270,24 @@
 <span class="lineNum">     208 </span><span class="lineNoCov">          0 :     return os.str();</span>
 <a name="209"><span class="lineNum">     209 </span>            : }</a>
 <span class="lineNum">     210 </span>            : 
-<span class="lineNum">     211 </span><span class="lineCov">          5 : bool _parseArguments(const int argc, char** argv)</span>
+<span class="lineNum">     211 </span><span class="lineCov">          3 : bool _parseArguments(const int argc, char** argv)</span>
 <span class="lineNum">     212 </span>            : {
-<span class="lineNum">     213 </span><span class="lineCov">         10 :     const auto options = _getProgramOptions();</span>
-<span class="lineNum">     214 </span><span class="lineCov">         10 :     arg::variables_map vm;</span>
+<span class="lineNum">     213 </span><span class="lineCov">          6 :     const auto options = _getProgramOptions();</span>
+<span class="lineNum">     214 </span><span class="lineCov">          6 :     arg::variables_map vm;</span>
 <span class="lineNum">     215 </span>            :     try
 <span class="lineNum">     216 </span>            :     {
-<span class="lineNum">     217 </span><span class="lineCov">         10 :         Strings args;</span>
-<span class="lineNum">     218 </span><span class="lineCov">          8 :         for (int i = 0; i &lt; argc; ++i)</span>
+<span class="lineNum">     217 </span><span class="lineCov">          6 :         Strings args;</span>
+<span class="lineNum">     218 </span><span class="lineCov">          5 :         for (int i = 0; i &lt; argc; ++i)</span>
 <span class="lineNum">     219 </span>            :         {
-<span class="lineNum">     220 </span><span class="lineCov">          3 :             if (strcmp(argv[i], &quot;--&quot;) != 0)</span>
-<span class="lineNum">     221 </span><span class="lineCov">          3 :                 args.push_back(argv[i]);</span>
+<span class="lineNum">     220 </span><span class="lineCov">          2 :             if (strcmp(argv[i], &quot;--&quot;) != 0)</span>
+<span class="lineNum">     221 </span><span class="lineCov">          2 :                 args.push_back(argv[i]);</span>
 <span class="lineNum">     222 </span>            :         }
-<span class="lineNum">     223 </span><span class="lineCov">         10 :         arg::store(arg::command_line_parser(args)</span>
-<span class="lineNum">     224 </span><span class="lineCov">          5 :                        .options(options)</span>
-<span class="lineNum">     225 </span><span class="lineCov">          5 :                        .allow_unregistered()</span>
-<span class="lineNum">     226 </span><span class="lineCov">         10 :                        .run(),</span>
-<span class="lineNum">     227 </span><span class="lineCov">          5 :                    vm);</span>
-<span class="lineNum">     228 </span><span class="lineCov">          5 :         arg::notify(vm);</span>
+<span class="lineNum">     223 </span><span class="lineCov">          6 :         arg::store(arg::command_line_parser(args)</span>
+<span class="lineNum">     224 </span><span class="lineCov">          3 :                        .options(options)</span>
+<span class="lineNum">     225 </span><span class="lineCov">          3 :                        .allow_unregistered()</span>
+<span class="lineNum">     226 </span><span class="lineCov">          6 :                        .run(),</span>
+<span class="lineNum">     227 </span><span class="lineCov">          3 :                    vm);</span>
+<span class="lineNum">     228 </span><span class="lineCov">          3 :         arg::notify(vm);</span>
 <span class="lineNum">     229 </span>            :     }
 <span class="lineNum">     230 </span><span class="lineNoCov">          0 :     catch (const std::exception&amp; e)</span>
 <span class="lineNum">     231 </span>            :     {
@@ -295,19 +295,19 @@
 <span class="lineNum">     233 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     234 </span>            :     }
 <span class="lineNum">     235 </span>            : 
-<span class="lineNum">     236 </span><span class="lineCov">          5 :     if (vm.count(EQ_HELP))</span>
+<span class="lineNum">     236 </span><span class="lineCov">          3 :     if (vm.count(EQ_HELP))</span>
 <span class="lineNum">     237 </span>            :     {
 <span class="lineNum">     238 </span><span class="lineNoCov">          0 :         std::cout &lt;&lt; options &lt;&lt; std::endl;</span>
 <span class="lineNum">     239 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     240 </span>            :     }
 <span class="lineNum">     241 </span>            : 
-<span class="lineNum">     242 </span><span class="lineCov">          5 :     if (vm.count(EQ_SERVER))</span>
+<span class="lineNum">     242 </span><span class="lineCov">          3 :     if (vm.count(EQ_SERVER))</span>
 <span class="lineNum">     243 </span><span class="lineNoCov">          0 :         Global::setServer(vm[EQ_SERVER].as&lt;std::string&gt;());</span>
 <span class="lineNum">     244 </span>            : 
-<span class="lineNum">     245 </span><span class="lineCov">          5 :     if (vm.count(EQ_CONFIG))</span>
+<span class="lineNum">     245 </span><span class="lineCov">          3 :     if (vm.count(EQ_CONFIG))</span>
 <span class="lineNum">     246 </span><span class="lineNoCov">          0 :         Global::setConfig(vm[EQ_CONFIG].as&lt;std::string&gt;());</span>
 <span class="lineNum">     247 </span>            : 
-<span class="lineNum">     248 </span><span class="lineCov">          5 :     if (vm.count(EQ_CONFIG_FLAGS))</span>
+<span class="lineNum">     248 </span><span class="lineCov">          3 :     if (vm.count(EQ_CONFIG_FLAGS))</span>
 <span class="lineNum">     249 </span>            :     {
 <span class="lineNum">     250 </span><span class="lineNoCov">          0 :         const Strings&amp; flagStrings = vm[EQ_CONFIG_FLAGS].as&lt;Strings&gt;();</span>
 <span class="lineNum">     251 </span><span class="lineNoCov">          0 :         const auto configFlags = _getConfigFlags();</span>
@@ -324,13 +324,13 @@
 <span class="lineNum">     262 </span><span class="lineNoCov">          0 :         Global::setFlags(flags);</span>
 <span class="lineNum">     263 </span>            :     }
 <span class="lineNum">     264 </span>            : 
-<span class="lineNum">     265 </span><span class="lineCov">          5 :     if (vm.count(EQ_CONFIG_PREFIXES))</span>
+<span class="lineNum">     265 </span><span class="lineCov">          3 :     if (vm.count(EQ_CONFIG_PREFIXES))</span>
 <span class="lineNum">     266 </span>            :     {
 <span class="lineNum">     267 </span><span class="lineNoCov">          0 :         const Strings&amp; prefixes = vm[EQ_CONFIG_PREFIXES].as&lt;Strings&gt;();</span>
 <span class="lineNum">     268 </span><span class="lineNoCov">          0 :         Global::setPrefixes(prefixes);</span>
 <span class="lineNum">     269 </span>            :     }
 <span class="lineNum">     270 </span>            : 
-<span class="lineNum">     271 </span><span class="lineCov">          5 :     if (vm.count(EQ_CLIENT))</span>
+<span class="lineNum">     271 </span><span class="lineCov">          3 :     if (vm.count(EQ_CLIENT))</span>
 <span class="lineNum">     272 </span>            :     {
 <span class="lineNum">     273 </span><span class="lineNoCov">          0 :         const std::string&amp; renderClient = vm[EQ_CLIENT].as&lt;std::string&gt;();</span>
 <span class="lineNum">     274 </span><span class="lineNoCov">          0 :         const boost::filesystem::path path(renderClient);</span>
@@ -339,7 +339,7 @@
 <span class="lineNum">     277 </span><span class="lineNoCov">          0 :         Global::setWorkDir(path.parent_path().string());</span>
 <span class="lineNum">     278 </span>            :     }
 <span class="lineNum">     279 </span>            : 
-<span class="lineNum">     280 </span><span class="lineCov">          5 :     for (int i = 1; i &lt; argc; ++i)</span>
+<span class="lineNum">     280 </span><span class="lineCov">          3 :     for (int i = 1; i &lt; argc; ++i)</span>
 <span class="lineNum">     281 </span>            :     {
 <span class="lineNum">     282 </span><span class="lineNoCov">          0 :         if (std::string(argv[i]) == &quot;--eq-logfile&quot;)</span>
 <span class="lineNum">     283 </span>            :         {
@@ -348,25 +348,25 @@
 <span class="lineNum">     286 </span>            :         }
 <span class="lineNum">     287 </span>            :     }
 <span class="lineNum">     288 </span>            : 
-<span class="lineNum">     289 </span><span class="lineCov">          5 :     return true;</span>
+<span class="lineNum">     289 </span><span class="lineCov">          3 :     return true;</span>
 <a name="290"><span class="lineNum">     290 </span>            : }</a>
 <span class="lineNum">     291 </span>            : 
-<span class="lineNum">     292 </span><span class="lineCov">          5 : void _initPlugins()</span>
+<span class="lineNum">     292 </span><span class="lineCov">          3 : void _initPlugins()</span>
 <span class="lineNum">     293 </span>            : {
-<span class="lineNum">     294 </span><span class="lineCov">          5 :     pression::PluginRegistry&amp; plugins = pression::PluginRegistry::getInstance();</span>
+<span class="lineNum">     294 </span><span class="lineCov">          3 :     pression::PluginRegistry&amp; plugins = pression::PluginRegistry::getInstance();</span>
 <span class="lineNum">     295 </span>            : 
-<span class="lineNum">     296 </span><span class="lineCov">         10 :     plugins.loadDirectory(lunchbox::getRootPath() +</span>
-<span class="lineNum">     297 </span><span class="lineCov">          5 :                           &quot;/share/Equalizer/plugins&quot;); // install dir</span>
-<span class="lineNum">     298 </span><span class="lineCov">          5 :     plugins.loadDirectory(&quot;/usr/share/Equalizer/plugins&quot;);</span>
-<span class="lineNum">     299 </span><span class="lineCov">          5 :     plugins.loadDirectory(&quot;/usr/local/share/Equalizer/plugins&quot;);</span>
-<span class="lineNum">     300 </span><span class="lineCov">          5 :     plugins.loadDirectory(&quot;.eqPlugins&quot;);</span>
-<span class="lineNum">     301 </span><span class="lineCov">          5 :     plugins.loadDirectory(&quot;/opt/local/lib&quot;); // MacPorts</span>
-<span class="lineNum">     302 </span><span class="lineCov">          5 :     plugins.loadDirectory(&quot;/usr/local/lib&quot;); // Homebrew</span>
+<span class="lineNum">     296 </span><span class="lineCov">          6 :     plugins.loadDirectory(lunchbox::getRootPath() +</span>
+<span class="lineNum">     297 </span><span class="lineCov">          3 :                           &quot;/share/Equalizer/plugins&quot;); // install dir</span>
+<span class="lineNum">     298 </span><span class="lineCov">          3 :     plugins.loadDirectory(&quot;/usr/share/Equalizer/plugins&quot;);</span>
+<span class="lineNum">     299 </span><span class="lineCov">          3 :     plugins.loadDirectory(&quot;/usr/local/share/Equalizer/plugins&quot;);</span>
+<span class="lineNum">     300 </span><span class="lineCov">          3 :     plugins.loadDirectory(&quot;.eqPlugins&quot;);</span>
+<span class="lineNum">     301 </span><span class="lineCov">          3 :     plugins.loadDirectory(&quot;/opt/local/lib&quot;); // MacPorts</span>
+<span class="lineNum">     302 </span><span class="lineCov">          3 :     plugins.loadDirectory(&quot;/usr/local/lib&quot;); // Homebrew</span>
 <span class="lineNum">     303 </span>            : 
-<span class="lineNum">     304 </span><span class="lineCov">          5 :     const char* home = getenv(&quot;HOME&quot;);</span>
-<span class="lineNum">     305 </span><span class="lineCov">          5 :     if (home)</span>
-<span class="lineNum">     306 </span><span class="lineCov">          5 :         plugins.loadDirectory(std::string(home) + &quot;/.eqPlugins&quot;);</span>
-<a name="307"><span class="lineNum">     307 </span><span class="lineCov">          5 : }</span></a>
+<span class="lineNum">     304 </span><span class="lineCov">          3 :     const char* home = getenv(&quot;HOME&quot;);</span>
+<span class="lineNum">     305 </span><span class="lineCov">          3 :     if (home)</span>
+<span class="lineNum">     306 </span><span class="lineCov">          3 :         plugins.loadDirectory(std::string(home) + &quot;/.eqPlugins&quot;);</span>
+<a name="307"><span class="lineNum">     307 </span><span class="lineCov">          3 : }</span></a>
 <span class="lineNum">     308 </span>            : 
 <span class="lineNum">     309 </span><span class="lineNoCov">          0 : Config* getConfig(const int argc, char** argv)</span>
 <span class="lineNum">     310 </span>            : {
@@ -419,7 +419,7 @@
 <span class="lineNum">     357 </span><span class="lineNoCov">          0 :     LBASSERTINFO(client-&gt;getRefCount() == 1, client-&gt;getRefCount());</span>
 <a name="358"><span class="lineNum">     358 </span><span class="lineNoCov">          0 :     LBASSERTINFO(server-&gt;getRefCount() == 1, server-&gt;getRefCount());</span></a>
 <span class="lineNum">     359 </span>            : }
-<span class="lineNum">     360 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">     360 </span><span class="lineCov">         30 : }</span>
 </pre>
       </td>
     </tr>

@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">51</td>
             <td class="headerCovTableEntry">246</td>
-            <td class="headerCovTableEntryLo">4.1 %</td>
+            <td class="headerCovTableEntryLo">20.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">9</td>
             <td class="headerCovTableEntry">14</td>
-            <td class="headerCovTableEntryLo">28.6 %</td>
+            <td class="headerCovTableEntryMed">64.3 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -113,21 +113,21 @@
 <span class="lineNum">      51 </span>            : namespace
 <a name="52"><span class="lineNum">      52 </span>            : {</a>
 <span class="lineNum">      53 </span>            : typedef std::vector&lt;EventHandler*&gt; EventHandlers;
-<span class="lineNum">      54 </span><span class="lineCov">         12 : static lunchbox::PerThread&lt;EventHandlers&gt; _eventHandlers;</span>
+<span class="lineNum">      54 </span><span class="lineCov">         10 : static lunchbox::PerThread&lt;EventHandlers&gt; _eventHandlers;</span>
 <span class="lineNum">      55 </span>            : 
 <a name="56"><span class="lineNum">      56 </span>            : struct MagellanData</a>
 <span class="lineNum">      57 </span>            : {
-<span class="lineNum">      58 </span><span class="lineCov">         12 :     MagellanData()</span>
-<span class="lineNum">      59 </span><span class="lineCov">         12 :         : display(0)</span>
-<span class="lineNum">      60 </span><span class="lineCov">         12 :         , used(0)</span>
+<span class="lineNum">      58 </span><span class="lineCov">         10 :     MagellanData()</span>
+<span class="lineNum">      59 </span><span class="lineCov">         10 :         : display(0)</span>
+<span class="lineNum">      60 </span><span class="lineCov">         10 :         , used(0)</span>
 <span class="lineNum">      61 </span>            :     {
-<span class="lineNum">      62 </span><span class="lineCov">         12 :     }</span>
+<span class="lineNum">      62 </span><span class="lineCov">         10 :     }</span>
 <span class="lineNum">      63 </span>            : 
 <span class="lineNum">      64 </span>            :     Display* display;
 <span class="lineNum">      65 </span>            :     size_t used;
 <span class="lineNum">      66 </span>            : };
 <span class="lineNum">      67 </span>            : 
-<a name="68"><span class="lineNum">      68 </span><span class="lineCov">         12 : static lunchbox::Lockable&lt;MagellanData, lunchbox::SpinLock&gt; _magellan;</span></a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">         10 : static lunchbox::Lockable&lt;MagellanData, lunchbox::SpinLock&gt; _magellan;</span></a>
 <span class="lineNum">      69 </span>            : 
 <span class="lineNum">      70 </span><span class="lineNoCov">          0 : uint32_t _getButtonAction(const XEvent&amp; event)</span>
 <span class="lineNum">      71 </span>            : {
@@ -295,27 +295,27 @@
 <span class="lineNum">     233 </span>            : }
 <a name="234"><span class="lineNum">     234 </span>            : }</a>
 <span class="lineNum">     235 </span>            : 
-<span class="lineNum">     236 </span><span class="lineNoCov">          0 : EventHandler::EventHandler(WindowIF* window)</span>
+<span class="lineNum">     236 </span><span class="lineCov">          2 : EventHandler::EventHandler(WindowIF* window)</span>
 <span class="lineNum">     237 </span>            :     : _window(window)
-<span class="lineNum">     238 </span><span class="lineNoCov">          0 :     , _magellanUsed(false)</span>
+<span class="lineNum">     238 </span><span class="lineCov">          2 :     , _magellanUsed(false)</span>
 <span class="lineNum">     239 </span>            : {
-<span class="lineNum">     240 </span><span class="lineNoCov">          0 :     LBASSERT(window);</span>
+<span class="lineNum">     240 </span><span class="lineCov">          2 :     LBASSERT(window);</span>
 <span class="lineNum">     241 </span>            : 
-<span class="lineNum">     242 </span><span class="lineNoCov">          0 :     if (!_eventHandlers)</span>
-<span class="lineNum">     243 </span><span class="lineNoCov">          0 :         _eventHandlers = new EventHandlers;</span>
-<span class="lineNum">     244 </span><span class="lineNoCov">          0 :     _eventHandlers-&gt;push_back(this);</span>
+<span class="lineNum">     242 </span><span class="lineCov">          2 :     if (!_eventHandlers)</span>
+<span class="lineNum">     243 </span><span class="lineCov">          2 :         _eventHandlers = new EventHandlers;</span>
+<span class="lineNum">     244 </span><span class="lineCov">          2 :     _eventHandlers-&gt;push_back(this);</span>
 <span class="lineNum">     245 </span>            : 
 <span class="lineNum">     246 </span>            : #ifdef EQUALIZER_USE_MAGELLAN_GLX
-<span class="lineNum">     247 </span><span class="lineNoCov">          0 :     Display* display = window-&gt;getXDisplay();</span>
-<span class="lineNum">     248 </span><span class="lineNoCov">          0 :     LBASSERT(display);</span>
-<span class="lineNum">     249 </span><span class="lineNoCov">          0 :     lunchbox::ScopedFastWrite mutex(_magellan);</span>
-<span class="lineNum">     250 </span><span class="lineNoCov">          0 :     if (!_magellan-&gt;display)</span>
+<span class="lineNum">     247 </span><span class="lineCov">          2 :     Display* display = window-&gt;getXDisplay();</span>
+<span class="lineNum">     248 </span><span class="lineCov">          2 :     LBASSERT(display);</span>
+<span class="lineNum">     249 </span><span class="lineCov">          2 :     lunchbox::ScopedFastWrite mutex(_magellan);</span>
+<span class="lineNum">     250 </span><span class="lineCov">          2 :     if (!_magellan-&gt;display)</span>
 <span class="lineNum">     251 </span>            :     {
-<span class="lineNum">     252 </span><span class="lineNoCov">          0 :         if (spnav_x11_open(display, window-&gt;getXDrawable()) == -1)</span>
+<span class="lineNum">     252 </span><span class="lineCov">          2 :         if (spnav_x11_open(display, window-&gt;getXDrawable()) == -1)</span>
 <span class="lineNum">     253 </span>            :         {
-<span class="lineNum">     254 </span><span class="lineNoCov">          0 :             LBDEBUG &lt;&lt; &quot;Cannot connect to the space navigator daemon&quot;</span>
-<span class="lineNum">     255 </span><span class="lineNoCov">          0 :                     &lt;&lt; std::endl;</span>
-<span class="lineNum">     256 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     254 </span><span class="lineCov">          6 :             LBDEBUG &lt;&lt; &quot;Cannot connect to the space navigator daemon&quot;</span>
+<span class="lineNum">     255 </span><span class="lineCov">          6 :                     &lt;&lt; std::endl;</span>
+<span class="lineNum">     256 </span><span class="lineCov">          2 :             return;</span>
 <span class="lineNum">     257 </span>            :         }
 <span class="lineNum">     258 </span><span class="lineNoCov">          0 :         _magellan-&gt;display = display;</span>
 <span class="lineNum">     259 </span>            :     }
@@ -336,9 +336,9 @@
 <span class="lineNum">     274 </span>            : #endif
 <a name="275"><span class="lineNum">     275 </span>            : }</a>
 <span class="lineNum">     276 </span>            : 
-<span class="lineNum">     277 </span><span class="lineNoCov">          0 : EventHandler::~EventHandler()</span>
+<span class="lineNum">     277 </span><span class="lineCov">          6 : EventHandler::~EventHandler()</span>
 <span class="lineNum">     278 </span>            : {
-<span class="lineNum">     279 </span><span class="lineNoCov">          0 :     if (_magellanUsed)</span>
+<span class="lineNum">     279 </span><span class="lineCov">          2 :     if (_magellanUsed)</span>
 <span class="lineNum">     280 </span>            :     {
 <span class="lineNum">     281 </span>            : #ifdef EQUALIZER_USE_MAGELLAN_GLX
 <span class="lineNum">     282 </span><span class="lineNoCov">          0 :         lunchbox::ScopedFastWrite mutex(_magellan);</span>
@@ -355,39 +355,39 @@
 <span class="lineNum">     293 </span><span class="lineNoCov">          0 :         _magellanUsed = false;</span>
 <span class="lineNum">     294 </span>            :     }
 <span class="lineNum">     295 </span>            : 
-<span class="lineNum">     296 </span><span class="lineNoCov">          0 :     EventHandlers::iterator i = lunchbox::find(*_eventHandlers, this);</span>
-<span class="lineNum">     297 </span><span class="lineNoCov">          0 :     LBASSERT(i != _eventHandlers-&gt;end());</span>
-<span class="lineNum">     298 </span><span class="lineNoCov">          0 :     _eventHandlers-&gt;erase(i);</span>
-<span class="lineNum">     299 </span><span class="lineNoCov">          0 :     if (_eventHandlers-&gt;empty())</span>
+<span class="lineNum">     296 </span><span class="lineCov">          2 :     EventHandlers::iterator i = lunchbox::find(*_eventHandlers, this);</span>
+<span class="lineNum">     297 </span><span class="lineCov">          2 :     LBASSERT(i != _eventHandlers-&gt;end());</span>
+<span class="lineNum">     298 </span><span class="lineCov">          2 :     _eventHandlers-&gt;erase(i);</span>
+<span class="lineNum">     299 </span><span class="lineCov">          2 :     if (_eventHandlers-&gt;empty())</span>
 <span class="lineNum">     300 </span>            :     {
-<span class="lineNum">     301 </span><span class="lineNoCov">          0 :         delete _eventHandlers.get();</span>
-<span class="lineNum">     302 </span><span class="lineNoCov">          0 :         _eventHandlers = 0;</span>
+<span class="lineNum">     301 </span><span class="lineCov">          2 :         delete _eventHandlers.get();</span>
+<span class="lineNum">     302 </span><span class="lineCov">          2 :         _eventHandlers = 0;</span>
 <span class="lineNum">     303 </span>            :     }
-<a name="304"><span class="lineNum">     304 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">     305 </span>            : 
-<span class="lineNum">     306 </span><span class="lineCov">         19 : void EventHandler::dispatch()</span>
+<span class="lineNum">     306 </span><span class="lineCov">        883 : void EventHandler::dispatch()</span>
 <span class="lineNum">     307 </span>            : {
-<span class="lineNum">     308 </span><span class="lineCov">         19 :     if (!_eventHandlers)</span>
-<span class="lineNum">     309 </span><span class="lineCov">         19 :         return;</span>
+<span class="lineNum">     308 </span><span class="lineCov">        883 :     if (!_eventHandlers)</span>
+<span class="lineNum">     309 </span><span class="lineCov">         28 :         return;</span>
 <span class="lineNum">     310 </span>            : 
-<span class="lineNum">     311 </span><span class="lineNoCov">          0 :     for (EventHandler* handler : *_eventHandlers)</span>
-<span class="lineNum">     312 </span><span class="lineNoCov">          0 :         handler-&gt;_dispatch();</span>
+<span class="lineNum">     311 </span><span class="lineCov">       1710 :     for (EventHandler* handler : *_eventHandlers)</span>
+<span class="lineNum">     312 </span><span class="lineCov">        855 :         handler-&gt;_dispatch();</span>
 <a name="313"><span class="lineNum">     313 </span>            : }</a>
 <span class="lineNum">     314 </span>            : 
-<span class="lineNum">     315 </span><span class="lineNoCov">          0 : void EventHandler::_dispatch()</span>
+<span class="lineNum">     315 </span><span class="lineCov">        855 : void EventHandler::_dispatch()</span>
 <span class="lineNum">     316 </span>            : {
-<span class="lineNum">     317 </span><span class="lineNoCov">          0 :     Display* display = _window-&gt;getXDisplay();</span>
-<span class="lineNum">     318 </span><span class="lineNoCov">          0 :     LBASSERT(display);</span>
-<span class="lineNum">     319 </span><span class="lineNoCov">          0 :     if (!display)</span>
+<span class="lineNum">     317 </span><span class="lineCov">        855 :     Display* display = _window-&gt;getXDisplay();</span>
+<span class="lineNum">     318 </span><span class="lineCov">        855 :     LBASSERT(display);</span>
+<span class="lineNum">     319 </span><span class="lineCov">        855 :     if (!display)</span>
 <span class="lineNum">     320 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     321 </span>            : 
-<span class="lineNum">     322 </span><span class="lineNoCov">          0 :     while (XPending(display))</span>
+<span class="lineNum">     322 </span><span class="lineCov">        859 :     while (XPending(display))</span>
 <span class="lineNum">     323 </span>            :     {
 <span class="lineNum">     324 </span>            :         XEvent event;
-<span class="lineNum">     325 </span><span class="lineNoCov">          0 :         XNextEvent(display, &amp;event);</span>
+<span class="lineNum">     325 </span><span class="lineCov">          2 :         XNextEvent(display, &amp;event);</span>
 <span class="lineNum">     326 </span>            : 
-<span class="lineNum">     327 </span><span class="lineNoCov">          0 :         for (EventHandler* handler : *_eventHandlers)</span>
-<span class="lineNum">     328 </span><span class="lineNoCov">          0 :             handler-&gt;_processEvent(event);</span>
+<span class="lineNum">     327 </span><span class="lineCov">          4 :         for (EventHandler* handler : *_eventHandlers)</span>
+<span class="lineNum">     328 </span><span class="lineCov">          2 :             handler-&gt;_processEvent(event);</span>
 <span class="lineNum">     329 </span>            :     }
 <span class="lineNum">     330 </span>            : }
 <span class="lineNum">     331 </span>            : 
@@ -410,21 +410,21 @@
 <span class="lineNum">     348 </span><span class="lineNoCov">          0 : }</span>
 <a name="349"><span class="lineNum">     349 </span>            : }</a>
 <span class="lineNum">     350 </span>            : 
-<span class="lineNum">     351 </span><span class="lineNoCov">          0 : bool EventHandler::_processEvent(const XEvent&amp; event)</span>
+<span class="lineNum">     351 </span><span class="lineCov">          2 : bool EventHandler::_processEvent(const XEvent&amp; event)</span>
 <span class="lineNum">     352 </span>            : {
-<span class="lineNum">     353 </span><span class="lineNoCov">          0 :     LB_TS_THREAD(_thread);</span>
+<span class="lineNum">     353 </span><span class="lineCov">          2 :     LB_TS_THREAD(_thread);</span>
 <span class="lineNum">     354 </span>            : 
-<span class="lineNum">     355 </span><span class="lineNoCov">          0 :     XID drawable = event.xany.window;</span>
-<span class="lineNum">     356 </span><span class="lineNoCov">          0 :     if (_window-&gt;getXDrawable() != drawable)</span>
+<span class="lineNum">     355 </span><span class="lineCov">          2 :     XID drawable = event.xany.window;</span>
+<span class="lineNum">     356 </span><span class="lineCov">          2 :     if (_window-&gt;getXDrawable() != drawable)</span>
 <span class="lineNum">     357 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     358 </span>            : 
-<span class="lineNum">     359 </span><span class="lineNoCov">          0 :     switch (event.type)</span>
+<span class="lineNum">     359 </span><span class="lineCov">          2 :     switch (event.type)</span>
 <span class="lineNum">     360 </span>            :     {
 <span class="lineNum">     361 </span>            :     case Expose:
-<span class="lineNum">     362 </span><span class="lineNoCov">          0 :         if (event.xexpose.count) // Only report last expose event</span>
+<span class="lineNum">     362 </span><span class="lineCov">          1 :         if (event.xexpose.count) // Only report last expose event</span>
 <span class="lineNum">     363 </span><span class="lineNoCov">          0 :             return true;</span>
 <span class="lineNum">     364 </span>            : 
-<span class="lineNum">     365 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent(EVENT_WINDOW_EXPOSE, event);</span>
+<span class="lineNum">     365 </span><span class="lineCov">          1 :         return _window-&gt;processEvent(EVENT_WINDOW_EXPOSE, event);</span>
 <span class="lineNum">     366 </span>            : 
 <span class="lineNum">     367 </span>            :     case ConfigureNotify:
 <span class="lineNum">     368 </span>            :     {
@@ -587,11 +587,11 @@
 <span class="lineNum">     525 </span>            :     // no break;
 <span class="lineNum">     526 </span>            :     case ReparentNotify:
 <span class="lineNum">     527 </span>            :     case VisibilityNotify:
-<span class="lineNum">     528 </span><span class="lineNoCov">          0 :         return _window-&gt;processEvent(EVENT_UNKNOWN, event);</span>
+<span class="lineNum">     528 </span><span class="lineCov">          1 :         return _window-&gt;processEvent(EVENT_UNKNOWN, event);</span>
 <span class="lineNum">     529 </span>            :     }
 <a name="530"><span class="lineNum">     530 </span>            : }</a>
 <span class="lineNum">     531 </span>            : }
-<span class="lineNum">     532 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">     532 </span><span class="lineCov">         30 : }</span>
 </pre>
       </td>
     </tr>

@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">161</td>
+            <td class="headerCovTableEntry">214</td>
             <td class="headerCovTableEntry">387</td>
-            <td class="headerCovTableEntryMed">41.6 %</td>
+            <td class="headerCovTableEntryMed">55.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">33</td>
+            <td class="headerCovTableEntry">39</td>
             <td class="headerCovTableEntry">56</td>
-            <td class="headerCovTableEntryMed">58.9 %</td>
+            <td class="headerCovTableEntryMed">69.6 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -115,9 +115,9 @@
 <span class="lineNum">      53 </span>            : namespace
 <a name="54"><span class="lineNum">      54 </span>            : {</a>
 <a name="55"><span class="lineNum">      55 </span>            : #define S_MAKE_ATTR_STRING(attr) (std::string(&quot;EQ_NODE_&quot;) + #attr)</a>
-<span class="lineNum">      56 </span><span class="lineCov">         48 : std::string _sAttributeStrings[] = {S_MAKE_ATTR_STRING(SATTR_LAUNCH_COMMAND)};</span>
-<span class="lineNum">      57 </span><span class="lineCov">         48 : std::string _cAttributeStrings[] = {</span>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">         24 :     S_MAKE_ATTR_STRING(CATTR_LAUNCH_COMMAND_QUOTE)};</span></a>
+<span class="lineNum">      56 </span><span class="lineCov">         40 : std::string _sAttributeStrings[] = {S_MAKE_ATTR_STRING(SATTR_LAUNCH_COMMAND)};</span>
+<span class="lineNum">      57 </span><span class="lineCov">         40 : std::string _cAttributeStrings[] = {</span>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">         20 :     S_MAKE_ATTR_STRING(CATTR_LAUNCH_COMMAND_QUOTE)};</span></a>
 <span class="lineNum">      59 </span>            : 
 <span class="lineNum">      60 </span><span class="lineNoCov">          0 : void _addEnv(std::ostringstream&amp; stream, const char* key)</span>
 <span class="lineNum">      61 </span>            : {
@@ -140,55 +140,55 @@
 <span class="lineNum">      78 </span>            : }
 <a name="79"><span class="lineNum">      79 </span>            : }</a>
 <span class="lineNum">      80 </span>            : 
-<span class="lineNum">      81 </span><span class="lineCov">        830 : Node::Node(Config* parent)</span>
+<span class="lineNum">      81 </span><span class="lineCov">        828 : Node::Node(Config* parent)</span>
 <span class="lineNum">      82 </span>            :     : Super(parent)
 <span class="lineNum">      83 </span>            :     , _active(0)
 <span class="lineNum">      84 </span>            :     , _finishedFrame(0)
 <span class="lineNum">      85 </span>            :     , _flushedFrame(0)
 <span class="lineNum">      86 </span>            :     , _state(STATE_STOPPED)
-<span class="lineNum">      87 </span><span class="lineCov">        830 :     , _bufferedTasks(new co::BufferConnection)</span>
-<span class="lineNum">      88 </span><span class="lineCov">       1660 :     , _lastDrawPipe(0)</span>
+<span class="lineNum">      87 </span><span class="lineCov">        828 :     , _bufferedTasks(new co::BufferConnection)</span>
+<span class="lineNum">      88 </span><span class="lineCov">       1656 :     , _lastDrawPipe(0)</span>
 <span class="lineNum">      89 </span>            : {
-<span class="lineNum">      90 </span><span class="lineCov">        830 :     const Global* global = Global::instance();</span>
-<span class="lineNum">      91 </span><span class="lineCov">       1660 :     for (int i = 0; i &lt; Node::SATTR_LAST; ++i)</span>
+<span class="lineNum">      90 </span><span class="lineCov">        828 :     const Global* global = Global::instance();</span>
+<span class="lineNum">      91 </span><span class="lineCov">       1656 :     for (int i = 0; i &lt; Node::SATTR_LAST; ++i)</span>
 <span class="lineNum">      92 </span>            :     {
-<span class="lineNum">      93 </span><span class="lineCov">        830 :         const SAttribute attr = static_cast&lt;SAttribute&gt;(i);</span>
-<span class="lineNum">      94 </span><span class="lineCov">        830 :         setSAttribute(attr, global-&gt;getNodeSAttribute(attr));</span>
+<span class="lineNum">      93 </span><span class="lineCov">        828 :         const SAttribute attr = static_cast&lt;SAttribute&gt;(i);</span>
+<span class="lineNum">      94 </span><span class="lineCov">        828 :         setSAttribute(attr, global-&gt;getNodeSAttribute(attr));</span>
 <span class="lineNum">      95 </span>            :     }
-<span class="lineNum">      96 </span><span class="lineCov">       1660 :     for (int i = 0; i &lt; Node::CATTR_LAST; ++i)</span>
+<span class="lineNum">      96 </span><span class="lineCov">       1656 :     for (int i = 0; i &lt; Node::CATTR_LAST; ++i)</span>
 <span class="lineNum">      97 </span>            :     {
-<span class="lineNum">      98 </span><span class="lineCov">        830 :         const CAttribute attr = static_cast&lt;CAttribute&gt;(i);</span>
-<span class="lineNum">      99 </span><span class="lineCov">        830 :         setCAttribute(attr, global-&gt;getNodeCAttribute(attr));</span>
+<span class="lineNum">      98 </span><span class="lineCov">        828 :         const CAttribute attr = static_cast&lt;CAttribute&gt;(i);</span>
+<span class="lineNum">      99 </span><span class="lineCov">        828 :         setCAttribute(attr, global-&gt;getNodeCAttribute(attr));</span>
 <span class="lineNum">     100 </span>            :     }
-<span class="lineNum">     101 </span><span class="lineCov">       3320 :     for (int i = 0; i &lt; IATTR_LAST; ++i)</span>
+<span class="lineNum">     101 </span><span class="lineCov">       3312 :     for (int i = 0; i &lt; IATTR_LAST; ++i)</span>
 <span class="lineNum">     102 </span>            :     {
-<span class="lineNum">     103 </span><span class="lineCov">       2490 :         const IAttribute attr = static_cast&lt;IAttribute&gt;(i);</span>
-<span class="lineNum">     104 </span><span class="lineCov">       2490 :         setIAttribute(attr, global-&gt;getNodeIAttribute(attr));</span>
+<span class="lineNum">     103 </span><span class="lineCov">       2484 :         const IAttribute attr = static_cast&lt;IAttribute&gt;(i);</span>
+<span class="lineNum">     104 </span><span class="lineCov">       2484 :         setIAttribute(attr, global-&gt;getNodeIAttribute(attr));</span>
 <span class="lineNum">     105 </span>            :     }
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        830 : }</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        828 : }</span></a>
 <span class="lineNum">     107 </span>            : 
-<span class="lineNum">     108 </span><span class="lineCov">       1656 : Node::~Node()</span>
+<span class="lineNum">     108 </span><span class="lineCov">       1652 : Node::~Node()</span>
 <span class="lineNum">     109 </span>            : {
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">       1656 : }</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">       1652 : }</span></a>
 <span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span><span class="lineCov">          4 : void Node::attach(const uint128_t&amp; id, const uint32_t instanceID)</span>
+<span class="lineNum">     112 </span><span class="lineCov">          2 : void Node::attach(const uint128_t&amp; id, const uint32_t instanceID)</span>
 <span class="lineNum">     113 </span>            : {
-<span class="lineNum">     114 </span><span class="lineCov">          4 :     Super::attach(id, instanceID);</span>
+<span class="lineNum">     114 </span><span class="lineCov">          2 :     Super::attach(id, instanceID);</span>
 <span class="lineNum">     115 </span>            : 
-<span class="lineNum">     116 </span><span class="lineCov">          4 :     co::CommandQueue* cmdQ = getCommandThreadQueue();</span>
-<span class="lineNum">     117 </span><span class="lineCov">          8 :     registerCommand(fabric::CMD_OBJECT_SYNC, NodeFunc(this, &amp;Node::_cmdSync),</span>
-<span class="lineNum">     118 </span><span class="lineCov">          4 :                     cmdQ);</span>
-<span class="lineNum">     119 </span><span class="lineCov">          4 :     registerCommand(fabric::CMD_NODE_CONFIG_INIT_REPLY,</span>
-<span class="lineNum">     120 </span><span class="lineCov">          8 :                     NodeFunc(this, &amp;Node::_cmdConfigInitReply), cmdQ);</span>
-<span class="lineNum">     121 </span><span class="lineCov">          4 :     registerCommand(fabric::CMD_NODE_CONFIG_EXIT_REPLY,</span>
-<span class="lineNum">     122 </span><span class="lineCov">          8 :                     NodeFunc(this, &amp;Node::_cmdConfigExitReply), cmdQ);</span>
-<span class="lineNum">     123 </span><span class="lineCov">          4 :     registerCommand(fabric::CMD_NODE_FRAME_FINISH_REPLY,</span>
-<span class="lineNum">     124 </span><span class="lineCov">          8 :                     NodeFunc(this, &amp;Node::_cmdFrameFinishReply), cmdQ);</span>
-<a name="125"><span class="lineNum">     125 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     116 </span><span class="lineCov">          2 :     co::CommandQueue* cmdQ = getCommandThreadQueue();</span>
+<span class="lineNum">     117 </span><span class="lineCov">          4 :     registerCommand(fabric::CMD_OBJECT_SYNC, NodeFunc(this, &amp;Node::_cmdSync),</span>
+<span class="lineNum">     118 </span><span class="lineCov">          2 :                     cmdQ);</span>
+<span class="lineNum">     119 </span><span class="lineCov">          2 :     registerCommand(fabric::CMD_NODE_CONFIG_INIT_REPLY,</span>
+<span class="lineNum">     120 </span><span class="lineCov">          4 :                     NodeFunc(this, &amp;Node::_cmdConfigInitReply), cmdQ);</span>
+<span class="lineNum">     121 </span><span class="lineCov">          2 :     registerCommand(fabric::CMD_NODE_CONFIG_EXIT_REPLY,</span>
+<span class="lineNum">     122 </span><span class="lineCov">          4 :                     NodeFunc(this, &amp;Node::_cmdConfigExitReply), cmdQ);</span>
+<span class="lineNum">     123 </span><span class="lineCov">          2 :     registerCommand(fabric::CMD_NODE_FRAME_FINISH_REPLY,</span>
+<span class="lineNum">     124 </span><span class="lineCov">          4 :                     NodeFunc(this, &amp;Node::_cmdFrameFinishReply), cmdQ);</span>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     126 </span>            : 
-<span class="lineNum">     127 </span><span class="lineCov">         20 : ServerPtr Node::getServer()</span>
+<span class="lineNum">     127 </span><span class="lineCov">         28 : ServerPtr Node::getServer()</span>
 <span class="lineNum">     128 </span>            : {
-<span class="lineNum">     129 </span><span class="lineCov">         20 :     return getConfig() ? getConfig()-&gt;getServer() : 0;</span>
+<span class="lineNum">     129 </span><span class="lineCov">         28 :     return getConfig() ? getConfig()-&gt;getServer() : 0;</span>
 <a name="130"><span class="lineNum">     130 </span>            : }</a>
 <span class="lineNum">     131 </span>            : 
 <span class="lineNum">     132 </span><span class="lineNoCov">          0 : ConstServerPtr Node::getServer() const</span>
@@ -196,14 +196,14 @@
 <span class="lineNum">     134 </span><span class="lineNoCov">          0 :     return getConfig() ? getConfig()-&gt;getServer() : 0;</span>
 <a name="135"><span class="lineNum">     135 </span>            : }</a>
 <span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span><span class="lineCov">         12 : co::CommandQueue* Node::getMainThreadQueue()</span>
+<span class="lineNum">     137 </span><span class="lineCov">         22 : co::CommandQueue* Node::getMainThreadQueue()</span>
 <span class="lineNum">     138 </span>            : {
-<span class="lineNum">     139 </span><span class="lineCov">         12 :     return getConfig()-&gt;getMainThreadQueue();</span>
+<span class="lineNum">     139 </span><span class="lineCov">         22 :     return getConfig()-&gt;getMainThreadQueue();</span>
 <a name="140"><span class="lineNum">     140 </span>            : }</a>
 <span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span><span class="lineCov">         20 : co::CommandQueue* Node::getCommandThreadQueue()</span>
+<span class="lineNum">     142 </span><span class="lineCov">         28 : co::CommandQueue* Node::getCommandThreadQueue()</span>
 <span class="lineNum">     143 </span>            : {
-<span class="lineNum">     144 </span><span class="lineCov">         20 :     return getConfig()-&gt;getCommandThreadQueue();</span>
+<span class="lineNum">     144 </span><span class="lineCov">         28 :     return getConfig()-&gt;getCommandThreadQueue();</span>
 <a name="145"><span class="lineNum">     145 </span>            : }</a>
 <span class="lineNum">     146 </span>            : 
 <span class="lineNum">     147 </span><span class="lineNoCov">          0 : Channel* Node::getChannel(const ChannelPath&amp; path)</span>
@@ -217,52 +217,52 @@
 <span class="lineNum">     155 </span><span class="lineNoCov">          0 :     return pipes[path.pipeIndex]-&gt;getChannel(path);</span>
 <a name="156"><span class="lineNum">     156 </span>            : }</a>
 <span class="lineNum">     157 </span>            : 
-<span class="lineNum">     158 </span><span class="lineCov">          4 : void Node::addTasks(const uint32_t tasks)</span>
+<span class="lineNum">     158 </span><span class="lineCov">        126 : void Node::addTasks(const uint32_t tasks)</span>
 <span class="lineNum">     159 </span>            : {
-<span class="lineNum">     160 </span><span class="lineCov">          4 :     setTasks(getTasks() | tasks);</span>
-<a name="161"><span class="lineNum">     161 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     160 </span><span class="lineCov">        126 :     setTasks(getTasks() | tasks);</span>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">        126 : }</span></a>
 <span class="lineNum">     162 </span>            : 
-<span class="lineNum">     163 </span><span class="lineCov">          2 : void Node::activate()</span>
+<span class="lineNum">     163 </span><span class="lineCov">          8 : void Node::activate()</span>
 <span class="lineNum">     164 </span>            : {
-<span class="lineNum">     165 </span><span class="lineCov">          2 :     ++_active;</span>
-<span class="lineNum">     166 </span><span class="lineCov">          2 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;activate: &quot; &lt;&lt; _active &lt;&lt; std::endl;</span>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     165 </span><span class="lineCov">          8 :     ++_active;</span>
+<span class="lineNum">     166 </span><span class="lineCov">          8 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;activate: &quot; &lt;&lt; _active &lt;&lt; std::endl;</span>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          8 : }</span></a>
 <span class="lineNum">     168 </span>            : 
-<span class="lineNum">     169 </span><span class="lineCov">          2 : void Node::deactivate()</span>
+<span class="lineNum">     169 </span><span class="lineCov">          8 : void Node::deactivate()</span>
 <span class="lineNum">     170 </span>            : {
-<span class="lineNum">     171 </span><span class="lineCov">          2 :     LBASSERT(_active != 0);</span>
-<span class="lineNum">     172 </span><span class="lineCov">          2 :     --_active;</span>
-<span class="lineNum">     173 </span><span class="lineCov">          2 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;deactivate: &quot; &lt;&lt; _active &lt;&lt; std::endl;</span>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          2 : };</span></a>
+<span class="lineNum">     171 </span><span class="lineCov">          8 :     LBASSERT(_active != 0);</span>
+<span class="lineNum">     172 </span><span class="lineCov">          8 :     --_active;</span>
+<span class="lineNum">     173 </span><span class="lineCov">          8 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;deactivate: &quot; &lt;&lt; _active &lt;&lt; std::endl;</span>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          8 : };</span></a>
 <span class="lineNum">     175 </span>            : 
-<span class="lineNum">     176 </span><span class="lineCov">        830 : void Node::setSAttribute(const SAttribute attr, const std::string&amp; value)</span>
+<span class="lineNum">     176 </span><span class="lineCov">        828 : void Node::setSAttribute(const SAttribute attr, const std::string&amp; value)</span>
 <span class="lineNum">     177 </span>            : {
-<span class="lineNum">     178 </span><span class="lineCov">        830 :     _sAttributes[attr] = value;</span>
-<a name="179"><span class="lineNum">     179 </span><span class="lineCov">        830 : }</span></a>
+<span class="lineNum">     178 </span><span class="lineCov">        828 :     _sAttributes[attr] = value;</span>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">        828 : }</span></a>
 <span class="lineNum">     180 </span>            : 
 <span class="lineNum">     181 </span><span class="lineCov">        416 : const std::string&amp; Node::getSAttribute(const SAttribute attr) const</span>
 <span class="lineNum">     182 </span>            : {
 <span class="lineNum">     183 </span><span class="lineCov">        416 :     return _sAttributes[attr];</span>
 <a name="184"><span class="lineNum">     184 </span>            : }</a>
 <span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span><span class="lineCov">        652 : const std::string&amp; Node::getSAttributeString(const SAttribute attr)</span>
+<span class="lineNum">     186 </span><span class="lineCov">        612 : const std::string&amp; Node::getSAttributeString(const SAttribute attr)</span>
 <span class="lineNum">     187 </span>            : {
-<span class="lineNum">     188 </span><span class="lineCov">        652 :     return _sAttributeStrings[attr];</span>
+<span class="lineNum">     188 </span><span class="lineCov">        612 :     return _sAttributeStrings[attr];</span>
 <a name="189"><span class="lineNum">     189 </span>            : }</a>
 <span class="lineNum">     190 </span>            : 
-<span class="lineNum">     191 </span><span class="lineCov">        830 : void Node::setCAttribute(const CAttribute attr, const char value)</span>
+<span class="lineNum">     191 </span><span class="lineCov">        828 : void Node::setCAttribute(const CAttribute attr, const char value)</span>
 <span class="lineNum">     192 </span>            : {
-<span class="lineNum">     193 </span><span class="lineCov">        830 :     _cAttributes[attr] = value;</span>
-<a name="194"><span class="lineNum">     194 </span><span class="lineCov">        830 : }</span></a>
+<span class="lineNum">     193 </span><span class="lineCov">        828 :     _cAttributes[attr] = value;</span>
+<a name="194"><span class="lineNum">     194 </span><span class="lineCov">        828 : }</span></a>
 <span class="lineNum">     195 </span>            : 
 <span class="lineNum">     196 </span><span class="lineCov">        416 : char Node::getCAttribute(const CAttribute attr) const</span>
 <span class="lineNum">     197 </span>            : {
 <span class="lineNum">     198 </span><span class="lineCov">        416 :     return _cAttributes[attr];</span>
 <a name="199"><span class="lineNum">     199 </span>            : }</a>
 <span class="lineNum">     200 </span>            : 
-<span class="lineNum">     201 </span><span class="lineCov">        652 : const std::string&amp; Node::getCAttributeString(const CAttribute attr)</span>
+<span class="lineNum">     201 </span><span class="lineCov">        612 : const std::string&amp; Node::getCAttributeString(const CAttribute attr)</span>
 <span class="lineNum">     202 </span>            : {
-<span class="lineNum">     203 </span><span class="lineCov">        652 :     return _cAttributeStrings[attr];</span>
+<span class="lineNum">     203 </span><span class="lineCov">        612 :     return _cAttributeStrings[attr];</span>
 <span class="lineNum">     204 </span>            : }
 <span class="lineNum">     205 </span>            : 
 <span class="lineNum">     206 </span>            : //===========================================================================
@@ -516,57 +516,57 @@
 <span class="lineNum">     454 </span>            : //---------------------------------------------------------------------------
 <a name="455"><span class="lineNum">     455 </span>            : // update</a>
 <span class="lineNum">     456 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     457 </span><span class="lineNoCov">          0 : void Node::update(const uint128_t&amp; frameID, const uint32_t frameNumber)</span>
+<span class="lineNum">     457 </span><span class="lineCov">          2 : void Node::update(const uint128_t&amp; frameID, const uint32_t frameNumber)</span>
 <span class="lineNum">     458 </span>            : {
-<span class="lineNum">     459 </span><span class="lineNoCov">          0 :     if (!isRunning())</span>
+<span class="lineNum">     459 </span><span class="lineCov">          2 :     if (!isRunning())</span>
 <span class="lineNum">     460 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     461 </span>            : 
-<span class="lineNum">     462 </span><span class="lineNoCov">          0 :     LBVERB &lt;&lt; &quot;Start frame &quot; &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
-<span class="lineNum">     463 </span><span class="lineNoCov">          0 :     LBASSERT(isActive());</span>
+<span class="lineNum">     462 </span><span class="lineCov">          2 :     LBVERB &lt;&lt; &quot;Start frame &quot; &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
+<span class="lineNum">     463 </span><span class="lineCov">          2 :     LBASSERT(isActive());</span>
 <span class="lineNum">     464 </span>            : 
-<span class="lineNum">     465 </span><span class="lineNoCov">          0 :     _frameIDs[frameNumber] = frameID;</span>
+<span class="lineNum">     465 </span><span class="lineCov">          2 :     _frameIDs[frameNumber] = frameID;</span>
 <span class="lineNum">     466 </span>            : 
-<span class="lineNum">     467 </span><span class="lineNoCov">          0 :     uint128_t configVersion = co::VERSION_INVALID;</span>
-<span class="lineNum">     468 </span><span class="lineNoCov">          0 :     if (!isApplicationNode()) // synced in Config::_cmdFrameStart</span>
+<span class="lineNum">     467 </span><span class="lineCov">          2 :     uint128_t configVersion = co::VERSION_INVALID;</span>
+<span class="lineNum">     468 </span><span class="lineCov">          2 :     if (!isApplicationNode()) // synced in Config::_cmdFrameStart</span>
 <span class="lineNum">     469 </span><span class="lineNoCov">          0 :         configVersion = getConfig()-&gt;getVersion();</span>
 <span class="lineNum">     470 </span>            : 
-<span class="lineNum">     471 </span><span class="lineNoCov">          0 :     send(fabric::CMD_NODE_FRAME_START) &lt;&lt; getVersion() &lt;&lt; configVersion</span>
-<span class="lineNum">     472 </span><span class="lineNoCov">          0 :                                        &lt;&lt; frameID &lt;&lt; frameNumber;</span>
-<span class="lineNum">     473 </span><span class="lineNoCov">          0 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK node start frame &quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     471 </span><span class="lineCov">          4 :     send(fabric::CMD_NODE_FRAME_START) &lt;&lt; getVersion() &lt;&lt; configVersion</span>
+<span class="lineNum">     472 </span><span class="lineCov">          2 :                                        &lt;&lt; frameID &lt;&lt; frameNumber;</span>
+<span class="lineNum">     473 </span><span class="lineCov">          2 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK node start frame &quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     474 </span>            : 
-<span class="lineNum">     475 </span><span class="lineNoCov">          0 :     const Pipes&amp; pipes = getPipes();</span>
-<span class="lineNum">     476 </span><span class="lineNoCov">          0 :     for (Pipes::const_iterator i = pipes.begin(); i != pipes.end(); ++i)</span>
-<span class="lineNum">     477 </span><span class="lineNoCov">          0 :         (*i)-&gt;update(frameID, frameNumber);</span>
+<span class="lineNum">     475 </span><span class="lineCov">          2 :     const Pipes&amp; pipes = getPipes();</span>
+<span class="lineNum">     476 </span><span class="lineCov">          6 :     for (Pipes::const_iterator i = pipes.begin(); i != pipes.end(); ++i)</span>
+<span class="lineNum">     477 </span><span class="lineCov">          4 :         (*i)-&gt;update(frameID, frameNumber);</span>
 <span class="lineNum">     478 </span>            : 
-<span class="lineNum">     479 </span><span class="lineNoCov">          0 :     if (!_lastDrawPipe) // no FrameDrawFinish sent</span>
+<span class="lineNum">     479 </span><span class="lineCov">          2 :     if (!_lastDrawPipe) // no FrameDrawFinish sent</span>
 <span class="lineNum">     480 </span>            :     {
 <span class="lineNum">     481 </span><span class="lineNoCov">          0 :         send(fabric::CMD_NODE_FRAME_DRAW_FINISH) &lt;&lt; frameID &lt;&lt; frameNumber;</span>
 <span class="lineNum">     482 </span><span class="lineNoCov">          0 :         LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK node draw finish &quot; &lt;&lt; getName() &lt;&lt; &quot; &quot;</span>
 <span class="lineNum">     483 </span><span class="lineNoCov">          0 :                          &lt;&lt; std::endl;</span>
 <span class="lineNum">     484 </span>            :     }
-<span class="lineNum">     485 </span><span class="lineNoCov">          0 :     _lastDrawPipe = 0;</span>
+<span class="lineNum">     485 </span><span class="lineCov">          2 :     _lastDrawPipe = 0;</span>
 <span class="lineNum">     486 </span>            : 
-<span class="lineNum">     487 </span><span class="lineNoCov">          0 :     send(fabric::CMD_NODE_FRAME_TASKS_FINISH) &lt;&lt; frameID &lt;&lt; frameNumber;</span>
-<span class="lineNum">     488 </span><span class="lineNoCov">          0 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK node tasks finish &quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     487 </span><span class="lineCov">          2 :     send(fabric::CMD_NODE_FRAME_TASKS_FINISH) &lt;&lt; frameID &lt;&lt; frameNumber;</span>
+<span class="lineNum">     488 </span><span class="lineCov">          2 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK node tasks finish &quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     489 </span>            : 
-<span class="lineNum">     490 </span><span class="lineNoCov">          0 :     _finish(frameNumber);</span>
-<span class="lineNum">     491 </span><span class="lineNoCov">          0 :     flushSendBuffer();</span>
+<span class="lineNum">     490 </span><span class="lineCov">          2 :     _finish(frameNumber);</span>
+<span class="lineNum">     491 </span><span class="lineCov">          2 :     flushSendBuffer();</span>
 <a name="492"><span class="lineNum">     492 </span>            : }</a>
 <span class="lineNum">     493 </span>            : 
-<span class="lineNum">     494 </span><span class="lineNoCov">          0 : uint32_t Node::_getFinishLatency() const</span>
+<span class="lineNum">     494 </span><span class="lineCov">          2 : uint32_t Node::_getFinishLatency() const</span>
 <span class="lineNum">     495 </span>            : {
-<span class="lineNum">     496 </span><span class="lineNoCov">          0 :     switch (getIAttribute(Node::IATTR_THREAD_MODEL))</span>
+<span class="lineNum">     496 </span><span class="lineCov">          2 :     switch (getIAttribute(Node::IATTR_THREAD_MODEL))</span>
 <span class="lineNum">     497 </span>            :     {
 <span class="lineNum">     498 </span>            :     case fabric::UNDEFINED:
 <span class="lineNum">     499 </span>            :     case fabric::DRAW_SYNC:
-<span class="lineNum">     500 </span><span class="lineNoCov">          0 :         if (getTasks() &amp; fabric::TASK_DRAW)</span>
+<span class="lineNum">     500 </span><span class="lineCov">          2 :         if (getTasks() &amp; fabric::TASK_DRAW)</span>
 <span class="lineNum">     501 </span>            :         {
 <span class="lineNum">     502 </span>            :             // More than one frame latency doesn't make sense, since the
 <span class="lineNum">     503 </span>            :             // draw sync for frame+1 does not allow for more
-<span class="lineNum">     504 </span><span class="lineNoCov">          0 :             const Config* config = getConfig();</span>
-<span class="lineNum">     505 </span><span class="lineNoCov">          0 :             const uint32_t latency = config-&gt;getLatency();</span>
+<span class="lineNum">     504 </span><span class="lineCov">          2 :             const Config* config = getConfig();</span>
+<span class="lineNum">     505 </span><span class="lineCov">          2 :             const uint32_t latency = config-&gt;getLatency();</span>
 <span class="lineNum">     506 </span>            : 
-<span class="lineNum">     507 </span><span class="lineNoCov">          0 :             return LB_MIN(latency, 1);</span>
+<span class="lineNum">     507 </span><span class="lineCov">          2 :             return LB_MIN(latency, 1);</span>
 <span class="lineNum">     508 </span>            :         }
 <span class="lineNum">     509 </span><span class="lineNoCov">          0 :         break;</span>
 <span class="lineNum">     510 </span>            : 
@@ -586,18 +586,18 @@
 <span class="lineNum">     524 </span><span class="lineNoCov">          0 :     return config-&gt;getLatency();</span>
 <a name="525"><span class="lineNum">     525 </span>            : }</a>
 <span class="lineNum">     526 </span>            : 
-<span class="lineNum">     527 </span><span class="lineNoCov">          0 : void Node::_finish(const uint32_t currentFrame)</span>
+<span class="lineNum">     527 </span><span class="lineCov">          2 : void Node::_finish(const uint32_t currentFrame)</span>
 <span class="lineNum">     528 </span>            : {
-<span class="lineNum">     529 </span><span class="lineNoCov">          0 :     const Pipes&amp; pipes = getPipes();</span>
-<span class="lineNum">     530 </span><span class="lineNoCov">          0 :     for (Pipes::const_iterator i = pipes.begin(); i != pipes.end(); ++i)</span>
+<span class="lineNum">     529 </span><span class="lineCov">          2 :     const Pipes&amp; pipes = getPipes();</span>
+<span class="lineNum">     530 </span><span class="lineCov">          2 :     for (Pipes::const_iterator i = pipes.begin(); i != pipes.end(); ++i)</span>
 <span class="lineNum">     531 </span>            :     {
-<span class="lineNum">     532 </span><span class="lineNoCov">          0 :         const Pipe* pipe = *i;</span>
-<span class="lineNum">     533 </span><span class="lineNoCov">          0 :         if (pipe-&gt;getIAttribute(Pipe::IATTR_HINT_THREAD) &amp;&amp; pipe-&gt;isRunning())</span>
+<span class="lineNum">     532 </span><span class="lineCov">          2 :         const Pipe* pipe = *i;</span>
+<span class="lineNum">     533 </span><span class="lineCov">          2 :         if (pipe-&gt;getIAttribute(Pipe::IATTR_HINT_THREAD) &amp;&amp; pipe-&gt;isRunning())</span>
 <span class="lineNum">     534 </span>            :         {
-<span class="lineNum">     535 </span><span class="lineNoCov">          0 :             const uint32_t latency = _getFinishLatency();</span>
-<span class="lineNum">     536 </span><span class="lineNoCov">          0 :             if (currentFrame &gt; latency)</span>
+<span class="lineNum">     535 </span><span class="lineCov">          2 :             const uint32_t latency = _getFinishLatency();</span>
+<span class="lineNum">     536 </span><span class="lineCov">          2 :             if (currentFrame &gt; latency)</span>
 <span class="lineNum">     537 </span><span class="lineNoCov">          0 :                 flushFrames(currentFrame - latency);</span>
-<span class="lineNum">     538 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     538 </span><span class="lineCov">          4 :             return;</span>
 <span class="lineNum">     539 </span>            :         }
 <span class="lineNum">     540 </span>            :     }
 <span class="lineNum">     541 </span>            : 
@@ -605,28 +605,28 @@
 <span class="lineNum">     543 </span><span class="lineNoCov">          0 :     flushFrames(currentFrame);</span>
 <a name="544"><span class="lineNum">     544 </span>            : }</a>
 <span class="lineNum">     545 </span>            : 
-<span class="lineNum">     546 </span><span class="lineNoCov">          0 : void Node::flushFrames(const uint32_t frameNumber)</span>
+<span class="lineNum">     546 </span><span class="lineCov">          2 : void Node::flushFrames(const uint32_t frameNumber)</span>
 <span class="lineNum">     547 </span>            : {
-<span class="lineNum">     548 </span><span class="lineNoCov">          0 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;Flush frames including &quot; &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
+<span class="lineNum">     548 </span><span class="lineCov">          2 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;Flush frames including &quot; &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
 <span class="lineNum">     549 </span>            : 
-<span class="lineNum">     550 </span><span class="lineNoCov">          0 :     while (_flushedFrame &lt; frameNumber)</span>
+<span class="lineNum">     550 </span><span class="lineCov">          6 :     while (_flushedFrame &lt; frameNumber)</span>
 <span class="lineNum">     551 </span>            :     {
-<span class="lineNum">     552 </span><span class="lineNoCov">          0 :         ++_flushedFrame;</span>
-<span class="lineNum">     553 </span><span class="lineNoCov">          0 :         _sendFrameFinish(_flushedFrame);</span>
+<span class="lineNum">     552 </span><span class="lineCov">          2 :         ++_flushedFrame;</span>
+<span class="lineNum">     553 </span><span class="lineCov">          2 :         _sendFrameFinish(_flushedFrame);</span>
 <span class="lineNum">     554 </span>            :     }
 <span class="lineNum">     555 </span>            : 
-<span class="lineNum">     556 </span><span class="lineNoCov">          0 :     flushSendBuffer();</span>
-<a name="557"><span class="lineNum">     557 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     556 </span><span class="lineCov">          2 :     flushSendBuffer();</span>
+<a name="557"><span class="lineNum">     557 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     558 </span>            : 
-<span class="lineNum">     559 </span><span class="lineNoCov">          0 : void Node::_sendFrameFinish(const uint32_t frameNumber)</span>
+<span class="lineNum">     559 </span><span class="lineCov">          2 : void Node::_sendFrameFinish(const uint32_t frameNumber)</span>
 <span class="lineNum">     560 </span>            : {
-<span class="lineNum">     561 </span><span class="lineNoCov">          0 :     FrameIDHash::iterator i = _frameIDs.find(frameNumber);</span>
-<span class="lineNum">     562 </span><span class="lineNoCov">          0 :     if (i == _frameIDs.end())</span>
+<span class="lineNum">     561 </span><span class="lineCov">          2 :     FrameIDHash::iterator i = _frameIDs.find(frameNumber);</span>
+<span class="lineNum">     562 </span><span class="lineCov">          2 :     if (i == _frameIDs.end())</span>
 <span class="lineNum">     563 </span><span class="lineNoCov">          0 :         return; // finish already send</span>
 <span class="lineNum">     564 </span>            : 
-<span class="lineNum">     565 </span><span class="lineNoCov">          0 :     send(fabric::CMD_NODE_FRAME_FINISH) &lt;&lt; i-&gt;second &lt;&lt; frameNumber;</span>
-<span class="lineNum">     566 </span><span class="lineNoCov">          0 :     _frameIDs.erase(i);</span>
-<span class="lineNum">     567 </span><span class="lineNoCov">          0 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK node finish frame &quot; &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
+<span class="lineNum">     565 </span><span class="lineCov">          2 :     send(fabric::CMD_NODE_FRAME_FINISH) &lt;&lt; i-&gt;second &lt;&lt; frameNumber;</span>
+<span class="lineNum">     566 </span><span class="lineCov">          2 :     _frameIDs.erase(i);</span>
+<span class="lineNum">     567 </span><span class="lineCov">          2 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK node finish frame &quot; &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
 <span class="lineNum">     568 </span>            : }
 <span class="lineNum">     569 </span>            : 
 <span class="lineNum">     570 </span>            : //---------------------------------------------------------------------------
@@ -686,15 +686,15 @@
 <span class="lineNum">     624 </span><span class="lineNoCov">          0 :     return false;</span>
 <a name="625"><span class="lineNum">     625 </span>            : }</a>
 <span class="lineNum">     626 </span>            : 
-<span class="lineNum">     627 </span><span class="lineCov">          4 : co::ObjectOCommand Node::send(const uint32_t cmd)</span>
+<span class="lineNum">     627 </span><span class="lineCov">         10 : co::ObjectOCommand Node::send(const uint32_t cmd)</span>
 <span class="lineNum">     628 </span>            : {
-<span class="lineNum">     629 </span><span class="lineCov">          4 :     return send(cmd, getID());</span>
+<span class="lineNum">     629 </span><span class="lineCov">         10 :     return send(cmd, getID());</span>
 <a name="630"><span class="lineNum">     630 </span>            : }</a>
 <span class="lineNum">     631 </span>            : 
-<span class="lineNum">     632 </span><span class="lineCov">         22 : co::ObjectOCommand Node::send(const uint32_t cmd, const uint128_t&amp; id)</span>
+<span class="lineNum">     632 </span><span class="lineCov">        110 : co::ObjectOCommand Node::send(const uint32_t cmd, const uint128_t&amp; id)</span>
 <span class="lineNum">     633 </span>            : {
-<span class="lineNum">     634 </span><span class="lineCov">         44 :     return co::ObjectOCommand(co::Connections(1, _bufferedTasks), cmd,</span>
-<span class="lineNum">     635 </span><span class="lineCov">         44 :                               co::COMMANDTYPE_OBJECT, id, CO_INSTANCE_ALL);</span>
+<span class="lineNum">     634 </span><span class="lineCov">        220 :     return co::ObjectOCommand(co::Connections(1, _bufferedTasks), cmd,</span>
+<span class="lineNum">     635 </span><span class="lineCov">        220 :                               co::COMMANDTYPE_OBJECT, id, CO_INSTANCE_ALL);</span>
 <a name="636"><span class="lineNum">     636 </span>            : }</a>
 <span class="lineNum">     637 </span>            : 
 <span class="lineNum">     638 </span><span class="lineNoCov">          0 : EventOCommand Node::sendError(const uint32_t error)</span>
@@ -702,10 +702,10 @@
 <span class="lineNum">     640 </span><span class="lineNoCov">          0 :     return getConfig()-&gt;sendError(EVENT_NODE_ERROR, Error(error, getID()));</span>
 <a name="641"><span class="lineNum">     641 </span>            : }</a>
 <span class="lineNum">     642 </span>            : 
-<span class="lineNum">     643 </span><span class="lineCov">         12 : void Node::flushSendBuffer()</span>
+<span class="lineNum">     643 </span><span class="lineCov">         14 : void Node::flushSendBuffer()</span>
 <span class="lineNum">     644 </span>            : {
-<span class="lineNum">     645 </span><span class="lineCov">         12 :     _bufferedTasks-&gt;sendBuffer(_node-&gt;getConnection());</span>
-<span class="lineNum">     646 </span><span class="lineCov">         12 : }</span>
+<span class="lineNum">     645 </span><span class="lineCov">         14 :     _bufferedTasks-&gt;sendBuffer(_node-&gt;getConnection());</span>
+<span class="lineNum">     646 </span><span class="lineCov">         14 : }</span>
 <span class="lineNum">     647 </span>            : 
 <span class="lineNum">     648 </span>            : //===========================================================================
 <a name="649"><span class="lineNum">     649 </span>            : // command handling</a>
@@ -730,17 +730,17 @@
 <span class="lineNum">     668 </span><span class="lineCov">          4 :     return true;</span>
 <a name="669"><span class="lineNum">     669 </span>            : }</a>
 <span class="lineNum">     670 </span>            : 
-<span class="lineNum">     671 </span><span class="lineNoCov">          0 : bool Node::_cmdFrameFinishReply(co::ICommand&amp; cmd)</span>
+<span class="lineNum">     671 </span><span class="lineCov">          2 : bool Node::_cmdFrameFinishReply(co::ICommand&amp; cmd)</span>
 <span class="lineNum">     672 </span>            : {
-<span class="lineNum">     673 </span><span class="lineNoCov">          0 :     co::ObjectICommand command(cmd);</span>
-<span class="lineNum">     674 </span><span class="lineNoCov">          0 :     LBVERB &lt;&lt; &quot;handle frame finish reply &quot; &lt;&lt; command &lt;&lt; std::endl;</span>
+<span class="lineNum">     673 </span><span class="lineCov">          4 :     co::ObjectICommand command(cmd);</span>
+<span class="lineNum">     674 </span><span class="lineCov">          2 :     LBVERB &lt;&lt; &quot;handle frame finish reply &quot; &lt;&lt; command &lt;&lt; std::endl;</span>
 <span class="lineNum">     675 </span>            : 
-<span class="lineNum">     676 </span><span class="lineNoCov">          0 :     const uint32_t frameNumber = command.read&lt;uint32_t&gt;();</span>
+<span class="lineNum">     676 </span><span class="lineCov">          2 :     const uint32_t frameNumber = command.read&lt;uint32_t&gt;();</span>
 <span class="lineNum">     677 </span>            : 
-<span class="lineNum">     678 </span><span class="lineNoCov">          0 :     _finishedFrame = frameNumber;</span>
-<span class="lineNum">     679 </span><span class="lineNoCov">          0 :     getConfig()-&gt;notifyNodeFrameFinished(frameNumber);</span>
+<span class="lineNum">     678 </span><span class="lineCov">          2 :     _finishedFrame = frameNumber;</span>
+<span class="lineNum">     679 </span><span class="lineCov">          2 :     getConfig()-&gt;notifyNodeFrameFinished(frameNumber);</span>
 <span class="lineNum">     680 </span>            : 
-<span class="lineNum">     681 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     681 </span><span class="lineCov">          4 :     return true;</span>
 <a name="682"><span class="lineNum">     682 </span>            : }</a>
 <span class="lineNum">     683 </span>            : 
 <span class="lineNum">     684 </span><span class="lineCov">        416 : void Node::output(std::ostream&amp; os) const</span>
@@ -834,7 +834,7 @@
 <span class="lineNum">     772 </span>            :                                 eq::server::Pipe, eq::server::NodeVisitor&gt;;
 <a name="773"><span class="lineNum">     773 </span>            : /** @cond IGNORE */</a>
 <span class="lineNum">     774 </span>            : template std::ostream&amp; eq::fabric::operator&lt;&lt;(std::ostream&amp;,
-<span class="lineNum">     775 </span><span class="lineCov">         72 :                                               const eq::server::Super&amp;);</span>
+<span class="lineNum">     775 </span><span class="lineCov">         60 :                                               const eq::server::Super&amp;);</span>
 <span class="lineNum">     776 </span>            : /** @endcond */
 </pre>
       </td>

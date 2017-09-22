@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">148</td>
+            <td class="headerCovTableEntry">301</td>
             <td class="headerCovTableEntry">736</td>
-            <td class="headerCovTableEntryLo">20.1 %</td>
+            <td class="headerCovTableEntryMed">40.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntry">31</td>
             <td class="headerCovTableEntry">50</td>
-            <td class="headerCovTableEntryLo">26.0 %</td>
+            <td class="headerCovTableEntryMed">62.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -118,11 +118,11 @@
 <span class="lineNum">      56 </span>            : // use to address one shader and program per shared context set
 <a name="57"><span class="lineNum">      57 </span>            : static const char seed = 42;</a>
 <span class="lineNum">      58 </span>            : static const char* shaderDBKey = &amp;seed;
-<span class="lineNum">      59 </span><span class="lineCov">         12 : static const char* colorDBKey = shaderDBKey + 1;</span>
-<span class="lineNum">      60 </span><span class="lineCov">         12 : static const char* depthDBKey = shaderDBKey + 2;</span>
+<span class="lineNum">      59 </span><span class="lineCov">         10 : static const char* colorDBKey = shaderDBKey + 1;</span>
+<span class="lineNum">      60 </span><span class="lineCov">         10 : static const char* depthDBKey = shaderDBKey + 2;</span>
 <span class="lineNum">      61 </span>            : 
 <span class="lineNum">      62 </span>            : // Image used for CPU-based assembly
-<span class="lineNum">      63 </span><span class="lineCov">         12 : static lunchbox::PerThread&lt;Image&gt; _resultImage;</span>
+<span class="lineNum">      63 </span><span class="lineCov">         10 : static lunchbox::PerThread&lt;Image&gt; _resultImage;</span>
 <span class="lineNum">      64 </span>            : 
 <a name="65"><span class="lineNum">      65 </span>            : struct CPUAssemblyFormat</a>
 <span class="lineNum">      66 </span>            : {
@@ -200,12 +200,12 @@
 <span class="lineNum">     138 </span><span class="lineNoCov">          0 :     return format.depthExt == EQ_COMPRESSOR_DATATYPE_DEPTH_UNSIGNED_INT;</span>
 <a name="139"><span class="lineNum">     139 </span>            : }</a>
 <span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineNoCov">          0 : bool _useCPUAssembly(const Frames&amp; frames, Channel* channel,</span>
+<span class="lineNum">     141 </span><span class="lineCov">          1 : bool _useCPUAssembly(const Frames&amp; frames, Channel* channel,</span>
 <span class="lineNum">     142 </span>            :                      const bool blend = false)
 <span class="lineNum">     143 </span>            : {
 <span class="lineNum">     144 </span>            :     // It doesn't make sense to use CPU-assembly for only one frame
-<span class="lineNum">     145 </span><span class="lineNoCov">          0 :     if (frames.size() &lt; 2)</span>
-<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     145 </span><span class="lineCov">          1 :     if (frames.size() &lt; 2)</span>
+<span class="lineNum">     146 </span><span class="lineCov">          1 :         return false;</span>
 <span class="lineNum">     147 </span>            : 
 <span class="lineNum">     148 </span>            :     // Test that the input frames have color and depth buffers or that
 <span class="lineNum">     149 </span>            :     // alpha-blended assembly is used with multiple RGBA buffers. We assume then
@@ -358,27 +358,27 @@
 <span class="lineNum">     296 </span>            :     const uint32_t* depth = reinterpret_cast&lt;const uint32_t*&gt;(
 <a name="297"><span class="lineNum">     297 </span><span class="lineCov">         21 :         image-&gt;getPixelPointer(Frame::Buffer::depth));</span></a>
 <span class="lineNum">     298 </span>            : 
-<span class="lineNum">     299 </span><span class="lineCov">         94 : #pragma omp parallel for</span>
-<span class="lineNum">     300 </span><span class="lineCov">         73 :     for (int32_t y = 0; y &lt; pvp.h; ++y)</span>
+<span class="lineNum">     299 </span><span class="lineCov">        100 : #pragma omp parallel for</span>
+<span class="lineNum">     300 </span><span class="lineCov">         79 :     for (int32_t y = 0; y &lt; pvp.h; ++y)</span>
 <span class="lineNum">     301 </span>            :     {
-<span class="lineNum">     302 </span><span class="lineCov">      21296 :         const uint32_t skip = (destY + y) * destPVP.w + destX;</span>
-<span class="lineNum">     303 </span><span class="lineCov">      21296 :         uint32_t* destColorIt = destC + skip;</span>
-<span class="lineNum">     304 </span><span class="lineCov">      21296 :         uint32_t* destDepthIt = destD + skip;</span>
-<span class="lineNum">     305 </span><span class="lineCov">      21296 :         const uint32_t* colorIt = color + y * pvp.w;</span>
-<span class="lineNum">     306 </span><span class="lineCov">      21296 :         const uint32_t* depthIt = depth + y * pvp.w;</span>
+<span class="lineNum">     302 </span><span class="lineCov">      21301 :         const uint32_t skip = (destY + y) * destPVP.w + destX;</span>
+<span class="lineNum">     303 </span><span class="lineCov">      21301 :         uint32_t* destColorIt = destC + skip;</span>
+<span class="lineNum">     304 </span><span class="lineCov">      21301 :         uint32_t* destDepthIt = destD + skip;</span>
+<span class="lineNum">     305 </span><span class="lineCov">      21301 :         const uint32_t* colorIt = color + y * pvp.w;</span>
+<span class="lineNum">     306 </span><span class="lineCov">      21301 :         const uint32_t* depthIt = depth + y * pvp.w;</span>
 <span class="lineNum">     307 </span>            : 
-<span class="lineNum">     308 </span><span class="lineCov">    5111088 :         for (int32_t x = 0; x &lt; pvp.w; ++x)</span>
+<span class="lineNum">     308 </span><span class="lineCov">    5488404 :         for (int32_t x = 0; x &lt; pvp.w; ++x)</span>
 <span class="lineNum">     309 </span>            :         {
-<span class="lineNum">     310 </span><span class="lineCov">    5089792 :             if (*destDepthIt &gt; *depthIt)</span>
+<span class="lineNum">     310 </span><span class="lineCov">    5467103 :             if (*destDepthIt &gt; *depthIt)</span>
 <span class="lineNum">     311 </span>            :             {
-<span class="lineNum">     312 </span><span class="lineCov">    1181970 :                 *destColorIt = *colorIt;</span>
-<span class="lineNum">     313 </span><span class="lineCov">    1181970 :                 *destDepthIt = *depthIt;</span>
+<span class="lineNum">     312 </span><span class="lineCov">    1457814 :                 *destColorIt = *colorIt;</span>
+<span class="lineNum">     313 </span><span class="lineCov">    1457814 :                 *destDepthIt = *depthIt;</span>
 <span class="lineNum">     314 </span>            :             }
 <span class="lineNum">     315 </span>            : 
-<span class="lineNum">     316 </span><span class="lineCov">    5089792 :             ++destColorIt;</span>
-<span class="lineNum">     317 </span><span class="lineCov">    5089792 :             ++destDepthIt;</span>
-<span class="lineNum">     318 </span><span class="lineCov">    5089792 :             ++colorIt;</span>
-<span class="lineNum">     319 </span><span class="lineCov">    5089792 :             ++depthIt;</span>
+<span class="lineNum">     316 </span><span class="lineCov">    5467103 :             ++destColorIt;</span>
+<span class="lineNum">     317 </span><span class="lineCov">    5467103 :             ++destDepthIt;</span>
+<span class="lineNum">     318 </span><span class="lineCov">    5467103 :             ++colorIt;</span>
+<span class="lineNum">     319 </span><span class="lineCov">    5467103 :             ++depthIt;</span>
 <span class="lineNum">     320 </span>            :         }
 <span class="lineNum">     321 </span>            :     }
 <a name="322"><span class="lineNum">     322 </span><span class="lineCov">         21 : }</span></a>
@@ -403,13 +403,13 @@
 <span class="lineNum">     341 </span><span class="lineCov">         21 :     const size_t pixelSize = image-&gt;getPixelSize(Frame::Buffer::color);</span>
 <a name="342"><span class="lineNum">     342 </span><span class="lineCov">         21 :     const size_t rowLength = pvp.w * pixelSize;</span></a>
 <span class="lineNum">     343 </span>            : 
-<span class="lineNum">     344 </span><span class="lineCov">         63 : #pragma omp parallel for</span>
-<span class="lineNum">     345 </span><span class="lineCov">         42 :     for (int32_t y = 0; y &lt; pvp.h; ++y)</span>
+<span class="lineNum">     344 </span><span class="lineCov">         72 : #pragma omp parallel for</span>
+<span class="lineNum">     345 </span><span class="lineCov">         51 :     for (int32_t y = 0; y &lt; pvp.h; ++y)</span>
 <span class="lineNum">     346 </span>            :     {
-<span class="lineNum">     347 </span><span class="lineCov">      14456 :         const size_t skip = ((destY + y) * destPVP.w + destX) * pixelSize;</span>
-<span class="lineNum">     348 </span><span class="lineCov">      14456 :         memcpy(destC + skip, color + y * pvp.w * pixelSize, rowLength);</span>
+<span class="lineNum">     347 </span><span class="lineCov">      14382 :         const size_t skip = ((destY + y) * destPVP.w + destX) * pixelSize;</span>
+<span class="lineNum">     348 </span><span class="lineCov">      14382 :         memcpy(destC + skip, color + y * pvp.w * pixelSize, rowLength);</span>
 <span class="lineNum">     349 </span>            :         // clear depth, for depth-assembly into existing FB
-<span class="lineNum">     350 </span><span class="lineCov">      14456 :         if (destD)</span>
+<span class="lineNum">     350 </span><span class="lineCov">      14382 :         if (destD)</span>
 <span class="lineNum">     351 </span><span class="lineNoCov">          0 :             lunchbox::setZero(destD + skip, rowLength);</span>
 <span class="lineNum">     352 </span>            :     }
 <a name="353"><span class="lineNum">     353 </span><span class="lineCov">         21 : }</span></a>
@@ -444,23 +444,23 @@
 <span class="lineNum">     382 </span><span class="lineCov">         21 :     int32_t* destColorStart = destColor + destY * destPVP.w + destX;</span>
 <a name="383"><span class="lineNum">     383 </span><span class="lineCov">         21 :     const uint32_t step = sizeof(int32_t);</span></a>
 <span class="lineNum">     384 </span>            : 
-<span class="lineNum">     385 </span><span class="lineCov">         97 : #pragma omp parallel for</span>
-<span class="lineNum">     386 </span><span class="lineCov">         76 :     for (int32_t y = 0; y &lt; pvp.h; ++y)</span>
+<span class="lineNum">     385 </span><span class="lineCov">         81 : #pragma omp parallel for</span>
+<span class="lineNum">     386 </span><span class="lineCov">         60 :     for (int32_t y = 0; y &lt; pvp.h; ++y)</span>
 <span class="lineNum">     387 </span>            :     {
 <span class="lineNum">     388 </span>            :         const unsigned char* src =
-<span class="lineNum">     389 </span><span class="lineCov">      25074 :             reinterpret_cast&lt;const uint8_t*&gt;(color + pvp.w * y);</span>
+<span class="lineNum">     389 </span><span class="lineCov">      25086 :             reinterpret_cast&lt;const uint8_t*&gt;(color + pvp.w * y);</span>
 <span class="lineNum">     390 </span>            :         unsigned char* dst =
-<span class="lineNum">     391 </span><span class="lineCov">      25074 :             reinterpret_cast&lt;uint8_t*&gt;(destColorStart + destPVP.w * y);</span>
+<span class="lineNum">     391 </span><span class="lineCov">      25086 :             reinterpret_cast&lt;uint8_t*&gt;(destColorStart + destPVP.w * y);</span>
 <span class="lineNum">     392 </span>            : 
-<span class="lineNum">     393 </span><span class="lineCov">    9220392 :         for (int32_t x = 0; x &lt; pvp.w; ++x)</span>
+<span class="lineNum">     393 </span><span class="lineCov">    9427142 :         for (int32_t x = 0; x &lt; pvp.w; ++x)</span>
 <span class="lineNum">     394 </span>            :         {
-<span class="lineNum">     395 </span><span class="lineCov">    9195318 :             dst[0] = LB_MIN(src[0] + (src[3] * dst[0] &gt;&gt; 8), 255);</span>
-<span class="lineNum">     396 </span><span class="lineCov">    9195318 :             dst[1] = LB_MIN(src[1] + (src[3] * dst[1] &gt;&gt; 8), 255);</span>
-<span class="lineNum">     397 </span><span class="lineCov">    9195318 :             dst[2] = LB_MIN(src[2] + (src[3] * dst[2] &gt;&gt; 8), 255);</span>
-<span class="lineNum">     398 </span><span class="lineCov">    9195318 :             dst[3] = src[3] * dst[3] &gt;&gt; 8;</span>
+<span class="lineNum">     395 </span><span class="lineCov">    9402056 :             dst[0] = LB_MIN(src[0] + (src[3] * dst[0] &gt;&gt; 8), 255);</span>
+<span class="lineNum">     396 </span><span class="lineCov">    9402056 :             dst[1] = LB_MIN(src[1] + (src[3] * dst[1] &gt;&gt; 8), 255);</span>
+<span class="lineNum">     397 </span><span class="lineCov">    9402056 :             dst[2] = LB_MIN(src[2] + (src[3] * dst[2] &gt;&gt; 8), 255);</span>
+<span class="lineNum">     398 </span><span class="lineCov">    9402056 :             dst[3] = src[3] * dst[3] &gt;&gt; 8;</span>
 <span class="lineNum">     399 </span>            : 
-<span class="lineNum">     400 </span><span class="lineCov">    9195318 :             src += step;</span>
-<span class="lineNum">     401 </span><span class="lineCov">    9195318 :             dst += step;</span>
+<span class="lineNum">     400 </span><span class="lineCov">    9402056 :             src += step;</span>
+<span class="lineNum">     401 </span><span class="lineCov">    9402056 :             dst += step;</span>
 <span class="lineNum">     402 </span>            :         }
 <span class="lineNum">     403 </span>            :     }
 <a name="404"><span class="lineNum">     404 </span><span class="lineCov">         21 : }</span></a>
@@ -495,23 +495,23 @@
 <span class="lineNum">     433 </span><span class="lineNoCov">          0 :                         pixel.y);</span>
 <a name="434"><span class="lineNum">     434 </span>            : }</a>
 <span class="lineNum">     435 </span>            : 
-<span class="lineNum">     436 </span><span class="lineNoCov">          0 : bool _setupDrawPixels(const ImageOp&amp; op, const Frame::Buffer which,</span>
+<span class="lineNum">     436 </span><span class="lineCov">          1 : bool _setupDrawPixels(const ImageOp&amp; op, const Frame::Buffer which,</span>
 <span class="lineNum">     437 </span>            :                       Channel* channel)
 <span class="lineNum">     438 </span>            : {
-<span class="lineNum">     439 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; pvp = op.image-&gt;getPixelViewport();</span>
-<span class="lineNum">     440 </span><span class="lineNoCov">          0 :     const util::Texture* texture = 0;</span>
-<span class="lineNum">     441 </span><span class="lineNoCov">          0 :     if (op.image-&gt;getStorageType() == Frame::TYPE_MEMORY)</span>
+<span class="lineNum">     439 </span><span class="lineCov">          1 :     const PixelViewport&amp; pvp = op.image-&gt;getPixelViewport();</span>
+<span class="lineNum">     440 </span><span class="lineCov">          1 :     const util::Texture* texture = 0;</span>
+<span class="lineNum">     441 </span><span class="lineCov">          1 :     if (op.image-&gt;getStorageType() == Frame::TYPE_MEMORY)</span>
 <span class="lineNum">     442 </span>            :     {
-<span class="lineNum">     443 </span><span class="lineNoCov">          0 :         LBASSERT(op.image-&gt;hasPixelData(which));</span>
-<span class="lineNum">     444 </span><span class="lineNoCov">          0 :         util::ObjectManager&amp; objects = channel-&gt;getObjectManager();</span>
+<span class="lineNum">     443 </span><span class="lineCov">          1 :         LBASSERT(op.image-&gt;hasPixelData(which));</span>
+<span class="lineNum">     444 </span><span class="lineCov">          1 :         util::ObjectManager&amp; objects = channel-&gt;getObjectManager();</span>
 <span class="lineNum">     445 </span>            : 
 <span class="lineNum">     446 </span>            :         const bool coreProfile =
-<span class="lineNum">     447 </span><span class="lineNoCov">          0 :             channel-&gt;getWindow()-&gt;getIAttribute(</span>
-<span class="lineNum">     448 </span><span class="lineNoCov">          0 :                 WindowSettings::IATTR_HINT_CORE_PROFILE) == ON;</span>
-<span class="lineNum">     449 </span><span class="lineNoCov">          0 :         if (op.zoom == Zoom::NONE &amp;&amp; !coreProfile)</span>
+<span class="lineNum">     447 </span><span class="lineCov">          1 :             channel-&gt;getWindow()-&gt;getIAttribute(</span>
+<span class="lineNum">     448 </span><span class="lineCov">          1 :                 WindowSettings::IATTR_HINT_CORE_PROFILE) == ON;</span>
+<span class="lineNum">     449 </span><span class="lineCov">          1 :         if (op.zoom == Zoom::NONE &amp;&amp; !coreProfile)</span>
 <span class="lineNum">     450 </span>            :         {
-<span class="lineNum">     451 </span><span class="lineNoCov">          0 :             op.image-&gt;upload(which, 0, op.offset, objects);</span>
-<span class="lineNum">     452 </span><span class="lineNoCov">          0 :             return false;</span>
+<span class="lineNum">     451 </span><span class="lineCov">          1 :             op.image-&gt;upload(which, 0, op.offset, objects);</span>
+<span class="lineNum">     452 </span><span class="lineCov">          1 :             return false;</span>
 <span class="lineNum">     453 </span>            :         }
 <span class="lineNum">     454 </span>            :         util::Texture* ncTexture =
 <span class="lineNum">     455 </span><span class="lineNoCov">          0 :             objects.obtainEqTexture(which == Frame::Buffer::color ? colorDBKey</span>
@@ -698,15 +698,15 @@
 <span class="lineNum">     636 </span><span class="lineNoCov">          0 :         EQ_GL_CALL(glDisable(GL_DEPTH_TEST));</span>
 <a name="637"><span class="lineNum">     637 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     638 </span>            : 
-<span class="lineNum">     639 </span><span class="lineNoCov">          0 : void _drawPixelsGLSL(const ImageOp&amp; op, const Frame::Buffer which,</span>
+<span class="lineNum">     639 </span><span class="lineCov">          1 : void _drawPixelsGLSL(const ImageOp&amp; op, const Frame::Buffer which,</span>
 <span class="lineNum">     640 </span>            :                      Channel* channel)
 <span class="lineNum">     641 </span>            : {
-<span class="lineNum">     642 </span><span class="lineNoCov">          0 :     const PixelViewport&amp; pvp = op.image-&gt;getPixelViewport();</span>
-<span class="lineNum">     643 </span><span class="lineNoCov">          0 :     LBLOG(LOG_ASSEMBLY) &lt;&lt; &quot;_drawPixelsGLSL &quot; &lt;&lt; pvp &lt;&lt; &quot; offset &quot; &lt;&lt; op.offset</span>
-<span class="lineNum">     644 </span><span class="lineNoCov">          0 :                         &lt;&lt; std::endl;</span>
+<span class="lineNum">     642 </span><span class="lineCov">          1 :     const PixelViewport&amp; pvp = op.image-&gt;getPixelViewport();</span>
+<span class="lineNum">     643 </span><span class="lineCov">          1 :     LBLOG(LOG_ASSEMBLY) &lt;&lt; &quot;_drawPixelsGLSL &quot; &lt;&lt; pvp &lt;&lt; &quot; offset &quot; &lt;&lt; op.offset</span>
+<span class="lineNum">     644 </span><span class="lineCov">          1 :                         &lt;&lt; std::endl;</span>
 <span class="lineNum">     645 </span>            : 
-<span class="lineNum">     646 </span><span class="lineNoCov">          0 :     if (!_setupDrawPixels(op, which, channel))</span>
-<span class="lineNum">     647 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     646 </span><span class="lineCov">          1 :     if (!_setupDrawPixels(op, which, channel))</span>
+<span class="lineNum">     647 </span><span class="lineCov">          1 :         return;</span>
 <span class="lineNum">     648 </span>            : 
 <span class="lineNum">     649 </span><span class="lineNoCov">          0 :     _drawTexturedQuad(channel, op, pvp, false, channel);</span>
 <span class="lineNum">     650 </span>            : 
@@ -745,17 +745,17 @@
 <span class="lineNum">     683 </span>            : }
 <a name="684"><span class="lineNum">     684 </span>            : }</a>
 <span class="lineNum">     685 </span>            : 
-<span class="lineNum">     686 </span><span class="lineNoCov">          0 : uint32_t Compositor::assembleFrames(const Frames&amp; frames, Channel* channel,</span>
+<span class="lineNum">     686 </span><span class="lineCov">          1 : uint32_t Compositor::assembleFrames(const Frames&amp; frames, Channel* channel,</span>
 <span class="lineNum">     687 </span>            :                                     util::Accum* accum)
 <span class="lineNum">     688 </span>            : {
-<span class="lineNum">     689 </span><span class="lineNoCov">          0 :     if (frames.empty())</span>
+<span class="lineNum">     689 </span><span class="lineCov">          1 :     if (frames.empty())</span>
 <span class="lineNum">     690 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     691 </span>            : 
-<span class="lineNum">     692 </span><span class="lineNoCov">          0 :     if (_useCPUAssembly(frames, channel))</span>
+<span class="lineNum">     692 </span><span class="lineCov">          1 :     if (_useCPUAssembly(frames, channel))</span>
 <span class="lineNum">     693 </span><span class="lineNoCov">          0 :         return assembleFramesCPU(frames, channel);</span>
 <span class="lineNum">     694 </span>            : 
 <span class="lineNum">     695 </span>            :     // else
-<span class="lineNum">     696 </span><span class="lineNoCov">          0 :     return assembleFramesUnsorted(frames, channel, accum);</span>
+<span class="lineNum">     696 </span><span class="lineCov">          1 :     return assembleFramesUnsorted(frames, channel, accum);</span>
 <a name="697"><span class="lineNum">     697 </span>            : }</a>
 <span class="lineNum">     698 </span>            : 
 <span class="lineNum">     699 </span><span class="lineNoCov">          0 : uint32_t Compositor::blendImages(const ImageOps&amp; ops, Channel* channel,</span>
@@ -832,17 +832,17 @@
 <span class="lineNum">     770 </span><span class="lineNoCov">          0 :     return blendImages(ops, channel, accum);</span>
 <a name="771"><span class="lineNum">     771 </span>            : }</a>
 <span class="lineNum">     772 </span>            : 
-<span class="lineNum">     773 </span><span class="lineNoCov">          0 : bool Compositor::isSubPixelDecomposition(const Frames&amp; frames)</span>
+<span class="lineNum">     773 </span><span class="lineCov">          1 : bool Compositor::isSubPixelDecomposition(const Frames&amp; frames)</span>
 <span class="lineNum">     774 </span>            : {
-<span class="lineNum">     775 </span><span class="lineNoCov">          0 :     if (frames.empty())</span>
+<span class="lineNum">     775 </span><span class="lineCov">          1 :     if (frames.empty())</span>
 <span class="lineNum">     776 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">     777 </span>            : 
 <span class="lineNum">     778 </span>            :     const SubPixel&amp; subpixel =
-<span class="lineNum">     779 </span><span class="lineNoCov">          0 :         frames.front()-&gt;getFrameData()-&gt;getContext().subPixel;</span>
-<span class="lineNum">     780 </span><span class="lineNoCov">          0 :     for (const Frame* frame : frames)</span>
-<span class="lineNum">     781 </span><span class="lineNoCov">          0 :         if (subpixel != frame-&gt;getFrameData()-&gt;getContext().subPixel)</span>
+<span class="lineNum">     779 </span><span class="lineCov">          1 :         frames.front()-&gt;getFrameData()-&gt;getContext().subPixel;</span>
+<span class="lineNum">     780 </span><span class="lineCov">          2 :     for (const Frame* frame : frames)</span>
+<span class="lineNum">     781 </span><span class="lineCov">          1 :         if (subpixel != frame-&gt;getFrameData()-&gt;getContext().subPixel)</span>
 <span class="lineNum">     782 </span><span class="lineNoCov">          0 :             return true;</span>
-<span class="lineNum">     783 </span><span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     783 </span><span class="lineCov">          1 :     return false;</span>
 <a name="784"><span class="lineNum">     784 </span>            : }</a>
 <span class="lineNum">     785 </span>            : 
 <span class="lineNum">     786 </span><span class="lineNoCov">          0 : bool Compositor::isSubPixelDecomposition(const ImageOps&amp; ops)</span>
@@ -906,15 +906,15 @@
 <span class="lineNum">     844 </span><span class="lineNoCov">          0 :     return current;</span>
 <a name="845"><span class="lineNum">     845 </span>            : }</a>
 <span class="lineNum">     846 </span>            : 
-<span class="lineNum">     847 </span><span class="lineNoCov">          0 : uint32_t Compositor::assembleFramesUnsorted(const Frames&amp; frames,</span>
+<span class="lineNum">     847 </span><span class="lineCov">          1 : uint32_t Compositor::assembleFramesUnsorted(const Frames&amp; frames,</span>
 <span class="lineNum">     848 </span>            :                                             Channel* channel,
 <span class="lineNum">     849 </span>            :                                             util::Accum* accum)
 <span class="lineNum">     850 </span>            : {
-<span class="lineNum">     851 </span><span class="lineNoCov">          0 :     if (frames.empty())</span>
+<span class="lineNum">     851 </span><span class="lineCov">          1 :     if (frames.empty())</span>
 <span class="lineNum">     852 </span><span class="lineNoCov">          0 :         return 0;</span>
 <span class="lineNum">     853 </span>            : 
-<span class="lineNum">     854 </span><span class="lineNoCov">          0 :     LBVERB &lt;&lt; &quot;Unsorted GPU assembly&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     855 </span><span class="lineNoCov">          0 :     if (isSubPixelDecomposition(frames))</span>
+<span class="lineNum">     854 </span><span class="lineCov">          1 :     LBVERB &lt;&lt; &quot;Unsorted GPU assembly&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     855 </span><span class="lineCov">          1 :     if (isSubPixelDecomposition(frames))</span>
 <span class="lineNum">     856 </span>            :     {
 <span class="lineNum">     857 </span>            :         const bool coreProfile =
 <span class="lineNum">     858 </span><span class="lineNoCov">          0 :             channel-&gt;getWindow()-&gt;getIAttribute(</span>
@@ -965,38 +965,38 @@
 <span class="lineNum">     903 </span>            :     // available, it increments the monitor which causes this code to wake up
 <span class="lineNum">     904 </span>            :     // and assemble it.
 <span class="lineNum">     905 </span>            : 
-<span class="lineNum">     906 </span><span class="lineNoCov">          0 :     uint32_t count = 0;</span>
+<span class="lineNum">     906 </span><span class="lineCov">          1 :     uint32_t count = 0;</span>
 <span class="lineNum">     907 </span>            : 
 <span class="lineNum">     908 </span>            :     // wait and assemble frames
-<span class="lineNum">     909 </span><span class="lineNoCov">          0 :     WaitHandle* handle = startWaitFrames(frames, channel);</span>
-<span class="lineNum">     910 </span><span class="lineNoCov">          0 :     for (Frame* frame = waitFrame(handle); frame; frame = waitFrame(handle))</span>
+<span class="lineNum">     909 </span><span class="lineCov">          1 :     WaitHandle* handle = startWaitFrames(frames, channel);</span>
+<span class="lineNum">     910 </span><span class="lineCov">          2 :     for (Frame* frame = waitFrame(handle); frame; frame = waitFrame(handle))</span>
 <span class="lineNum">     911 </span>            :     {
-<span class="lineNum">     912 </span><span class="lineNoCov">          0 :         if (frame-&gt;getImages().empty())</span>
+<span class="lineNum">     912 </span><span class="lineCov">          1 :         if (frame-&gt;getImages().empty())</span>
 <span class="lineNum">     913 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">     914 </span>            : 
-<span class="lineNum">     915 </span><span class="lineNoCov">          0 :         count = 1;</span>
-<span class="lineNum">     916 </span><span class="lineNoCov">          0 :         assembleFrame(frame, channel);</span>
+<span class="lineNum">     915 </span><span class="lineCov">          1 :         count = 1;</span>
+<span class="lineNum">     916 </span><span class="lineCov">          1 :         assembleFrame(frame, channel);</span>
 <span class="lineNum">     917 </span>            :     }
 <span class="lineNum">     918 </span>            : 
-<span class="lineNum">     919 </span><span class="lineNoCov">          0 :     return count;</span>
+<span class="lineNum">     919 </span><span class="lineCov">          1 :     return count;</span>
 <span class="lineNum">     920 </span>            : }
 <span class="lineNum">     921 </span>            : 
 <span class="lineNum">     922 </span>            : class Compositor::WaitHandle
 <a name="923"><span class="lineNum">     923 </span>            : {</a>
 <span class="lineNum">     924 </span>            : public:
-<span class="lineNum">     925 </span><span class="lineNoCov">          0 :     WaitHandle(const Frames&amp; frames, Channel* ch)</span>
-<span class="lineNum">     926 </span><span class="lineNoCov">          0 :         : left(frames)</span>
+<span class="lineNum">     925 </span><span class="lineCov">          1 :     WaitHandle(const Frames&amp; frames, Channel* ch)</span>
+<span class="lineNum">     926 </span><span class="lineCov">          1 :         : left(frames)</span>
 <span class="lineNum">     927 </span>            :         , channel(ch)
-<span class="lineNum">     928 </span><span class="lineNoCov">          0 :         , processed(0)</span>
+<span class="lineNum">     928 </span><span class="lineCov">          1 :         , processed(0)</span>
 <a name="929"><span class="lineNum">     929 </span>            :     {</a>
-<span class="lineNum">     930 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">     931 </span><span class="lineNoCov">          0 :     ~WaitHandle()</span>
-<span class="lineNum">     932 </span><span class="lineNoCov">          0 :     {</span>
+<span class="lineNum">     930 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     931 </span><span class="lineCov">          1 :     ~WaitHandle()</span>
+<span class="lineNum">     932 </span><span class="lineCov">          1 :     {</span>
 <span class="lineNum">     933 </span>            :         // de-register the monitor on eventual left-overs on error/exception
-<span class="lineNum">     934 </span><span class="lineNoCov">          0 :         for (FramesCIter i = left.begin(); i != left.end(); ++i)</span>
+<span class="lineNum">     934 </span><span class="lineCov">          1 :         for (FramesCIter i = left.begin(); i != left.end(); ++i)</span>
 <span class="lineNum">     935 </span><span class="lineNoCov">          0 :             (*i)-&gt;removeListener(monitor);</span>
-<span class="lineNum">     936 </span><span class="lineNoCov">          0 :         left.clear();</span>
-<span class="lineNum">     937 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     936 </span><span class="lineCov">          1 :         left.clear();</span>
+<span class="lineNum">     937 </span><span class="lineCov">          1 :     }</span>
 <span class="lineNum">     938 </span>            : 
 <span class="lineNum">     939 </span>            :     lunchbox::Monitor&lt;uint32_t&gt; monitor;
 <span class="lineNum">     940 </span>            :     Frames left;
@@ -1004,32 +1004,32 @@
 <span class="lineNum">     942 </span>            :     uint32_t processed;
 <a name="943"><span class="lineNum">     943 </span>            : };</a>
 <span class="lineNum">     944 </span>            : 
-<span class="lineNum">     945 </span><span class="lineNoCov">          0 : Compositor::WaitHandle* Compositor::startWaitFrames(const Frames&amp; frames,</span>
+<span class="lineNum">     945 </span><span class="lineCov">          1 : Compositor::WaitHandle* Compositor::startWaitFrames(const Frames&amp; frames,</span>
 <span class="lineNum">     946 </span>            :                                                     Channel* channel)
 <span class="lineNum">     947 </span>            : {
-<span class="lineNum">     948 </span><span class="lineNoCov">          0 :     WaitHandle* handle = new WaitHandle(frames, channel);</span>
-<span class="lineNum">     949 </span><span class="lineNoCov">          0 :     for (FramesCIter i = frames.begin(); i != frames.end(); ++i)</span>
-<span class="lineNum">     950 </span><span class="lineNoCov">          0 :         (*i)-&gt;addListener(handle-&gt;monitor);</span>
+<span class="lineNum">     948 </span><span class="lineCov">          1 :     WaitHandle* handle = new WaitHandle(frames, channel);</span>
+<span class="lineNum">     949 </span><span class="lineCov">          2 :     for (FramesCIter i = frames.begin(); i != frames.end(); ++i)</span>
+<span class="lineNum">     950 </span><span class="lineCov">          1 :         (*i)-&gt;addListener(handle-&gt;monitor);</span>
 <span class="lineNum">     951 </span>            : 
-<span class="lineNum">     952 </span><span class="lineNoCov">          0 :     return handle;</span>
+<span class="lineNum">     952 </span><span class="lineCov">          1 :     return handle;</span>
 <a name="953"><span class="lineNum">     953 </span>            : }</a>
 <span class="lineNum">     954 </span>            : 
-<span class="lineNum">     955 </span><span class="lineNoCov">          0 : Frame* Compositor::waitFrame(WaitHandle* handle)</span>
+<span class="lineNum">     955 </span><span class="lineCov">          2 : Frame* Compositor::waitFrame(WaitHandle* handle)</span>
 <span class="lineNum">     956 </span>            : {
-<span class="lineNum">     957 </span><span class="lineNoCov">          0 :     if (handle-&gt;left.empty())</span>
+<span class="lineNum">     957 </span><span class="lineCov">          2 :     if (handle-&gt;left.empty())</span>
 <span class="lineNum">     958 </span>            :     {
-<span class="lineNum">     959 </span><span class="lineNoCov">          0 :         delete handle;</span>
-<span class="lineNum">     960 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">     959 </span><span class="lineCov">          1 :         delete handle;</span>
+<span class="lineNum">     960 </span><span class="lineCov">          1 :         return 0;</span>
 <span class="lineNum">     961 </span>            :     }
 <span class="lineNum">     962 </span>            : 
 <span class="lineNum">     963 </span>            :     ChannelStatistics event(Statistic::CHANNEL_FRAME_WAIT_READY,
-<span class="lineNum">     964 </span><span class="lineNoCov">          0 :                             handle-&gt;channel);</span>
-<span class="lineNum">     965 </span><span class="lineNoCov">          0 :     Config* config = handle-&gt;channel-&gt;getConfig();</span>
-<span class="lineNum">     966 </span><span class="lineNoCov">          0 :     const uint32_t timeout = config-&gt;getTimeout();</span>
+<span class="lineNum">     964 </span><span class="lineCov">          2 :                             handle-&gt;channel);</span>
+<span class="lineNum">     965 </span><span class="lineCov">          1 :     Config* config = handle-&gt;channel-&gt;getConfig();</span>
+<span class="lineNum">     966 </span><span class="lineCov">          1 :     const uint32_t timeout = config-&gt;getTimeout();</span>
 <span class="lineNum">     967 </span>            : 
-<span class="lineNum">     968 </span><span class="lineNoCov">          0 :     ++handle-&gt;processed;</span>
-<span class="lineNum">     969 </span><span class="lineNoCov">          0 :     if (timeout == LB_TIMEOUT_INDEFINITE)</span>
-<span class="lineNum">     970 </span><span class="lineNoCov">          0 :         handle-&gt;monitor.waitGE(handle-&gt;processed);</span>
+<span class="lineNum">     968 </span><span class="lineCov">          1 :     ++handle-&gt;processed;</span>
+<span class="lineNum">     969 </span><span class="lineCov">          1 :     if (timeout == LB_TIMEOUT_INDEFINITE)</span>
+<span class="lineNum">     970 </span><span class="lineCov">          1 :         handle-&gt;monitor.waitGE(handle-&gt;processed);</span>
 <span class="lineNum">     971 </span>            :     else
 <span class="lineNum">     972 </span>            :     {
 <span class="lineNum">     973 </span><span class="lineNoCov">          0 :         const int64_t time = config-&gt;getTime() + timeout;</span>
@@ -1048,15 +1048,15 @@
 <span class="lineNum">     986 </span>            :         }
 <span class="lineNum">     987 </span>            :     }
 <span class="lineNum">     988 </span>            : 
-<span class="lineNum">     989 </span><span class="lineNoCov">          0 :     for (FramesIter i = handle-&gt;left.begin(); i != handle-&gt;left.end(); ++i)</span>
+<span class="lineNum">     989 </span><span class="lineCov">          1 :     for (FramesIter i = handle-&gt;left.begin(); i != handle-&gt;left.end(); ++i)</span>
 <span class="lineNum">     990 </span>            :     {
-<span class="lineNum">     991 </span><span class="lineNoCov">          0 :         Frame* frame = *i;</span>
-<span class="lineNum">     992 </span><span class="lineNoCov">          0 :         if (!frame-&gt;isReady())</span>
+<span class="lineNum">     991 </span><span class="lineCov">          1 :         Frame* frame = *i;</span>
+<span class="lineNum">     992 </span><span class="lineCov">          1 :         if (!frame-&gt;isReady())</span>
 <span class="lineNum">     993 </span><span class="lineNoCov">          0 :             continue;</span>
 <span class="lineNum">     994 </span>            : 
-<span class="lineNum">     995 </span><span class="lineNoCov">          0 :         frame-&gt;removeListener(handle-&gt;monitor);</span>
-<span class="lineNum">     996 </span><span class="lineNoCov">          0 :         handle-&gt;left.erase(i);</span>
-<span class="lineNum">     997 </span><span class="lineNoCov">          0 :         return frame;</span>
+<span class="lineNum">     995 </span><span class="lineCov">          1 :         frame-&gt;removeListener(handle-&gt;monitor);</span>
+<span class="lineNum">     996 </span><span class="lineCov">          1 :         handle-&gt;left.erase(i);</span>
+<span class="lineNum">     997 </span><span class="lineCov">          1 :         return frame;</span>
 <span class="lineNum">     998 </span>            :     }
 <span class="lineNum">     999 </span>            : 
 <span class="lineNum">    1000 </span><span class="lineNoCov">          0 :     LBASSERTINFO(false, &quot;Unreachable code&quot;);</span>
@@ -1165,25 +1165,25 @@
 <span class="lineNum">    1103 </span><span class="lineCov">          9 :     return result;</span>
 <a name="1104"><span class="lineNum">    1104 </span>            : }</a>
 <span class="lineNum">    1105 </span>            : 
-<span class="lineNum">    1106 </span><span class="lineNoCov">          0 : void Compositor::assembleFrame(const Frame* frame, Channel* channel)</span>
+<span class="lineNum">    1106 </span><span class="lineCov">          1 : void Compositor::assembleFrame(const Frame* frame, Channel* channel)</span>
 <span class="lineNum">    1107 </span>            : {
-<span class="lineNum">    1108 </span><span class="lineNoCov">          0 :     const Images&amp; images = frame-&gt;getImages();</span>
-<span class="lineNum">    1109 </span><span class="lineNoCov">          0 :     if (images.empty())</span>
+<span class="lineNum">    1108 </span><span class="lineCov">          1 :     const Images&amp; images = frame-&gt;getImages();</span>
+<span class="lineNum">    1109 </span><span class="lineCov">          1 :     if (images.empty())</span>
 <span class="lineNum">    1110 </span><span class="lineNoCov">          0 :         LBINFO &lt;&lt; &quot;No images to assemble&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1111 </span>            : 
-<span class="lineNum">    1112 </span><span class="lineNoCov">          0 :     for (Image* image : images)</span>
+<span class="lineNum">    1112 </span><span class="lineCov">          2 :     for (Image* image : images)</span>
 <span class="lineNum">    1113 </span>            :     {
-<span class="lineNum">    1114 </span><span class="lineNoCov">          0 :         ImageOp op(frame, image);</span>
-<span class="lineNum">    1115 </span><span class="lineNoCov">          0 :         op.offset = frame-&gt;getOffset();</span>
-<span class="lineNum">    1116 </span><span class="lineNoCov">          0 :         assembleImage(op, channel);</span>
+<span class="lineNum">    1114 </span><span class="lineCov">          1 :         ImageOp op(frame, image);</span>
+<span class="lineNum">    1115 </span><span class="lineCov">          1 :         op.offset = frame-&gt;getOffset();</span>
+<span class="lineNum">    1116 </span><span class="lineCov">          1 :         assembleImage(op, channel);</span>
 <span class="lineNum">    1117 </span>            :     }
-<a name="1118"><span class="lineNum">    1118 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="1118"><span class="lineNum">    1118 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">    1119 </span>            : 
-<span class="lineNum">    1120 </span><span class="lineNoCov">          0 : void Compositor::assembleImage(const ImageOp&amp; op, Channel* channel)</span>
+<span class="lineNum">    1120 </span><span class="lineCov">          1 : void Compositor::assembleImage(const ImageOp&amp; op, Channel* channel)</span>
 <span class="lineNum">    1121 </span>            : {
-<span class="lineNum">    1122 </span><span class="lineNoCov">          0 :     const bool coreProfile = channel-&gt;getWindow()-&gt;getIAttribute(</span>
-<span class="lineNum">    1123 </span><span class="lineNoCov">          0 :                                  WindowSettings::IATTR_HINT_CORE_PROFILE) == ON;</span>
-<span class="lineNum">    1124 </span><span class="lineNoCov">          0 :     if (coreProfile &amp;&amp; op.image-&gt;getContext().pixel != Pixel::ALL)</span>
+<span class="lineNum">    1122 </span><span class="lineCov">          1 :     const bool coreProfile = channel-&gt;getWindow()-&gt;getIAttribute(</span>
+<span class="lineNum">    1123 </span><span class="lineCov">          1 :                                  WindowSettings::IATTR_HINT_CORE_PROFILE) == ON;</span>
+<span class="lineNum">    1124 </span><span class="lineCov">          1 :     if (coreProfile &amp;&amp; op.image-&gt;getContext().pixel != Pixel::ALL)</span>
 <span class="lineNum">    1125 </span>            :     {
 <span class="lineNum">    1126 </span><span class="lineNoCov">          0 :         LBERROR &lt;&lt; &quot;No support for pixel assembly for OpenGL core profile,&quot;</span>
 <span class="lineNum">    1127 </span><span class="lineNoCov">          0 :                    &quot;skipping image&quot;</span>
@@ -1191,43 +1191,43 @@
 <span class="lineNum">    1129 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">    1130 </span>            :     }
 <span class="lineNum">    1131 </span>            : 
-<span class="lineNum">    1132 </span><span class="lineNoCov">          0 :     ImageOp operation = op;</span>
-<span class="lineNum">    1133 </span><span class="lineNoCov">          0 :     operation.buffers = Frame::Buffer::none;</span>
+<span class="lineNum">    1132 </span><span class="lineCov">          1 :     ImageOp operation = op;</span>
+<span class="lineNum">    1133 </span><span class="lineCov">          1 :     operation.buffers = Frame::Buffer::none;</span>
 <span class="lineNum">    1134 </span>            : 
-<span class="lineNum">    1135 </span><span class="lineNoCov">          0 :     const Frame::Buffer buffer[] = {Frame::Buffer::color, Frame::Buffer::depth};</span>
-<span class="lineNum">    1136 </span><span class="lineNoCov">          0 :     for (unsigned i = 0; i &lt; 2; ++i)</span>
+<span class="lineNum">    1135 </span><span class="lineCov">          1 :     const Frame::Buffer buffer[] = {Frame::Buffer::color, Frame::Buffer::depth};</span>
+<span class="lineNum">    1136 </span><span class="lineCov">          3 :     for (unsigned i = 0; i &lt; 2; ++i)</span>
 <span class="lineNum">    1137 </span>            :     {
-<span class="lineNum">    1138 </span><span class="lineNoCov">          0 :         if ((op.buffers &amp; buffer[i]) &amp;&amp; (op.image-&gt;hasPixelData(buffer[i]) ||</span>
+<span class="lineNum">    1138 </span><span class="lineCov">          2 :         if ((op.buffers &amp; buffer[i]) &amp;&amp; (op.image-&gt;hasPixelData(buffer[i]) ||</span>
 <span class="lineNum">    1139 </span><span class="lineNoCov">          0 :                                          op.image-&gt;hasTextureData(buffer[i])))</span>
 <span class="lineNum">    1140 </span>            :         {
-<span class="lineNum">    1141 </span><span class="lineNoCov">          0 :             operation.buffers |= buffer[i];</span>
+<span class="lineNum">    1141 </span><span class="lineCov">          1 :             operation.buffers |= buffer[i];</span>
 <span class="lineNum">    1142 </span>            :         }
 <span class="lineNum">    1143 </span>            :     }
 <span class="lineNum">    1144 </span>            : 
-<span class="lineNum">    1145 </span><span class="lineNoCov">          0 :     if (operation.buffers == Frame::Buffer::none)</span>
+<span class="lineNum">    1145 </span><span class="lineCov">          1 :     if (operation.buffers == Frame::Buffer::none)</span>
 <span class="lineNum">    1146 </span>            :     {
 <span class="lineNum">    1147 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;No image attachment buffers to assemble&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">    1148 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">    1149 </span>            :     }
 <span class="lineNum">    1150 </span>            : 
-<span class="lineNum">    1151 </span><span class="lineNoCov">          0 :     setupStencilBuffer(operation, channel);</span>
+<span class="lineNum">    1151 </span><span class="lineCov">          1 :     setupStencilBuffer(operation, channel);</span>
 <span class="lineNum">    1152 </span>            : 
-<span class="lineNum">    1153 </span><span class="lineNoCov">          0 :     if (operation.buffers == Frame::Buffer::color)</span>
-<span class="lineNum">    1154 </span><span class="lineNoCov">          0 :         assembleImage2D(operation, channel);</span>
+<span class="lineNum">    1153 </span><span class="lineCov">          1 :     if (operation.buffers == Frame::Buffer::color)</span>
+<span class="lineNum">    1154 </span><span class="lineCov">          1 :         assembleImage2D(operation, channel);</span>
 <span class="lineNum">    1155 </span><span class="lineNoCov">          0 :     else if (operation.buffers == (Frame::Buffer::color | Frame::Buffer::depth))</span>
 <span class="lineNum">    1156 </span><span class="lineNoCov">          0 :         assembleImageDB(operation, channel);</span>
 <span class="lineNum">    1157 </span>            :     else
 <span class="lineNum">    1158 </span><span class="lineNoCov">          0 :         LBWARN &lt;&lt; &quot;Don't know how to assemble using buffers &quot;</span>
 <span class="lineNum">    1159 </span><span class="lineNoCov">          0 :                &lt;&lt; operation.buffers &lt;&lt; std::endl;</span>
 <span class="lineNum">    1160 </span>            : 
-<span class="lineNum">    1161 </span><span class="lineNoCov">          0 :     clearStencilBuffer(operation);</span>
+<span class="lineNum">    1161 </span><span class="lineCov">          1 :     clearStencilBuffer(operation);</span>
 <a name="1162"><span class="lineNum">    1162 </span>            : }</a>
 <span class="lineNum">    1163 </span>            : 
-<span class="lineNum">    1164 </span><span class="lineNoCov">          0 : void Compositor::setupStencilBuffer(const ImageOp&amp; op, const Channel* channel)</span>
+<span class="lineNum">    1164 </span><span class="lineCov">          1 : void Compositor::setupStencilBuffer(const ImageOp&amp; op, const Channel* channel)</span>
 <span class="lineNum">    1165 </span>            : {
-<span class="lineNum">    1166 </span><span class="lineNoCov">          0 :     const Pixel&amp; pixel = op.image-&gt;getContext().pixel;</span>
-<span class="lineNum">    1167 </span><span class="lineNoCov">          0 :     if (pixel == Pixel::ALL)</span>
-<span class="lineNum">    1168 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">    1166 </span><span class="lineCov">          1 :     const Pixel&amp; pixel = op.image-&gt;getContext().pixel;</span>
+<span class="lineNum">    1167 </span><span class="lineCov">          1 :     if (pixel == Pixel::ALL)</span>
+<span class="lineNum">    1168 </span><span class="lineCov">          1 :         return;</span>
 <span class="lineNum">    1169 </span>            : 
 <span class="lineNum">    1170 </span>            :     // mark stencil buffer where pixel shall not pass
 <span class="lineNum">    1171 </span>            :     // TODO: OPT!
@@ -1298,29 +1298,29 @@
 <span class="lineNum">    1236 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glDepthMask(true));</span>
 <a name="1237"><span class="lineNum">    1237 </span>            : }</a>
 <span class="lineNum">    1238 </span>            : 
-<span class="lineNum">    1239 </span><span class="lineNoCov">          0 : void Compositor::clearStencilBuffer(const ImageOp&amp; op)</span>
+<span class="lineNum">    1239 </span><span class="lineCov">          1 : void Compositor::clearStencilBuffer(const ImageOp&amp; op)</span>
 <span class="lineNum">    1240 </span>            : {
-<span class="lineNum">    1241 </span><span class="lineNoCov">          0 :     if (op.image-&gt;getContext().pixel == Pixel::ALL)</span>
-<span class="lineNum">    1242 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">    1241 </span><span class="lineCov">          1 :     if (op.image-&gt;getContext().pixel == Pixel::ALL)</span>
+<span class="lineNum">    1242 </span><span class="lineCov">          1 :         return;</span>
 <span class="lineNum">    1243 </span>            : 
 <span class="lineNum">    1244 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glPixelZoom(1.f, 1.f));</span>
 <span class="lineNum">    1245 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glDisable(GL_STENCIL_TEST));</span>
 <a name="1246"><span class="lineNum">    1246 </span>            : }</a>
 <span class="lineNum">    1247 </span>            : 
-<span class="lineNum">    1248 </span><span class="lineNoCov">          0 : void Compositor::assembleImage2D(const ImageOp&amp; op, Channel* channel)</span>
+<span class="lineNum">    1248 </span><span class="lineCov">          1 : void Compositor::assembleImage2D(const ImageOp&amp; op, Channel* channel)</span>
 <span class="lineNum">    1249 </span>            : {
-<span class="lineNum">    1250 </span><span class="lineNoCov">          0 :     if (GLEW_VERSION_3_3)</span>
-<span class="lineNum">    1251 </span><span class="lineNoCov">          0 :         _drawPixelsGLSL(op, Frame::Buffer::color, channel);</span>
+<span class="lineNum">    1250 </span><span class="lineCov">          1 :     if (GLEW_VERSION_3_3)</span>
+<span class="lineNum">    1251 </span><span class="lineCov">          1 :         _drawPixelsGLSL(op, Frame::Buffer::color, channel);</span>
 <span class="lineNum">    1252 </span>            :     else
 <span class="lineNum">    1253 </span><span class="lineNoCov">          0 :         _drawPixelsFF(op, Frame::Buffer::color, channel);</span>
-<span class="lineNum">    1254 </span><span class="lineNoCov">          0 :     declareRegion(op, channel);</span>
+<span class="lineNum">    1254 </span><span class="lineCov">          1 :     declareRegion(op, channel);</span>
 <span class="lineNum">    1255 </span>            : #if 0
 <span class="lineNum">    1256 </span>            :     static lunchbox::a_int32_t counter;
 <span class="lineNum">    1257 </span>            :     std::ostringstream stringstream;
 <span class="lineNum">    1258 </span>            :     stringstream &lt;&lt; &quot;Image_&quot; &lt;&lt; ++counter;
 <span class="lineNum">    1259 </span>            :     op.image-&gt;writeImages( stringstream.str( ));
 <span class="lineNum">    1260 </span>            : #endif
-<a name="1261"><span class="lineNum">    1261 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="1261"><span class="lineNum">    1261 </span><span class="lineCov">          1 : }</span></a>
 <span class="lineNum">    1262 </span>            : 
 <span class="lineNum">    1263 </span><span class="lineNoCov">          0 : void Compositor::assembleImageDB(const ImageOp&amp; op, Channel* channel)</span>
 <span class="lineNum">    1264 </span>            : {
@@ -1412,72 +1412,72 @@
 <span class="lineNum">    1350 </span><span class="lineNoCov">          0 :     declareRegion(op, channel);</span>
 <a name="1351"><span class="lineNum">    1351 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">    1352 </span>            : 
-<span class="lineNum">    1353 </span><span class="lineNoCov">          0 : void Compositor::declareRegion(const ImageOp&amp; op, Channel* channel)</span>
+<span class="lineNum">    1353 </span><span class="lineCov">          1 : void Compositor::declareRegion(const ImageOp&amp; op, Channel* channel)</span>
 <span class="lineNum">    1354 </span>            : {
-<span class="lineNum">    1355 </span><span class="lineNoCov">          0 :     if (!channel)</span>
+<span class="lineNum">    1355 </span><span class="lineCov">          1 :     if (!channel)</span>
 <span class="lineNum">    1356 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">    1357 </span>            : 
-<span class="lineNum">    1358 </span><span class="lineNoCov">          0 :     const eq::PixelViewport area = op.image-&gt;getPixelViewport() + op.offset;</span>
-<span class="lineNum">    1359 </span><span class="lineNoCov">          0 :     channel-&gt;declareRegion(area);</span>
+<span class="lineNum">    1358 </span><span class="lineCov">          1 :     const eq::PixelViewport area = op.image-&gt;getPixelViewport() + op.offset;</span>
+<span class="lineNum">    1359 </span><span class="lineCov">          1 :     channel-&gt;declareRegion(area);</span>
 <span class="lineNum">    1360 </span>            : }
 <span class="lineNum">    1361 </span>            : 
 <span class="lineNum">    1362 </span>            : #undef glewGetContext
 <a name="1363"><span class="lineNum">    1363 </span>            : #define glewGetContext() glCtx</a>
 <span class="lineNum">    1364 </span>            : 
-<span class="lineNum">    1365 </span><span class="lineNoCov">          0 : void Compositor::setupAssemblyState(const PixelViewport&amp; pvp,</span>
+<span class="lineNum">    1365 </span><span class="lineCov">          2 : void Compositor::setupAssemblyState(const PixelViewport&amp; pvp,</span>
 <span class="lineNum">    1366 </span>            :                                     const GLEWContext* glCtx)
 <span class="lineNum">    1367 </span>            : {
-<span class="lineNum">    1368 </span><span class="lineNoCov">          0 :     EQ_GL_ERROR(&quot;before setupAssemblyState&quot;);</span>
+<span class="lineNum">    1368 </span><span class="lineCov">          2 :     EQ_GL_ERROR(&quot;before setupAssemblyState&quot;);</span>
 <span class="lineNum">    1369 </span>            :     glPushAttrib(GL_ENABLE_BIT | GL_STENCIL_BUFFER_BIT | GL_LINE_BIT |
-<span class="lineNum">    1370 </span><span class="lineNoCov">          0 :                  GL_PIXEL_MODE_BIT | GL_POLYGON_BIT | GL_TEXTURE_BIT);</span>
+<span class="lineNum">    1370 </span><span class="lineCov">          2 :                  GL_PIXEL_MODE_BIT | GL_POLYGON_BIT | GL_TEXTURE_BIT);</span>
 <span class="lineNum">    1371 </span>            : 
-<span class="lineNum">    1372 </span><span class="lineNoCov">          0 :     glDisable(GL_DEPTH_TEST);</span>
-<span class="lineNum">    1373 </span><span class="lineNoCov">          0 :     glDisable(GL_BLEND);</span>
-<span class="lineNum">    1374 </span><span class="lineNoCov">          0 :     glDisable(GL_ALPHA_TEST);</span>
-<span class="lineNum">    1375 </span><span class="lineNoCov">          0 :     glDisable(GL_STENCIL_TEST);</span>
-<span class="lineNum">    1376 </span><span class="lineNoCov">          0 :     glDisable(GL_TEXTURE_1D);</span>
-<span class="lineNum">    1377 </span><span class="lineNoCov">          0 :     glDisable(GL_TEXTURE_2D);</span>
-<span class="lineNum">    1378 </span><span class="lineNoCov">          0 :     if (GLEW_VERSION_1_2)</span>
-<span class="lineNum">    1379 </span><span class="lineNoCov">          0 :         glDisable(GL_TEXTURE_3D);</span>
-<span class="lineNum">    1380 </span><span class="lineNoCov">          0 :     glDisable(GL_FOG);</span>
-<span class="lineNum">    1381 </span><span class="lineNoCov">          0 :     glDisable(GL_CLIP_PLANE0);</span>
-<span class="lineNum">    1382 </span><span class="lineNoCov">          0 :     glDisable(GL_CLIP_PLANE1);</span>
-<span class="lineNum">    1383 </span><span class="lineNoCov">          0 :     glDisable(GL_CLIP_PLANE2);</span>
-<span class="lineNum">    1384 </span><span class="lineNoCov">          0 :     glDisable(GL_CLIP_PLANE3);</span>
-<span class="lineNum">    1385 </span><span class="lineNoCov">          0 :     glDisable(GL_CLIP_PLANE4);</span>
-<span class="lineNum">    1386 </span><span class="lineNoCov">          0 :     glDisable(GL_CLIP_PLANE5);</span>
+<span class="lineNum">    1372 </span><span class="lineCov">          2 :     glDisable(GL_DEPTH_TEST);</span>
+<span class="lineNum">    1373 </span><span class="lineCov">          2 :     glDisable(GL_BLEND);</span>
+<span class="lineNum">    1374 </span><span class="lineCov">          2 :     glDisable(GL_ALPHA_TEST);</span>
+<span class="lineNum">    1375 </span><span class="lineCov">          2 :     glDisable(GL_STENCIL_TEST);</span>
+<span class="lineNum">    1376 </span><span class="lineCov">          2 :     glDisable(GL_TEXTURE_1D);</span>
+<span class="lineNum">    1377 </span><span class="lineCov">          2 :     glDisable(GL_TEXTURE_2D);</span>
+<span class="lineNum">    1378 </span><span class="lineCov">          2 :     if (GLEW_VERSION_1_2)</span>
+<span class="lineNum">    1379 </span><span class="lineCov">          2 :         glDisable(GL_TEXTURE_3D);</span>
+<span class="lineNum">    1380 </span><span class="lineCov">          2 :     glDisable(GL_FOG);</span>
+<span class="lineNum">    1381 </span><span class="lineCov">          2 :     glDisable(GL_CLIP_PLANE0);</span>
+<span class="lineNum">    1382 </span><span class="lineCov">          2 :     glDisable(GL_CLIP_PLANE1);</span>
+<span class="lineNum">    1383 </span><span class="lineCov">          2 :     glDisable(GL_CLIP_PLANE2);</span>
+<span class="lineNum">    1384 </span><span class="lineCov">          2 :     glDisable(GL_CLIP_PLANE3);</span>
+<span class="lineNum">    1385 </span><span class="lineCov">          2 :     glDisable(GL_CLIP_PLANE4);</span>
+<span class="lineNum">    1386 </span><span class="lineCov">          2 :     glDisable(GL_CLIP_PLANE5);</span>
 <span class="lineNum">    1387 </span>            : 
-<span class="lineNum">    1388 </span><span class="lineNoCov">          0 :     glPolygonMode(GL_FRONT, GL_FILL);</span>
-<span class="lineNum">    1389 </span><span class="lineNoCov">          0 :     if (GLEW_VERSION_1_3)</span>
-<span class="lineNum">    1390 </span><span class="lineNoCov">          0 :         glActiveTexture(GL_TEXTURE0);</span>
+<span class="lineNum">    1388 </span><span class="lineCov">          2 :     glPolygonMode(GL_FRONT, GL_FILL);</span>
+<span class="lineNum">    1389 </span><span class="lineCov">          2 :     if (GLEW_VERSION_1_3)</span>
+<span class="lineNum">    1390 </span><span class="lineCov">          2 :         glActiveTexture(GL_TEXTURE0);</span>
 <span class="lineNum">    1391 </span>            : 
-<span class="lineNum">    1392 </span><span class="lineNoCov">          0 :     glMatrixMode(GL_TEXTURE);</span>
-<span class="lineNum">    1393 </span><span class="lineNoCov">          0 :     glPushMatrix();</span>
-<span class="lineNum">    1394 </span><span class="lineNoCov">          0 :     glLoadIdentity();</span>
+<span class="lineNum">    1392 </span><span class="lineCov">          2 :     glMatrixMode(GL_TEXTURE);</span>
+<span class="lineNum">    1393 </span><span class="lineCov">          2 :     glPushMatrix();</span>
+<span class="lineNum">    1394 </span><span class="lineCov">          2 :     glLoadIdentity();</span>
 <span class="lineNum">    1395 </span>            : 
-<span class="lineNum">    1396 </span><span class="lineNoCov">          0 :     glMatrixMode(GL_PROJECTION);</span>
-<span class="lineNum">    1397 </span><span class="lineNoCov">          0 :     glPushMatrix();</span>
-<span class="lineNum">    1398 </span><span class="lineNoCov">          0 :     glLoadIdentity();</span>
-<span class="lineNum">    1399 </span><span class="lineNoCov">          0 :     if (pvp.hasArea())</span>
-<span class="lineNum">    1400 </span><span class="lineNoCov">          0 :         glOrtho(pvp.x, pvp.getXEnd(), pvp.y, pvp.getYEnd(), -1.0f, 1.0f);</span>
+<span class="lineNum">    1396 </span><span class="lineCov">          2 :     glMatrixMode(GL_PROJECTION);</span>
+<span class="lineNum">    1397 </span><span class="lineCov">          2 :     glPushMatrix();</span>
+<span class="lineNum">    1398 </span><span class="lineCov">          2 :     glLoadIdentity();</span>
+<span class="lineNum">    1399 </span><span class="lineCov">          2 :     if (pvp.hasArea())</span>
+<span class="lineNum">    1400 </span><span class="lineCov">          2 :         glOrtho(pvp.x, pvp.getXEnd(), pvp.y, pvp.getYEnd(), -1.0f, 1.0f);</span>
 <span class="lineNum">    1401 </span>            : 
-<span class="lineNum">    1402 </span><span class="lineNoCov">          0 :     glMatrixMode(GL_MODELVIEW);</span>
-<span class="lineNum">    1403 </span><span class="lineNoCov">          0 :     glPushMatrix();</span>
-<span class="lineNum">    1404 </span><span class="lineNoCov">          0 :     glLoadIdentity();</span>
-<span class="lineNum">    1405 </span><span class="lineNoCov">          0 :     EQ_GL_ERROR(&quot;after  setupAssemblyState&quot;);</span>
-<a name="1406"><span class="lineNum">    1406 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">    1402 </span><span class="lineCov">          2 :     glMatrixMode(GL_MODELVIEW);</span>
+<span class="lineNum">    1403 </span><span class="lineCov">          2 :     glPushMatrix();</span>
+<span class="lineNum">    1404 </span><span class="lineCov">          2 :     glLoadIdentity();</span>
+<span class="lineNum">    1405 </span><span class="lineCov">          2 :     EQ_GL_ERROR(&quot;after  setupAssemblyState&quot;);</span>
+<a name="1406"><span class="lineNum">    1406 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">    1407 </span>            : 
-<span class="lineNum">    1408 </span><span class="lineNoCov">          0 : void Compositor::resetAssemblyState()</span>
+<span class="lineNum">    1408 </span><span class="lineCov">          2 : void Compositor::resetAssemblyState()</span>
 <span class="lineNum">    1409 </span>            : {
-<span class="lineNum">    1410 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glMatrixMode(GL_TEXTURE));</span>
-<span class="lineNum">    1411 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glPopMatrix());</span>
-<span class="lineNum">    1412 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glMatrixMode(GL_PROJECTION));</span>
-<span class="lineNum">    1413 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glPopMatrix());</span>
-<span class="lineNum">    1414 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glMatrixMode(GL_MODELVIEW));</span>
-<span class="lineNum">    1415 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glPopMatrix());</span>
-<a name="1416"><span class="lineNum">    1416 </span><span class="lineNoCov">          0 :     EQ_GL_CALL(glPopAttrib());</span></a>
-<span class="lineNum">    1417 </span><span class="lineNoCov">          0 : }</span>
-<span class="lineNum">    1418 </span><span class="lineCov">         36 : }</span>
+<span class="lineNum">    1410 </span><span class="lineCov">          2 :     EQ_GL_CALL(glMatrixMode(GL_TEXTURE));</span>
+<span class="lineNum">    1411 </span><span class="lineCov">          2 :     EQ_GL_CALL(glPopMatrix());</span>
+<span class="lineNum">    1412 </span><span class="lineCov">          2 :     EQ_GL_CALL(glMatrixMode(GL_PROJECTION));</span>
+<span class="lineNum">    1413 </span><span class="lineCov">          2 :     EQ_GL_CALL(glPopMatrix());</span>
+<span class="lineNum">    1414 </span><span class="lineCov">          2 :     EQ_GL_CALL(glMatrixMode(GL_MODELVIEW));</span>
+<span class="lineNum">    1415 </span><span class="lineCov">          2 :     EQ_GL_CALL(glPopMatrix());</span>
+<a name="1416"><span class="lineNum">    1416 </span><span class="lineCov">          2 :     EQ_GL_CALL(glPopAttrib());</span></a>
+<span class="lineNum">    1417 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">    1418 </span><span class="lineCov">         30 : }</span>
 </pre>
       </td>
     </tr>

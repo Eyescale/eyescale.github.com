@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">27</td>
             <td class="headerCovTableEntry">60</td>
-            <td class="headerCovTableEntryLo">16.7 %</td>
+            <td class="headerCovTableEntryMed">45.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryMed">40.0 %</td>
+            <td class="headerCovTableEntryMed">70.0 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -103,20 +103,20 @@
 <span class="lineNum">      41 </span>            : class Channel
 <a name="42"><span class="lineNum">      42 </span>            : {</a>
 <span class="lineNum">      43 </span>            : public:
-<span class="lineNum">      44 </span><span class="lineCov">        811 :     Channel()</span>
-<span class="lineNum">      45 </span><span class="lineCov">        811 :         : state(STATE_STOPPED)</span>
+<span class="lineNum">      44 </span><span class="lineCov">          2 :     Channel()</span>
+<span class="lineNum">      45 </span><span class="lineCov">          2 :         : state(STATE_STOPPED)</span>
 <span class="lineNum">      46 </span>            : #ifdef EQUALIZER_USE_DEFLECT
 <span class="lineNum">      47 </span>            :         , _deflectProxy(0)
 <span class="lineNum">      48 </span>            : #endif
-<span class="lineNum">      49 </span><span class="lineCov">        811 :         , _updateFrameBuffer(false)</span>
+<span class="lineNum">      49 </span><span class="lineCov">          2 :         , _updateFrameBuffer(false)</span>
 <span class="lineNum">      50 </span>            :     {
-<span class="lineNum">      51 </span><span class="lineCov">       1622 :         lunchbox::RNG rng;</span>
-<span class="lineNum">      52 </span><span class="lineCov">        811 :         color.r() = rng.get&lt;uint8_t&gt;();</span>
-<span class="lineNum">      53 </span><span class="lineCov">        811 :         color.g() = rng.get&lt;uint8_t&gt;();</span>
-<span class="lineNum">      54 </span><span class="lineCov">        811 :         color.b() = rng.get&lt;uint8_t&gt;();</span>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">        811 :     }</span></a>
+<span class="lineNum">      51 </span><span class="lineCov">          4 :         lunchbox::RNG rng;</span>
+<span class="lineNum">      52 </span><span class="lineCov">          2 :         color.r() = rng.get&lt;uint8_t&gt;();</span>
+<span class="lineNum">      53 </span><span class="lineCov">          2 :         color.g() = rng.get&lt;uint8_t&gt;();</span>
+<span class="lineNum">      54 </span><span class="lineCov">          2 :         color.b() = rng.get&lt;uint8_t&gt;();</span>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          1 :     }</span></a>
 <a name="56"><span class="lineNum">      56 </span>            : </a>
-<span class="lineNum">      57 </span><span class="lineCov">          1 :     ~Channel() { statistics-&gt;clear(); }</span>
+<span class="lineNum">      57 </span><span class="lineCov">          2 :     ~Channel() { statistics-&gt;clear(); }</span>
 <span class="lineNum">      58 </span><span class="lineNoCov">          0 :     void addResultImageListener(ResultImageListener* listener)</span>
 <span class="lineNum">      59 </span>            :     {
 <span class="lineNum">      60 </span><span class="lineNoCov">          0 :         LBASSERT(std::find(resultImageListeners.begin(),</span>
@@ -126,19 +126,19 @@
 <span class="lineNum">      64 </span><span class="lineNoCov">          0 :         resultImageListeners.push_back(listener);</span>
 <a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 :     }</span></a>
 <span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     void removeResultImageListener(ResultImageListener* listener)</span>
+<span class="lineNum">      67 </span><span class="lineCov">          1 :     void removeResultImageListener(ResultImageListener* listener)</span>
 <span class="lineNum">      68 </span>            :     {
 <span class="lineNum">      69 </span>            :         ResultImageListeners::iterator i =
 <span class="lineNum">      70 </span>            :             std::find(resultImageListeners.begin(), resultImageListeners.end(),
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 :                       listener);</span>
-<span class="lineNum">      72 </span><span class="lineNoCov">          0 :         if (i != resultImageListeners.end())</span>
+<span class="lineNum">      71 </span><span class="lineCov">          1 :                       listener);</span>
+<span class="lineNum">      72 </span><span class="lineCov">          1 :         if (i != resultImageListeners.end())</span>
 <span class="lineNum">      73 </span><span class="lineNoCov">          0 :             resultImageListeners.erase(i);</span>
-<a name="74"><span class="lineNum">      74 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          1 :     }</span></a>
 <span class="lineNum">      75 </span>            : 
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     void frameViewFinish(eq::Channel&amp; channel)</span>
+<span class="lineNum">      76 </span><span class="lineCov">          1 :     void frameViewFinish(eq::Channel&amp; channel)</span>
 <span class="lineNum">      77 </span>            :     {
-<span class="lineNum">      78 </span><span class="lineNoCov">          0 :         if (channel.getSAttribute(channel.SATTR_DUMP_IMAGE).empty())</span>
-<span class="lineNum">      79 </span><span class="lineNoCov">          0 :             removeResultImageListener(&amp;frameWriter);</span>
+<span class="lineNum">      78 </span><span class="lineCov">          1 :         if (channel.getSAttribute(channel.SATTR_DUMP_IMAGE).empty())</span>
+<span class="lineNum">      79 </span><span class="lineCov">          1 :             removeResultImageListener(&amp;frameWriter);</span>
 <span class="lineNum">      80 </span>            :         else
 <span class="lineNum">      81 </span>            :         {
 <span class="lineNum">      82 </span>            :             ResultImageListeners::iterator i =
@@ -149,20 +149,20 @@
 <span class="lineNum">      87 </span>            :         }
 <span class="lineNum">      88 </span>            : 
 <span class="lineNum">      89 </span>            : #ifdef EQUALIZER_USE_DEFLECT
-<span class="lineNum">      90 </span><span class="lineNoCov">          0 :         if (_deflectProxy &amp;&amp; !_deflectProxy-&gt;isRunning())</span>
+<span class="lineNum">      90 </span><span class="lineCov">          1 :         if (_deflectProxy &amp;&amp; !_deflectProxy-&gt;isRunning())</span>
 <span class="lineNum">      91 </span>            :         {
 <span class="lineNum">      92 </span><span class="lineNoCov">          0 :             delete _deflectProxy;</span>
 <span class="lineNum">      93 </span><span class="lineNoCov">          0 :             _deflectProxy = 0;</span>
 <span class="lineNum">      94 </span>            :         }
 <span class="lineNum">      95 </span>            : #endif
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :         eq::View* view = channel.getView();</span>
-<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         eq::Frame::Buffer buffers = view-&gt;getScreenshotBuffers();</span>
-<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         if (!resultImageListeners.empty())</span>
+<span class="lineNum">      97 </span><span class="lineCov">          1 :         eq::View* view = channel.getView();</span>
+<span class="lineNum">      98 </span><span class="lineCov">          1 :         eq::Frame::Buffer buffers = view-&gt;getScreenshotBuffers();</span>
+<span class="lineNum">      99 </span><span class="lineCov">          1 :         if (!resultImageListeners.empty())</span>
 <span class="lineNum">     100 </span><span class="lineNoCov">          0 :             buffers |= eq::Frame::Buffer::color;</span>
 <span class="lineNum">     101 </span>            : 
-<span class="lineNum">     102 </span><span class="lineNoCov">          0 :         if (buffers == eq::Frame::Buffer::none)</span>
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     102 </span><span class="lineCov">          1 :         if (buffers == eq::Frame::Buffer::none)</span>
+<span class="lineNum">     103 </span><span class="lineCov">          1 :             return;</span>
 <span class="lineNum">     104 </span>            : 
 <span class="lineNum">     105 </span><span class="lineNoCov">          0 :         downloadFramebuffer(channel, buffers);</span>
 <span class="lineNum">     106 </span><span class="lineNoCov">          0 :         for (ResultImageListener* listener : resultImageListeners)</span>
@@ -177,13 +177,13 @@
 <span class="lineNum">     115 </span>            :         }
 <a name="116"><span class="lineNum">     116 </span>            :     }</a>
 <span class="lineNum">     117 </span>            : 
-<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     void frameFinish()</span>
+<span class="lineNum">     118 </span><span class="lineCov">          2 :     void frameFinish()</span>
 <span class="lineNum">     119 </span>            :     {
-<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         if (_finishImageListeners)</span>
+<span class="lineNum">     120 </span><span class="lineCov">          2 :         if (_finishImageListeners)</span>
 <span class="lineNum">     121 </span><span class="lineNoCov">          0 :             for (ResultImageListener* listener : resultImageListeners)</span>
 <span class="lineNum">     122 </span><span class="lineNoCov">          0 :                 listener-&gt;notifyFinishFrame();</span>
-<span class="lineNum">     123 </span><span class="lineNoCov">          0 :         _finishImageListeners = false;</span>
-<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     123 </span><span class="lineCov">          2 :         _finishImageListeners = false;</span>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">          2 :     }</span></a>
 <span class="lineNum">     125 </span>            : 
 <span class="lineNum">     126 </span><span class="lineNoCov">          0 :     void downloadFramebuffer(eq::Channel&amp; channel,</span>
 <span class="lineNum">     127 </span>            :                              const eq::Frame::Buffer buffers)
@@ -217,7 +217,7 @@
 <span class="lineNum">     155 </span>            :     Vector3ub color;
 <a name="156"><span class="lineNum">     156 </span>            : </a>
 <span class="lineNum">     157 </span>            :     typedef std::vector&lt;Statistic&gt; Statistics;
-<span class="lineNum">     158 </span><span class="lineCov">          4 :     struct FrameStatistics</span>
+<span class="lineNum">     158 </span><span class="lineCov">          8 :     struct FrameStatistics</span>
 <span class="lineNum">     159 </span>            :     {
 <span class="lineNum">     160 </span>            :         Statistics data;     //!&lt; all events for one frame
 <span class="lineNum">     161 </span>            :         eq::Viewport region; //!&lt; from draw for equalizers

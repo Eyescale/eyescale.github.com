@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">15</td>
             <td class="headerCovTableEntry">23</td>
-            <td class="headerCovTableEntryLo">8.7 %</td>
+            <td class="headerCovTableEntryMed">65.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">5</td>
             <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryLo">20.0 %</td>
+            <td class="headerCovTableEntryMed">50.0 %</td>
           </tr>
           <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -103,7 +103,7 @@
 <span class="lineNum">      41 </span>            :     EQSERVER_API LoadEqualizer();
 <a name="42"><span class="lineNum">      42 </span>            :     explicit LoadEqualizer(const fabric::Equalizer&amp; from);</a>
 <span class="lineNum">      43 </span>            :     virtual ~LoadEqualizer();
-<span class="lineNum">      44 </span><span class="lineCov">         94 :     void toStream(std::ostream&amp; os) const final { os &lt;&lt; this; }</span>
+<span class="lineNum">      44 </span><span class="lineCov">        130 :     void toStream(std::ostream&amp; os) const final { os &lt;&lt; this; }</span>
 <span class="lineNum">      45 </span>            :     /** @sa CompoundListener::notifyUpdatePre */
 <span class="lineNum">      46 </span>            :     void notifyUpdatePre(Compound* compound, const uint32_t frameNumber) final;
 <span class="lineNum">      47 </span>            : 
@@ -114,27 +114,27 @@
 <span class="lineNum">      52 </span>            : 
 <a name="53"><span class="lineNum">      53 </span><span class="lineNoCov">          0 :     uint32_t getType() const final { return fabric::LOAD_EQUALIZER; }</span></a>
 <a name="54"><span class="lineNum">      54 </span>            : protected:</a>
-<span class="lineNum">      55 </span><span class="lineCov">        708 :     void notifyChildAdded(Compound*, Compound*) override { LBASSERT(!_tree); }</span>
+<span class="lineNum">      55 </span><span class="lineCov">        732 :     void notifyChildAdded(Compound*, Compound*) override { LBASSERT(!_tree); }</span>
 <span class="lineNum">      56 </span><span class="lineNoCov">          0 :     void notifyChildRemove(Compound*, Compound*) override { LBASSERT(!_tree); }</span>
 <span class="lineNum">      57 </span>            : private:
 <a name="58"><span class="lineNum">      58 </span>            :     struct Node</a>
 <span class="lineNum">      59 </span>            :     {
-<span class="lineNum">      60 </span><span class="lineNoCov">          0 :         Node()</span>
-<span class="lineNum">      61 </span><span class="lineNoCov">          0 :             : left(0)</span>
+<span class="lineNum">      60 </span><span class="lineCov">          6 :         Node()</span>
+<span class="lineNum">      61 </span><span class="lineCov">          6 :             : left(0)</span>
 <span class="lineNum">      62 </span>            :             , right(0)
 <span class="lineNum">      63 </span>            :             , compound(0)
 <span class="lineNum">      64 </span>            :             , mode(MODE_VERTICAL)
 <span class="lineNum">      65 </span>            :             , resources(0.0f)
 <span class="lineNum">      66 </span>            :             , split(0.5f)
 <span class="lineNum">      67 </span>            :             , boundaryf(0.0f)
-<span class="lineNum">      68 </span><span class="lineNoCov">          0 :             , resistancef(0.0f)</span>
+<span class="lineNum">      68 </span><span class="lineCov">          6 :             , resistancef(0.0f)</span>
 <a name="69"><span class="lineNum">      69 </span>            :         {</a>
-<span class="lineNum">      70 </span><span class="lineNoCov">          0 :         }</span>
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 :         ~Node()</span>
-<span class="lineNum">      72 </span><span class="lineNoCov">          0 :         {</span>
-<span class="lineNum">      73 </span><span class="lineNoCov">          0 :             delete left;</span>
-<span class="lineNum">      74 </span><span class="lineNoCov">          0 :             delete right;</span>
-<span class="lineNum">      75 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">      70 </span><span class="lineCov">          6 :         }</span>
+<span class="lineNum">      71 </span><span class="lineCov">          6 :         ~Node()</span>
+<span class="lineNum">      72 </span><span class="lineCov">          6 :         {</span>
+<span class="lineNum">      73 </span><span class="lineCov">          6 :             delete left;</span>
+<span class="lineNum">      74 </span><span class="lineCov">          6 :             delete right;</span>
+<span class="lineNum">      75 </span><span class="lineCov">          6 :         }</span>
 <span class="lineNum">      76 </span>            : 
 <span class="lineNum">      77 </span>            :         Node* left;               //&lt;! Left child (only on non-leafs)
 <span class="lineNum">      78 </span>            :         Node* right;              //&lt;! Right child (only on non-leafs)
@@ -155,14 +155,14 @@
 <span class="lineNum">      93 </span>            : 
 <a name="94"><span class="lineNum">      94 </span>            :     struct Data</a>
 <span class="lineNum">      95 </span>            :     {
-<span class="lineNum">      96 </span><span class="lineNoCov">          0 :         Data()</span>
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :             : channel(0)</span>
+<span class="lineNum">      96 </span><span class="lineCov">         26 :         Data()</span>
+<span class="lineNum">      97 </span><span class="lineCov">         26 :             : channel(0)</span>
 <span class="lineNum">      98 </span>            :             , taskID(0)
 <span class="lineNum">      99 </span>            :             , destTaskID(0)
 <span class="lineNum">     100 </span>            :             , time(-1)
-<span class="lineNum">     101 </span><span class="lineNoCov">          0 :             , assembleTime(0)</span>
+<span class="lineNum">     101 </span><span class="lineCov">         26 :             , assembleTime(0)</span>
 <span class="lineNum">     102 </span>            :         {
-<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     103 </span><span class="lineCov">         26 :         }</span>
 <span class="lineNum">     104 </span>            :         Channel* channel;
 <span class="lineNum">     105 </span>            :         uint32_t taskID;
 <span class="lineNum">     106 </span>            :         uint32_t destTaskID;

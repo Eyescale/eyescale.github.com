@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntry">44</td>
             <td class="headerCovTableEntry">56</td>
-            <td class="headerCovTableEntryMed">64.3 %</td>
+            <td class="headerCovTableEntryMed">78.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntry">12</td>
             <td class="headerCovTableEntry">14</td>
-            <td class="headerCovTableEntryMed">78.6 %</td>
+            <td class="headerCovTableEntryHi">85.7 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -93,51 +93,51 @@
 <span class="lineNum">      31 </span>            : {
 <a name="32"><span class="lineNum">      32 </span>            : typedef fabric::Observer&lt;Config, Observer&gt; Super;</a>
 <span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span><span class="lineCov">        410 : Observer::Observer(Config* parent)</span>
+<span class="lineNum">      34 </span><span class="lineCov">        408 : Observer::Observer(Config* parent)</span>
 <span class="lineNum">      35 </span>            :     : Super(parent)
-<span class="lineNum">      36 </span><span class="lineCov">        410 :     , _state(STATE_ACTIVE)</span>
+<span class="lineNum">      36 </span><span class="lineCov">        408 :     , _state(STATE_ACTIVE)</span>
 <span class="lineNum">      37 </span>            : {
-<span class="lineNum">      38 </span><span class="lineCov">        410 :     _updateEyes();</span>
-<a name="39"><span class="lineNum">      39 </span><span class="lineCov">        410 : }</span></a>
+<span class="lineNum">      38 </span><span class="lineCov">        408 :     _updateEyes();</span>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">        408 : }</span></a>
 <span class="lineNum">      40 </span>            : 
-<span class="lineNum">      41 </span><span class="lineCov">        816 : Observer::~Observer()</span>
+<span class="lineNum">      41 </span><span class="lineCov">        812 : Observer::~Observer()</span>
 <span class="lineNum">      42 </span>            : {
-<a name="43"><span class="lineNum">      43 </span><span class="lineCov">        816 : }</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">        812 : }</span></a>
 <span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span><span class="lineCov">         20 : void Observer::setDirty(const uint64_t bits)</span>
+<span class="lineNum">      45 </span><span class="lineCov">         14 : void Observer::setDirty(const uint64_t bits)</span>
 <span class="lineNum">      46 </span>            : {
-<span class="lineNum">      47 </span><span class="lineCov">         20 :     Super::setDirty(bits);</span>
+<span class="lineNum">      47 </span><span class="lineCov">         14 :     Super::setDirty(bits);</span>
 <span class="lineNum">      48 </span><span class="lineCov">         28 :     for (ViewsCIter i = _views.begin(); i != _views.end(); ++i)</span>
-<span class="lineNum">      49 </span><span class="lineCov">          8 :         (*i)-&gt;setDirty(View::DIRTY_OBSERVER);</span>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         20 : }</span></a>
+<span class="lineNum">      49 </span><span class="lineCov">         14 :         (*i)-&gt;setDirty(View::DIRTY_OBSERVER);</span>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         14 : }</span></a>
 <span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 : void Observer::deserialize(co::DataIStream&amp; is, const uint64_t dirtyBits)</span>
+<span class="lineNum">      52 </span><span class="lineCov">          2 : void Observer::deserialize(co::DataIStream&amp; is, const uint64_t dirtyBits)</span>
 <span class="lineNum">      53 </span>            : {
-<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     Super::deserialize(is, dirtyBits);</span>
+<span class="lineNum">      54 </span><span class="lineCov">          2 :     Super::deserialize(is, dirtyBits);</span>
 <span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; (DIRTY_EYE_POSITION | DIRTY_HEAD))</span>
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         _updateEyes();</span>
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_FOCUS ||</span>
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         ((dirtyBits &amp; DIRTY_HEAD) &amp;&amp; getFocusMode() != FOCUSMODE_FIXED))</span>
+<span class="lineNum">      56 </span><span class="lineCov">          2 :     if (dirtyBits &amp; (DIRTY_EYE_POSITION | DIRTY_HEAD))</span>
+<span class="lineNum">      57 </span><span class="lineCov">          2 :         _updateEyes();</span>
+<span class="lineNum">      58 </span><span class="lineCov">          4 :     if (dirtyBits &amp; DIRTY_FOCUS ||</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :         ((dirtyBits &amp; DIRTY_HEAD) &amp;&amp; getFocusMode() != FOCUSMODE_FIXED))</span>
 <span class="lineNum">      60 </span>            :     {
 <span class="lineNum">      61 </span><span class="lineNoCov">          0 :         _updateViews();</span>
 <span class="lineNum">      62 </span>            :     }
-<span class="lineNum">      63 </span><span class="lineNoCov">          0 :     if (dirtyBits &amp; DIRTY_HEAD)</span>
+<span class="lineNum">      63 </span><span class="lineCov">          2 :     if (dirtyBits &amp; DIRTY_HEAD)</span>
 <span class="lineNum">      64 </span><span class="lineNoCov">          0 :         _inverseHeadMatrix = getHeadMatrix().inverse();</span>
-<a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineCov">          4 : ServerPtr Observer::getServer()</span>
+<span class="lineNum">      67 </span><span class="lineCov">          2 : ServerPtr Observer::getServer()</span>
 <span class="lineNum">      68 </span>            : {
-<span class="lineNum">      69 </span><span class="lineCov">          4 :     Config* config = getConfig();</span>
-<span class="lineNum">      70 </span><span class="lineCov">          4 :     LBASSERT(config);</span>
-<span class="lineNum">      71 </span><span class="lineCov">          4 :     return (config ? config-&gt;getServer() : 0);</span>
+<span class="lineNum">      69 </span><span class="lineCov">          2 :     Config* config = getConfig();</span>
+<span class="lineNum">      70 </span><span class="lineCov">          2 :     LBASSERT(config);</span>
+<span class="lineNum">      71 </span><span class="lineCov">          2 :     return (config ? config-&gt;getServer() : 0);</span>
 <a name="72"><span class="lineNum">      72 </span>            : }</a>
 <span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span><span class="lineCov">        678 : void Observer::addView(View* view)</span>
+<span class="lineNum">      74 </span><span class="lineCov">        688 : void Observer::addView(View* view)</span>
 <span class="lineNum">      75 </span>            : {
-<span class="lineNum">      76 </span><span class="lineCov">        678 :     LBASSERT(lunchbox::find(_views, view) == _views.end());</span>
-<span class="lineNum">      77 </span><span class="lineCov">        678 :     _views.push_back(view);</span>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">        678 : }</span></a>
+<span class="lineNum">      76 </span><span class="lineCov">        688 :     LBASSERT(lunchbox::find(_views, view) == _views.end());</span>
+<span class="lineNum">      77 </span><span class="lineCov">        688 :     _views.push_back(view);</span>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">        688 : }</span></a>
 <span class="lineNum">      79 </span>            : 
 <span class="lineNum">      80 </span><span class="lineNoCov">          0 : void Observer::removeView(View* view)</span>
 <span class="lineNum">      81 </span>            : {
@@ -166,8 +166,8 @@
 <span class="lineNum">     104 </span>            : 
 <span class="lineNum">     105 </span><span class="lineCov">          2 : void Observer::_updateViews()</span>
 <span class="lineNum">     106 </span>            : {
-<span class="lineNum">     107 </span><span class="lineCov">          4 :     for (ViewsIter i = _views.begin(); i != _views.end(); ++i)</span>
-<span class="lineNum">     108 </span><span class="lineCov">          2 :         (*i)-&gt;updateFrusta();</span>
+<span class="lineNum">     107 </span><span class="lineCov">         16 :     for (ViewsIter i = _views.begin(); i != _views.end(); ++i)</span>
+<span class="lineNum">     108 </span><span class="lineCov">         14 :         (*i)-&gt;updateFrusta();</span>
 <a name="109"><span class="lineNum">     109 </span><span class="lineCov">          2 : }</span></a>
 <span class="lineNum">     110 </span>            : 
 <span class="lineNum">     111 </span><span class="lineNoCov">          0 : void Observer::postDelete()</span>
@@ -182,7 +182,7 @@
 <span class="lineNum">     120 </span>            : /** @cond IGNORE */
 <a name="121"><span class="lineNum">     121 </span>            : template std::ostream&amp; eq::fabric::operator&lt;&lt;(</a>
 <span class="lineNum">     122 </span>            :     std::ostream&amp;,
-<span class="lineNum">     123 </span><span class="lineCov">         72 :     const eq::fabric::Observer&lt;eq::server::Config, eq::server::Observer&gt;&amp;);</span>
+<span class="lineNum">     123 </span><span class="lineCov">         60 :     const eq::fabric::Observer&lt;eq::server::Config, eq::server::Observer&gt;&amp;);</span>
 <span class="lineNum">     124 </span>            : /** @endcond */
 </pre>
       </td>

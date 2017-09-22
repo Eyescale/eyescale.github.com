@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">103</td>
+            <td class="headerCovTableEntry">113</td>
             <td class="headerCovTableEntry">154</td>
-            <td class="headerCovTableEntryMed">66.9 %</td>
+            <td class="headerCovTableEntryMed">73.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">15</td>
             <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntryMed">70.0 %</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -81,257 +81,255 @@
 <span class="lineNum">      19 </span>            : #include &quot;wall.h&quot;
 <span class="lineNum">      20 </span>            : #include &quot;pixelViewport.h&quot;
 <span class="lineNum">      21 </span>            : #include &quot;projection.h&quot;
-<span class="lineNum">      22 </span>            : 
-<span class="lineNum">      23 </span>            : #include &lt;lunchbox/log.h&gt;
-<span class="lineNum">      24 </span>            : 
-<span class="lineNum">      25 </span>            : #ifndef M_PI
-<span class="lineNum">      26 </span>            : #define M_PI 3.14159265358979323846264338327
-<span class="lineNum">      27 </span>            : #endif
-<span class="lineNum">      28 </span>            : #define DEG2RAD(angle) ((angle) * static_cast&lt;float&gt;(M_PI) / 180.f)
-<span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span>            : namespace eq
+<span class="lineNum">      22 </span>            : #include &quot;vmmlib.h&quot;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &lt;lunchbox/log.h&gt;
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : #define DEG2RAD(angle) ((angle) * static_cast&lt;float&gt;(M_PI) / 180.f)
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : namespace eq
+<span class="lineNum">      29 </span>            : {
+<a name="30"><span class="lineNum">      30 </span>            : namespace fabric</a>
 <span class="lineNum">      31 </span>            : {
-<a name="32"><span class="lineNum">      32 </span>            : namespace fabric</a>
-<span class="lineNum">      33 </span>            : {
-<span class="lineNum">      34 </span><span class="lineCov">      13436 : Wall::Wall()</span>
-<span class="lineNum">      35 </span>            :     : bottomLeft(-.8f, -.5f, -1.f)
-<span class="lineNum">      36 </span>            :     , bottomRight(.8f, -.5f, -1.f)
-<span class="lineNum">      37 </span>            :     , topLeft(-.8f, .5f, -1.f)
-<span class="lineNum">      38 </span><span class="lineCov">      13436 :     , type(TYPE_FIXED)</span>
-<span class="lineNum">      39 </span>            : {
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">      13436 : }</span></a>
-<span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineCov">         12 : Wall::Wall(const Vector3f&amp; bl, const Vector3f&amp; br, const Vector3f&amp; tl)</span>
-<span class="lineNum">      43 </span>            :     : bottomLeft(bl)
-<span class="lineNum">      44 </span>            :     , bottomRight(br)
-<span class="lineNum">      45 </span>            :     , topLeft(tl)
-<span class="lineNum">      46 </span><span class="lineCov">         12 :     , type(TYPE_FIXED)</span>
-<span class="lineNum">      47 </span>            : {
-<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         12 : }</span></a>
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span><span class="lineCov">          4 : void Wall::resizeHorizontal(const float ratio)</span>
-<span class="lineNum">      51 </span>            : {
-<span class="lineNum">      52 </span><span class="lineCov">          4 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
-<span class="lineNum">      53 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span><span class="lineCov">          4 :     const Vector3f u_2 = (bottomRight - bottomLeft) * .5f;</span>
-<span class="lineNum">      56 </span><span class="lineCov">          4 :     const Vector3f delta = u_2 * (ratio - 1.f);</span>
-<span class="lineNum">      57 </span><span class="lineCov">          4 :     bottomLeft -= delta;</span>
-<span class="lineNum">      58 </span><span class="lineCov">          4 :     bottomRight += delta;</span>
-<span class="lineNum">      59 </span><span class="lineCov">          4 :     topLeft -= delta;</span>
-<a name="60"><span class="lineNum">      60 </span>            : }</a>
-<span class="lineNum">      61 </span>            : 
-<span class="lineNum">      62 </span><span class="lineCov">          2 : void Wall::resizeVertical(const float ratio)</span>
-<span class="lineNum">      63 </span>            : {
-<span class="lineNum">      64 </span><span class="lineCov">          2 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
-<span class="lineNum">      65 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span><span class="lineCov">          2 :     const Vector3f v_2 = (topLeft - bottomLeft) * .5f;</span>
-<span class="lineNum">      68 </span><span class="lineCov">          2 :     const Vector3f delta = v_2 * (ratio - 1.f);</span>
-<span class="lineNum">      69 </span><span class="lineCov">          2 :     bottomLeft -= delta;</span>
-<span class="lineNum">      70 </span><span class="lineCov">          2 :     bottomRight -= delta;</span>
-<span class="lineNum">      71 </span><span class="lineCov">          2 :     topLeft += delta;</span>
-<a name="72"><span class="lineNum">      72 </span>            : }</a>
-<span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span><span class="lineNoCov">          0 : void Wall::resizeLeft(const float ratio)</span>
-<span class="lineNum">      75 </span>            : {
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
-<span class="lineNum">      77 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineNoCov">          0 :     const Vector3f u = bottomRight - bottomLeft;</span>
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     const Vector3f delta = u * (ratio - 1.f);</span>
-<span class="lineNum">      81 </span><span class="lineNoCov">          0 :     bottomLeft -= delta;</span>
-<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     topLeft -= delta;</span>
-<a name="83"><span class="lineNum">      83 </span>            : }</a>
-<span class="lineNum">      84 </span>            : 
-<span class="lineNum">      85 </span><span class="lineNoCov">          0 : void Wall::resizeRight(const float ratio)</span>
-<span class="lineNum">      86 </span>            : {
-<span class="lineNum">      87 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
-<span class="lineNum">      88 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      89 </span>            : 
-<span class="lineNum">      90 </span><span class="lineNoCov">          0 :     const Vector3f u = bottomRight - bottomLeft;</span>
-<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     const Vector3f delta = u * (ratio - 1.f);</span>
-<span class="lineNum">      92 </span><span class="lineNoCov">          0 :     bottomRight += delta;</span>
-<a name="93"><span class="lineNum">      93 </span>            : }</a>
-<span class="lineNum">      94 </span>            : 
-<span class="lineNum">      95 </span><span class="lineNoCov">          0 : void Wall::resizeTop(const float ratio)</span>
-<span class="lineNum">      96 </span>            : {
-<span class="lineNum">      97 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
-<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      99 </span>            : 
-<span class="lineNum">     100 </span><span class="lineNoCov">          0 :     const Vector3f v = topLeft - bottomLeft;</span>
-<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     const Vector3f delta = v * (ratio - 1.f);</span>
-<span class="lineNum">     102 </span><span class="lineNoCov">          0 :     topLeft += delta;</span>
-<a name="103"><span class="lineNum">     103 </span>            : }</a>
-<span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineNoCov">          0 : void Wall::resizeBottom(const float ratio)</span>
-<span class="lineNum">     106 </span>            : {
-<span class="lineNum">     107 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
-<span class="lineNum">     108 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span><span class="lineNoCov">          0 :     const Vector3f v = topLeft - bottomLeft;</span>
-<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     const Vector3f delta = v * (ratio - 1.f);</span>
-<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     bottomLeft -= delta;</span>
-<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     bottomRight -= delta;</span>
-<a name="114"><span class="lineNum">     114 </span>            : }</a>
-<span class="lineNum">     115 </span>            : 
-<span class="lineNum">     116 </span><span class="lineNoCov">          0 : void Wall::resizeHorizontalToAR(const float aspectRatio)</span>
-<span class="lineNum">     117 </span>            : {
-<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     const Vector3f u_2 = (bottomRight - bottomLeft) * .5f;</span>
-<span class="lineNum">     119 </span><span class="lineNoCov">          0 :     const Vector3f v_2 = (topLeft - bottomLeft) * .5f;</span>
-<span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span><span class="lineNoCov">          0 :     const float currentAR = u_2.length() / v_2.length();</span>
-<span class="lineNum">     122 </span><span class="lineNoCov">          0 :     const float ratio = aspectRatio / currentAR;</span>
-<span class="lineNum">     123 </span>            : 
-<span class="lineNum">     124 </span>            :     // Same as resizeHorizontal, but C&amp;P since we have u_2 already
-<span class="lineNum">     125 </span><span class="lineNoCov">          0 :     const Vector3f delta = u_2 * (ratio - 1.f);</span>
-<span class="lineNum">     126 </span><span class="lineNoCov">          0 :     bottomLeft -= delta;</span>
-<span class="lineNum">     127 </span><span class="lineNoCov">          0 :     bottomRight += delta;</span>
-<span class="lineNum">     128 </span><span class="lineNoCov">          0 :     topLeft -= delta;</span>
-<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">     130 </span>            : 
-<span class="lineNum">     131 </span><span class="lineCov">          4 : void Wall::moveFocus(const Vector3f&amp; eye, const float ratio)</span>
-<span class="lineNum">     132 </span>            : {
-<span class="lineNum">     133 </span><span class="lineCov">          4 :     if (ratio == 1.0f)</span>
-<span class="lineNum">     134 </span><span class="lineCov">          4 :         return;</span>
-<span class="lineNum">     135 </span>            : 
-<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     bottomLeft = eye + (bottomLeft - eye) * ratio;</span>
-<span class="lineNum">     137 </span><span class="lineNoCov">          0 :     bottomRight = eye + (bottomRight - eye) * ratio;</span>
-<span class="lineNum">     138 </span><span class="lineNoCov">          0 :     topLeft = eye + (topLeft - eye) * ratio;</span>
-<a name="139"><span class="lineNum">     139 </span>            : }</a>
-<span class="lineNum">     140 </span>            : 
-<span class="lineNum">     141 </span><span class="lineCov">        310 : void Wall::apply(const Viewport&amp; viewport)</span>
-<span class="lineNum">     142 </span>            : {
-<span class="lineNum">     143 </span><span class="lineCov">        310 :     const Vector3f u = bottomRight - bottomLeft;</span>
-<span class="lineNum">     144 </span><span class="lineCov">        310 :     const Vector3f v = topLeft - bottomLeft;</span>
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span><span class="lineCov">        310 :     bottomLeft = bottomLeft + u * viewport.x + v * viewport.y;</span>
-<span class="lineNum">     147 </span><span class="lineCov">        310 :     bottomRight = bottomLeft + u * viewport.w;</span>
-<span class="lineNum">     148 </span><span class="lineCov">        310 :     topLeft = bottomLeft + v * viewport.h;</span>
-<a name="149"><span class="lineNum">     149 </span><span class="lineCov">        310 : }</span></a>
-<span class="lineNum">     150 </span>            : 
-<span class="lineNum">     151 </span><span class="lineCov">          4 : void Wall::scale(const float ratio)</span>
-<span class="lineNum">     152 </span>            : {
-<span class="lineNum">     153 </span><span class="lineCov">          4 :     if (ratio == 1.0f)</span>
-<span class="lineNum">     154 </span><span class="lineCov">          4 :         return;</span>
-<span class="lineNum">     155 </span>            : 
-<span class="lineNum">     156 </span><span class="lineNoCov">          0 :     bottomLeft *= ratio;</span>
-<span class="lineNum">     157 </span><span class="lineNoCov">          0 :     bottomRight *= ratio;</span>
-<span class="lineNum">     158 </span><span class="lineNoCov">          0 :     topLeft *= ratio;</span>
-<a name="159"><span class="lineNum">     159 </span>            : }</a>
-<span class="lineNum">     160 </span>            : 
-<span class="lineNum">     161 </span><span class="lineCov">         78 : Wall&amp; Wall::operator=(const Projection&amp; projection)</span>
-<span class="lineNum">     162 </span>            : {
-<span class="lineNum">     163 </span><span class="lineCov">        156 :     const float width = fabs(projection.distance * 2.0 *</span>
-<span class="lineNum">     164 </span><span class="lineCov">        156 :                              tanf(DEG2RAD(.5f * projection.fov[0])));</span>
-<span class="lineNum">     165 </span><span class="lineCov">        156 :     const float height = fabs(projection.distance * 2.0 *</span>
-<span class="lineNum">     166 </span><span class="lineCov">        156 :                               tanf(DEG2RAD(.5f * projection.fov[1])));</span>
-<span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineCov">         78 :     bottomLeft[0] = -width * 0.5f;</span>
-<span class="lineNum">     169 </span><span class="lineCov">         78 :     bottomLeft[1] = -height * 0.5f;</span>
-<span class="lineNum">     170 </span><span class="lineCov">         78 :     bottomLeft[2] = 0;</span>
-<span class="lineNum">     171 </span><span class="lineCov">         78 :     bottomRight[0] = width * 0.5f;</span>
-<span class="lineNum">     172 </span><span class="lineCov">         78 :     bottomRight[1] = -height * 0.5f;</span>
-<span class="lineNum">     173 </span><span class="lineCov">         78 :     bottomRight[2] = 0;</span>
-<span class="lineNum">     174 </span><span class="lineCov">         78 :     topLeft[0] = -width * 0.5f;</span>
-<span class="lineNum">     175 </span><span class="lineCov">         78 :     topLeft[1] = height * 0.5f;</span>
-<span class="lineNum">     176 </span><span class="lineCov">         78 :     topLeft[2] = 0;</span>
-<span class="lineNum">     177 </span>            : 
-<span class="lineNum">     178 </span><span class="lineCov">         78 :     const float cosP = cos(DEG2RAD(projection.hpr[1]));</span>
-<span class="lineNum">     179 </span><span class="lineCov">         78 :     const float sinP = sin(DEG2RAD(projection.hpr[1]));</span>
-<span class="lineNum">     180 </span><span class="lineCov">         78 :     const float cosH = cos(DEG2RAD(projection.hpr[0]));</span>
-<span class="lineNum">     181 </span><span class="lineCov">         78 :     const float sinH = sin(DEG2RAD(projection.hpr[0]));</span>
-<span class="lineNum">     182 </span><span class="lineCov">         78 :     const float cosR = cos(DEG2RAD(projection.hpr[2]));</span>
-<span class="lineNum">     183 </span><span class="lineCov">         78 :     const float sinR = sin(DEG2RAD(projection.hpr[2]));</span>
-<span class="lineNum">     184 </span>            : 
-<span class="lineNum">     185 </span><span class="lineCov">         78 :     Matrix3f mat;</span>
-<span class="lineNum">     186 </span><span class="lineCov">         78 :     const float cosPsinH = cosP * sinH;</span>
-<span class="lineNum">     187 </span><span class="lineCov">         78 :     const float sinPsinH = sinP * sinH;</span>
-<span class="lineNum">     188 </span>            : 
-<span class="lineNum">     189 </span><span class="lineCov">         78 :     mat.array[0] = cosH * cosR;</span>
-<span class="lineNum">     190 </span><span class="lineCov">         78 :     mat.array[1] = -cosH * sinR;</span>
-<span class="lineNum">     191 </span><span class="lineCov">         78 :     mat.array[2] = -sinH;</span>
-<span class="lineNum">     192 </span><span class="lineCov">         78 :     mat.array[3] = -sinPsinH * cosR + cosP * sinR;</span>
-<span class="lineNum">     193 </span><span class="lineCov">         78 :     mat.array[4] = sinPsinH * sinR + cosP * cosR;</span>
-<span class="lineNum">     194 </span><span class="lineCov">         78 :     mat.array[5] = -sinP * cosH;</span>
-<span class="lineNum">     195 </span><span class="lineCov">         78 :     mat.array[6] = cosPsinH * cosR + sinP * sinR;</span>
-<span class="lineNum">     196 </span><span class="lineCov">         78 :     mat.array[7] = -cosPsinH * sinR + sinP * cosR;</span>
-<span class="lineNum">     197 </span><span class="lineCov">         78 :     mat.array[8] = cosP * cosH;</span>
-<span class="lineNum">     198 </span>            : 
-<span class="lineNum">     199 </span><span class="lineCov">         78 :     bottomLeft = mat * bottomLeft;</span>
-<span class="lineNum">     200 </span><span class="lineCov">         78 :     bottomRight = mat * bottomRight;</span>
-<span class="lineNum">     201 </span><span class="lineCov">         78 :     topLeft = mat * topLeft;</span>
+<span class="lineNum">      32 </span><span class="lineCov">      13730 : Wall::Wall()</span>
+<span class="lineNum">      33 </span>            :     : bottomLeft(-.8f, -.5f, -1.f)
+<span class="lineNum">      34 </span>            :     , bottomRight(.8f, -.5f, -1.f)
+<span class="lineNum">      35 </span>            :     , topLeft(-.8f, .5f, -1.f)
+<span class="lineNum">      36 </span><span class="lineCov">      13730 :     , type(TYPE_FIXED)</span>
+<span class="lineNum">      37 </span>            : {
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">      13730 : }</span></a>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineCov">         12 : Wall::Wall(const Vector3f&amp; bl, const Vector3f&amp; br, const Vector3f&amp; tl)</span>
+<span class="lineNum">      41 </span>            :     : bottomLeft(bl)
+<span class="lineNum">      42 </span>            :     , bottomRight(br)
+<span class="lineNum">      43 </span>            :     , topLeft(tl)
+<span class="lineNum">      44 </span><span class="lineCov">         12 :     , type(TYPE_FIXED)</span>
+<span class="lineNum">      45 </span>            : {
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">         12 : }</span></a>
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span><span class="lineCov">          4 : void Wall::resizeHorizontal(const float ratio)</span>
+<span class="lineNum">      49 </span>            : {
+<span class="lineNum">      50 </span><span class="lineCov">          4 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">          4 :     const Vector3f u_2 = (bottomRight - bottomLeft) * .5f;</span>
+<span class="lineNum">      54 </span><span class="lineCov">          4 :     const Vector3f delta = u_2 * (ratio - 1.f);</span>
+<span class="lineNum">      55 </span><span class="lineCov">          4 :     bottomLeft -= delta;</span>
+<span class="lineNum">      56 </span><span class="lineCov">          4 :     bottomRight += delta;</span>
+<span class="lineNum">      57 </span><span class="lineCov">          4 :     topLeft -= delta;</span>
+<a name="58"><span class="lineNum">      58 </span>            : }</a>
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span><span class="lineCov">          2 : void Wall::resizeVertical(const float ratio)</span>
+<span class="lineNum">      61 </span>            : {
+<span class="lineNum">      62 </span><span class="lineCov">          2 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span><span class="lineCov">          2 :     const Vector3f v_2 = (topLeft - bottomLeft) * .5f;</span>
+<span class="lineNum">      66 </span><span class="lineCov">          2 :     const Vector3f delta = v_2 * (ratio - 1.f);</span>
+<span class="lineNum">      67 </span><span class="lineCov">          2 :     bottomLeft -= delta;</span>
+<span class="lineNum">      68 </span><span class="lineCov">          2 :     bottomRight -= delta;</span>
+<span class="lineNum">      69 </span><span class="lineCov">          2 :     topLeft += delta;</span>
+<a name="70"><span class="lineNum">      70 </span>            : }</a>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 : void Wall::resizeLeft(const float ratio)</span>
+<span class="lineNum">      73 </span>            : {
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :     const Vector3f u = bottomRight - bottomLeft;</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :     const Vector3f delta = u * (ratio - 1.f);</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :     bottomLeft -= delta;</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     topLeft -= delta;</span>
+<a name="81"><span class="lineNum">      81 </span>            : }</a>
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 : void Wall::resizeRight(const float ratio)</span>
+<span class="lineNum">      84 </span>            : {
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span><span class="lineNoCov">          0 :     const Vector3f u = bottomRight - bottomLeft;</span>
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     const Vector3f delta = u * (ratio - 1.f);</span>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :     bottomRight += delta;</span>
+<a name="91"><span class="lineNum">      91 </span>            : }</a>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 : void Wall::resizeTop(const float ratio)</span>
+<span class="lineNum">      94 </span>            : {
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :     const Vector3f v = topLeft - bottomLeft;</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :     const Vector3f delta = v * (ratio - 1.f);</span>
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :     topLeft += delta;</span>
+<a name="101"><span class="lineNum">     101 </span>            : }</a>
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 : void Wall::resizeBottom(const float ratio)</span>
+<span class="lineNum">     104 </span>            : {
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :     if (ratio == 1.f || ratio &lt; 0.f)</span>
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :     const Vector3f v = topLeft - bottomLeft;</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :     const Vector3f delta = v * (ratio - 1.f);</span>
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :     bottomLeft -= delta;</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     bottomRight -= delta;</span>
+<a name="112"><span class="lineNum">     112 </span>            : }</a>
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span><span class="lineCov">          2 : void Wall::resizeHorizontalToAR(const float aspectRatio)</span>
+<span class="lineNum">     115 </span>            : {
+<span class="lineNum">     116 </span><span class="lineCov">          2 :     const Vector3f u_2 = (bottomRight - bottomLeft) * .5f;</span>
+<span class="lineNum">     117 </span><span class="lineCov">          2 :     const Vector3f v_2 = (topLeft - bottomLeft) * .5f;</span>
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span><span class="lineCov">          2 :     const float currentAR = u_2.length() / v_2.length();</span>
+<span class="lineNum">     120 </span><span class="lineCov">          2 :     const float ratio = aspectRatio / currentAR;</span>
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            :     // Same as resizeHorizontal, but C&amp;P since we have u_2 already
+<span class="lineNum">     123 </span><span class="lineCov">          2 :     const Vector3f delta = u_2 * (ratio - 1.f);</span>
+<span class="lineNum">     124 </span><span class="lineCov">          2 :     bottomLeft -= delta;</span>
+<span class="lineNum">     125 </span><span class="lineCov">          2 :     bottomRight += delta;</span>
+<span class="lineNum">     126 </span><span class="lineCov">          2 :     topLeft -= delta;</span>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span><span class="lineCov">        118 : void Wall::moveFocus(const Vector3f&amp; eye, const float ratio)</span>
+<span class="lineNum">     130 </span>            : {
+<span class="lineNum">     131 </span><span class="lineCov">        118 :     if (ratio == 1.0f)</span>
+<span class="lineNum">     132 </span><span class="lineCov">        118 :         return;</span>
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :     bottomLeft = eye + (bottomLeft - eye) * ratio;</span>
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :     bottomRight = eye + (bottomRight - eye) * ratio;</span>
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     topLeft = eye + (topLeft - eye) * ratio;</span>
+<a name="137"><span class="lineNum">     137 </span>            : }</a>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span><span class="lineCov">        422 : void Wall::apply(const Viewport&amp; viewport)</span>
+<span class="lineNum">     140 </span>            : {
+<span class="lineNum">     141 </span><span class="lineCov">        422 :     const Vector3f u = bottomRight - bottomLeft;</span>
+<span class="lineNum">     142 </span><span class="lineCov">        422 :     const Vector3f v = topLeft - bottomLeft;</span>
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span><span class="lineCov">        422 :     bottomLeft = bottomLeft + u * viewport.x + v * viewport.y;</span>
+<span class="lineNum">     145 </span><span class="lineCov">        422 :     bottomRight = bottomLeft + u * viewport.w;</span>
+<span class="lineNum">     146 </span><span class="lineCov">        422 :     topLeft = bottomLeft + v * viewport.h;</span>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">        422 : }</span></a>
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span><span class="lineCov">        118 : void Wall::scale(const float ratio)</span>
+<span class="lineNum">     150 </span>            : {
+<span class="lineNum">     151 </span><span class="lineCov">        118 :     if (ratio == 1.0f)</span>
+<span class="lineNum">     152 </span><span class="lineCov">        118 :         return;</span>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :     bottomLeft *= ratio;</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :     bottomRight *= ratio;</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :     topLeft *= ratio;</span>
+<a name="157"><span class="lineNum">     157 </span>            : }</a>
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span><span class="lineCov">         78 : Wall&amp; Wall::operator=(const Projection&amp; projection)</span>
+<span class="lineNum">     160 </span>            : {
+<span class="lineNum">     161 </span><span class="lineCov">        156 :     const float width = fabs(projection.distance * 2.0 *</span>
+<span class="lineNum">     162 </span><span class="lineCov">        156 :                              tanf(DEG2RAD(.5f * projection.fov[0])));</span>
+<span class="lineNum">     163 </span><span class="lineCov">        156 :     const float height = fabs(projection.distance * 2.0 *</span>
+<span class="lineNum">     164 </span><span class="lineCov">        156 :                               tanf(DEG2RAD(.5f * projection.fov[1])));</span>
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span><span class="lineCov">         78 :     bottomLeft[0] = -width * 0.5f;</span>
+<span class="lineNum">     167 </span><span class="lineCov">         78 :     bottomLeft[1] = -height * 0.5f;</span>
+<span class="lineNum">     168 </span><span class="lineCov">         78 :     bottomLeft[2] = 0;</span>
+<span class="lineNum">     169 </span><span class="lineCov">         78 :     bottomRight[0] = width * 0.5f;</span>
+<span class="lineNum">     170 </span><span class="lineCov">         78 :     bottomRight[1] = -height * 0.5f;</span>
+<span class="lineNum">     171 </span><span class="lineCov">         78 :     bottomRight[2] = 0;</span>
+<span class="lineNum">     172 </span><span class="lineCov">         78 :     topLeft[0] = -width * 0.5f;</span>
+<span class="lineNum">     173 </span><span class="lineCov">         78 :     topLeft[1] = height * 0.5f;</span>
+<span class="lineNum">     174 </span><span class="lineCov">         78 :     topLeft[2] = 0;</span>
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineCov">         78 :     const float cosP = cos(DEG2RAD(projection.hpr[1]));</span>
+<span class="lineNum">     177 </span><span class="lineCov">         78 :     const float sinP = sin(DEG2RAD(projection.hpr[1]));</span>
+<span class="lineNum">     178 </span><span class="lineCov">         78 :     const float cosH = cos(DEG2RAD(projection.hpr[0]));</span>
+<span class="lineNum">     179 </span><span class="lineCov">         78 :     const float sinH = sin(DEG2RAD(projection.hpr[0]));</span>
+<span class="lineNum">     180 </span><span class="lineCov">         78 :     const float cosR = cos(DEG2RAD(projection.hpr[2]));</span>
+<span class="lineNum">     181 </span><span class="lineCov">         78 :     const float sinR = sin(DEG2RAD(projection.hpr[2]));</span>
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span><span class="lineCov">         78 :     Matrix3f mat;</span>
+<span class="lineNum">     184 </span><span class="lineCov">         78 :     const float cosPsinH = cosP * sinH;</span>
+<span class="lineNum">     185 </span><span class="lineCov">         78 :     const float sinPsinH = sinP * sinH;</span>
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span><span class="lineCov">         78 :     mat.array[0] = cosH * cosR;</span>
+<span class="lineNum">     188 </span><span class="lineCov">         78 :     mat.array[1] = -cosH * sinR;</span>
+<span class="lineNum">     189 </span><span class="lineCov">         78 :     mat.array[2] = -sinH;</span>
+<span class="lineNum">     190 </span><span class="lineCov">         78 :     mat.array[3] = -sinPsinH * cosR + cosP * sinR;</span>
+<span class="lineNum">     191 </span><span class="lineCov">         78 :     mat.array[4] = sinPsinH * sinR + cosP * cosR;</span>
+<span class="lineNum">     192 </span><span class="lineCov">         78 :     mat.array[5] = -sinP * cosH;</span>
+<span class="lineNum">     193 </span><span class="lineCov">         78 :     mat.array[6] = cosPsinH * cosR + sinP * sinR;</span>
+<span class="lineNum">     194 </span><span class="lineCov">         78 :     mat.array[7] = -cosPsinH * sinR + sinP * cosR;</span>
+<span class="lineNum">     195 </span><span class="lineCov">         78 :     mat.array[8] = cosP * cosH;</span>
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span><span class="lineCov">         78 :     bottomLeft = mat * bottomLeft;</span>
+<span class="lineNum">     198 </span><span class="lineCov">         78 :     bottomRight = mat * bottomRight;</span>
+<span class="lineNum">     199 </span><span class="lineCov">         78 :     topLeft = mat * topLeft;</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span><span class="lineCov">         78 :     Vector3f w(mat.array[6], mat.array[7], mat.array[8]);</span>
 <span class="lineNum">     202 </span>            : 
-<span class="lineNum">     203 </span><span class="lineCov">         78 :     Vector3f w(mat.array[6], mat.array[7], mat.array[8]);</span>
-<span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span><span class="lineCov">         78 :     bottomLeft = bottomLeft + projection.origin + w * projection.distance;</span>
-<span class="lineNum">     206 </span><span class="lineCov">         78 :     bottomRight = bottomRight + projection.origin + w * projection.distance;</span>
-<span class="lineNum">     207 </span><span class="lineCov">         78 :     topLeft = topLeft + projection.origin + w * projection.distance;</span>
-<span class="lineNum">     208 </span>            : 
-<span class="lineNum">     209 </span><span class="lineCov">         78 :     return *this;</span>
-<a name="210"><span class="lineNum">     210 </span>            : }</a>
-<span class="lineNum">     211 </span>            : 
-<span class="lineNum">     212 </span><span class="lineCov">          2 : Wall&amp; Wall::operator=(const Matrix4f&amp; xfm)</span>
-<span class="lineNum">     213 </span>            : {
-<span class="lineNum">     214 </span><span class="lineCov">          2 :     bottomLeft = xfm * Vector4f(-1.0f, -1.0f, -1.0f, 1.0f);</span>
-<span class="lineNum">     215 </span><span class="lineCov">          2 :     bottomRight = xfm * Vector4f(1.0f, -1.0f, -1.0f, 1.0f);</span>
-<span class="lineNum">     216 </span><span class="lineCov">          2 :     topLeft = xfm * Vector4f(-1.0f, 1.0f, -1.0f, 1.0f);</span>
-<span class="lineNum">     217 </span><span class="lineCov">          2 :     return *this;</span>
-<a name="218"><span class="lineNum">     218 </span>            : }</a>
-<span class="lineNum">     219 </span>            : 
-<span class="lineNum">     220 </span><span class="lineCov">       2688 : bool Wall::operator==(const Wall&amp; rhs) const</span>
-<span class="lineNum">     221 </span>            : {
-<span class="lineNum">     222 </span><span class="lineCov">       4032 :     return (bottomLeft.equals(rhs.bottomLeft, 0.0001f) &amp;&amp;</span>
-<span class="lineNum">     223 </span><span class="lineCov">       4000 :             bottomRight.equals(rhs.bottomRight, 0.0001f) &amp;&amp;</span>
-<span class="lineNum">     224 </span><span class="lineCov">       4000 :             topLeft.equals(rhs.topLeft, 0.0001f));</span>
-<a name="225"><span class="lineNum">     225 </span>            : }</a>
-<span class="lineNum">     226 </span>            : 
-<span class="lineNum">     227 </span><span class="lineNoCov">          0 : bool Wall::operator!=(const Wall&amp; rhs) const</span>
-<span class="lineNum">     228 </span>            : {
-<span class="lineNum">     229 </span><span class="lineNoCov">          0 :     return (!bottomLeft.equals(rhs.bottomLeft, 0.0001f) ||</span>
-<span class="lineNum">     230 </span><span class="lineNoCov">          0 :             !bottomRight.equals(rhs.bottomRight, 0.0001f) ||</span>
-<span class="lineNum">     231 </span><span class="lineNoCov">          0 :             !topLeft.equals(rhs.topLeft, 0.0001f));</span>
-<a name="232"><span class="lineNum">     232 </span>            : }</a>
-<span class="lineNum">     233 </span>            : 
-<span class="lineNum">     234 </span><span class="lineCov">        528 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Wall&amp; wall)</span>
-<span class="lineNum">     235 </span>            : {
-<span class="lineNum">     236 </span><span class="lineCov">        528 :     const std::ios::fmtflags flags = os.flags();</span>
-<span class="lineNum">     237 </span><span class="lineCov">        528 :     os.setf(std::ios::fixed, std::ios::floatfield);</span>
-<span class="lineNum">     238 </span>            : 
-<span class="lineNum">     239 </span><span class="lineCov">        528 :     os &lt;&lt; lunchbox::disableHeader &lt;&lt; lunchbox::disableFlush &lt;&lt; &quot;wall&quot;</span>
-<span class="lineNum">     240 </span><span class="lineCov">        528 :        &lt;&lt; std::endl</span>
-<span class="lineNum">     241 </span><span class="lineCov">        528 :        &lt;&lt; &quot;{&quot; &lt;&lt; std::endl</span>
-<span class="lineNum">     242 </span><span class="lineCov">       1056 :        &lt;&lt; lunchbox::indent &lt;&lt; &quot;bottom_left  &quot; &lt;&lt; wall.bottomLeft &lt;&lt; std::endl</span>
-<span class="lineNum">     243 </span><span class="lineCov">       1056 :        &lt;&lt; &quot;bottom_right &quot; &lt;&lt; wall.bottomRight &lt;&lt; std::endl</span>
-<span class="lineNum">     244 </span><span class="lineCov">       1056 :        &lt;&lt; &quot;top_left     &quot; &lt;&lt; wall.topLeft &lt;&lt; std::endl;</span>
-<span class="lineNum">     245 </span><span class="lineCov">        528 :     if (wall.type != Wall::TYPE_FIXED)</span>
-<span class="lineNum">     246 </span><span class="lineCov">         12 :         os &lt;&lt; &quot;type         &quot; &lt;&lt; wall.type &lt;&lt; std::endl;</span>
-<span class="lineNum">     247 </span><span class="lineCov">        528 :     os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; lunchbox::enableFlush</span>
-<span class="lineNum">     248 </span><span class="lineCov">        528 :        &lt;&lt; lunchbox::enableHeader &lt;&lt; std::endl;</span>
-<span class="lineNum">     249 </span>            : 
-<span class="lineNum">     250 </span><span class="lineCov">        528 :     os.setf(flags);</span>
-<span class="lineNum">     251 </span><span class="lineCov">        528 :     return os;</span>
-<a name="252"><span class="lineNum">     252 </span>            : }</a>
-<span class="lineNum">     253 </span>            : 
-<span class="lineNum">     254 </span><span class="lineCov">         12 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Wall::Type&amp; type)</span>
-<span class="lineNum">     255 </span>            : {
-<span class="lineNum">     256 </span><span class="lineCov">         12 :     switch (type)</span>
-<span class="lineNum">     257 </span>            :     {
-<span class="lineNum">     258 </span>            :     case Wall::TYPE_HMD:
-<span class="lineNum">     259 </span><span class="lineCov">         12 :         os &lt;&lt; &quot;HMD&quot;;</span>
-<span class="lineNum">     260 </span><span class="lineCov">         12 :         break;</span>
-<span class="lineNum">     261 </span>            : 
-<span class="lineNum">     262 </span>            :     default:
-<span class="lineNum">     263 </span><span class="lineNoCov">          0 :         LBASSERT(false);</span>
-<span class="lineNum">     264 </span>            : 
-<span class="lineNum">     265 </span>            :     case Wall::TYPE_FIXED:
-<span class="lineNum">     266 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;fixed&quot;;</span>
-<span class="lineNum">     267 </span><span class="lineNoCov">          0 :         break;</span>
-<span class="lineNum">     268 </span>            :     }
-<span class="lineNum">     269 </span><span class="lineCov">         12 :     return os;</span>
-<a name="270"><span class="lineNum">     270 </span>            : }</a>
-<span class="lineNum">     271 </span>            : }
-<span class="lineNum">     272 </span><span class="lineCov">         72 : }</span>
+<span class="lineNum">     203 </span><span class="lineCov">         78 :     bottomLeft = bottomLeft + projection.origin + w * projection.distance;</span>
+<span class="lineNum">     204 </span><span class="lineCov">         78 :     bottomRight = bottomRight + projection.origin + w * projection.distance;</span>
+<span class="lineNum">     205 </span><span class="lineCov">         78 :     topLeft = topLeft + projection.origin + w * projection.distance;</span>
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span><span class="lineCov">         78 :     return *this;</span>
+<a name="208"><span class="lineNum">     208 </span>            : }</a>
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span><span class="lineCov">          2 : Wall&amp; Wall::operator=(const Matrix4f&amp; xfm)</span>
+<span class="lineNum">     211 </span>            : {
+<span class="lineNum">     212 </span><span class="lineCov">          2 :     bottomLeft = xfm * Vector4f(-1.0f, -1.0f, -1.0f, 1.0f);</span>
+<span class="lineNum">     213 </span><span class="lineCov">          2 :     bottomRight = xfm * Vector4f(1.0f, -1.0f, -1.0f, 1.0f);</span>
+<span class="lineNum">     214 </span><span class="lineCov">          2 :     topLeft = xfm * Vector4f(-1.0f, 1.0f, -1.0f, 1.0f);</span>
+<span class="lineNum">     215 </span><span class="lineCov">          2 :     return *this;</span>
+<a name="216"><span class="lineNum">     216 </span>            : }</a>
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span><span class="lineCov">       2808 : bool Wall::operator==(const Wall&amp; rhs) const</span>
+<span class="lineNum">     219 </span>            : {
+<span class="lineNum">     220 </span><span class="lineCov">       4240 :     return (bottomLeft.equals(rhs.bottomLeft, 0.0001f) &amp;&amp;</span>
+<span class="lineNum">     221 </span><span class="lineCov">       4208 :             bottomRight.equals(rhs.bottomRight, 0.0001f) &amp;&amp;</span>
+<span class="lineNum">     222 </span><span class="lineCov">       4208 :             topLeft.equals(rhs.topLeft, 0.0001f));</span>
+<a name="223"><span class="lineNum">     223 </span>            : }</a>
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 : bool Wall::operator!=(const Wall&amp; rhs) const</span>
+<span class="lineNum">     226 </span>            : {
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     return (!bottomLeft.equals(rhs.bottomLeft, 0.0001f) ||</span>
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :             !bottomRight.equals(rhs.bottomRight, 0.0001f) ||</span>
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :             !topLeft.equals(rhs.topLeft, 0.0001f));</span>
+<a name="230"><span class="lineNum">     230 </span>            : }</a>
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span><span class="lineCov">        556 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Wall&amp; wall)</span>
+<span class="lineNum">     233 </span>            : {
+<span class="lineNum">     234 </span><span class="lineCov">        556 :     const std::ios::fmtflags flags = os.flags();</span>
+<span class="lineNum">     235 </span><span class="lineCov">        556 :     os.setf(std::ios::fixed, std::ios::floatfield);</span>
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span><span class="lineCov">        556 :     os &lt;&lt; lunchbox::disableHeader &lt;&lt; lunchbox::disableFlush &lt;&lt; &quot;wall&quot;</span>
+<span class="lineNum">     238 </span><span class="lineCov">        556 :        &lt;&lt; std::endl</span>
+<span class="lineNum">     239 </span><span class="lineCov">        556 :        &lt;&lt; &quot;{&quot; &lt;&lt; std::endl</span>
+<span class="lineNum">     240 </span><span class="lineCov">       1112 :        &lt;&lt; lunchbox::indent &lt;&lt; &quot;bottom_left  &quot; &lt;&lt; wall.bottomLeft &lt;&lt; std::endl</span>
+<span class="lineNum">     241 </span><span class="lineCov">       1112 :        &lt;&lt; &quot;bottom_right &quot; &lt;&lt; wall.bottomRight &lt;&lt; std::endl</span>
+<span class="lineNum">     242 </span><span class="lineCov">       1112 :        &lt;&lt; &quot;top_left     &quot; &lt;&lt; wall.topLeft &lt;&lt; std::endl;</span>
+<span class="lineNum">     243 </span><span class="lineCov">        556 :     if (wall.type != Wall::TYPE_FIXED)</span>
+<span class="lineNum">     244 </span><span class="lineCov">         12 :         os &lt;&lt; &quot;type         &quot; &lt;&lt; wall.type &lt;&lt; std::endl;</span>
+<span class="lineNum">     245 </span><span class="lineCov">        556 :     os &lt;&lt; lunchbox::exdent &lt;&lt; &quot;}&quot; &lt;&lt; lunchbox::enableFlush</span>
+<span class="lineNum">     246 </span><span class="lineCov">        556 :        &lt;&lt; lunchbox::enableHeader &lt;&lt; std::endl;</span>
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span><span class="lineCov">        556 :     os.setf(flags);</span>
+<span class="lineNum">     249 </span><span class="lineCov">        556 :     return os;</span>
+<a name="250"><span class="lineNum">     250 </span>            : }</a>
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span><span class="lineCov">         12 : std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Wall::Type&amp; type)</span>
+<span class="lineNum">     253 </span>            : {
+<span class="lineNum">     254 </span><span class="lineCov">         12 :     switch (type)</span>
+<span class="lineNum">     255 </span>            :     {
+<span class="lineNum">     256 </span>            :     case Wall::TYPE_HMD:
+<span class="lineNum">     257 </span><span class="lineCov">         12 :         os &lt;&lt; &quot;HMD&quot;;</span>
+<span class="lineNum">     258 </span><span class="lineCov">         12 :         break;</span>
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span>            :     default:
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :         LBASSERT(false);</span>
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span>            :     case Wall::TYPE_FIXED:
+<span class="lineNum">     264 </span><span class="lineNoCov">          0 :         os &lt;&lt; &quot;fixed&quot;;</span>
+<span class="lineNum">     265 </span><span class="lineNoCov">          0 :         break;</span>
+<span class="lineNum">     266 </span>            :     }
+<span class="lineNum">     267 </span><span class="lineCov">         12 :     return os;</span>
+<a name="268"><span class="lineNum">     268 </span>            : }</a>
+<span class="lineNum">     269 </span>            : }
+<span class="lineNum">     270 </span><span class="lineCov">         60 : }</span>
 </pre>
       </td>
     </tr>

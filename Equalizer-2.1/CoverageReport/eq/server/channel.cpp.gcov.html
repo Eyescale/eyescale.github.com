@@ -31,18 +31,18 @@
             <td class="headerValue">Equalizer</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">152</td>
+            <td class="headerCovTableEntry">209</td>
             <td class="headerCovTableEntry">278</td>
-            <td class="headerCovTableEntryMed">54.7 %</td>
+            <td class="headerCovTableEntryMed">75.2 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-08-18 16:09:45</td>
+            <td class="headerValue">2017-09-22 05:02:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">30</td>
+            <td class="headerCovTableEntry">37</td>
             <td class="headerCovTableEntry">47</td>
-            <td class="headerCovTableEntryMed">63.8 %</td>
+            <td class="headerCovTableEntryMed">78.7 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -164,36 +164,36 @@
 <span class="lineNum">     102 </span>            :     }
 <a name="103"><span class="lineNum">     103 </span><span class="lineCov">       1650 : }</span></a>
 <span class="lineNum">     104 </span>            : 
-<span class="lineNum">     105 </span><span class="lineCov">       1214 : Channel::Channel(const Channel&amp; from)</span>
+<span class="lineNum">     105 </span><span class="lineCov">       1224 : Channel::Channel(const Channel&amp; from)</span>
 <span class="lineNum">     106 </span>            :     : Super(from)
 <span class="lineNum">     107 </span>            :     , _active(0)
 <span class="lineNum">     108 </span>            :     , _view(0)
 <span class="lineNum">     109 </span>            :     , _segment(0)
 <span class="lineNum">     110 </span>            :     , _state(STATE_STOPPED)
 <span class="lineNum">     111 </span>            :     , _lastDrawCompound(0)
-<span class="lineNum">     112 </span><span class="lineCov">       1214 :     , _private(0)</span>
+<span class="lineNum">     112 </span><span class="lineCov">       1224 :     , _private(0)</span>
 <span class="lineNum">     113 </span>            : {
 <span class="lineNum">     114 </span>            :     // Don't copy view and segment. Will be re-set by segment copy ctor
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       1214 : }</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       1224 : }</span></a>
 <span class="lineNum">     116 </span>            : 
-<span class="lineNum">     117 </span><span class="lineCov">          8 : void Channel::attach(const uint128_t&amp; id, const uint32_t instanceID)</span>
+<span class="lineNum">     117 </span><span class="lineCov">         18 : void Channel::attach(const uint128_t&amp; id, const uint32_t instanceID)</span>
 <span class="lineNum">     118 </span>            : {
-<span class="lineNum">     119 </span><span class="lineCov">          8 :     Super::attach(id, instanceID);</span>
+<span class="lineNum">     119 </span><span class="lineCov">         18 :     Super::attach(id, instanceID);</span>
 <span class="lineNum">     120 </span>            : 
-<span class="lineNum">     121 </span><span class="lineCov">          8 :     co::CommandQueue* mainQ = getMainThreadQueue();</span>
-<span class="lineNum">     122 </span><span class="lineCov">          8 :     co::CommandQueue* cmdQ = getCommandThreadQueue();</span>
+<span class="lineNum">     121 </span><span class="lineCov">         18 :     co::CommandQueue* mainQ = getMainThreadQueue();</span>
+<span class="lineNum">     122 </span><span class="lineCov">         18 :     co::CommandQueue* cmdQ = getCommandThreadQueue();</span>
 <span class="lineNum">     123 </span>            : 
-<span class="lineNum">     124 </span><span class="lineCov">          8 :     registerCommand(fabric::CMD_CHANNEL_CONFIG_INIT_REPLY,</span>
-<span class="lineNum">     125 </span><span class="lineCov">         16 :                     CmdFunc(this, &amp;Channel::_cmdConfigInitReply), cmdQ);</span>
-<span class="lineNum">     126 </span><span class="lineCov">          8 :     registerCommand(fabric::CMD_CHANNEL_CONFIG_EXIT_REPLY,</span>
-<span class="lineNum">     127 </span><span class="lineCov">         16 :                     CmdFunc(this, &amp;Channel::_cmdConfigExitReply), cmdQ);</span>
-<span class="lineNum">     128 </span><span class="lineCov">          8 :     registerCommand(fabric::CMD_CHANNEL_FRAME_FINISH_REPLY,</span>
-<span class="lineNum">     129 </span><span class="lineCov">         16 :                     CmdFunc(this, &amp;Channel::_cmdFrameFinishReply), mainQ);</span>
-<a name="130"><span class="lineNum">     130 </span><span class="lineCov">          8 : }</span></a>
+<span class="lineNum">     124 </span><span class="lineCov">         18 :     registerCommand(fabric::CMD_CHANNEL_CONFIG_INIT_REPLY,</span>
+<span class="lineNum">     125 </span><span class="lineCov">         36 :                     CmdFunc(this, &amp;Channel::_cmdConfigInitReply), cmdQ);</span>
+<span class="lineNum">     126 </span><span class="lineCov">         18 :     registerCommand(fabric::CMD_CHANNEL_CONFIG_EXIT_REPLY,</span>
+<span class="lineNum">     127 </span><span class="lineCov">         36 :                     CmdFunc(this, &amp;Channel::_cmdConfigExitReply), cmdQ);</span>
+<span class="lineNum">     128 </span><span class="lineCov">         18 :     registerCommand(fabric::CMD_CHANNEL_FRAME_FINISH_REPLY,</span>
+<span class="lineNum">     129 </span><span class="lineCov">         36 :                     CmdFunc(this, &amp;Channel::_cmdFrameFinishReply), mainQ);</span>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">         18 : }</span></a>
 <span class="lineNum">     131 </span>            : 
-<span class="lineNum">     132 </span><span class="lineCov">       5720 : Channel::~Channel()</span>
+<span class="lineNum">     132 </span><span class="lineCov">       5740 : Channel::~Channel()</span>
 <span class="lineNum">     133 </span>            : {
-<a name="134"><span class="lineNum">     134 </span><span class="lineCov">       5720 : }</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">       5740 : }</span></a>
 <span class="lineNum">     135 </span>            : 
 <span class="lineNum">     136 </span><span class="lineNoCov">          0 : void Channel::postDelete()</span>
 <span class="lineNum">     137 </span>            : {
@@ -203,25 +203,25 @@
 <span class="lineNum">     141 </span><span class="lineNoCov">          0 :                     CmdFunc(this, &amp;Channel::_cmdNop), 0);</span>
 <a name="142"><span class="lineNum">     142 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineCov">        608 : Config* Channel::getConfig()</span>
+<span class="lineNum">     144 </span><span class="lineCov">        618 : Config* Channel::getConfig()</span>
 <span class="lineNum">     145 </span>            : {
-<span class="lineNum">     146 </span><span class="lineCov">        608 :     Window* window = getWindow();</span>
-<span class="lineNum">     147 </span><span class="lineCov">        608 :     LBASSERT(window);</span>
-<span class="lineNum">     148 </span><span class="lineCov">        608 :     return window ? window-&gt;getConfig() : 0;</span>
+<span class="lineNum">     146 </span><span class="lineCov">        618 :     Window* window = getWindow();</span>
+<span class="lineNum">     147 </span><span class="lineCov">        618 :     LBASSERT(window);</span>
+<span class="lineNum">     148 </span><span class="lineCov">        618 :     return window ? window-&gt;getConfig() : 0;</span>
 <a name="149"><span class="lineNum">     149 </span>            : }</a>
 <span class="lineNum">     150 </span>            : 
-<span class="lineNum">     151 </span><span class="lineNoCov">          0 : const Config* Channel::getConfig() const</span>
+<span class="lineNum">     151 </span><span class="lineCov">          4 : const Config* Channel::getConfig() const</span>
 <span class="lineNum">     152 </span>            : {
-<span class="lineNum">     153 </span><span class="lineNoCov">          0 :     const Window* window = getWindow();</span>
-<span class="lineNum">     154 </span><span class="lineNoCov">          0 :     LBASSERT(window);</span>
-<span class="lineNum">     155 </span><span class="lineNoCov">          0 :     return window ? window-&gt;getConfig() : 0;</span>
+<span class="lineNum">     153 </span><span class="lineCov">          4 :     const Window* window = getWindow();</span>
+<span class="lineNum">     154 </span><span class="lineCov">          4 :     LBASSERT(window);</span>
+<span class="lineNum">     155 </span><span class="lineCov">          4 :     return window ? window-&gt;getConfig() : 0;</span>
 <a name="156"><span class="lineNum">     156 </span>            : }</a>
 <span class="lineNum">     157 </span>            : 
-<span class="lineNum">     158 </span><span class="lineCov">          4 : Node* Channel::getNode()</span>
+<span class="lineNum">     158 </span><span class="lineCov">         46 : Node* Channel::getNode()</span>
 <span class="lineNum">     159 </span>            : {
-<span class="lineNum">     160 </span><span class="lineCov">          4 :     Window* window = getWindow();</span>
-<span class="lineNum">     161 </span><span class="lineCov">          4 :     LBASSERT(window);</span>
-<span class="lineNum">     162 </span><span class="lineCov">          4 :     return window ? window-&gt;getNode() : 0;</span>
+<span class="lineNum">     160 </span><span class="lineCov">         46 :     Window* window = getWindow();</span>
+<span class="lineNum">     161 </span><span class="lineCov">         46 :     LBASSERT(window);</span>
+<span class="lineNum">     162 </span><span class="lineCov">         46 :     return window ? window-&gt;getNode() : 0;</span>
 <a name="163"><span class="lineNum">     163 </span>            : }</a>
 <span class="lineNum">     164 </span>            : 
 <span class="lineNum">     165 </span><span class="lineNoCov">          0 : const Node* Channel::getNode() const</span>
@@ -231,11 +231,11 @@
 <span class="lineNum">     169 </span><span class="lineNoCov">          0 :     return window ? window-&gt;getNode() : 0;</span>
 <a name="170"><span class="lineNum">     170 </span>            : }</a>
 <span class="lineNum">     171 </span>            : 
-<span class="lineNum">     172 </span><span class="lineNoCov">          0 : Pipe* Channel::getPipe()</span>
+<span class="lineNum">     172 </span><span class="lineCov">          4 : Pipe* Channel::getPipe()</span>
 <span class="lineNum">     173 </span>            : {
-<span class="lineNum">     174 </span><span class="lineNoCov">          0 :     Window* window = getWindow();</span>
-<span class="lineNum">     175 </span><span class="lineNoCov">          0 :     LBASSERT(window);</span>
-<span class="lineNum">     176 </span><span class="lineNoCov">          0 :     return window ? window-&gt;getPipe() : 0;</span>
+<span class="lineNum">     174 </span><span class="lineCov">          4 :     Window* window = getWindow();</span>
+<span class="lineNum">     175 </span><span class="lineCov">          4 :     LBASSERT(window);</span>
+<span class="lineNum">     176 </span><span class="lineCov">          4 :     return window ? window-&gt;getPipe() : 0;</span>
 <a name="177"><span class="lineNum">     177 </span>            : }</a>
 <span class="lineNum">     178 </span>            : 
 <span class="lineNum">     179 </span><span class="lineNoCov">          0 : const Pipe* Channel::getPipe() const</span>
@@ -245,119 +245,119 @@
 <span class="lineNum">     183 </span><span class="lineNoCov">          0 :     return window ? window-&gt;getPipe() : 0;</span>
 <a name="184"><span class="lineNum">     184 </span>            : }</a>
 <span class="lineNum">     185 </span>            : 
-<span class="lineNum">     186 </span><span class="lineCov">          8 : ServerPtr Channel::getServer()</span>
+<span class="lineNum">     186 </span><span class="lineCov">         18 : ServerPtr Channel::getServer()</span>
 <span class="lineNum">     187 </span>            : {
-<span class="lineNum">     188 </span><span class="lineCov">          8 :     Window* window = getWindow();</span>
-<span class="lineNum">     189 </span><span class="lineCov">          8 :     LBASSERT(window);</span>
-<span class="lineNum">     190 </span><span class="lineCov">          8 :     return (window ? window-&gt;getServer() : 0);</span>
+<span class="lineNum">     188 </span><span class="lineCov">         18 :     Window* window = getWindow();</span>
+<span class="lineNum">     189 </span><span class="lineCov">         18 :     LBASSERT(window);</span>
+<span class="lineNum">     190 </span><span class="lineCov">         18 :     return (window ? window-&gt;getServer() : 0);</span>
 <a name="191"><span class="lineNum">     191 </span>            : }</a>
 <span class="lineNum">     192 </span>            : 
-<span class="lineNum">     193 </span><span class="lineCov">          8 : const Canvas* Channel::getCanvas() const</span>
+<span class="lineNum">     193 </span><span class="lineCov">         34 : const Canvas* Channel::getCanvas() const</span>
 <span class="lineNum">     194 </span>            : {
-<span class="lineNum">     195 </span><span class="lineCov">          8 :     if (!_segment)</span>
+<span class="lineNum">     195 </span><span class="lineCov">         34 :     if (!_segment)</span>
 <span class="lineNum">     196 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">     197 </span><span class="lineCov">          8 :     return _segment-&gt;getCanvas();</span>
+<span class="lineNum">     197 </span><span class="lineCov">         34 :     return _segment-&gt;getCanvas();</span>
 <a name="198"><span class="lineNum">     198 </span>            : }</a>
 <span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineNoCov">          0 : const Compounds&amp; Channel::getCompounds() const</span>
+<span class="lineNum">     200 </span><span class="lineCov">          4 : const Compounds&amp; Channel::getCompounds() const</span>
 <span class="lineNum">     201 </span>            : {
-<span class="lineNum">     202 </span><span class="lineNoCov">          0 :     return getConfig()-&gt;getCompounds();</span>
+<span class="lineNum">     202 </span><span class="lineCov">          4 :     return getConfig()-&gt;getCompounds();</span>
 <a name="203"><span class="lineNum">     203 </span>            : }</a>
 <span class="lineNum">     204 </span>            : 
-<span class="lineNum">     205 </span><span class="lineCov">          8 : co::CommandQueue* Channel::getMainThreadQueue()</span>
+<span class="lineNum">     205 </span><span class="lineCov">         18 : co::CommandQueue* Channel::getMainThreadQueue()</span>
 <span class="lineNum">     206 </span>            : {
-<span class="lineNum">     207 </span><span class="lineCov">          8 :     Window* window = getWindow();</span>
-<span class="lineNum">     208 </span><span class="lineCov">          8 :     LBASSERT(window);</span>
-<span class="lineNum">     209 </span><span class="lineCov">          8 :     return window-&gt;getMainThreadQueue();</span>
+<span class="lineNum">     207 </span><span class="lineCov">         18 :     Window* window = getWindow();</span>
+<span class="lineNum">     208 </span><span class="lineCov">         18 :     LBASSERT(window);</span>
+<span class="lineNum">     209 </span><span class="lineCov">         18 :     return window-&gt;getMainThreadQueue();</span>
 <a name="210"><span class="lineNum">     210 </span>            : }</a>
 <span class="lineNum">     211 </span>            : 
-<span class="lineNum">     212 </span><span class="lineCov">          8 : co::CommandQueue* Channel::getCommandThreadQueue()</span>
+<span class="lineNum">     212 </span><span class="lineCov">         18 : co::CommandQueue* Channel::getCommandThreadQueue()</span>
 <span class="lineNum">     213 </span>            : {
-<span class="lineNum">     214 </span><span class="lineCov">          8 :     Window* window = getWindow();</span>
-<span class="lineNum">     215 </span><span class="lineCov">          8 :     LBASSERT(window);</span>
-<span class="lineNum">     216 </span><span class="lineCov">          8 :     return window-&gt;getCommandThreadQueue();</span>
+<span class="lineNum">     214 </span><span class="lineCov">         18 :     Window* window = getWindow();</span>
+<span class="lineNum">     215 </span><span class="lineCov">         18 :     LBASSERT(window);</span>
+<span class="lineNum">     216 </span><span class="lineCov">         18 :     return window-&gt;getCommandThreadQueue();</span>
 <a name="217"><span class="lineNum">     217 </span>            : }</a>
 <span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span><span class="lineCov">          2 : bool Channel::supportsView(const View* view) const</span>
+<span class="lineNum">     219 </span><span class="lineCov">        650 : bool Channel::supportsView(const View* view) const</span>
 <span class="lineNum">     220 </span>            : {
-<span class="lineNum">     221 </span><span class="lineCov">          2 :     if (!view)</span>
+<span class="lineNum">     221 </span><span class="lineCov">        650 :     if (!view)</span>
 <span class="lineNum">     222 </span><span class="lineNoCov">          0 :         return true;</span>
 <span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span><span class="lineCov">          2 :     const uint64_t minimum = view-&gt;getMinimumCapabilities();</span>
-<span class="lineNum">     225 </span><span class="lineCov">          2 :     const uint64_t supported = getCapabilities();</span>
-<span class="lineNum">     226 </span><span class="lineCov">          2 :     return ((supported &amp; minimum) == minimum);</span>
+<span class="lineNum">     224 </span><span class="lineCov">        650 :     const uint64_t minimum = view-&gt;getMinimumCapabilities();</span>
+<span class="lineNum">     225 </span><span class="lineCov">        650 :     const uint64_t supported = getCapabilities();</span>
+<span class="lineNum">     226 </span><span class="lineCov">        650 :     return ((supported &amp; minimum) == minimum);</span>
 <a name="227"><span class="lineNum">     227 </span>            : }</a>
 <span class="lineNum">     228 </span>            : 
-<span class="lineNum">     229 </span><span class="lineCov">          2 : void Channel::activate()</span>
+<span class="lineNum">     229 </span><span class="lineCov">          8 : void Channel::activate()</span>
 <span class="lineNum">     230 </span>            : {
-<span class="lineNum">     231 </span><span class="lineCov">          2 :     Window* window = getWindow();</span>
-<span class="lineNum">     232 </span><span class="lineCov">          2 :     LBASSERT(window);</span>
+<span class="lineNum">     231 </span><span class="lineCov">          8 :     Window* window = getWindow();</span>
+<span class="lineNum">     232 </span><span class="lineCov">          8 :     LBASSERT(window);</span>
 <span class="lineNum">     233 </span>            : 
-<span class="lineNum">     234 </span><span class="lineCov">          2 :     ++_active;</span>
-<span class="lineNum">     235 </span><span class="lineCov">          2 :     window-&gt;activate();</span>
+<span class="lineNum">     234 </span><span class="lineCov">          8 :     ++_active;</span>
+<span class="lineNum">     235 </span><span class="lineCov">          8 :     window-&gt;activate();</span>
 <span class="lineNum">     236 </span>            : 
-<span class="lineNum">     237 </span><span class="lineCov">          2 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;activate: &quot; &lt;&lt; _active &lt;&lt; &quot; &quot; &lt;&lt; (void*)this</span>
-<span class="lineNum">     238 </span><span class="lineCov">          2 :                     &lt;&lt; std::endl;</span>
-<a name="239"><span class="lineNum">     239 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     237 </span><span class="lineCov">          8 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;activate: &quot; &lt;&lt; _active &lt;&lt; &quot; &quot; &lt;&lt; (void*)this</span>
+<span class="lineNum">     238 </span><span class="lineCov">          8 :                     &lt;&lt; std::endl;</span>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">          8 : }</span></a>
 <span class="lineNum">     240 </span>            : 
-<span class="lineNum">     241 </span><span class="lineCov">          2 : void Channel::deactivate()</span>
+<span class="lineNum">     241 </span><span class="lineCov">          8 : void Channel::deactivate()</span>
 <span class="lineNum">     242 </span>            : {
-<span class="lineNum">     243 </span><span class="lineCov">          2 :     Window* window = getWindow();</span>
-<span class="lineNum">     244 </span><span class="lineCov">          2 :     LBASSERT(_active != 0);</span>
-<span class="lineNum">     245 </span><span class="lineCov">          2 :     LBASSERT(window);</span>
+<span class="lineNum">     243 </span><span class="lineCov">          8 :     Window* window = getWindow();</span>
+<span class="lineNum">     244 </span><span class="lineCov">          8 :     LBASSERT(_active != 0);</span>
+<span class="lineNum">     245 </span><span class="lineCov">          8 :     LBASSERT(window);</span>
 <span class="lineNum">     246 </span>            : 
-<span class="lineNum">     247 </span><span class="lineCov">          2 :     --_active;</span>
-<span class="lineNum">     248 </span><span class="lineCov">          2 :     window-&gt;deactivate();</span>
+<span class="lineNum">     247 </span><span class="lineCov">          8 :     --_active;</span>
+<span class="lineNum">     248 </span><span class="lineCov">          8 :     window-&gt;deactivate();</span>
 <span class="lineNum">     249 </span>            : 
-<span class="lineNum">     250 </span><span class="lineCov">          2 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;deactivate: &quot; &lt;&lt; _active &lt;&lt; &quot; &quot; &lt;&lt; (void*)this</span>
-<span class="lineNum">     251 </span><span class="lineCov">          2 :                     &lt;&lt; std::endl;</span>
-<a name="252"><span class="lineNum">     252 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     250 </span><span class="lineCov">          8 :     LBLOG(LOG_VIEW) &lt;&lt; &quot;deactivate: &quot; &lt;&lt; _active &lt;&lt; &quot; &quot; &lt;&lt; (void*)this</span>
+<span class="lineNum">     251 </span><span class="lineCov">          8 :                     &lt;&lt; std::endl;</span>
+<a name="252"><span class="lineNum">     252 </span><span class="lineCov">          8 : }</span></a>
 <span class="lineNum">     253 </span>            : 
-<span class="lineNum">     254 </span><span class="lineCov">       1214 : void Channel::setOutput(View* view, Segment* segment)</span>
+<span class="lineNum">     254 </span><span class="lineCov">       1224 : void Channel::setOutput(View* view, Segment* segment)</span>
 <span class="lineNum">     255 </span>            : {
-<span class="lineNum">     256 </span><span class="lineCov">       1214 :     if (_view == view &amp;&amp; _segment == segment)</span>
+<span class="lineNum">     256 </span><span class="lineCov">       1224 :     if (_view == view &amp;&amp; _segment == segment)</span>
 <span class="lineNum">     257 </span><span class="lineNoCov">          0 :         return;</span>
 <span class="lineNum">     258 </span>            : 
-<span class="lineNum">     259 </span><span class="lineCov">       1214 :     LBASSERT(!_view &amp;&amp; !_segment);</span>
-<span class="lineNum">     260 </span><span class="lineCov">       1214 :     LBASSERT(view &amp;&amp; segment);</span>
+<span class="lineNum">     259 </span><span class="lineCov">       1224 :     LBASSERT(!_view &amp;&amp; !_segment);</span>
+<span class="lineNum">     260 </span><span class="lineCov">       1224 :     LBASSERT(view &amp;&amp; segment);</span>
 <span class="lineNum">     261 </span>            : 
-<span class="lineNum">     262 </span><span class="lineCov">       1214 :     _view = view;</span>
-<span class="lineNum">     263 </span><span class="lineCov">       1214 :     _segment = segment;</span>
+<span class="lineNum">     262 </span><span class="lineCov">       1224 :     _view = view;</span>
+<span class="lineNum">     263 </span><span class="lineCov">       1224 :     _segment = segment;</span>
 <span class="lineNum">     264 </span>            : 
-<span class="lineNum">     265 </span><span class="lineCov">       1214 :     view-&gt;addChannel(this);</span>
-<span class="lineNum">     266 </span><span class="lineCov">       1214 :     segment-&gt;addDestinationChannel(this);</span>
+<span class="lineNum">     265 </span><span class="lineCov">       1224 :     view-&gt;addChannel(this);</span>
+<span class="lineNum">     266 </span><span class="lineCov">       1224 :     segment-&gt;addDestinationChannel(this);</span>
 <span class="lineNum">     267 </span>            : 
-<span class="lineNum">     268 </span><span class="lineCov">       1214 :     co::ObjectVersion viewVersion(view);</span>
-<span class="lineNum">     269 </span><span class="lineCov">       1214 :     if (view &amp;&amp; view-&gt;isDirty())</span>
+<span class="lineNum">     268 </span><span class="lineCov">       1224 :     co::ObjectVersion viewVersion(view);</span>
+<span class="lineNum">     269 </span><span class="lineCov">       1224 :     if (view &amp;&amp; view-&gt;isDirty())</span>
 <span class="lineNum">     270 </span><span class="lineNoCov">          0 :         ++viewVersion.version;</span>
 <span class="lineNum">     271 </span>            : 
-<span class="lineNum">     272 </span><span class="lineCov">       1214 :     setViewVersion(viewVersion);</span>
+<span class="lineNum">     272 </span><span class="lineCov">       1224 :     setViewVersion(viewVersion);</span>
 <a name="273"><span class="lineNum">     273 </span>            : }</a>
 <span class="lineNum">     274 </span>            : 
-<span class="lineNum">     275 </span><span class="lineCov">       1212 : void Channel::unsetOutput()</span>
+<span class="lineNum">     275 </span><span class="lineCov">       1222 : void Channel::unsetOutput()</span>
 <span class="lineNum">     276 </span>            : {
-<span class="lineNum">     277 </span><span class="lineCov">       1212 :     LBASSERT(_view &amp;&amp; _segment);</span>
+<span class="lineNum">     277 </span><span class="lineCov">       1222 :     LBASSERT(_view &amp;&amp; _segment);</span>
 <span class="lineNum">     278 </span>            : 
-<span class="lineNum">     279 </span><span class="lineCov">       1212 :     LBCHECK(_view-&gt;removeChannel(this));</span>
-<span class="lineNum">     280 </span><span class="lineCov">       1212 :     LBCHECK(_segment-&gt;removeDestinationChannel(this));</span>
+<span class="lineNum">     279 </span><span class="lineCov">       1222 :     LBCHECK(_view-&gt;removeChannel(this));</span>
+<span class="lineNum">     280 </span><span class="lineCov">       1222 :     LBCHECK(_segment-&gt;removeDestinationChannel(this));</span>
 <span class="lineNum">     281 </span>            : 
-<span class="lineNum">     282 </span><span class="lineCov">       1212 :     _view = 0;</span>
-<span class="lineNum">     283 </span><span class="lineCov">       1212 :     _segment = 0;</span>
-<a name="284"><span class="lineNum">     284 </span><span class="lineCov">       1212 : }</span></a>
+<span class="lineNum">     282 </span><span class="lineCov">       1222 :     _view = 0;</span>
+<span class="lineNum">     283 </span><span class="lineCov">       1222 :     _segment = 0;</span>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">       1222 : }</span></a>
 <span class="lineNum">     285 </span>            : 
-<span class="lineNum">     286 </span><span class="lineCov">        338 : const Layout* Channel::getLayout() const</span>
+<span class="lineNum">     286 </span><span class="lineCov">        482 : const Layout* Channel::getLayout() const</span>
 <span class="lineNum">     287 </span>            : {
-<span class="lineNum">     288 </span><span class="lineCov">        338 :     LBASSERT(_view);</span>
-<span class="lineNum">     289 </span><span class="lineCov">        338 :     return _view ? _view-&gt;getLayout() : 0;</span>
+<span class="lineNum">     288 </span><span class="lineCov">        482 :     LBASSERT(_view);</span>
+<span class="lineNum">     289 </span><span class="lineCov">        482 :     return _view ? _view-&gt;getLayout() : 0;</span>
 <a name="290"><span class="lineNum">     290 </span>            : }</a>
 <span class="lineNum">     291 </span>            : 
-<span class="lineNum">     292 </span><span class="lineCov">          4 : void Channel::addTasks(const uint32_t tasks)</span>
+<span class="lineNum">     292 </span><span class="lineCov">        126 : void Channel::addTasks(const uint32_t tasks)</span>
 <span class="lineNum">     293 </span>            : {
-<span class="lineNum">     294 </span><span class="lineCov">          4 :     Window* window = getWindow();</span>
-<span class="lineNum">     295 </span><span class="lineCov">          4 :     LBASSERT(window);</span>
-<span class="lineNum">     296 </span><span class="lineCov">          4 :     setTasks(getTasks() | tasks);</span>
-<span class="lineNum">     297 </span><span class="lineCov">          4 :     window-&gt;addTasks(tasks);</span>
-<span class="lineNum">     298 </span><span class="lineCov">          4 : }</span>
+<span class="lineNum">     294 </span><span class="lineCov">        126 :     Window* window = getWindow();</span>
+<span class="lineNum">     295 </span><span class="lineCov">        126 :     LBASSERT(window);</span>
+<span class="lineNum">     296 </span><span class="lineCov">        126 :     setTasks(getTasks() | tasks);</span>
+<span class="lineNum">     297 </span><span class="lineCov">        126 :     window-&gt;addTasks(tasks);</span>
+<span class="lineNum">     298 </span><span class="lineCov">        126 : }</span>
 <span class="lineNum">     299 </span>            : 
 <span class="lineNum">     300 </span>            : //===========================================================================
 <span class="lineNum">     301 </span>            : // Operations
@@ -366,190 +366,190 @@
 <span class="lineNum">     304 </span>            : //---------------------------------------------------------------------------
 <a name="305"><span class="lineNum">     305 </span>            : // init</a>
 <span class="lineNum">     306 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     307 </span><span class="lineCov">          2 : void Channel::configInit(const uint128_t&amp; initID, const uint32_t /*frame*/)</span>
+<span class="lineNum">     307 </span><span class="lineCov">          4 : void Channel::configInit(const uint128_t&amp; initID, const uint32_t /*frame*/)</span>
 <span class="lineNum">     308 </span>            : {
-<span class="lineNum">     309 </span><span class="lineCov">          2 :     LBASSERT(_state == STATE_STOPPED);</span>
-<span class="lineNum">     310 </span><span class="lineCov">          2 :     _state = STATE_INITIALIZING;</span>
+<span class="lineNum">     309 </span><span class="lineCov">          4 :     LBASSERT(_state == STATE_STOPPED);</span>
+<span class="lineNum">     310 </span><span class="lineCov">          4 :     _state = STATE_INITIALIZING;</span>
 <span class="lineNum">     311 </span>            : 
-<span class="lineNum">     312 </span><span class="lineCov">          2 :     LBLOG(LOG_INIT) &lt;&lt; &quot;Init channel&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     313 </span><span class="lineCov">          2 :     getWindow()-&gt;send(fabric::CMD_WINDOW_CREATE_CHANNEL) &lt;&lt; getID();</span>
-<span class="lineNum">     314 </span><span class="lineCov">          2 :     send(fabric::CMD_CHANNEL_CONFIG_INIT) &lt;&lt; initID;</span>
-<a name="315"><span class="lineNum">     315 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     312 </span><span class="lineCov">          4 :     LBLOG(LOG_INIT) &lt;&lt; &quot;Init channel&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     313 </span><span class="lineCov">          4 :     getWindow()-&gt;send(fabric::CMD_WINDOW_CREATE_CHANNEL) &lt;&lt; getID();</span>
+<span class="lineNum">     314 </span><span class="lineCov">          4 :     send(fabric::CMD_CHANNEL_CONFIG_INIT) &lt;&lt; initID;</span>
+<a name="315"><span class="lineNum">     315 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">     316 </span>            : 
-<span class="lineNum">     317 </span><span class="lineCov">          2 : bool Channel::syncConfigInit()</span>
+<span class="lineNum">     317 </span><span class="lineCov">          4 : bool Channel::syncConfigInit()</span>
 <span class="lineNum">     318 </span>            : {
-<span class="lineNum">     319 </span><span class="lineCov">          2 :     LBASSERT(_state == STATE_INITIALIZING || _state == STATE_INIT_SUCCESS ||</span>
+<span class="lineNum">     319 </span><span class="lineCov">          4 :     LBASSERT(_state == STATE_INITIALIZING || _state == STATE_INIT_SUCCESS ||</span>
 <span class="lineNum">     320 </span>            :              _state == STATE_INIT_FAILED);
 <span class="lineNum">     321 </span>            : 
-<span class="lineNum">     322 </span><span class="lineCov">          2 :     _state.waitNE(STATE_INITIALIZING);</span>
+<span class="lineNum">     322 </span><span class="lineCov">          4 :     _state.waitNE(STATE_INITIALIZING);</span>
 <span class="lineNum">     323 </span>            : 
-<span class="lineNum">     324 </span><span class="lineCov">          2 :     if (_state == STATE_INIT_SUCCESS)</span>
+<span class="lineNum">     324 </span><span class="lineCov">          4 :     if (_state == STATE_INIT_SUCCESS)</span>
 <span class="lineNum">     325 </span>            :     {
-<span class="lineNum">     326 </span><span class="lineNoCov">          0 :         _state = STATE_RUNNING;</span>
-<span class="lineNum">     327 </span><span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     326 </span><span class="lineCov">          4 :         _state = STATE_RUNNING;</span>
+<span class="lineNum">     327 </span><span class="lineCov">          4 :         return true;</span>
 <span class="lineNum">     328 </span>            :     }
 <span class="lineNum">     329 </span>            : 
-<span class="lineNum">     330 </span><span class="lineCov">          2 :     configExit();</span>
-<span class="lineNum">     331 </span><span class="lineCov">          2 :     return false;</span>
+<span class="lineNum">     330 </span><span class="lineNoCov">          0 :     configExit();</span>
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 :     return false;</span>
 <span class="lineNum">     332 </span>            : }
 <span class="lineNum">     333 </span>            : 
 <span class="lineNum">     334 </span>            : //---------------------------------------------------------------------------
 <a name="335"><span class="lineNum">     335 </span>            : // exit</a>
 <span class="lineNum">     336 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     337 </span><span class="lineCov">          2 : void Channel::configExit()</span>
+<span class="lineNum">     337 </span><span class="lineCov">          4 : void Channel::configExit()</span>
 <span class="lineNum">     338 </span>            : {
-<span class="lineNum">     339 </span><span class="lineCov">          2 :     LBASSERT(_state == STATE_RUNNING || _state == STATE_INIT_FAILED);</span>
-<span class="lineNum">     340 </span><span class="lineCov">          2 :     _state = STATE_EXITING;</span>
+<span class="lineNum">     339 </span><span class="lineCov">          4 :     LBASSERT(_state == STATE_RUNNING || _state == STATE_INIT_FAILED);</span>
+<span class="lineNum">     340 </span><span class="lineCov">          4 :     _state = STATE_EXITING;</span>
 <span class="lineNum">     341 </span>            : 
-<span class="lineNum">     342 </span><span class="lineCov">          2 :     LBLOG(LOG_INIT) &lt;&lt; &quot;Exit channel&quot; &lt;&lt; std::endl;</span>
-<span class="lineNum">     343 </span><span class="lineCov">          2 :     send(fabric::CMD_CHANNEL_CONFIG_EXIT);</span>
-<a name="344"><span class="lineNum">     344 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     342 </span><span class="lineCov">          4 :     LBLOG(LOG_INIT) &lt;&lt; &quot;Exit channel&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     343 </span><span class="lineCov">          4 :     send(fabric::CMD_CHANNEL_CONFIG_EXIT);</span>
+<a name="344"><span class="lineNum">     344 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">     345 </span>            : 
-<span class="lineNum">     346 </span><span class="lineCov">          2 : bool Channel::syncConfigExit()</span>
+<span class="lineNum">     346 </span><span class="lineCov">          4 : bool Channel::syncConfigExit()</span>
 <span class="lineNum">     347 </span>            : {
-<span class="lineNum">     348 </span><span class="lineCov">          2 :     LBASSERT(_state == STATE_EXITING || _state == STATE_EXIT_SUCCESS ||</span>
+<span class="lineNum">     348 </span><span class="lineCov">          4 :     LBASSERT(_state == STATE_EXITING || _state == STATE_EXIT_SUCCESS ||</span>
 <span class="lineNum">     349 </span>            :              _state == STATE_EXIT_FAILED);
 <span class="lineNum">     350 </span>            : 
-<span class="lineNum">     351 </span><span class="lineCov">          2 :     _state.waitNE(STATE_EXITING);</span>
-<span class="lineNum">     352 </span><span class="lineCov">          2 :     const bool success = (_state == STATE_EXIT_SUCCESS);</span>
-<span class="lineNum">     353 </span><span class="lineCov">          2 :     LBASSERT(success || _state == STATE_EXIT_FAILED);</span>
+<span class="lineNum">     351 </span><span class="lineCov">          4 :     _state.waitNE(STATE_EXITING);</span>
+<span class="lineNum">     352 </span><span class="lineCov">          4 :     const bool success = (_state == STATE_EXIT_SUCCESS);</span>
+<span class="lineNum">     353 </span><span class="lineCov">          4 :     LBASSERT(success || _state == STATE_EXIT_FAILED);</span>
 <span class="lineNum">     354 </span>            : 
-<span class="lineNum">     355 </span><span class="lineCov">          2 :     _state = isActive() ? STATE_FAILED : STATE_STOPPED;</span>
-<span class="lineNum">     356 </span><span class="lineCov">          2 :     return success;</span>
+<span class="lineNum">     355 </span><span class="lineCov">          4 :     _state = isActive() ? STATE_FAILED : STATE_STOPPED;</span>
+<span class="lineNum">     356 </span><span class="lineCov">          4 :     return success;</span>
 <span class="lineNum">     357 </span>            : }
 <span class="lineNum">     358 </span>            : 
 <span class="lineNum">     359 </span>            : //---------------------------------------------------------------------------
 <a name="360"><span class="lineNum">     360 </span>            : // update</a>
 <span class="lineNum">     361 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     362 </span><span class="lineNoCov">          0 : void Channel::_setupRenderContext(const uint128_t&amp; frameID,</span>
+<span class="lineNum">     362 </span><span class="lineCov">          4 : void Channel::_setupRenderContext(const uint128_t&amp; frameID,</span>
 <span class="lineNum">     363 </span>            :                                   RenderContext&amp; context)
 <span class="lineNum">     364 </span>            : {
-<span class="lineNum">     365 </span><span class="lineNoCov">          0 :     context.frameID = frameID;</span>
-<span class="lineNum">     366 </span><span class="lineNoCov">          0 :     context.pvp = getPixelViewport();</span>
-<span class="lineNum">     367 </span><span class="lineNoCov">          0 :     context.view = _view;</span>
-<span class="lineNum">     368 </span><span class="lineNoCov">          0 :     context.vp = getViewport();</span>
-<span class="lineNum">     369 </span><span class="lineNoCov">          0 :     LBASSERTINFO(getNativeContext().view == context.view,</span>
+<span class="lineNum">     365 </span><span class="lineCov">          4 :     context.frameID = frameID;</span>
+<span class="lineNum">     366 </span><span class="lineCov">          4 :     context.pvp = getPixelViewport();</span>
+<span class="lineNum">     367 </span><span class="lineCov">          4 :     context.view = _view;</span>
+<span class="lineNum">     368 </span><span class="lineCov">          4 :     context.vp = getViewport();</span>
+<span class="lineNum">     369 </span><span class="lineCov">          4 :     LBASSERTINFO(getNativeContext().view == context.view,</span>
 <span class="lineNum">     370 </span>            :                  getNativeContext().view &lt;&lt; &quot; != &quot; &lt;&lt; context.view &lt;&lt; &quot; &quot;
 <span class="lineNum">     371 </span>            :                                          &lt;&lt; getName());
-<a name="372"><span class="lineNum">     372 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="372"><span class="lineNum">     372 </span><span class="lineCov">          4 : }</span></a>
 <span class="lineNum">     373 </span>            : 
-<span class="lineNum">     374 </span><span class="lineNoCov">          0 : bool Channel::update(const uint128_t&amp; frameID, const uint32_t frameNumber)</span>
+<span class="lineNum">     374 </span><span class="lineCov">         18 : bool Channel::update(const uint128_t&amp; frameID, const uint32_t frameNumber)</span>
 <span class="lineNum">     375 </span>            : {
-<span class="lineNum">     376 </span><span class="lineNoCov">          0 :     if (!isRunning())</span>
-<span class="lineNum">     377 </span><span class="lineNoCov">          0 :         return false; // not updated</span>
+<span class="lineNum">     376 </span><span class="lineCov">         18 :     if (!isRunning())</span>
+<span class="lineNum">     377 </span><span class="lineCov">         14 :         return false; // not updated</span>
 <span class="lineNum">     378 </span>            : 
-<span class="lineNum">     379 </span><span class="lineNoCov">          0 :     LBASSERT(isActive())</span>
-<span class="lineNum">     380 </span><span class="lineNoCov">          0 :     LBASSERT(getWindow()-&gt;isActive());</span>
+<span class="lineNum">     379 </span><span class="lineCov">          4 :     LBASSERT(isActive())</span>
+<span class="lineNum">     380 </span><span class="lineCov">          4 :     LBASSERT(getWindow()-&gt;isActive());</span>
 <span class="lineNum">     381 </span>            : 
-<span class="lineNum">     382 </span><span class="lineNoCov">          0 :     RenderContext context;</span>
-<span class="lineNum">     383 </span><span class="lineNoCov">          0 :     _setupRenderContext(frameID, context);</span>
-<span class="lineNum">     384 </span><span class="lineNoCov">          0 :     send(fabric::CMD_CHANNEL_FRAME_START) &lt;&lt; context &lt;&lt; getVersion()</span>
-<span class="lineNum">     385 </span><span class="lineNoCov">          0 :                                           &lt;&lt; frameNumber;</span>
-<span class="lineNum">     386 </span><span class="lineNoCov">          0 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK channel &quot; &lt;&lt; getName() &lt;&lt; &quot; start frame  &quot;</span>
-<span class="lineNum">     387 </span><span class="lineNoCov">          0 :                      &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
+<span class="lineNum">     382 </span><span class="lineCov">          8 :     RenderContext context;</span>
+<span class="lineNum">     383 </span><span class="lineCov">          4 :     _setupRenderContext(frameID, context);</span>
+<span class="lineNum">     384 </span><span class="lineCov">          8 :     send(fabric::CMD_CHANNEL_FRAME_START) &lt;&lt; context &lt;&lt; getVersion()</span>
+<span class="lineNum">     385 </span><span class="lineCov">          4 :                                           &lt;&lt; frameNumber;</span>
+<span class="lineNum">     386 </span><span class="lineCov">          4 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK channel &quot; &lt;&lt; getName() &lt;&lt; &quot; start frame  &quot;</span>
+<span class="lineNum">     387 </span><span class="lineCov">          4 :                      &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
 <span class="lineNum">     388 </span>            : 
-<span class="lineNum">     389 </span><span class="lineNoCov">          0 :     bool updated = false;</span>
-<span class="lineNum">     390 </span><span class="lineNoCov">          0 :     const Compounds&amp; compounds = getCompounds();</span>
-<span class="lineNum">     391 </span><span class="lineNoCov">          0 :     for (Compounds::const_iterator i = compounds.begin(); i != compounds.end();</span>
+<span class="lineNum">     389 </span><span class="lineCov">          4 :     bool updated = false;</span>
+<span class="lineNum">     390 </span><span class="lineCov">          4 :     const Compounds&amp; compounds = getCompounds();</span>
+<span class="lineNum">     391 </span><span class="lineCov">         32 :     for (Compounds::const_iterator i = compounds.begin(); i != compounds.end();</span>
 <span class="lineNum">     392 </span>            :          ++i)
 <span class="lineNum">     393 </span>            :     {
-<span class="lineNum">     394 </span><span class="lineNoCov">          0 :         const Compound* compound = *i;</span>
-<span class="lineNum">     395 </span><span class="lineNoCov">          0 :         ChannelUpdateVisitor visitor(this, frameID, frameNumber);</span>
+<span class="lineNum">     394 </span><span class="lineCov">         28 :         const Compound* compound = *i;</span>
+<span class="lineNum">     395 </span><span class="lineCov">         56 :         ChannelUpdateVisitor visitor(this, frameID, frameNumber);</span>
 <span class="lineNum">     396 </span>            : 
-<span class="lineNum">     397 </span><span class="lineNoCov">          0 :         visitor.setEye(EYE_CYCLOP);</span>
-<span class="lineNum">     398 </span><span class="lineNoCov">          0 :         compound-&gt;accept(visitor);</span>
+<span class="lineNum">     397 </span><span class="lineCov">         28 :         visitor.setEye(EYE_CYCLOP);</span>
+<span class="lineNum">     398 </span><span class="lineCov">         28 :         compound-&gt;accept(visitor);</span>
 <span class="lineNum">     399 </span>            : 
-<span class="lineNum">     400 </span><span class="lineNoCov">          0 :         visitor.setEye(EYE_LEFT);</span>
-<span class="lineNum">     401 </span><span class="lineNoCov">          0 :         compound-&gt;accept(visitor);</span>
+<span class="lineNum">     400 </span><span class="lineCov">         28 :         visitor.setEye(EYE_LEFT);</span>
+<span class="lineNum">     401 </span><span class="lineCov">         28 :         compound-&gt;accept(visitor);</span>
 <span class="lineNum">     402 </span>            : 
-<span class="lineNum">     403 </span><span class="lineNoCov">          0 :         visitor.setEye(EYE_RIGHT);</span>
-<span class="lineNum">     404 </span><span class="lineNoCov">          0 :         compound-&gt;accept(visitor);</span>
+<span class="lineNum">     403 </span><span class="lineCov">         28 :         visitor.setEye(EYE_RIGHT);</span>
+<span class="lineNum">     404 </span><span class="lineCov">         28 :         compound-&gt;accept(visitor);</span>
 <span class="lineNum">     405 </span>            : 
-<span class="lineNum">     406 </span><span class="lineNoCov">          0 :         updated |= visitor.isUpdated();</span>
+<span class="lineNum">     406 </span><span class="lineCov">         28 :         updated |= visitor.isUpdated();</span>
 <span class="lineNum">     407 </span>            :     }
 <span class="lineNum">     408 </span>            : 
-<span class="lineNum">     409 </span><span class="lineNoCov">          0 :     send(fabric::CMD_CHANNEL_FRAME_FINISH) &lt;&lt; context &lt;&lt; frameNumber;</span>
-<span class="lineNum">     410 </span><span class="lineNoCov">          0 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK channel &quot; &lt;&lt; getName() &lt;&lt; &quot; finish frame  &quot;</span>
-<span class="lineNum">     411 </span><span class="lineNoCov">          0 :                      &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
-<span class="lineNum">     412 </span><span class="lineNoCov">          0 :     _lastDrawCompound = 0;</span>
+<span class="lineNum">     409 </span><span class="lineCov">          4 :     send(fabric::CMD_CHANNEL_FRAME_FINISH) &lt;&lt; context &lt;&lt; frameNumber;</span>
+<span class="lineNum">     410 </span><span class="lineCov">          4 :     LBLOG(LOG_TASKS) &lt;&lt; &quot;TASK channel &quot; &lt;&lt; getName() &lt;&lt; &quot; finish frame  &quot;</span>
+<span class="lineNum">     411 </span><span class="lineCov">          4 :                      &lt;&lt; frameNumber &lt;&lt; std::endl;</span>
+<span class="lineNum">     412 </span><span class="lineCov">          4 :     _lastDrawCompound = 0;</span>
 <span class="lineNum">     413 </span>            : 
-<span class="lineNum">     414 </span><span class="lineNoCov">          0 :     return updated;</span>
+<span class="lineNum">     414 </span><span class="lineCov">          4 :     return updated;</span>
 <a name="415"><span class="lineNum">     415 </span>            : }</a>
 <span class="lineNum">     416 </span>            : 
-<span class="lineNum">     417 </span><span class="lineCov">          4 : co::ObjectOCommand Channel::send(const uint32_t cmd)</span>
+<span class="lineNum">     417 </span><span class="lineCov">         34 : co::ObjectOCommand Channel::send(const uint32_t cmd)</span>
 <span class="lineNum">     418 </span>            : {
-<span class="lineNum">     419 </span><span class="lineCov">          4 :     return getNode()-&gt;send(cmd, getID());</span>
+<span class="lineNum">     419 </span><span class="lineCov">         34 :     return getNode()-&gt;send(cmd, getID());</span>
 <span class="lineNum">     420 </span>            : }
 <span class="lineNum">     421 </span>            : 
 <span class="lineNum">     422 </span>            : //---------------------------------------------------------------------------
 <a name="423"><span class="lineNum">     423 </span>            : // Listener interface</a>
 <span class="lineNum">     424 </span>            : //---------------------------------------------------------------------------
-<span class="lineNum">     425 </span><span class="lineCov">         16 : void Channel::addListener(ChannelListener* listener)</span>
+<span class="lineNum">     425 </span><span class="lineCov">         20 : void Channel::addListener(ChannelListener* listener)</span>
 <span class="lineNum">     426 </span>            : {
-<span class="lineNum">     427 </span><span class="lineCov">         32 :     LB_TS_SCOPED(_serverThread);</span>
-<span class="lineNum">     428 </span><span class="lineCov">         16 :     LBASSERT(std::find(_listeners.begin(), _listeners.end(), listener) ==</span>
+<span class="lineNum">     427 </span><span class="lineCov">         40 :     LB_TS_SCOPED(_serverThread);</span>
+<span class="lineNum">     428 </span><span class="lineCov">         20 :     LBASSERT(std::find(_listeners.begin(), _listeners.end(), listener) ==</span>
 <span class="lineNum">     429 </span>            :              _listeners.end());
 <span class="lineNum">     430 </span>            : 
-<span class="lineNum">     431 </span><span class="lineCov">         16 :     _listeners.push_back(listener);</span>
-<a name="432"><span class="lineNum">     432 </span><span class="lineCov">         16 : }</span></a>
+<span class="lineNum">     431 </span><span class="lineCov">         20 :     _listeners.push_back(listener);</span>
+<a name="432"><span class="lineNum">     432 </span><span class="lineCov">         20 : }</span></a>
 <span class="lineNum">     433 </span>            : 
-<span class="lineNum">     434 </span><span class="lineCov">         16 : void Channel::removeListener(ChannelListener* listener)</span>
+<span class="lineNum">     434 </span><span class="lineCov">         20 : void Channel::removeListener(ChannelListener* listener)</span>
 <span class="lineNum">     435 </span>            : {
 <span class="lineNum">     436 </span>            :     ChannelListeners::iterator i =
-<span class="lineNum">     437 </span><span class="lineCov">         16 :         find(_listeners.begin(), _listeners.end(), listener);</span>
-<span class="lineNum">     438 </span><span class="lineCov">         16 :     if (i != _listeners.end())</span>
-<span class="lineNum">     439 </span><span class="lineCov">         16 :         _listeners.erase(i);</span>
-<a name="440"><span class="lineNum">     440 </span><span class="lineCov">         16 : }</span></a>
+<span class="lineNum">     437 </span><span class="lineCov">         20 :         find(_listeners.begin(), _listeners.end(), listener);</span>
+<span class="lineNum">     438 </span><span class="lineCov">         20 :     if (i != _listeners.end())</span>
+<span class="lineNum">     439 </span><span class="lineCov">         20 :         _listeners.erase(i);</span>
+<a name="440"><span class="lineNum">     440 </span><span class="lineCov">         20 : }</span></a>
 <span class="lineNum">     441 </span>            : 
-<span class="lineNum">     442 </span><span class="lineNoCov">          0 : void Channel::_fireLoadData(const uint32_t frameNumber,</span>
+<span class="lineNum">     442 </span><span class="lineCov">          4 : void Channel::_fireLoadData(const uint32_t frameNumber,</span>
 <span class="lineNum">     443 </span>            :                             const fabric::Statistics&amp; statistics,
 <span class="lineNum">     444 </span>            :                             const Viewport&amp; region)
 <span class="lineNum">     445 </span>            : {
-<span class="lineNum">     446 </span><span class="lineNoCov">          0 :     LB_TS_SCOPED(_serverThread);</span>
-<span class="lineNum">     447 </span><span class="lineNoCov">          0 :     for (ChannelListener* listener : _listeners)</span>
-<span class="lineNum">     448 </span><span class="lineNoCov">          0 :         listener-&gt;notifyLoadData(this, frameNumber, statistics, region);</span>
-<span class="lineNum">     449 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     446 </span><span class="lineCov">          8 :     LB_TS_SCOPED(_serverThread);</span>
+<span class="lineNum">     447 </span><span class="lineCov">          8 :     for (ChannelListener* listener : _listeners)</span>
+<span class="lineNum">     448 </span><span class="lineCov">          4 :         listener-&gt;notifyLoadData(this, frameNumber, statistics, region);</span>
+<span class="lineNum">     449 </span><span class="lineCov">          4 : }</span>
 <span class="lineNum">     450 </span>            : 
 <span class="lineNum">     451 </span>            : //===========================================================================
 <a name="452"><span class="lineNum">     452 </span>            : // command handling</a>
 <span class="lineNum">     453 </span>            : //===========================================================================
-<span class="lineNum">     454 </span><span class="lineCov">          2 : bool Channel::_cmdConfigInitReply(co::ICommand&amp; cmd)</span>
+<span class="lineNum">     454 </span><span class="lineCov">          4 : bool Channel::_cmdConfigInitReply(co::ICommand&amp; cmd)</span>
 <span class="lineNum">     455 </span>            : {
-<span class="lineNum">     456 </span><span class="lineCov">          4 :     co::ObjectICommand command(cmd);</span>
-<span class="lineNum">     457 </span><span class="lineCov">          2 :     const bool result = command.read&lt;bool&gt;();</span>
+<span class="lineNum">     456 </span><span class="lineCov">          8 :     co::ObjectICommand command(cmd);</span>
+<span class="lineNum">     457 </span><span class="lineCov">          4 :     const bool result = command.read&lt;bool&gt;();</span>
 <span class="lineNum">     458 </span>            : 
-<span class="lineNum">     459 </span><span class="lineCov">          2 :     LBLOG(LOG_INIT) &lt;&lt; &quot;handle channel configInit reply &quot; &lt;&lt; command</span>
-<span class="lineNum">     460 </span><span class="lineCov">          2 :                     &lt;&lt; &quot; result &quot; &lt;&lt; result &lt;&lt; std::endl;</span>
+<span class="lineNum">     459 </span><span class="lineCov">          4 :     LBLOG(LOG_INIT) &lt;&lt; &quot;handle channel configInit reply &quot; &lt;&lt; command</span>
+<span class="lineNum">     460 </span><span class="lineCov">          4 :                     &lt;&lt; &quot; result &quot; &lt;&lt; result &lt;&lt; std::endl;</span>
 <span class="lineNum">     461 </span>            : 
-<span class="lineNum">     462 </span><span class="lineCov">          2 :     _state = result ? STATE_INIT_SUCCESS : STATE_INIT_FAILED;</span>
-<span class="lineNum">     463 </span><span class="lineCov">          4 :     return true;</span>
+<span class="lineNum">     462 </span><span class="lineCov">          4 :     _state = result ? STATE_INIT_SUCCESS : STATE_INIT_FAILED;</span>
+<span class="lineNum">     463 </span><span class="lineCov">          8 :     return true;</span>
 <a name="464"><span class="lineNum">     464 </span>            : }</a>
 <span class="lineNum">     465 </span>            : 
-<span class="lineNum">     466 </span><span class="lineCov">          2 : bool Channel::_cmdConfigExitReply(co::ICommand&amp; cmd)</span>
+<span class="lineNum">     466 </span><span class="lineCov">          4 : bool Channel::_cmdConfigExitReply(co::ICommand&amp; cmd)</span>
 <span class="lineNum">     467 </span>            : {
-<span class="lineNum">     468 </span><span class="lineCov">          4 :     co::ObjectICommand command(cmd);</span>
-<span class="lineNum">     469 </span><span class="lineCov">          2 :     LBLOG(LOG_INIT) &lt;&lt; &quot;handle channel configExit reply &quot; &lt;&lt; command</span>
-<span class="lineNum">     470 </span><span class="lineCov">          2 :                     &lt;&lt; std::endl;</span>
+<span class="lineNum">     468 </span><span class="lineCov">          8 :     co::ObjectICommand command(cmd);</span>
+<span class="lineNum">     469 </span><span class="lineCov">          4 :     LBLOG(LOG_INIT) &lt;&lt; &quot;handle channel configExit reply &quot; &lt;&lt; command</span>
+<span class="lineNum">     470 </span><span class="lineCov">          4 :                     &lt;&lt; std::endl;</span>
 <span class="lineNum">     471 </span>            : 
-<span class="lineNum">     472 </span><span class="lineCov">          2 :     _state = command.read&lt;bool&gt;() ? STATE_EXIT_SUCCESS : STATE_EXIT_FAILED;</span>
-<span class="lineNum">     473 </span><span class="lineCov">          4 :     return true;</span>
+<span class="lineNum">     472 </span><span class="lineCov">          4 :     _state = command.read&lt;bool&gt;() ? STATE_EXIT_SUCCESS : STATE_EXIT_FAILED;</span>
+<span class="lineNum">     473 </span><span class="lineCov">          8 :     return true;</span>
 <a name="474"><span class="lineNum">     474 </span>            : }</a>
 <span class="lineNum">     475 </span>            : 
-<span class="lineNum">     476 </span><span class="lineNoCov">          0 : bool Channel::_cmdFrameFinishReply(co::ICommand&amp; cmd)</span>
+<span class="lineNum">     476 </span><span class="lineCov">          4 : bool Channel::_cmdFrameFinishReply(co::ICommand&amp; cmd)</span>
 <span class="lineNum">     477 </span>            : {
-<span class="lineNum">     478 </span><span class="lineNoCov">          0 :     co::ObjectICommand command(cmd);</span>
-<span class="lineNum">     479 </span><span class="lineNoCov">          0 :     const Viewport&amp; region = command.read&lt;Viewport&gt;();</span>
-<span class="lineNum">     480 </span><span class="lineNoCov">          0 :     const uint32_t frameNumber = command.read&lt;uint32_t&gt;();</span>
-<span class="lineNum">     481 </span><span class="lineNoCov">          0 :     const Statistics&amp; statistics = command.read&lt;Statistics&gt;();</span>
+<span class="lineNum">     478 </span><span class="lineCov">          8 :     co::ObjectICommand command(cmd);</span>
+<span class="lineNum">     479 </span><span class="lineCov">          4 :     const Viewport&amp; region = command.read&lt;Viewport&gt;();</span>
+<span class="lineNum">     480 </span><span class="lineCov">          4 :     const uint32_t frameNumber = command.read&lt;uint32_t&gt;();</span>
+<span class="lineNum">     481 </span><span class="lineCov">          8 :     const Statistics&amp; statistics = command.read&lt;Statistics&gt;();</span>
 <span class="lineNum">     482 </span>            : 
-<span class="lineNum">     483 </span><span class="lineNoCov">          0 :     _fireLoadData(frameNumber, statistics, region);</span>
-<span class="lineNum">     484 </span><span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     483 </span><span class="lineCov">          4 :     _fireLoadData(frameNumber, statistics, region);</span>
+<span class="lineNum">     484 </span><span class="lineCov">          8 :     return true;</span>
 <a name="485"><span class="lineNum">     485 </span>            : }</a>
 <span class="lineNum">     486 </span>            : 
-<span class="lineNum">     487 </span><span class="lineCov">       1434 : bool Channel::omitOutput() const</span>
+<span class="lineNum">     487 </span><span class="lineCov">       1462 : bool Channel::omitOutput() const</span>
 <span class="lineNum">     488 </span>            : {
 <span class="lineNum">     489 </span>            :     // don't print generated channels for now
-<span class="lineNum">     490 </span><span class="lineCov">       1434 :     return _view || _segment;</span>
+<span class="lineNum">     490 </span><span class="lineCov">       1462 :     return _view || _segment;</span>
 <a name="491"><span class="lineNum">     491 </span>            : }</a>
 <span class="lineNum">     492 </span>            : 
 <span class="lineNum">     493 </span><span class="lineNoCov">          0 : void Channel::output(std::ostream&amp; os) const</span>
@@ -618,7 +618,7 @@
 <span class="lineNum">     556 </span>            : template class eq::fabric::Channel&lt;eq::server::Window, eq::server::Channel&gt;;
 <a name="557"><span class="lineNum">     557 </span>            : /** @cond IGNORE */</a>
 <span class="lineNum">     558 </span>            : template std::ostream&amp; eq::fabric::operator&lt;&lt;(std::ostream&amp;,
-<span class="lineNum">     559 </span><span class="lineCov">         72 :                                               const eq::server::Super&amp;);</span>
+<span class="lineNum">     559 </span><span class="lineCov">         60 :                                               const eq::server::Super&amp;);</span>
 <span class="lineNum">     560 </span>            : /** @endcond */
 </pre>
       </td>
