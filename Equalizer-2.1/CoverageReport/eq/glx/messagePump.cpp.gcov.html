@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-09-22 05:02:47</td>
+            <td class="headerValue">2017-12-16 05:07:20</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">10</td>
@@ -107,10 +107,10 @@
 <span class="lineNum">      45 </span><span class="lineCov">         47 :     _connections.interrupt();</span>
 <a name="46"><span class="lineNum">      46 </span><span class="lineCov">         47 : }</span></a>
 <span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span><span class="lineCov">        412 : void MessagePump::dispatchOne(const uint32_t timeout)</span>
+<span class="lineNum">      48 </span><span class="lineCov">       6942 : void MessagePump::dispatchOne(const uint32_t timeout)</span>
 <span class="lineNum">      49 </span>            : {
-<span class="lineNum">      50 </span><span class="lineCov">        412 :     const co::ConnectionSet::Event event = _connections.select(timeout);</span>
-<span class="lineNum">      51 </span><span class="lineCov">        412 :     switch (event)</span>
+<span class="lineNum">      50 </span><span class="lineCov">       6942 :     const co::ConnectionSet::Event event = _connections.select(timeout);</span>
+<span class="lineNum">      51 </span><span class="lineCov">       6942 :     switch (event)</span>
 <span class="lineNum">      52 </span>            :     {
 <span class="lineNum">      53 </span>            :     case co::ConnectionSet::EVENT_DISCONNECT:
 <span class="lineNum">      54 </span>            :     {
@@ -123,15 +123,15 @@
 <span class="lineNum">      61 </span>            :     case co::ConnectionSet::EVENT_DATA:
 <span class="lineNum">      62 </span>            :     {
 <span class="lineNum">      63 </span>            : #ifdef EQUALIZER_USE_DEFLECT
-<span class="lineNum">      64 </span><span class="lineCov">        800 :         co::ConnectionPtr connection = _connections.getConnection();</span>
+<span class="lineNum">      64 </span><span class="lineCov">      13860 :         co::ConnectionPtr connection = _connections.getConnection();</span>
 <span class="lineNum">      65 </span>            :         const deflect::Connection* dcConnection =
-<span class="lineNum">      66 </span><span class="lineCov">        400 :             dynamic_cast&lt;const deflect::Connection*&gt;(connection.get());</span>
-<span class="lineNum">      67 </span><span class="lineCov">        400 :         if (dcConnection)</span>
+<span class="lineNum">      66 </span><span class="lineCov">       6930 :             dynamic_cast&lt;const deflect::Connection*&gt;(connection.get());</span>
+<span class="lineNum">      67 </span><span class="lineCov">       6930 :         if (dcConnection)</span>
 <span class="lineNum">      68 </span><span class="lineNoCov">          0 :             deflect::EventHandler::processEvents(dcConnection-&gt;getProxy());</span>
 <span class="lineNum">      69 </span>            :         else
 <span class="lineNum">      70 </span>            : #endif
-<span class="lineNum">      71 </span><span class="lineCov">        400 :             EventHandler::dispatch();</span>
-<span class="lineNum">      72 </span><span class="lineCov">        400 :         break;</span>
+<span class="lineNum">      71 </span><span class="lineCov">       6930 :             EventHandler::dispatch();</span>
+<span class="lineNum">      72 </span><span class="lineCov">       6930 :         break;</span>
 <span class="lineNum">      73 </span>            :     }
 <span class="lineNum">      74 </span>            : 
 <span class="lineNum">      75 </span>            :     case co::ConnectionSet::EVENT_INTERRUPT:
@@ -146,15 +146,15 @@
 <span class="lineNum">      84 </span>            :     case co::ConnectionSet::EVENT_TIMEOUT:
 <span class="lineNum">      85 </span><span class="lineNoCov">          0 :         break;</span>
 <span class="lineNum">      86 </span>            :     }
-<a name="87"><span class="lineNum">      87 </span><span class="lineCov">        412 : }</span></a>
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">       6942 : }</span></a>
 <span class="lineNum">      88 </span>            : 
-<span class="lineNum">      89 </span><span class="lineCov">        483 : void MessagePump::dispatchAll()</span>
+<span class="lineNum">      89 </span><span class="lineCov">       7014 : void MessagePump::dispatchAll()</span>
 <span class="lineNum">      90 </span>            : {
-<span class="lineNum">      91 </span><span class="lineCov">        483 :     EventHandler::dispatch();</span>
+<span class="lineNum">      91 </span><span class="lineCov">       7014 :     EventHandler::dispatch();</span>
 <span class="lineNum">      92 </span>            : #ifdef EQUALIZER_USE_DEFLECT
-<span class="lineNum">      93 </span><span class="lineCov">        483 :     deflect::EventHandler::processEvents();</span>
+<span class="lineNum">      93 </span><span class="lineCov">       7014 :     deflect::EventHandler::processEvents();</span>
 <span class="lineNum">      94 </span>            : #endif
-<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        483 : }</span></a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">       7014 : }</span></a>
 <span class="lineNum">      96 </span>            : 
 <span class="lineNum">      97 </span><span class="lineCov">          2 : void MessagePump::register_(Display* display)</span>
 <span class="lineNum">      98 </span>            : {
