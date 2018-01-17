@@ -20,5 +20,7 @@ var classvmml_1_1_a_a_b_b =
     [ "operator!=", "classvmml_1_1_a_a_b_b.html#af9e4a6e5b451583433c780f36a3d337f", null ],
     [ "operator==", "classvmml_1_1_a_a_b_b.html#ad97c8315b45c435a9d733a148bee48c1", null ],
     [ "reset", "classvmml_1_1_a_a_b_b.html#a0f196ea2252c35e94d038a612c0dde47", null ],
-    [ "lunchbox::byteswap", "classvmml_1_1_a_a_b_b.html#a76a6bd9e61f0e8929ba8cbeb36650c9d", null ]
+    [ "lunchbox::byteswap", "classvmml_1_1_a_a_b_b.html#a76a6bd9e61f0e8929ba8cbeb36650c9d", null ],
+    [ "staticjson::init", "classvmml_1_1_a_a_b_b.html#a28841ed297eaa4150e2dd57b0c1a87d3", null ],
+    [ "staticjson::init", "classvmml_1_1_a_a_b_b.html#aece249dc66fae197e998da4a5199e0b7", null ]
 ];
