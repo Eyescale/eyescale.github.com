@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2018-01-18 00:17:32</td>
+            <td class="headerValue">2018-05-05 00:12:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">13</td>
@@ -204,353 +204,352 @@
 <span class="lineNum">     142 </span><span class="lineCov">          1 :         return os;</span>
 <span class="lineNum">     143 </span>            :     }
 <span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span>            : private:
-<span class="lineNum">     146 </span>            :     T array[4];
-<span class="lineNum">     147 </span>            : };
-<span class="lineNum">     148 </span>            : }
-<span class="lineNum">     149 </span>            : 
-<span class="lineNum">     150 </span>            : #include &lt;vmmlib/matrix.hpp&gt;
-<span class="lineNum">     151 </span>            : 
-<span class="lineNum">     152 </span>            : namespace vmml
-<span class="lineNum">     153 </span>            : {
-<span class="lineNum">     154 </span>            : /** @name Free quaternion functions */
-<span class="lineNum">     155 </span>            : //@{
-<span class="lineNum">     156 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     157 </span>            : T dot(const Quaternion&lt;T&gt;&amp; p, const Quaternion&lt;T&gt;&amp; q)
-<span class="lineNum">     158 </span>            : {
-<span class="lineNum">     159 </span>            :     return p.array[3] * q.array[3] + p.array[0] * q.array[0] +
-<span class="lineNum">     160 </span>            :            p.array[1] * q.array[1] + p.array[2] * q.array[2];
-<span class="lineNum">     161 </span>            : }
-<span class="lineNum">     162 </span>            : 
-<span class="lineNum">     163 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     164 </span>            : vector&lt;3, T&gt; cross(const Quaternion&lt;T&gt;&amp; p, const Quaternion&lt;T&gt;&amp; q)
-<span class="lineNum">     165 </span>            : {
-<span class="lineNum">     166 </span>            :     return vector&lt;3, T&gt;(p.array[1] * q.array[2] - p.array[2] * q.array[1],
-<span class="lineNum">     167 </span>            :                         p.array[2] * q.array[0] - p.array[0] * q.array[2],
-<span class="lineNum">     168 </span>            :                         p.array[0] * q.array[1] - p.array[1] * q.array[0]);
-<span class="lineNum">     169 </span>            : }
-<span class="lineNum">     170 </span>            : //@}
-<a name="171"><span class="lineNum">     171 </span>            : </a>
-<span class="lineNum">     172 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     173 </span><span class="lineCov">          3 : Quaternion&lt;T&gt;::Quaternion(T x_, T y_, T z_, T w_)</span>
-<span class="lineNum">     174 </span>            : {
-<span class="lineNum">     175 </span><span class="lineCov">          3 :     array[0] = x_;</span>
-<span class="lineNum">     176 </span><span class="lineCov">          3 :     array[1] = y_;</span>
-<span class="lineNum">     177 </span><span class="lineCov">          3 :     array[2] = z_;</span>
-<span class="lineNum">     178 </span><span class="lineCov">          3 :     array[3] = w_;</span>
-<span class="lineNum">     179 </span><span class="lineCov">          3 : }</span>
-<span class="lineNum">     180 </span>            : 
-<span class="lineNum">     181 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     182 </span>            : template &lt;size_t M&gt;
-<span class="lineNum">     183 </span>            : Quaternion&lt;T&gt;::Quaternion(const Matrix&lt;M, M, T&gt;&amp; rot,
-<span class="lineNum">     184 </span>            :                           typename std::enable_if&lt;M &gt;= 3&gt;::type*)
-<span class="lineNum">     185 </span>            : {
-<span class="lineNum">     186 </span>            :     const T trace = rot(0, 0) + rot(1, 1) + rot(2, 2) + T(1);
-<span class="lineNum">     187 </span>            :     static const T TRACE_EPSILON = 1e-5;
-<span class="lineNum">     188 </span>            : 
-<span class="lineNum">     189 </span>            :     // very small traces may introduce a big numerical error
-<span class="lineNum">     190 </span>            :     if (trace &gt; TRACE_EPSILON)
-<span class="lineNum">     191 </span>            :     {
-<span class="lineNum">     192 </span>            :         T s = 0.5 / std::sqrt(trace);
-<span class="lineNum">     193 </span>            :         array[0] = rot(2, 1) - rot(1, 2);
-<span class="lineNum">     194 </span>            :         array[0] *= s;
-<span class="lineNum">     195 </span>            : 
-<span class="lineNum">     196 </span>            :         array[1] = rot(0, 2) - rot(2, 0);
-<span class="lineNum">     197 </span>            :         array[1] *= s;
-<span class="lineNum">     198 </span>            : 
-<span class="lineNum">     199 </span>            :         array[2] = rot(1, 0) - rot(0, 1);
-<span class="lineNum">     200 </span>            :         array[2] *= s;
-<span class="lineNum">     201 </span>            : 
-<span class="lineNum">     202 </span>            :         array[3] = 0.25 / s;
-<span class="lineNum">     203 </span>            :     }
-<span class="lineNum">     204 </span>            :     else
-<span class="lineNum">     205 </span>            :     {
-<span class="lineNum">     206 </span>            :         const vector&lt;3, T&gt; diag(rot(0, 0), rot(1, 1), rot(2, 2));
-<span class="lineNum">     207 </span>            :         const size_t largest = diag.find_max_index();
-<span class="lineNum">     208 </span>            : 
-<span class="lineNum">     209 </span>            :         // 0, 0 is largest
-<span class="lineNum">     210 </span>            :         if (largest == 0)
-<span class="lineNum">     211 </span>            :         {
-<span class="lineNum">     212 </span>            :             const T s =
-<span class="lineNum">     213 </span>            :                 0.5 / std::sqrt(T(1) + rot(0, 0) - rot(1, 1) - rot(2, 2));
-<span class="lineNum">     214 </span>            :             array[0] = 0.25 / s;
-<span class="lineNum">     215 </span>            : 
-<span class="lineNum">     216 </span>            :             array[1] = rot(0, 1) + rot(1, 0);
-<span class="lineNum">     217 </span>            :             array[1] *= s;
-<span class="lineNum">     218 </span>            : 
-<span class="lineNum">     219 </span>            :             array[2] = rot(0, 2) + rot(2, 0);
-<span class="lineNum">     220 </span>            :             array[2] *= s;
-<span class="lineNum">     221 </span>            : 
-<span class="lineNum">     222 </span>            :             array[3] = rot(1, 2) - rot(2, 1);
-<span class="lineNum">     223 </span>            :             array[3] *= s;
-<span class="lineNum">     224 </span>            :         }
-<span class="lineNum">     225 </span>            :         else if (largest == 1)
-<span class="lineNum">     226 </span>            :         {
-<span class="lineNum">     227 </span>            :             const T s =
-<span class="lineNum">     228 </span>            :                 0.5 / std::sqrt(T(1) + rot(1, 1) - rot(0, 0) - rot(2, 2));
-<span class="lineNum">     229 </span>            :             array[0] = rot(0, 1) + rot(1, 0);
-<span class="lineNum">     230 </span>            :             array[0] *= s;
-<span class="lineNum">     231 </span>            : 
-<span class="lineNum">     232 </span>            :             array[1] = 0.25 / s;
-<span class="lineNum">     233 </span>            : 
-<span class="lineNum">     234 </span>            :             array[2] = rot(1, 2) + rot(2, 1);
-<span class="lineNum">     235 </span>            :             array[2] *= s;
-<span class="lineNum">     236 </span>            : 
-<span class="lineNum">     237 </span>            :             array[3] = rot(0, 2) - rot(2, 0);
-<span class="lineNum">     238 </span>            :             array[3] *= s;
-<span class="lineNum">     239 </span>            :         }
-<span class="lineNum">     240 </span>            :         // 2, 2 is largest
-<span class="lineNum">     241 </span>            :         else if (largest == 2)
-<span class="lineNum">     242 </span>            :         {
-<span class="lineNum">     243 </span>            :             const T s =
-<span class="lineNum">     244 </span>            :                 0.5 / std::sqrt(T(1) + rot(2, 2) - rot(0, 0) - rot(1, 1));
-<span class="lineNum">     245 </span>            :             array[0] = rot(0, 2) + rot(2, 0);
-<span class="lineNum">     246 </span>            :             array[0] *= s;
-<span class="lineNum">     247 </span>            : 
-<span class="lineNum">     248 </span>            :             array[1] = rot(1, 2) + rot(2, 1);
-<span class="lineNum">     249 </span>            :             array[1] *= s;
-<span class="lineNum">     250 </span>            : 
-<span class="lineNum">     251 </span>            :             array[2] = 0.25 / s;
-<span class="lineNum">     252 </span>            : 
-<span class="lineNum">     253 </span>            :             array[3] = rot(0, 1) - rot(1, 0);
-<span class="lineNum">     254 </span>            :             array[3] *= s;
-<span class="lineNum">     255 </span>            :         }
-<span class="lineNum">     256 </span>            :         else
-<span class="lineNum">     257 </span>            :         {
-<span class="lineNum">     258 </span>            :             throw std::runtime_error(&quot;no clue why, but should not get here&quot;);
-<span class="lineNum">     259 </span>            :         }
-<span class="lineNum">     260 </span>            :     }
-<span class="lineNum">     261 </span>            : }
-<a name="262"><span class="lineNum">     262 </span>            : </a>
-<span class="lineNum">     263 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     264 </span><span class="lineCov">          4 : Quaternion&lt;T&gt;::Quaternion(const T angle, vector&lt;3, T&gt; axis)</span>
-<span class="lineNum">     265 </span>            : {
-<span class="lineNum">     266 </span><span class="lineCov">          4 :     axis.normalize();</span>
-<span class="lineNum">     267 </span><span class="lineCov">          4 :     const T sinAngle2 = std::sin(angle * 0.5);</span>
-<span class="lineNum">     268 </span><span class="lineCov">          4 :     array[0] = axis.x() * sinAngle2;</span>
-<span class="lineNum">     269 </span><span class="lineCov">          4 :     array[1] = axis.y() * sinAngle2;</span>
-<span class="lineNum">     270 </span><span class="lineCov">          4 :     array[2] = axis.z() * sinAngle2;</span>
-<span class="lineNum">     271 </span><span class="lineCov">          4 :     array[3] = std::cos(angle * 0.5);</span>
-<span class="lineNum">     272 </span><span class="lineCov">          4 : }</span>
-<a name="273"><span class="lineNum">     273 </span>            : </a>
-<span class="lineNum">     274 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     275 </span><span class="lineCov">          2 : bool Quaternion&lt;T&gt;::equals(const Quaternion&amp; other, const T tolerance) const</span>
-<span class="lineNum">     276 </span>            : {
-<span class="lineNum">     277 </span><span class="lineCov">          4 :     return std::abs(array[0] - other.array[0]) &lt;= tolerance &amp;&amp;</span>
-<span class="lineNum">     278 </span><span class="lineCov">          4 :            std::abs(array[1] - other.array[1]) &lt;= tolerance &amp;&amp;</span>
-<span class="lineNum">     279 </span><span class="lineCov">          6 :            std::abs(array[2] - other.array[2]) &lt;= tolerance &amp;&amp;</span>
-<span class="lineNum">     280 </span><span class="lineCov">          4 :            std::abs(array[3] - other.array[3]) &lt;= tolerance;</span>
-<span class="lineNum">     281 </span>            : }
-<a name="282"><span class="lineNum">     282 </span>            : </a>
-<span class="lineNum">     283 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     284 </span><span class="lineCov">          3 : bool Quaternion&lt;T&gt;::operator==(const Quaternion&amp; rhs) const</span>
-<span class="lineNum">     285 </span>            : {
-<span class="lineNum">     286 </span><span class="lineCov">          9 :     return array[0] == rhs.array[0] &amp;&amp; array[1] == rhs.array[1] &amp;&amp;</span>
-<span class="lineNum">     287 </span><span class="lineCov">          9 :            array[2] == rhs.array[2] &amp;&amp; array[3] == rhs.array[3];</span>
-<span class="lineNum">     288 </span>            : }
-<span class="lineNum">     289 </span>            : 
-<span class="lineNum">     290 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     291 </span>            : bool Quaternion&lt;T&gt;::operator!=(const Quaternion&amp; a) const
-<span class="lineNum">     292 </span>            : {
-<span class="lineNum">     293 </span>            :     return !this-&gt;operator==(a);
-<span class="lineNum">     294 </span>            : }
-<span class="lineNum">     295 </span>            : 
-<span class="lineNum">     296 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     297 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::getConjugate() const
-<span class="lineNum">     298 </span>            : {
-<span class="lineNum">     299 </span>            :     return Quaternion&lt;T&gt;(-array[0], -array[1], -array[2], array[3]);
-<span class="lineNum">     300 </span>            : }
-<span class="lineNum">     301 </span>            : 
-<span class="lineNum">     302 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     303 </span>            : T Quaternion&lt;T&gt;::abs() const
-<span class="lineNum">     304 </span>            : {
-<span class="lineNum">     305 </span>            :     return std::sqrt(absSquare());
-<span class="lineNum">     306 </span>            : }
-<span class="lineNum">     307 </span>            : 
-<span class="lineNum">     308 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     309 </span>            : T Quaternion&lt;T&gt;::absSquare() const
-<span class="lineNum">     310 </span>            : {
-<span class="lineNum">     311 </span>            :     return array[0] * array[0] + array[1] * array[1] + array[2] * array[2] +
-<span class="lineNum">     312 </span>            :            array[3] * array[3];
-<span class="lineNum">     313 </span>            : }
-<span class="lineNum">     314 </span>            : 
-<span class="lineNum">     315 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     316 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::inverse() const
-<span class="lineNum">     317 </span>            : {
-<span class="lineNum">     318 </span>            :     const Quaternion&lt;T&gt;&amp; q = getConjugate();
-<span class="lineNum">     319 </span>            :     const T tmp = T(1) / absSquare();
-<span class="lineNum">     320 </span>            :     return q * tmp;
-<span class="lineNum">     321 </span>            : }
-<span class="lineNum">     322 </span>            : 
-<span class="lineNum">     323 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     324 </span>            : void Quaternion&lt;T&gt;::normalize()
-<span class="lineNum">     325 </span>            : {
-<span class="lineNum">     326 </span>            :     T len = abs();
-<span class="lineNum">     327 </span>            :     if (len == T(0))
-<span class="lineNum">     328 </span>            :         return;
-<span class="lineNum">     329 </span>            :     len = T(1) / len;
-<span class="lineNum">     330 </span>            :     this-&gt;operator*=(len);
-<span class="lineNum">     331 </span>            : }
-<span class="lineNum">     332 </span>            : 
-<span class="lineNum">     333 </span>            : //
-<span class="lineNum">     334 </span>            : // Quaternion/Quaternion operations
-<span class="lineNum">     335 </span>            : //
-<span class="lineNum">     336 </span>            : 
-<span class="lineNum">     337 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     338 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator+(const Quaternion&lt;T&gt;&amp; rhs) const
-<span class="lineNum">     339 </span>            : {
-<span class="lineNum">     340 </span>            :     return Quaternion(array[0] + rhs.array[0], array[1] + rhs.array[1],
-<span class="lineNum">     341 </span>            :                       array[2] + rhs.array[2], array[3] + rhs.array[3]);
-<span class="lineNum">     342 </span>            : }
-<span class="lineNum">     343 </span>            : 
-<span class="lineNum">     344 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     345 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator-(const Quaternion&lt;T&gt;&amp; rhs) const
-<span class="lineNum">     346 </span>            : {
-<span class="lineNum">     347 </span>            :     return Quaternion(array[0] - rhs.array[0], array[1] - rhs.array[1],
-<span class="lineNum">     348 </span>            :                       array[2] - rhs.array[2], array[3] - rhs.array[3]);
-<span class="lineNum">     349 </span>            : }
-<span class="lineNum">     350 </span>            : 
-<a name="351"><span class="lineNum">     351 </span>            : // returns Grasssmann product</a>
-<span class="lineNum">     352 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     353 </span><span class="lineCov">          1 : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator*(const Quaternion&lt;T&gt;&amp; rhs) const</span>
-<span class="lineNum">     354 </span>            : {
-<span class="lineNum">     355 </span><span class="lineCov">          1 :     Quaternion&lt;T&gt; ret(*this);</span>
-<span class="lineNum">     356 </span><span class="lineCov">          1 :     ret *= rhs;</span>
-<span class="lineNum">     357 </span><span class="lineCov">          1 :     return ret;</span>
-<span class="lineNum">     358 </span>            : }
-<span class="lineNum">     359 </span>            : 
-<a name="360"><span class="lineNum">     360 </span>            : // Grassmann product</a>
-<span class="lineNum">     361 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     362 </span><span class="lineCov">          1 : void Quaternion&lt;T&gt;::operator*=(const Quaternion&lt;T&gt;&amp; q)</span>
-<span class="lineNum">     363 </span>            : {
-<span class="lineNum">     364 </span>            :     // optimized version, 7 less mul, but 15 more add/subs
-<span class="lineNum">     365 </span>            :     // after Henrik Engstrom, from a gamedev.net article.
-<span class="lineNum">     366 </span><span class="lineCov">          1 :     const T&amp; a_ = array[3];</span>
-<span class="lineNum">     367 </span><span class="lineCov">          1 :     const T&amp; b_ = array[0];</span>
-<span class="lineNum">     368 </span><span class="lineCov">          1 :     const T&amp; c = array[1];</span>
-<span class="lineNum">     369 </span><span class="lineCov">          1 :     const T&amp; d = array[2];</span>
-<span class="lineNum">     370 </span><span class="lineCov">          1 :     const T&amp; _x = q.array[3];</span>
-<span class="lineNum">     371 </span><span class="lineCov">          1 :     const T&amp; _y = q.array[0];</span>
-<span class="lineNum">     372 </span><span class="lineCov">          1 :     const T&amp; _z = q.array[1];</span>
-<span class="lineNum">     373 </span><span class="lineCov">          1 :     const T&amp; _w = q.array[2];</span>
-<span class="lineNum">     374 </span>            : 
-<span class="lineNum">     375 </span><span class="lineCov">          1 :     const T tmp_00 = (d - c) * (_z - _w);</span>
-<span class="lineNum">     376 </span><span class="lineCov">          1 :     const T tmp_01 = (a_ + b_) * (_x + _y);</span>
-<span class="lineNum">     377 </span><span class="lineCov">          1 :     const T tmp_02 = (a_ - b_) * (_z + _w);</span>
-<span class="lineNum">     378 </span><span class="lineCov">          1 :     const T tmp_03 = (c + d) * (_x - _y);</span>
-<span class="lineNum">     379 </span><span class="lineCov">          1 :     const T tmp_04 = (d - b_) * (_y - _z);</span>
-<span class="lineNum">     380 </span><span class="lineCov">          1 :     const T tmp_05 = (d + b_) * (_y + _z);</span>
-<span class="lineNum">     381 </span><span class="lineCov">          1 :     const T tmp_06 = (a_ + c) * (_x - _w);</span>
-<span class="lineNum">     382 </span><span class="lineCov">          1 :     const T tmp_07 = (a_ - c) * (_x + _w);</span>
-<span class="lineNum">     383 </span><span class="lineCov">          1 :     const T tmp_08 = tmp_05 + tmp_06 + tmp_07;</span>
-<span class="lineNum">     384 </span><span class="lineCov">          1 :     const T tmp_09 = 0.5 * (tmp_04 + tmp_08);</span>
-<span class="lineNum">     385 </span>            : 
-<span class="lineNum">     386 </span><span class="lineCov">          1 :     array[0] = tmp_01 + tmp_09 - tmp_08;</span>
-<span class="lineNum">     387 </span><span class="lineCov">          1 :     array[1] = tmp_02 + tmp_09 - tmp_07;</span>
-<span class="lineNum">     388 </span><span class="lineCov">          1 :     array[2] = tmp_03 + tmp_09 - tmp_06;</span>
-<span class="lineNum">     389 </span><span class="lineCov">          1 :     array[3] = tmp_00 + tmp_09 - tmp_05;</span>
-<span class="lineNum">     390 </span><span class="lineCov">          1 : }</span>
-<span class="lineNum">     391 </span>            : 
-<span class="lineNum">     392 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     393 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator-() const
-<span class="lineNum">     394 </span>            : {
-<span class="lineNum">     395 </span>            :     return Quaternion(-array[0], -array[1], -array[2], -array[3]);
-<span class="lineNum">     396 </span>            : }
-<span class="lineNum">     397 </span>            : 
-<span class="lineNum">     398 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     399 </span>            : void Quaternion&lt;T&gt;::operator+=(const Quaternion&lt;T&gt;&amp; q)
-<span class="lineNum">     400 </span>            : {
-<span class="lineNum">     401 </span>            :     array[0] += q.array[0];
-<span class="lineNum">     402 </span>            :     array[1] += q.array[1];
-<span class="lineNum">     403 </span>            :     array[2] += q.array[2];
-<span class="lineNum">     404 </span>            :     array[3] += q.array[3];
-<span class="lineNum">     405 </span>            : }
-<span class="lineNum">     406 </span>            : 
-<span class="lineNum">     407 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     408 </span>            : void Quaternion&lt;T&gt;::operator-=(const Quaternion&lt;T&gt;&amp; q)
-<span class="lineNum">     409 </span>            : {
-<span class="lineNum">     410 </span>            :     array[0] -= q.array[0];
-<span class="lineNum">     411 </span>            :     array[1] -= q.array[1];
-<span class="lineNum">     412 </span>            :     array[2] -= q.array[2];
-<span class="lineNum">     413 </span>            :     array[3] -= q.array[3];
-<span class="lineNum">     414 </span>            : }
-<span class="lineNum">     415 </span>            : 
-<span class="lineNum">     416 </span>            : //
-<span class="lineNum">     417 </span>            : // Quaternion/scalar operations
-<span class="lineNum">     418 </span>            : //
-<span class="lineNum">     419 </span>            : 
-<span class="lineNum">     420 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     421 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator*(const T a_) const
-<span class="lineNum">     422 </span>            : {
-<span class="lineNum">     423 </span>            :     return Quaternion(array[0] * a_, array[1] * a_, array[2] * a_,
-<span class="lineNum">     424 </span>            :                       array[3] * a_);
-<span class="lineNum">     425 </span>            : }
-<span class="lineNum">     426 </span>            : 
-<span class="lineNum">     427 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     428 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator/(T a_) const
-<span class="lineNum">     429 </span>            : {
-<span class="lineNum">     430 </span>            :     if (a_ == T(0))
-<span class="lineNum">     431 </span>            :         throw std::runtime_error(&quot;Division by zero.&quot;);
-<span class="lineNum">     432 </span>            : 
-<span class="lineNum">     433 </span>            :     a_ = T(1) / a_;
-<span class="lineNum">     434 </span>            :     return Quaternion(array[0] * a_, array[1] * a_, array[2] * a_,
-<span class="lineNum">     435 </span>            :                       array[3] * a_);
-<span class="lineNum">     436 </span>            : }
-<span class="lineNum">     437 </span>            : 
-<span class="lineNum">     438 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     439 </span>            : void Quaternion&lt;T&gt;::operator*=(T q)
-<span class="lineNum">     440 </span>            : {
-<span class="lineNum">     441 </span>            :     array[0] *= q;
-<span class="lineNum">     442 </span>            :     array[1] *= q;
-<span class="lineNum">     443 </span>            :     array[2] *= q;
-<span class="lineNum">     444 </span>            :     array[3] *= q;
-<span class="lineNum">     445 </span>            : }
-<span class="lineNum">     446 </span>            : 
-<span class="lineNum">     447 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     448 </span>            : void Quaternion&lt;T&gt;::operator/=(T q)
-<span class="lineNum">     449 </span>            : {
-<span class="lineNum">     450 </span>            :     if (q == T(0))
-<span class="lineNum">     451 </span>            :         throw std::runtime_error(&quot;Division by zero&quot;);
-<span class="lineNum">     452 </span>            : 
-<span class="lineNum">     453 </span>            :     q = T(1) / q;
-<span class="lineNum">     454 </span>            :     this-&gt;operator*=(q);
-<span class="lineNum">     455 </span>            : }
-<a name="456"><span class="lineNum">     456 </span>            : </a>
-<span class="lineNum">     457 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     458 </span><span class="lineCov">          1 : Matrix&lt;3, 3, T&gt; Quaternion&lt;T&gt;::getRotationMatrix() const</span>
-<span class="lineNum">     459 </span>            : {
-<span class="lineNum">     460 </span><span class="lineCov">          1 :     const T w2 = array[3] * array[3];</span>
-<span class="lineNum">     461 </span><span class="lineCov">          1 :     const T x2 = array[0] * array[0];</span>
-<span class="lineNum">     462 </span><span class="lineCov">          1 :     const T y2 = array[1] * array[1];</span>
-<span class="lineNum">     463 </span><span class="lineCov">          1 :     const T z2 = array[2] * array[2];</span>
-<span class="lineNum">     464 </span><span class="lineCov">          1 :     const T wx = array[3] * array[0];</span>
-<span class="lineNum">     465 </span><span class="lineCov">          1 :     const T wy = array[3] * array[1];</span>
-<span class="lineNum">     466 </span><span class="lineCov">          1 :     const T wz = array[3] * array[2];</span>
-<span class="lineNum">     467 </span><span class="lineCov">          1 :     const T xy = array[0] * array[1];</span>
-<span class="lineNum">     468 </span><span class="lineCov">          1 :     const T xz = array[0] * array[2];</span>
-<span class="lineNum">     469 </span><span class="lineCov">          1 :     const T yz = array[1] * array[2];</span>
-<span class="lineNum">     470 </span>            : 
-<span class="lineNum">     471 </span><span class="lineCov">          1 :     Matrix&lt;3, 3, T&gt; matrix;</span>
-<span class="lineNum">     472 </span><span class="lineCov">          1 :     matrix(0, 0) = w2 + x2 - y2 - z2;</span>
-<span class="lineNum">     473 </span><span class="lineCov">          1 :     matrix(0, 1) = 2. * (xy - wz);</span>
-<span class="lineNum">     474 </span><span class="lineCov">          1 :     matrix(0, 2) = 2. * (xz + wy);</span>
-<span class="lineNum">     475 </span><span class="lineCov">          1 :     matrix(1, 0) = 2. * (xy + wz);</span>
-<span class="lineNum">     476 </span><span class="lineCov">          1 :     matrix(1, 1) = w2 - x2 + y2 - z2;</span>
-<span class="lineNum">     477 </span><span class="lineCov">          1 :     matrix(1, 2) = 2. * (yz - wx);</span>
-<span class="lineNum">     478 </span><span class="lineCov">          1 :     matrix(2, 0) = 2. * (xz - wy);</span>
-<span class="lineNum">     479 </span><span class="lineCov">          1 :     matrix(2, 1) = 2. * (yz + wx);</span>
-<span class="lineNum">     480 </span><span class="lineCov">          1 :     matrix(2, 2) = w2 - x2 - y2 + z2;</span>
-<span class="lineNum">     481 </span><span class="lineCov">          1 :     return matrix;</span>
-<span class="lineNum">     482 </span>            : }
-<span class="lineNum">     483 </span>            : 
-<span class="lineNum">     484 </span>            : template &lt;typename T&gt;
-<span class="lineNum">     485 </span>            : Quaternion&lt;T&gt;&amp; Quaternion&lt;T&gt;::operator=(const Quaternion&amp; other)
-<span class="lineNum">     486 </span>            : {
-<span class="lineNum">     487 </span>            :     ::memcpy(array, other.array, 4 * sizeof(T));
-<span class="lineNum">     488 </span>            :     return *this;
+<span class="lineNum">     145 </span>            :     T array[4];
+<span class="lineNum">     146 </span>            : };
+<span class="lineNum">     147 </span>            : }
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span>            : #include &lt;vmmlib/matrix.hpp&gt;
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : namespace vmml
+<span class="lineNum">     152 </span>            : {
+<span class="lineNum">     153 </span>            : /** @name Free quaternion functions */
+<span class="lineNum">     154 </span>            : //@{
+<span class="lineNum">     155 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     156 </span>            : T dot(const Quaternion&lt;T&gt;&amp; p, const Quaternion&lt;T&gt;&amp; q)
+<span class="lineNum">     157 </span>            : {
+<span class="lineNum">     158 </span>            :     return p.array[3] * q.array[3] + p.array[0] * q.array[0] +
+<span class="lineNum">     159 </span>            :            p.array[1] * q.array[1] + p.array[2] * q.array[2];
+<span class="lineNum">     160 </span>            : }
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     163 </span>            : vector&lt;3, T&gt; cross(const Quaternion&lt;T&gt;&amp; p, const Quaternion&lt;T&gt;&amp; q)
+<span class="lineNum">     164 </span>            : {
+<span class="lineNum">     165 </span>            :     return vector&lt;3, T&gt;(p.array[1] * q.array[2] - p.array[2] * q.array[1],
+<span class="lineNum">     166 </span>            :                         p.array[2] * q.array[0] - p.array[0] * q.array[2],
+<span class="lineNum">     167 </span>            :                         p.array[0] * q.array[1] - p.array[1] * q.array[0]);
+<span class="lineNum">     168 </span>            : }
+<span class="lineNum">     169 </span>            : //@}
+<a name="170"><span class="lineNum">     170 </span>            : </a>
+<span class="lineNum">     171 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     172 </span><span class="lineCov">          3 : Quaternion&lt;T&gt;::Quaternion(T x_, T y_, T z_, T w_)</span>
+<span class="lineNum">     173 </span>            : {
+<span class="lineNum">     174 </span><span class="lineCov">          3 :     array[0] = x_;</span>
+<span class="lineNum">     175 </span><span class="lineCov">          3 :     array[1] = y_;</span>
+<span class="lineNum">     176 </span><span class="lineCov">          3 :     array[2] = z_;</span>
+<span class="lineNum">     177 </span><span class="lineCov">          3 :     array[3] = w_;</span>
+<span class="lineNum">     178 </span><span class="lineCov">          3 : }</span>
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     181 </span>            : template &lt;size_t M&gt;
+<span class="lineNum">     182 </span>            : Quaternion&lt;T&gt;::Quaternion(const Matrix&lt;M, M, T&gt;&amp; rot,
+<span class="lineNum">     183 </span>            :                           typename std::enable_if&lt;M &gt;= 3&gt;::type*)
+<span class="lineNum">     184 </span>            : {
+<span class="lineNum">     185 </span>            :     const T trace = rot(0, 0) + rot(1, 1) + rot(2, 2) + T(1);
+<span class="lineNum">     186 </span>            :     static const T TRACE_EPSILON = 1e-5;
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            :     // very small traces may introduce a big numerical error
+<span class="lineNum">     189 </span>            :     if (trace &gt; TRACE_EPSILON)
+<span class="lineNum">     190 </span>            :     {
+<span class="lineNum">     191 </span>            :         T s = 0.5 / std::sqrt(trace);
+<span class="lineNum">     192 </span>            :         array[0] = rot(2, 1) - rot(1, 2);
+<span class="lineNum">     193 </span>            :         array[0] *= s;
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span>            :         array[1] = rot(0, 2) - rot(2, 0);
+<span class="lineNum">     196 </span>            :         array[1] *= s;
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span>            :         array[2] = rot(1, 0) - rot(0, 1);
+<span class="lineNum">     199 </span>            :         array[2] *= s;
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            :         array[3] = 0.25 / s;
+<span class="lineNum">     202 </span>            :     }
+<span class="lineNum">     203 </span>            :     else
+<span class="lineNum">     204 </span>            :     {
+<span class="lineNum">     205 </span>            :         const vector&lt;3, T&gt; diag(rot(0, 0), rot(1, 1), rot(2, 2));
+<span class="lineNum">     206 </span>            :         const size_t largest = diag.find_max_index();
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span>            :         // 0, 0 is largest
+<span class="lineNum">     209 </span>            :         if (largest == 0)
+<span class="lineNum">     210 </span>            :         {
+<span class="lineNum">     211 </span>            :             const T s =
+<span class="lineNum">     212 </span>            :                 0.5 / std::sqrt(T(1) + rot(0, 0) - rot(1, 1) - rot(2, 2));
+<span class="lineNum">     213 </span>            :             array[0] = 0.25 / s;
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span>            :             array[1] = rot(0, 1) + rot(1, 0);
+<span class="lineNum">     216 </span>            :             array[1] *= s;
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            :             array[2] = rot(0, 2) + rot(2, 0);
+<span class="lineNum">     219 </span>            :             array[2] *= s;
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span>            :             array[3] = rot(1, 2) - rot(2, 1);
+<span class="lineNum">     222 </span>            :             array[3] *= s;
+<span class="lineNum">     223 </span>            :         }
+<span class="lineNum">     224 </span>            :         else if (largest == 1)
+<span class="lineNum">     225 </span>            :         {
+<span class="lineNum">     226 </span>            :             const T s =
+<span class="lineNum">     227 </span>            :                 0.5 / std::sqrt(T(1) + rot(1, 1) - rot(0, 0) - rot(2, 2));
+<span class="lineNum">     228 </span>            :             array[0] = rot(0, 1) + rot(1, 0);
+<span class="lineNum">     229 </span>            :             array[0] *= s;
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span>            :             array[1] = 0.25 / s;
+<span class="lineNum">     232 </span>            : 
+<span class="lineNum">     233 </span>            :             array[2] = rot(1, 2) + rot(2, 1);
+<span class="lineNum">     234 </span>            :             array[2] *= s;
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            :             array[3] = rot(0, 2) - rot(2, 0);
+<span class="lineNum">     237 </span>            :             array[3] *= s;
+<span class="lineNum">     238 </span>            :         }
+<span class="lineNum">     239 </span>            :         // 2, 2 is largest
+<span class="lineNum">     240 </span>            :         else if (largest == 2)
+<span class="lineNum">     241 </span>            :         {
+<span class="lineNum">     242 </span>            :             const T s =
+<span class="lineNum">     243 </span>            :                 0.5 / std::sqrt(T(1) + rot(2, 2) - rot(0, 0) - rot(1, 1));
+<span class="lineNum">     244 </span>            :             array[0] = rot(0, 2) + rot(2, 0);
+<span class="lineNum">     245 </span>            :             array[0] *= s;
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span>            :             array[1] = rot(1, 2) + rot(2, 1);
+<span class="lineNum">     248 </span>            :             array[1] *= s;
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span>            :             array[2] = 0.25 / s;
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span>            :             array[3] = rot(0, 1) - rot(1, 0);
+<span class="lineNum">     253 </span>            :             array[3] *= s;
+<span class="lineNum">     254 </span>            :         }
+<span class="lineNum">     255 </span>            :         else
+<span class="lineNum">     256 </span>            :         {
+<span class="lineNum">     257 </span>            :             throw std::runtime_error(&quot;no clue why, but should not get here&quot;);
+<span class="lineNum">     258 </span>            :         }
+<span class="lineNum">     259 </span>            :     }
+<span class="lineNum">     260 </span>            : }
+<a name="261"><span class="lineNum">     261 </span>            : </a>
+<span class="lineNum">     262 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     263 </span><span class="lineCov">          4 : Quaternion&lt;T&gt;::Quaternion(const T angle, vector&lt;3, T&gt; axis)</span>
+<span class="lineNum">     264 </span>            : {
+<span class="lineNum">     265 </span><span class="lineCov">          4 :     axis.normalize();</span>
+<span class="lineNum">     266 </span><span class="lineCov">          4 :     const T sinAngle2 = std::sin(angle * 0.5);</span>
+<span class="lineNum">     267 </span><span class="lineCov">          4 :     array[0] = axis.x() * sinAngle2;</span>
+<span class="lineNum">     268 </span><span class="lineCov">          4 :     array[1] = axis.y() * sinAngle2;</span>
+<span class="lineNum">     269 </span><span class="lineCov">          4 :     array[2] = axis.z() * sinAngle2;</span>
+<span class="lineNum">     270 </span><span class="lineCov">          4 :     array[3] = std::cos(angle * 0.5);</span>
+<span class="lineNum">     271 </span><span class="lineCov">          4 : }</span>
+<a name="272"><span class="lineNum">     272 </span>            : </a>
+<span class="lineNum">     273 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     274 </span><span class="lineCov">          2 : bool Quaternion&lt;T&gt;::equals(const Quaternion&amp; other, const T tolerance) const</span>
+<span class="lineNum">     275 </span>            : {
+<span class="lineNum">     276 </span><span class="lineCov">          4 :     return std::abs(array[0] - other.array[0]) &lt;= tolerance &amp;&amp;</span>
+<span class="lineNum">     277 </span><span class="lineCov">          4 :            std::abs(array[1] - other.array[1]) &lt;= tolerance &amp;&amp;</span>
+<span class="lineNum">     278 </span><span class="lineCov">          6 :            std::abs(array[2] - other.array[2]) &lt;= tolerance &amp;&amp;</span>
+<span class="lineNum">     279 </span><span class="lineCov">          4 :            std::abs(array[3] - other.array[3]) &lt;= tolerance;</span>
+<span class="lineNum">     280 </span>            : }
+<a name="281"><span class="lineNum">     281 </span>            : </a>
+<span class="lineNum">     282 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     283 </span><span class="lineCov">          3 : bool Quaternion&lt;T&gt;::operator==(const Quaternion&amp; rhs) const</span>
+<span class="lineNum">     284 </span>            : {
+<span class="lineNum">     285 </span><span class="lineCov">          9 :     return array[0] == rhs.array[0] &amp;&amp; array[1] == rhs.array[1] &amp;&amp;</span>
+<span class="lineNum">     286 </span><span class="lineCov">          9 :            array[2] == rhs.array[2] &amp;&amp; array[3] == rhs.array[3];</span>
+<span class="lineNum">     287 </span>            : }
+<span class="lineNum">     288 </span>            : 
+<span class="lineNum">     289 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     290 </span>            : bool Quaternion&lt;T&gt;::operator!=(const Quaternion&amp; a) const
+<span class="lineNum">     291 </span>            : {
+<span class="lineNum">     292 </span>            :     return !this-&gt;operator==(a);
+<span class="lineNum">     293 </span>            : }
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     296 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::getConjugate() const
+<span class="lineNum">     297 </span>            : {
+<span class="lineNum">     298 </span>            :     return Quaternion&lt;T&gt;(-array[0], -array[1], -array[2], array[3]);
+<span class="lineNum">     299 </span>            : }
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     302 </span>            : T Quaternion&lt;T&gt;::abs() const
+<span class="lineNum">     303 </span>            : {
+<span class="lineNum">     304 </span>            :     return std::sqrt(absSquare());
+<span class="lineNum">     305 </span>            : }
+<span class="lineNum">     306 </span>            : 
+<span class="lineNum">     307 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     308 </span>            : T Quaternion&lt;T&gt;::absSquare() const
+<span class="lineNum">     309 </span>            : {
+<span class="lineNum">     310 </span>            :     return array[0] * array[0] + array[1] * array[1] + array[2] * array[2] +
+<span class="lineNum">     311 </span>            :            array[3] * array[3];
+<span class="lineNum">     312 </span>            : }
+<span class="lineNum">     313 </span>            : 
+<span class="lineNum">     314 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     315 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::inverse() const
+<span class="lineNum">     316 </span>            : {
+<span class="lineNum">     317 </span>            :     const Quaternion&lt;T&gt;&amp; q = getConjugate();
+<span class="lineNum">     318 </span>            :     const T tmp = T(1) / absSquare();
+<span class="lineNum">     319 </span>            :     return q * tmp;
+<span class="lineNum">     320 </span>            : }
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     323 </span>            : void Quaternion&lt;T&gt;::normalize()
+<span class="lineNum">     324 </span>            : {
+<span class="lineNum">     325 </span>            :     T len = abs();
+<span class="lineNum">     326 </span>            :     if (len == T(0))
+<span class="lineNum">     327 </span>            :         return;
+<span class="lineNum">     328 </span>            :     len = T(1) / len;
+<span class="lineNum">     329 </span>            :     this-&gt;operator*=(len);
+<span class="lineNum">     330 </span>            : }
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            : //
+<span class="lineNum">     333 </span>            : // Quaternion/Quaternion operations
+<span class="lineNum">     334 </span>            : //
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     337 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator+(const Quaternion&lt;T&gt;&amp; rhs) const
+<span class="lineNum">     338 </span>            : {
+<span class="lineNum">     339 </span>            :     return Quaternion(array[0] + rhs.array[0], array[1] + rhs.array[1],
+<span class="lineNum">     340 </span>            :                       array[2] + rhs.array[2], array[3] + rhs.array[3]);
+<span class="lineNum">     341 </span>            : }
+<span class="lineNum">     342 </span>            : 
+<span class="lineNum">     343 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     344 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator-(const Quaternion&lt;T&gt;&amp; rhs) const
+<span class="lineNum">     345 </span>            : {
+<span class="lineNum">     346 </span>            :     return Quaternion(array[0] - rhs.array[0], array[1] - rhs.array[1],
+<span class="lineNum">     347 </span>            :                       array[2] - rhs.array[2], array[3] - rhs.array[3]);
+<span class="lineNum">     348 </span>            : }
+<span class="lineNum">     349 </span>            : 
+<a name="350"><span class="lineNum">     350 </span>            : // returns Grasssmann product</a>
+<span class="lineNum">     351 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     352 </span><span class="lineCov">          1 : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator*(const Quaternion&lt;T&gt;&amp; rhs) const</span>
+<span class="lineNum">     353 </span>            : {
+<span class="lineNum">     354 </span><span class="lineCov">          1 :     Quaternion&lt;T&gt; ret(*this);</span>
+<span class="lineNum">     355 </span><span class="lineCov">          1 :     ret *= rhs;</span>
+<span class="lineNum">     356 </span><span class="lineCov">          1 :     return ret;</span>
+<span class="lineNum">     357 </span>            : }
+<span class="lineNum">     358 </span>            : 
+<a name="359"><span class="lineNum">     359 </span>            : // Grassmann product</a>
+<span class="lineNum">     360 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     361 </span><span class="lineCov">          1 : void Quaternion&lt;T&gt;::operator*=(const Quaternion&lt;T&gt;&amp; q)</span>
+<span class="lineNum">     362 </span>            : {
+<span class="lineNum">     363 </span>            :     // optimized version, 7 less mul, but 15 more add/subs
+<span class="lineNum">     364 </span>            :     // after Henrik Engstrom, from a gamedev.net article.
+<span class="lineNum">     365 </span><span class="lineCov">          1 :     const T&amp; a_ = array[3];</span>
+<span class="lineNum">     366 </span><span class="lineCov">          1 :     const T&amp; b_ = array[0];</span>
+<span class="lineNum">     367 </span><span class="lineCov">          1 :     const T&amp; c = array[1];</span>
+<span class="lineNum">     368 </span><span class="lineCov">          1 :     const T&amp; d = array[2];</span>
+<span class="lineNum">     369 </span><span class="lineCov">          1 :     const T&amp; _x = q.array[3];</span>
+<span class="lineNum">     370 </span><span class="lineCov">          1 :     const T&amp; _y = q.array[0];</span>
+<span class="lineNum">     371 </span><span class="lineCov">          1 :     const T&amp; _z = q.array[1];</span>
+<span class="lineNum">     372 </span><span class="lineCov">          1 :     const T&amp; _w = q.array[2];</span>
+<span class="lineNum">     373 </span>            : 
+<span class="lineNum">     374 </span><span class="lineCov">          1 :     const T tmp_00 = (d - c) * (_z - _w);</span>
+<span class="lineNum">     375 </span><span class="lineCov">          1 :     const T tmp_01 = (a_ + b_) * (_x + _y);</span>
+<span class="lineNum">     376 </span><span class="lineCov">          1 :     const T tmp_02 = (a_ - b_) * (_z + _w);</span>
+<span class="lineNum">     377 </span><span class="lineCov">          1 :     const T tmp_03 = (c + d) * (_x - _y);</span>
+<span class="lineNum">     378 </span><span class="lineCov">          1 :     const T tmp_04 = (d - b_) * (_y - _z);</span>
+<span class="lineNum">     379 </span><span class="lineCov">          1 :     const T tmp_05 = (d + b_) * (_y + _z);</span>
+<span class="lineNum">     380 </span><span class="lineCov">          1 :     const T tmp_06 = (a_ + c) * (_x - _w);</span>
+<span class="lineNum">     381 </span><span class="lineCov">          1 :     const T tmp_07 = (a_ - c) * (_x + _w);</span>
+<span class="lineNum">     382 </span><span class="lineCov">          1 :     const T tmp_08 = tmp_05 + tmp_06 + tmp_07;</span>
+<span class="lineNum">     383 </span><span class="lineCov">          1 :     const T tmp_09 = 0.5 * (tmp_04 + tmp_08);</span>
+<span class="lineNum">     384 </span>            : 
+<span class="lineNum">     385 </span><span class="lineCov">          1 :     array[0] = tmp_01 + tmp_09 - tmp_08;</span>
+<span class="lineNum">     386 </span><span class="lineCov">          1 :     array[1] = tmp_02 + tmp_09 - tmp_07;</span>
+<span class="lineNum">     387 </span><span class="lineCov">          1 :     array[2] = tmp_03 + tmp_09 - tmp_06;</span>
+<span class="lineNum">     388 </span><span class="lineCov">          1 :     array[3] = tmp_00 + tmp_09 - tmp_05;</span>
+<span class="lineNum">     389 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     390 </span>            : 
+<span class="lineNum">     391 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     392 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator-() const
+<span class="lineNum">     393 </span>            : {
+<span class="lineNum">     394 </span>            :     return Quaternion(-array[0], -array[1], -array[2], -array[3]);
+<span class="lineNum">     395 </span>            : }
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     398 </span>            : void Quaternion&lt;T&gt;::operator+=(const Quaternion&lt;T&gt;&amp; q)
+<span class="lineNum">     399 </span>            : {
+<span class="lineNum">     400 </span>            :     array[0] += q.array[0];
+<span class="lineNum">     401 </span>            :     array[1] += q.array[1];
+<span class="lineNum">     402 </span>            :     array[2] += q.array[2];
+<span class="lineNum">     403 </span>            :     array[3] += q.array[3];
+<span class="lineNum">     404 </span>            : }
+<span class="lineNum">     405 </span>            : 
+<span class="lineNum">     406 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     407 </span>            : void Quaternion&lt;T&gt;::operator-=(const Quaternion&lt;T&gt;&amp; q)
+<span class="lineNum">     408 </span>            : {
+<span class="lineNum">     409 </span>            :     array[0] -= q.array[0];
+<span class="lineNum">     410 </span>            :     array[1] -= q.array[1];
+<span class="lineNum">     411 </span>            :     array[2] -= q.array[2];
+<span class="lineNum">     412 </span>            :     array[3] -= q.array[3];
+<span class="lineNum">     413 </span>            : }
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span>            : //
+<span class="lineNum">     416 </span>            : // Quaternion/scalar operations
+<span class="lineNum">     417 </span>            : //
+<span class="lineNum">     418 </span>            : 
+<span class="lineNum">     419 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     420 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator*(const T a_) const
+<span class="lineNum">     421 </span>            : {
+<span class="lineNum">     422 </span>            :     return Quaternion(array[0] * a_, array[1] * a_, array[2] * a_,
+<span class="lineNum">     423 </span>            :                       array[3] * a_);
+<span class="lineNum">     424 </span>            : }
+<span class="lineNum">     425 </span>            : 
+<span class="lineNum">     426 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     427 </span>            : Quaternion&lt;T&gt; Quaternion&lt;T&gt;::operator/(T a_) const
+<span class="lineNum">     428 </span>            : {
+<span class="lineNum">     429 </span>            :     if (a_ == T(0))
+<span class="lineNum">     430 </span>            :         throw std::runtime_error(&quot;Division by zero.&quot;);
+<span class="lineNum">     431 </span>            : 
+<span class="lineNum">     432 </span>            :     a_ = T(1) / a_;
+<span class="lineNum">     433 </span>            :     return Quaternion(array[0] * a_, array[1] * a_, array[2] * a_,
+<span class="lineNum">     434 </span>            :                       array[3] * a_);
+<span class="lineNum">     435 </span>            : }
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     438 </span>            : void Quaternion&lt;T&gt;::operator*=(T q)
+<span class="lineNum">     439 </span>            : {
+<span class="lineNum">     440 </span>            :     array[0] *= q;
+<span class="lineNum">     441 </span>            :     array[1] *= q;
+<span class="lineNum">     442 </span>            :     array[2] *= q;
+<span class="lineNum">     443 </span>            :     array[3] *= q;
+<span class="lineNum">     444 </span>            : }
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     447 </span>            : void Quaternion&lt;T&gt;::operator/=(T q)
+<span class="lineNum">     448 </span>            : {
+<span class="lineNum">     449 </span>            :     if (q == T(0))
+<span class="lineNum">     450 </span>            :         throw std::runtime_error(&quot;Division by zero&quot;);
+<span class="lineNum">     451 </span>            : 
+<span class="lineNum">     452 </span>            :     q = T(1) / q;
+<span class="lineNum">     453 </span>            :     this-&gt;operator*=(q);
+<span class="lineNum">     454 </span>            : }
+<a name="455"><span class="lineNum">     455 </span>            : </a>
+<span class="lineNum">     456 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     457 </span><span class="lineCov">          1 : Matrix&lt;3, 3, T&gt; Quaternion&lt;T&gt;::getRotationMatrix() const</span>
+<span class="lineNum">     458 </span>            : {
+<span class="lineNum">     459 </span><span class="lineCov">          1 :     const T w2 = array[3] * array[3];</span>
+<span class="lineNum">     460 </span><span class="lineCov">          1 :     const T x2 = array[0] * array[0];</span>
+<span class="lineNum">     461 </span><span class="lineCov">          1 :     const T y2 = array[1] * array[1];</span>
+<span class="lineNum">     462 </span><span class="lineCov">          1 :     const T z2 = array[2] * array[2];</span>
+<span class="lineNum">     463 </span><span class="lineCov">          1 :     const T wx = array[3] * array[0];</span>
+<span class="lineNum">     464 </span><span class="lineCov">          1 :     const T wy = array[3] * array[1];</span>
+<span class="lineNum">     465 </span><span class="lineCov">          1 :     const T wz = array[3] * array[2];</span>
+<span class="lineNum">     466 </span><span class="lineCov">          1 :     const T xy = array[0] * array[1];</span>
+<span class="lineNum">     467 </span><span class="lineCov">          1 :     const T xz = array[0] * array[2];</span>
+<span class="lineNum">     468 </span><span class="lineCov">          1 :     const T yz = array[1] * array[2];</span>
+<span class="lineNum">     469 </span>            : 
+<span class="lineNum">     470 </span><span class="lineCov">          1 :     Matrix&lt;3, 3, T&gt; matrix;</span>
+<span class="lineNum">     471 </span><span class="lineCov">          1 :     matrix(0, 0) = w2 + x2 - y2 - z2;</span>
+<span class="lineNum">     472 </span><span class="lineCov">          1 :     matrix(0, 1) = 2. * (xy - wz);</span>
+<span class="lineNum">     473 </span><span class="lineCov">          1 :     matrix(0, 2) = 2. * (xz + wy);</span>
+<span class="lineNum">     474 </span><span class="lineCov">          1 :     matrix(1, 0) = 2. * (xy + wz);</span>
+<span class="lineNum">     475 </span><span class="lineCov">          1 :     matrix(1, 1) = w2 - x2 + y2 - z2;</span>
+<span class="lineNum">     476 </span><span class="lineCov">          1 :     matrix(1, 2) = 2. * (yz - wx);</span>
+<span class="lineNum">     477 </span><span class="lineCov">          1 :     matrix(2, 0) = 2. * (xz - wy);</span>
+<span class="lineNum">     478 </span><span class="lineCov">          1 :     matrix(2, 1) = 2. * (yz + wx);</span>
+<span class="lineNum">     479 </span><span class="lineCov">          1 :     matrix(2, 2) = w2 - x2 - y2 + z2;</span>
+<span class="lineNum">     480 </span><span class="lineCov">          1 :     return matrix;</span>
+<span class="lineNum">     481 </span>            : }
+<span class="lineNum">     482 </span>            : 
+<span class="lineNum">     483 </span>            : template &lt;typename T&gt;
+<span class="lineNum">     484 </span>            : Quaternion&lt;T&gt;&amp; Quaternion&lt;T&gt;::operator=(const Quaternion&amp; other)
+<span class="lineNum">     485 </span>            : {
+<span class="lineNum">     486 </span>            :     ::memcpy(array, other.array, 4 * sizeof(T));
+<span class="lineNum">     487 </span>            :     return *this;
+<span class="lineNum">     488 </span>            : }
 <span class="lineNum">     489 </span>            : }
-<span class="lineNum">     490 </span>            : }
-<span class="lineNum">     491 </span>            : #endif
+<span class="lineNum">     490 </span>            : #endif
 </pre>
       </td>
     </tr>

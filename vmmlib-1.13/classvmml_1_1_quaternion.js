@@ -29,5 +29,6 @@ var classvmml_1_1_quaternion =
     [ "x", "classvmml_1_1_quaternion.html#a193f49c2e9e1a474cc2ebe9815b0ec19", null ],
     [ "y", "classvmml_1_1_quaternion.html#a9e9b7e92b3bfd1c34c5928be752ee8da", null ],
     [ "z", "classvmml_1_1_quaternion.html#a1f34907d2bed79dc56a7aeb5765ffaa9", null ],
-    [ "operator<<", "classvmml_1_1_quaternion.html#a9dc71eaedf4486dc005fa9a67c6da866", null ]
+    [ "operator<<", "classvmml_1_1_quaternion.html#a9dc71eaedf4486dc005fa9a67c6da866", null ],
+    [ "array", "classvmml_1_1_quaternion.html#af5ea16883515a8215915de0cf7853283", null ]
 ];
