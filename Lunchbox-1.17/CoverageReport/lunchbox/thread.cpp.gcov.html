@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2017-09-14 05:20:43</td>
+            <td class="headerValue">2018-07-06 05:29:49</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">18</td>
@@ -214,10 +214,10 @@
 <span class="lineNum">     152 </span>            :     }
 <span class="lineNum">     153 </span>            : 
 <span class="lineNum">     154 </span><span class="lineCov">       1662 :     _impl-&gt;state = STATE_RUNNING;</span>
-<span class="lineNum">     155 </span><span class="lineCov">       9969 :     LBDEBUG &lt;&lt; &quot;Thread #&quot; &lt;&lt; _impl-&gt;index &lt;&lt; &quot; type &quot; &lt;&lt; className(*this)</span>
-<span class="lineNum">     156 </span><span class="lineCov">       8307 :             &lt;&lt; &quot; successfully initialized&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     155 </span><span class="lineCov">       9971 :     LBDEBUG &lt;&lt; &quot;Thread #&quot; &lt;&lt; _impl-&gt;index &lt;&lt; &quot; type &quot; &lt;&lt; className(*this)</span>
+<span class="lineNum">     156 </span><span class="lineCov">       8309 :             &lt;&lt; &quot; successfully initialized&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     157 </span>            : 
-<span class="lineNum">     158 </span><span class="lineCov">       1659 :     run();</span>
+<span class="lineNum">     158 </span><span class="lineCov">       1661 :     run();</span>
 <span class="lineNum">     159 </span><span class="lineCov">       1386 :     LBVERB &lt;&lt; &quot;Thread &quot; &lt;&lt; className(this) &lt;&lt; &quot; finished&quot; &lt;&lt; std::endl;</span>
 <span class="lineNum">     160 </span>            : #ifdef __linux__
 <span class="lineNum">     161 </span>            :     {
@@ -273,8 +273,8 @@
 <span class="lineNum">     211 </span><span class="lineCov">       1642 :     Log::instance().forceFlush();</span>
 <span class="lineNum">     212 </span><span class="lineCov">       1642 :     Log::instance().exit();</span>
 <span class="lineNum">     213 </span>            : 
-<span class="lineNum">     214 </span><span class="lineCov">       1642 :     _impl-&gt;state = STATE_STOPPING;</span>
-<span class="lineNum">     215 </span><span class="lineCov">       1641 :     pthread_exit(0);</span>
+<span class="lineNum">     214 </span><span class="lineCov">       1641 :     _impl-&gt;state = STATE_STOPPING;</span>
+<span class="lineNum">     215 </span><span class="lineCov">       1642 :     pthread_exit(0);</span>
 <span class="lineNum">     216 </span>            :     LBUNREACHABLE;
 <a name="217"><span class="lineNum">     217 </span>            : }</a>
 <span class="lineNum">     218 </span>            : 
@@ -304,19 +304,19 @@
 <span class="lineNum">     242 </span><span class="lineCov">       1642 :     return true;</span>
 <a name="243"><span class="lineNum">     243 </span>            : }</a>
 <span class="lineNum">     244 </span>            : 
-<span class="lineNum">     245 </span><span class="lineCov">       3560 : bool Thread::isCurrent() const</span>
+<span class="lineNum">     245 </span><span class="lineCov">       3559 : bool Thread::isCurrent() const</span>
 <span class="lineNum">     246 </span>            : {
-<span class="lineNum">     247 </span><span class="lineCov">       3560 :     return pthread_equal(pthread_self(), _impl-&gt;id._impl-&gt;pthread);</span>
+<span class="lineNum">     247 </span><span class="lineCov">       3559 :     return pthread_equal(pthread_self(), _impl-&gt;id._impl-&gt;pthread);</span>
 <a name="248"><span class="lineNum">     248 </span>            : }</a>
 <span class="lineNum">     249 </span>            : 
-<span class="lineNum">     250 </span><span class="lineCov">    2093402 : ThreadID Thread::getSelfThreadID()</span>
+<span class="lineNum">     250 </span><span class="lineCov">    2235514 : ThreadID Thread::getSelfThreadID()</span>
 <span class="lineNum">     251 </span>            : {
-<span class="lineNum">     252 </span><span class="lineCov">    2093402 :     ThreadID threadID;</span>
-<span class="lineNum">     253 </span><span class="lineCov">    2125447 :     threadID._impl-&gt;pthread = pthread_self();</span>
-<span class="lineNum">     254 </span><span class="lineCov">    2125467 :     return threadID;</span>
+<span class="lineNum">     252 </span><span class="lineCov">    2235514 :     ThreadID threadID;</span>
+<span class="lineNum">     253 </span><span class="lineCov">    2273009 :     threadID._impl-&gt;pthread = pthread_self();</span>
+<span class="lineNum">     254 </span><span class="lineCov">    2273101 :     return threadID;</span>
 <a name="255"><span class="lineNum">     255 </span>            : }</a>
 <span class="lineNum">     256 </span>            : 
-<span class="lineNum">     257 </span><span class="lineCov">        487 : void Thread::yield()</span>
+<span class="lineNum">     257 </span><span class="lineCov">        850 : void Thread::yield()</span>
 <span class="lineNum">     258 </span>            : {
 <span class="lineNum">     259 </span>            : #ifdef _MSC_VER
 <span class="lineNum">     260 </span>            :     ::Sleep(0); // sleeps thread
@@ -324,9 +324,9 @@
 <span class="lineNum">     262 </span>            : #elif defined(__APPLE__)
 <span class="lineNum">     263 </span>            :     ::pthread_yield_np();
 <span class="lineNum">     264 </span>            : #else
-<span class="lineNum">     265 </span><span class="lineCov">        487 :     ::sched_yield();</span>
+<span class="lineNum">     265 </span><span class="lineCov">        850 :     ::sched_yield();</span>
 <span class="lineNum">     266 </span>            : #endif
-<span class="lineNum">     267 </span><span class="lineCov">        489 : }</span>
+<span class="lineNum">     267 </span><span class="lineCov">        853 : }</span>
 <span class="lineNum">     268 </span>            : 
 <span class="lineNum">     269 </span>            : #ifdef _MSC_VER
 <span class="lineNum">     270 </span>            : #ifndef MS_VC_EXCEPTION
@@ -363,9 +363,9 @@
 <span class="lineNum">     301 </span>            : }
 <a name="302"><span class="lineNum">     302 </span>            : #endif</a>
 <span class="lineNum">     303 </span>            : 
-<span class="lineNum">     304 </span><span class="lineCov">       1680 : void Thread::setName(const std::string&amp; name)</span>
+<span class="lineNum">     304 </span><span class="lineCov">       1682 : void Thread::setName(const std::string&amp; name)</span>
 <span class="lineNum">     305 </span>            : {
-<span class="lineNum">     306 </span><span class="lineCov">       1680 :     Log::instance().setThreadName(name);</span>
+<span class="lineNum">     306 </span><span class="lineCov">       1682 :     Log::instance().setThreadName(name);</span>
 <span class="lineNum">     307 </span>            : 
 <span class="lineNum">     308 </span>            : #ifdef _MSC_VER
 <span class="lineNum">     309 </span>            : #ifndef NDEBUG
@@ -374,12 +374,12 @@
 <span class="lineNum">     312 </span>            : #elif __MAC_OS_X_VERSION_MIN_REQUIRED &gt;= 1060
 <span class="lineNum">     313 </span>            :     pthread_setname_np(name.c_str());
 <span class="lineNum">     314 </span>            : #elif defined(__linux__)
-<span class="lineNum">     315 </span><span class="lineCov">       1680 :     prctl(PR_SET_NAME, name.c_str(), 0, 0, 0);</span>
+<span class="lineNum">     315 </span><span class="lineCov">       1682 :     prctl(PR_SET_NAME, name.c_str(), 0, 0, 0);</span>
 <span class="lineNum">     316 </span>            : #else
 <span class="lineNum">     317 </span>            :     // Not implemented
 <span class="lineNum">     318 </span>            :     LBVERB &lt;&lt; &quot;Thread::setName() not implemented&quot; &lt;&lt; std::endl;
 <span class="lineNum">     319 </span>            : #endif
-<span class="lineNum">     320 </span><span class="lineCov">       1680 : }</span>
+<span class="lineNum">     320 </span><span class="lineCov">       1682 : }</span>
 <a name="321"><span class="lineNum">     321 </span>            : </a>
 <span class="lineNum">     322 </span>            : #ifdef LUNCHBOX_USE_HWLOC
 <span class="lineNum">     323 </span><span class="lineNoCov">          0 : static hwloc_bitmap_t _getCpuSet(const int32_t affinity,</span>
